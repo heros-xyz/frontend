@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-133c8qo"
+  >
+    <div
+      class="css-f78n2q"
+    >
+      <div
+        class="css-1xq4rq0"
+      >
+        <svg
+          class="chakra-icon css-1j5z9d7"
+          focusable="false"
+          viewBox="0 0 20 18"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M9.99955 7V9M9.99955 13H10.0095M3.07134 17H16.9277C18.4673 17 19.4296 15.3333 18.6598 14L11.7316 2C10.9618 0.666667 9.0373 0.666667 8.2675 2L1.33929 14C0.569492 15.3333 1.53174 17 3.07134 17Z"
+            stroke="#FF6767"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      </div>
+    </div>
+    <div
+      class="css-17tl7da"
+    >
+      <p
+        class="chakra-text css-in3yi3"
+      >
+        This action cannot be undone. Are you sure you want to delete this interaction?
+      </p>
+    </div>
+    <div
+      class="css-gmuwbf"
+    >
+      <button
+        class="chakra-button css-6sgcgn"
+        type="button"
+      >
+        yes, delete Interaction
+      </button>
+    </div>
+    <div
+      class="css-gmuwbf"
+    >
+      <button
+        class="chakra-button css-g6qdsa"
+        type="button"
+      >
+        <u
+          class="chakra-text css-1oide88"
+        >
+          Cancel
+        </u>
+      </button>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders Enter Post Content Story unchanged 1`] = `
+<div>
+  <div
+    class="css-0"
+  >
+    <div
+      class="css-ec137v"
+    >
+      <h2
+        class="chakra-heading css-sgvy29"
+      >
+        Share with ...
+      </h2>
+      <div
+        class="chakra-radio-group css-0"
+        role="radiogroup"
+      >
+        <div
+          class="chakra-stack css-17kdbol"
+        >
+          <label
+            class="chakra-radio css-1nqw95c"
+          >
+            <input
+              class="chakra-radio__input"
+              id="radio-:r1:"
+              name="radio-:r0:"
+              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+              type="radio"
+              value="all"
+            />
+            <span
+              aria-hidden="true"
+              class="chakra-radio__control css-ssalds"
+            />
+            <span
+              class="chakra-radio__label css-1y8kf23"
+            >
+              <p
+                class="chakra-text css-1gcnqou"
+              >
+                All users
+              </p>
+            </span>
+          </label>
+          <label
+            class="chakra-radio css-1nqw95c"
+          >
+            <input
+              class="chakra-radio__input"
+              id="radio-:r2:"
+              name="radio-:r0:"
+              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+              type="radio"
+              value="fanOnly"
+            />
+            <span
+              aria-hidden="true"
+              class="chakra-radio__control css-ssalds"
+            />
+            <span
+              class="chakra-radio__label css-1y8kf23"
+            >
+              <p
+                class="chakra-text css-1gcnqou"
+              >
+                Fans only
+              </p>
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

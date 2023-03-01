@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <button
+    aria-controls="menu-list-:r1:"
+    aria-expanded="false"
+    aria-haspopup="menu"
+    aria-label="Options"
+    class="chakra-button chakra-menu__menu-button css-111q5pr"
+    id="menu-button-:r1:"
+    type="button"
+  >
+    <svg
+      aria-hidden="true"
+      class="chakra-icon css-1vvqmax"
+      focusable="false"
+      viewBox="0 0 4 16"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1.99967 2.16659L1.99967 2.17492M1.99967 7.99992L1.99967 8.00825M1.99967 13.8333L1.99967 13.8416M1.99967 2.99992C1.53944 2.99992 1.16634 2.62682 1.16634 2.16659C1.16634 1.70635 1.53944 1.33325 1.99967 1.33325C2.45991 1.33325 2.83301 1.70635 2.83301 2.16659C2.83301 2.62682 2.45991 2.99992 1.99967 2.99992ZM1.99967 8.83325C1.53944 8.83325 1.16634 8.46016 1.16634 7.99992C1.16634 7.53968 1.53944 7.16659 1.99967 7.16659C2.45991 7.16659 2.83301 7.53968 2.83301 7.99992C2.83301 8.46016 2.45991 8.83325 1.99967 8.83325ZM1.99967 14.6666C1.53944 14.6666 1.16634 14.2935 1.16634 13.8333C1.16634 13.373 1.53944 12.9999 1.99967 12.9999C2.45991 12.9999 2.83301 13.373 2.83301 13.8333C2.83301 14.2935 2.45991 14.6666 1.99967 14.6666Z"
+        stroke="white"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+      />
+    </svg>
+  </button>
+  <div
+    class="css-lnyvlk"
+    style="visibility: hidden; position: absolute; min-width: max-content; inset: 0 auto auto 0;"
+  >
+    <div
+      aria-orientation="vertical"
+      class="chakra-menu__menu-list css-qzrj8h"
+      id="menu-list-:r1:"
+      role="menu"
+      style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"
+      tabindex="-1"
+    >
+      <button
+        class="chakra-menu__menuitem css-14js0ct"
+        data-index="0"
+        id="menu-list-:r1:-menuitem-:r2:"
+        role="menuitem"
+        tabindex="-1"
+        type="button"
+      >
+        <div
+          class="css-58df4x"
+        >
+          <p
+            class="chakra-text css-efejfg"
+          >
+            Edit
+          </p>
+          <div
+            class="css-140ugjz"
+          >
+            <svg
+              class="chakra-icon css-ula5bj"
+              focusable="false"
+              viewBox="0 0 20 21"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M16.8898 3.61019L17.4201 3.07986V3.07986L16.8898 3.61019ZM5.41667 18.0296V18.7796C5.61558 18.7796 5.80634 18.7005 5.947 18.5599L5.41667 18.0296ZM2.5 18.0296H1.75C1.75 18.4438 2.08579 18.7796 2.5 18.7796V18.0296ZM2.5 15.0537L1.96967 14.5233C1.82902 14.664 1.75 14.8548 1.75 15.0537H2.5ZM14.4738 4.14052C14.9945 3.61983 15.8387 3.61983 16.3594 4.14052L17.4201 3.07986C16.3136 1.97338 14.5196 1.97338 13.4132 3.07986L14.4738 4.14052ZM16.3594 4.14052C16.8801 4.66122 16.8801 5.50544 16.3594 6.02614L17.4201 7.0868C18.5266 5.98032 18.5266 4.18635 17.4201 3.07986L16.3594 4.14052ZM16.3594 6.02614L4.88634 17.4992L5.947 18.5599L17.4201 7.0868L16.3594 6.02614ZM5.41667 17.2796H2.5V18.7796H5.41667V17.2796ZM13.4132 3.07986L1.96967 14.5233L3.03033 15.584L14.4738 4.14052L13.4132 3.07986ZM1.75 15.0537V18.0296H3.25V15.0537H1.75ZM12.1632 5.39052L15.1094 8.3368L16.1701 7.27614L13.2238 4.32986L12.1632 5.39052Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+        </div>
+      </button>
+      <button
+        class="chakra-menu__menuitem css-14js0ct"
+        data-index="1"
+        id="menu-list-:r1:-menuitem-:r3:"
+        role="menuitem"
+        tabindex="-1"
+        type="button"
+      >
+        <div
+          class="css-58df4x"
+        >
+          <p
+            class="chakra-text css-efejfg"
+          >
+            Delete
+          </p>
+          <div
+            class="css-140ugjz"
+          >
+            <svg
+              class="chakra-icon css-wfrqs7"
+              focusable="false"
+              viewBox="0 0 16 18"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M13.833 4.83333L13.1102 14.9521C13.0479 15.8243 12.3222 16.5 11.4478 16.5H4.55154C3.67714 16.5 2.95141 15.8243 2.88911 14.9521L2.16634 4.83333M6.33301 8.16667V13.1667M9.66634 8.16667V13.1667M10.4997 4.83333V2.33333C10.4997 1.8731 10.1266 1.5 9.66634 1.5H6.33301C5.87277 1.5 5.49967 1.8731 5.49967 2.33333V4.83333M1.33301 4.83333H14.6663"
+                stroke="#313F4C"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </div>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+`;

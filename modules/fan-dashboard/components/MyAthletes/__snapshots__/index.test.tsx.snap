@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders my athletes 1`] = `
+<div>
+  <div
+    class="css-1whykrx"
+  >
+    <div
+      class="css-v2d4jf"
+    >
+      <h2
+        class="chakra-heading css-1jqifn0"
+      >
+        My Athletes
+      </h2>
+    </div>
+    <div
+      class="css-1wgcbf6"
+    />
+  </div>
+</div>
+`;

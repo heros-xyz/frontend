@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders select unchanged 1`] = `
+<div>
+  <div
+    class="css-s2ct51"
+  >
+    <div
+      class=" css-n9lnso-SelectContainer"
+    >
+      <span
+        class="css-1f43avz-a11yText-A11yText"
+        id="react-select-:r0:-live-region"
+      />
+      <span
+        aria-atomic="false"
+        aria-live="polite"
+        aria-relevant="additions text"
+        class="css-1f43avz-a11yText-A11yText"
+      />
+      <div
+        class=" css-6o1t9b-control"
+      >
+        <div
+          class=" css-15ki4p9-ValueContainer"
+        >
+          <div
+            class="css-xxdqwu"
+          >
+            <div
+              class="css-1yks822"
+            >
+              Select...
+            </div>
+            <div
+              class=" css-qbdosj-Input"
+              data-value=""
+            >
+              <input
+                aria-autocomplete="list"
+                aria-describedby="react-select-:r0:-placeholder"
+                aria-expanded="false"
+                aria-haspopup="true"
+                autocapitalize="none"
+                autocomplete="off"
+                autocorrect="off"
+                class=""
+                id="react-select-:r0:-input"
+                role="combobox"
+                spellcheck="false"
+                style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                tabindex="0"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class=" css-1hb7zxy-IndicatorsContainer"
+        >
+          <span
+            class=" css-1xjgjl1-IndicatorSeparator"
+          />
+          <svg
+            class="chakra-icon css-fgc0y"
+            focusable="false"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M16.25 6.875L10 13.125L3.75 6.875"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

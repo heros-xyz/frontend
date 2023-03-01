@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders membership unchanged 1`] = `
+<div>
+  <div
+    class="css-coa58c"
+  >
+    <div
+      class="css-5tnwgz"
+    >
+      <h2
+        class="chakra-heading css-v3yr5u"
+      >
+        Membership
+      </h2>
+      <p
+        class="chakra-text css-1d3wpnh"
+      >
+        Manage
+      </p>
+    </div>
+    <p
+      class="chakra-text css-1ew9a1o"
+    >
+      You are currently offering.
+    </p>
+    <p
+      class="chakra-text css-ht6hf5"
+    >
+      <span
+        class="chakra-skeleton css-cdkrf0"
+      >
+        1
+      </span>
+       
+      Tier
+    </p>
+  </div>
+</div>
+`;

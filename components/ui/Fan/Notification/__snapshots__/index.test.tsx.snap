@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-1whykrx"
+  >
+    <div
+      class="css-b3mwud"
+    >
+      <h2
+        class="chakra-heading css-1bdlfcy"
+      >
+        Notifications
+      </h2>
+      <p
+        class="chakra-text css-lxu7ci"
+      >
+        Mark all as read
+      </p>
+    </div>
+    <div
+      class="css-5ck138"
+    />
+    <div
+      class="css-1aq5yrs"
+    >
+      <div
+        class="chakra-spinner css-85jif3"
+      >
+        <span
+          class="css-8b45rq"
+        >
+          Loading...
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders add tags unchanged 1`] = `
+<div>
+  <div
+    class="css-4srn47"
+  >
+    <p
+      class="chakra-text css-16k4emw"
+    >
+      Add Tag(s)
+    </p>
+    <div
+      class="css-1ce3ya"
+    >
+      <p
+        class="chakra-text css-ebo67u"
+      >
+        Help people find you easier by adding keywords related to you and your content. Tags will not be visible to fans on your profile page. Separate tags by comma.
+      </p>
+      <b
+        class="chakra-text css-0"
+      >
+        Ideas for you: #sport, #athlete,...
+      </b>
+    </div>
+    <div
+      class="css-1dxn92u"
+    >
+      <input
+        class="chakra-input css-1yjuxox"
+        placeholder="Add Tags"
+        value=""
+      />
+      <div
+        class="css-1ja00yl"
+      />
+    </div>
+    <div
+      class="css-1on1je4"
+    >
+      <button
+        class="chakra-button css-jy6npm"
+        type="button"
+      >
+        submit
+      </button>
+    </div>
+  </div>
+</div>
+`;

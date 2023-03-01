@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage banner unchanged 1`] = `
+<div>
+  <div
+    class="css-0"
+  >
+    <div
+      class="css-0"
+    >
+      <img
+        alt="Home Page Banner"
+        class="chakra-image css-uwwqev"
+        src="/images/HomePageBanner.png"
+      />
+    </div>
+    <div
+      class="css-so0lo4"
+    >
+      <h2
+        class="chakra-heading css-13i3hys"
+      >
+        For athletes, by fans
+      </h2>
+      <p
+        class="chakra-text css-26z8ad"
+      >
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+      <div
+        class="css-1bnxa12"
+      >
+        <a
+          href="/fan/sign-up"
+        >
+          <button
+            class="chakra-button css-nas344"
+            type="button"
+          >
+            Join as Fan
+          </button>
+        </a>
+        <a
+          href="/athlete/sign-up"
+        >
+          <button
+            class="chakra-button css-lrwttc"
+            type="button"
+          >
+            Join as athlete
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders ReadyToJoin unchanged 1`] = `
+<div>
+  <div
+    class="css-laphny"
+  >
+    <div
+      class="chakra-stack css-7ejnlj"
+    >
+      <span
+        class="chakra-text css-1we3h2x"
+      >
+        Are you ready to join?
+      </span>
+      <p
+        class="chakra-text css-1c9x3vt"
+      >
+        Don’t miss this amazing opportunity to shorten the gap between athletes and fans.
+      </p>
+      <div
+        class="css-0"
+      >
+        <img
+          alt="banner"
+          data-nimg="1"
+          decoding="async"
+          height="105"
+          loading="lazy"
+          src="/_next/image?url=%2Fimages%2Fathlete-banner.png&w=750&q=75"
+          srcset="/_next/image?url=%2Fimages%2Fathlete-banner.png&w=384&q=75 1x, /_next/image?url=%2Fimages%2Fathlete-banner.png&w=750&q=75 2x"
+          style="color: transparent;"
+          width="335"
+        />
+        <div
+          class="chakra-stack css-jel4q2"
+        >
+          <p
+            class="chakra-text css-169w3k9"
+          >
+            BECOME A FAN
+          </p>
+        </div>
+      </div>
+      <div
+        class="chakra-stack css-1amziim"
+      >
+        <hr
+          aria-orientation="horizontal"
+          class="chakra-divider css-z4i0b0"
+        />
+        <p
+          class="chakra-text css-aetsi8"
+        >
+          Or
+        </p>
+        <hr
+          aria-orientation="horizontal"
+          class="chakra-divider css-z4i0b0"
+        />
+      </div>
+      <div
+        class="css-0"
+      >
+        <img
+          alt="banner"
+          data-nimg="1"
+          decoding="async"
+          height="105"
+          loading="lazy"
+          src="/_next/image?url=%2Fimages%2Ffan-banner.png&w=750&q=75"
+          srcset="/_next/image?url=%2Fimages%2Ffan-banner.png&w=384&q=75 1x, /_next/image?url=%2Fimages%2Ffan-banner.png&w=750&q=75 2x"
+          style="color: transparent;"
+          width="335"
+        />
+        <div
+          class="chakra-stack css-jel4q2"
+        >
+          <p
+            class="chakra-text css-169w3k9"
+          >
+            BECOME AN ATHLETE
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,224 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders Athlete Select Gender unchanged 1`] = `
+<div>
+  <div
+    class="css-16tif5l"
+  >
+    <div
+      class="chakra-container css-10klw3m"
+    >
+      <div
+        class="css-12ij4x2"
+      >
+        BASIC INFORMATION
+      </div>
+      <div
+        class="css-8qr4sb"
+      >
+        <div
+          class="css-tayfq6"
+        >
+          <div
+            class="css-6ywt87"
+          >
+            <svg
+              class="chakra-icon css-h2mabo"
+              focusable="false"
+              viewBox="0 0 151 150"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="75.5"
+                cy="75"
+                fill="white"
+                r="74.5"
+                stroke="#DDDDDD"
+              />
+              <g
+                clip-path="url(#clip0_1512_24226)"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M75.0007 112.409L74.6292 111.913L36.1152 63.616L45.527 47.2693H74.6292H75.3722H104.474L113.886 63.616L75.3722 111.913L75.0007 112.409Z"
+                  fill="#CDEAEC"
+                  fill-rule="evenodd"
+                />
+                <path
+                  d="M75.0007 112.409L74.6292 111.913L36.1152 63.616L45.527 47.2693H74.6292H75.3722H104.474L113.886 63.616L75.3722 111.913L75.0007 112.409Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M75.0007 112.409L74.6292 111.913L36.1152 63.616L45.527 47.2693H74.6292H75.3722H104.474L113.886 63.616L75.3722 111.913L75.0007 112.409Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M36.1152 63.6162H112.276"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M47.1367 47.2693L58.9014 63.616L74.629 47.2693L89.4897 63.616L104.474 47.2693"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M89.4895 63.6162L74.6288 111.913L58.1582 63.6162"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  clip-rule="evenodd"
+                  d="M98.7775 44.9164C99.3967 44.5449 101.254 38.353 102.616 36.9907C103.36 36.3715 103.855 40.2105 104.35 43.8019C104.598 45.5356 104.598 44.9164 107.322 46.031C108.561 46.5263 113.267 47.7647 112.4 48.7554C112.276 48.8793 105.589 50.1177 104.598 51.2322C104.103 51.7276 102.245 62.6254 100.635 57.7957C99.7682 55.3189 99.6444 52.0991 98.9013 50.8607C98.406 49.9938 96.1769 50.2415 92.214 48.0124C91.0995 47.3932 91.0995 46.8979 91.7187 46.6502C93.2047 45.7833 98.7775 44.9164 98.7775 44.9164Z"
+                  fill="white"
+                  fill-rule="evenodd"
+                />
+                <path
+                  d="M98.7775 44.9164C99.3967 44.5449 101.254 38.353 102.616 36.9907C103.36 36.3715 103.855 40.2105 104.35 43.8019C104.598 45.5356 104.598 44.9164 107.322 46.031C108.561 46.5263 113.267 47.7647 112.4 48.7554C112.276 48.8793 105.589 50.1177 104.598 51.2322C104.103 51.7276 102.245 62.6254 100.635 57.7957C99.7682 55.3189 99.6444 52.0991 98.9013 50.8607C98.406 49.9938 96.1769 50.2415 92.214 48.0124C91.0995 47.3932 91.0995 46.8979 91.7187 46.6502C93.2047 45.7833 98.7775 44.9164 98.7775 44.9164Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M98.7775 44.9164C99.3967 44.5449 101.254 38.353 102.616 36.9907C103.36 36.3715 103.855 40.2105 104.35 43.8019C104.598 45.5356 104.598 44.9164 107.322 46.031C108.561 46.5263 113.267 47.7647 112.4 48.7554C112.276 48.8793 105.589 50.1177 104.598 51.2322C104.103 51.7276 102.245 62.6254 100.635 57.7957C99.7682 55.3189 99.6444 52.0991 98.9013 50.8607C98.406 49.9938 96.1769 50.2415 92.214 48.0124C91.0995 47.3932 91.0995 46.8979 91.7187 46.6502C93.2047 45.7833 98.7775 44.9164 98.7775 44.9164Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+              </g>
+              <defs>
+                <clippath
+                  id="clip0_1512_24226"
+                >
+                  <rect
+                    fill="white"
+                    height="78.8855"
+                    transform="translate(35 36)"
+                    width="80"
+                  />
+                </clippath>
+              </defs>
+            </svg>
+          </div>
+          <div
+            class="css-yzqqny"
+          >
+            <div
+              class="css-0"
+            >
+              <div
+                class="css-ckstu1"
+              >
+                <div
+                  class="css-1a4y9p4"
+                >
+                  Select Gender
+                  <span
+                    class="chakra-text css-1b8yx6g"
+                  >
+                     
+                    *
+                  </span>
+                </div>
+                <div
+                  class="css-1omp9s3"
+                >
+                  <div
+                    class="css-qh0ll2"
+                  >
+                    <p
+                      class="chakra-text css-j7hta7"
+                    >
+                      Male
+                    </p>
+                  </div>
+                  <div
+                    class="css-qh0ll2"
+                  >
+                    <p
+                      class="chakra-text css-j7hta7"
+                    >
+                      Female
+                    </p>
+                  </div>
+                  <div
+                    class="css-qh0ll2"
+                  >
+                    <p
+                      class="chakra-text css-j7hta7"
+                    >
+                      Other
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="css-lrby83"
+              >
+                <button
+                  class="chakra-button css-k6pd2s"
+                  type="button"
+                >
+                  Proceed
+                  <span
+                    class="css-9n3bbc"
+                  >
+                    <svg
+                      class="chakra-icon css-iz364c"
+                      focusable="false"
+                      viewBox="0 0 15 14"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1.25 7L13.75 7M13.75 7L8.125 1.375M13.75 7L8.125 12.625"
+                        stroke="#D2FFFA"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
+                      />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <button
+            class="chakra-button css-1mv50kv"
+            type="button"
+          >
+            Proceed
+            <span
+              class="css-9n3bbc"
+            >
+              <svg
+                class="chakra-icon css-iz364c"
+                focusable="false"
+                viewBox="0 0 15 14"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.25 7L13.75 7M13.75 7L8.125 1.375M13.75 7L8.125 12.625"
+                  stroke="#D2FFFA"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+      <p
+        class="chakra-text css-1n4wwj3"
+      />
+    </div>
+  </div>
+</div>
+`;

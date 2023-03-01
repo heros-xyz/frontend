@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-go1kwr"
+  >
+    <p
+      class="chakra-text css-l1w3zv"
+    >
+      hehe
+    </p>
+    <div
+      class="css-1j9fi3e"
+    >
+      <div
+        class="css-dfpqc0"
+      >
+        <img
+          alt="1"
+          class="chakra-image__placeholder css-1nqnlj4"
+          src="https://via.placeholder.com/200x265"
+        />
+        <div
+          class="css-rzhx1g"
+        >
+          <div
+            class="css-1p6uzmq"
+          >
+            <p
+              class="chakra-text css-1yzyoi4"
+            >
+              Athlete Name 1
+            </p>
+            <p
+              class="chakra-text css-12lr5sh"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

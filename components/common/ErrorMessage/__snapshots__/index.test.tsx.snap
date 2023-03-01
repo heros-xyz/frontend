@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders Error Message unchanged 1`] = `
+<div>
+  <div
+    class="css-13brihr"
+  >
+    <span
+      class="chakra-text css-1kn7aai"
+    >
+      Field is required
+    </span>
+  </div>
+</div>
+`;

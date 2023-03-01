@@ -1,0 +1,233 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-1ey1mgp"
+  >
+    <div
+      class="css-0"
+    >
+      <p
+        class="chakra-text css-1eojj4r"
+      >
+        fans’ benefits
+      </p>
+    </div>
+    <div
+      class="css-pb69ky"
+    >
+      <p
+        class="chakra-text css-1e5m7kh"
+      >
+        Follow your favourite athlete’s sporting journey and earn benefits along the way.
+      </p>
+    </div>
+    <div
+      class="css-ebna9v"
+    >
+      <p
+        class="chakra-text css-0"
+      >
+        Ac euismod vel sit maecenas id pellentes eu sed consectetur. Malesada adipisng sagittis vel nulla nec. Urna, sed a lectus tum blandit.
+      </p>
+    </div>
+    <div
+      class="css-0"
+    >
+      <div
+        class="css-17uqucy"
+      >
+        <div
+          class="css-1doo20j"
+        >
+          <svg
+            class="chakra-icon css-1sr2wjx"
+            focusable="false"
+            viewBox="0 0 16 12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 7L5 11L15 1"
+              stroke="currentcolor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </div>
+        <span
+          class="chakra-text css-0"
+        >
+          Vitae in pulvinar odio id utobortis in inter.
+        </span>
+      </div>
+      <hr
+        aria-orientation="horizontal"
+        class="chakra-divider css-1upb9tn"
+      />
+      <div
+        class="css-17uqucy"
+      >
+        <div
+          class="css-1doo20j"
+        >
+          <svg
+            class="chakra-icon css-1sr2wjx"
+            focusable="false"
+            viewBox="0 0 16 12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 7L5 11L15 1"
+              stroke="currentcolor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </div>
+        <span
+          class="chakra-text css-0"
+        >
+          Sed sed id viverra viverra augue eget massa.
+        </span>
+      </div>
+      <hr
+        aria-orientation="horizontal"
+        class="chakra-divider css-1upb9tn"
+      />
+      <div
+        class="css-17uqucy"
+      >
+        <div
+          class="css-1doo20j"
+        >
+          <svg
+            class="chakra-icon css-1sr2wjx"
+            focusable="false"
+            viewBox="0 0 16 12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 7L5 11L15 1"
+              stroke="currentcolor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </div>
+        <span
+          class="chakra-text css-0"
+        >
+          Urna, gravida amet, a, integer venenatis.
+        </span>
+      </div>
+      <hr
+        aria-orientation="horizontal"
+        class="chakra-divider css-1upb9tn"
+      />
+      <div
+        class="css-17uqucy"
+      >
+        <div
+          class="css-1doo20j"
+        >
+          <svg
+            class="chakra-icon css-1sr2wjx"
+            focusable="false"
+            viewBox="0 0 16 12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 7L5 11L15 1"
+              stroke="currentcolor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </div>
+        <span
+          class="chakra-text css-0"
+        >
+          Lobortis sed pharetra amet vitae eleifend.
+        </span>
+      </div>
+      <hr
+        aria-orientation="horizontal"
+        class="chakra-divider css-1upb9tn"
+      />
+      <div
+        class="css-17uqucy"
+      >
+        <div
+          class="css-1doo20j"
+        >
+          <svg
+            class="chakra-icon css-1sr2wjx"
+            focusable="false"
+            viewBox="0 0 16 12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 7L5 11L15 1"
+              stroke="currentcolor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </div>
+        <span
+          class="chakra-text css-0"
+        >
+          Ullamcorper blandit a consequat donec elit aoreet.
+        </span>
+      </div>
+      <hr
+        aria-orientation="horizontal"
+        class="chakra-divider css-1upb9tn"
+      />
+      <div
+        class="css-17uqucy"
+      >
+        <div
+          class="css-1doo20j"
+        >
+          <svg
+            class="chakra-icon css-1sr2wjx"
+            focusable="false"
+            viewBox="0 0 16 12"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1 7L5 11L15 1"
+              stroke="currentcolor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+        </div>
+        <span
+          class="chakra-text css-0"
+        >
+          Vitae in pulvinar odio id utobortis in inter.
+        </span>
+      </div>
+    </div>
+    <div
+      class="css-1m2va3f"
+    >
+      <button
+        class="chakra-button css-ybm1h3"
+        type="button"
+      >
+        become a fan
+      </button>
+    </div>
+  </div>
+</div>
+`;

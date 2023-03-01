@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Label renders step unchanged 1`] = `
+<div>
+  <div
+    class="css-tik1gu"
+  >
+    <div
+      class="chakra-stack css-qwa3br"
+    >
+      <p
+        class="chakra-text css-0"
+      >
+        test
+      </p>
+      <p
+        class="chakra-text css-1b8yx6g"
+      >
+        *
+      </p>
+    </div>
+    <p
+      class="chakra-text css-yvawug"
+    >
+      test
+    </p>
+  </div>
+</div>
+`;

@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-16jipj2"
+  >
+    <div
+      class="css-1m3134m"
+    >
+      <h1
+        class="chakra-heading css-qjet4i"
+      >
+        Stay Up-To-Date With Your Athlete(s):
+      </h1>
+      <div
+        class="css-wb3v3a"
+      >
+        <div
+          class="css-dfpqc0"
+        >
+          <div
+            class="chakra-aspect-ratio css-17v9a0z"
+          >
+            <img
+              alt="1"
+              class="chakra-image css-9theft"
+            />
+          </div>
+          <div
+            class="css-rzhx1g"
+          >
+            <div
+              class="css-1p6uzmq"
+            >
+              <p
+                class="chakra-text css-1yzyoi4"
+              />
+              <p
+                class="chakra-text css-122oiyo"
+              >
+                 
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-dfpqc0"
+        >
+          <div
+            class="chakra-aspect-ratio css-17v9a0z"
+          >
+            <img
+              alt="2"
+              class="chakra-image css-9theft"
+            />
+          </div>
+          <div
+            class="css-rzhx1g"
+          >
+            <div
+              class="css-1p6uzmq"
+            >
+              <p
+                class="chakra-text css-1yzyoi4"
+              />
+              <p
+                class="chakra-text css-122oiyo"
+              >
+                 
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

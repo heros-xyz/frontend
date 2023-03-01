@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders List unchanged 1`] = `
+<div>
+  <div
+    class="css-kcc1xl"
+  >
+    <div
+      class="css-k008qs"
+    >
+      <div
+        class="css-haoc2a"
+      >
+        <img
+          alt="heros item"
+          class="chakra-image css-k6jbwm"
+          src=""
+        />
+      </div>
+      <div
+        class="css-zupw4a"
+      >
+        <p
+          class="chakra-text css-wwubfu"
+        >
+          Matt Prior
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

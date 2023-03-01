@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-1auwmo4"
+  >
+    <form>
+      <div
+        class="css-1v18uo6"
+      >
+        <div
+          class="css-3o270"
+        >
+          <div
+            class="css-1job21j"
+          >
+            OTP Verification
+          </div>
+          <div
+            class="css-1vrpgvd"
+          >
+            We've emailed an OTP to you. Please enter the code here.
+          </div>
+        </div>
+        <div
+          class="chakra-stack css-2ds2n6"
+        >
+          <input
+            aria-label="Please enter your pin code"
+            autocomplete="off"
+            class="chakra-pin-input css-61fpcf"
+            data-index="0"
+            id="pin-input-:r0:-0"
+            inputmode="numeric"
+            placeholder=""
+            type="tel"
+            value=""
+          />
+          <input
+            aria-label="Please enter your pin code"
+            autocomplete="off"
+            class="chakra-pin-input css-61fpcf"
+            data-index="1"
+            id="pin-input-:r0:-1"
+            inputmode="numeric"
+            placeholder=""
+            type="tel"
+            value=""
+          />
+          <input
+            aria-label="Please enter your pin code"
+            autocomplete="off"
+            class="chakra-pin-input css-61fpcf"
+            data-index="2"
+            id="pin-input-:r0:-2"
+            inputmode="numeric"
+            placeholder=""
+            type="tel"
+            value=""
+          />
+          <input
+            aria-label="Please enter your pin code"
+            autocomplete="off"
+            class="chakra-pin-input css-61fpcf"
+            data-index="3"
+            id="pin-input-:r0:-3"
+            inputmode="numeric"
+            placeholder=""
+            type="tel"
+            value=""
+          />
+          <input
+            aria-label="Please enter your pin code"
+            autocomplete="off"
+            class="chakra-pin-input css-61fpcf"
+            data-index="4"
+            id="pin-input-:r0:-4"
+            inputmode="numeric"
+            placeholder=""
+            type="tel"
+            value=""
+          />
+          <input
+            aria-label="Please enter your pin code"
+            autocomplete="off"
+            class="chakra-pin-input css-61fpcf"
+            data-index="5"
+            id="pin-input-:r0:-5"
+            inputmode="numeric"
+            placeholder=""
+            type="tel"
+            value=""
+          />
+        </div>
+        <div
+          class="css-13brihr"
+        />
+        <div
+          class="css-k5a7t"
+        >
+          <div
+            class="css-2noc44"
+          >
+            <p
+              class="chakra-text css-0"
+            >
+              Valid for:  
+            </p>
+            <div
+              class="css-ou80uo"
+            >
+              <p
+                class="chakra-text css-0"
+              >
+                 
+                05:00
+              </p>
+            </div>
+          </div>
+          <a
+            class="chakra-link css-116y5fs"
+          >
+            Resend OTP
+          </a>
+        </div>
+        <div
+          class="css-16yehnp"
+        >
+          <button
+            class="chakra-button css-1xa3frc"
+            type="submit"
+          >
+            VERIFY
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+`;

@@ -1,0 +1,279 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders AthleteFanSettings unchanged 1`] = `
+<div>
+  <div
+    class="css-1whykrx"
+  >
+    <div
+      class="css-r7q7qr"
+    >
+      <h2
+        class="chakra-heading css-1ox8zkd"
+      >
+        Settings
+      </h2>
+      <div
+        class="css-1dcgbw2"
+      >
+        <svg
+          class="chakra-icon css-1o82bms"
+          focusable="false"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M13.3337 5.83333C13.3337 7.67428 11.8413 9.16667 10.0003 9.16667C8.15938 9.16667 6.66699 7.67428 6.66699 5.83333C6.66699 3.99238 8.15938 2.5 10.0003 2.5C11.8413 2.5 13.3337 3.99238 13.3337 5.83333Z"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          />
+          <path
+            d="M10.0003 11.6667C6.77866 11.6667 4.16699 14.2783 4.16699 17.5H15.8337C15.8337 14.2783 13.222 11.6667 10.0003 11.6667Z"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          />
+        </svg>
+        <div
+          class="css-8atqhb"
+        >
+          <p
+            class="chakra-text css-1jof7u3"
+          >
+            Tatum Miller
+          </p>
+          <p
+            class="chakra-text css-6fokcs"
+          >
+            <a
+              class="chakra-link css-0"
+              href="/fan/my-profile/edit"
+            >
+              Change your account information
+            </a>
+          </p>
+        </div>
+      </div>
+      <div
+        class="css-1jl9qej"
+      >
+        <svg
+          class="chakra-icon css-1o82bms"
+          focusable="false"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M2.5 15.8333V8.39198C2.5 7.83473 2.7785 7.31434 3.24217 7.00523L9.0755 3.11634C9.63533 2.74312 10.3647 2.74312 10.9245 3.11634L16.7578 7.00523C17.2215 7.31434 17.5 7.83473 17.5 8.39198V15.8333M2.5 15.8333C2.5 16.7538 3.24619 17.5 4.16667 17.5H15.8333C16.7538 17.5 17.5 16.7538 17.5 15.8333M2.5 15.8333L8.125 12.0833M17.5 15.8333L11.875 12.0833M2.5 8.33334L8.125 12.0833M17.5 8.33334L11.875 12.0833M11.875 12.0833L10.9245 12.717C10.3647 13.0902 9.63533 13.0902 9.0755 12.717L8.125 12.0833"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          />
+        </svg>
+        <div
+          class="css-8atqhb"
+        >
+          <p
+            class="chakra-text css-1jof7u3"
+          >
+            tatummiller@gmail.com
+          </p>
+          <p
+            class="chakra-text css-1bh2ssn"
+          >
+            This cannot be changed
+          </p>
+        </div>
+      </div>
+      <div
+        class="css-1g7srn1"
+      >
+        <svg
+          class="chakra-icon css-swpltc"
+          focusable="false"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            clip-rule="evenodd"
+            d="M16.232 7.32731C15.1486 6.31445 13.7028 5.76268 12.2068 5.78535C9.46935 5.78535 7.14445 7.59562 6.31549 10.0333C5.87596 11.3107 5.87596 12.6939 6.31549 13.9713H6.31934C7.15214 16.4052 9.4732 18.2155 12.2107 18.2155C13.6237 18.2155 14.8369 17.8612 15.7771 17.2354V17.2329C16.8836 16.5148 17.6393 15.3848 17.8745 14.1074H12.2068V10.1467H22.1041C22.2275 10.8345 22.2853 11.5375 22.2853 12.2367C22.2853 15.365 21.1447 18.0099 19.1602 19.8012L19.1623 19.8028C17.4234 21.375 15.0368 22.2858 12.2068 22.2858C8.23941 22.2858 4.61132 20.0938 2.83004 16.6206C1.3418 13.7143 1.34181 10.2903 2.83006 7.38402C4.61133 3.90707 8.23941 1.71505 12.2068 1.71505C14.8132 1.68481 17.3309 2.64476 19.2278 4.39079L16.232 7.32731Z"
+            fill="currentColor"
+            fill-rule="evenodd"
+          />
+        </svg>
+        <p
+          class="chakra-text css-1jof7u3"
+        >
+          This account is linked to Google
+        </p>
+      </div>
+      <div
+        class="css-1g7srn1"
+      >
+        <svg
+          class="chakra-icon css-swpltc"
+          focusable="false"
+          viewBox="0 0 33 32"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M32.5 16C32.5 7.16344 25.3366 0 16.5 0C7.66344 0 0.5 7.16344 0.5 16C0.5 23.9859 6.35094 30.6053 14 31.8056V20.625H9.9375V16H14V12.475C14 8.465 16.3888 6.25 20.0434 6.25C21.7934 6.25 23.625 6.5625 23.625 6.5625V10.5H21.6075C19.62 10.5 19 11.7334 19 13V16H23.4375L22.7281 20.625H19V31.8056C26.6491 30.6053 32.5 23.9859 32.5 16Z"
+            fill="currentColor"
+          />
+        </svg>
+        <p
+          class="chakra-text css-1jof7u3"
+        >
+          This account is linked to Facebook
+        </p>
+      </div>
+      <div
+        class="css-epwn7c"
+      >
+        <a
+          class="chakra-link css-7gp64b"
+          href="/fan/payment"
+        >
+          <svg
+            class="chakra-icon css-swpltc"
+            focusable="false"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3 10H21M7 15H8M12 15H13M6 19H18C19.6569 19 21 17.6569 21 16V8C21 6.34315 19.6569 5 18 5H6C4.34315 5 3 6.34315 3 8V16C3 17.6569 4.34315 19 6 19Z"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+            />
+          </svg>
+          <p
+            class="chakra-text css-pnw9z9"
+          >
+            Payment information
+          </p>
+        </a>
+      </div>
+      <div
+        class="css-epwn7c"
+      >
+        <a
+          class="chakra-link css-7gp64b"
+          href="/fan/active-subscriptions"
+        >
+          <svg
+            class="chakra-icon css-swpltc"
+            focusable="false"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M17 20H22V18C22 16.3431 20.6569 15 19 15C18.0444 15 17.1931 15.4468 16.6438 16.1429M17 20H7M17 20V18C17 17.3438 16.8736 16.717 16.6438 16.1429M7 20H2V18C2 16.3431 3.34315 15 5 15C5.95561 15 6.80686 15.4468 7.35625 16.1429M7 20V18C7 17.3438 7.12642 16.717 7.35625 16.1429M7.35625 16.1429C8.0935 14.301 9.89482 13 12 13C14.1052 13 15.9065 14.301 16.6438 16.1429M15 7C15 8.65685 13.6569 10 12 10C10.3431 10 9 8.65685 9 7C9 5.34315 10.3431 4 12 4C13.6569 4 15 5.34315 15 7ZM21 10C21 11.1046 20.1046 12 19 12C17.8954 12 17 11.1046 17 10C17 8.89543 17.8954 8 19 8C20.1046 8 21 8.89543 21 10ZM7 10C7 11.1046 6.10457 12 5 12C3.89543 12 3 11.1046 3 10C3 8.89543 3.89543 8 5 8C6.10457 8 7 8.89543 7 10Z"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+            />
+          </svg>
+          <p
+            class="chakra-text css-pnw9z9"
+          >
+            Active subscriptions
+          </p>
+        </a>
+      </div>
+    </div>
+    <div
+      class="css-0"
+    >
+      <h2
+        class="chakra-heading css-6taxgj"
+      >
+        Help
+      </h2>
+      <div
+        class="css-epwn7c"
+      >
+        <a
+          class="chakra-link css-7gp64b"
+          href="/faqs"
+        >
+          <svg
+            class="chakra-icon css-swpltc"
+            focusable="false"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M8 10H8.01M12 10H12.01M16 10H16.01M9 16H5C3.89543 16 3 15.1046 3 14V6C3 4.89543 3.89543 4 5 4H19C20.1046 4 21 4.89543 21 6V14C21 15.1046 20.1046 16 19 16H14L9 21V16Z"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+            />
+          </svg>
+          <p
+            class="chakra-text css-pnw9z9"
+          >
+            FAQs
+          </p>
+        </a>
+      </div>
+      <div
+        class="css-epwn7c"
+      >
+        <a
+          class="chakra-link css-7gp64b"
+          href="/privacy_policy"
+        >
+          <svg
+            class="chakra-icon css-swpltc"
+            focusable="false"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 15V17M6 21H18C19.1046 21 20 20.1046 20 19V13C20 11.8954 19.1046 11 18 11H6C4.89543 11 4 11.8954 4 13V19C4 20.1046 4.89543 21 6 21ZM16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11H16Z"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-width="1.5"
+            />
+          </svg>
+          <p
+            class="chakra-text css-pnw9z9"
+          >
+            Privacy policy
+          </p>
+        </a>
+      </div>
+    </div>
+    <div
+      class="css-szqulz"
+    >
+      <h2
+        class="chakra-heading css-5ghd46"
+      >
+        sign out
+      </h2>
+      <svg
+        class="chakra-icon css-1vedd9t"
+        focusable="false"
+        viewBox="0 0 12 11"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1 5.5L11 5.5M11 5.5L6.5 1M11 5.5L6.5 10"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+  </div>
+</div>
+`;

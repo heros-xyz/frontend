@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-ko489"
+  >
+    <div
+      class="css-hcjvmi"
+    >
+      <p
+        class="chakra-text css-qza83y"
+      >
+        Authentication Link Sent
+      </p>
+      <div
+        class="css-dvxtzn"
+      >
+        <p
+          class="chakra-text css-k1f3yc"
+        >
+          We’ve sent an authentication link to your email. Click the link to verify your sign in.
+        </p>
+        <button
+          class="chakra-button css-9xypxo"
+          type="button"
+        >
+          resend link
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

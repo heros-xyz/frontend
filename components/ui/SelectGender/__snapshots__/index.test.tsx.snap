@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders select gender unchanged 1`] = `
+<div>
+  <div
+    class="css-1omp9s3"
+  >
+    <div
+      class="css-qh0ll2"
+    >
+      <p
+        class="chakra-text css-j7hta7"
+      >
+        Male
+      </p>
+    </div>
+    <div
+      class="css-qh0ll2"
+    >
+      <p
+        class="chakra-text css-j7hta7"
+      >
+        Female
+      </p>
+    </div>
+    <div
+      class="css-qh0ll2"
+    >
+      <p
+        class="chakra-text css-j7hta7"
+      >
+        Other
+      </p>
+    </div>
+  </div>
+</div>
+`;

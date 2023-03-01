@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders avatar recommend 1`] = `
+<div>
+  <div
+    class="css-xi606m"
+  >
+    <div
+      class="css-zk1q33"
+    >
+      <img
+        alt="John Smith"
+        class="chakra-image__placeholder css-bn0aco"
+        src="https://via.placeholder.com/150"
+      />
+      <div
+        class="css-17fdx5f"
+      >
+        RECOMMEND
+      </div>
+    </div>
+    <p
+      class="chakra-text css-h0t0vc"
+    >
+      John Smith
+    </p>
+  </div>
+</div>
+`;
+
+exports[`renders avatar unchanged 1`] = `
+<div>
+  <div
+    class="css-xi606m"
+  >
+    <div
+      class="css-zk1q33"
+    >
+      <img
+        alt="John Smith"
+        class="chakra-image__placeholder css-bn0aco"
+        src="https://via.placeholder.com/150"
+      />
+    </div>
+    <p
+      class="chakra-text css-h0t0vc"
+    >
+      John Smith
+    </p>
+  </div>
+</div>
+`;

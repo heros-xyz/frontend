@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-70qvj9"
+  >
+    <span
+      class="chakra-avatar css-6id39j"
+    >
+      <div
+        aria-label="Dan Abrahmov"
+        class="chakra-avatar__initials css-0"
+        role="img"
+      >
+        DA
+      </div>
+    </span>
+    <div
+      class="css-9n3bbc"
+    >
+      <p
+        class="chakra-text css-mev91g"
+      >
+        Penguin
+      </p>
+      <div
+        class="css-xtguam"
+      >
+        <p
+          class="chakra-text css-1g411le"
+        >
+          01/01/20 | 00:00
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

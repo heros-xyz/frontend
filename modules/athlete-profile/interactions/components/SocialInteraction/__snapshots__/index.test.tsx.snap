@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders social interaction section unchanged 1`] = `
+<div>
+  <div
+    class="css-jur5hb"
+  >
+    <button
+      class="chakra-button css-4xx2wk"
+      style="all: unset; cursor: pointer;"
+      type="button"
+    >
+      <svg
+        class="chakra-icon css-3p4nnh"
+        focusable="false"
+        viewBox="0 0 26 23"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M2.75736 3.42533C0.414213 5.76847 0.414213 9.56746 2.75736 11.9106L13.0001 22.1533L23.2426 11.9106C25.5858 9.56746 25.5858 5.76847 23.2426 3.42533C20.8995 1.08218 17.1005 1.08218 14.7574 3.42533L13.0001 5.18276L11.2426 3.42533C8.8995 1.08218 5.10051 1.08218 2.75736 3.42533Z"
+          fill="#FFC5EF"
+          stroke="#FFC5EF"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        />
+      </svg>
+    </button>
+    <button
+      class="chakra-button css-4xx2wk"
+      style="all: unset; cursor: pointer;"
+      type="button"
+    >
+      <svg
+        class="chakra-icon css-1jpwrq"
+        focusable="false"
+        viewBox="0 0 20 19"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M6 7H6.01M10 7H10.01M14 7H14.01M7 13H3C1.89543 13 1 12.1046 1 11V3C1 1.89543 1.89543 1 3 1H17C18.1046 1 19 1.89543 19 3V11C19 12.1046 18.1046 13 17 13H12L7 18V13Z"
+          stroke="white"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        />
+      </svg>
+    </button>
+    <button
+      class="chakra-button css-4xx2wk"
+      style="all: unset; cursor: pointer;"
+      type="button"
+    >
+      <svg
+        class="chakra-icon css-xfaoy"
+        focusable="false"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M6.68387 11.3419C6.88616 10.9381 7 10.4824 7 10C7 9.51763 6.88616 9.06185 6.68387 8.65807M6.68387 11.3419C6.19134 12.3251 5.17449 13 4 13C2.34315 13 1 11.6569 1 10C1 8.34315 2.34315 7 4 7C5.17449 7 6.19134 7.67492 6.68387 8.65807M6.68387 11.3419L13.3161 14.6581M6.68387 8.65807L13.3161 5.34193M13.3161 5.34193C13.8087 6.32508 14.8255 7 16 7C17.6569 7 19 5.65685 19 4C19 2.34315 17.6569 1 16 1C14.3431 1 13 2.34315 13 4C13 4.48237 13.1138 4.93815 13.3161 5.34193ZM13.3161 14.6581C13.1138 15.0619 13 15.5176 13 16C13 17.6569 14.3431 19 16 19C17.6569 19 19 17.6569 19 16C19 14.3431 17.6569 13 16 13C14.8255 13 13.8087 13.6749 13.3161 14.6581Z"
+          stroke="white"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        />
+      </svg>
+    </button>
+  </div>
+  <p
+    class="chakra-text css-1iw8agw"
+  >
+    10
+     like(s), 
+    10
+     
+    comment(s)
+  </p>
+</div>
+`;

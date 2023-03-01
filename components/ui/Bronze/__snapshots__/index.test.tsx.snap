@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-1m5jvko"
+  >
+    <p
+      class="chakra-text css-10ay8m3"
+    >
+      Bronze
+    </p>
+    <p
+      class="chakra-text css-kn8mbi"
+    />
+    <p
+      class="chakra-text css-1a2ewle"
+    >
+      $
+      /month · 
+      0
+       fans
+    </p>
+    <div
+      class="css-0"
+    >
+      <p
+        class="chakra-text css-jyh61a"
+      >
+        Benefit
+      </p>
+    </div>
+  </div>
+</div>
+`;

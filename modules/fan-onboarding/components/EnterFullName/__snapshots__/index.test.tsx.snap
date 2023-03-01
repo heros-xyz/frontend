@@ -1,0 +1,354 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-16tif5l"
+  >
+    <div
+      class="chakra-container css-10klw3m"
+    >
+      <div
+        class="css-12ij4x2"
+      />
+      <div
+        class="css-8qr4sb"
+      >
+        <div
+          class="css-tayfq6"
+        >
+          <div
+            class="css-6ywt87"
+          >
+            <svg
+              class="chakra-icon css-5xjrgh"
+              focusable="false"
+              viewBox="0 0 151 150"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="75.5"
+                cy="75"
+                fill="white"
+                r="74.5"
+                stroke="#DDDDDD"
+              />
+              <g
+                clip-path="url(#clip0_1512_24034)"
+              >
+                <path
+                  d="M56.0496 55.9563L54.5449 66.019H58.8709L67.7111 64.044L68.9336 54.1694L56.0496 55.9563Z"
+                  fill="white"
+                />
+                <path
+                  d="M56.0496 55.9563L54.5449 66.019H58.8709L67.7111 64.044L68.9336 54.1694L56.0496 55.9563Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M82.8521 54.0752L81.4414 63.1975L89.6232 68.4639L91.1279 58.4953L82.8521 54.0752Z"
+                  fill="white"
+                />
+                <path
+                  d="M82.8521 54.0752L81.4414 63.1975L89.6232 68.4639L91.1279 58.4953L82.8521 54.0752Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M86.3322 33.856C86.2382 33.95 85.0156 42.414 85.0156 42.414L92.5391 46.1757L94.1379 37.8998L86.3322 33.856Z"
+                  fill="white"
+                />
+                <path
+                  d="M86.3322 33.856C86.2382 33.95 85.0156 42.414 85.0156 42.414L92.5391 46.1757L94.1379 37.8998L86.3322 33.856Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M72.0373 42.4138L70.7207 52.4765L81.9119 52.7586L83.7928 42.5078C83.7928 42.5078 74.8586 41.0972 72.0373 42.4138Z"
+                  fill="white"
+                />
+                <path
+                  d="M72.0373 42.4138L70.7207 52.4765L81.9119 52.7586L83.7928 42.5078C83.7928 42.5078 74.8586 41.0972 72.0373 42.4138Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M59.3417 35.5486L58.1191 43.7304L70.8151 41.7554L71.9436 33.7617L59.3417 35.5486Z"
+                  fill="white"
+                />
+                <path
+                  d="M59.3417 35.5486L58.1191 43.7304L70.8151 41.7554L71.9436 33.7617L59.3417 35.5486Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M45.2344 41.2854L43.3535 51.6302C43.3535 51.6302 53.1341 55.9562 54.6388 55.2039C56.2375 54.5456 56.7077 44.2948 56.7077 44.2948L45.2344 41.2854Z"
+                  fill="white"
+                />
+                <path
+                  d="M45.2344 41.2854L43.3535 51.6302C43.3535 51.6302 53.1341 55.9562 54.6388 55.2039C56.2375 54.5456 56.7077 44.2948 56.7077 44.2948L45.2344 41.2854Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M103.636 119.436C106.74 119.436 110.877 116.991 110.407 111.254C110.125 108.527 107.022 108.433 107.022 108.433C107.022 108.433 111.254 107.116 110.689 100.627C110.313 96.1128 106.74 96.583 106.74 96.583C106.74 96.583 111.254 94.514 111.724 89.1535C112.194 83.1347 107.398 83.0407 107.398 83.0407C113.417 79.467 111.724 71.8494 106.928 70.0626C102.602 68.4639 79.6549 68.4639 79.6549 68.4639C71.6612 69.2162 65.1721 69.8745 65.1721 69.8745L49.6549 70.6269L47.5859 120C47.5859 120 69.5922 119.906 103.636 119.436Z"
+                  fill="#FAC484"
+                />
+                <path
+                  d="M70.908 82.1002C69.6854 86.6143 69.7794 90.282 72.3186 94.0438C74.1995 96.8651 78.3374 96.5829 80.9707 94.4199C84.2622 91.7867 86.8954 85.4858 81.9111 74.2945C81.9111 74.2945 78.3374 64.8902 65.3594 70.7209"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M70.4375 88.8716C69.2149 92.5393 64.6068 93.6678 61.6914 93.4797"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M45.4219 40.627C45.4219 40.627 51.3466 45.4232 62.2557 44.0125C73.1648 42.5078 80.5943 37.1473 92.914 46.9279"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M43.541 52.1003C43.541 52.1003 49.6539 56.7085 60.3749 55.2978C71.1899 53.8872 78.5253 48.5267 90.7511 58.2132"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M58.6827 35.7368L53.9805 66.3951"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M72.6005 33.4795L68.5566 63.5735"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M85.955 33.2915L80.9707 63.1975"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M94.5133 37.7116L89.9051 69.2163C89.9051 69.2163 81.5352 58.9656 67.5227 64.138C53.4161 69.4044 42.507 65.6427 41.0963 63.8558C40.9082 63.6677 46.6449 31.3167 46.6449 31.3167C46.6449 31.3167 53.0399 36.301 63.8549 34.8903C74.764 33.3856 82.0995 27.9311 94.5133 37.7116Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M90.7525 63.2915L89.3418 72.884"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M57.9298 35.4545L56.5192 44.3887L44.7637 40.5329L46.1743 31.8809L57.9298 35.4545Z"
+                  fill="#424142"
+                />
+                <path
+                  d="M57.9298 35.4545L56.5192 44.3887L44.7637 40.5329L46.1743 31.8809L57.9298 35.4545Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M70.1566 43.2603L69.4042 53.6991L55.6738 55.7681L57.8368 44.1066L70.1566 43.2603Z"
+                  fill="#424142"
+                />
+                <path
+                  d="M70.1566 43.2603L69.4042 53.6991L55.6738 55.7681L57.8368 44.1066L70.1566 43.2603Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M85.2038 32.4453L84.1694 41.6616L71.8496 41.1914L73.0722 32.7274L85.2038 32.4453Z"
+                  fill="#424142"
+                />
+                <path
+                  d="M85.2038 32.4453L84.1694 41.6616L71.8496 41.1914L73.0722 32.7274L85.2038 32.4453Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M93.0094 45.7053L91.0345 58.3072L83.1348 53.7931L85.2037 43.3542L93.0094 45.7053Z"
+                  fill="#424142"
+                />
+                <path
+                  d="M93.0094 45.7053L91.0345 58.3072L83.1348 53.7931L85.2037 43.3542L93.0094 45.7053Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M81.9114 53.6991L79.9364 63.3856L69.0273 63.2916L71.0023 52.9468L81.9114 53.6991Z"
+                  fill="#424142"
+                />
+                <path
+                  d="M81.9114 53.6991L79.9364 63.3856L69.0273 63.2916L71.0023 52.9468L81.9114 53.6991Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M55.2023 55.58L52.9452 66.395L46.1741 65.6427L41.0957 63.8558L43.1647 52.5706L55.2023 55.58Z"
+                  fill="#424142"
+                />
+                <path
+                  d="M55.2023 55.58L52.9452 66.395L46.1741 65.6427L41.0957 63.8558L43.1647 52.5706L55.2023 55.58Z"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+                <path
+                  d="M86.8016 113.699C86.8016 111.348 88.8706 109.561 91.7859 109.091C87.8361 108.527 84.9207 107.586 85.0148 103.072C85.1088 99.5925 88.7765 98.0878 92.1621 97.3354C87.7421 97.2414 84.7327 96.2069 84.2624 92.3511C83.7922 88.5894 86.7076 86.0502 90.2812 85.1097C87.0838 84.5455 83.9803 82.5706 84.0744 78.9028C84.2624 75.047 88.6825 73.5423 91.6919 73.5423L102.037 73.3542"
+                  stroke="black"
+                  stroke-miterlimit="10"
+                  stroke-width="1.5"
+                />
+              </g>
+              <defs>
+                <clippath
+                  id="clip0_1512_24034"
+                >
+                  <rect
+                    fill="white"
+                    height="90"
+                    transform="translate(40.25 30)"
+                    width="71.4734"
+                  />
+                </clippath>
+              </defs>
+            </svg>
+          </div>
+          <div
+            class="css-yzqqny"
+          >
+            <div
+              class="css-0"
+            >
+              <div
+                class="css-1i7mn3a"
+              >
+                <div
+                  class="css-78ozrq"
+                >
+                  <div
+                    class="css-1kt4cil"
+                  >
+                    Enter Your Full Name
+                    <span
+                      class="chakra-text css-1b8yx6g"
+                    >
+                       
+                      *
+                    </span>
+                  </div>
+                  <div
+                    class="css-1q92sfg"
+                  >
+                    Let’s your favorite athletes know who is following and supporting them. Your full name will be shown to the public.
+                  </div>
+                </div>
+                <div
+                  class="css-1itv5e3"
+                >
+                  <div
+                    class="css-78ozrq"
+                  >
+                    <input
+                      class="chakra-input css-i80ywv"
+                      id="firstName"
+                      placeholder="First name"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    class="css-0"
+                  >
+                    <input
+                      class="chakra-input css-i80ywv"
+                      id="lastName"
+                      placeholder="Last name"
+                      value=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="css-lrby83"
+              >
+                <button
+                  class="chakra-button css-k6pd2s"
+                  type="button"
+                >
+                  Proceed
+                  <span
+                    class="css-9n3bbc"
+                  >
+                    <svg
+                      class="chakra-icon css-iz364c"
+                      focusable="false"
+                      viewBox="0 0 15 14"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1.25 7L13.75 7M13.75 7L8.125 1.375M13.75 7L8.125 12.625"
+                        stroke="#D2FFFA"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
+                      />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <button
+            class="chakra-button css-1mv50kv"
+            type="button"
+          >
+            Proceed
+            <span
+              class="css-9n3bbc"
+            >
+              <svg
+                class="chakra-icon css-iz364c"
+                focusable="false"
+                viewBox="0 0 15 14"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.25 7L13.75 7M13.75 7L8.125 1.375M13.75 7L8.125 12.625"
+                  stroke="#D2FFFA"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+      <p
+        class="chakra-text css-1n4wwj3"
+      />
+    </div>
+  </div>
+</div>
+`;

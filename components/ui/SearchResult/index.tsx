@@ -1,0 +1,108 @@
+import { Box, BoxProps, Flex, Image, Text } from "@chakra-ui/react";
+import React from "react";
+import Link from "next/link";
+import { FlagIcon } from "@/components/svg/Flag";
+import { IAthleteSearchProfile } from "@/types/athlete/types";
+
+interface SearchResultProps extends BoxProps {
+  data: IAthleteSearchProfile[];
+  title: string;
+  searchValue: string;
+}
+const SearchResult: React.FC<SearchResultProps> = ({
+  data,
+  title,
+  searchValue,
+  ...props
+}) => {
+  return (
+    <Box
+      bg="primary"
+      color="white"
+      w={{ base: "auto", xl: "31.25rem" }}
+      {...props}
+    >
+      <Text as="b" fontSize={{ base: "xl", xl: "2xl" }}>
+        {title}
+      </Text>
+      <Box mt={{ base: 3, xl: 7 }}>
+        {data.length === 0 && (
+          <Box>
+            <Text
+              color="acccent.3"
+              fontSize={{ base: "lg", lg: "xl" }}
+              mb={{ base: 1, lg: 3 }}
+            >
+              No athletes found matching {`"${searchValue}"`}
+            </Text>
+            <Text fontSize={{ base: "sm", lg: "md" }}>
+              Try searching for something else. Use athlete’s name, sports name,
+              or sports-related terms.
+            </Text>
+          </Box>
+        )}
+        {data.map((el: IAthleteSearchProfile, index: number) => (
+          <Link href={`/fan/athlete-profile/${el?.id}`} key={el?.id}>
+            <Flex
+              pt={{ base: 2, xl: 4 }}
+              pb={{ base: 3, xl: 5 }}
+              borderBottom={"1px"}
+              borderTop={index === 0 ? "1px" : "0"}
+              borderColor="grey.100"
+              alignItems="center"
+            >
+              <Image
+                src={el?.avatar}
+                borderRadius="full"
+                alt=""
+                w={{ base: "50px", xl: "80px" }}
+                h={{ base: "50px", xl: "80px" }}
+                fallbackSrc="https://via.placeholder.com/80"
+              />
+              <Box
+                ml={4}
+                color="white"
+                fontSize={{ base: "xs", xl: "md" }}
+                pt={1}
+              >
+                <Text
+                  fontWeight={700}
+                  mb={1}
+                  fontSize={{ base: "xs", xl: "lg" }}
+                >
+                  {el?.fullName}
+                </Text>
+                <Text
+                  pb={1}
+                  fontSize={{ base: "xs", xl: "md" }}
+                  fontWeight="normal"
+                  color="secondary"
+                >
+                  {el?.sport}
+                </Text>
+                <Flex
+                  flexDirection={"row"}
+                  fontSize={{ base: "xs", xl: "base" }}
+                >
+                  <FlagIcon mr={2} w="12px" />
+                  <Text
+                    pr={2}
+                    borderRight="1px"
+                    border={el.fan ? "1px" : "none"}
+                  >
+                    {el.sourceSubscriptionsTotal?.toLocaleString()} interactions
+                  </Text>
+                  {el.fan && (
+                    <Text pl={2}>{el.fan?.toLocaleString()} fans</Text>
+                  )}
+                </Flex>
+              </Box>
+            </Flex>
+          </Link>
+        ))}
+      </Box>
+    </Box>
+  );
+};
+
+export default SearchResult;

@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-128o7h7"
+  >
+    <div
+      class="css-soukc5"
+    >
+      <svg
+        class="chakra-icon css-1j7ou3l"
+        focusable="false"
+        viewBox="0 0 14 14"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M13.25 7L0.75 7M0.75 7L6.375 1.375M0.75 7L6.375 12.625"
+          stroke="white"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        />
+      </svg>
+      <span
+        class="chakra-text css-141yne6"
+      >
+        Payment Information
+      </span>
+    </div>
+    <p
+      class="chakra-text css-1kn20vl"
+    >
+      Payment Method
+    </p>
+    <div
+      class="css-13rbvqk"
+    >
+      <button
+        class="chakra-button css-1kgh699"
+        type="button"
+      >
+        Update payment method
+      </button>
+    </div>
+  </div>
+</div>
+`;

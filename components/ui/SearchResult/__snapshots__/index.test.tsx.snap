@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-evw22j"
+  >
+    <b
+      class="chakra-text css-1vj13dc"
+    />
+    <div
+      class="css-sg8179"
+    >
+      <a
+        href="/fan/athlete-profile/1"
+      >
+        <div
+          class="css-joud3n"
+        >
+          <img
+            alt=""
+            class="chakra-image__placeholder css-3b5e7v"
+            src="https://via.placeholder.com/80"
+          />
+          <div
+            class="css-zqivrz"
+          >
+            <p
+              class="chakra-text css-klkhh2"
+            />
+            <p
+              class="chakra-text css-f0tr84"
+            />
+            <div
+              class="css-xw0f7y"
+            >
+              <svg
+                class="chakra-icon css-1c338ae"
+                focusable="false"
+                viewBox="0 0 18 18"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.5 16.5V13.1667M1.5 13.1667V3.16667C1.5 2.24619 2.24619 1.5 3.16667 1.5H8.58333L9.41667 2.33333H16.5L14 7.33333L16.5 12.3333H9.41667L8.58333 11.5H3.16667C2.24619 11.5 1.5 12.2462 1.5 13.1667ZM9 1.91667V6.5"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                />
+              </svg>
+              <p
+                class="chakra-text css-1dd06ix"
+              >
+                 interactions
+              </p>
+              <p
+                class="chakra-text css-yc55n3"
+              >
+                5,995
+                 fans
+              </p>
+            </div>
+          </div>
+        </div>
+      </a>
+      <a
+        href="/fan/athlete-profile/2"
+      >
+        <div
+          class="css-o8t75z"
+        >
+          <img
+            alt=""
+            class="chakra-image__placeholder css-3b5e7v"
+            src="https://via.placeholder.com/80"
+          />
+          <div
+            class="css-zqivrz"
+          >
+            <p
+              class="chakra-text css-klkhh2"
+            />
+            <p
+              class="chakra-text css-f0tr84"
+            />
+            <div
+              class="css-xw0f7y"
+            >
+              <svg
+                class="chakra-icon css-1c338ae"
+                focusable="false"
+                viewBox="0 0 18 18"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1.5 16.5V13.1667M1.5 13.1667V3.16667C1.5 2.24619 2.24619 1.5 3.16667 1.5H8.58333L9.41667 2.33333H16.5L14 7.33333L16.5 12.3333H9.41667L8.58333 11.5H3.16667C2.24619 11.5 1.5 12.2462 1.5 13.1667ZM9 1.91667V6.5"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                />
+              </svg>
+              <p
+                class="chakra-text css-1dd06ix"
+              >
+                 interactions
+              </p>
+              <p
+                class="chakra-text css-yc55n3"
+              >
+                1,955
+                 fans
+              </p>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+`;

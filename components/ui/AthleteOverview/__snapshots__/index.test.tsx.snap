@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-179uoiv"
+  >
+    <h2
+      class="chakra-heading css-18n185n"
+    >
+      Overview
+    </h2>
+    <div
+      class="css-1lekzkb"
+    >
+      <div
+        class="css-11ze7cv"
+      >
+        <div
+          class="css-70qvj9"
+        >
+          <svg
+            class="chakra-icon css-r1e9oj"
+            focusable="false"
+            viewBox="0 0 52 52"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="26"
+              cy="26"
+              fill="#FFC5EF"
+              r="26"
+            />
+            <path
+              d="M32.668 36.6668H39.3346V34.0002C39.3346 31.791 37.5438 30.0002 35.3346 30.0002C34.0605 30.0002 32.9255 30.5959 32.193 31.524M32.668 36.6668H19.3346M32.668 36.6668V34.0002C32.668 33.1252 32.4994 32.2896 32.193 31.524M19.3346 36.6668H12.668V34.0002C12.668 31.791 14.4588 30.0002 16.668 30.0002C17.9421 30.0002 19.0771 30.5959 19.8096 31.524M19.3346 36.6668V34.0002C19.3346 33.1252 19.5032 32.2896 19.8096 31.524M19.8096 31.524C20.7926 29.0682 23.1944 27.3335 26.0013 27.3335C28.8082 27.3335 31.21 29.0682 32.193 31.524M30.0013 19.3335C30.0013 21.5426 28.2104 23.3335 26.0013 23.3335C23.7922 23.3335 22.0013 21.5426 22.0013 19.3335C22.0013 17.1244 23.7922 15.3335 26.0013 15.3335C28.2104 15.3335 30.0013 17.1244 30.0013 19.3335ZM38.0013 23.3335C38.0013 24.8063 36.8074 26.0002 35.3346 26.0002C33.8619 26.0002 32.668 24.8063 32.668 23.3335C32.668 21.8607 33.8619 20.6668 35.3346 20.6668C36.8074 20.6668 38.0013 21.8607 38.0013 23.3335ZM19.3346 23.3335C19.3346 24.8063 18.1407 26.0002 16.668 26.0002C15.1952 26.0002 14.0013 24.8063 14.0013 23.3335C14.0013 21.8607 15.1952 20.6668 16.668 20.6668C18.1407 20.6668 19.3346 21.8607 19.3346 23.3335Z"
+              stroke="#313F4C"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+          <div
+            class="css-1mu6ee8"
+          >
+            <div
+              class="chakra-skeleton css-1q68rk9"
+            >
+              <p
+                class="chakra-text css-1ipc8gm"
+              >
+                5
+              </p>
+            </div>
+            <p
+              class="chakra-text css-1ji9dyd"
+            >
+              Fans
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="css-e9p6zy"
+      >
+        <div
+          class="css-70qvj9"
+        >
+          <svg
+            class="chakra-icon css-1oztg0y"
+            focusable="false"
+            viewBox="0 0 52 52"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle
+              cx="26"
+              cy="26"
+              fill="#FFC5EF"
+              r="26"
+            />
+            <path
+              d="M14 23.3332H38M19.3333 29.9998H20.6667M26 29.9998H27.3333M18 35.3332H34C36.2091 35.3332 38 33.5423 38 31.3332V20.6665C38 18.4574 36.2091 16.6665 34 16.6665H18C15.7909 16.6665 14 18.4574 14 20.6665V31.3332C14 33.5423 15.7909 35.3332 18 35.3332Z"
+              stroke="#313F4C"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+            />
+          </svg>
+          <div
+            class="css-0"
+          >
+            <div
+              class="chakra-skeleton css-11biys8"
+            >
+              <p
+                class="chakra-text css-1ipc8gm"
+              >
+                100000
+              </p>
+            </div>
+            <p
+              class="chakra-text css-1ji9dyd"
+            >
+              Per month
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

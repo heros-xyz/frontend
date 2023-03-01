@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders add tag unchanged 1`] = `
+<div>
+  <div
+    class="css-16tif5l"
+  >
+    <div
+      class="chakra-container css-10klw3m"
+    >
+      <div
+        class="css-12ij4x2"
+      >
+        PAGE INFORMATION
+      </div>
+      <div
+        class="css-8qr4sb"
+      >
+        <div
+          class="css-tayfq6"
+        >
+          <div
+            class="css-yzqqny"
+          >
+            <div
+              class="css-0"
+            >
+              <div
+                class="css-0"
+              >
+                <p
+                  class="chakra-text css-12qkx1z"
+                >
+                  Add Tag(s)
+                </p>
+                <p
+                  class="chakra-text css-1vcqs2l"
+                >
+                  Help people find you easier by adding keywords related to you and your content. Tags will not be visible to fans on your profile page. Separate tags by comma.
+                </p>
+                <p
+                  class="chakra-text css-sphssm"
+                >
+                  Ideas for you: #sport, #athlete,...
+                </p>
+                <input
+                  class="chakra-input css-1dhk8tj"
+                  placeholder="Add Tags"
+                  value=""
+                />
+                <div
+                  class="css-2imjyh"
+                />
+              </div>
+              <div
+                class="css-lrby83"
+              >
+                <button
+                  class="chakra-button css-k6pd2s"
+                  type="button"
+                >
+                  SUBMIT
+                  <span
+                    class="css-9n3bbc"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          <button
+            class="chakra-button css-1mv50kv"
+            type="button"
+          >
+            SUBMIT
+            <span
+              class="css-9n3bbc"
+            />
+          </button>
+        </div>
+      </div>
+      <p
+        class="chakra-text css-1n4wwj3"
+      />
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders subscribe content section unchanged 1`] = `
+<div>
+  <div
+    class="css-1x2cq1b"
+  >
+    <div
+      class="css-1cb77po"
+    >
+      <p
+        class="chakra-text css-1tdozh"
+      >
+        Subcribe to exclusive content!
+      </p>
+      <p
+        class="chakra-text css-13oolba"
+      >
+        You can view fan-only posts and interact with all Matt Prior’s content once you are a sucbriber.
+      </p>
+    </div>
+    <div
+      class="css-1onq7gh"
+    >
+      <a
+        class="chakra-link css-5pomxi"
+      >
+        Subscribe
+      </a>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-1adwzom"
+  >
+    <h2
+      class="chakra-heading css-6dvxm2"
+    >
+      My Story
+    </h2>
+    <div
+      class="css-1yr7q3z"
+    >
+      <span
+        class="chakra-text css-0"
+      />
+    </div>
+    <div
+      class="css-17n7yk0"
+    >
+      <div
+        class="css-1ipuqvb"
+      >
+        <p
+          class="chakra-text css-dikwdi"
+        >
+          Date of Birth
+        </p>
+        <p
+          class="chakra-text css-1rdoige"
+        />
+      </div>
+      <div
+        class="css-1yj0ggl"
+      >
+        <hr
+          aria-orientation="vertical"
+          class="chakra-divider css-1mwrsa5"
+        />
+      </div>
+      <div
+        class="css-1ipuqvb"
+      >
+        <p
+          class="chakra-text css-dikwdi"
+        >
+          Gender
+        </p>
+        <p
+          class="chakra-text css-1rdoige"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders Wallet unchanged 1`] = `
+<div>
+  <div
+    class="css-coa58c"
+  >
+    <h2
+      class="chakra-heading css-1dy9deq"
+    >
+      Wallet
+    </h2>
+    <p
+      class="chakra-text css-sxcrnt"
+    >
+      You currently have
+       
+      <b
+        class="chakra-skeleton css-1uksm7w"
+      >
+        $6.50
+      </b>
+       
+      in your wallet.
+      <br />
+      (
+      5
+      % fee deducted)
+    </p>
+    <p
+      class="chakra-text css-1ew9a1o"
+    >
+      This can be transferred to your bank account.
+    </p>
+    <div
+      class="css-1on1je4"
+    >
+      <button
+        class="chakra-button css-1gsa7j5"
+        type="button"
+      />
+    </div>
+  </div>
+</div>
+`;

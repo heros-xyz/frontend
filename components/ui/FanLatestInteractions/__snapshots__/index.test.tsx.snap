@@ -1,0 +1,172 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders FanLatestInteractions unchanged 1`] = `
+<div>
+  <div
+    class="css-8uk7d7"
+  >
+    <div
+      class="css-n6hccp"
+    >
+      <h2
+        class="chakra-heading css-1jqifn0"
+      >
+        Latest interactions
+      </h2>
+      <div
+        class="css-16pmqrn"
+      >
+        <a
+          class="chakra-link css-1xh19a9"
+          href="fan/interactions"
+        >
+          view all
+        </a>
+        <svg
+          class="chakra-icon css-2m8jfu"
+          focusable="false"
+          viewBox="0 0 12 11"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1 5.5L11 5.5M11 5.5L6.5 1M11 5.5L6.5 10"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+    <div
+      class="css-zxuka3"
+    >
+      <a
+        class="chakra-link css-dfpqc0"
+        href="/fan/athlete-profile/undefined/interaction?view=undefined"
+      >
+        <div
+          class="chakra-aspect-ratio css-1vf0n2n"
+        >
+          <div
+            class="css-1e9d1mh"
+          >
+            <div
+              class="css-15l3wnn"
+            >
+              <svg
+                class="chakra-icon css-m2p330"
+                focusable="false"
+                viewBox="0 0 22 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16.4544 5H18.6362C19.8412 5 20.818 5.89543 20.818 7V13C20.818 14.1046 19.8412 15 18.6362 15H16.4544V19L12.0907 15H7.72709C7.1246 15 6.57915 14.7761 6.18432 14.4142M6.18432 14.4142L9.90891 11H14.2725C15.4775 11 16.4544 10.1046 16.4544 9V3C16.4544 1.89543 15.4775 1 14.2725 1H3.36346C2.15847 1 1.18164 1.89543 1.18164 3V9C1.18164 10.1046 2.15847 11 3.36346 11H5.54528V15L6.18432 14.4142Z"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <p
+              class="chakra-text css-131caau"
+            />
+          </div>
+        </div>
+        <div
+          class="css-9dkrto"
+        >
+          <img
+            alt="avatar"
+            class="chakra-image__placeholder css-0"
+            src="https://via.placeholder.com/150"
+          />
+        </div>
+      </a>
+      <a
+        class="chakra-link css-dfpqc0"
+        href="/fan/athlete-profile/undefined/interaction?view=undefined"
+      >
+        <div
+          class="chakra-aspect-ratio css-1vf0n2n"
+        >
+          <div
+            class="css-1e9d1mh"
+          >
+            <div
+              class="css-15l3wnn"
+            >
+              <svg
+                class="chakra-icon css-m2p330"
+                focusable="false"
+                viewBox="0 0 22 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16.4544 5H18.6362C19.8412 5 20.818 5.89543 20.818 7V13C20.818 14.1046 19.8412 15 18.6362 15H16.4544V19L12.0907 15H7.72709C7.1246 15 6.57915 14.7761 6.18432 14.4142M6.18432 14.4142L9.90891 11H14.2725C15.4775 11 16.4544 10.1046 16.4544 9V3C16.4544 1.89543 15.4775 1 14.2725 1H3.36346C2.15847 1 1.18164 1.89543 1.18164 3V9C1.18164 10.1046 2.15847 11 3.36346 11H5.54528V15L6.18432 14.4142Z"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <p
+              class="chakra-text css-131caau"
+            />
+          </div>
+        </div>
+        <div
+          class="css-9dkrto"
+        >
+          <img
+            alt="avatar"
+            class="chakra-image__placeholder css-0"
+            src="https://via.placeholder.com/150"
+          />
+        </div>
+      </a>
+      <a
+        class="chakra-link css-dfpqc0"
+        href="/fan/athlete-profile/undefined/interaction?view=undefined"
+      >
+        <div
+          class="chakra-aspect-ratio css-1vf0n2n"
+        >
+          <div
+            class="css-1e9d1mh"
+          >
+            <div
+              class="css-15l3wnn"
+            >
+              <svg
+                class="chakra-icon css-m2p330"
+                focusable="false"
+                viewBox="0 0 22 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M16.4544 5H18.6362C19.8412 5 20.818 5.89543 20.818 7V13C20.818 14.1046 19.8412 15 18.6362 15H16.4544V19L12.0907 15H7.72709C7.1246 15 6.57915 14.7761 6.18432 14.4142M6.18432 14.4142L9.90891 11H14.2725C15.4775 11 16.4544 10.1046 16.4544 9V3C16.4544 1.89543 15.4775 1 14.2725 1H3.36346C2.15847 1 1.18164 1.89543 1.18164 3V9C1.18164 10.1046 2.15847 11 3.36346 11H5.54528V15L6.18432 14.4142Z"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <p
+              class="chakra-text css-131caau"
+            />
+          </div>
+        </div>
+        <div
+          class="css-9dkrto"
+        >
+          <img
+            alt="avatar"
+            class="chakra-image__placeholder css-0"
+            src="https://via.placeholder.com/150"
+          />
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+`;

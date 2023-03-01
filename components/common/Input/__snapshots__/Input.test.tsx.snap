@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders input unchanged 1`] = `
+<div>
+  <div
+    class="chakra-form-control css-0"
+    role="group"
+  >
+    <input
+      class="chakra-input css-1oz8u65"
+      id="field-:r0:"
+    />
+  </div>
+</div>
+`;

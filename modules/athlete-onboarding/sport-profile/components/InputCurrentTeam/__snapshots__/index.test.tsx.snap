@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders add Input Current Team unchanged 1`] = `
+<div>
+  <div
+    class="css-16tif5l"
+  >
+    <div
+      class="chakra-container css-10klw3m"
+    >
+      <div
+        class="css-12ij4x2"
+      >
+        SPORT PROFILE
+      </div>
+      <div
+        class="css-8qr4sb"
+      >
+        <div
+          class="css-tayfq6"
+        >
+          <div
+            class="css-6ywt87"
+          />
+          <div
+            class="css-yzqqny"
+          >
+            <div
+              class="css-0"
+            >
+              <div
+                class="css-1itv5e3"
+              >
+                <div
+                  class="css-wlea3r"
+                >
+                  <span
+                    class="chakra-text css-35ezg3"
+                  >
+                    Enter your Current Team/ Association/ Club
+                  </span>
+                </div>
+                <input
+                  class="chakra-input css-1oz8u65"
+                  id="currentTeam"
+                  placeholder="Current Team/ association/ Club"
+                  value=""
+                />
+              </div>
+              <div
+                class="css-lrby83"
+              >
+                <button
+                  class="chakra-button css-k6pd2s"
+                  type="button"
+                >
+                  Proceed
+                  <span
+                    class="css-9n3bbc"
+                  >
+                    <svg
+                      class="chakra-icon css-nyt2fo"
+                      focusable="false"
+                      viewBox="0 0 12 11"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M1 5.5L11 5.5M11 5.5L6.5 1M11 5.5L6.5 10"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <button
+            class="chakra-button css-1mv50kv"
+            type="button"
+          >
+            Proceed
+            <span
+              class="css-9n3bbc"
+            >
+              <svg
+                class="chakra-icon css-nyt2fo"
+                focusable="false"
+                viewBox="0 0 12 11"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1 5.5L11 5.5M11 5.5L6.5 1M11 5.5L6.5 10"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+      <p
+        class="chakra-text css-1n4wwj3"
+      />
+    </div>
+  </div>
+</div>
+`;

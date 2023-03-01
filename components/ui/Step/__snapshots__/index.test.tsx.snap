@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Step renders step unchanged 1`] = `
+<div>
+  <div
+    class="css-tsw8dc"
+  >
+    <span
+      class="chakra-text css-1t513wm"
+    >
+      Step 
+      2
+       of 
+      5
+    </span>
+    <div
+      class="css-1owjrhv"
+    >
+      <div
+        class="css-1vtpq8h"
+        role="button"
+      >
+        <div
+          class="css-15g5d1j"
+          data-testid="button-step-1"
+        />
+      </div>
+      <div
+        class="css-2e4i1v"
+        role="button"
+      >
+        <div
+          class="css-15g5d1j"
+          data-testid="button-step-2"
+        />
+      </div>
+      <div
+        class="css-b16efr"
+        role="button"
+      >
+        <div
+          class="css-s26npi"
+          data-testid="button-step-3"
+        />
+      </div>
+      <div
+        class="css-b16efr"
+        role="button"
+      >
+        <div
+          class="css-s26npi"
+          data-testid="button-step-4"
+        />
+      </div>
+      <div
+        class="css-b16efr"
+        role="button"
+      >
+        <div
+          class="css-s26npi"
+          data-testid="button-step-5"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+`;

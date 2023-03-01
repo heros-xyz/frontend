@@ -1,0 +1,214 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders athlete benefits unchanged 1`] = `
+<div>
+  <div
+    class="css-1ey1mgp"
+  >
+    <div
+      class="css-1upilqn"
+    >
+      <p
+        class="chakra-text css-1g26l3f"
+      >
+        athletes’ benefits
+      </p>
+      <p
+        class="chakra-text css-1pwlws1"
+      >
+        Get yourself an opportunity to earn money and interact with your fans at the same time!
+      </p>
+    </div>
+    <div
+      class="css-1upilqn"
+    >
+      <div
+        class="css-1qu44at"
+      >
+        <div
+          class="css-150lb0i"
+        >
+          <div
+            class="css-k6qc3w"
+          >
+            <div
+              class="css-9uy14h"
+            >
+              <svg
+                class="chakra-icon css-1ewd8qv"
+                focusable="false"
+                viewBox="0 0 18 14"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M1 1H17M1 5H17M1 9H17M1 13H17"
+                  stroke="#313F4C"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-18jgh7v"
+        >
+          <p
+            class="chakra-text css-sx37wz"
+          >
+            Benefit No.1
+          </p>
+          <p
+            class="chakra-text css-1oste6b"
+          >
+            Nunc a, lacinia sed risus neque, arcu, rhoncus. Id mauris justo facilisis aliquam platea vestibulum condimentum morbi.
+          </p>
+        </div>
+      </div>
+      <div
+        class="css-1qu44at"
+      >
+        <div
+          class="css-150lb0i"
+        >
+          <div
+            class="css-k6qc3w"
+          >
+            <div
+              class="css-9uy14h"
+            >
+              <svg
+                class="chakra-icon css-1ewd8qv"
+                focusable="false"
+                viewBox="0 0 20 16"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M7 13V3M7 13C7 14.1046 6.10457 15 5 15H3C1.89543 15 1 14.1046 1 13V3C1 1.89543 1.89543 1 3 1H5C6.10457 1 7 1.89543 7 3M7 13C7 14.1046 7.89543 15 9 15H11C12.1046 15 13 14.1046 13 13M7 3C7 1.89543 7.89543 1 9 1H11C12.1046 1 13 1.89543 13 3M13 13V3M13 13C13 14.1046 13.8954 15 15 15H17C18.1046 15 19 14.1046 19 13V3C19 1.89543 18.1046 1 17 1H15C13.8954 1 13 1.89543 13 3"
+                  stroke="#313F4C"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-18jgh7v"
+        >
+          <p
+            class="chakra-text css-sx37wz"
+          >
+            Benefit No.2
+          </p>
+          <p
+            class="chakra-text css-1oste6b"
+          >
+            Purus lobortis volutpat posuere id integer nunc tellus. Non mauris malesuada feugiat massa mi pellentesque cum est. Pharetra a varius urna rhoncus, tempor rutrum.
+          </p>
+        </div>
+      </div>
+      <div
+        class="css-1qu44at"
+      >
+        <div
+          class="css-150lb0i"
+        >
+          <div
+            class="css-k6qc3w"
+          >
+            <div
+              class="css-9uy14h"
+            >
+              <svg
+                class="chakra-icon css-nyt2fo"
+                focusable="false"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6 5V1M14 5V1M5 9H15M3 19H17C18.1046 19 19 18.1046 19 17V5C19 3.89543 18.1046 3 17 3H3C1.89543 3 1 3.89543 1 5V17C1 18.1046 1.89543 19 3 19Z"
+                  stroke="#313F4C"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-18jgh7v"
+        >
+          <p
+            class="chakra-text css-sx37wz"
+          >
+            Benefit No.3
+          </p>
+          <p
+            class="chakra-text css-1oste6b"
+          >
+            Purus lobortis volutpat posuere id integer nunc tellus. Non mauris malesuada feugiat massa mi pellentesque cum est. Pharetra a varius urna rhoncus, tempor rutrum.
+          </p>
+        </div>
+      </div>
+      <div
+        class="css-1qu44at"
+      >
+        <div
+          class="css-150lb0i"
+        >
+          <div
+            class="css-k6qc3w"
+          >
+            <div
+              class="css-9uy14h"
+            >
+              <svg
+                class="chakra-icon css-1ewd8qv"
+                focusable="false"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10 2.35418C10.7329 1.52375 11.8053 1 13 1C15.2091 1 17 2.79086 17 5C17 7.20914 15.2091 9 13 9C11.8053 9 10.7329 8.47624 10 7.64582M13 19H1V18C1 14.6863 3.68629 12 7 12C10.3137 12 13 14.6863 13 18V19ZM13 19H19V18C19 14.6863 16.3137 12 13 12C11.9071 12 10.8825 12.2922 10 12.8027M11 5C11 7.20914 9.20914 9 7 9C4.79086 9 3 7.20914 3 5C3 2.79086 4.79086 1 7 1C9.20914 1 11 2.79086 11 5Z"
+                  stroke="#313F4C"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div
+          class="css-18jgh7v"
+        >
+          <p
+            class="chakra-text css-sx37wz"
+          >
+            Benefit No.4
+          </p>
+          <p
+            class="chakra-text css-1oste6b"
+          >
+            Tincidunt sollicitudin interdum nunc sit risus at bibendum vitae. Urna, quam ut sit justo non, consectetur et varius.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="css-1jxkzrp"
+    >
+      <button
+        class="chakra-button css-ybm1h3"
+        type="button"
+      >
+        become an athlete
+      </button>
+    </div>
+  </div>
+</div>
+`;

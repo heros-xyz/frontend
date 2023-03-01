@@ -1,0 +1,158 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-0"
+  >
+    <div
+      class="css-24g0pw"
+    >
+      <div
+        class="css-1jaf54"
+      >
+        <h2
+          class="chakra-heading css-109tgpy"
+        >
+          Join England Club
+        </h2>
+        <p
+          class="chakra-text css-s2a0zi"
+        >
+          I became the best new player on team
+        </p>
+      </div>
+      <div
+        class="css-64rv73"
+      >
+        <div
+          class="css-txhr5x"
+        />
+        <div
+          class="css-fandzn"
+        >
+          <div
+            class="css-pkkvzd"
+          >
+            <span
+              class="chakra-text css-0"
+            >
+              24
+            </span>
+            <sup
+              class="chakra-text css-cky0vs"
+            >
+              th
+            </sup>
+            <span
+              class="chakra-text css-0"
+            >
+               Oct
+            </span>
+          </div>
+          <b
+            class="chakra-text css-18fe8az"
+          >
+            2022
+          </b>
+        </div>
+      </div>
+    </div>
+    <div
+      class="css-9n98x3"
+    >
+      <div
+        class="css-1jaf54"
+      >
+        <h2
+          class="chakra-heading css-109tgpy"
+        >
+          Join England Club
+        </h2>
+        <p
+          class="chakra-text css-s2a0zi"
+        >
+          I became the best new player on team
+        </p>
+      </div>
+      <div
+        class="css-64rv73"
+      >
+        <div
+          class="css-xt3441"
+        />
+        <div
+          class="css-1kmzqxq"
+        >
+          <div
+            class="css-s2a0zi"
+          >
+            <span
+              class="chakra-text css-0"
+            >
+              1
+            </span>
+            <sup
+              class="chakra-text css-cky0vs"
+            >
+              st
+            </sup>
+            <span
+              class="chakra-text css-0"
+            >
+               Oct 2022
+            </span>
+          </div>
+          <div
+            class="css-1vp8jwk"
+          >
+            <div
+              class="css-1nz5tvn"
+            />
+            <div
+              class="css-4qxy49"
+            >
+              <svg
+                class="chakra-icon css-q21vef"
+                focusable="false"
+                viewBox="0 0 14 14"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M5 7.5L7 9.5M7 9.5L9 7.5M7 9.5L7 4.5M1 7C1 3.68629 3.68629 0.999999 7 0.999999C10.3137 1 13 3.68629 13 7C13 10.3137 10.3137 13 7 13C3.68629 13 1 10.3137 1 7Z"
+                  stroke="#313F4C"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="0.5"
+                />
+              </svg>
+            </div>
+            <div
+              class="css-159arjl"
+            />
+          </div>
+          <div
+            class="css-s2a0zi"
+          >
+            <span
+              class="chakra-text css-0"
+            >
+              24
+            </span>
+            <sup
+              class="chakra-text css-cky0vs"
+            >
+              th
+            </sup>
+            <span
+              class="chakra-text css-0"
+            >
+               Oct 2022
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

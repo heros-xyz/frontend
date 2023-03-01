@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Change payment Page renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-1oxn70"
+  >
+    <div
+      class="css-n6rm0u"
+    >
+      <div
+        class="css-soukc5"
+      >
+        <svg
+          class="chakra-icon css-1j7ou3l"
+          focusable="false"
+          viewBox="0 0 14 14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M13.25 7L0.75 7M0.75 7L6.375 1.375M0.75 7L6.375 12.625"
+            stroke="white"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          />
+        </svg>
+        <span
+          class="chakra-text css-141yne6"
+        >
+          Add Tier
+        </span>
+      </div>
+      <p
+        class="chakra-text css-1xg8upm"
+      >
+        This will be your lowest tier you can offer to your fans
+      </p>
+      <p
+        class="chakra-text css-1eu7sr4"
+      >
+        Bronze Tier
+      </p>
+      <form>
+        <div
+          class="css-44pj4x"
+        >
+          <div
+            class="css-1xnzs7r"
+          >
+            Monthly Price
+            <span
+              class="chakra-text css-1b8yx6g"
+            >
+               
+              *
+            </span>
+          </div>
+          <p
+            class="chakra-text css-1zoz3t"
+          >
+            Please enter a price between $1.00 and $10.00. This cannot be changed once someone subscribes to this tier.
+          </p>
+          <div
+            class="chakra-input__group css-1vvc8lk"
+          >
+            <div
+              class="chakra-input__left-addon css-3hflpi"
+            >
+              $
+            </div>
+            <input
+              autocomplete="off"
+              class="chakra-input css-1m1gq41"
+              id="monthlyPrice"
+              name="monthlyPrice"
+              placeholder="1.00"
+              value=""
+            />
+          </div>
+        </div>
+        <div
+          class="css-1dd5wzm"
+        >
+          <div
+            class="css-1xnzs7r"
+          >
+            Tier Description (150 characters max)
+          </div>
+          <p
+            class="chakra-text css-1pv9wyu"
+          >
+            Describe the tier in a few words. For example: Follow my life through daily updates.
+          </p>
+          <textarea
+            autocomplete="off"
+            class="chakra-textarea css-vfphem"
+            id="tierDescription"
+            name="tierDescription"
+            placeholder="Tier description"
+          />
+        </div>
+        <div
+          class="css-44pj4x"
+        >
+          <div
+            class="css-1xnzs7r"
+          >
+            Tier Benefits
+            <span
+              class="chakra-text css-1b8yx6g"
+            >
+               
+              *
+            </span>
+          </div>
+          <p
+            class="chakra-text css-1zoz3t"
+          >
+            Let your fans know what they can get from this membership tier.
+          </p>
+          <button
+            aria-controls="menu-list-:r1:"
+            aria-expanded="false"
+            aria-haspopup="menu"
+            class="chakra-menu__menu-button css-tirjcu"
+            id="menu-button-:r1:"
+            type="button"
+          >
+            <span
+              class="css-xl71ch"
+            >
+              <svg
+                class="chakra-icon css-1nmqwc5"
+                focusable="false"
+                viewBox="0 0 32 32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M31 16C31 24.2843 24.2843 31 16 31C7.71573 31 1 24.2843 1 16C1 7.71573 7.71573 1 16 1C24.2843 1 31 7.71573 31 16Z"
+                />
+                <path
+                  d="M16 11V16M16 16V21M16 16H21M16 16H11M31 16C31 24.2843 24.2843 31 16 31C7.71573 31 1 24.2843 1 16C1 7.71573 7.71573 1 16 1C24.2843 1 31 7.71573 31 16Z"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                />
+              </svg>
+              <span
+                class="chakra-text css-e32t2l"
+              >
+                Select benefits
+              </span>
+            </span>
+          </button>
+          <div
+            class="css-0"
+            style="visibility: hidden; position: absolute; min-width: max-content; inset: 0 auto auto 0;"
+          >
+            <div
+              aria-orientation="vertical"
+              class="chakra-menu__menu-list css-11108v7"
+              id="menu-list-:r1:"
+              role="menu"
+              style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"
+              tabindex="-1"
+            />
+          </div>
+        </div>
+        <div
+          class="css-gg8wc5"
+        >
+          <button
+            class="chakra-button css-1w9hzfq"
+            type="submit"
+          >
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`;

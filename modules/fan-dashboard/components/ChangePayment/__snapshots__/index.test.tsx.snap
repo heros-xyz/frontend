@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Change payment Page renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-1gxxz4r"
+  >
+    <div
+      class="fdfdf css-0"
+    >
+      <div
+        class="css-kbn7if"
+      >
+        <div
+          class="css-1ex591z"
+        >
+          <form>
+            <div
+              class="css-0"
+            >
+              <div
+                class="css-1xnzs7r"
+              >
+                Payment Method
+                <span
+                  class="chakra-text css-1b8yx6g"
+                >
+                   
+                  *
+                </span>
+              </div>
+              <div
+                class="css-1c00h2y"
+              >
+                Card
+              </div>
+            </div>
+            <div
+              class="css-tbmzg5"
+            >
+              <div
+                class="css-1xnzs7r"
+              >
+                Name on Card
+                <span
+                  class="chakra-text css-1b8yx6g"
+                >
+                   
+                  *
+                </span>
+              </div>
+              <input
+                autocomplete="off"
+                class="chakra-input css-1w85wjl"
+                id="nameOnCard"
+                name="nameOnCard"
+                placeholder="Name on Card"
+                value=""
+              />
+            </div>
+            <div
+              class="css-tbmzg5"
+            >
+              <div
+                class="css-1xnzs7r"
+              >
+                Card Number
+                <span
+                  class="chakra-text css-1b8yx6g"
+                >
+                   
+                  *
+                </span>
+              </div>
+              <input
+                class="chakra-input css-1w85wjl"
+                id="cardNumber"
+                name="cardNumber"
+                placeholder="Card Number"
+                value=""
+              />
+            </div>
+            <div
+              class="css-x712ec"
+            >
+              <div
+                class="css-11ze7cv"
+              >
+                <div
+                  class="css-1xnzs7r"
+                >
+                  Expiration
+                  <span
+                    class="chakra-text css-1b8yx6g"
+                  >
+                     
+                    *
+                  </span>
+                </div>
+                <input
+                  class="chakra-input css-1w85wjl"
+                  id="expiredDate"
+                  name="expiredDate"
+                  placeholder="MM/YY"
+                  value=""
+                />
+              </div>
+              <div
+                class="css-11ze7cv"
+              >
+                <div
+                  class="css-1xnzs7r"
+                >
+                  CVV
+                  <span
+                    class="chakra-text css-1b8yx6g"
+                  >
+                     
+                    *
+                  </span>
+                </div>
+                <input
+                  class="chakra-input css-1w85wjl"
+                  id="cvv"
+                  name="cvv"
+                  placeholder="CVV"
+                  value=""
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div
+        class="css-apfg8o"
+      >
+        <button
+          class="chakra-button css-1nm5dr5"
+          type="submit"
+        >
+          update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

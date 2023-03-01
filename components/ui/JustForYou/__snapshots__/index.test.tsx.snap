@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-13k3dcb"
+  >
+    <p
+      class="chakra-text css-17fe96k"
+    >
+      Just for you
+    </p>
+  </div>
+</div>
+`;

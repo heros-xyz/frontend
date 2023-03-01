@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-1whykrx"
+  >
+    <div
+      class="css-k008qs"
+    >
+      <div
+        class="css-q253sw"
+      >
+        <svg
+          class="chakra-icon css-1e26dbo"
+          focusable="false"
+          viewBox="0 0 18 14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1 1H17M1 5H17M1 9H17M1 13H17"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      </div>
+      <div
+        class="css-0"
+      >
+        <h2
+          class="chakra-heading css-kbn7if"
+        >
+          dsdsd
+        </h2>
+        <span
+          class="chakra-text css-19wnhiu"
+        >
+          fdfdf
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;

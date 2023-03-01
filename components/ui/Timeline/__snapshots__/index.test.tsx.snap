@@ -1,0 +1,395 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders homepage unchanged 1`] = `
+<div>
+  <div
+    class="css-1rubkow"
+  >
+    <div
+      class="css-guqklo"
+    >
+      <div
+        class="css-70qvj9"
+      >
+        <div
+          class="css-f1zsqn"
+        >
+          <div
+            class="css-nmqb8k"
+          >
+            <svg
+              class="chakra-icon css-x4x0z8"
+              focusable="false"
+              viewBox="0 0 12 14"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.16699 1.99998H3.50033V0.333313H5.16699V1.99998ZM8.50033 0.333313H6.83366V1.99998H8.50033V0.333313ZM3.50033 8.66665H5.16699V6.99998H3.50033V8.66665ZM11.8337 5.33331V3.66665H10.167V5.33331H11.8337ZM11.8337 8.66665V6.99998H10.167V8.66665H11.8337ZM6.83366 8.66665H8.50033V6.99998H6.83366V8.66665ZM11.8337 0.333313H10.167V1.99998H11.8337V0.333313ZM6.83366 3.66665V1.99998H5.16699V3.66665H6.83366ZM1.83366 5.33331V3.66665H3.50033V1.99998H1.83366V0.333313H0.166992V13.6666H1.83366V6.99998H3.50033V5.33331H1.83366ZM8.50033 6.99998H10.167V5.33331H8.50033V6.99998ZM5.16699 5.33331V6.99998H6.83366V5.33331H5.16699ZM3.50033 3.66665V5.33331H5.16699V3.66665H3.50033ZM6.83366 5.33331H8.50033V3.66665H6.83366V5.33331ZM8.50033 1.99998V3.66665H10.167V1.99998H8.50033Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="css-ft2ktj"
+        >
+          <div
+            class="css-28p9v6"
+          >
+            <div
+              class="css-1jty2r7"
+            />
+          </div>
+          <div
+            class="css-8e6z10"
+          />
+        </div>
+      </div>
+      <div
+        class="css-9n98x3"
+      >
+        <div
+          class="css-1jaf54"
+        >
+          <h2
+            class="chakra-heading css-109tgpy"
+          >
+            Joined Jaworznickie Stowarzyszenie Piłkarskie Clubs
+          </h2>
+          <p
+            class="chakra-text css-s2a0zi"
+          >
+            I became the best new player on team and played with team about 10 champion league. We won 8 times .
+          </p>
+        </div>
+        <div
+          class="css-64rv73"
+        >
+          <div
+            class="css-xt3441"
+          />
+          <div
+            class="css-1kmzqxq"
+          >
+            <div
+              class="css-s2a0zi"
+            >
+              <span
+                class="chakra-text css-0"
+              >
+                1
+              </span>
+              <sup
+                class="chakra-text css-cky0vs"
+              >
+                st
+              </sup>
+              <span
+                class="chakra-text css-0"
+              >
+                 Oct 2022
+              </span>
+            </div>
+            <div
+              class="css-1vp8jwk"
+            >
+              <div
+                class="css-1nz5tvn"
+              />
+              <div
+                class="css-4qxy49"
+              >
+                <svg
+                  class="chakra-icon css-q21vef"
+                  focusable="false"
+                  viewBox="0 0 14 14"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 7.5L7 9.5M7 9.5L9 7.5M7 9.5L7 4.5M1 7C1 3.68629 3.68629 0.999999 7 0.999999C10.3137 1 13 3.68629 13 7C13 10.3137 10.3137 13 7 13C3.68629 13 1 10.3137 1 7Z"
+                    stroke="#313F4C"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="0.5"
+                  />
+                </svg>
+              </div>
+              <div
+                class="css-159arjl"
+              />
+            </div>
+            <div
+              class="css-s2a0zi"
+            >
+              <span
+                class="chakra-text css-0"
+              >
+                24
+              </span>
+              <sup
+                class="chakra-text css-cky0vs"
+              >
+                th
+              </sup>
+              <span
+                class="chakra-text css-0"
+              >
+                 Oct 2022
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="css-guqklo"
+    >
+      <div
+        class="css-70qvj9"
+      >
+        <div
+          class="css-f1zsqn"
+        />
+        <div
+          class="css-ft2ktj"
+        >
+          <div
+            class="css-28p9v6"
+          >
+            <div
+              class="css-1jty2r7"
+            />
+          </div>
+          <div
+            class="css-2ibgtb"
+          />
+        </div>
+      </div>
+      <div
+        class="css-24g0pw"
+      >
+        <div
+          class="css-1jaf54"
+        >
+          <h2
+            class="chakra-heading css-109tgpy"
+          >
+            Join England Club
+          </h2>
+          <p
+            class="chakra-text css-s2a0zi"
+          >
+            I became the best new player on team
+          </p>
+        </div>
+        <div
+          class="css-64rv73"
+        >
+          <div
+            class="css-txhr5x"
+          />
+          <div
+            class="css-fandzn"
+          >
+            <div
+              class="css-pkkvzd"
+            >
+              <span
+                class="chakra-text css-0"
+              >
+                24
+              </span>
+              <sup
+                class="chakra-text css-cky0vs"
+              >
+                th
+              </sup>
+              <span
+                class="chakra-text css-0"
+              >
+                 Oct
+              </span>
+            </div>
+            <b
+              class="chakra-text css-18fe8az"
+            >
+              2022
+            </b>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="css-guqklo"
+    >
+      <div
+        class="css-70qvj9"
+      >
+        <div
+          class="css-f1zsqn"
+        >
+          <div
+            class="css-nmqb8k"
+          >
+            <svg
+              class="chakra-icon css-x4x0z8"
+              focusable="false"
+              viewBox="0 0 12 14"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5.16699 1.99998H3.50033V0.333313H5.16699V1.99998ZM8.50033 0.333313H6.83366V1.99998H8.50033V0.333313ZM3.50033 8.66665H5.16699V6.99998H3.50033V8.66665ZM11.8337 5.33331V3.66665H10.167V5.33331H11.8337ZM11.8337 8.66665V6.99998H10.167V8.66665H11.8337ZM6.83366 8.66665H8.50033V6.99998H6.83366V8.66665ZM11.8337 0.333313H10.167V1.99998H11.8337V0.333313ZM6.83366 3.66665V1.99998H5.16699V3.66665H6.83366ZM1.83366 5.33331V3.66665H3.50033V1.99998H1.83366V0.333313H0.166992V13.6666H1.83366V6.99998H3.50033V5.33331H1.83366ZM8.50033 6.99998H10.167V5.33331H8.50033V6.99998ZM5.16699 5.33331V6.99998H6.83366V5.33331H5.16699ZM3.50033 3.66665V5.33331H5.16699V3.66665H3.50033ZM6.83366 5.33331H8.50033V3.66665H6.83366V5.33331ZM8.50033 1.99998V3.66665H10.167V1.99998H8.50033Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          class="css-ft2ktj"
+        >
+          <div
+            class="css-28p9v6"
+          >
+            <div
+              class="css-1jty2r7"
+            />
+          </div>
+          <div
+            class="css-1u3qjd0"
+          >
+            <div
+              class="css-1h2wxp8"
+            />
+            <div
+              class="css-1vrnezm"
+            >
+              <button
+                class="chakra-button css-b1wgcr"
+                type="button"
+              >
+                <svg
+                  class="chakra-icon css-rspwrc"
+                  focusable="false"
+                  viewBox="0 0 32 32"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M31 16C31 24.2843 24.2843 31 16 31C7.71573 31 1 24.2843 1 16C1 7.71573 7.71573 1 16 1C24.2843 1 31 7.71573 31 16Z"
+                  />
+                  <path
+                    d="M16 11V16M16 16V21M16 16H21M16 16H11M31 16C31 24.2843 24.2843 31 16 31C7.71573 31 1 24.2843 1 16C1 7.71573 7.71573 1 16 1C24.2843 1 31 7.71573 31 16Z"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                </svg>
+              </button>
+              <p
+                class="chakra-text css-snutcs"
+              >
+                Add as many as you like to tell your journey
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="css-9n98x3"
+      >
+        <div
+          class="css-1jaf54"
+        >
+          <h2
+            class="chakra-heading css-109tgpy"
+          >
+            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          </h2>
+          <p
+            class="chakra-text css-s2a0zi"
+          >
+            aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+          </p>
+        </div>
+        <div
+          class="css-64rv73"
+        >
+          <div
+            class="css-xt3441"
+          />
+          <div
+            class="css-1kmzqxq"
+          >
+            <div
+              class="css-s2a0zi"
+            >
+              <span
+                class="chakra-text css-0"
+              >
+                1
+              </span>
+              <sup
+                class="chakra-text css-cky0vs"
+              >
+                st
+              </sup>
+              <span
+                class="chakra-text css-0"
+              >
+                 Oct 2022
+              </span>
+            </div>
+            <div
+              class="css-1vp8jwk"
+            >
+              <div
+                class="css-1nz5tvn"
+              />
+              <div
+                class="css-4qxy49"
+              >
+                <svg
+                  class="chakra-icon css-q21vef"
+                  focusable="false"
+                  viewBox="0 0 14 14"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 7.5L7 9.5M7 9.5L9 7.5M7 9.5L7 4.5M1 7C1 3.68629 3.68629 0.999999 7 0.999999C10.3137 1 13 3.68629 13 7C13 10.3137 10.3137 13 7 13C3.68629 13 1 10.3137 1 7Z"
+                    stroke="#313F4C"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="0.5"
+                  />
+                </svg>
+              </div>
+              <div
+                class="css-159arjl"
+              />
+            </div>
+            <div
+              class="css-s2a0zi"
+            >
+              <span
+                class="chakra-text css-0"
+              >
+                24
+              </span>
+              <sup
+                class="chakra-text css-cky0vs"
+              >
+                th
+              </sup>
+              <span
+                class="chakra-text css-0"
+              >
+                 Oct 2022
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
