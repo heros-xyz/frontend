@@ -9,7 +9,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-COPY .env.staging .env.production
+COPY .env.uat .env.production
 RUN yarn build
 
 # Production image, copy all the files and run next

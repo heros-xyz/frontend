@@ -22,17 +22,17 @@ start-qa: ## Start the qa docker container.
 stop-qa: ## Stop the qa docker container.
 	docker compose -f docker/qa/docker-compose.yml down
 	
-.PHONY: build-staging
-build-staging: ## Build the staging docker image.
-	docker compose -f docker/staging/docker-compose.yml build
+.PHONY: build-uat
+build-uat: ## Build the uat docker image.
+	docker compose -f docker/uat/docker-compose.yml build
 
-.PHONY: start-staging
-start-staging: ## Start the staging docker container.
-	docker compose -f docker/staging/docker-compose.yml up -d
+.PHONY: start-uat
+start-uat: ## Start the uat docker container.
+	docker compose -f docker/uat/docker-compose.yml up -d
 
-.PHONY: stop-staging
-stop-staging: ## Stop the staging docker container.
-	docker compose -f docker/staging/docker-compose.yml down
+.PHONY: stop-uat
+stop-uat: ## Stop the uat docker container.
+	docker compose -f docker/uat/docker-compose.yml down
   
   
 .PHONY: build-production
