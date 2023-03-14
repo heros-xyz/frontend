@@ -38,7 +38,7 @@ const MilestoneTimeline: React.FC<MilestoneTimelineProps> = ({
         CAREER JOURNEY
       </Center>
       <Center
-        mt={{ base: "7.5rem", xl: "5rem" }}
+        mt={{ base: "40px", xl: "5rem" }}
         fontSize={{ base: "xs", xl: "md" }}
       >
         Try adding more milestones, or click “Proceed” to finish your journey.

@@ -5,18 +5,15 @@ import { Else, If, Then } from "react-if";
 import Link from "next/link";
 import BronzeTier from "@/components/ui/Bronze";
 import { IMembershipTier } from "@/types/membership/types";
-import {
-  useGetAthleteBasicInfoQuery,
-  useGetAthleteTierMembershipQuery,
-} from "@/api/fan";
-
 interface IMembershipSubscribeProps {
   listMembershipTiers: IMembershipTier[];
   validateIsFan?: boolean;
+  athleteNickname: string;
 }
 const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
   listMembershipTiers,
   validateIsFan,
+  athleteNickname,
 }) => {
   const router = useRouter();
   const [membershipTierId, setMembershipTierId] = useState("");
@@ -30,16 +27,6 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
     }
   };
 
-  const { data: tierMembershipList } = useGetAthleteTierMembershipQuery(
-    {
-      page: 1,
-      take: 10,
-      userId: router.query.id as string,
-    },
-    {
-      skip: typeof router.query.id !== "string",
-    }
-  );
   const onSelectBronzeTier = (checked: boolean, value: string) => {
     if (checked) {
       setMembershipTierId(value);
@@ -70,10 +57,15 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
           </Box>
         </Then>
         <Else>
-          <Text my={6} fontSize={{ base: "xs", lg: "md" }} fontWeight={400}>
-            Choose a tier that best suited you and your need to support your
-            favorite athlete!
-          </Text>
+          <If condition={listMembershipTiers?.length}>
+            <Then>
+              {" "}
+              <Text my={6} fontSize={{ base: "xs", lg: "md" }} fontWeight={400}>
+                Choose a tier that best suited you and your need to support your
+                favorite athlete!
+              </Text>
+            </Then>
+          </If>
         </Else>
       </If>
 
@@ -81,6 +73,7 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
         <Then>
           <BronzeTier
             title="Bronze"
+            disbaled={!!validateIsFan}
             checked={!!validateIsFan}
             hasRadioButton
             data={listMembershipTiers?.[0] || []}
@@ -98,6 +91,14 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
             </Button>
           </Box>
         </Then>
+        <Else>
+          <Box my={6} fontSize={{ base: "xs", lg: "md" }} fontWeight={400}>
+            <Text as="span" fontWeight={"bold"}>
+              {athleteNickname}
+            </Text>{" "}
+            {` hasn't created any memberships yet!`}
+          </Box>
+        </Else>
       </If>
     </>
   );

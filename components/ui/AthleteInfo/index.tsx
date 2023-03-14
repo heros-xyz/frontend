@@ -1,11 +1,13 @@
 import React from "react";
-import { Box, Flex, Avatar, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
+import { getImageLink } from "@/utils/link";
 
 export interface AthleteInfoProps {
   imagePath: string;
   athleteName: string;
   publishDate: string | Date;
+  id?: string;
 }
 
 const AthleteInfo: React.FC<AthleteInfoProps> = ({
@@ -15,8 +17,16 @@ const AthleteInfo: React.FC<AthleteInfoProps> = ({
 }) => {
   return (
     <Flex alignItems="center">
-      <Avatar w={10} h={10} name="Dan Abrahmov" src={imagePath} />
-      <Box ml={3}>
+      <Image
+        w={10}
+        h={10}
+        src={getImageLink(imagePath)}
+        alt="user-avatar"
+        rounded="full"
+        fallbackSrc="https://via.placeholder.com/50"
+        objectFit="cover"
+      />
+      <Box ml={3} flex={1}>
         <Text
           fontSize={{ base: "md", lg: "xl" }}
           fontWeight={{ base: "bold", lg: "medium" }}

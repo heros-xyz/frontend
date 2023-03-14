@@ -1,5 +1,6 @@
-import { Image, Box, Text, Center } from "@chakra-ui/react";
+import { Image, Box, Text, Center, AspectRatio } from "@chakra-ui/react";
 import { FC } from "react";
+import { getImageLink } from "@/utils/link";
 
 interface AthleteAvatarProps {
   imageUrl: string;
@@ -14,13 +15,16 @@ const AthleteAvatar: FC<AthleteAvatarProps> = ({
   return (
     <Box textAlign="center">
       <Box position="relative" marginBottom={2}>
-        <Image
-          width="100%"
-          src={imageUrl}
-          alt={name}
-          borderRadius="full"
-          fallbackSrc="https://via.placeholder.com/150"
-        />
+        <AspectRatio ratio={1}>
+          <Image
+            width="100%"
+            src={getImageLink(imageUrl)}
+            alt={name}
+            borderRadius="full"
+            objectFit="cover"
+            fallbackSrc="https://via.placeholder.com/150"
+          />
+        </AspectRatio>
         {isRecommend && (
           <Center
             bg="acccent.1"

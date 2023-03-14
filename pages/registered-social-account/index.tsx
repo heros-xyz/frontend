@@ -7,8 +7,11 @@ import {
   Link,
   Text,
 } from "@chakra-ui/react";
+import { Session } from "next-auth";
 import Head from "next/head";
 import NextLink from "next/link";
+import { wrapper } from "@/store";
+import { loggedInGuard } from "@/middleware/loggedInGuard";
 
 const RegisteredSocialAccount = () => {
   return (
@@ -58,3 +61,15 @@ const RegisteredSocialAccount = () => {
 };
 
 export default RegisteredSocialAccount;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => (context) => {
+    return loggedInGuard(context, (session: Session | null) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

@@ -6,6 +6,9 @@ import { OutlineArrowIcon } from "@/components/svg/OutlineArrowIcon";
 import { ITimeLineInfo } from "..";
 interface IProps {
   item: ITimeLineInfo;
+  canEdit?: boolean;
+  setItemEdit?: any;
+  isCurrent: boolean;
 }
 
 const nth = (date: string) => {
@@ -27,7 +30,12 @@ const getDay = (date: string) => {
   return dayjs(date).format("D");
 };
 
-const JourneyCard: React.FC<IProps> = ({ item }) => {
+const JourneyCard: React.FC<IProps> = ({
+  item,
+  canEdit,
+  setItemEdit,
+  isCurrent,
+}) => {
   return (
     <Flex
       p={{ base: 2.5, lg: 4 }}
@@ -36,8 +44,10 @@ const JourneyCard: React.FC<IProps> = ({ item }) => {
       color="primary"
       justifyContent="space-between"
       alignItems="center"
-      bg={item.isCurrent ? "acccent.4" : "acccent.1"}
+      bg={isCurrent ? "acccent.4" : "acccent.1"}
       rounded="md"
+      cursor={canEdit ? "pointer" : ""}
+      onClick={() => setItemEdit(item)}
     >
       <Box pr={2} w={{ base: "170px", sm: "75%" }}>
         <Heading fontSize={{ base: "xs", lg: "lg" }} mb={1}>
@@ -46,8 +56,8 @@ const JourneyCard: React.FC<IProps> = ({ item }) => {
         <Text fontSize={{ base: "xxs", lg: "md" }}>{item.description}</Text>
       </Box>
       <Flex w={{ lg: "145px" }}>
-        <Box w="1px" h={51} bg={item.isCurrent ? "primary" : "white"} />
-        <If condition={item?.to}>
+        <Box w="1px" h={51} bg={isCurrent ? "primary" : "white"} />
+        <If condition={item?.endDate}>
           <Then>
             <Box
               textAlign="center"
@@ -57,19 +67,23 @@ const JourneyCard: React.FC<IProps> = ({ item }) => {
               flex={1}
             >
               <Box fontSize={{ base: "xxs", lg: "md" }}>
-                <Text as="span">{getDay(item?.from)}</Text>
+                <Text as="span">{getDay(item?.startDate)}</Text>
                 <Text as="sup" fontSize={{ base: "8px", lg: "xxs" }}>
-                  {nth(getDay(item?.from))}
+                  {nth(getDay(item?.startDate))}
                 </Text>
-                <Text as="span">{dayjs(item?.from).format(" MMM YYYY")}</Text>
+                <Text as="span">
+                  {dayjs(item?.startDate).format(" MMM YYYY")}
+                </Text>
               </Box>
               <OutlineArrowIcon />
               <Box fontSize={{ base: "xxs", lg: "md" }}>
-                <Text as="span">{getDay(item?.to || "")}</Text>
+                <Text as="span">{getDay(item?.endDate || "")}</Text>
                 <Text as="sup" fontSize={{ base: "8px", lg: "xxs" }}>
-                  {nth(getDay(item?.to || ""))}
+                  {nth(getDay(item?.endDate || ""))}
                 </Text>
-                <Text as="span">{dayjs(item?.to).format(" MMM YYYY")}</Text>
+                <Text as="span">
+                  {dayjs(item?.endDate).format(" MMM YYYY")}
+                </Text>
               </Box>
             </Box>
           </Then>
@@ -82,14 +96,14 @@ const JourneyCard: React.FC<IProps> = ({ item }) => {
               fontSize={{ base: "xs", lg: "md" }}
             >
               <Box mb={1} fontWeight={500}>
-                <Text as="span">{getDay(item?.from)}</Text>
+                <Text as="span">{getDay(item?.startDate)}</Text>
                 <Text as="sup" fontSize={{ base: "8px", lg: "xxs" }}>
-                  {nth(getDay(item?.from))}
+                  {nth(getDay(item?.startDate))}
                 </Text>
-                <Text as="span">{dayjs(item?.from).format(" MMM")}</Text>
+                <Text as="span">{dayjs(item?.startDate).format(" MMM")}</Text>
               </Box>
               <Text as="b" fontFamily="heading">
-                {dayjs(item?.from).format("YYYY")}
+                {dayjs(item?.startDate).format("YYYY")}
               </Text>
             </Box>
           </Else>

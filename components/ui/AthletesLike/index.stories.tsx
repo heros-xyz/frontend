@@ -22,6 +22,7 @@ export const AthletesLikeStory: Story = {
         fullName: "Athlete Name 1",
         createdAt: "",
         sportName: "",
+        nickName: "",
       },
     ],
     title: "Athletes you might also like:",

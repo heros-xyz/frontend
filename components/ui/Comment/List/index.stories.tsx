@@ -22,12 +22,17 @@ export interface Comment {
   isLiked: boolean;
   replyComment?: IReplyComment;
   createdAt?: string | Date;
+  isAuthorComment?: boolean;
+  nickName: string;
   parentComment?: {
     id?: string;
     content: string;
     user: {
       firstName: string;
       lastName: string;
+      nickName: string;
+      role?: string;
+      avatar?: string;
     };
   };
 }
@@ -48,6 +53,7 @@ export const CommentComponent: Story = {
     comments: [
       {
         id: "",
+        nickName: "",
         name: "Kate",
         text: "Champion! 🏆",
         avatar: "https://bit.ly/dan-abramov",
@@ -63,6 +69,7 @@ export const CommentComponent: Story = {
       },
       {
         id: "",
+        nickName: "",
         name: "Paul",
         text: "The god Matt Prior, hope you’ll find success.",
         avatar: "https://bit.ly/ryan-florence",
@@ -78,6 +85,7 @@ export const CommentComponent: Story = {
       },
       {
         id: "",
+        nickName: "",
         name: "Matt Prior",
         text: "Thank you !",
         avatar: "https://bit.ly/sage-adebayo",
@@ -93,6 +101,7 @@ export const CommentComponent: Story = {
       },
       {
         id: "",
+        nickName: "",
         name: "Logan",
         text: "From India with love! 💚🧡🤍",
         avatar: "https://bit.ly/ryan-florence",

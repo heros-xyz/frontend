@@ -2,17 +2,19 @@ import { Box, Container, Divider, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useGetAthleteInteractionDetailQuery } from "@/api/fan";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
+import { useAthleteProfile } from "@/hooks/useAthleteProfile";
 import InteractionSection from "../../components/InteractionSection";
 import CommentSection from "../CommentSection";
 
 const PostDetail = () => {
   const router = useRouter();
-  const { view } = router.query;
+  const { view: postId } = router.query;
+  const { validateIsFan } = useAthleteProfile();
   const { data: interactionDetail } = useGetAthleteInteractionDetailQuery(
-    view as string,
+    postId as string,
     {
       refetchOnMountOrArgChange: true,
-      skip: !view,
+      skip: !postId,
     }
   );
 
@@ -34,21 +36,32 @@ const PostDetail = () => {
         size={["base", "sm", "md", "lg", "xl"]}
       >
         <Flex h="full" flexDirection={{ base: "column", lg: "row" }}>
-          <Box flex={{ lg: "1" }}>
+          <Box overflowY={{ lg: "auto" }} flex={{ lg: "1" }}>
             <Flex
               as="a"
               onClick={router.back}
               cursor="pointer"
               alignItems="center"
               color="white"
+              position={{ lg: "sticky" }}
+              top="0"
               pb={5}
+              zIndex={10}
+              bg="primary"
             >
               <ArrowLeft />
               <Text ml="20px" fontWeight="bold" fontSize="xl">
                 Interaction
               </Text>
             </Flex>
-            <InteractionSection isDetailView {...interactionDetail} />
+
+            <Box mb={{ lg: "30px" }}>
+              <InteractionSection
+                validateIsFan={validateIsFan}
+                isDetailView
+                {...interactionDetail}
+              />
+            </Box>
           </Box>
           <Divider
             display={{ base: "none", lg: "block" }}

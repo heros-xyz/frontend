@@ -8,7 +8,8 @@ import { FaceBookIcon } from "@/components/svg/FaceBook";
 import { GoogleIcon } from "@/components/svg/Google";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { getAuthErrorCode } from "@/utils/constants";
-import { HttpErrorCode } from "@/utils/enums";
+import { CorporateWebsiteLink, HttpErrorCode } from "@/utils/enums";
+import { getWebsiteLink } from "@/utils/link";
 
 interface IAuthProps {
   pageType: string;
@@ -33,7 +34,13 @@ const AuthTemplate: React.FC<IAuthProps> = ({
     email: Yup.string()
       .email("Invalid email format.")
       .required("This is a required field.")
-      .max(250, "The email address cannot exceed 250 characters."),
+      .max(250, "The email address cannot exceed 250 characters.")
+      .test("max length before @", "Invalid email format.", (val) => {
+        const firstEmail = val?.split("@");
+        return Boolean(
+          firstEmail?.[0]?.length && firstEmail?.[0]?.length <= 60
+        );
+      }),
   });
 
   const formik = useFormik({
@@ -247,14 +254,16 @@ const AuthTemplate: React.FC<IAuthProps> = ({
           </form>
           <Box mb={8} fontSize={{ base: "xs", xl: "md" }}>
             <Text as="span">By signing up you agree to </Text>
-            <Link href="">
+            <Link
+              href={getWebsiteLink(CorporateWebsiteLink.TERM_AND_CONDITION)}
+            >
               <Text as="span" color="acccent.3" textDecoration="underline">
                 Heros’s Terms & Conditions
               </Text>
             </Link>
 
             <Text as="span"> and </Text>
-            <Link href="">
+            <Link href={getWebsiteLink(CorporateWebsiteLink.PRIVACY_POLICY)}>
               <Text as="span" color="acccent.3" textDecoration="underline">
                 Privacy & Cookie Policy
               </Text>

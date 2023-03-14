@@ -5,6 +5,7 @@ import { FullNameFanOnBoardingIcon } from "@/components/svg/FullNameFanOnBoardin
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import FanOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import ErrorMessage from "@/components/common/ErrorMessage";
+import { isValidString } from "@/utils/functions";
 
 interface initialValues {
   firstName: string;
@@ -19,9 +20,29 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
   const validationSchema = Yup.object().shape({
     firstName: Yup.string()
       .max(20, "First name cannot exceeds 20 characters")
+      .test(
+        "invalid-firstname",
+        "First name is not allowing special character",
+        (value: string | undefined) => {
+          if (value) {
+            return isValidString(value);
+          }
+          return false;
+        }
+      )
       .required("This is a required field"),
     lastName: Yup.string()
       .max(20, "Last name cannot exceeds 20 characters")
+      .test(
+        "invalid-lastname",
+        "Last name is not allowing special character",
+        (value: string | undefined) => {
+          if (value) {
+            return isValidString(value);
+          }
+          return false;
+        }
+      )
       .required("This is a required field"),
   });
   const formik = useFormik({

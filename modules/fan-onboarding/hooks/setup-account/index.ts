@@ -20,7 +20,7 @@ export const useFanOnboarding = () => {
 
   const [gender, setGender] = useState("");
 
-  const [avatar, setAvatar] = useState("");
+  const [avatar, setAvatar] = useState<File>();
 
   const [dateOfBirth, setDateOfBirth] = useState("");
 
@@ -45,7 +45,7 @@ export const useFanOnboarding = () => {
     setGender(values);
   };
 
-  const handleChangeAvatar = (values: string) => {
+  const handleChangeAvatar = (values: File) => {
     handleChangeStep(step + 1);
     setAvatar(values);
   };

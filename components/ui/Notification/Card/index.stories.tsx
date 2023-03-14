@@ -10,6 +10,7 @@ const item = {
     id: "48",
     avatar: "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
     fullName: "Sam Smith",
+    nickName: "",
   },
   interaction: {
     id: "70",

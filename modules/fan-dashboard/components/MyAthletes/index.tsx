@@ -69,7 +69,9 @@ const MyAthletes: FC = () => {
               >
                 View All
               </Link>
-              <IconArrowRight width="3" height="11" color="secondary" />
+              <Link as={NextLink} href="/fan/all-athletes">
+                <IconArrowRight width="3" height="11" color="secondary" />
+              </Link>
             </Box>
           </Then>
         </If>
@@ -81,10 +83,12 @@ const MyAthletes: FC = () => {
       >
         {athleteList?.map((athlete, index) => (
           <GridItem key={athlete.id + `${index}`}>
-            <NextLink href={`/fan/athlete-profile/${athlete.id}`}>
+            <NextLink
+              href={`/fan/athlete-profile/${athlete.athleteId || athlete.id}`}
+            >
               <AthleteAvatar
                 imageUrl={athlete.avatar}
-                name={athlete.fullName}
+                name={athlete.nickName}
                 isRecommend={athlete.recommended}
               />
             </NextLink>

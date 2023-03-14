@@ -88,7 +88,8 @@ const ListingMembership = () => {
                   mb="2.5"
                 >
                   ${dataRender?.monthlyPrice?.toFixed(2)}/month ·{" "}
-                  {dataRender?.totalFan || 0} fan
+                  {dataRender?.totalFan || 0}{" "}
+                  {(dataRender?.totalFan ?? 0) > 1 ? "fans" : "fan"}
                 </Text>
                 <Text
                   fontWeight="medium"

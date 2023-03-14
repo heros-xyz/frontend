@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs, { UnitType } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { IOption } from "@/types/globals/types";
 import { INotificationInfo } from "@/types/notifications/types";
@@ -96,6 +96,14 @@ export const isValidDate = (
   dayjs.extend(customParseFormat);
 
   return dayjs(date, dateFormat, true).isValid();
+};
+
+export const isValidString = (string: string) => {
+  if (string) {
+    const regex = new RegExp("^[a-zA]{0,}$");
+    return regex.test(string.replace(/\s+/g, "").toLowerCase());
+  }
+  return false;
 };
 
 export const isBeforeEndDate = (startDate: string, endDate: string) => {
@@ -211,7 +219,7 @@ export const notificationContent = (notification?: INotificationInfo) => {
 
   switch (notification.type) {
     case NotificationEventType.FAN_LIKE_INTERACTION:
-      return " has liked on your interaction.";
+      return " has liked your interaction.";
 
     case NotificationEventType.FAN_SUBSCRIBE_ATHLETE:
       return ` has subscribed to you at ${"Bronze"} Tier.`;
@@ -220,43 +228,43 @@ export const notificationContent = (notification?: INotificationInfo) => {
       return " has commented on your interaction.";
 
     case NotificationEventType.FAN_LIKE_COMMENT:
-      return ` has liked on your comment: "${commentShort}"`;
+      return ` has liked your comment.`;
 
     case NotificationEventType.FAN_LIKE_REPLY:
-      return ` has liked your comment's reply: "${commentShort}"`;
+      return ` has liked your comment's reply. `;
 
     case NotificationEventType.FAN_LIKE_COMMENT:
-      return ` has liked on your comment: "${commentShort}" `;
+      return ` has liked your comment. `;
 
     case NotificationEventType.FAN_REPLY_COMMENT:
-      return ` has replied to your comment: "${commentShort}"`;
+      return ` has replied to your comment.`;
 
     case NotificationEventType.ATHLETE_NEW_INTERACTION:
       return " has made a new interaction.";
 
     case NotificationEventType.ATHLETE_COMMENT_INTERACTION:
-      return " has commented on your interaction.";
+      return " has commented on an interaction.";
 
     case NotificationEventType.ATHLETE_LIKE_INTERACTION:
-      return " has liked on your interaction.";
+      return " has liked on an interaction.";
 
     case NotificationEventType.ATHLETE_LIKE_COMMENT:
-      return ` has like on your comment: "${commentShort}"`;
+      return ` has liked your comment: "${commentShort}"`;
 
     case NotificationEventType.ATHLETE_REPLY_COMMENT:
       return ` has replied to your comment: "${commentShort}"`;
 
     case NotificationEventType.ATHLETE_LIKE_REPLY:
-      return ` has liked on your reply comment: "${commentShort}"`;
+      return ` has liked your reply comment: "${commentShort}"`;
 
     case NotificationEventType.FAN_LIKE_FAN_COMMENT:
-      return ` has liked on your comment: "${commentShort}"`;
+      return ` has liked your comment: "${commentShort}"`;
 
     case NotificationEventType.FAN_REPLY_FAN_COMMENT:
-      return ` has replied on your comment: "${commentShort}"`;
+      return ` has replied your comment: "${commentShort}"`;
 
     case NotificationEventType.FAN_LIKE_FAN_REPLY:
-      return ` has liked on your reply comment: "${commentShort}"`;
+      return ` has liked your reply comment: "${commentShort}"`;
 
     default:
       break;
@@ -274,45 +282,69 @@ export const getLinkByNotificationType = (notification?: INotificationInfo) => {
       return "/athlete/my-fan";
 
     case NotificationEventType.FAN_COMMENT_INTERACTION:
-      return `/athlete/interactions/${notification.interaction.id}`;
+      return `/athlete/interactions/${notification.interaction.id}?commentId=${notification.comment?.id}`;
 
     case NotificationEventType.FAN_LIKE_COMMENT:
-      return `/athlete/interactions/${notification.interaction.id}`;
+      return `/athlete/interactions/${notification.interaction.id}?commentId=${notification.comment?.id}`;
 
     case NotificationEventType.FAN_LIKE_REPLY:
-      return `/athlete/interactions/${notification.interaction.id}`;
+      return `/athlete/interactions/${notification.interaction.id}?commentId=${notification.comment?.id}`;
 
     case NotificationEventType.FAN_REPLY_COMMENT:
-      return `/athlete/interactions/${notification.interaction.id}`;
+      return `/athlete/interactions/${notification.interaction.id}?commentId=${notification.comment?.id}`;
 
     case NotificationEventType.FAN_LIKE_COMMENT:
-      return " has liked on your comment.";
+      return `/athlete/interactions/${notification.interaction.id}?commentId=${notification.comment?.id}`;
 
     case NotificationEventType.ATHLETE_NEW_INTERACTION:
-      return " has made a new interaction.";
+      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}`;
 
     case NotificationEventType.ATHLETE_COMMENT_INTERACTION:
-      return `/athlete/interactions/${notification.interaction.id}`;
+      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}`;
+
+    case NotificationEventType.ATHLETE_LIKE_INTERACTION:
+      return " has liked on your interaction.";
 
     case NotificationEventType.ATHLETE_LIKE_COMMENT:
-      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}`;
+      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}&commentId=${notification.comment?.id}`;
 
     case NotificationEventType.ATHLETE_REPLY_COMMENT:
-      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}`;
+      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}&commentId=${notification.comment?.id}`;
 
     case NotificationEventType.ATHLETE_LIKE_REPLY:
-      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}`;
+      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}&commentId=${notification.comment?.id}`;
 
     case NotificationEventType.FAN_LIKE_FAN_COMMENT:
-      return " has liked on your comment.";
+      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}&commentId=${notification.comment?.id}`;
 
     case NotificationEventType.FAN_REPLY_FAN_COMMENT:
-      return " has replied on your comment.";
+      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}&commentId=${notification.comment?.id}`;
 
     case NotificationEventType.FAN_LIKE_FAN_REPLY:
-      return " has liked on your reply comment.";
+      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}&commentId=${notification.comment?.id}`;
 
     default:
       break;
   }
+};
+
+export const getTime = (type: UnitType) => {
+  const time = dayjs().get(type);
+  if (+time < 10) {
+    return `0${time}`;
+  }
+  return time;
+};
+
+export const urlToObject = async (
+  image: string,
+  name: string,
+  type: string
+) => {
+  const response = await fetch(image, { mode: "no-cors" });
+
+  const blob = await response.blob();
+  const file = new File([blob], name, { type });
+
+  return Promise.resolve(file);
 };

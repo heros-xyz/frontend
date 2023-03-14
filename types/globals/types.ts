@@ -19,8 +19,10 @@ export interface IPagination {
   take?: number;
   q?: string;
   fanName?: string;
-  olderThan?: string | Date;
+  beforeDate?: string | Date;
   sessionId?: number;
   searching?: string;
   limit?: number;
+  tag?: string;
+  authorId?: string;
 }

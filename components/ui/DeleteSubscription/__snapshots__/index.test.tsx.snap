@@ -3,7 +3,7 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-133c8qo"
+    class="css-1cukmtg"
   >
     <div
       class="css-f78n2q"
@@ -28,7 +28,7 @@ exports[`renders homepage unchanged 1`] = `
       </div>
     </div>
     <div
-      class="css-17tl7da"
+      class="css-urt1a9"
     >
       <p
         class="chakra-text css-in3yi3"
@@ -40,7 +40,7 @@ exports[`renders homepage unchanged 1`] = `
       class="css-gmuwbf"
     >
       <button
-        class="chakra-button css-6sgcgn"
+        class="chakra-button css-17tcw0u"
         type="button"
       >
         yes, delete Interaction

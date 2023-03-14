@@ -106,7 +106,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           />
         </svg>
         <p
-          class="chakra-text css-1jof7u3"
+          class="chakra-text css-epc93y"
         >
           This account is linked to Google
         </p>
@@ -155,7 +155,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           <p
             class="chakra-text css-pnw9z9"
           >
-            Payment information
+            Payment Information
           </p>
         </a>
       </div>
@@ -183,7 +183,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           <p
             class="chakra-text css-pnw9z9"
           >
-            Active subscriptions
+            Active Subscriptions
           </p>
         </a>
       </div>
@@ -201,7 +201,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
       >
         <a
           class="chakra-link css-7gp64b"
-          href="/faqs"
+          href="https://pool-hub-178.notion.site/Fan-FAQs-16e01f81e529472b8bf8b621e1d247b2"
         >
           <svg
             class="chakra-icon css-swpltc"
@@ -229,7 +229,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
       >
         <a
           class="chakra-link css-7gp64b"
-          href="/privacy_policy"
+          href="undefined/privacy-policy"
         >
           <svg
             class="chakra-icon css-swpltc"
@@ -247,7 +247,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           <p
             class="chakra-text css-pnw9z9"
           >
-            Privacy policy
+            Privacy Policy
           </p>
         </a>
       </div>

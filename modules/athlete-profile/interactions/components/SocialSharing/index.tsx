@@ -7,7 +7,11 @@ import {
   ModalContent,
   ModalOverlay,
   Text,
+  useClipboard,
+  useToast,
 } from "@chakra-ui/react";
+import { FacebookShareButton, TwitterShareButton } from "react-share";
+import { useEffect, useMemo } from "react";
 import {
   CopyLinkIcon,
   FacebookIcon,
@@ -16,13 +20,28 @@ import {
 
 interface ISocialSharingModalProps {
   onClose: () => void;
+  postId: string;
+  athleteId: string;
   isOpen: boolean;
 }
 
-export default function SocialSharingModal({
-  onClose,
+export default function SocialSharing({
+  postId,
+  athleteId,
   isOpen,
+  onClose,
 }: ISocialSharingModalProps) {
+  const { onCopy, setValue } = useClipboard("");
+  const toast = useToast();
+
+  const postLink = useMemo(() => {
+    return `${process.env.NEXTAUTH_URL}/fan/athlete-profile/${athleteId}/interaction?view=${postId}`;
+  }, [postId, athleteId]);
+
+  useEffect(() => {
+    setValue(postLink);
+  }, []);
+
   return (
     <Modal onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />
@@ -34,17 +53,44 @@ export default function SocialSharingModal({
         w={{ base: "344px", lg: "395px" }}
       >
         <Box fontWeight={700} fontSize="base" mb="10px">
-          <Flex role="button" _hover={{ opacity: 0.5 }} alignItems="center">
-            <FacebookIcon w="50px" h="50px" my="10px" />
-            <Text ml="16px">Share to Facebook</Text>
-          </Flex>
+          <FacebookShareButton
+            url={postLink}
+            title={"postDetails.content"}
+            hashtag="#PostDetail"
+            onClick={onClose}
+          >
+            {postLink}
+            <Flex role="button" _hover={{ opacity: 0.5 }} alignItems="center">
+              <FacebookIcon w="50px" h="50px" my="10px" />
+              <Text ml="16px">Share to Facebook</Text>
+            </Flex>
+          </FacebookShareButton>
           <Divider />
-          <Flex role="button" _hover={{ opacity: 0.5 }} alignItems="center">
-            <TwitterIcon w="50px" h="50px" my="10px" />
-            <Text ml="16px">Share to Twitter</Text>
-          </Flex>
+          <TwitterShareButton
+            url={postLink}
+            title={"ostDetails.content"}
+            onClick={onClose}
+          >
+            <Flex role="button" _hover={{ opacity: 0.5 }} alignItems="center">
+              <TwitterIcon w="50px" h="50px" my="10px" />
+              <Text ml="16px">Share to Twitter</Text>
+            </Flex>
+          </TwitterShareButton>
           <Divider />
-          <Flex role="button" _hover={{ opacity: 0.5 }} alignItems="center">
+          <Flex
+            role="button"
+            _hover={{ opacity: 0.5 }}
+            alignItems="center"
+            onClick={() => {
+              onCopy();
+              toast({
+                title: "Copied Link",
+                status: "success",
+                duration: 2000,
+              });
+              onClose();
+            }}
+          >
             <CopyLinkIcon w="50px" h="50px" my="10px" />
             <Text ml="16px">Copy Link</Text>
           </Flex>

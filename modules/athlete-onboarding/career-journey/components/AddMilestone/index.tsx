@@ -35,7 +35,7 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
 
   const handleClickIcon = (value: string, iconCheck: string) => {
     setIconCheck(value !== iconCheck ? value : "");
-    formik.setFieldValue("icon", value);
+    formik.setFieldValue("icon", value === iconCheck ? null : value);
   };
 
   return (
@@ -61,10 +61,10 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
         <form onSubmit={formik.handleSubmit}>
           <Flex mt={4}>
             <Checkbox
-              id="showEndDate"
-              name="showEndDate"
+              id="isPeriodDate"
+              name="isPeriodDate"
               onChange={formik.handleChange}
-              isChecked={formik.values.showEndDate}
+              isChecked={formik.values.isPeriodDate}
               colorScheme="facebook"
               borderColor="#313F4C"
               sx={{
@@ -84,7 +84,7 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
           </Flex>
           <Box mb={{ base: 10, lg: 20 }} color="black.ish">
             <Box fontWeight="medium" mt={7}>
-              {formik.values.showEndDate ? "Start" : "Enter"} Date
+              {formik.values.isPeriodDate ? "Start" : "Enter"} Date
               <Text as="span" color="error.dark">
                 {" "}
                 *
@@ -107,7 +107,7 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
             />
           </Box>
 
-          <If condition={formik.values.showEndDate}>
+          <If condition={formik.values.isPeriodDate}>
             <Then>
               <Box mb={{ base: 12, lg: 20 }} color="black.ish">
                 <Box fontWeight="medium" mt={7}>
@@ -144,22 +144,22 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
               </Text>
             </Box>
             <Textarea
-              id="name"
-              name="name"
+              id="title"
+              name="title"
               variant="flushed"
               onChange={formik.handleChange}
-              value={formik.values.name}
+              value={formik.values.title}
               placeholder="It can be name of Medal/Certificate/Prize or anything that important to you"
               resize={"none"}
               size={{ base: "sm", xl: "md" }}
               minH={16}
               style={styles.textarea}
-              isInvalid={Boolean(formik.errors.name && formik.touched.name)}
+              isInvalid={Boolean(formik.errors.title && formik.touched.title)}
             />
             <ErrorMessage
               mt={0.5}
-              condition={formik.errors.name && formik.touched.name}
-              errorMessage={formik.errors.name}
+              condition={formik.errors.title && formik.touched.title}
+              errorMessage={formik.errors.title}
             />
           </Box>
 

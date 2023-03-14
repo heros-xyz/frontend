@@ -1,25 +1,31 @@
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Box, useUpdateEffect } from "@chakra-ui/react";
+import { useEffect, useMemo, useState } from "react";
+import { Box } from "@chakra-ui/react";
 import Head from "next/head";
+import { Session } from "next-auth";
+import { deleteCookie } from "cookies-next";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { usePreSignInWithEmailMutation } from "@/api/user";
-import { $http } from "@/libs/http";
+import { wrapper } from "@/store";
+import { loggedInGuard } from "@/middleware/loggedInGuard";
 
 const SignIn = () => {
   const router = useRouter();
   const [signInWithEmail, { isLoading, error: signInWithEmailError }] =
     usePreSignInWithEmailMutation();
   const [, setLoginError] = useState<string | undefined>("");
-  const { data: session } = useSession();
+
+  const callbackUrl = useMemo(() => {
+    return router.query.callbackUrl ?? "/";
+  }, [router.query]);
 
   const handleSignInWithEmail = async (email: string) => {
     try {
       await signInWithEmail({ email }).unwrap();
       router.push({
         pathname: "/verify-otp",
-        query: { email },
+        query: { email, callbackUrl },
       });
     } catch (error) {
       console.log(error);
@@ -29,7 +35,7 @@ const SignIn = () => {
   const handleSignInFacebook = async () => {
     try {
       const res = await signIn("facebook", {
-        callbackUrl: process.env.HEROS_BASE_URL,
+        callbackUrl: callbackUrl as string,
       });
 
       if (!res?.ok) {
@@ -43,7 +49,7 @@ const SignIn = () => {
   const handleSignInGoogle = async () => {
     try {
       const res = await signIn("google", {
-        callbackUrl: "/",
+        callbackUrl: callbackUrl as string,
       });
 
       if (!res?.ok) {
@@ -57,12 +63,6 @@ const SignIn = () => {
   useEffect(() => {
     fetch("/api/remove-first-login");
   }, []);
-
-  useUpdateEffect(() => {
-    if (session) {
-      router.push("/");
-    }
-  }, [session]);
 
   return (
     <Box>
@@ -83,3 +83,16 @@ const SignIn = () => {
 };
 
 export default SignIn;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => (context) => {
+    deleteCookie("role", { req: context.req, res: context.res, path: "/" });
+    return loggedInGuard(context, (session: Session | null) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

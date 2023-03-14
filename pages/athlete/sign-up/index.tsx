@@ -2,8 +2,11 @@ import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import { Session } from "next-auth";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { usePreSignInWithEmailMutation } from "@/api/user";
+import { loggedInGuard } from "@/middleware/loggedInGuard";
+import { wrapper } from "@/store";
 
 const AthleteSignUp = () => {
   const router = useRouter();
@@ -67,3 +70,15 @@ const AthleteSignUp = () => {
 };
 
 export default AthleteSignUp;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => (context) => {
+    return loggedInGuard(context, (session: Session | null) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

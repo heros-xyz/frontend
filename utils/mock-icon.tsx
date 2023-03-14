@@ -15,36 +15,36 @@ export const SPORT_ICONS_MOCK = [
   {
     Icon: <MedalIcon />,
     IconBorder: (color: string) => <ArchiveIconMedal color={color} />,
-    value: "medal",
+    value: "MEDAL",
   },
   {
     Icon: <CricketIcon />,
     IconBorder: (color: string) => <ArchiveIconCricket color={color} />,
-    value: "cricket",
+    value: "CRICKET",
   },
   {
     Icon: <FlagIcon />,
     IconBorder: (color: string) => <ArchiveIconFlag color={color} />,
-    value: "flag",
+    value: "FLAG",
   },
   {
     Icon: <GolfIcon />,
     IconBorder: (color: string) => <ArchiveIconGolf color={color} />,
-    value: "golf",
+    value: "GOLF",
   },
   {
     Icon: <TennisIcon />,
     IconBorder: (color: string) => <ArchiveIconTennis color={color} />,
-    value: "tennis",
+    value: "TENNIS",
   },
   {
     Icon: <SoccerIcon />,
     IconBorder: (color: string) => <ArchiveIconSoccer color={color} />,
-    value: "soccer",
+    value: "SOCCER",
   },
 ];
 
-export const getSportIcon = (value: string | undefined, color?: string) => {
+export const getSportIcon = (value: string | null, color?: string) => {
   if (!value) return;
   const icon = SPORT_ICONS_MOCK.find((item) => item.value === value);
 

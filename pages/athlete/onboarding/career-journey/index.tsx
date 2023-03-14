@@ -28,27 +28,28 @@ const CareerJourney = () => {
   const handleSaveMilestone = (values: IMilestone) => {
     setStep("showTimeline");
     const data = {
-      title: values.name,
+      title: values.title,
       description: values.description,
-      from: values.startDate,
-      to: values.endDate,
+      startDate: values.startDate,
+      endDate: values.endDate,
       isArchive: !!values.icon,
-      isCurrent: !milestones.length,
       icon: values.icon,
+      isPeriodDate: values.isPeriodDate,
     };
     setMilestone((prevArr) => [...prevArr, data]);
   };
 
   const handleSubmit = () => {
     const payload = milestones.map((item) => ({
-      startTime: dayjs(item.from).format("YYYY-MM-DD"),
-      endTime: item.to ? dayjs(item.to).format("YYYY-MM-DD") : null,
+      startDate: dayjs(item.startDate).format("YYYY-MM-DD"),
+      endDate: item.endDate ? dayjs(item.endDate).format("YYYY-MM-DD") : "",
       title: item.title,
       description: item.description,
       icon: item.icon as string,
+      isPeriodDate: item.isPeriodDate,
     }));
 
-    submitMilestones(payload);
+    submitMilestones({ items: payload });
   };
 
   useEffect(() => {

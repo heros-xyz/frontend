@@ -12,13 +12,21 @@ import {
 } from "@/api/fan";
 import { initialChangepayment } from "../../constants";
 interface IProp {
+  idAthleteTier?: string;
+  idAthleteSubmit?: string;
   idUpdate: string;
   initialValues?: initialChangepayment;
   isError: boolean;
   setIsError: Dispatch<SetStateAction<boolean>>;
 }
 
-const ChangePayment: React.FC<IProp> = ({ idUpdate, isError, setIsError }) => {
+const ChangePayment: React.FC<IProp> = ({
+  idAthleteTier,
+  idAthleteSubmit,
+  idUpdate,
+  isError,
+  setIsError,
+}) => {
   const router = useRouter();
   const { formik, isValid, submitCount, values, handleSubmit } =
     usePaymentForm();
@@ -75,7 +83,17 @@ const ChangePayment: React.FC<IProp> = ({ idUpdate, isError, setIsError }) => {
   }, [errorData]);
 
   useUpdateEffect(() => {
-    router.push("/fan/payment");
+    if (idAthleteSubmit && idAthleteTier) {
+      router.push({
+        pathname: "/fan/athlete-profile/[id]/payment-details",
+        query: {
+          id: idAthleteSubmit,
+          membershipTierId: idAthleteTier,
+        },
+      });
+    } else {
+      router.push("/fan/payment");
+    }
   }, [addSuccess, updateSuccess]);
 
   return (

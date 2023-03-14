@@ -36,7 +36,13 @@ const UploadMediaPost = forwardRef<HTMLInputElement, IProps>(
       });
       setFieldValue("listMedia", [...values.listMedia, ...mediaUploaded]);
     };
-    const formatFile = (file: File) => file && URL.createObjectURL(file);
+    const formatFile = (file: File | string) => {
+      if (typeof file === "string") {
+        return file;
+      }
+
+      return file && URL.createObjectURL(file);
+    };
 
     return (
       <Box>

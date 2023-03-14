@@ -9,8 +9,16 @@ import {
   SkeletonText,
 } from "@chakra-ui/react";
 import React from "react";
+import { If, Then } from "react-if";
 
-const PostSkeleton = (props: BoxProps) => {
+interface IPostSkeletonProps extends BoxProps {
+  hasImage?: boolean;
+}
+
+const PostSkeleton: React.FC<IPostSkeletonProps> = ({
+  hasImage = true,
+  ...props
+}) => {
   return (
     <Box {...props}>
       <Flex>
@@ -19,9 +27,14 @@ const PostSkeleton = (props: BoxProps) => {
           <SkeletonText noOfLines={2} skeletonHeight="3" />
         </Box>
       </Flex>
-      <AspectRatio minW="100%" ratio={3 / 2} mb={5}>
-        <Skeleton rounded={{ base: "lg", lg: "xl" }} mb={8} />
-      </AspectRatio>
+      <If condition={hasImage}>
+        <Then>
+          <AspectRatio minW="100%" ratio={3 / 2} mb={5}>
+            <Skeleton rounded={{ base: "lg", lg: "xl" }} mb={8} />
+          </AspectRatio>
+        </Then>
+      </If>
+
       {/* <SkeletonText noOfLines={4} spacing="4" skeletonHeight="3" /> */}
       <SkeletonText w="50%" noOfLines={1} skeletonHeight="3" mb={2} />
       <SkeletonText w="70%" noOfLines={1} skeletonHeight="3" mb={2} />

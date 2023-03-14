@@ -31,6 +31,7 @@ export const FanStayupToDate1: Story = {
           avatar: "1",
           firstName: "a",
           lastName: "b",
+          nickName: "",
         },
       },
       {
@@ -42,6 +43,7 @@ export const FanStayupToDate1: Story = {
           avatar: "1",
           firstName: "a",
           lastName: "b",
+          nickName: "",
         },
       },
     ],

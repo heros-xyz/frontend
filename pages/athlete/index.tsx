@@ -3,9 +3,9 @@ import {
   Container,
   Text,
   Grid,
-  Avatar,
   Flex,
   Link,
+  Image,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { ReactElement } from "react";
@@ -27,9 +27,11 @@ import { formatMoney, formatNumber } from "@/utils/functions";
 import {
   useGetGrossAmountMoneyQuery,
   useGetMembershipListQuery,
+  useGetSportProfileQuery,
   useGetTotalSubscriptionQuery,
 } from "@/api/athlete";
 import { useProfileQuery } from "@/api/user";
+import { getImageLink } from "@/utils/link";
 
 const AthleteDashboard = () => {
   const router = useRouter();
@@ -43,6 +45,7 @@ const AthleteDashboard = () => {
       userId: session?.user?.id,
     });
   const { data: profile, isLoading: isGettingNetMoney } = useProfileQuery("");
+  const { data: sportProfile } = useGetSportProfileQuery("");
 
   const onClickManage = () => {
     router.push("/athlete/membership/listing");
@@ -68,12 +71,20 @@ const AthleteDashboard = () => {
             justifyContent={"space-between"}
             pb={["2", "4"]}
           >
-            <Avatar size={"lg"} src={session?.user?.avatar} />
+            <Image
+              w="64px"
+              h="64px"
+              rounded="full"
+              src={getImageLink(session?.user?.avatar)}
+              alt="user-avatar"
+              objectFit="cover"
+              fallbackSrc="https://via.placeholder.com/50"
+            />
             <Box flex={"1"} alignSelf={"center"} pl={"5"}>
-              <Text fontWeight={"bold"}>
-                {session?.user?.lastName} {session?.user?.firstName}
+              <Text fontWeight={"bold"}>{profile?.nickname}</Text>
+              <Text>
+                {sportProfile?.data?.sportProfilesItems[0]?.sportName || ""}
               </Text>
-              <Text> Cricket </Text>
             </Box>
             <Link
               as={NextLink}
@@ -99,7 +110,7 @@ const AthleteDashboard = () => {
           />
           <Wallet
             title={"Wallet"}
-            currentMoney={profile?.netAmount}
+            currentMoney={profile?.netAmount ?? 0}
             feePrice={5}
             timeReceive={""}
             havePaymentMethod={true}

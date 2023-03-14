@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import Calendar from "@/components/svg/Calendar";
 import { MailIcon } from "@/components/svg/MailIcon";
 import { IFanInfo } from "@/types/athlete/types";
+import { getImageLink } from "@/utils/link";
 
 interface IFanOfAthleteProfileProps {
   isOpen: boolean;
@@ -43,13 +44,14 @@ const FanOfAthleteProfile: FC<IFanOfAthleteProfileProps> = ({
               w={{ base: "100px", lg: "160px" }}
               mb={{ base: 2, lg: 8 }}
               rounded="full"
-              src={fanInfo?.avatar}
+              src={getImageLink(fanInfo?.avatar)}
               alt={fanInfo?.fullName}
+              fallbackSrc="https://via.placeholder.com/100"
             />
             <Text as="b" fontSize={{ lg: "xl" }}>
               {fanInfo?.fullName}
             </Text>
-            <Text color="acccent.2">{fanInfo?.description}</Text>
+            <Text color="acccent.2">{"Bronze Tier"}</Text>
           </Center>
           <Flex gap={{ base: 2, lg: 4 }}>
             <Calendar w={{ base: 5, lg: 6 }} h={{ base: 5, lg: 6 }} />

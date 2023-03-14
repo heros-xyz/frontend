@@ -12,10 +12,8 @@ import {
 import {
   IBasicInfo,
   IAthleteSearchProfile,
-  ISearchAthleteParams,
   IPageInfo,
   ISportProfile,
-  ICareerJourney,
   ListMembershipTiers,
   UpdatedSubscriptionInfo,
   AddSubscriptionForm,
@@ -28,10 +26,11 @@ import {
   IResponseComment,
   IWithdrawPayloadType,
   IWithdrawResponeType,
+  IBasicInfoParams,
+  EditPageInfo,
 } from "@/types/athlete/types";
 
 import { ITimeLineInfo } from "@/components/ui/Timeline";
-import { INotificationInfo } from "@/types/notifications/types";
 import { IPagination } from "@/types/globals/types";
 
 export const athleteApi = createApi({
@@ -114,10 +113,10 @@ export const athleteApi = createApi({
     }),
     onboardingCareerJourney: builder.mutation<
       any,
-      IOnboardingCareerJourneyParams[]
+      { items: IOnboardingCareerJourneyParams[] }
     >({
       query: (data) => ({
-        url: `/onboarding/career-journey`,
+        url: `/onboarding/career-journey/bulk`,
         method: "POST",
         data,
       }),
@@ -154,22 +153,31 @@ export const athleteApi = createApi({
         method: "GET",
       }),
     }),
+    // API CareerJourney
     getCareerJourney: builder.query<ITimeLineInfo[], string>({
-      query: () => ({
-        url: `/onboarding/career-journey`,
+      query: (id: string) => ({
+        url: `/onboarding/career-journey/athlete/${id ?? "0"}`,
         method: "GET",
       }),
-      transformResponse: (response: ICareerJourney[]) => {
-        return response.map((item, index) => ({
-          title: item.title,
-          description: item.description,
-          from: item.startTime,
-          to: item.endTime,
-          isArchive: !!item.icon,
-          isCurrent: index === 0,
-          icon: item.icon,
-        })) as ITimeLineInfo[];
-      },
+    }),
+    getMilestone: builder.query<ITimeLineInfo, string>({
+      query: (id: string) => ({
+        url: `/onboarding/career-journey/${id ?? "0"}`,
+        method: "GET",
+      }),
+    }),
+    editMilestone: builder.mutation<any, any>({
+      query: (data) => ({
+        url: `/onboarding/career-journey`,
+        method: "POST",
+        data,
+      }),
+    }),
+    deleteMilestone: builder.mutation<any, any>({
+      query: (id: string) => ({
+        url: `/onboarding/career-journey/${id}`,
+        method: "DELETE",
+      }),
     }),
     // API Subscription (Add Tier)
     getSubscriptionInfo: builder.query<{ data: ListMembershipTiers[] }, string>(
@@ -224,18 +232,18 @@ export const athleteApi = createApi({
         })) as IFanInfo[];
       },
     }),
-    getListInteraction: builder.query<IInteractionItem[], IPagination>({
+    getListInteractionByTag: builder.query<
+      {
+        data: IInteractionItem[];
+        meta: IMeta;
+      },
+      IPagination
+    >({
       query: (params) => ({
         url: `/interaction`,
         method: "GET",
         params,
       }),
-      transformResponse: (response: {
-        data: IInteractionItem[];
-        meta: IMeta;
-      }) => {
-        return response.data.map((item) => item) as IInteractionItem[];
-      },
     }),
     getMyListInteractions: builder.query<
       {
@@ -269,12 +277,16 @@ export const athleteApi = createApi({
     }),
     getListCommentInteraction: builder.query<
       { data: IResponseComment[]; totalComments: number; meta: IMeta },
-      { interactionId?: string | string[]; pageInfo?: IPagination }
+      {
+        interactionId?: string | string[];
+        authorId?: string;
+        pageInfo?: IPagination;
+      }
     >({
-      query: ({ interactionId, pageInfo }) => ({
+      query: ({ interactionId, authorId, pageInfo }) => ({
         url: `/comment/${interactionId}`,
         method: "GET",
-        params: pageInfo,
+        params: { authorId, ...pageInfo },
       }),
     }),
     addPostInteraction: builder.mutation<
@@ -289,14 +301,46 @@ export const athleteApi = createApi({
         if (data.publicType === "fanOnly") {
           formData.append("publicDate", data.publicDate);
         }
-        if (data.listMedia) {
-          data.listMedia.forEach(({ file }) => {
-            formData.append("listMedia", file);
-          });
-        }
+        data.listMedia.forEach(({ file }) => {
+          formData.append("listMedia", file);
+        });
         return {
           url: `/interaction`,
           method: "POST",
+          data: formData,
+        };
+      },
+    }),
+    updatePostInteraction: builder.mutation<
+      IInteractionItem[],
+      { interactionId: string; data: IAddInteractionInfo }
+    >({
+      query: ({ interactionId, data }) => {
+        const formData = new FormData();
+        formData.append("content", data.content);
+        formData.append("publicType", data.publicType);
+        formData.append(`tags`, JSON.stringify(data.tags));
+        data.listMedia.forEach(({ file }) => {
+          formData.append("listMedia", file);
+        });
+        if (data.publicType === "fanOnly") {
+          formData.append("publicDate", data.publicDate);
+        }
+        if (data.listMediaExisted?.length) {
+          data.listMediaExisted = data.listMediaExisted.map((item) => {
+            return {
+              ...item,
+              file: item.fileName,
+            };
+          });
+          formData.append(
+            `listMediaExisted`,
+            JSON.stringify(data.listMediaExisted)
+          );
+        }
+        return {
+          url: `/interaction/${interactionId}`,
+          method: "PUT",
           data: formData,
         };
       },
@@ -338,6 +382,46 @@ export const athleteApi = createApi({
         method: "GET",
       }),
     }),
+    putSportProfile: builder.mutation<
+      boolean,
+      {
+        id: string;
+        data: {
+          currentTeam: string;
+          sportId: string;
+          goal: string;
+        };
+      }
+    >({
+      query: ({ data, id }) => ({
+        url: `/onboarding/sport-profile/${id}`,
+        method: "PUT",
+        data,
+      }),
+    }),
+    editBasicInfo: builder.mutation<boolean, IBasicInfoParams>({
+      query: (data) => ({
+        url: `/users/basic-information`,
+        method: "PUT",
+        data,
+      }),
+    }),
+    editPageInfo: builder.mutation<any, EditPageInfo>({
+      query: (data) => {
+        const formData = new FormData();
+        formData.append("nickName", data.nickName);
+        formData.append("tagLine", data.tagLine);
+        formData.append("tags", JSON.stringify(data.tags));
+        if (data.avatar) {
+          formData.append("avatar", data.avatar);
+        }
+        return {
+          url: `/users/page-information`,
+          method: "PUT",
+          data: formData,
+        };
+      },
+    }),
   }),
 });
 
@@ -355,12 +439,15 @@ export const {
   useGetPageInformationQuery,
   useGetSportProfileQuery,
   useGetCareerJourneyQuery,
+  useGetMilestoneQuery,
+  useEditMilestoneMutation,
+  useDeleteMilestoneMutation,
   useGetSubscriptionInfoQuery,
   useGetListBenefitQuery,
   useAddSubscriptionInfoMutation,
   useUpdateSubscriptionInfoMutation,
   useGetListFansQuery,
-  useGetListInteractionQuery,
+  useGetListInteractionByTagQuery,
   useAddPostInteractionMutation,
   useGetListCommentInteractionQuery,
   useGetInteractionDetailQuery,
@@ -368,8 +455,12 @@ export const {
   useUpdateWithdrawMoneyMutation,
   useGetMyListInteractionsQuery,
   useDeletePostInteractionMutation,
-  util: { resetApiState, invalidateTags },
+  useUpdatePostInteractionMutation,
   useGetValidateIsFanQuery,
+  usePutSportProfileMutation,
+  useEditBasicInfoMutation,
+  useEditPageInfoMutation,
+  util: { resetApiState, invalidateTags },
 } = athleteApi;
 
-export const {} = athleteApi.endpoints;
+export const { getValidateIsFan } = athleteApi.endpoints;

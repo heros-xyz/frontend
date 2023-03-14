@@ -1,5 +1,6 @@
 import { Box, Grid, Image, Text } from "@chakra-ui/react";
 import { IAthleteInfo } from "@/types/athlete/types";
+import { getImageLink } from "@/utils/link";
 
 interface AthletesLikeProp {
   data: IAthleteInfo[];
@@ -38,12 +39,13 @@ const AthletesLike: React.FC<AthletesLikeProp> = ({ data, title, onClick }) => {
             onClick={() => onClick(el?.id)}
           >
             <Image
-              src={el?.avatar}
+              src={getImageLink(el?.avatar)}
               alt=""
               borderRadius="xl"
               objectFit="cover"
               h={{ base: "200px", lg: "265px" }}
               w="100%"
+              fallbackSrc="https://via.placeholder.com/210x265"
             />
             <Box
               position="absolute"
@@ -64,7 +66,7 @@ const AthletesLike: React.FC<AthletesLikeProp> = ({ data, title, onClick }) => {
                   lineHeight={{ base: "20px", lg: "25px" }}
                   textTransform="capitalize"
                 >
-                  {el?.fullName}
+                  {el?.nickName}
                 </Text>
                 <Text
                   color={el?.sportName ? "white" : "transparent"}

@@ -1,6 +1,15 @@
 import React, { useMemo, useState } from "react";
-import { Box, Flex, Heading, Text, Divider, Center } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Divider,
+  Center,
+  Link,
+} from "@chakra-ui/react";
 import { If, Then } from "react-if";
+import NextLink from "next/link";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 interface Story {
   description: string;
@@ -30,11 +39,13 @@ const MyStory: React.FC<Story> = ({ description, dob, gender, isEdit }) => {
     >
       {isEdit && (
         <Box textAlign="right">
-          <EditIcon color="primary" cursor="pointer" />
+          <Link as={NextLink} href={"/athlete/my-profile/edit-basic-info"}>
+            <EditIcon color="primary" cursor="pointer" />
+          </Link>
         </Box>
       )}
       <Heading fontSize="xl">My Story</Heading>
-      <Box fontSize={{ base: "xs", lg: "md" }} mt={2.5} wordBreak="break-all">
+      <Box fontSize={{ base: "xs", lg: "md" }} mt={2.5} wordBreak="break-word">
         <Text as="span">
           {readMore ? description : descSubstring}
           {showReadMore ? "...." : ""}

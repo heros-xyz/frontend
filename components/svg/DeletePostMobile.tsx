@@ -14,9 +14,9 @@ export const DeletePostMobileIcon: React.FC<IconProps> = (props) => {
       <path
         d="M23.9995 21V23M23.9995 27H24.0095M17.0713 31H30.9277C32.4673 31 33.4296 29.3333 32.6598 28L25.7316 16C24.9618 14.6667 23.0373 14.6667 22.2675 16L15.3393 28C14.5695 29.3333 15.5317 31 17.0713 31Z"
         stroke="#FF6767"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </Icon>
   );

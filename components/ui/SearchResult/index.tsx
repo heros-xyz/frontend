@@ -3,6 +3,8 @@ import React from "react";
 import Link from "next/link";
 import { FlagIcon } from "@/components/svg/Flag";
 import { IAthleteSearchProfile } from "@/types/athlete/types";
+import { getImageLink } from "@/utils/link";
+import { formatNumber } from "@/utils/functions";
 
 interface SearchResultProps extends BoxProps {
   data: IAthleteSearchProfile[];
@@ -52,12 +54,13 @@ const SearchResult: React.FC<SearchResultProps> = ({
               alignItems="center"
             >
               <Image
-                src={el?.avatar}
+                src={getImageLink(el?.avatar)}
                 borderRadius="full"
                 alt=""
                 w={{ base: "50px", xl: "80px" }}
                 h={{ base: "50px", xl: "80px" }}
                 fallbackSrc="https://via.placeholder.com/80"
+                objectFit="cover"
               />
               <Box
                 ml={4}
@@ -70,7 +73,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
                   mb={1}
                   fontSize={{ base: "xs", xl: "lg" }}
                 >
-                  {el?.fullName}
+                  {el?.nickName ?? el?.fullName}
                 </Text>
                 <Text
                   pb={1}
@@ -78,7 +81,9 @@ const SearchResult: React.FC<SearchResultProps> = ({
                   fontWeight="normal"
                   color="secondary"
                 >
-                  {el?.sport}
+                  {el?.isCurrentUserSubscribed
+                    ? el?.membershipTier?.name
+                    : el.sport}
                 </Text>
                 <Flex
                   flexDirection={"row"}
@@ -90,11 +95,16 @@ const SearchResult: React.FC<SearchResultProps> = ({
                     borderRight="1px"
                     border={el.fan ? "1px" : "none"}
                   >
-                    {el.sourceSubscriptionsTotal?.toLocaleString()} interactions
+                    {el.totalInteractions
+                      ? formatNumber(el.totalInteractions)
+                      : 0}{" "}
+                    interactions
                   </Text>
-                  {el.fan && (
-                    <Text pl={2}>{el.fan?.toLocaleString()} fans</Text>
-                  )}
+
+                  <Text borderLeft={"1px"} pl={2}>
+                    {el.totalFan ? formatNumber(el.totalFan) : 0}{" "}
+                    {el.totalFan > 1 ? "fans" : "fan"}
+                  </Text>
                 </Flex>
               </Box>
             </Flex>

@@ -1,5 +1,5 @@
-import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import { FC, useMemo } from "react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { FC } from "react";
 import { If, Then } from "react-if";
 import HerosSwiper from "@/components/ui/Swiper";
 import AthleteInfo from "@/components/ui/AthleteInfo";
@@ -8,7 +8,9 @@ import FanOnlySection from "../FanOnlySection";
 
 interface InteractionSectionProps extends IAthleteInteraction {
   isDetailView?: boolean;
+  validateIsFan: boolean;
   navigateToPostDetail?: () => void;
+  navigateToPostsByTag?: (value: string) => void;
 }
 
 const MAX_CONTENT_LENGTH = 200;
@@ -17,32 +19,28 @@ const InteractionSection: FC<InteractionSectionProps> = ({
   content = "",
   createdAt,
   user,
-  publicType,
   interactionMedia,
   navigateToPostDetail,
+  navigateToPostsByTag,
+  isAccessRight,
   isDetailView,
   tags,
 }) => {
-  const { avatar, firstName, lastName } = user;
-  const renderAthleteName = `${firstName} ${lastName}`;
-
-  const mediaResponse = useMemo(() => {
-    if (!interactionMedia) return [];
-    return (interactionMedia || []).map(({ url }) => {
-      return url;
-    });
-  }, [interactionMedia]);
-
+  const { avatar, nickName } = user;
   const isAbleToReadMore = isDetailView
     ? false
     : content.length > MAX_CONTENT_LENGTH;
 
-  if (publicType === "fanOnly") {
+  const handleNavigateToPostsByTag = (value: string) => {
+    navigateToPostsByTag && navigateToPostsByTag(value);
+  };
+
+  if (!isAccessRight) {
     return (
       <Box bg="primary" h="100%">
         <Flex justifyContent="space-between" mb="20px">
           <AthleteInfo
-            athleteName={renderAthleteName}
+            athleteName={nickName}
             publishDate={createdAt}
             imagePath={avatar}
           />
@@ -56,33 +54,20 @@ const InteractionSection: FC<InteractionSectionProps> = ({
     <Box bg="primary">
       <Flex justifyContent="space-between">
         <AthleteInfo
-          athleteName={renderAthleteName}
+          athleteName={nickName}
           publishDate={createdAt}
           imagePath={avatar}
         />
       </Flex>
-      <If condition={mediaResponse && mediaResponse.length > 1}>
+      <If condition={interactionMedia && interactionMedia.length}>
         <Then>
           <Box mt={{ base: 4, lg: 5 }}>
-            <HerosSwiper slideData={mediaResponse} />
-          </Box>
-        </Then>
-      </If>
-      <If condition={mediaResponse && mediaResponse.length === 1}>
-        <Then>
-          <Box my={4}>
-            <Image
-              w="full"
-              mr="unset"
-              src={mediaResponse[0]}
-              fallbackSrc="https://via.placeholder.com/500x500"
-              alt="Interaction post"
-            />
+            <HerosSwiper slideData={interactionMedia} />
           </Box>
         </Then>
       </If>
 
-      <Box mt={mediaResponse && mediaResponse.length ? 0 : 4}>
+      <Box mt={interactionMedia && interactionMedia.length ? 0 : 4}>
         {content ? (
           <Text
             fontWeight="medium"
@@ -104,24 +89,28 @@ const InteractionSection: FC<InteractionSectionProps> = ({
             </Text>
           </Text>
         ) : null}
-        {tags?.length > 0 &&
-          tags.map((tag) => (
-            <Text
-              key={tag.id}
-              as="span"
-              bg="acccent.2"
-              textColor="white"
-              py="3px"
-              px="12px"
-              rounded="full"
-              fontSize="14px"
-              fontWeight={500}
-              mr="12px"
-              mb="6px"
-            >
-              #{tag.name}
-            </Text>
-          ))}
+        <Box mt="10px">
+          {tags?.length > 0 &&
+            tags.map(({ id, name }) => (
+              <Button
+                size="sm"
+                variant="unstyled"
+                bg="acccent.2"
+                px="15px"
+                py="4px"
+                mr="12px"
+                color="white"
+                rounded="full"
+                textTransform="initial"
+                fontSize={{ base: "14px" }}
+                fontWeight={500}
+                key={id}
+                onClick={() => handleNavigateToPostsByTag(name)}
+              >
+                #{name}
+              </Button>
+            ))}
+        </Box>
       </Box>
     </Box>
   );

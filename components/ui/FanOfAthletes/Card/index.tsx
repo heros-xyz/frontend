@@ -1,16 +1,17 @@
 import {
-  Avatar,
   Box,
   Flex,
   Heading,
   Text,
   WrapItem,
   BoxProps,
+  Image,
 } from "@chakra-ui/react";
 import React from "react";
 import dayjs from "dayjs";
 import { Clock } from "@/components/svg/Clock";
 import { IFanInfo } from "@/types/athlete/types";
+import { getImageLink } from "@/utils/link";
 interface YourAthleteCardProps extends BoxProps {
   item?: IFanInfo;
   dateFormat: string;
@@ -39,10 +40,14 @@ const YourAthleteCard: React.FC<YourAthleteCardProps> = ({
     >
       <Flex alignItems="center">
         <WrapItem>
-          <Avatar
+          <Image
             w={{ base: "50px", lg: "80px" }}
             h={{ base: "50px", lg: "80px" }}
-            src={item?.avatar}
+            src={getImageLink(item?.avatar)}
+            alt="user-avatar"
+            rounded="full"
+            objectFit="cover"
+            fallbackSrc="https://via.placeholder.com/50"
           />
         </WrapItem>
         <Box pl={4}>
@@ -55,7 +60,7 @@ const YourAthleteCard: React.FC<YourAthleteCardProps> = ({
             fontSize={["xs", "md"]}
             fontWeight={["medium", "normal"]}
           >
-            {item?.description || "Bronze Tier Subscribed"}
+            {"Bronze Tier"}
           </Text>
           <Flex
             fontSize={["xs", "md"]}

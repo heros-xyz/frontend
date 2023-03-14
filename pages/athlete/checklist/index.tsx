@@ -1,10 +1,10 @@
 import {
-  Avatar,
   Box,
   Button,
   Container,
   Flex,
   Grid,
+  Image,
   Link,
   Stack,
   Text,
@@ -21,6 +21,7 @@ import { setContext } from "@/libs/axiosInstance";
 import { wrapper } from "@/store";
 import { athleteChecklistGuard } from "@/middleware/athleteChecklistGuard";
 import { IGuards } from "@/types/globals/types";
+import { getImageLink } from "@/utils/link";
 
 const CHECK_LIST: ChecklistProps[] = [
   {
@@ -110,19 +111,22 @@ const AthleteChecklist: FC = () => {
               mb={4}
               flexDirection={{ xl: "row-reverse" }}
             >
-              <Avatar
-                size="xl"
-                src={session?.user?.avatar || ""}
+              <Image
+                src={getImageLink(session?.user?.avatar)}
                 w="60px"
                 h="60px"
-              ></Avatar>
+                alt="avatar"
+                rounded="full"
+                fallbackSrc="https://via.placeholder.com/50"
+                objectFit="cover"
+              />
               <Text
                 as="p"
                 fontWeight={700}
                 fontSize="1.25rem"
                 lineHeight="1.75rem"
               >
-                {session?.user.firstName} {session?.user.lastName}
+                {session?.user.nickname}
               </Text>
             </Flex>
             <Text

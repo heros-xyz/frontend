@@ -95,9 +95,7 @@ export const nextAuthOptions = (
             case HttpErrorCode.USER_ALREADY_REGISTERED:
               return `/registered-email?error=${JSON.stringify(error)}`;
             case HttpErrorCode.USER_ALREADY_REGISTERED_OTHER_ROLE:
-              return `/registered-social-account?error=${JSON.stringify(
-                error
-              )}`;
+              return `/registered-email?error=${JSON.stringify(error)}`;
             default:
               return `/sign-in/error?error=${JSON.stringify(error)}`;
           }

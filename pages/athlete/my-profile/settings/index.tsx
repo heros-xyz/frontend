@@ -60,7 +60,7 @@ const Settings = () => {
           email={session?.user.email ?? ""}
           isLoginWithFacebook={profile?.signInMethod === "FACEBOOK"}
           isLoginWithGoogle={profile?.signInMethod === "GOOGLE"}
-          name={`${session?.user.firstName} ${session?.user.lastName}`}
+          name={session?.user.nickname ?? ""}
           type="ATHLETE"
           onSignOut={onSignOut}
         />

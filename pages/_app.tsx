@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 import type { NextPage } from "next";
 import type { AppProps } from "next/app";
 import NextNProgress from "nextjs-progressbar";
@@ -31,7 +31,7 @@ function MyApp({
       <SessionProvider session={session}>
         <ThemeProvider theme={theme}>
           <HerosLoading />
-          <NextNProgress />
+          <NextNProgress options={{ showSpinner: false }} />
           {getLayout(<Component {...pageProps} />)}
         </ThemeProvider>
       </SessionProvider>

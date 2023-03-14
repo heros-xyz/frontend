@@ -13,6 +13,7 @@ import {
   ProfileIcon,
   ProfileActive,
 } from "@/components/svg/Navigate";
+import { ACTIVE_PATHS } from "@/utils/constants";
 import MenuItem from "../MenuItem";
 
 interface BottomBarProps {
@@ -77,10 +78,8 @@ const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
   ];
 
   useEffect(() => {
-    if (router.pathname.includes("interactions")) {
-      setTab(
-        role === "ATHLETE" ? "/athlete/interactions" : "/fan/interactions"
-      );
+    if (ACTIVE_PATHS.includes(router.pathname)) {
+      setTab(router.pathname);
     }
   }, [router.pathname]);
 

@@ -38,6 +38,8 @@ export interface UpdatePaymentForm {
 }
 
 export interface GetActiveSubscription {
+  athleteId: string;
+  autoRenew: boolean;
   avatar: string;
   status: "ACTIVE" | "EXPIRED" | "DRAFT" | "CANCEL";
   fullName: string;
@@ -46,4 +48,32 @@ export interface GetActiveSubscription {
   monthlyPrice: number;
   expiredDate: string;
   totalAccessibleInteraction: number;
+}
+
+export interface GetFanSetting {
+  avatar: string;
+  dateOfBirth: string;
+  email: string;
+  fanInformation: {
+    fanSports: {
+      id: string;
+      sport: {
+        id: string;
+        name: string;
+      };
+    }[];
+  };
+  firstName: string;
+  lastName: string;
+  gender: number;
+  id: string;
+}
+
+export interface EditFanInfo {
+  gender: number;
+  sportIds: string;
+  firstName: string;
+  lastName: string;
+  dateOfBirth: string;
+  avatar?: File;
 }

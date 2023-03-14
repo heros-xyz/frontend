@@ -1,28 +1,30 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box, Container, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { Else, If, Then } from "react-if";
+import { useSession } from "next-auth/react";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { useGetInteractionDetailQuery } from "@/api/athlete";
 import AthletePost from "@/components/ui/AthletePost";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
+import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/detail/SkeletonInteractionDetail";
 
 const InteractionDetail = () => {
   const router = useRouter();
   const { id } = router.query;
-
-  const { data: postInfo } = useGetInteractionDetailQuery(id as string, {
+  const { data: session } = useSession();
+  const [totalComments, setTotalComments] = useState(0);
+  const [isFocusComment, setIsFocusComment] = useState(false);
+  const {
+    data: postInfo,
+    isLoading,
+    refetch,
+  } = useGetInteractionDetailQuery(id as string, {
     skip: typeof id !== "string" || !Boolean(id),
   });
-
-  useEffect(() => {
-    window.scrollTo({
-      top: window.screen.availHeight,
-      behavior: "smooth",
-    });
-  }, []);
 
   const formatPropAthletePost = useMemo(
     () => ({
@@ -33,32 +35,33 @@ const InteractionDetail = () => {
       ],
       athleteInfo: {
         imagePath: postInfo?.user?.avatar || "",
-        athleteName: `${postInfo?.user?.firstName} ${postInfo?.user?.lastName}`,
+        athleteName: session?.user?.nickname ?? "",
         publishDate: postInfo?.user?.createdAt || "",
+        id: postInfo?.user?.id,
       },
-      // slideData: postInfo?.interactionMedia.map((item) => item.url) || [],
-      slideData: postInfo?.interactionMedia.length
-        ? [
-            "https://cdn.britannica.com/84/139484-050-D91679CC/Michael-Ballack-Germany-Italy-Cristian-Zaccardo-March-1-2006.jpg",
-            "https:images.squarespace-cdn.com/content/v1/60228b2d4248e2593057e4f5/1612878448762-KT4KAT3KPIKG07A4JXU7/iStock-954142740.jpg?format=2500w",
-          ]
-        : [],
+      slideData: postInfo?.interactionMedia ?? [],
       socialOrder: true,
       hashtag: postInfo?.tags || [],
       postLikes: postInfo?.reactionCount || 0,
-      postComments: postInfo?.commentCount || 0,
+      postComments: totalComments || 0,
       postContent: postInfo?.content || "",
       liked: postInfo?.liked || false,
     }),
-    [postInfo]
+    [postInfo, totalComments]
   );
 
+  useEffect(() => {
+    if (postInfo) {
+      setTotalComments(postInfo.commentCount);
+    }
+  }, [postInfo]);
+
   return (
-    <Box bg="primary" minHeight="100vh">
+    <Box bg="primary" minHeight="100vh" pb={8}>
       <Head>
         <title>Athlete | Interaction Details</title>
       </Head>
-      <Box w="full" px={{ base: 5, lg: "10%" }}>
+      <Container size={["base", "sm", "md", "lg", "xl"]}>
         <Box
           bg="primary"
           position={{ sm: "sticky", lg: "static" }}
@@ -85,11 +88,31 @@ const InteractionDetail = () => {
           </Flex>
         </Box>
         <Box>
-          <AthletePost {...formatPropAthletePost}>
-            <AthleteInteractionComments id={id as string} />
-          </AthletePost>
+          <If condition={!isLoading && !!postInfo}>
+            <Then>
+              <AthletePost
+                interactionInfo={postInfo}
+                onUpdated={refetch}
+                focusInputComment={setIsFocusComment}
+                {...formatPropAthletePost}
+              >
+                <AthleteInteractionComments
+                  id={id as string}
+                  scrollToWhenCommented
+                  focusComment={isFocusComment}
+                  onUnFocusComment={setIsFocusComment}
+                  setTotalComments={setTotalComments}
+                />
+              </AthletePost>
+            </Then>
+            <Else>
+              <Box mt={2}>
+                <SkeletonInteractionDetail />
+              </Box>
+            </Else>
+          </If>
         </Box>
-      </Box>
+      </Container>
     </Box>
   );
 };

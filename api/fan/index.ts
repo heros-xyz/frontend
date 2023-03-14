@@ -15,10 +15,13 @@ import {
   IPageInfo,
   ISportProfile,
   IMeta,
+  IAthleteSubscribed,
 } from "@/types/athlete/types";
 import {
   AddPaymentForm,
+  EditFanInfo,
   GetActiveSubscription,
+  GetFanSetting,
   PaymentInfo,
   UpdatedPaymentInfo,
   UpdatePaymentForm,
@@ -41,11 +44,24 @@ export const fanApi = createApi({
   },
   endpoints: (builder) => ({
     setUpAccount: builder.mutation<any, IFanSetupAccountParams>({
-      query: (data) => ({
-        url: `/users/setup-account/fan`,
-        method: "POST",
-        data,
-      }),
+      query: (data) => {
+        const formData = new FormData();
+        formData.append("firstName", data.firstName);
+        formData.append("lastName", data.lastName);
+        formData.append("dateOfBirth", data.dateOfBirth);
+        formData.append("sportIds", data.sportIds);
+        formData.append("gender", `${data.gender}`);
+        if (data.avatar) {
+          formData.append("avatar", data.avatar);
+        }
+        console.log(formData);
+
+        return {
+          url: `/users/setup-account/fan`,
+          method: "POST",
+          data: formData,
+        };
+      },
     }),
     getPaymentInfo: builder.query<PaymentInfo[], string>({
       query: (data) => ({
@@ -70,7 +86,7 @@ export const fanApi = createApi({
     }),
     getListAthleteSubscribed: builder.query<
       {
-        data: IAthleteInfo[];
+        data: IAthleteSubscribed[];
         meta: IMeta;
       },
       IPagination
@@ -106,6 +122,12 @@ export const fanApi = createApi({
         params,
       }),
     }),
+    updateAthleteUpToDate: builder.mutation<any, string>({
+      query: (id: string) => ({
+        url: `/interaction/last-visited-time/${id}`,
+        method: "PUT",
+      }),
+    }),
     getListAthleteUpToDate: builder.query<{ data: IAthleteUpToDate[] }, string>(
       {
         query: (params) => ({
@@ -126,13 +148,15 @@ export const fanApi = createApi({
       }),
     }),
 
-    getListAthleteRecommended: builder.query<IAthleteInfo[], IPagination>({
-      query: (params) => ({
-        url: `/dashboard/recommended-athletes`,
-        method: "GET",
-        params,
-      }),
-    }),
+    getListAthleteRecommended: builder.query<IAthleteSubscribed[], IPagination>(
+      {
+        query: (params) => ({
+          url: `/dashboard/recommended-athletes`,
+          method: "GET",
+          params,
+        }),
+      }
+    ),
     getListAthleteMightLike: builder.query<IAthleteInfo[], string>({
       query: (params) => ({
         url: `/dashboard/might-like-athletes`,
@@ -257,6 +281,31 @@ export const fanApi = createApi({
         data,
       }),
     }),
+    // Fan Edit Information
+    getFanSetting: builder.query<GetFanSetting, string>({
+      query: () => ({
+        url: `/dashboard/fan-setting`,
+        method: "GET",
+      }),
+    }),
+    editFanInfo: builder.mutation<any, EditFanInfo>({
+      query: (data) => {
+        const formData = new FormData();
+        formData.append("firstName", data.firstName);
+        formData.append("lastName", data.lastName);
+        formData.append("dateOfBirth", data.dateOfBirth);
+        formData.append("sportIds", data.sportIds);
+        formData.append("gender", `${data.gender}`);
+        if (data.avatar) {
+          formData.append("avatar", data.avatar);
+        }
+        return {
+          url: `/users/account-information/fan`,
+          method: "PUT",
+          data: formData,
+        };
+      },
+    }),
   }),
 });
 
@@ -270,6 +319,7 @@ export const {
   useGetAthleteSportProfileQuery,
   useGetAthleteTierMembershipQuery,
   useSubscribeAthleteMutation,
+  useUpdateAthleteUpToDateMutation,
   useGetListAthleteUpToDateQuery,
   useGetListAthleteRecommendedQuery,
   useGetListAthleteMightLikeQuery,
@@ -283,7 +333,10 @@ export const {
   useReactionInteractionMutation,
   useReplyCommentMutation,
   useReactionCommentMutation,
+  useGetFanSettingQuery,
+  useEditFanInfoMutation,
   util: { getRunningQueriesThunk, resetApiState },
 } = fanApi;
 
-export const { getAthleteBasicInfo, getAthleteProfile } = fanApi.endpoints;
+export const { getAthleteBasicInfo, getAthleteProfile, getPaymentInfo } =
+  fanApi.endpoints;

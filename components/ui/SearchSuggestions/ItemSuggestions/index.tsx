@@ -1,6 +1,6 @@
 import { Box, Flex, Text, Image } from "@chakra-ui/react";
-import Link from "next/link";
 import { useRouter } from "next/router";
+import { getImageLink } from "@/utils/link";
 
 interface IProps {
   item: {
@@ -8,26 +8,33 @@ interface IProps {
     fullName: string;
     sport: string;
     id: string;
+    nickName: string;
   };
   onClick: () => void;
 }
 
 const ItemSuggestions: React.FC<IProps> = ({ item, onClick }) => {
   const router = useRouter();
+
+  const onClickSuggestionItem = async () => {
+    const query = {
+      current: router.query.current,
+      athleteId: item.id,
+    };
+    await router.push({
+      pathname: `/fan/athlete-profile/${item.id}`,
+      query,
+    });
+    onClick();
+
+    if (router.pathname.includes("/athlete-profile")) {
+      router.reload();
+    }
+  };
+
   return (
     <Box borderBottom="1px" borderColor="gray.100" py="2" cursor={"pointer"}>
-      <Flex
-        onClick={() => {
-          const query = {
-            current: router.query.current,
-          };
-          router.push({
-            pathname: `/fan/athlete-profile/${item.id}`,
-            query,
-          });
-          onClick();
-        }}
-      >
+      <Flex onClick={onClickSuggestionItem}>
         <Box
           mr="2.5"
           borderRadius="full"
@@ -35,11 +42,12 @@ const ItemSuggestions: React.FC<IProps> = ({ item, onClick }) => {
           overflow="hidden"
         >
           <Image
-            src={item.avatar}
+            src={getImageLink(item.avatar)}
             alt="heros item"
             width={{ base: "40px", xl: "50px" }}
             height={{ base: "40px", xl: "50px" }}
             objectFit="cover"
+            fallbackSrc="https://via.placeholder.com/50"
           />
         </Box>
         <Box display="flex" justifyContent="center" flexDirection="column">
@@ -50,7 +58,7 @@ const ItemSuggestions: React.FC<IProps> = ({ item, onClick }) => {
             fontWeight={"700"}
             lineHeight="140%"
           >
-            {item?.fullName}
+            {item?.nickName ?? item?.fullName}
           </Text>
           <Text
             as="p"

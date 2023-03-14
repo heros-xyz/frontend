@@ -7,10 +7,16 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import { NumberParam, useQueryParam, withDefault } from "use-query-params";
 import ExclamationIcon from "@/components/svg/Exclamation";
 import { LockCloseIcon } from "@/components/svg/Settings";
 
 const FanOnlySection = () => {
+  const [_, setCurrentTab] = useQueryParam(
+    "current",
+    withDefault(NumberParam, 0)
+  );
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -53,6 +59,10 @@ const FanOnlySection = () => {
               variant="primary"
               w={{ base: "312px", lg: "137px" }}
               mb={{ base: "15px", lg: "25px" }}
+              onClick={() => {
+                setCurrentTab(3);
+                onClose();
+              }}
             >
               JOIN NOW
             </Button>

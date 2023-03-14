@@ -43,8 +43,12 @@ const EnterPost = () => {
     }
   };
   const handleChangeInputTag = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === ",") return;
-    setInputValueTag(e.target.value);
+    if (!e.target.value) {
+      setInputValueTag("");
+    } else {
+      const string = e.target.value.replace(/[^\w\s]/g, "");
+      setInputValueTag(string);
+    }
   };
 
   const handleDeleteTag = (tag: string) => {
@@ -133,7 +137,7 @@ const EnterPost = () => {
               onKeyDown={handleKeyDown}
               disabled={values?.tags?.length >= 50}
               value={inputValueTag}
-              onChange={handleChangeInputTag}
+              onInput={handleChangeInputTag}
             />
           </Flex>
         </Flex>

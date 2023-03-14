@@ -1,5 +1,5 @@
 import { Box, Flex, Text, Input } from "@chakra-ui/react";
-import { ChangeEvent, FC, KeyboardEvent, useState } from "react";
+import { ChangeEvent, FC, KeyboardEvent, useEffect, useState } from "react";
 import { Close } from "@/components/svg/Close";
 import HerosOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import ErrorMessage from "@/components/common/ErrorMessage";
@@ -24,21 +24,18 @@ const AddTag: FC<AddTagProps> = ({ onSubmit }) => {
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (
-      (e.key === "Enter" || e.key === ",") &&
-      Boolean(inputValue) &&
-      inputValue[0] === "#"
-    ) {
+    if ((e.key === "Enter" || e.key === ",") && Boolean(inputValue)) {
       if (inputValue.length > 25) {
         setIsInvalid(true);
         return;
-      } else {
-        setIsInvalid(false);
+      }
+      if (inputValue.length < 25 && inputValue[0] === "#") {
         setTags((prev) => [
           ...prev,
           inputValue.trim().replace(/[^a-zA-Z ]/g, ""),
         ]);
         setInputValue("");
+        setIsInvalid(false);
         return;
       }
     }

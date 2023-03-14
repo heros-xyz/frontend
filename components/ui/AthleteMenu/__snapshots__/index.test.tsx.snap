@@ -28,12 +28,12 @@ exports[`renders homepage unchanged 1`] = `
     </svg>
   </button>
   <div
-    class="css-lnyvlk"
+    class="css-bv106l"
     style="visibility: hidden; position: absolute; min-width: max-content; inset: 0 auto auto 0;"
   >
     <div
       aria-orientation="vertical"
-      class="chakra-menu__menu-list css-qzrj8h"
+      class="chakra-menu__menu-list css-1jwlvi9"
       id="menu-list-:r1:"
       role="menu"
       style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"

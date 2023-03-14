@@ -29,7 +29,7 @@ const SelectYourSport: React.FC<IProps> = ({ onSubmit }) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      onSubmit({ sportsId: values.sports.value });
+      onSubmit({ sportId: values.sports.value });
     },
   });
 

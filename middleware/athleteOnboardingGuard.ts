@@ -5,7 +5,7 @@ import {
   NextApiResponse,
   PreviewData,
 } from "next";
-import { unstable_getServerSession } from "next-auth/next";
+import { getServerSession } from "next-auth/next";
 import { nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 import { RoutePath } from "@/utils/route";
 
@@ -15,7 +15,7 @@ export const athleteOnboardingGuard = async (
 ) => {
   const { req, res } = context;
 
-  const session = await unstable_getServerSession(
+  const session = await getServerSession(
     req,
     res,
     nextAuthOptions(req as NextApiRequest, res as NextApiResponse)

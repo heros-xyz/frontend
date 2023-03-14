@@ -17,9 +17,9 @@ const FinishOnboarding = () => {
       }
       textButton="Start Discovering"
       IconButton={<ArrowRight />}
-      onSubmit={() => {
+      onSubmit={async () => {
+        await fetch("/api/set-first-login");
         router.push("/fan");
-        fetch("/api/set-first-login");
       }}
     >
       <Box textAlign={{ base: "center", lg: "left" }} mb={5}>

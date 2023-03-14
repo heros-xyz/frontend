@@ -1,6 +1,6 @@
 import { Button, Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 
 import {
   useAddCommentInteractionMutation,
@@ -8,7 +8,7 @@ import {
 } from "@/api/athlete";
 import { useReplyCommentMutation } from "@/api/fan";
 import CommentItem from "@/components/ui/Comment/Item";
-import ReplyingComment from "../../components/ReplyingComment";
+import CommentField from "../../components/CommentField";
 import { SocialInteraction } from "../../components/SocialInteraction/SocialInteraction";
 import { IAthleteInteraction } from "../../constants";
 
@@ -17,19 +17,22 @@ export interface IReplyingTo {
   lastName: string;
   content: string;
   id: string;
+  nickName: string;
 }
 
 const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
   const router = useRouter();
-  const { view } = router.query;
+  const { view: postId, id: authorId } = router.query;
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const [takeComment, setTakeComment] = useState(4);
+  const [takeComment, setTakeComment] = useState(10);
   const [isFocusOnInput, setIsFocusOnInput] = useState(false);
-  const [replyComment, replyCommentResponse] = useReplyCommentMutation();
-  const [addComment, addCommentResponse] = useAddCommentInteractionMutation();
   const [isReplyingTo, setIsReplyingTo] = useState<IReplyingTo | undefined>(
     undefined
   );
+
+  const [replyComment, replyCommentResponse] = useReplyCommentMutation();
+  const [addComment, addCommentResponse] = useAddCommentInteractionMutation();
 
   const {
     data: listComment,
@@ -37,11 +40,12 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
     isLoading,
     isFetching,
   } = useGetListCommentInteractionQuery({
-    interactionId: view as string,
+    interactionId: postId as string,
     pageInfo: {
       page: 1,
       take: takeComment,
       order: "DESC",
+      authorId: authorId as string,
     },
   });
 
@@ -59,21 +63,21 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
   };
 
   const handleFetchMoreComment = () => {
-    setTakeComment((s) => s + 4);
+    setTakeComment((s) => s + 10);
   };
 
   const handleSubmitComment = (content: string) => {
     if (isReplyingTo) {
       const { id: commentId } = isReplyingTo;
       replyComment({
-        interactionId: view,
+        interactionId: postId,
         content,
         commentId,
       });
       return;
     }
     addComment({
-      interactionId: view,
+      interactionId: postId,
       content,
     });
   };
@@ -82,6 +86,13 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
     if (addCommentResponse.isSuccess || replyCommentResponse.isSuccess) {
       setIsReplyingTo(undefined);
       refetch();
+
+      if (scrollRef && scrollRef.current) {
+        scrollRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
     }
   }, [addCommentResponse, replyCommentResponse]);
 
@@ -90,11 +101,11 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
   }
 
   return (
-    <Flex flexDirection="column" position="relative">
+    <Flex flexDirection="column" position="relative" ref={scrollRef}>
       <Flex flexDirection="column">
         <SocialInteraction
           liked={liked}
-          postId={view}
+          postId={postId}
           reactionCount={reactionCount}
           commentsCount={listComment.meta.itemCount ?? 0}
           handleComment={() => handleFocusOnInput(true)}
@@ -105,6 +116,7 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
           flexDirection="column"
           maxHeight={{ lg: "580px" }}
           gap={{ base: 4, lg: 8 }}
+          className="postComment"
         >
           {listComment?.data.map(
             ({
@@ -114,10 +126,12 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
               createdAt,
               parentComment,
               reactedCommentsCount,
-              user: { avatar, firstName, lastName },
+              isAuthorComment,
+              user: { avatar, firstName, lastName, nickName },
             }) => (
               <CommentItem
                 key={id}
+                isAuthorComment={isAuthorComment}
                 commentId={id}
                 handleReply={() =>
                   handleReply({
@@ -125,6 +139,7 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
                     lastName,
                     content,
                     id,
+                    nickName,
                   })
                 }
                 item={{
@@ -135,6 +150,7 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
                   isLiked: liked,
                   parentComment,
                   createdAt,
+                  nickName,
                 }}
               />
             )
@@ -163,7 +179,7 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
         </Flex>
       </Flex>
 
-      <ReplyingComment
+      <CommentField
         isLoading={isLoading}
         isReplying={isReplyingTo}
         isFocused={isFocusOnInput}

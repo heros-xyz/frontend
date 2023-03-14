@@ -1,13 +1,31 @@
 import { Box, Container, Text } from "@chakra-ui/react";
 import Head from "next/head";
-import { ReactElement } from "react";
+import { ReactElement, useMemo } from "react";
 import YourAthletesList from "@/components/ui/FanOfAthletes/List";
 import FindHeros from "@/components/ui/FindHeros";
 import { useGetListAthleteSubscribedQuery } from "@/api/fan";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 
 const AllAthletes = () => {
-  const { data: listAthleteSubscribed } = useGetListAthleteSubscribedQuery({});
+  const { data: listAthleteSubscribed } = useGetListAthleteSubscribedQuery({
+    page: 1,
+    take: 50,
+  });
+
+  const listAthleteSubscribedFormat = useMemo(() => {
+    if (listAthleteSubscribed) {
+      return listAthleteSubscribed.data.map((item) => {
+        return {
+          avatar: item.avatar,
+          fullName: item.nickName,
+          createdAt: item.createdAt,
+          id: item.athleteId,
+        };
+      });
+    }
+
+    return [];
+  }, [listAthleteSubscribed]);
   return (
     <Box bg="primary" minH="100vh">
       <Head>
@@ -28,7 +46,7 @@ const AllAthletes = () => {
           Your Athletes
         </Text>
         <YourAthletesList
-          athleteList={listAthleteSubscribed?.data || []}
+          athleteList={listAthleteSubscribedFormat}
           hasFanText={false}
           role="FAN"
           dateFormat="DD/MM/YYYY"

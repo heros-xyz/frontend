@@ -1,24 +1,23 @@
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement } from "react";
 import { Box, Container } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { useDispatch } from "react-redux";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import ViewAthleteProfile from "@/modules/fan-dashboard/components/ViewAthleteProfile";
 import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
-import { fanAuthGuard } from "@/middleware/authGuard";
+import { authGuard } from "@/middleware/authGuard";
 import { IGuards } from "@/types/globals/types";
 import {
   getAthleteProfile,
+  getPaymentInfo,
   getRunningQueriesThunk,
-  resetApiState,
   useGetAthleteProfileQuery,
 } from "@/api/fan";
+import { getValidateIsFan } from "@/api/athlete";
 
 const AthleteProfile = () => {
   const { query } = useRouter();
-  const dispatch = useDispatch();
   const { data: athleteProfile } = useGetAthleteProfileQuery(
     query.id as string,
     {
@@ -26,16 +25,10 @@ const AthleteProfile = () => {
     }
   );
 
-  useEffect(() => {
-    return () => {
-      dispatch(resetApiState());
-    };
-  }, []);
-
   return (
     <Box bg="primary" pb={6}>
       <Head>
-        <title>{athleteProfile?.fullName}</title>
+        <title>Athlete Profile</title>
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <ViewAthleteProfile athleteProfile={athleteProfile} />
@@ -57,10 +50,12 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     if (typeof athleteId === "string") {
       store.dispatch(getAthleteProfile.initiate(athleteId));
+      store.dispatch(getValidateIsFan.initiate(athleteId));
+      store.dispatch(getPaymentInfo.initiate(""));
     }
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
-    return fanAuthGuard(context, ({ session }: IGuards) => {
+    return authGuard(context, ({ session }: IGuards) => {
       return {
         props: {
           session,

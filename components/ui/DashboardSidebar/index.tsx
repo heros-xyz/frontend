@@ -1,5 +1,5 @@
 import { Box, BoxProps, useUpdateEffect } from "@chakra-ui/react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import {
@@ -15,6 +15,7 @@ import {
   ProfileActive,
 } from "@/components/svg/Navigate";
 import LogoSidebar from "@/components/svg/LogoSidebar";
+import { ACTIVE_PATHS } from "@/utils/constants";
 import MenuItem from "../MenuItem";
 
 interface DashboardSidebarProps extends BoxProps {
@@ -86,6 +87,12 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   const handleChangeTab = (tab: string): void => {
     setTab(tab);
   };
+
+  useEffect(() => {
+    if (ACTIVE_PATHS.includes(router.pathname)) {
+      setTab(router.pathname);
+    }
+  }, [router.pathname]);
 
   useUpdateEffect(() => {
     setTab(tabValue);

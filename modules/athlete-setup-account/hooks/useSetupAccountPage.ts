@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import * as yub from "yup";
 import { useAthleteSetupAccountMutation } from "@/api/athlete";
 import { updateSession } from "@/utils/auth";
+import { isValidString } from "@/utils/functions";
 import { getCharacterMessage, REQUIRED_MESSAGE } from "../constants";
 
 export type IValuesTypes = {
@@ -24,11 +25,31 @@ const validationSchema = yub.object().shape({
   firstName: yub
     .string()
     .max(20, getCharacterMessage("First name"))
-    .required(REQUIRED_MESSAGE),
+    .required(REQUIRED_MESSAGE)
+    .test(
+      "invalid-firstname",
+      "First name is not allowing special character",
+      (value: string | undefined) => {
+        if (value) {
+          return isValidString(value);
+        }
+        return false;
+      }
+    ),
   lastName: yub
     .string()
     .max(20, getCharacterMessage("Last name"))
-    .required(REQUIRED_MESSAGE),
+    .required(REQUIRED_MESSAGE)
+    .test(
+      "invalid-lastname",
+      "Last name is not allowing special character",
+      (value: string | undefined) => {
+        if (value) {
+          return isValidString(value);
+        }
+        return false;
+      }
+    ),
   nickName: yub
     .string()
     .max(20, getCharacterMessage("Nickname"))

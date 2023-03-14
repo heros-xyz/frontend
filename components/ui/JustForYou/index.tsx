@@ -16,13 +16,23 @@ const JustForYou: React.FC<JustForYouProps> = ({
 }) => {
   return (
     <Box bg="primary" pt={"8"}>
-      <Text
-        fontSize={{ base: "md", xl: "xl" }}
-        fontWeight={"extrabold"}
-        color="acccent.3"
+      <If
+        condition={
+          showCreateFirstInteraction ||
+          (!showCreateFirstInteraction && showCreateInteractionRecent)
+        }
       >
-        Just for you
-      </Text>
+        <Then>
+          <Text
+            fontSize={{ base: "md", xl: "xl" }}
+            fontWeight={"extrabold"}
+            color="acccent.3"
+          >
+            Just for you
+          </Text>
+        </Then>
+      </If>
+
       <If condition={showCreateFirstInteraction}>
         <Then>
           <Box

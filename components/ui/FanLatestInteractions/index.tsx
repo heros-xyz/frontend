@@ -1,9 +1,12 @@
 import { Box, Heading, Link, Text, Image, AspectRatio } from "@chakra-ui/react";
 import React from "react";
 import NextLink from "next/link";
+import { Else, If, Then } from "react-if";
 import { IconArrowRight } from "@/components/svg/IconArrowRight";
 import { IconMessage } from "@/components/svg/IconMessage";
 import { ILatestInteraction } from "@/types/athlete/types";
+import { getImageLink } from "@/utils/link";
+import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
 
 interface FanInteractionsProps {
   titleHeading: string;
@@ -47,7 +50,9 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
             >
               {actionText}
             </Link>
-            <IconArrowRight width="3" height="11" color="secondary" />
+            <Link as={NextLink} href="fan/interactions">
+              <IconArrowRight width="3" height="11" color="secondary" />
+            </Link>
           </Box>
         ) : (
           ""
@@ -55,106 +60,135 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
       </Box>
       {items?.length ? (
         <Box display="grid" gridTemplateColumns="repeat(3, 1fr)" gap="4" pb={4}>
-          {items
-            ?.slice(-3)
-            .reverse()
-            .map((item, index) => (
-              <Link
-                as={NextLink}
-                position="relative"
-                key={`${"item" + index}`}
-                cursor="pointer"
-                href={`/fan/athlete-profile/${item?.user?.id}/interaction?view=${item?.id}`}
-              >
-                <AspectRatio ratio={10 / 12} w="full">
-                  <Box
-                    borderRadius="10"
-                    bg="transparent"
-                    overflow="hidden"
-                    objectFit="cover"
-                    borderWidth={{
-                      base: `${!item.interactionMedia?.[0]?.url ? "1px" : ""}`,
-                      lg: `${!item.interactionMedia?.[0]?.url ? "2px" : ""}`,
-                    }}
-                    borderColor={`${
-                      !item.interactionMedia?.[0]?.url ? "grey.100" : ""
-                    }`}
-                    w="full"
-                    h="full"
-                    position="relative"
-                  >
-                    {item.interactionMedia?.[0]?.url ? (
-                      <Image
-                        src={item.interactionMedia?.[0]?.url}
-                        alt="heros item"
-                        fallbackSrc="https://via.placeholder.com/150x200"
-                        w="full"
-                      />
-                    ) : (
-                      <>
+          {items?.map((item, index) => (
+            <Link
+              as={NextLink}
+              position="relative"
+              key={`${"item" + index}`}
+              cursor="pointer"
+              href={`/fan/athlete-profile/${item?.user?.id}/interaction?view=${item?.id}`}
+            >
+              <AspectRatio ratio={10 / 12} w="full">
+                <Box
+                  borderRadius="10"
+                  bg="transparent"
+                  overflow="hidden"
+                  objectFit="cover"
+                  borderWidth={{
+                    base: `${!item.interactionMedia?.[0]?.url ? "1px" : ""}`,
+                    lg: `${!item.interactionMedia?.[0]?.url ? "2px" : ""}`,
+                  }}
+                  borderColor={`${
+                    !item.interactionMedia?.[0]?.url ? "grey.100" : ""
+                  }`}
+                  w="full"
+                  h="full"
+                  position="relative"
+                >
+                  {item.interactionMedia?.[0]?.url ? (
+                    <If
+                      condition={item.interactionMedia?.[0]?.type === "image"}
+                    >
+                      <Then>
+                        <Image
+                          src={getImageLink(item.interactionMedia?.[0]?.url)}
+                          alt="heros item"
+                          fallbackSrc="https://via.placeholder.com/150x200"
+                          w="full"
+                          h="full"
+                          objectFit="cover"
+                        />
+                      </Then>
+                      <Else>
                         <Box
-                          position="absolute"
-                          left="14.18px"
-                          top={{ base: 4, lg: 6 }}
-                          h="5"
+                          position="relative"
+                          w="full"
+                          h="full"
+                          rounded="8px"
                         >
-                          <IconMessage
-                            width={{ base: "22px", lg: "24px" }}
-                            height="5"
-                            color="secondary"
+                          <video
+                            src={getImageLink(item?.interactionMedia[0]?.url)}
+                            style={{
+                              borderRadius: "8px",
+                              width: "100%",
+                            }}
+                          />
+                          <PlayVideoIcon
+                            w={{ base: "30px", lg: "35px" }}
+                            h={{ base: "30px", lg: "35px" }}
+                            position="absolute"
+                            top="50%"
+                            left="50%"
+                            transform="translate(-50%,-50%)"
                           />
                         </Box>
-                        <Text
-                          position="absolute"
-                          left="-25px"
-                          top={{ base: "45px", lg: "55px" }}
-                          bottom="auto"
-                          transform="translate(50%, 0)"
+                      </Else>
+                    </If>
+                  ) : (
+                    <>
+                      <Box
+                        position="absolute"
+                        left="14.18px"
+                        top={{ base: 4, lg: 6 }}
+                        h="5"
+                      >
+                        <IconMessage
+                          width={{ base: "22px", lg: "24px" }}
+                          height="5"
                           color="secondary"
-                          fontSize={{ base: "xxs", lg: "md" }}
-                          fontWeight="medium"
-                          lineHeight="120%"
-                          width="20"
-                          margin="auto"
-                          textOverflow="ellipsis"
-                          overflow="hidden"
-                          wordBreak="break-all"
-                          css={{
-                            display: "-webkit-box",
-                            WebkitLineClamp: "2",
-                            WebkitBoxOrient: "vertical",
-                          }}
-                        >
-                          {item.content}
-                        </Text>
-                      </>
-                    )}
-                  </Box>
-                </AspectRatio>
-
-                <Box
-                  w={{ base: "10", lg: "60px" }}
-                  h={{ base: "10", lg: "60px" }}
-                  borderRadius="full"
-                  overflow="hidden"
-                  objectFit="contain"
-                  border="3px"
-                  borderColor="secondary"
-                  borderStyle="solid"
-                  position="absolute"
-                  left="auto"
-                  right="50%"
-                  bottom={{ base: "-16px", lg: "-28px" }}
-                  transform="translate(50%, 0)"
-                >
-                  <Image
-                    alt="avatar"
-                    src={item.user?.avatar}
-                    fallbackSrc="https://via.placeholder.com/150"
-                  />
+                        />
+                      </Box>
+                      <Text
+                        position="absolute"
+                        left="-25px"
+                        top={{ base: "45px", lg: "55px" }}
+                        bottom="auto"
+                        transform="translate(50%, 0)"
+                        color="secondary"
+                        fontSize={{ base: "xxs", lg: "md" }}
+                        fontWeight="medium"
+                        lineHeight="120%"
+                        width="20"
+                        margin="auto"
+                        textOverflow="ellipsis"
+                        overflow="hidden"
+                        wordBreak="break-word"
+                      >
+                        {item.content.length > 30
+                          ? `${item.content.substring(0, 30)}...`
+                          : item.content}
+                      </Text>
+                    </>
+                  )}
                 </Box>
-              </Link>
-            ))}
+              </AspectRatio>
+
+              <Box
+                w={{ base: "10", lg: "60px" }}
+                h={{ base: "10", lg: "60px" }}
+                borderRadius="full"
+                overflow="hidden"
+                objectFit="contain"
+                border="3px"
+                borderColor="secondary"
+                borderStyle="solid"
+                position="absolute"
+                left="auto"
+                right="50%"
+                bottom={{ base: "-16px", lg: "-28px" }}
+                transform="translate(50%, 0)"
+              >
+                <Image
+                  alt="avatar"
+                  src={getImageLink(item.user?.avatar)}
+                  fallbackSrc="https://via.placeholder.com/150"
+                  w="full"
+                  h="full"
+                  objectFit="cover"
+                />
+              </Box>
+            </Link>
+          ))}
         </Box>
       ) : (
         <Box>

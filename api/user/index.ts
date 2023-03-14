@@ -22,7 +22,7 @@ export const userApi = createApi({
     }
   },
   endpoints: (builder) => ({
-    profile: builder.query({
+    profile: builder.query<IUser, string>({
       query: () => {
         return {
           url: `/auth/me`,

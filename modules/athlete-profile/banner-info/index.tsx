@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Text, Flex, Image } from "@chakra-ui/react";
 import { findFlagUrlByIso2Code } from "country-flags-svg";
 import { VectorIcon } from "@components/svg/VectorProfile";
+import { getImageLink } from "@/utils/link";
 interface BasicInfoProps {
   image: string;
   nickname: string;
@@ -25,7 +26,7 @@ const BasicInfoAthlete: React.FC<BasicInfoProps> = ({
     <Box bg="primary">
       <Box position="relative">
         <Image
-          src={image}
+          src={getImageLink(image)}
           alt={nickname}
           w="100%"
           h={{ base: "667px", lg: "750px" }}
@@ -73,7 +74,7 @@ const BasicInfoAthlete: React.FC<BasicInfoProps> = ({
                 color="white"
                 ml="5px"
               >
-                Fans
+                {fans > 1 ? "Fans" : "Fan"}
               </Text>
             </Flex>
             <Text

@@ -14,28 +14,22 @@ interface DeleteProps {
   alert?: string;
   name?: string;
   success?: boolean;
+  isLoading?: boolean;
 }
 const DeleteSubscription: React.FC<DeleteProps> = ({
   title,
   message,
   confirm,
   cancel,
-  onCancel,
-  onSubmit,
   alert,
   name,
   success,
+  isLoading,
+  onCancel,
+  onSubmit,
 }) => {
   return (
-    <Box
-      bg="white"
-      w={{ base: "full", xl: "740px" }}
-      minH={50}
-      mx={4}
-      py={5}
-      borderRadius={8}
-      zIndex="1"
-    >
+    <Box bg="white" minH={50} borderRadius={8} zIndex="1">
       <Center mb={3}>
         <Center
           bg={success ? "#D1FAE5" : "#FEE2E2"}
@@ -64,7 +58,6 @@ const DeleteSubscription: React.FC<DeleteProps> = ({
         <Then>
           <Box
             mb={1}
-            mx={{ base: 5, xl: 6 }}
             fontWeight="semibold"
             textAlign="center"
             color="grey.500"
@@ -75,7 +68,6 @@ const DeleteSubscription: React.FC<DeleteProps> = ({
         </Then>
       </If>
       <Box
-        mx={5}
         textAlign="center"
         color={"black.ish"}
         fontSize={{ base: "lg", xl: success ? "2xl" : "xl" }}
@@ -98,7 +90,6 @@ const DeleteSubscription: React.FC<DeleteProps> = ({
         <Then>
           <Box
             mt={2}
-            mx={5}
             textAlign="center"
             color={"red"}
             fontSize={{ base: "md", xl: "xl" }}
@@ -111,13 +102,14 @@ const DeleteSubscription: React.FC<DeleteProps> = ({
         <Button
           variant="primary"
           mt={5}
-          mx={{ base: 5, xl: 6 }}
           textTransform="uppercase"
           fontSize={{ base: "md", xl: "xl" }}
           fontWeight="bold"
           w={{ base: "100%", xl: "auto" }}
           h="auto"
           py={3}
+          height="48px"
+          isLoading={isLoading}
           onClick={onSubmit}
         >
           {confirm}

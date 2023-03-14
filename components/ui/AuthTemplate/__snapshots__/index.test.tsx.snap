@@ -100,7 +100,7 @@ exports[`renders homepage unchanged 1`] = `
             By signing up you agree to 
           </span>
           <a
-            href=""
+            href="undefined/term-of-service"
           >
             <span
               class="chakra-text css-q4ss7u"
@@ -114,7 +114,7 @@ exports[`renders homepage unchanged 1`] = `
              and 
           </span>
           <a
-            href=""
+            href="undefined/privacy-policy"
           >
             <span
               class="chakra-text css-q4ss7u"

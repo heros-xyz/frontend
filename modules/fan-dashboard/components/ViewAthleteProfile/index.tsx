@@ -1,59 +1,35 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { LegacyRef, useRef } from "react";
-import { NumberParam, useQueryParam, withDefault } from "use-query-params";
+import { LegacyRef } from "react";
 import FindHeros from "@components/ui/FindHeros";
 import { IAthleteProfileResponse } from "@/types/athlete/types";
 import { Profile } from "@/modules/athlete-profile/profile";
 import Interactions from "@/modules/athlete-profile/interactions";
-import {
-  useGetAthleteBasicInfoQuery,
-  useGetAthleteSportProfileQuery,
-  useGetAthleteTierMembershipQuery,
-} from "@/api/fan";
 import BasicInfoAthlete from "@/modules/athlete-profile/banner-info";
 import MembershipSubscribe from "@/modules/athlete-profile/membership";
-import {
-  useGetTotalSubscriptionQuery,
-  useGetValidateIsFanQuery,
-} from "@/api/athlete";
+import CareerJourney from "@/modules/athlete-profile/career-journey";
+import { useAthleteProfile } from "@/hooks/useAthleteProfile";
 
 interface IFanAthleteProfileProps {
   athleteProfile: IAthleteProfileResponse | undefined;
 }
 
-const TABS = ["Profile", "Interactions", "Career Journey", "Membership"];
+const TABS = ["Profile", "Interactions", "Career Journey", "Memberships"];
 
 const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
   athleteProfile,
 }) => {
-  const { query } = useRouter();
-  const navigationBarRef = useRef<null | HTMLElement>(null);
-  const [currentTab, setCurrentTab] = useQueryParam(
-    "current",
-    withDefault(NumberParam, 0)
-  );
-
-  // const { data: careerJourneyData } = useGetCareerJourneyQuery("");
-  const { data: basicInfo } = useGetAthleteBasicInfoQuery(query.id as string, {
-    skip: typeof query.id !== "string",
-  });
-  const { data: sportProfile } = useGetAthleteSportProfileQuery(
-    query.id as string,
-    {
-      skip: typeof query.id !== "string",
-    }
-  );
-  const { data: tierMembershipList } = useGetAthleteTierMembershipQuery(
-    {
-      page: 1,
-      take: 10,
-      userId: query.id as string,
-    },
-    {
-      skip: typeof query.id !== "string",
-    }
-  );
+  const {
+    basicInfo,
+    currentTab,
+    tierMembershipList,
+    totalSubData,
+    validateIsFan,
+    journeyData,
+    navigationBarRef,
+    sportProfile,
+    handleSubscribe,
+    setCurrentTab,
+  } = useAthleteProfile();
 
   const onClickDownButton = () => {
     if (navigationBarRef && navigationBarRef.current) {
@@ -62,21 +38,6 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
         block: "start",
       });
     }
-  };
-
-  const { data: totalSubData } = useGetTotalSubscriptionQuery(
-    query.id as string,
-    {
-      skip: typeof query.id !== "string",
-    }
-  );
-  const { data: validateIsFan } = useGetValidateIsFanQuery(query.id as string, {
-    skip: typeof query.id !== "string",
-    refetchOnMountOrArgChange: true,
-  });
-
-  const handleSubscribe = () => {
-    setCurrentTab(3);
   };
 
   return (
@@ -99,6 +60,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
         lazyBehavior="keepMounted"
         ref={navigationBarRef as LegacyRef<HTMLDivElement> | undefined}
         index={currentTab}
+        minH="100vh"
       >
         <TabList
           overflowX="scroll"
@@ -108,7 +70,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
           border={"none"}
           position="sticky"
           zIndex={8}
-          top={0}
+          top={"-3px"}
           bg="primary"
           px={{ base: 5, lg: 0 }}
           pt={{ base: 3, lg: 4 }}
@@ -151,16 +113,18 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
             <Interactions
               onSubscribe={handleSubscribe}
               validateIsFan={validateIsFan}
+              athleteNickname={basicInfo?.nickName ?? ""}
+              onGoToTag={onClickDownButton}
             />
           </TabPanel>
           <TabPanel p="unset" px={{ base: 5, xl: "unset" }}>
-            Todo: Sprint 3
-            {/* <CareerJourney data={careerJourneyData} isEdit={false} /> */}
+            <CareerJourney data={journeyData} isEdit={false} />
           </TabPanel>
           <TabPanel p={{ xl: "unset" }} px={{ base: 5, xl: "unset" }}>
             <MembershipSubscribe
               listMembershipTiers={tierMembershipList?.data || []}
               validateIsFan={validateIsFan ?? false}
+              athleteNickname={basicInfo?.nickName ?? ""}
             />
           </TabPanel>
         </TabPanels>

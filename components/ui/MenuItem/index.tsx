@@ -13,7 +13,6 @@ interface IMenuItemProps {
 }
 
 const MenuItem: React.FC<IMenuItemProps> = ({
-  id,
   Icon,
   itemName,
   activeIcon,

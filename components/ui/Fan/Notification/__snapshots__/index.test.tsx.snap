@@ -3,38 +3,22 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-1whykrx"
+    class="css-migbc6"
   >
     <div
-      class="css-b3mwud"
+      class="css-1eieza3"
     >
       <h2
         class="chakra-heading css-1bdlfcy"
       >
         Notifications
       </h2>
-      <p
-        class="chakra-text css-lxu7ci"
-      >
-        Mark all as read
-      </p>
     </div>
-    <div
-      class="css-5ck138"
-    />
-    <div
-      class="css-1aq5yrs"
+    <p
+      class="chakra-text css-153jkc0"
     >
-      <div
-        class="chakra-spinner css-85jif3"
-      >
-        <span
-          class="css-8b45rq"
-        >
-          Loading...
-        </span>
-      </div>
-    </div>
+      You haven't had any notifications yet!
+    </p>
   </div>
 </div>
 `;

@@ -2,19 +2,25 @@ import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import OtpFill from "@/components/ui/OtpFill";
 import { useResendOtpMutation, useVerifyOtpMutation } from "@/api/user";
 import { IToken } from "@/types/users/types";
 import { useLoading } from "@/hooks/useLoading";
 
 const VerifyOtp = () => {
-  const { query, push } = useRouter();
+  const { query, replace } = useRouter();
   const [otp, setOtp] = useState("");
   const { start, finish } = useLoading();
   const [verifyOtp, { data: verifyOtpData, error: verifyOtpError, isLoading }] =
     useVerifyOtpMutation();
   const [resendOtp, { error: resendOtpError }] = useResendOtpMutation();
+
+  const callbackUrl = useMemo(() => {
+    if (typeof query.callbackUrl === "string") return query.callbackUrl ?? "/";
+
+    return "/";
+  }, [query]);
 
   const handleVerify = (otp: string) => {
     setOtp(otp);
@@ -28,12 +34,12 @@ const VerifyOtp = () => {
     try {
       const res = await signIn("credentials", {
         redirect: false,
-        callbackUrl: "/sign-in",
+        callbackUrl: callbackUrl as string,
         ...token,
       });
 
       if (res?.ok) {
-        push("/");
+        replace(callbackUrl);
       }
     } catch (error) {
       setOtp("");

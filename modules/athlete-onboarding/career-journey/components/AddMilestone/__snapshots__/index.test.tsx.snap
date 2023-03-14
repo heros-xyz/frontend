@@ -27,8 +27,8 @@ exports[`renders homepage unchanged 1`] = `
           >
             <input
               class="chakra-checkbox__input"
-              id="showEndDate"
-              name="showEndDate"
+              id="isPeriodDate"
+              name="isPeriodDate"
               style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
               type="checkbox"
               value=""
@@ -314,8 +314,8 @@ exports[`renders homepage unchanged 1`] = `
           </div>
           <textarea
             class="chakra-textarea css-pkraa3"
-            id="name"
-            name="name"
+            id="title"
+            name="title"
             placeholder="It can be name of Medal/Certificate/Prize or anything that important to you"
             style="padding-left: 0px; border-radius: 0;"
           />

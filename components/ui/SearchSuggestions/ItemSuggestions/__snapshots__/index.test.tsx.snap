@@ -13,8 +13,8 @@ exports[`renders ItemSuggestions unchanged 1`] = `
       >
         <img
           alt="heros item"
-          class="chakra-image css-k6jbwm"
-          src=""
+          class="chakra-image__placeholder css-k6jbwm"
+          src="https://via.placeholder.com/50"
         />
       </div>
       <div

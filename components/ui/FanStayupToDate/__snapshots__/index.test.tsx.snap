@@ -23,8 +23,9 @@ exports[`renders homepage unchanged 1`] = `
             class="chakra-aspect-ratio css-17v9a0z"
           >
             <img
-              alt="1"
-              class="chakra-image css-9theft"
+              alt=""
+              class="chakra-image__placeholder css-9theft"
+              src="https://via.placeholder.com/210x265"
             />
           </div>
           <div
@@ -37,9 +38,9 @@ exports[`renders homepage unchanged 1`] = `
                 class="chakra-text css-1yzyoi4"
               />
               <p
-                class="chakra-text css-122oiyo"
+                class="chakra-text css-15ibc37"
               >
-                 
+                 new interactions
               </p>
             </div>
           </div>
@@ -51,8 +52,9 @@ exports[`renders homepage unchanged 1`] = `
             class="chakra-aspect-ratio css-17v9a0z"
           >
             <img
-              alt="2"
-              class="chakra-image css-9theft"
+              alt=""
+              class="chakra-image__placeholder css-9theft"
+              src="https://via.placeholder.com/210x265"
             />
           </div>
           <div
@@ -65,9 +67,9 @@ exports[`renders homepage unchanged 1`] = `
                 class="chakra-text css-1yzyoi4"
               />
               <p
-                class="chakra-text css-122oiyo"
+                class="chakra-text css-15ibc37"
               >
-                 
+                 new interactions
               </p>
             </div>
           </div>

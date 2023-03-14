@@ -2,8 +2,11 @@ import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
+import { Session } from "next-auth";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { usePreSignInWithEmailMutation } from "@/api/user";
+import { wrapper } from "@/store";
+import { loggedInGuard } from "@/middleware/loggedInGuard";
 
 const FanSignUp = () => {
   const router = useRouter();
@@ -67,3 +70,15 @@ const FanSignUp = () => {
 };
 
 export default FanSignUp;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => (context) => {
+    return loggedInGuard(context, (session: Session | null) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

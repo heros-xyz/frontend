@@ -1,97 +1,124 @@
+import { useRouter } from "next/router";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import updateLocale from "dayjs/plugin/updateLocale";
 import isToday from "dayjs/plugin/isToday";
 import { useDispatch } from "react-redux";
+import { useUnmount } from "react-use";
 import { INotificationInfo } from "@/types/notifications/types";
 import {
-	resetApiState,
-	useGetListNotificationQuery,
-	useMaskAllNotificationMutation,
+  resetApiState,
+  useGetListNotificationQuery,
+  useMaskAllNotificationMutation,
 } from "@/api/global";
-import { useScrollToBottom } from "./useScrollToBottom";
 import { useLoading } from "./useLoading";
 
 dayjs.extend(updateLocale);
 dayjs.updateLocale("en", {
-	weekStart: 1,
+  weekStart: 1,
 });
 
 export const useNotification = () => {
-	const dispatch = useDispatch()
-	const { start, finish } = useLoading()
-	const [olderThan, setOlderThan] = useState<string | Date | undefined>(
-		undefined
-	);
-	const [take, setTake] = useState(10);
-	const { isBottom } = useScrollToBottom();
-	const { data: listNotification, isFetching, refetch } = useGetListNotificationQuery({
-		olderThan,
-		take,
-	});
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const { start, finish } = useLoading();
+  const [beforeDate, setBeforeDate] = useState<string | Date | undefined>(
+    undefined
+  );
+  const [listNotification, setListNotification] = useState<INotificationInfo[]>(
+    []
+  );
+  const {
+    data: notificationData,
+    isFetching,
+    refetch,
+  } = useGetListNotificationQuery({
+    beforeDate,
+    take: 10,
+  });
 
-	const [onMaskAll, { data: maskAllNotificationData }] =
-		useMaskAllNotificationMutation();
+  const [onMaskAll, { data: maskAllNotificationData }] =
+    useMaskAllNotificationMutation();
 
-	const onMaskAllNotification = async () => {
-		start()
-		await onMaskAll("").unwrap();
-	};
+  const onMaskAllNotification = async () => {
+    start();
+    try {
+      await onMaskAll("").unwrap();
+    } catch (error) {
+      finish();
+    }
+  };
 
-	const onRefetchNotificationList = async () => {
-		await refetch().unwrap()
-		finish()
-	}
+  const onRefetchNotificationList = async () => {
+    await refetch().unwrap();
+    router.reload();
+    finish();
+  };
 
-	useEffect(() => {
-		if (isBottom && !isFetching && listNotification?.meta?.hasNextPage) {
-			const lastItem = listNotification?.data?.slice(-1)?.pop();
-			setTake(20);
-			setOlderThan(lastItem?.createdAt);
-		}
-	}, [isBottom]);
+  const onLoadMore = () => {
+    console.log("load more");
 
-	useEffect(() => {
-		if (maskAllNotificationData) {
-			onRefetchNotificationList()
-		}
-	}, [maskAllNotificationData])
+    if (!isFetching && notificationData?.meta?.hasNextPage) {
+      const lastItem = notificationData?.data?.slice(-1)?.pop();
+      setBeforeDate(lastItem?.createdAt);
+    }
+  };
 
-	const notificationGroup = useMemo(() => {
-		const notificationOnToday: INotificationInfo[] = [];
-		const notificationOnWeek: INotificationInfo[] = [];
-		const notificationOnMonth: INotificationInfo[] = [];
-		const notificationEarlier: INotificationInfo[] = [];
+  useEffect(() => {
+    if (maskAllNotificationData) {
+      onRefetchNotificationList();
+    }
+  }, [maskAllNotificationData]);
 
-		if (listNotification?.data) {
-			dayjs.extend(isToday);
-			const startWeek = dayjs().startOf("week");
+  useEffect(() => {
+    if (notificationData?.data) {
+      setListNotification((prev) => [...prev, ...notificationData?.data]);
+    }
+  }, [notificationData?.data]);
 
-			const startMonth = dayjs().startOf("month");
-			listNotification?.data?.forEach((notification) => {
-				if (dayjs(notification.createdAt).isToday()) {
-					notificationOnToday.push(notification);
-				} else if (dayjs(notification.createdAt).isAfter(startWeek)) {
-					notificationOnWeek.push(notification);
-				} else if (dayjs(notification.createdAt).isAfter(startMonth)) {
-					notificationOnMonth.push(notification);
-				} else {
-					notificationEarlier.push(notification);
-				}
-			});
-		}
+  const notificationGroup = useMemo(() => {
+    const notificationOnToday: INotificationInfo[] = [];
+    const notificationOnWeek: INotificationInfo[] = [];
+    const notificationOnMonth: INotificationInfo[] = [];
+    const notificationEarlier: INotificationInfo[] = [];
 
-		return {
-			notificationOnToday,
-			notificationOnWeek,
-			notificationOnMonth,
-			notificationEarlier,
-		};
-	}, [listNotification]);
+    if (listNotification) {
+      dayjs.extend(isToday);
+      const startWeek = dayjs().add(-7, "day");
+      const startMonth = dayjs().add(-1, "month");
+      const startThreeMonthAgo = dayjs().add(-3, "month");
 
-	return {
-		...notificationGroup,
-		isFetching,
-		onMaskAllNotification,
-	};
+      listNotification?.forEach((notification) => {
+        if (dayjs(notification.createdAt).isToday()) {
+          notificationOnToday.push(notification);
+        } else if (dayjs(notification.createdAt).isAfter(startWeek)) {
+          notificationOnWeek.push(notification);
+        } else if (dayjs(notification.createdAt).isAfter(startMonth)) {
+          notificationOnMonth.push(notification);
+        } else if (dayjs(notification.createdAt).isAfter(startThreeMonthAgo)) {
+          notificationEarlier.push(notification);
+        }
+      });
+    }
+
+    return {
+      notificationOnToday,
+      notificationOnWeek,
+      notificationOnMonth,
+      notificationEarlier,
+    };
+  }, [listNotification]);
+
+  useUnmount(() => {
+    dispatch(resetApiState());
+  });
+
+  return {
+    ...notificationGroup,
+    listNotification,
+    isFetching,
+    hasMore: notificationData?.meta?.hasNextPage,
+    onMaskAllNotification,
+    onLoadMore,
+  };
 };

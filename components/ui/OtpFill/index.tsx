@@ -59,12 +59,6 @@ const OtpFill: React.FC<OtpProps> = ({
     },
   });
 
-  const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      onSubmit(formik.values.otp);
-    }
-  };
-
   const onResend = () => {
     reset();
     resendOtp && resendOtp();
@@ -139,42 +133,36 @@ const OtpFill: React.FC<OtpProps> = ({
                 w="full"
                 ml="0px !important"
                 autoFocus
-                onKeyUp={onEnter}
               />
               <PinInputField
                 fontSize="32px"
                 pb="15px"
                 w="full"
                 ml="0px !important"
-                onKeyUp={onEnter}
               />
               <PinInputField
                 fontSize="32px"
                 pb="15px"
                 w="full"
                 ml="0px !important"
-                onKeyUp={onEnter}
               />
               <PinInputField
                 fontSize="32px"
                 pb="15px"
                 w="full"
                 ml="0px !important"
-                onKeyUp={onEnter}
               />
               <PinInputField
                 fontSize="32px"
                 pb="15px"
                 w="full"
                 ml="0px !important"
-                onKeyUp={onEnter}
               />
               <PinInputField
                 fontSize="32px"
                 pb="15px"
                 w="full"
                 ml="0px !important"
-                onKeyUp={onEnter}
               />
             </PinInput>
           </HStack>

@@ -55,7 +55,7 @@ const FanOnboarding = () => {
               </Case>
               <Case condition={step === 4}>
                 <UploadProfileImage
-                  avatar={avatar}
+                  avatar={avatar ? avatar : null}
                   onSubmit={handleChangeAvatar}
                 />
               </Case>

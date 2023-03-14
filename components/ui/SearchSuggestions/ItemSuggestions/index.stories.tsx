@@ -20,6 +20,7 @@ export const Item: Story = {
       fullName: "Marshall",
       sport: "Surfing",
       id: "",
+      nickName: "",
     },
   },
 };

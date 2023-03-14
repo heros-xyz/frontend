@@ -10,7 +10,7 @@ export interface IFanSetupAccountParams {
   gender: number;
   sportIds: string;
   dateOfBirth: string;
-  avatar: string;
+  avatar: File | null | undefined;
 }
 
 export interface IAthleteSetupAccountData {
@@ -50,14 +50,15 @@ export interface IOnboardingBasicInfoParams {
 }
 
 export interface IOnboardingSportProfileParams {
-  sportsId: string;
+  sportId: string;
   currentTeam: string;
   goal: string;
 }
 
 export interface IOnboardingCareerJourneyParams {
-  startTime: string;
-  endTime: string | null;
+  isPeriodDate: boolean;
+  startDate: string;
+  endDate: string | null;
   title: string;
   description: string;
   icon: string;

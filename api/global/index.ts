@@ -30,24 +30,18 @@ export const globalApi = createApi({
         method: "get",
       }),
     }),
-    getListNotification: builder.query<{
-      data: INotificationInfo[];
-      meta: IMeta;
-    }, IPagination>({
+    getListNotification: builder.query<
+      {
+        data: INotificationInfo[];
+        meta: IMeta;
+      },
+      IPagination
+    >({
       query: (params) => ({
         url: `/notification`,
         method: "GET",
         params,
       }),
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName;
-      },
-      merge: (currentCache, newItems) => {
-        currentCache.data.push(...newItems.data);
-      },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
     }),
     maskNotification: builder.mutation<boolean, string>({
       query: (notificationId) => ({
@@ -73,4 +67,4 @@ export const {
   util: { resetApiState },
 } = globalApi;
 
-export const { } = globalApi.endpoints;
+export const {} = globalApi.endpoints;

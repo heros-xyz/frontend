@@ -92,7 +92,18 @@ const WithdrawMoney: React.FC<IProp> = ({ onSubmit }) => {
                   w="full"
                   id="bankName"
                   name="bankName"
-                  onChange={formik.handleChange}
+                  onChange={(e) => {
+                    const regex = new RegExp(`[A-Za-z]`);
+                    const lastChar = e.target.value.slice(-1);
+                    if (lastChar === " " || regex.test(lastChar)) {
+                      formik.handleChange(e);
+                    } else {
+                      formik.setFieldValue(
+                        "bankName",
+                        e.target.value.slice(0, -1)
+                      );
+                    }
+                  }}
                   value={formik.values.bankName}
                   isInvalid={Boolean(
                     formik.errors.bankName && formik.touched.bankName

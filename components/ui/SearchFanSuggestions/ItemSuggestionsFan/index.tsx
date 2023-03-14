@@ -1,5 +1,6 @@
 import { Box, Flex, Text, Image } from "@chakra-ui/react";
 import { IFanInfo } from "@/types/athlete/types";
+import { getImageLink } from "@/utils/link";
 
 interface IProps {
   item: IFanInfo;
@@ -23,11 +24,12 @@ const ItemSuggestionsFan: React.FC<IProps> = ({ item, onClickItem }) => {
           overflow="hidden"
         >
           <Image
-            src={item.avatar}
+            src={getImageLink(item.avatar)}
             alt="heros item"
             width={{ base: "40px", xl: "50px" }}
             height={{ base: "40px", xl: "50px" }}
             objectFit="cover"
+            fallbackSrc="https://via.placeholder.com/50"
           />
         </Box>
         <Box display="flex" justifyContent="center" flexDirection="column">

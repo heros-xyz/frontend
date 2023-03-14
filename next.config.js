@@ -12,10 +12,14 @@ const nextConfig = {
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
-    FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET
+    FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
+    WEBSITE_URL: process.env.WEBSITE_URL,
+    HEROS_MEDIA_URL: process.env.HEROS_MEDIA_URL,
   },
   publicRuntimeConfig: {
     HEROS_BASE_URL: process.env.HEROS_BASE_URL,
+    WEBSITE_URL: process.env.WEBSITE_URL,
+    HEROS_MEDIA_URL: process.env.HEROS_MEDIA_URL,
   },
   serverRuntimeConfig: {
     HEROS_BASE_URL: process.env.HEROS_BASE_URL,
@@ -24,13 +28,19 @@ const nextConfig = {
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
-    FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET
+    FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
+    WEBSITE_URL: process.env.WEBSITE_URL,
+    HEROS_MEDIA_URL: process.env.HEROS_MEDIA_URL,
   },
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },
   images: {
-    domains: ["icon-library.com"],
+    domains: [
+      "icon-library.com",
+      "heros-media-dev.s3-website-ap-southeast-1.amazonaws.com",
+      process.env.HEROS_MEDIA_URL ?? ""
+    ],
   },
   experimental: {
     scrollRestoration: true,

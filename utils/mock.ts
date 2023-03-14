@@ -113,30 +113,12 @@ export const sports = [
 
 export const timelineItems = [
   {
-    title: "Joined Jaworznickie Stowarzyszenie Piłkarskie Clubs",
+    title: "Join “Jaworznickie Stowarzyszenie Piłkarskie Szczakowianka Club",
     description:
-      "I became the best new player on team and played with team about 10 champion league. We won 8 times .",
-    from: "10/01/2022",
-    to: "10/24/2022",
-    isArchive: true,
-    isCurrent: true,
-    icon: "flag",
-  },
-  {
-    title: "Join England Club",
-    description: "I became the best new player on team",
-    from: "10/24/2022",
-    isArchive: false,
-    isCurrent: false,
-  },
-  {
-    title: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    description:
-      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-    from: "10/01/2022",
-    to: "10/24/2022",
-    isArchive: true,
-    isCurrent: true,
-    icon: "flag",
+      "I became the best new player on team I became the best new player on team I became the best new player on team I became the best new player on team",
+    startDate: "10/01/2022",
+    endDate: "10/24/2022",
+    isPeriodDate: true,
+    icon: "FLAG",
   },
 ];

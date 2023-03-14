@@ -4,13 +4,16 @@ import {
   BoxProps,
   Flex,
   Heading,
+  Image,
   Spacer,
   Text,
 } from "@chakra-ui/react";
 import React from "react";
 import Link from "next/link";
+import { getImageLink, getWebsiteLink } from "@/utils/link";
+import { CorporateWebsiteLink } from "@/utils/enums";
 interface OrderSummaryProps extends BoxProps {
-  avatar?: string;
+  avatar: string;
   userName: string;
   tier: string;
   price: string;
@@ -31,7 +34,13 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         Order Summary
       </Heading>
       <Flex py={5} gap={2.5}>
-        <Avatar src={avatar} />
+        <Image
+          w={{ base: "40px", lg: "60px" }}
+          src={getImageLink(avatar)}
+          alt="image"
+          rounded="full"
+          fallbackSrc="https://via.placeholder.com/50"
+        />
         <Box px={2.5}>
           <Heading as="span" fontSize="md" fontWeight={500}>
             {userName}
@@ -89,13 +98,19 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       </Text>
       <Box mb={8} fontSize={{ base: "xs", lg: "md" }} fontWeight={500}>
         <Text as="span">By clicking subscribe now, you agree to our </Text>
-        <Link href="">
+        <Link
+          href={getWebsiteLink(CorporateWebsiteLink.TERM_AND_CONDITION)}
+          target="_blank"
+        >
           <Text as="span" color="secondary" textDecoration="underline">
             Terms of User
           </Text>
         </Link>
         <Text as="span"> and </Text>
-        <Link href="">
+        <Link
+          href={getWebsiteLink(CorporateWebsiteLink.PRIVACY_POLICY)}
+          target="_blank"
+        >
           <Text as="span" color="secondary" textDecoration="underline">
             Privacy Policy
           </Text>
@@ -105,7 +120,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           be notified in advance if the monthly mount increases. Cancel anytime
           in your{" "}
         </Text>
-        <Link href="">
+        <Link href="/fan/active-subscriptions" target="_blank">
           <Text as="span" color="secondary" textDecoration="underline">
             membership settings
           </Text>

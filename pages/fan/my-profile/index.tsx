@@ -1,4 +1,4 @@
-import { Avatar, Box, Container, Text } from "@chakra-ui/react";
+import { Box, Container, Image, Text } from "@chakra-ui/react";
 import { ReactElement } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
@@ -9,6 +9,7 @@ import AthleteFanSettings from "@/components/ui/Settings";
 import { useProfileQuery } from "@/api/user";
 import { useLoading } from "@/hooks/useLoading";
 import { $http } from "@/libs/http";
+import { getImageLink } from "@/utils/link";
 
 const MyProfile = () => {
   const { data: session } = useSession();
@@ -48,7 +49,7 @@ const MyProfile = () => {
       </Head>
       <Box
         bg={{ base: "acccent.4", lg: "none" }}
-        py={4}
+        py={{ base: 2.5, lg: 4 }}
         mb={5}
         pt={{ base: 4, lg: 12 }}
       >
@@ -58,9 +59,18 @@ const MyProfile = () => {
           py={{ lg: 6 }}
           borderRadius={{ lg: "12px" }}
         >
-          <Box px={5} display="flex" alignItems="center">
-            <Avatar w="60px" h="60px" src={session?.user.avatar} mr={4} />
-            <Text fontWeight={700}>
+          <Box px={{ lg: 6 }} display="flex" alignItems="center">
+            <Image
+              w={{ base: "60px", lg: "80px" }}
+              h={{ base: "60px", lg: "80px" }}
+              src={getImageLink(session?.user.avatar)}
+              alt="user-avatar"
+              objectFit="cover"
+              rounded="full"
+              mr={3}
+              fallbackSrc="https://via.placeholder.com/50"
+            />
+            <Text fontWeight={700} flex={1}>
               {session?.user.firstName} {session?.user.lastName}
             </Text>
           </Box>

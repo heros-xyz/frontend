@@ -35,7 +35,7 @@ const SelectGender: React.FC<IProp> = ({
   return (
     <>
       <Flex
-        flexDirection={flexRow === true ? "row" : { base: "column", lg: "row" }}
+        flexDirection={flexRow ? "row" : { base: "column", lg: "row" }}
         gap={3}
       >
         {listGender.map((item, index) => (

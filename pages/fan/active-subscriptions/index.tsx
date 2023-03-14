@@ -7,6 +7,8 @@ import {
   Text,
   Modal,
   useDisclosure,
+  ModalOverlay,
+  ModalContent,
 } from "@chakra-ui/react";
 import { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -23,6 +25,7 @@ import {
 import ClockMiniIcon from "@/components/svg/ClockMiniIcon";
 import { GetActiveSubscription } from "@/types/fan/types";
 import DeleteSubscription from "@/components/ui/DeleteSubscription";
+import { getImageLink } from "@/utils/link";
 
 const PaymentInfo = () => {
   const router = useRouter();
@@ -39,8 +42,8 @@ const PaymentInfo = () => {
 
   const [dataCancel, setDataCancel] = useState<GetActiveSubscription>();
   const [dataRender, setDataRender] = useState<GetActiveSubscription[]>();
-  const { data: dataSub } = useGetActiveSubscriptionsQuery("");
-  const [deleteSub, { isSuccess: successDeleted }] =
+  const { data: dataSub, refetch } = useGetActiveSubscriptionsQuery("");
+  const [deleteSub, { isSuccess: successDeleted, isLoading }] =
     useDeleteSubscriptionsMutation();
 
   const handleBack = () => {
@@ -52,14 +55,16 @@ const PaymentInfo = () => {
     }
   };
 
-  useUpdateEffect(() => {
+  useEffect(() => {
     if (dataSub) {
-      setDataRender(dataSub.data?.filter((el) => el.status !== "EXPIRED"));
+      setDataRender(dataSub?.data?.filter((el) => el?.status === "ACTIVE"));
     }
   }, [dataSub]);
+
   useUpdateEffect(() => {
     onCloseConfirm();
     onOpenSuccess();
+    refetch();
   }, [successDeleted]);
 
   useEffect(() => {
@@ -115,25 +120,32 @@ const PaymentInfo = () => {
               <Flex px={{ base: "5", xl: 0 }}>
                 <Center w={{ base: "15%", xl: "16%" }}>
                   <Image
-                    src={el?.avatar}
+                    src={getImageLink(el?.avatar)}
                     alt=""
                     borderRadius="50%"
                     boxSize={{ base: "50px", xl: "80px" }}
                     loading="lazy"
                     zIndex={1}
+                    fallbackSrc="https://via.placeholder.com/50"
+                    cursor="pointer"
+                    onClick={() =>
+                      router.push(`/fan/athlete-profile/${el?.athleteId}`)
+                    }
                   />
                 </Center>
                 <Box
                   p={{ base: "2.5", xl: "5" }}
                   py={{ xl: "4" }}
                   w={
-                    el?.status !== "CANCEL"
+                    el?.autoRenew
                       ? { base: "55%", xl: "64%" }
                       : { base: "85%", xl: "84%" }
                   }
                   fontWeight="medium"
                   cursor="pointer"
-                  onClick={() => router.push(`/fan/athlete-profile/${el?.id}`)}
+                  onClick={() =>
+                    router.push(`/fan/athlete-profile/${el?.athleteId}`)
+                  }
                 >
                   <Text fontWeight="bold" fontSize={{ xl: "xl" }}>
                     {el?.nickName ?? el?.fullName}
@@ -148,7 +160,7 @@ const PaymentInfo = () => {
                       mt={0.5}
                     />
                     <Box ml={{ base: 2, xl: 3 }} color="acccent.4">
-                      <If condition={el?.status !== "CANCEL"}>
+                      <If condition={el?.autoRenew}>
                         <Then>
                           <Text>Next Payment Due:</Text>
                           <Text>
@@ -165,7 +177,7 @@ const PaymentInfo = () => {
                     </Box>
                   </Flex>
                 </Box>
-                <If condition={el?.status !== "CANCEL"}>
+                <If condition={el?.autoRenew}>
                   <Then>
                     <Center w={{ base: "30%", xl: "20%" }} color="secondary">
                       <Button
@@ -193,13 +205,13 @@ const PaymentInfo = () => {
         </Box>
       </Center>
       <Modal isCentered isOpen={isOpenConfirm} onClose={onCloseConfirm}>
-        <Center
-          position="absolute"
-          top="0"
-          left="0"
-          w="full"
-          h="100dvh"
-          bg="rgba(0, 0, 0, 0.7)"
+        <ModalOverlay />
+        <ModalContent
+          pt="5"
+          px="4"
+          pb={{ base: "4", lg: "7" }}
+          maxW="unset"
+          w={{ base: "95%", lg: "740px" }}
         >
           <DeleteSubscription
             alert="Are you sure you want to continue?"
@@ -215,17 +227,18 @@ const PaymentInfo = () => {
             cancel="back"
             onCancel={onCloseConfirm}
             onSubmit={() => handleConfirm(dataCancel?.id)}
+            isLoading={isLoading}
           />
-        </Center>
+        </ModalContent>
       </Modal>
       <Modal isCentered isOpen={isOpenSuccess} onClose={onCloseSuccess}>
-        <Center
-          position="absolute"
-          top="0"
-          left="0"
-          w="full"
-          h="100dvh"
-          bg="rgba(0, 0, 0, 0.7)"
+        <ModalOverlay />
+        <ModalContent
+          pt="5"
+          px="4"
+          pb={{ base: "4", lg: "7" }}
+          maxW="unset"
+          w={{ base: "95%", lg: "740px" }}
         >
           <DeleteSubscription
             message="Subscription cancelled successfully"
@@ -236,7 +249,7 @@ const PaymentInfo = () => {
             }}
             success
           />
-        </Center>
+        </ModalContent>
       </Modal>
     </Box>
   );

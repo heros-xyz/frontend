@@ -1,25 +1,37 @@
-import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
+import { Image, Box, Flex, Text } from "@chakra-ui/react";
 import React, { FC, useEffect, useMemo, useRef, useState } from "react";
 import { Else, If, Then } from "react-if";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import {
   useAddCommentInteractionMutation,
   useGetListCommentInteractionQuery,
 } from "@/api/athlete";
-import ReplyingComment from "@/modules/athlete-profile/interactions/components/ReplyingComment";
+import CommentField from "@/modules/athlete-profile/interactions/components/CommentField";
 import { IReplyingTo } from "@/modules/athlete-profile/interactions/post-detail/CommentSection";
 import { useReplyCommentMutation } from "@/api/fan";
+import { getImageLink } from "@/utils/link";
+import { IResponseComment } from "@/types/athlete/types";
 import Comments from "../../Comment/List";
 interface IAthleteInteractionCommentsProps {
   id: string;
   isPreview?: boolean;
+  focusComment?: boolean;
+  scrollToWhenCommented?: boolean;
+  onUnFocusComment?: (value: boolean) => void;
+  setTotalComments?: (value: number) => void;
 }
 const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
   id,
   isPreview,
+  focusComment = false,
+  scrollToWhenCommented,
+  onUnFocusComment,
+  setTotalComments,
 }) => {
-  const scrollRef = useRef<any>();
-  const [totalView, setTotalView] = useState<number>(4);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const { data: session } = useSession();
+  const [totalView, setTotalView] = useState<number>(10);
   const [isFocusOnInput, setIsFocusOnInput] = useState(false);
   const [replyingTo, setReplyingTo] = useState<IReplyingTo | undefined>(
     undefined
@@ -36,6 +48,7 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
   } = useGetListCommentInteractionQuery(
     {
       interactionId: id,
+      authorId: session?.user.id,
       pageInfo: {
         take: isPreview ? 2 : totalView,
         ...(isPreview && { take: 2 }),
@@ -48,12 +61,22 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
   );
 
   useEffect(() => {
-    if (sendMessageRespone || sendMessageRespone) {
+    setIsFocusOnInput(focusComment);
+  }, [focusComment]);
+
+  useEffect(() => {
+    if (listComment && setTotalComments) {
+      setTotalComments(listComment.meta?.itemCount);
+    }
+  }, [listComment]);
+
+  useEffect(() => {
+    if (scrollToWhenCommented && (sendMessageRespone || replyCommentResponse)) {
       refetch();
       setReplyingTo(undefined);
       setIsFocusOnInput(false);
       window.scrollTo({
-        top: scrollRef?.current?.offsetTop - 100,
+        top: Number(scrollRef?.current?.offsetTop) - 100,
         behavior: "smooth",
       });
     }
@@ -76,8 +99,12 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
     });
   };
 
-  const handleFocusOnInput = (value: boolean) => {
-    setIsFocusOnInput(value);
+  const getUserName = (item: IResponseComment) => {
+    if (item.user.role === "ATHLETE") {
+      return session?.user.nickname;
+    }
+
+    return `${item.user.firstName} ${item.user.lastName}`;
   };
 
   const formatDataComment = useMemo(() => {
@@ -91,6 +118,7 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
           parentComment,
           createdAt,
           liked,
+          isAuthorComment,
         }) => ({
           id,
           name: `${user.firstName} ${user.lastName}`,
@@ -102,38 +130,48 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
           isLiked: liked,
           parentComment,
           createdAt: createdAt,
+          isAuthorComment,
+          nickName: user.nickName,
         })
       ) || []
     );
   }, [listComment]);
 
   return (
-    <Box>
+    <Box className="comment-box">
       <If condition={isPreview}>
         <Then>
           {listComment?.data.map((item, index) => (
-            <Box key={"key" + `${index}`}>
+            <Box key={"key" + `${index}`} className="comment-box__preview">
               <Box
                 color="grey.100"
                 fontSize={{ base: "xs", lg: "md" }}
                 my={{ base: 2, lg: 4 }}
               >
-                <Flex alignItems="center" gap={4}>
+                <Flex alignItems="flex-start" gap={4}>
                   <Flex alignItems="center" gap={2.5}>
-                    <Avatar
-                      src={item.user.avatar}
-                      name={item.user.avatar}
+                    <Image
+                      src={getImageLink(item.user.avatar)}
                       w={{ base: 5, lg: 8 }}
                       h={{ base: 5, lg: 8 }}
+                      alt={item.user.avatar}
+                      rounded="full"
+                      fallbackSrc="https://via.placeholder.com/30"
                     />
-                    <Text as="b">{`${item.user.firstName} ${item.user.lastName}`}</Text>
+                    <Text as="b">{getUserName(item)}</Text>
                   </Flex>
-                  <Text>{item.content}</Text>
+                  <Text wordBreak="break-word" flex={1} mt="1px">
+                    {item.content}
+                  </Text>
                 </Flex>
               </Box>
             </Box>
           ))}
-          <If condition={listComment?.data.length}>
+          <If
+            condition={
+              listComment?.meta?.itemCount && listComment?.meta?.itemCount > 2
+            }
+          >
             <Then>
               <Link href={`/athlete/interactions/${id}`}>
                 <Text
@@ -148,8 +186,12 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
           </If>
         </Then>
         <Else>
-          <Box ref={scrollRef} position="relative">
-            <Box pt={{ base: 2, lg: 5 }} pb={{ base: 4, lg: "30px" }}>
+          <Box
+            ref={scrollRef}
+            position="relative"
+            className="comment-box__detail"
+          >
+            <Box pt={{ base: 2, lg: 5 }} pb={{ base: 4, lg: "15px" }}>
               <Comments
                 comments={formatDataComment}
                 isLoading={isLoading}
@@ -160,8 +202,8 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
               />
               <If
                 condition={
-                  listComment?.totalComments &&
-                  listComment?.totalComments > totalView
+                  listComment?.meta.itemCount &&
+                  listComment?.meta.itemCount > totalView
                 }
               >
                 <Then>
@@ -170,8 +212,8 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
                     color="secondary"
                     textDecoration="underline"
                     fontSize={{ base: "xs", lg: "lg" }}
-                    mt={{ base: 5, lg: 8 }}
-                    onClick={() => setTotalView(totalView + 4)}
+                    mt={{ base: 5 }}
+                    onClick={() => setTotalView(totalView + 10)}
                   >
                     View more comments
                   </Text>
@@ -184,14 +226,17 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
               bg="primary"
               alignItems="center"
               gap={4}
-              py={5}
+              py={{ base: 5, lg: 0 }}
               zIndex={10}
             >
-              <ReplyingComment
+              <CommentField
                 isReplying={replyingTo}
                 isLoading={isLoading}
                 onSubmitComment={onSendMessage}
-                isUnfocused={() => handleFocusOnInput(false)}
+                isUnfocused={() => {
+                  setIsFocusOnInput(false);
+                  onUnFocusComment && onUnFocusComment(false);
+                }}
                 isFocused={isFocusOnInput}
                 onCancelReply={() => setReplyingTo(undefined)}
               />

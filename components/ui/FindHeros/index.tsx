@@ -65,16 +65,14 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
   return (
     <Box {...props} position="relative">
       <Flex h={14} pt={1}>
-        <Link href={"/"}>
-          <Center
-            h={{ base: 6, xl: "1.875rem" }}
-            w={{ base: 6, xl: "1.875rem" }}
-            my={3}
-            mr={3}
-          >
-            <LogoMiniIcon w="100%" h="100%" />
-          </Center>
-        </Link>
+        <Center
+          h={{ base: 6, xl: "1.875rem" }}
+          w={{ base: 6, xl: "1.875rem" }}
+          my={3}
+          mr={3}
+        >
+          <LogoMiniIcon w="100%" h="100%" />
+        </Center>
 
         <InputGroup>
           <InputLeftElement pointerEvents="none">
@@ -113,7 +111,9 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
           buttonName={data.length ? "See All Results" : "No Result Found"}
           items={data}
           onShowAllResult={onShowAllResult}
-          onClick={() => setShowSuggestList(false)}
+          onClick={() => {
+            setShowSuggestList(false);
+          }}
         />
       )}
       {searchValue.length === 0 && isSearchBarFocused && (

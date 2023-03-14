@@ -1,23 +1,35 @@
 import {
   Box,
+  Container,
   Divider,
+  Drawer,
+  DrawerContent,
   Flex,
   Grid,
   GridItem,
   Tag,
   TagLabel,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { Else, If, Then } from "react-if";
 import { useUpdateEffect } from "react-use";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { ITags } from "@/types/athlete/types";
+import { FormikContext } from "formik";
+import {
+  IInteractionItem,
+  IInteractionMedia,
+  ITags,
+} from "@/types/athlete/types";
 import { LoveIcon } from "@/components/svg/social/LoveIcon";
 import { CommentIcon } from "@/components/svg/social/CommentIcon";
 import { ShareIcon } from "@/components/svg/social/ShareIcon";
 import { useReactionInteractionMutation } from "@/api/fan";
+import InteractionsPost from "@/modules/athlete-interaction/components/post";
+import { useUpdateInteractionInfo } from "@/modules/athlete-interaction/hooks";
+import SocialSharing from "@/modules/athlete-profile/interactions/components/SocialSharing";
 import AthleteInfo, { AthleteInfoProps } from "../AthleteInfo";
 import type { MenuItem } from "../AthleteMenu";
 import AthleteMenu from "../AthleteMenu";
@@ -26,6 +38,7 @@ import DeletePostModal from "./Modal/Delete";
 
 interface IAthletePostProps {
   children?: React.ReactNode;
+  interactionInfo?: IInteractionItem;
   id: string | string[] | undefined;
   menuList?: MenuItem[];
   athleteInfo: AthleteInfoProps;
@@ -34,17 +47,19 @@ interface IAthletePostProps {
   hashtag?: ITags[];
   postContent: string;
   socialOrder: boolean;
-  slideData: string[];
+  slideData: IInteractionMedia[];
   liked: boolean;
   isNavigate?: boolean;
-  interactionId?: string;
   onDeleted?: () => void;
+  onUpdated?: () => void;
+  focusInputComment?: (value: boolean) => void;
 }
 
 const MAX_CONTENT_LENGTH = 200;
 
 const AthletePost: React.FC<IAthletePostProps> = ({
   children,
+  interactionInfo,
   id,
   menuList,
   athleteInfo,
@@ -55,19 +70,36 @@ const AthletePost: React.FC<IAthletePostProps> = ({
   slideData,
   liked,
   isNavigate,
-  interactionId,
   onDeleted,
+  onUpdated,
+  focusInputComment,
 }) => {
   const router = useRouter();
-  const { id: isDetail } = router.query;
-
+  const { id: isDetailPage } = router.query;
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [reaction, setReaction] = useState<boolean>(liked);
   const [totalReaction, setTotalReaction] = useState<number>(postLikes);
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
+  const [isOpenEdit, setisOpenEdit] = useState<boolean>(false);
   const [submit, { data: reactionData }] = useReactionInteractionMutation();
+  const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
+
   const handleClickMenu = (id: string) => {
     if (id === "delete") setIsOpenDelete(true);
+    if (id === "edit") {
+      router.push(`/athlete/interactions/post/${interactionInfo?.id}`);
+    }
   };
+  const handleSubmitUpdate = () => {
+    handleSubmit();
+  };
+
+  useUpdateEffect(() => {
+    if (!isLoading) {
+      setisOpenEdit(false);
+      onUpdated && onUpdated();
+    }
+  }, [isLoading]);
 
   useUpdateEffect(() => {
     setReaction(liked);
@@ -92,7 +124,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
 
     const toggleReadMore = (): void => {
       if (isNavigate) {
-        router.push(`/athlete/interactions/${interactionId}`);
+        router.push(`/athlete/interactions/${interactionInfo?.id}`);
       } else {
         setIsReadMore(!isReadMore);
       }
@@ -105,7 +137,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
             fontSize={{ base: "sm", lg: "xl" }}
             color="white"
             lineHeight="19.6px"
-            wordBreak="break-all"
+            wordBreak="break-word"
           >
             <Text as="span" whiteSpace="break-spaces">
               {isReadMore && text.length > MAX_CONTENT_LENGTH
@@ -132,9 +164,8 @@ const AthletePost: React.FC<IAthletePostProps> = ({
       <Grid
         templateColumns={{
           base: "",
-          lg: `${isDetail ? "repeat(9, 1fr)" : "repeat(1, 1fr)"}`,
+          lg: `${isDetailPage ? "repeat(9, 1fr)" : "repeat(1, 1fr)"}`,
         }}
-        gap={{ base: 6, lg: `${isDetail ? 0 : 6}` }}
       >
         <GridItem colSpan={4}>
           <Flex justifyContent="space-between" mb={{ base: 3, lg: 5 }}>
@@ -150,8 +181,8 @@ const AthletePost: React.FC<IAthletePostProps> = ({
             </Then>
           </If>
 
-          <Box mb={{ base: 2.5, lg: 5 }}>
-            <If condition={!isDetail}>
+          <Box mb={{ base: 2.5, lg: 4 }}>
+            <If condition={!isDetailPage}>
               <Then>
                 <ReadMore text={postContent} />
               </Then>
@@ -160,7 +191,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                   fontSize={{ base: "sm", lg: "xl" }}
                   color="white"
                   lineHeight="19.6px"
-                  wordBreak="break-all"
+                  wordBreak="break-word"
                 >
                   <Text as="span" whiteSpace="break-spaces">
                     {postContent}
@@ -171,7 +202,11 @@ const AthletePost: React.FC<IAthletePostProps> = ({
           </Box>
           <If condition={hashtag && hashtag.length}>
             <Then>
-              <Box>
+              <Flex
+                flexWrap="wrap"
+                gap={{ base: 3, lg: 4 }}
+                mb={{ base: 2.5, lg: 4 }}
+              >
                 {hashtag &&
                   hashtag.map((item) => (
                     <Tag
@@ -180,20 +215,27 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                       borderRadius="full"
                       variant="solid"
                       bg="acccent.2"
-                      ml={{ base: 3, lg: 4 }}
-                      _first={{ ml: 0 }}
                     >
-                      <TagLabel fontSize="sm" color="white" cursor="pointer">
+                      <TagLabel
+                        fontSize={{ base: "sm", lg: "lg" }}
+                        color="white"
+                        cursor="pointer"
+                        onClick={() =>
+                          router.push(
+                            `/athlete/interactions/filter?tag=${item.name}`
+                          )
+                        }
+                      >
                         #{item.name}
                       </TagLabel>
                     </Tag>
                   ))}
-              </Box>
+              </Flex>
             </Then>
           </If>
         </GridItem>
         <GridItem
-          display={{ base: "none", lg: `${isDetail ? "flex" : "none"}` }}
+          display={{ base: "none", lg: `${isDetailPage ? "flex" : "none"}` }}
           justifyContent="center"
           colSpan={1}
         >
@@ -208,10 +250,29 @@ const AthletePost: React.FC<IAthletePostProps> = ({
               onClick={handleReaction}
               cursor="pointer"
             />
-            <Link href={`/athlete/interactions/${interactionId}`}>
-              <CommentIcon cursor="pointer" ml={5} maxW={6} />
-            </Link>
-            <ShareIcon cursor="pointer" ml={5} maxW={6} maxH={5} />
+            <If condition={!!isDetailPage}>
+              <Then>
+                <CommentIcon
+                  cursor="pointer"
+                  ml={5}
+                  maxW={6}
+                  onClick={() => focusInputComment && focusInputComment(true)}
+                />
+              </Then>
+              <Else>
+                <Link href={`/athlete/interactions/${interactionInfo?.id}`}>
+                  <CommentIcon cursor="pointer" ml={5} maxW={6} />
+                </Link>
+              </Else>
+            </If>
+
+            <ShareIcon
+              cursor="pointer"
+              ml={5}
+              maxW={6}
+              maxH={5}
+              onClick={onOpen}
+            />
           </Flex>
 
           <Text
@@ -225,11 +286,40 @@ const AthletePost: React.FC<IAthletePostProps> = ({
           {children}
         </GridItem>
       </Grid>
+      <Drawer
+        isOpen={isOpenEdit}
+        placement="top"
+        onClose={() => setisOpenEdit(false)}
+      >
+        <DrawerContent>
+          <FormikContext.Provider value={formik}>
+            <Box bg="primary" minHeight="100vh">
+              <Container
+                position="relative"
+                size={["base", "sm", "md", "lg", "500px"]}
+              >
+                <InteractionsPost
+                  isEdit
+                  isLoading={isLoading}
+                  handleSubmit={handleSubmitUpdate}
+                  onBack={() => setisOpenEdit(false)}
+                />
+              </Container>
+            </Box>
+          </FormikContext.Provider>
+        </DrawerContent>
+      </Drawer>
       <DeletePostModal
         postId={id as string}
         isOpen={isOpenDelete}
         onClose={() => setIsOpenDelete(false)}
         onDeleted={() => onDeleted && onDeleted()}
+      />
+      <SocialSharing
+        postId={id as string}
+        athleteId={athleteInfo.id ?? ""}
+        isOpen={isOpen}
+        onClose={onClose}
       />
     </Box>
   );

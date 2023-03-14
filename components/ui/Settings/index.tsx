@@ -13,6 +13,8 @@ import {
 import { IconArrowRight } from "@/components/svg/IconArrowRight";
 import { FaceBookIcon } from "@/components/svg/FaceBook";
 import { GoogleIcon } from "@/components/svg/Google";
+import { getWebsiteLink } from "@/utils/link";
+import { CorporateWebsiteLink } from "@/utils/enums";
 
 interface SettingsProps {
   name: string;
@@ -145,6 +147,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
                 fontWeight="medium"
                 lineHeight="110%"
                 color="white"
+                textTransform="capitalize"
               >
                 This account is linked to Google
               </Text>
@@ -201,7 +204,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
                   color="white"
                   _hover={{ color: "secondary" }}
                 >
-                  Payment information
+                  Payment Information
                 </Text>
               </Link>
             </Box>
@@ -227,7 +230,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
                   color="white"
                   _hover={{ color: "secondary" }}
                 >
-                  Active subscriptions
+                  Active Subscriptions
                 </Text>
               </Link>
             </Box>
@@ -248,7 +251,11 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
         <Box borderBottom="1px" borderColor="grey.100">
           <Link
             as={NextLink}
-            href="/faqs"
+            href={
+              type == "FAN"
+                ? "https://pool-hub-178.notion.site/Fan-FAQs-16e01f81e529472b8bf8b621e1d247b2"
+                : "https://pool-hub-178.notion.site/Athlete-FAQs-7dc77e3ee30446fdb50026f6910b976a"
+            }
             display="flex"
             alignItems="center"
             py="2.5"
@@ -274,7 +281,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
         <Box borderBottom="1px" borderColor="grey.100">
           <Link
             as={NextLink}
-            href="/privacy_policy"
+            href={getWebsiteLink(CorporateWebsiteLink.PRIVACY_POLICY)}
             display="flex"
             alignItems="center"
             py="2.5"
@@ -293,7 +300,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
               color="white"
               _hover={{ color: "secondary" }}
             >
-              Privacy policy
+              Privacy Policy
             </Text>
           </Link>
         </Box>

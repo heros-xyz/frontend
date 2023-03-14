@@ -5,19 +5,13 @@ exports[`renders homepage unchanged 1`] = `
   <div
     class="css-70qvj9"
   >
-    <span
-      class="chakra-avatar css-6id39j"
-    >
-      <div
-        aria-label="Dan Abrahmov"
-        class="chakra-avatar__initials css-0"
-        role="img"
-      >
-        DA
-      </div>
-    </span>
+    <img
+      alt="user-avatar"
+      class="chakra-image__placeholder css-19idant"
+      src="https://via.placeholder.com/50"
+    />
     <div
-      class="css-9n3bbc"
+      class="css-4wsamw"
     >
       <p
         class="chakra-text css-mev91g"

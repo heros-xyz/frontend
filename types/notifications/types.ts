@@ -2,6 +2,7 @@ export interface ISource {
   id: string;
   avatar: string;
   fullName: string;
+  nickName: string;
 }
 
 export interface IComment {

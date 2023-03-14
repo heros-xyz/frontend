@@ -20,7 +20,7 @@ const SportProfile = () => {
   const toast = useToast();
   const [step, setStep] = useState(1);
   const [finalValue, setFinalValue] = useState<IOnboardingSportProfileParams>({
-    sportsId: "",
+    sportId: "",
     currentTeam: "",
     goal: "",
   });

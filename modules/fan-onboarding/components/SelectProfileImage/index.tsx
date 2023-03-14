@@ -12,14 +12,15 @@ import {
   MAX_SIZE,
 } from "@/utils/inputRules";
 interface IProp {
-  onSubmit: (image: string) => void;
-  avatar: string;
+  onSubmit: (image: File) => void;
+  avatar: File | null;
 }
 const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
   const initialRef: any = null;
 
   const upload = useRef(initialRef);
-  const [image, setImage] = useState(avatar);
+  const [image, setImage] = useState(avatar ? URL.createObjectURL(avatar) : "");
+  const [fileSubmit, setFileSubmit] = useState<File>();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +38,7 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
     }
 
     setImage(URL.createObjectURL(selectedFile));
+    setFileSubmit(selectedFile);
     setErrorMessage(null);
   };
 
@@ -45,7 +47,7 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    onSubmit(image);
+    if (fileSubmit) onSubmit(fileSubmit);
   };
 
   const Icon = useMemo(() => {

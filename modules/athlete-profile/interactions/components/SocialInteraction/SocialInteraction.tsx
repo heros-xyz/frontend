@@ -25,7 +25,7 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
   postId,
 }) => {
   const router = useRouter();
-  const { view } = router.query;
+  const { view, id } = router.query;
   const [isLiked, setIsLiked] = useState(liked);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [totalReactions, setTotalReactions] = useState(reactionCount);
@@ -53,14 +53,19 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
 
   return (
     <>
-      <SocialSharingModal isOpen={isOpen} onClose={onClose} />
+      <SocialSharingModal
+        postId={postId as string}
+        athleteId={id as string}
+        isOpen={isOpen}
+        onClose={onClose}
+      />
       <Flex gap={5} my={{ base: "15px", lg: "20px" }} alignItems="center">
         <Button
           onClick={handleLike}
           style={{ all: "unset", cursor: "pointer" }}
         >
           <LoveIcon
-            maxW={5}
+            maxW={4}
             fill={isLiked ? "currentcolor" : "none"}
             color={isLiked ? "acccent.1" : "white"}
           />
@@ -69,10 +74,10 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
           onClick={handleComment}
           style={{ all: "unset", cursor: "pointer" }}
         >
-          <CommentIcon maxW={5} />
+          <CommentIcon maxW={4} />
         </Button>
         <Button onClick={onOpen} style={{ all: "unset", cursor: "pointer" }}>
-          <ShareIcon maxW={5} maxH={5} />
+          <ShareIcon maxW={4} />
         </Button>
       </Flex>
       <Text

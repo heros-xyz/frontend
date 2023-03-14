@@ -72,18 +72,18 @@ const AddTier: React.FC<IProp> = ({
   }, [dataEdit]);
 
   useUpdateEffect(() => {
-    if (submitCount && isValid && benefitData?.length > 0) {
+    if (submitCount % 2 === 0 && isValid && benefitData?.length > 0) {
       const { monthlyPrice, ...newValue } = values;
       if (title === "Edit Tier" && idEdit) {
         updateSubscription({
           id: idEdit,
-          name: "Bronze-tier",
+          name: "Bronze Tier",
           monthlyPrice: parseFloat(monthlyPrice),
           ...newValue,
         });
       } else {
         addSubscription({
-          name: "Bronze-tier",
+          name: "Bronze Tier",
           monthlyPrice: parseFloat(monthlyPrice),
           ...newValue,
         });
@@ -392,7 +392,6 @@ const AddTier: React.FC<IProp> = ({
                 setSubmitted(true);
                 handleSubmit();
               }}
-              disabled={loadingAdd || loadingUpdate}
               isLoading={loadingAdd || loadingUpdate}
             >
               {title === "Edit Tier" ? "Save" : "Add"}

@@ -1,6 +1,7 @@
-import { Avatar, Box, Button, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { IMeta, IResponseComment } from "@/types/athlete/types";
+import { getImageLink } from "@/utils/link";
 
 interface IPreviewCommentProps {
   navigateToPostDetail?: () => void;
@@ -17,24 +18,28 @@ export const PreviewComment: FC<IPreviewCommentProps> = ({
   return (
     <>
       {(item?.data || []).map(
-        ({ id, content, user: { firstName, lastName, avatar } }) => (
+        ({ id, content, user: { firstName, lastName, avatar, nickName } }) => (
           <Box key={id}>
-            <Flex alignItems="center" gap="8px" my="10px">
-              <Avatar
-                src={avatar}
-                name={avatar}
+            <Flex alignItems="start" gap="8px" my="10px">
+              <Image
+                src={getImageLink(avatar)}
                 w="30px"
                 h="30px"
                 borderRadius="full"
+                alt="user-avatar"
+                objectFit="cover"
+                fallbackSrc="https://via.placeholder.com/50"
               />
               <Text
                 fontSize={{ base: "xs", lg: "medium" }}
                 fontWeight="semibold"
                 color="white"
               >
-                {firstName + " " + lastName}
+                {nickName ?? firstName + " " + lastName}
               </Text>
               <Text
+                flex="1"
+                wordBreak="break-all"
                 fontSize={{ base: "xs", lg: "medium" }}
                 fontWeight="normal"
                 color="white"

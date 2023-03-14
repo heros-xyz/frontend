@@ -1,19 +1,24 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { FC, useMemo } from "react";
 import { useFormikContext } from "formik";
-import { useRouter } from "next/router";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import EnterPost from "@/modules/athlete-interaction/components/post/EnterPost";
 import ShareWith from "./ShareWith";
 import { IValuesTypes } from "../../hooks";
 
 interface IProps {
-  handleSubmit: () => void;
+  isEdit?: boolean;
   isLoading?: boolean;
+  handleSubmit: () => void;
+  onBack?: () => void;
 }
 
-const InteractionsPost: FC<IProps> = ({ isLoading, handleSubmit }) => {
-  const router = useRouter();
+const InteractionsPost: FC<IProps> = ({
+  isEdit,
+  isLoading,
+  handleSubmit,
+  onBack,
+}) => {
   const { values, isValid } = useFormikContext<IValuesTypes>();
 
   const handleSubmits = () => {
@@ -21,7 +26,10 @@ const InteractionsPost: FC<IProps> = ({ isLoading, handleSubmit }) => {
   };
 
   const disablePost = useMemo(() => {
-    return !Boolean(values.content) || !isValid;
+    return (
+      (!Boolean(values.content) && !Boolean(values.listMedia.length)) ||
+      !isValid
+    );
   }, [values, isValid]);
 
   return (
@@ -31,7 +39,7 @@ const InteractionsPost: FC<IProps> = ({ isLoading, handleSubmit }) => {
           alignItems="center"
           gap={3}
           cursor="pointer"
-          onClick={() => router.push("/athlete/interactions")}
+          onClick={() => onBack && onBack()}
         >
           <ArrowLeft />
           <Text
@@ -55,7 +63,7 @@ const InteractionsPost: FC<IProps> = ({ isLoading, handleSubmit }) => {
           isLoading={isLoading}
           onClick={handleSubmits}
         >
-          Post
+          {isEdit ? "Update" : "Post"}
         </Button>
       </Flex>
       <Box>

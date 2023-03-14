@@ -38,6 +38,10 @@ export interface IUser {
   hasPaymentMethodInfo: boolean;
   hasFirstInteraction: boolean;
   isFinishOnboarding?: boolean;
+  nickname: string;
+  netAmount: number;
+  hasCreateInteractionRecent: boolean;
+  signInMethod: string;
 }
 
 export interface Option {

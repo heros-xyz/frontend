@@ -1,7 +1,8 @@
 import {
-  Avatar,
   Box,
+  Button,
   Flex,
+  Image,
   Tab,
   TabList,
   TabPanel,
@@ -11,8 +12,9 @@ import {
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useState } from "react";
-import { If, Then } from "react-if";
+import { Else, If, Then } from "react-if";
+import { useEffect, useState } from "react";
+import { useQueryParam, withDefault, NumberParam } from "use-query-params";
 import {
   useGetBasicInformationQuery,
   useGetCareerJourneyQuery,
@@ -24,26 +26,50 @@ import { EditIcon } from "@/components/svg/menu/EditIcon";
 import { Setting } from "@/components/svg/Setting";
 import BronzeTier from "@/components/ui/Bronze";
 import { IMembershipTier } from "@/types/membership/types";
+import { ITimeLineInfo } from "@/components/ui/Timeline";
+import { getImageLink } from "@/utils/link";
 import CareerJourney from "./career-journey";
 import { Profile } from "./profile";
-import { Interaction } from "./Interaction";
+import { Interaction } from "./interactions/Interaction";
 
-const TABS = ["Profile", "Interaction", "Career Journey", "Membership"];
+const TABS = ["Profile", "Interactions", "Career Journey", "Memberships"];
 
 const AthleteProfile = () => {
   const { data: session } = useSession();
-  const [currentTab, setCurrentTab] = useState<number>(0);
+  const [journeyData, setJourneyData] = useState<ITimeLineInfo[]>([]);
   const { data: pageInfo } = useGetPageInformationQuery("");
   const { data: basicInfo } = useGetBasicInformationQuery("");
   const { data: sportProfile } = useGetSportProfileQuery("");
-  const { data: careerJourneyData } = useGetCareerJourneyQuery("");
+  const { data: careerJourneyData } = useGetCareerJourneyQuery(
+    session?.user?.id as string,
+    { skip: typeof session?.user?.id !== "string" }
+  );
   const { data: tierMembershipList } = useGetAthleteTierMembershipQuery({});
+
+  const [currentTab, setCurrentTab] = useQueryParam(
+    "current",
+    withDefault(NumberParam, 0)
+  );
+
+  useEffect(() => {
+    if (careerJourneyData) {
+      setJourneyData(careerJourneyData);
+    }
+  }, [careerJourneyData]);
 
   return (
     <Box as="section" bg="primary" minH="100vh">
       <Flex as="header" alignItems="center" gap="5" position="relative" p={5}>
-        <Avatar size="xl" src={session?.user?.avatar || ""} w="60px" h="60px" />
-        <Box w="full">
+        <Image
+          src={getImageLink(session?.user?.avatar)}
+          w="60px"
+          h="60px"
+          alt="user-avatar"
+          rounded="full"
+          fallbackSrc="https://via.placeholder.com/50"
+          objectFit="cover"
+        />
+        <Box w="full" flex={1}>
           <Flex w="full" justifyContent="space-between" alignItems="center">
             <Flex alignItems="center">
               <Text
@@ -58,18 +84,29 @@ const AthleteProfile = () => {
                 lineHeight="3xl"
                 mr={2}
               >
-                {session?.user.firstName} {session?.user.lastName}
+                {basicInfo?.nickName}
               </Text>
-              {currentTab === 0 && <EditIcon color="white" cursor="pointer" />}
+              {currentTab === 0 && (
+                <Link href={"/athlete/my-profile/edit-page-info"}>
+                  <EditIcon color="white" cursor="pointer" />
+                </Link>
+              )}
             </Flex>
             <Link href="/athlete/my-profile/settings">
               <Setting />
             </Link>
           </Flex>
-          <Text color="white">{pageInfo?.tagLine}</Text>
+          <Text color="white" wordBreak="break-word">
+            {pageInfo?.tagLine}
+          </Text>
         </Box>
       </Flex>
-      <Tabs onChange={setCurrentTab} isLazy={true} lazyBehavior="keepMounted">
+      <Tabs
+        onChange={setCurrentTab}
+        isLazy={true}
+        lazyBehavior="keepMounted"
+        index={currentTab}
+      >
         <TabList
           overflowX="scroll"
           overflowY="hidden"
@@ -110,35 +147,55 @@ const AthleteProfile = () => {
             <Interaction />
           </TabPanel>
           <TabPanel p={{ base: 5, lg: 0 }}>
-            <CareerJourney data={careerJourneyData} />
+            <CareerJourney data={journeyData} />
           </TabPanel>
           <TabPanel px={{ base: 5, lg: 0 }} py={{ base: 0, lg: 2 }}>
-            <Text
-              fontSize={{ base: "xs", lg: "md" }}
-              fontWeight="normal"
-              mt={{ base: 2 }}
-            >
-              Here you’ll see the membership tiers you are offering and the
-              number of active fans.
-            </Text>
-            <Link href="/athlete/membership/listing">
-              <Text
-                py={{ base: 4, lg: 7 }}
-                color="secondary"
-                textDecoration="underline"
-                fontSize={{ base: "sm", lg: "lg" }}
-              >
-                Edit Tiers
-              </Text>
-            </Link>
             <If condition={tierMembershipList?.data?.length}>
               <Then>
+                <Text
+                  fontSize={{ base: "xs", lg: "md" }}
+                  fontWeight="normal"
+                  mt={{ base: 2 }}
+                >
+                  Here you’ll see the membership tiers you are offering and the
+                  number of active fans.
+                </Text>
+                <Link href="/athlete/membership/listing">
+                  <Text
+                    py={{ base: 4, lg: 7 }}
+                    color="secondary"
+                    textDecoration="underline"
+                    fontSize={{ base: "sm", lg: "lg" }}
+                  >
+                    Edit Tiers
+                  </Text>
+                </Link>
+
                 <BronzeTier
                   title="Bronze"
                   checked={false}
                   data={tierMembershipList?.data?.[0] as IMembershipTier}
                 />
               </Then>
+              <Else>
+                <Box textAlign={{ base: "left", lg: "center" }}>
+                  <Text
+                    mb={{ base: 4, lg: 12 }}
+                    fontSize={{ base: "xs", lg: "md" }}
+                  >
+                    You have not had any membership tiers.
+                  </Text>
+                  <Link href="/athlete/membership/add">
+                    <Button
+                      variant="secondary"
+                      size={"lg"}
+                      w={{ base: "full", lg: "fit-content" }}
+                    >
+                      Add Tier
+                    </Button>
+                  </Link>
+                </Box>
+              </Else>
             </If>
           </TabPanel>
         </TabPanels>

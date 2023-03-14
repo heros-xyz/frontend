@@ -35,7 +35,7 @@ const AthleteMenu: React.FC<IAthleteMenuProps> = ({
         variant="transparent"
         minW={"initial"}
       />
-      <MenuList px={3} zIndex={2}>
+      <MenuList px={3} zIndex={11}>
         {menuList &&
           menuList.map((item) => (
             <MenuItem

@@ -1,18 +1,19 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { If, Then } from "react-if";
+import { useUpdateEffect } from "react-use";
 import AddArchiveIcon from "@/components/svg/AddArchiveIcon";
 import { getSportIcon } from "@/utils/mock-icon";
 import JourneyCard from "./Card";
 
 export interface ITimeLineInfo {
+  id?: string;
   title: string;
   description: string;
-  from: string;
-  to?: string | null;
-  isArchive: boolean;
-  isCurrent: boolean;
-  icon?: string;
+  startDate: string;
+  endDate?: string | null;
+  isPeriodDate: boolean;
+  icon: string | null;
 }
 interface IProps {
   items: Array<ITimeLineInfo>;
@@ -20,6 +21,8 @@ interface IProps {
   bgColor: string;
   w?: string;
   handleClickAdd?: () => void;
+  handleClickEdit?: (item: ITimeLineInfo) => void;
+  canEdit?: boolean;
 }
 
 const TimeLineJourney: React.FC<IProps> = ({
@@ -28,11 +31,21 @@ const TimeLineJourney: React.FC<IProps> = ({
   bgColor,
   w,
   handleClickAdd,
+  handleClickEdit,
+  canEdit,
 }) => {
+  const [itemEdit, setItemEdit] = useState<ITimeLineInfo>();
+
   const handleAdd = () => {
     handleClickAdd && handleClickAdd();
   };
 
+  useUpdateEffect(() => {
+    if (itemEdit && handleClickEdit !== undefined) {
+      handleClickEdit(itemEdit);
+      setItemEdit(undefined);
+    }
+  }, [itemEdit]);
   return (
     <Flex
       flexDirection="column"
@@ -44,7 +57,7 @@ const TimeLineJourney: React.FC<IProps> = ({
         <Flex key={`${"key" + index}`} alignItems="center" gap={3}>
           <Flex alignItems="center">
             <Box minWidth={10}>
-              <If condition={item.isArchive}>
+              <If condition={item?.icon}>
                 <Then>
                   {getSportIcon(
                     item?.icon,
@@ -75,7 +88,7 @@ const TimeLineJourney: React.FC<IProps> = ({
                     top={3.5}
                     w={0.5}
                     height={
-                      item.title.length > 25 && item.description.length > 70
+                      item.title?.length > 25 && item.description?.length > 70
                         ? "95px"
                         : "90px"
                     }
@@ -99,7 +112,6 @@ const TimeLineJourney: React.FC<IProps> = ({
                     />
                     <Flex
                       alignItems="center"
-                      // cursor="pointer"
                       color={bgColor === "secondary" ? "primary" : "secondary"}
                     >
                       <Button
@@ -129,7 +141,12 @@ const TimeLineJourney: React.FC<IProps> = ({
               </If>
             </Flex>
           </Flex>
-          <JourneyCard item={item} />
+          <JourneyCard
+            item={item}
+            canEdit={canEdit}
+            setItemEdit={setItemEdit}
+            isCurrent={item == items[0]}
+          />
         </Flex>
       ))}
     </Flex>

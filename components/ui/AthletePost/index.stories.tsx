@@ -19,9 +19,16 @@ type Story = StoryObj<typeof AthletePost>;
 export const AthletePostComponent: Story = {
   args: {
     slideData: [
-      "/images/HomePageBanner.png",
-      "/images/HomePageBanner.png",
-      "/images/HomePageBanner.png",
+      {
+        id: "7c8e11fd-2184-4000-bf31-d32b50b3092d",
+        createdAt: "2023-03-03T12:36:56.521Z",
+        updatedAt: "2023-03-03T12:36:56.521Z",
+        deletedAt: null,
+        extension: "mp4",
+        type: "video",
+        sortOrder: 0,
+        url: "medias/1593caa0-b9c0-11ed-8a0f-e79cb144843f.mp4",
+      },
     ],
     menuList: [
       { id: "edit", itemName: "Edit", Icon: <EditIcon /> },
@@ -31,6 +38,7 @@ export const AthletePostComponent: Story = {
       imagePath: "/images/heros.png",
       athleteName: "Matt Prior",
       publishDate: "26/10/22",
+      id: "32323",
     },
     postLikes: 123,
     postComments: 2,
@@ -42,9 +50,16 @@ export const AthletePostComponent: Story = {
 export const AthletePostWithComment: Story = {
   args: {
     slideData: [
-      "/images/HomePageBanner.png",
-      "/images/HomePageBanner.png",
-      "/images/HomePageBanner.png",
+      {
+        id: "7c8e11fd-2184-4000-bf31-d32b50b3092d",
+        createdAt: "2023-03-03T12:36:56.521Z",
+        updatedAt: "2023-03-03T12:36:56.521Z",
+        deletedAt: null,
+        extension: "mp4",
+        type: "video",
+        sortOrder: 0,
+        url: "medias/1593caa0-b9c0-11ed-8a0f-e79cb144843f.mp4",
+      },
     ],
     menuList: [
       { id: "edit", itemName: "Edit", Icon: <EditIcon /> },
@@ -54,6 +69,7 @@ export const AthletePostWithComment: Story = {
       imagePath: "/images/heros.png",
       athleteName: "Matt Prior",
       publishDate: "26/10/22",
+      id: "ddasdsdsd",
     },
     postLikes: 123,
     postComments: 2,
@@ -106,6 +122,7 @@ export const AthletePostWithFanVote: Story = {
       imagePath: "/images/heros.png",
       athleteName: "Matt Prior",
       publishDate: "26/10/22",
+      id: "id",
     },
     postLikes: 123,
     postComments: 2,

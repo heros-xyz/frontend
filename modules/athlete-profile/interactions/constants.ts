@@ -12,6 +12,7 @@ export interface IAthleteInteraction {
   interactionMedia: IInteractionMedia[];
   reactionCount: number;
   commentCount: number;
+  isAccessRight: boolean;
   tags: {
     id: string;
     createdAt: string | Date;
@@ -66,6 +67,7 @@ export interface IInteracionUser {
   sentOtpTime?: null;
   stripeCustomerId?: null;
   netAmount?: number;
+  nickName: string;
 }
 
 export interface IAthleteInteractionCommentResponse {

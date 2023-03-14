@@ -1,5 +1,3 @@
-import { IReplyComment } from "@/components/ui/Comment/List/index.stories";
-
 export interface Nationality {
   id: string;
   createdAt: string | Date;
@@ -22,8 +20,19 @@ export interface IBasicInfo {
   nationality: Nationality;
   dateOfBirth: string;
   gender: number;
+  firstName: string;
+  lastName: string;
 }
 
+export interface IBasicInfoParams {
+  id: string;
+  nationalityId: string;
+  dateOfBirth: string;
+  gender: number | string;
+  firstName: string;
+  lastName: string;
+  story: string;
+}
 export interface ISearchAthleteParams {
   searching: string;
   limit: number;
@@ -36,13 +45,18 @@ export interface IAthleteSearchProfile {
   fullName: string;
   fan?: number;
   avatar: string;
+  totalFan: number;
+  totalInteractions: number;
+  nickName: string;
+  isCurrentUserSubscribed: boolean;
+  membershipTier?: MembershipTier;
 }
 export interface IPageInfo {
   id: string;
   createdAt: string;
   updatedAt: string;
   tagLine: string;
-  tags: string[];
+  tags: ITags[];
 }
 
 export interface ISportProfile {
@@ -56,13 +70,8 @@ export interface ISportProfile {
       createdAt: string;
       deletedAt: string;
       id: string;
-      sport: {
-        createdAt: string;
-        deletedAt: string;
-        id: string;
-        updatedAt: string;
-        name: string;
-      };
+      sportId: string;
+      sportName: string;
       updatedAt: string;
     }[];
   };
@@ -76,8 +85,8 @@ export interface ICareerJourney {
   createdAt?: string;
   id: string;
   icon: string;
-  startTime: string | null;
-  endTime: string | null;
+  startDate: string | null;
+  endDate: string | null;
   title: string;
   description: string;
 }
@@ -161,6 +170,7 @@ export interface IAthleteUpToDate {
     avatar: string;
     firstName: string;
     lastName: string;
+    nickName: string;
   };
 }
 export interface ILatestInteraction {
@@ -170,10 +180,7 @@ export interface ILatestInteraction {
     id: string;
     avatar: string;
   };
-  interactionMedia: {
-    id: string;
-    url: string;
-  }[];
+  interactionMedia: IInteractionMedia[];
 }
 
 export interface IAthleteInfo {
@@ -185,6 +192,22 @@ export interface IAthleteInfo {
   description?: string;
   totalSubscribed?: string;
   sportName: string;
+  nickName: string;
+}
+
+export interface IAthleteSubscribed {
+  id: string;
+  athleteId: string;
+  avatar: string;
+  nickName: string;
+  fullName: string;
+  expiredDate: string | Date;
+  monthlyPrice: number;
+  status: string;
+  totalAccessibleInteraction: number;
+  autoRenew: boolean;
+  recommended?: boolean;
+  createdAt: string | Date;
 }
 
 export interface ISourceUser {
@@ -242,19 +265,27 @@ export interface IFanInfo {
 }
 export interface IUploadFileInteraction {
   type: string;
-  file: File;
+  file: File | string;
+}
+export interface IMediaExisted {
+  id: string;
+  fileName: string;
+  extension: string | null;
+  file: string | null;
+  type: string | null;
 }
 export interface IAddInteractionInfo {
   content: string;
   tags: string[];
   listMedia: IUploadFileInteraction[];
+  listMediaExisted?: IMediaExisted[];
   publicType: string;
   publicDate: string;
 }
 export interface IInteractionMedia {
   id: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | string;
+  updatedAt: Date | string;
   deletedAt?: Date | string | null;
   extension: string;
   type: string;
@@ -284,6 +315,7 @@ export interface IInteractionItem {
   isCurrentUserReacted: boolean;
   user?: IUserPostInfo;
   liked: boolean;
+  isAccessRight: boolean;
 }
 export interface IUserPostInfo {
   id: string;
@@ -316,6 +348,7 @@ export interface IUserComment {
   email: string;
   phone: string;
   avatar: string;
+  nickName: string;
 }
 
 export interface IResponseComment {
@@ -325,14 +358,16 @@ export interface IResponseComment {
   content: string;
   user: IUserComment;
   reactedCommentsCount: number;
+  isAuthorComment?: boolean;
+  liked: boolean;
   parentComment?: {
     content: string;
     user: {
       firstName: string;
       lastName: string;
+      nickName: string;
     };
   };
-  liked: boolean;
 }
 
 // Withdraw money
@@ -361,4 +396,11 @@ export interface IWithdrawResponeType {
   paymentInformation: PaymentInfoType;
   status: string;
   updateAt: string;
+}
+
+export interface EditPageInfo {
+  nickName: string;
+  tags: string[];
+  tagLine: string;
+  avatar?: File;
 }

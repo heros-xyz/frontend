@@ -1,10 +1,12 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { Box, Container, Divider, Flex, Text, Spinner } from "@chakra-ui/react";
+import React, { ReactElement, useState } from "react";
+import { Box, Container, Divider, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useDispatch } from "react-redux";
+import { useUnmount } from "react-use";
+import { Waypoint } from "react-waypoint";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { HashTagIcon } from "@/components/svg/HashTagIcon";
 import { PhotoIcon } from "@/components/svg/Photo";
@@ -15,12 +17,14 @@ import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import { IInteractionItem } from "@/types/athlete/types";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
-import { useScrollToBottom } from "@/hooks/useScrollToBottom";
+import { setContext } from "@/libs/axiosInstance";
+import { wrapper } from "@/store";
+import { IGuards } from "@/types/globals/types";
+import { athleteGuard } from "@/middleware/athleteGuard";
 
 const Interactions = () => {
   const { data: session, status } = useSession();
   const dispatch = useDispatch();
-  const { isBottom } = useScrollToBottom();
   const [take] = useState(10);
   const [page, setPage] = useState(1);
 
@@ -39,17 +43,15 @@ const Interactions = () => {
     }
   );
 
-  useEffect(() => {
-    if (isBottom && interactionData?.meta?.hasNextPage && !isFetching) {
+  const onLoadMore = () => {
+    if (interactionData?.meta?.hasNextPage && !isFetching) {
       setPage((p) => p + 1);
     }
-  }, [isBottom]);
+  };
 
-  useEffect(() => {
-    return () => {
-      dispatch(resetApiState());
-    };
-  }, []);
+  useUnmount(() => {
+    dispatch(resetApiState());
+  });
 
   const router = useRouter();
   const formatPropAthletePost = (postInfo: IInteractionItem) => {
@@ -61,11 +63,12 @@ const Interactions = () => {
       ],
       athleteInfo: {
         imagePath: session?.user?.avatar || "",
-        athleteName: `${session?.user.firstName} ${session?.user.lastName}`,
+        athleteName: session?.user.nickname ?? "",
         publishDate: postInfo.createdAt,
+        id: session?.user?.id ?? "",
       },
-      // slideData: postInfo.interactionMedia.map((item) => item.url),
-      slideData: postInfo.interactionMedia?.map((item) => item.url) ?? [],
+      slideData: postInfo.interactionMedia ?? [],
+      hashtag: postInfo.tags,
       socialOrder: true,
       postLikes: postInfo.reactionCount,
       postComments: postInfo.commentCount,
@@ -130,7 +133,9 @@ const Interactions = () => {
                   <Box>
                     <AthletePost
                       isNavigate
-                      interactionId={item.id}
+                      interactionInfo={item}
+                      onDeleted={router.reload}
+                      onUpdated={router.reload}
                       {...formatPropAthletePost(item)}
                     >
                       <Box mt={{ base: 1, lg: 3 }}>
@@ -142,21 +147,19 @@ const Interactions = () => {
                 </Box>
               ))}
 
-              <If
-                condition={
-                  interactionData?.data?.length !==
-                  interactionData?.meta?.itemCount
-                }
-              >
-                <Then>
-                  <Spinner
-                    position="absolute"
-                    bottom="85px"
-                    right="0"
-                    color="secondary"
-                  />
-                </Then>
-              </If>
+              {interactionData?.meta?.hasNextPage && (
+                <Waypoint onEnter={onLoadMore}>
+                  <Box
+                    className="post-load-more"
+                    display="flex"
+                    justifyContent="center"
+                    mt={5}
+                    w="full"
+                  >
+                    <PostSkeleton hasImage={false} w="full" />
+                  </Box>
+                </Waypoint>
+              )}
             </Flex>
             <If condition={!interactionData?.data?.length}>
               <Then>
@@ -183,3 +186,17 @@ export default Interactions;
 Interactions.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

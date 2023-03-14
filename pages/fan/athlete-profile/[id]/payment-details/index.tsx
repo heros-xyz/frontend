@@ -8,6 +8,8 @@ import {
   GridItem,
   Heading,
   Modal,
+  ModalContent,
+  ModalOverlay,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -17,6 +19,8 @@ import { Else, If, Then } from "react-if";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { useUpdateEffect } from "react-use";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
 import {
   useAddPaymentInfoMutation,
   useGetAthleteTierMembershipQuery,
@@ -33,6 +37,7 @@ import { useGetBasicInformationQuery } from "@/api/athlete";
 
 const PaymentDetails = () => {
   const router = useRouter();
+  const { data: session } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isError, setIsError] = useState<boolean>(false);
   const [errorCard, setErrorCard] = useState<boolean>(false);
@@ -49,7 +54,8 @@ const PaymentDetails = () => {
       skip: typeof router.query.id !== "string",
     }
   );
-  const { data: paymentInfoList } = useGetPaymentInfoQuery("");
+  const { data: paymentInfoList, isLoading: isGetPaymentLoading } =
+    useGetPaymentInfoQuery("");
   const { data: tierMembershipList } = useGetAthleteTierMembershipQuery(
     {
       page: 1,
@@ -60,6 +66,7 @@ const PaymentDetails = () => {
       skip: typeof router.query.id !== "string",
     }
   );
+
   const [
     submitSubscribe,
     {
@@ -164,6 +171,9 @@ const PaymentDetails = () => {
       pb={10}
       position="relative"
     >
+      <Head>
+        <title>Fan | Payment Details</title>
+      </Head>
       <Container size={["base", "sm", "md", "lg", "xl"]}>
         <FormikContext.Provider value={formik}>
           <Grid
@@ -217,7 +227,13 @@ const PaymentDetails = () => {
                         cursor="pointer"
                         color="secondary"
                         onClick={() => {
-                          router.push("/fan/payment/update");
+                          router.push({
+                            pathname: "payment-details/change-payment",
+                            query: {
+                              id: router.query.id,
+                              membershipTierId: router.query.membershipTierId,
+                            },
+                          });
                         }}
                       >
                         Change
@@ -271,6 +287,7 @@ const PaymentDetails = () => {
             >
               <OrderSummary
                 mt={8}
+                avatar={session?.user.avatar ?? ""}
                 userName={dataAthlete?.nickName ?? ""}
                 dateRenew={dayjs(new Date()).format("DD MMM YYYY")}
                 price={formatMoney(tierSelected?.monthlyPrice as number, true)}
@@ -281,13 +298,12 @@ const PaymentDetails = () => {
         </FormikContext.Provider>
       </Container>
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
-        <Center
-          position="absolute"
-          top="0"
-          left="0"
-          w="full"
-          h="100dvh"
-          bg="rgba(0, 0, 0, 0.7)"
+        <ModalOverlay />
+        <ModalContent
+          pt="5"
+          px="4"
+          maxW="unset"
+          w={{ base: "95%", lg: "740px" }}
         >
           <DeleteSubscription
             name=" "
@@ -297,7 +313,7 @@ const PaymentDetails = () => {
             onCancel={onClose}
             onSubmit={() => router.push("/fan/payment/update")}
           />
-        </Center>
+        </ModalContent>
       </Modal>
       <If condition={isError}>
         <Then>

@@ -18,7 +18,7 @@ const DateSelect: React.FC<DateSelectProps> = ({
   date = "2024-01-24",
   format = "YYYY-MM-DD",
   zIndex,
-  isDarkTheme = false,
+  isDarkTheme,
   onChange,
 }) => {
   const dateDefault = dayjs(date ? date : new Date(), format, true);

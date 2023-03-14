@@ -4,7 +4,7 @@ import PostDetail from "@/modules/athlete-profile/interactions/post-detail/PostD
 
 export default function PostDetailPage() {
   return (
-    <Box>
+    <Box pb={{ base: 16, lg: 0 }}>
       <Head>
         <title>Interaction Details</title>
       </Head>

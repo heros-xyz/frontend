@@ -6,16 +6,22 @@ it("renders FanLatestInteractions unchanged", () => {
     <FanLatestInteractions
       items={[
         {
-          image: "/images/athletes.png",
-          imageThumb: "/images/small_img_athletes.png",
+          id: "1",
+          content: "123",
+          user: {
+            id: "1234",
+            avatar: "123124",
+          },
+          interactionMedia: [],
         },
         {
-          image: "",
-          imageThumb: "/images/small_img_athletes.png",
-        },
-        {
-          image: "/images/athletes.png",
-          imageThumb: "/images/small_img_athletes.png",
+          id: "1",
+          content: "123",
+          user: {
+            id: "1234",
+            avatar: "123124",
+          },
+          interactionMedia: [],
         },
       ]}
       titleHeading="Latest interactions"

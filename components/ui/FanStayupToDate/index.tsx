@@ -1,6 +1,7 @@
 import { Box, Heading, Text, Image, Grid, AspectRatio } from "@chakra-ui/react";
 import React from "react";
 import { IAthleteUpToDate } from "@/types/athlete/types";
+import { getImageLink } from "@/utils/link";
 
 interface FanStayUpToDate {
   data: IAthleteUpToDate[];
@@ -36,11 +37,12 @@ const FanStayUpToDate: React.FC<FanStayUpToDate> = ({ data, onClick }) => {
             >
               <AspectRatio maxW="400px" ratio={210 / 265}>
                 <Image
-                  src={item?.targetUser?.avatar || "black"}
+                  src={getImageLink(item?.targetUser?.avatar)}
                   alt=""
                   borderRadius="xl"
                   objectFit="cover"
                   w="100%"
+                  fallbackSrc="https://via.placeholder.com/210x265"
                 />
               </AspectRatio>
 
@@ -63,7 +65,7 @@ const FanStayUpToDate: React.FC<FanStayUpToDate> = ({ data, onClick }) => {
                     lineHeight={{ base: "20px", lg: "25px" }}
                     textTransform="capitalize"
                   >
-                    {item?.targetUser?.firstName} {item?.targetUser?.lastName}
+                    {item?.targetUser?.nickName}
                   </Text>
                   <Text
                     bg={

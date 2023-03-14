@@ -10,3 +10,15 @@ export const AUTH_ERROR_CODE = {
 export const getAuthErrorCode = (code: string | number | undefined) => {
   return AUTH_ERROR_CODE[code as keyof typeof AUTH_ERROR_CODE];
 };
+
+export const ACTIVE_PATHS = [
+  "/athlete",
+  "/fan",
+  "/athlete/notification",
+  "/fan/notification",
+  "/athlete/interactions",
+  "/fan/interactions",
+  "/athlete/my-fan",
+  "/athlete/my-profile",
+  "/fan/my-profile",
+];

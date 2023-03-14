@@ -17,9 +17,9 @@ exports[`renders homepage unchanged 1`] = `
         class="css-dfpqc0"
       >
         <img
-          alt="1"
+          alt=""
           class="chakra-image__placeholder css-1nqnlj4"
-          src="https://via.placeholder.com/200x265"
+          src="https://via.placeholder.com/210x265"
         />
         <div
           class="css-rzhx1g"
@@ -29,12 +29,12 @@ exports[`renders homepage unchanged 1`] = `
           >
             <p
               class="chakra-text css-1yzyoi4"
-            >
-              Athlete Name 1
-            </p>
-            <p
-              class="chakra-text css-12lr5sh"
             />
+            <p
+              class="chakra-text css-4uwlir"
+            >
+              _
+            </p>
           </div>
         </div>
       </div>
