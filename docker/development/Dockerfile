@@ -11,7 +11,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-COPY .env .env.production
+COPY .env.development .env.production
 RUN yarn build
 
 # Production image, copy all the files and run next
