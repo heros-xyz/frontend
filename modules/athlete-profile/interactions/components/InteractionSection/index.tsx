@@ -67,13 +67,15 @@ const InteractionSection: FC<InteractionSectionProps> = ({
         </Then>
       </If>
 
-      <Box mt={interactionMedia && interactionMedia.length ? 0 : 4}>
+      <Box>
         {content ? (
           <Text
             fontWeight="medium"
             fontSize={{ base: "sm", lg: "xl" }}
             color="white"
             lineHeight="19.6px"
+            whiteSpace="break-spaces"
+            mt={4}
           >
             {isAbleToReadMore
               ? `${content.slice(0, MAX_CONTENT_LENGTH)}...`

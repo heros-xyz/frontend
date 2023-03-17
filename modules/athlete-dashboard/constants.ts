@@ -13,7 +13,7 @@ export const validationSchema = yup.object().shape({
   dateOfBirth: yup
     .string()
     .required("This is a required field")
-    .test("valid-date", "Please select valid date", (value) => {
+    .test("valid-date", "Invalid date", (value) => {
       return isValidDate(value);
     }),
   gender: yup.string().required("This is a required field"),

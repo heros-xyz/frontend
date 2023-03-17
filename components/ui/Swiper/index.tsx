@@ -28,24 +28,6 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
 
   const styles = cssStyles(height);
 
-  const isAllImage = useMemo(() => {
-    return slideData && slideData.every((media) => media.type === "image");
-  }, [slideData]);
-
-  const isAllVideo = useMemo(() => {
-    return slideData && slideData.every((media) => media.type === "video");
-  }, [slideData]);
-
-  const isMixVideoAndImage = useMemo(() => {
-    const hasImage =
-      slideData && slideData.some((media) => media.type === "image");
-
-    const hasVideo =
-      slideData && slideData.some((media) => media.type === "video");
-
-    return hasImage && hasVideo;
-  }, [slideData]);
-
   return (
     <Box css={styles} maxW="500px">
       <Swiper
@@ -58,7 +40,7 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
           slideData.map((item) => (
             <SwiperSlide key={item.id}>
               <Switch>
-                <Case condition={slideData.length > 1 && isMixVideoAndImage}>
+                <Case condition={slideData.length > 1}>
                   <AspectRatio w="full" ratio={1}>
                     <If condition={item.type === "image"}>
                       <Then>
@@ -68,6 +50,7 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
                           fallbackSrc="https://via.placeholder.com/500x500"
                           rounded={{ base: "8px", lg: "12px" }}
                           loading="lazy"
+                          objectFit="cover"
                         />
                       </Then>
                       <Else>
@@ -76,9 +59,7 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
                     </If>
                   </AspectRatio>
                 </Case>
-                <Case
-                  condition={slideData.length > 1 && (isAllImage || isAllVideo)}
-                >
+                <Case condition={slideData.length <= 1}>
                   <If condition={item.type === "image"}>
                     <Then>
                       <Image
@@ -87,6 +68,7 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
                         fallbackSrc="https://via.placeholder.com/500x500"
                         rounded={{ base: "8px", lg: "12px" }}
                         loading="lazy"
+                        objectFit="cover"
                       />
                     </Then>
                     <Else>

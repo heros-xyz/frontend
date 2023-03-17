@@ -13,14 +13,7 @@ export interface initialAddTier {
 }
 
 export const validationAddTierSchema = yup.object().shape({
-  monthlyPrice: yup
-    .string()
-    .required("This is a required field")
-    .test("valid-price", "Value must be between $1.00 and $10.00", (value) => {
-      return value && 1.0 <= parseFloat(value) && parseFloat(value) <= 10.0
-        ? true
-        : false;
-    }),
+  monthlyPrice: yup.string().required("This is a required field"),
   tierDescription: yup
     .string()
     .max(150, "Tier Description cannot exceed 150 characters"),

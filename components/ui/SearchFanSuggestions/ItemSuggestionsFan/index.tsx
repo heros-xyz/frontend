@@ -1,13 +1,18 @@
-import { Box, Flex, Text, Image } from "@chakra-ui/react";
+import { Box, Flex, Text, Image, Highlight } from "@chakra-ui/react";
 import { IFanInfo } from "@/types/athlete/types";
 import { getImageLink } from "@/utils/link";
 
 interface IProps {
   item: IFanInfo;
+  searchKeyword?: string;
   onClickItem?: (item: IFanInfo) => void;
 }
 
-const ItemSuggestionsFan: React.FC<IProps> = ({ item, onClickItem }) => {
+const ItemSuggestionsFan: React.FC<IProps> = ({
+  item,
+  searchKeyword,
+  onClickItem,
+}) => {
   return (
     <Box
       borderBottom="1px"
@@ -40,7 +45,12 @@ const ItemSuggestionsFan: React.FC<IProps> = ({ item, onClickItem }) => {
             fontWeight={"700"}
             lineHeight="140%"
           >
-            {item?.fullName}
+            <Highlight
+              query={searchKeyword ?? ""}
+              styles={{ fontWeight: "extrabold" }}
+            >
+              {item?.fullName}
+            </Highlight>
           </Text>
         </Box>
       </Flex>

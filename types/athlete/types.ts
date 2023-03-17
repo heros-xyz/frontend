@@ -22,6 +22,7 @@ export interface IBasicInfo {
   gender: number;
   firstName: string;
   lastName: string;
+  middleName: string;
 }
 
 export interface IBasicInfoParams {
@@ -248,6 +249,7 @@ export interface IMeta {
   pageCount: number;
   hasPreviousPage: boolean;
   hasNextPage: boolean;
+  offset: number;
 }
 
 export interface IListFans {
@@ -279,8 +281,8 @@ export interface IAddInteractionInfo {
   tags: string[];
   listMedia: IUploadFileInteraction[];
   listMediaExisted?: IMediaExisted[];
-  publicType: string;
   publicDate: string;
+  schedule: boolean;
 }
 export interface IInteractionMedia {
   id: string;
@@ -316,6 +318,7 @@ export interface IInteractionItem {
   user?: IUserPostInfo;
   liked: boolean;
   isAccessRight: boolean;
+  isSchedulePost: boolean;
 }
 export interface IUserPostInfo {
   id: string;

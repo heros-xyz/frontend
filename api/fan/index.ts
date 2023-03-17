@@ -16,6 +16,7 @@ import {
   ISportProfile,
   IMeta,
   IAthleteSubscribed,
+  IResponseComment,
 } from "@/types/athlete/types";
 import {
   AddPaymentForm,
@@ -222,18 +223,6 @@ export const fanApi = createApi({
           params,
         };
       },
-      // serializeQueryArgs: ({ endpointName }) => {
-      //   return endpointName;
-      // },
-      // merge: (currentCache, newItems) => {
-      //   currentCache?.data.push(...newItems?.data);
-      //   currentCache.meta = newItems?.meta;
-      // },
-      // forceRefetch({ currentArg, previousArg }) {
-      //   console.log(currentArg, previousArg);
-
-      //   return currentArg !== previousArg;
-      // },
     }),
     getAthleteInteractionDetail: builder.query<IAthleteInteraction, string>({
       query: (postId) => ({
@@ -255,7 +244,7 @@ export const fanApi = createApi({
       }),
     }),
     replyComment: builder.mutation<
-      string,
+      IResponseComment,
       {
         interactionId?: string | string[];
         content: string;

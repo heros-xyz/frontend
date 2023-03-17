@@ -49,7 +49,7 @@ const FanAthleteInteraction = () => {
         </Then>
       </If>
 
-      <Box mt={{ lg: "20px" }} pb={{ base: "80px", lg: "50px" }}>
+      <Box mt={{ lg: "20px" }} pb={{ base: 2, lg: 5 }}>
         <AthletesLike
           data={dataRecommended || []}
           title="Athletes You Might Also Like:"

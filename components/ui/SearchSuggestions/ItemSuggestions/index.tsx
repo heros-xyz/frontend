@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Image } from "@chakra-ui/react";
+import { Box, Flex, Text, Image, Highlight } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { getImageLink } from "@/utils/link";
 
@@ -10,10 +10,15 @@ interface IProps {
     id: string;
     nickName: string;
   };
+  searchKeyword?: string;
   onClick: () => void;
 }
 
-const ItemSuggestions: React.FC<IProps> = ({ item, onClick }) => {
+const ItemSuggestions: React.FC<IProps> = ({
+  item,
+  searchKeyword,
+  onClick,
+}) => {
   const router = useRouter();
 
   const onClickSuggestionItem = async () => {
@@ -58,7 +63,12 @@ const ItemSuggestions: React.FC<IProps> = ({ item, onClick }) => {
             fontWeight={"700"}
             lineHeight="140%"
           >
-            {item?.nickName ?? item?.fullName}
+            <Highlight
+              query={searchKeyword ?? ""}
+              styles={{ fontWeight: "extrabold" }}
+            >
+              {item?.nickName ?? item?.fullName}
+            </Highlight>
           </Text>
           <Text
             as="p"

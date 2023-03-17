@@ -46,6 +46,7 @@ const EditBasicInfo = () => {
       const editData = {
         id: basicInfo?.id ?? "",
         firstName: values.firstName,
+        middleName: values.middleName,
         lastName: values.lastName,
         dateOfBirth: values.dateOfBirth,
         gender: values.gender,
@@ -60,6 +61,7 @@ const EditBasicInfo = () => {
     if (basicInfo) {
       formik.setFieldValue("firstName", basicInfo?.firstName);
       formik.setFieldValue("lastName", basicInfo?.lastName);
+      formik.setFieldValue("middleName", basicInfo?.middleName || "");
       formik.setFieldValue("dateOfBirth", basicInfo?.dateOfBirth);
       formik.setFieldValue("gender", basicInfo?.gender.toString());
       formik.setFieldValue("nationality", {
@@ -130,9 +132,35 @@ const EditBasicInfo = () => {
                   errorMessage={formik.errors.firstName}
                 />
               </Box>
+              <Box my={7}>
+                <Box fontWeight="medium">
+                  Legal Middle Name
+                  <Text as="span" color="error.dark">
+                    *
+                  </Text>
+                </Box>
+                <Input
+                  variant="flushed"
+                  w="full"
+                  id="middleName"
+                  name="middleName"
+                  onChange={formik.handleChange}
+                  value={formik.values.middleName}
+                  isInvalid={Boolean(
+                    formik.errors.middleName && formik.touched.middleName
+                  )}
+                />
+                <ErrorMessage
+                  mt={0.5}
+                  condition={
+                    formik.errors.middleName && formik.touched.middleName
+                  }
+                  errorMessage={formik.errors.middleName}
+                />
+              </Box>
               <Box mb={7}>
                 <Box fontWeight="medium">
-                  Legal Last name
+                  Legal Last Name
                   <Text as="span" color="error.dark">
                     *
                   </Text>
@@ -227,6 +255,7 @@ const EditBasicInfo = () => {
                 <Box mt={{ base: "2", xl: "4" }}>
                   <Select
                     isDarkTheme
+                    optionCount={5}
                     value={formik.values.nationality}
                     options={nationalityList}
                     filterSelectOptions={filterSelectOptions}
@@ -273,7 +302,7 @@ const EditBasicInfo = () => {
               </Box>
               <Box
                 display="flex"
-                alignItems={{ base: "center", xl: "end" }}
+                alignItems={{ base: "center", lg: "end" }}
                 flexDirection="column"
               >
                 <Button

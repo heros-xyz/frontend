@@ -1,5 +1,6 @@
 export interface IAthleteSetupAccountParams {
   firstName: string;
+  middleName: string;
   lastName: string;
   nickName: string;
   avatar?: File | null;
@@ -61,7 +62,7 @@ export interface IOnboardingCareerJourneyParams {
   endDate: string | null;
   title: string;
   description: string;
-  icon: string;
+  icon?: string;
 }
 
 export interface ISignInWithEmailParams {

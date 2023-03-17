@@ -1,5 +1,5 @@
 import { Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { useGetListCommentInteractionQuery } from "@/api/athlete";
 import { useReactionInteractionMutation } from "@/api/fan";
@@ -26,6 +26,7 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
 }) => {
   const router = useRouter();
   const { view, id } = router.query;
+  const iconActions = useRef<HTMLDivElement>(null);
   const [isLiked, setIsLiked] = useState(liked);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [totalReactions, setTotalReactions] = useState(reactionCount);
@@ -43,6 +44,17 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
     !!data && setTotalReactions(data?.totalReaction);
   }, [data]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (iconActions && iconActions?.current && view) {
+        iconActions.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 250);
+  }, []);
+
   const handleLike = () => {
     setIsLiked((prev) => !prev);
     request({
@@ -59,7 +71,12 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
         isOpen={isOpen}
         onClose={onClose}
       />
-      <Flex gap={5} my={{ base: "15px", lg: "20px" }} alignItems="center">
+      <Flex
+        gap={5}
+        my={{ base: "15px", lg: "20px" }}
+        alignItems="center"
+        ref={iconActions}
+      >
         <Button
           onClick={handleLike}
           style={{ all: "unset", cursor: "pointer" }}

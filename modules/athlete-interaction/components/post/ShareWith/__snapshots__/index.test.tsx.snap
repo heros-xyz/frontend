@@ -6,72 +6,310 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
     class="css-0"
   >
     <div
-      class="css-ec137v"
+      class="css-9xb7j"
     >
       <h2
-        class="chakra-heading css-sgvy29"
+        class="chakra-heading css-15g8axf"
       >
-        Share with ...
+        Schedule
       </h2>
+      <label
+        class="chakra-switch css-16pgy8f"
+        data-checked=""
+      >
+        <input
+          checked=""
+          class="chakra-switch__input"
+          style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+          type="checkbox"
+          value=""
+        />
+        <span
+          aria-hidden="true"
+          class="chakra-switch__track css-14qxnv8"
+          data-checked=""
+        >
+          <span
+            class="chakra-switch__thumb css-0"
+            data-checked=""
+          />
+        </span>
+      </label>
+    </div>
+    <div
+      class="css-0"
+    >
+      <p
+        class="chakra-text css-2w8cmg"
+      >
+        This interaction will become public on:
+      </p>
       <div
-        class="chakra-radio-group css-0"
-        role="radiogroup"
+        class="css-1htinif"
       >
         <div
-          class="chakra-stack css-17kdbol"
+          class="css-19io1or"
         >
-          <label
-            class="chakra-radio css-1nqw95c"
+          <div
+            class="css-17eahu8"
           >
-            <input
-              class="chakra-radio__input"
-              id="radio-:r1:"
-              name="radio-:r0:"
-              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
-              type="radio"
-              value="all"
-            />
-            <span
-              aria-hidden="true"
-              class="chakra-radio__control css-ssalds"
-            />
-            <span
-              class="chakra-radio__label css-1y8kf23"
+            <div
+              class=" css-n9lnso-SelectContainer"
             >
-              <p
-                class="chakra-text css-1gcnqou"
+              <span
+                class="css-1f43avz-a11yText-A11yText"
+                id="react-select-:r0:-live-region"
+              />
+              <span
+                aria-atomic="false"
+                aria-live="polite"
+                aria-relevant="additions text"
+                class="css-1f43avz-a11yText-A11yText"
+              />
+              <div
+                class=" css-1ya43kt-control"
               >
-                All users
-              </p>
-            </span>
-          </label>
-          <label
-            class="chakra-radio css-1nqw95c"
+                <div
+                  class=" css-15ki4p9-ValueContainer"
+                >
+                  <div
+                    class="css-xxdqwu"
+                  >
+                    <div
+                      class="css-1a0gbfz"
+                    >
+                      11
+                    </div>
+                    <div
+                      class=" css-qbdosj-Input"
+                      data-value=""
+                    >
+                      <input
+                        aria-autocomplete="list"
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        autocapitalize="none"
+                        autocomplete="off"
+                        autocorrect="off"
+                        class=""
+                        id="react-select-:r0:-input"
+                        role="combobox"
+                        spellcheck="false"
+                        style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                        tabindex="0"
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class=" css-1hb7zxy-IndicatorsContainer"
+                >
+                  <span
+                    class=" css-1xjgjl1-IndicatorSeparator"
+                  />
+                  <svg
+                    class="chakra-icon css-1gqm9iz"
+                    focusable="false"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.25 6.875L10 13.125L3.75 6.875"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-17eahu8"
           >
-            <input
-              class="chakra-radio__input"
-              id="radio-:r2:"
-              name="radio-:r0:"
-              style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
-              type="radio"
-              value="fanOnly"
-            />
-            <span
-              aria-hidden="true"
-              class="chakra-radio__control css-ssalds"
-            />
-            <span
-              class="chakra-radio__label css-1y8kf23"
+            <div
+              class=" css-n9lnso-SelectContainer"
             >
-              <p
-                class="chakra-text css-1gcnqou"
+              <span
+                class="css-1f43avz-a11yText-A11yText"
+                id="react-select-:r1:-live-region"
+              />
+              <span
+                aria-atomic="false"
+                aria-live="polite"
+                aria-relevant="additions text"
+                class="css-1f43avz-a11yText-A11yText"
+              />
+              <div
+                class=" css-1ya43kt-control"
               >
-                Fans only
-              </p>
-            </span>
-          </label>
+                <div
+                  class=" css-15ki4p9-ValueContainer"
+                >
+                  <div
+                    class="css-xxdqwu"
+                  >
+                    <div
+                      class="css-1a0gbfz"
+                    >
+                      Nov
+                    </div>
+                    <div
+                      class=" css-qbdosj-Input"
+                      data-value=""
+                    >
+                      <input
+                        aria-autocomplete="list"
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        autocapitalize="none"
+                        autocomplete="off"
+                        autocorrect="off"
+                        class=""
+                        id="react-select-:r1:-input"
+                        role="combobox"
+                        spellcheck="false"
+                        style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                        tabindex="0"
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class=" css-1hb7zxy-IndicatorsContainer"
+                >
+                  <span
+                    class=" css-1xjgjl1-IndicatorSeparator"
+                  />
+                  <svg
+                    class="chakra-icon css-1gqm9iz"
+                    focusable="false"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.25 6.875L10 13.125L3.75 6.875"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="css-17eahu8"
+          >
+            <div
+              class=" css-n9lnso-SelectContainer"
+            >
+              <span
+                class="css-1f43avz-a11yText-A11yText"
+                id="react-select-:r2:-live-region"
+              />
+              <span
+                aria-atomic="false"
+                aria-live="polite"
+                aria-relevant="additions text"
+                class="css-1f43avz-a11yText-A11yText"
+              />
+              <div
+                class=" css-1ya43kt-control"
+              >
+                <div
+                  class=" css-15ki4p9-ValueContainer"
+                >
+                  <div
+                    class="css-xxdqwu"
+                  >
+                    <div
+                      class="css-1a0gbfz"
+                    >
+                      2023
+                    </div>
+                    <div
+                      class=" css-qbdosj-Input"
+                      data-value=""
+                    >
+                      <input
+                        aria-autocomplete="list"
+                        aria-expanded="false"
+                        aria-haspopup="true"
+                        autocapitalize="none"
+                        autocomplete="off"
+                        autocorrect="off"
+                        class=""
+                        id="react-select-:r2:-input"
+                        role="combobox"
+                        spellcheck="false"
+                        style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                        tabindex="0"
+                        type="text"
+                        value=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class=" css-1hb7zxy-IndicatorsContainer"
+                >
+                  <span
+                    class=" css-1xjgjl1-IndicatorSeparator"
+                  />
+                  <svg
+                    class="chakra-icon css-1gqm9iz"
+                    focusable="false"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.25 6.875L10 13.125L3.75 6.875"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      <div
+        class="chakra-input__group css-1a01b3p"
+      >
+        <input
+          class="chakra-input css-1mz162b"
+          type="time"
+          value="12:12"
+        />
+        <svg
+          class="chakra-icon css-wfbfjw"
+          focusable="false"
+          viewBox="0 0 17 17"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M8 5.83333V8.5L10 10.5M14 8.5C14 11.8137 11.3137 14.5 8 14.5C4.68629 14.5 2 11.8137 2 8.5C2 5.18629 4.68629 2.5 8 2.5C11.3137 2.5 14 5.18629 14 8.5Z"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+      <p
+        class="chakra-text css-zihs4i"
+      >
+        *Time is in your local timezone.
+      </p>
     </div>
   </div>
 </div>

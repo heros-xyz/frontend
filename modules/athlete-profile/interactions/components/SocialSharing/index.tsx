@@ -59,7 +59,6 @@ export default function SocialSharing({
             hashtag="#PostDetail"
             onClick={onClose}
           >
-            {postLink}
             <Flex role="button" _hover={{ opacity: 0.5 }} alignItems="center">
               <FacebookIcon w="50px" h="50px" my="10px" />
               <Text ml="16px">Share to Facebook</Text>

@@ -28,7 +28,7 @@ export interface IValuesTypes {
   listMedia: IUploadFile[];
   tags: string[];
   publicType: string;
-  earlyAccess: boolean;
+  schedule: boolean;
   publicDate: string;
   publicTime: string;
 }
@@ -46,8 +46,8 @@ const initialValues = {
   content: "",
   listMedia: [] as IUploadFile[],
   tags: [] as string[],
-  publicType: "all",
-  earlyAccess: false,
+  publicType: "fanOnly",
+  schedule: false,
   publicDate: dayjs().add(3, "day").format("YYYY-MM-DD"),
   publicTime: `${getTime("hour")}:${getTime("minute")}`,
 };
@@ -58,7 +58,7 @@ const validationSchema = yup.object().shape({
     .max(2000, "Your interaction cannot exceed 2000 characters."),
   publicDate: yup
     .string()
-    .test("valid-date", "Please select valid date", (value) => {
+    .test("valid-date", "Invalid date", (value) => {
       return isValidDate(value);
     })
     .test(
@@ -127,16 +127,16 @@ export const useInteractionInfo = () => {
       content,
       tags,
       listMedia,
-      publicType,
       publicDate,
       publicTime,
+      schedule,
     }) => {
       const formatDate = new Date(`${publicDate} ${publicTime} UTC`);
       const mapPayload = {
         content,
         tags,
         listMedia,
-        publicType,
+        schedule,
         publicDate: formatDate.toISOString(),
       };
       submit(mapPayload);
@@ -180,7 +180,7 @@ export const useUpdateInteractionInfo = () => {
       content,
       tags,
       listMedia,
-      publicType,
+      schedule,
       publicDate,
       publicTime,
     }) => {
@@ -194,7 +194,7 @@ export const useUpdateInteractionInfo = () => {
         tags,
         listMedia,
         listMediaExisted,
-        publicType,
+        schedule,
         publicDate: formatDate.toISOString(),
       };
       submit({ interactionId, data: mapPayload });

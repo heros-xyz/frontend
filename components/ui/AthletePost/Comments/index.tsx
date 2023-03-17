@@ -1,18 +1,14 @@
 import { Image, Box, Flex, Text } from "@chakra-ui/react";
-import React, { FC, useEffect, useMemo, useRef, useState } from "react";
+import React, { FC, useEffect, useMemo, useRef } from "react";
 import { Else, If, Then } from "react-if";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import {
-  useAddCommentInteractionMutation,
-  useGetListCommentInteractionQuery,
-} from "@/api/athlete";
 import CommentField from "@/modules/athlete-profile/interactions/components/CommentField";
-import { IReplyingTo } from "@/modules/athlete-profile/interactions/post-detail/CommentSection";
-import { useReplyCommentMutation } from "@/api/fan";
 import { getImageLink } from "@/utils/link";
 import { IResponseComment } from "@/types/athlete/types";
+import { useComments } from "@/hooks/useComment";
 import Comments from "../../Comment/List";
+import LoadMoreSkeleton from "../LoadMoreSkeleton";
 interface IAthleteInteractionCommentsProps {
   id: string;
   isPreview?: boolean;
@@ -25,62 +21,40 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
   id,
   isPreview,
   focusComment = false,
-  scrollToWhenCommented,
   onUnFocusComment,
   setTotalComments,
 }) => {
-  const scrollRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
-  const [totalView, setTotalView] = useState<number>(10);
-  const [isFocusOnInput, setIsFocusOnInput] = useState(false);
-  const [replyingTo, setReplyingTo] = useState<IReplyingTo | undefined>(
-    undefined
-  );
-  const [handleSendMessage, { data: sendMessageRespone }] =
-    useAddCommentInteractionMutation();
-  const [replyComment, { data: replyCommentResponse }] =
-    useReplyCommentMutation();
-
   const {
-    data: listComment,
-    refetch,
+    isFocusOnInput,
     isLoading,
-  } = useGetListCommentInteractionQuery(
-    {
-      interactionId: id,
-      authorId: session?.user.id,
-      pageInfo: {
-        take: isPreview ? 2 : totalView,
-        ...(isPreview && { take: 2 }),
-        order: "DESC",
-      },
-    },
-    {
-      skip: typeof id !== "string",
-    }
-  );
+    listComment,
+    listMergedComments,
+    replyingTo,
+    isShowLoadMore,
+    totalComments,
+    scrollRef,
+    handleSendMessage,
+    replyComment,
+    setOffset,
+    setReplyingTo,
+    setIsFocusOnInput,
+  } = useComments({
+    authorId: session?.user.id ?? "",
+    isPreview,
+    interactionId: id,
+    isAthlete: true,
+  });
 
   useEffect(() => {
     setIsFocusOnInput(focusComment);
   }, [focusComment]);
 
   useEffect(() => {
-    if (listComment && setTotalComments) {
-      setTotalComments(listComment.meta?.itemCount);
+    if (totalComments && setTotalComments) {
+      setTotalComments(totalComments);
     }
-  }, [listComment]);
-
-  useEffect(() => {
-    if (scrollToWhenCommented && (sendMessageRespone || replyCommentResponse)) {
-      refetch();
-      setReplyingTo(undefined);
-      setIsFocusOnInput(false);
-      window.scrollTo({
-        top: Number(scrollRef?.current?.offsetTop) - 100,
-        behavior: "smooth",
-      });
-    }
-  }, [sendMessageRespone, replyCommentResponse]);
+  }, [totalComments]);
 
   const onSendMessage = (content: string) => {
     if (replyingTo) {
@@ -100,16 +74,12 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
   };
 
   const getUserName = (item: IResponseComment) => {
-    if (item.user.role === "ATHLETE") {
-      return session?.user.nickname;
-    }
-
-    return `${item.user.firstName} ${item.user.lastName}`;
+    return item.user.nickName ?? `${item.user.firstName} ${item.user.lastName}`;
   };
 
   const formatDataComment = useMemo(() => {
     return (
-      listComment?.data.map(
+      listMergedComments.map(
         ({
           id,
           user,
@@ -135,13 +105,13 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
         })
       ) || []
     );
-  }, [listComment]);
+  }, [listMergedComments]);
 
   return (
     <Box className="comment-box">
       <If condition={isPreview}>
         <Then>
-          {listComment?.data.map((item, index) => (
+          {listMergedComments.map((item, index) => (
             <Box key={"key" + `${index}`} className="comment-box__preview">
               <Box
                 color="grey.100"
@@ -200,25 +170,11 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
                   setIsFocusOnInput(true);
                 }}
               />
-              <If
-                condition={
-                  listComment?.meta.itemCount &&
-                  listComment?.meta.itemCount > totalView
-                }
-              >
-                <Then>
-                  <Text
-                    role="button"
-                    color="secondary"
-                    textDecoration="underline"
-                    fontSize={{ base: "xs", lg: "lg" }}
-                    mt={{ base: 5 }}
-                    onClick={() => setTotalView(totalView + 10)}
-                  >
-                    View more comments
-                  </Text>
-                </Then>
-              </If>
+              <LoadMoreSkeleton
+                pt={8}
+                isShowLoadMore={isShowLoadMore}
+                setOffset={() => setOffset((offset) => offset + 10)}
+              />
             </Box>
             <Box
               position="sticky"

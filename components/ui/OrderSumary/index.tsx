@@ -36,6 +36,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       <Flex py={5} gap={2.5}>
         <Image
           w={{ base: "40px", lg: "60px" }}
+          h={{ base: "40px", lg: "60px" }}
           src={getImageLink(avatar)}
           alt="image"
           rounded="full"

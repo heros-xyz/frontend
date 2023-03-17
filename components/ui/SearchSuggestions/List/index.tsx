@@ -6,6 +6,7 @@ import ItemSuggestions from "../ItemSuggestions";
 interface SearchSuggestionsProps extends BoxProps {
   buttonName: string;
   items: IAthleteSearchProfile[];
+  searchKeyword: string;
   onShowAllResult(): void;
   onClick: () => void;
 }
@@ -13,6 +14,7 @@ interface SearchSuggestionsProps extends BoxProps {
 const SearchSuggestionsList: React.FC<SearchSuggestionsProps> = ({
   buttonName,
   items,
+  searchKeyword,
   onShowAllResult,
   onClick,
   ...props
@@ -20,7 +22,12 @@ const SearchSuggestionsList: React.FC<SearchSuggestionsProps> = ({
   return (
     <Box bg="acccent.4" p="3" pt="0" borderRadius="base" {...props}>
       {items.map((item) => (
-        <ItemSuggestions item={item} key={item.id} onClick={onClick} />
+        <ItemSuggestions
+          searchKeyword={searchKeyword}
+          item={item}
+          key={item.id}
+          onClick={onClick}
+        />
       ))}
       <Box textAlign="center" mt="2.5">
         <Box

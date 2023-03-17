@@ -61,6 +61,7 @@ const DeletePostModal: FC<IDeletePostModalProps> = ({
           px={{ lg: "10%" }}
           fontSize={{ base: "lg", lg: "xl" }}
           mb={{ base: 5, lg: 8 }}
+          textColor="primary"
         >
           This action cannot be undone. Are you sure you want to delete this
           interaction?
@@ -79,6 +80,7 @@ const DeletePostModal: FC<IDeletePostModalProps> = ({
             fontWeight={500}
             fontSize={{ base: "sm", lg: "lg" }}
             textDecoration="underline"
+            textColor="primary"
             onClick={onClose}
           >
             Cancel

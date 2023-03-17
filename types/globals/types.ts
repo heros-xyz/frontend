@@ -25,4 +25,17 @@ export interface IPagination {
   limit?: number;
   tag?: string;
   authorId?: string;
+  offset?: number;
+}
+
+export interface ICommentParams {
+  order?: "ASC" | "DESC";
+  page?: number;
+  take?: number;
+  q?: string;
+  limit?: number;
+  authorId?: string;
+  offset?: number;
+  commentIdFocus?: string;
+  getReply?: boolean;
 }

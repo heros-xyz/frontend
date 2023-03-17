@@ -49,6 +49,7 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
           <Box
             fontSize={["xs", "md"]}
             color={`${item?.readAt !== null && "white"}`}
+            flex={1}
           >
             <Heading as="span" fontSize={["xs", "md"]}>
               {item?.source?.nickName ?? item?.source?.fullName}

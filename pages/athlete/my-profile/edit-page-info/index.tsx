@@ -45,10 +45,9 @@ import { updateSession } from "@/utils/auth";
 const EditPageInfo = () => {
   const { data: session } = useSession();
   const { data: pageInfo } = useGetPageInformationQuery("");
-  const [editPageInfo, { data: editPageInfoData, isLoading }] =
+  const [editPageInfo, { data: editPageInfoData, isLoading, isSuccess }] =
     useEditPageInfoMutation();
   const [input, setInput] = useState("");
-  const [isSubmit, setIsSubmit] = useState(false);
   const [tagsValue, setTags] = useState<string[]>([]);
   const initialRef: any = null;
   const upload = useRef(initialRef);
@@ -60,7 +59,7 @@ const EditPageInfo = () => {
   const validationSchema = Yup.object().shape({
     nickName: Yup.string()
       .required("This is a required field!")
-      .max(20, "First name cannot exceed 20 characters"),
+      .max(20, "Nickname cannot exceed 20 characters"),
     tagLine: Yup.string().max(100, "Tagline cannot exceed 100 characters"),
   });
   const initialPageValues = {
@@ -103,7 +102,6 @@ const EditPageInfo = () => {
         tags: tagsValue,
       };
       editPageInfo(editData);
-      setIsSubmit(true);
     },
   });
 
@@ -168,7 +166,7 @@ const EditPageInfo = () => {
       >
         <Box w={{ base: "full", xl: "30rem" }}>
           <Box w="full" fontWeight="bold">
-            <Link as={NextLink} href="/athlete">
+            <Link as={NextLink} href="/athlete/my-profile">
               <ArrowLeft
                 verticalAlign=""
                 w={{ base: "14px", xl: "18px" }}
@@ -248,8 +246,11 @@ const EditPageInfo = () => {
                     <IconEdit />
                   </Center>
                 </Box>
+              </Center>
+              <Center>
                 {errorMessage && (
                   <Box
+                    mt={2}
                     color="error.dark"
                     data-testid="error-message"
                     fontSize="xs"
@@ -257,13 +258,14 @@ const EditPageInfo = () => {
                     {errorMessage}
                   </Box>
                 )}
-                <VisuallyHiddenInput
-                  ref={upload}
-                  type="file"
-                  accept="image/jpeg,image/png"
-                  onChange={onChangeAvatar}
-                />
               </Center>
+
+              <VisuallyHiddenInput
+                ref={upload}
+                type="file"
+                accept="image/jpeg,image/png"
+                onChange={onChangeAvatar}
+              />
             </Box>
             <Box
               w="full"
@@ -364,7 +366,7 @@ const EditPageInfo = () => {
                   SAVE
                 </Button>
               </Flex>
-              {isSubmit && (
+              {isSuccess && (
                 <Flex justify={{ base: "center", xl: "flex-end" }} pt="2">
                   <Text color="#65D169">Changes saved!</Text>
                 </Flex>

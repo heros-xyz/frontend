@@ -42,11 +42,13 @@ const FanOfAthleteProfile: FC<IFanOfAthleteProfileProps> = ({
           <Center flexDirection="column" mb={{ base: 10, lg: 12 }}>
             <Image
               w={{ base: "100px", lg: "160px" }}
+              h={{ base: "100px", lg: "160px" }}
               mb={{ base: 2, lg: 8 }}
               rounded="full"
               src={getImageLink(fanInfo?.avatar)}
               alt={fanInfo?.fullName}
               fallbackSrc="https://via.placeholder.com/100"
+              objectFit="cover"
             />
             <Text as="b" fontSize={{ lg: "xl" }}>
               {fanInfo?.fullName}

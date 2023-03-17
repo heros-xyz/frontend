@@ -3,7 +3,6 @@ export const cssStyles = (width?: string, height?: string) => `
   width: ${width ? width : "100%"};
   height: ${height ? height : "100%"};
   background: transparent;
-  padding-bottom: 36px;
 }
 
 .swiper-slide {

@@ -4,6 +4,8 @@ import {
   Center,
   Checkbox,
   Flex,
+  Grid,
+  GridItem,
   Stack,
   Text,
   Textarea,
@@ -35,7 +37,7 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
 
   const handleClickIcon = (value: string, iconCheck: string) => {
     setIconCheck(value !== iconCheck ? value : "");
-    formik.setFieldValue("icon", value === iconCheck ? null : value);
+    formik.setFieldValue("icon", value === iconCheck ? "" : value);
   };
 
   return (
@@ -196,25 +198,36 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
             <Box fontWeight="normal" fontSize={{ base: "xs", lg: "md" }} mb={4}>
               Make your milestone even more interesting!
             </Box>
-            <Stack spacing={2} direction="row">
+            <Grid templateColumns="repeat(2, 1fr)" gap={1}>
               {SPORT_ICONS_MOCK.map((el) => {
                 return (
-                  <Button
-                    key={el.value}
-                    w={{ base: "54px", xl: "80px" }}
-                    h={{ base: "54px", xl: "80px" }}
-                    borderRadius="full"
-                    bg={el.value === iconCheck ? "primary" : "acccent.4"}
-                    color={el.value === iconCheck ? "secondary" : "primary"}
-                    onClick={() => handleClickIcon(el.value, iconCheck)}
-                    _hover={{}}
-                    _active={{}}
-                  >
-                    {el.Icon}
-                  </Button>
+                  <GridItem key={el.value} w="100%" pb="2">
+                    <Flex>
+                      <Button
+                        w={{ base: "54px", xl: "80px" }}
+                        h={{ base: "54px", xl: "80px" }}
+                        borderRadius="full"
+                        bg={el.value === iconCheck ? "primary" : "acccent.4"}
+                        color={el.value === iconCheck ? "secondary" : "primary"}
+                        onClick={() => handleClickIcon(el.value, iconCheck)}
+                        _hover={{}}
+                        _active={{}}
+                      >
+                        {el.Icon}
+                      </Button>
+                      <Text
+                        display="flex"
+                        alignItems="center"
+                        ml={1}
+                        fontSize={{ base: "xs", xl: "md" }}
+                      >
+                        {el.name}
+                      </Text>
+                    </Flex>
+                  </GridItem>
                 );
               })}
-            </Stack>
+            </Grid>
           </Box>
           <Button
             variant="primary"

@@ -9,7 +9,7 @@ const endDateValidation = (
   if (isPeriodDate)
     return schema
       .required("This is a required field")
-      .test("valid-date", "Please select valid date", (value: string) => {
+      .test("valid-date", "Invalid date", (value: string) => {
         return isValidDate(value);
       })
       .test(
@@ -34,7 +34,7 @@ export const validationSchema = yup.object().shape({
   startDate: yup
     .string()
     .required("This is a required field")
-    .test("valid-date", "Please select valid date", (value) => {
+    .test("valid-date", "Invalid date", (value) => {
       return isValidDate(value);
     }),
   endDate: yup
@@ -48,7 +48,7 @@ export const initialValues = {
   id: "",
   title: "",
   description: "",
-  icon: null,
+  icon: "",
   startDate: "",
   endDate: "",
   isPeriodDate: false,
@@ -57,7 +57,7 @@ export const initialValues = {
 export interface IMilestone {
   title: string;
   description: string;
-  icon: string | null;
+  icon?: string;
   startDate: string;
   endDate: string;
   isPeriodDate: boolean;

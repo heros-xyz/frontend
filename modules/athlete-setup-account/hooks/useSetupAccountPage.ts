@@ -9,6 +9,7 @@ import { getCharacterMessage, REQUIRED_MESSAGE } from "../constants";
 
 export type IValuesTypes = {
   firstName: string;
+  middleName: string;
   lastName: string;
   nickName: string;
   avatar: File | null;
@@ -16,6 +17,7 @@ export type IValuesTypes = {
 
 const initialValues: IValuesTypes = {
   firstName: "",
+  middleName: "",
   lastName: "",
   nickName: "",
   avatar: null,
@@ -34,6 +36,20 @@ const validationSchema = yub.object().shape({
           return isValidString(value);
         }
         return false;
+      }
+    ),
+  middleName: yub
+    .string()
+    .max(20, getCharacterMessage("Middle name"))
+    .test(
+      "invalid-middlename",
+      "Middle name is not allowing special character",
+      (value: string | undefined) => {
+        if (!value) {
+          return true;
+        } else {
+          return isValidString(value);
+        }
       }
     ),
   lastName: yub

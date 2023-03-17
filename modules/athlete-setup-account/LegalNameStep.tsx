@@ -54,6 +54,22 @@ const AthleteLegalNameStep: React.FC<IProp> = ({ onSubmit }) => {
           errorMessage={errors.firstName}
         />
       </Box>
+      <Box mb={{ base: 5, xl: 10 }}>
+        <Input
+          variant="flushed"
+          placeholder="Middle Name"
+          borderColor="primary"
+          name="middleName"
+          fontSize={{ base: "sm", lg: "3xl" }}
+          isInvalid={Boolean(errors.middleName && submitted)}
+          value={values?.middleName}
+          onChange={handleChange}
+        />
+        <ErrorMessage
+          condition={errors.middleName && submitted}
+          errorMessage={errors.middleName}
+        />
+      </Box>
       <Box mb={3}>
         <Input
           variant="flushed"

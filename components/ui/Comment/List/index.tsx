@@ -35,6 +35,7 @@ const Comments: React.FC<CommentsProps> = ({
             <CommentItem
               key={`${"key" + index}`}
               commentId={item.id}
+              isReply={!!item.parentComment}
               isAuthorComment={item.isAuthorComment}
               handleReply={() =>
                 onReply &&

@@ -1,5 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Box, Button, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Checkbox,
+  Flex,
+  Heading,
+  Input,
+  Text,
+} from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Else, If, Then } from "react-if";
@@ -55,6 +63,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
 
   const [errorMessage, setErrorMessage] = useState(authErrorMessage);
   const [errorCode, setErrorCode] = useState(authErrorCode);
+  const [agreeSignUp, setAgreeSignUp] = useState(false);
 
   const isAlreadyRegister = useMemo(() => {
     return (
@@ -184,7 +193,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
             Or with email
           </Text>
           <form onSubmit={formik.handleSubmit}>
-            <Box mb={8}>
+            <Box textAlign="left" mb={8}>
               <Input
                 id="email"
                 name="email"
@@ -222,6 +231,42 @@ const AuthTemplate: React.FC<IAuthProps> = ({
 
               <If condition={pageType !== "signin"}>
                 <Then>
+                  <Checkbox
+                    onChange={() => setAgreeSignUp(!agreeSignUp)}
+                    mt={4}
+                  >
+                    <Box fontSize={{ base: "xs", xl: "md" }}>
+                      <Text as="span">I agree to </Text>
+                      <Link
+                        href={getWebsiteLink(
+                          CorporateWebsiteLink.TERM_AND_CONDITION
+                        )}
+                      >
+                        <Text
+                          as="span"
+                          color="acccent.3"
+                          textDecoration="underline"
+                        >
+                          Heros’s Terms & Conditions
+                        </Text>
+                      </Link>
+
+                      <Text as="span"> and </Text>
+                      <Link
+                        href={getWebsiteLink(
+                          CorporateWebsiteLink.PRIVACY_POLICY
+                        )}
+                      >
+                        <Text
+                          as="span"
+                          color="acccent.3"
+                          textDecoration="underline"
+                        >
+                          Privacy & Cookie Policy
+                        </Text>
+                      </Link>
+                    </Box>
+                  </Checkbox>
                   <ErrorMessage
                     mt={{ base: 1.5, xl: 3 }}
                     display="flex"
@@ -237,9 +282,14 @@ const AuthTemplate: React.FC<IAuthProps> = ({
             </Box>
 
             <Button
+              isDisabled={pageType !== "signin" ? !agreeSignUp : false}
               maxWidth={{ base: "full", xl: "250px" }}
               fontSize={{ base: "md", xl: "xl" }}
               isLoading={isLoading}
+              _disabled={{
+                bg: "grey.100",
+                pointerEvents: "none",
+              }}
               fontWeight="bold"
               lineHeight="140%"
               bg="secondary"
@@ -252,23 +302,30 @@ const AuthTemplate: React.FC<IAuthProps> = ({
               Continue with email
             </Button>
           </form>
-          <Box mb={8} fontSize={{ base: "xs", xl: "md" }}>
-            <Text as="span">By signing up you agree to </Text>
-            <Link
-              href={getWebsiteLink(CorporateWebsiteLink.TERM_AND_CONDITION)}
-            >
-              <Text as="span" color="acccent.3" textDecoration="underline">
-                Heros’s Terms & Conditions
-              </Text>
-            </Link>
+          <If condition={pageType === "signin"}>
+            <Then>
+              <Box fontSize={{ base: "xs", xl: "md" }} mb={8}>
+                <Text as="span">By signing in you agree to </Text>
+                <Link
+                  href={getWebsiteLink(CorporateWebsiteLink.TERM_AND_CONDITION)}
+                >
+                  <Text as="span" color="acccent.3" textDecoration="underline">
+                    Heros’s Terms & Conditions
+                  </Text>
+                </Link>
 
-            <Text as="span"> and </Text>
-            <Link href={getWebsiteLink(CorporateWebsiteLink.PRIVACY_POLICY)}>
-              <Text as="span" color="acccent.3" textDecoration="underline">
-                Privacy & Cookie Policy
-              </Text>
-            </Link>
-          </Box>
+                <Text as="span"> and </Text>
+                <Link
+                  href={getWebsiteLink(CorporateWebsiteLink.PRIVACY_POLICY)}
+                >
+                  <Text as="span" color="acccent.3" textDecoration="underline">
+                    Privacy & Cookie Policy
+                  </Text>
+                </Link>
+              </Box>
+            </Then>
+          </If>
+
           <Box fontSize="md">
             <Text as="span" mr={2} fontWeight="normal" lineHeight="140%">
               {pageType === "signin"
