@@ -33,22 +33,33 @@ const CareerJourney = () => {
       startDate: values.startDate,
       endDate: values.endDate,
       isArchive: !!values.icon,
-      icon: values.icon,
+      icon: values.icon ? values.icon : "",
       isPeriodDate: values.isPeriodDate,
     };
     setMilestone((prevArr) => [...prevArr, data]);
   };
 
   const handleSubmit = () => {
-    const payload = milestones.map((item) => ({
-      startDate: dayjs(item.startDate).format("YYYY-MM-DD"),
-      endDate: item.endDate ? dayjs(item.endDate).format("YYYY-MM-DD") : "",
-      title: item.title,
-      description: item.description,
-      icon: item.icon as string,
-      isPeriodDate: item.isPeriodDate,
-    }));
-
+    const payload = milestones.map((item) => {
+      if (item.icon === "") {
+        return {
+          startDate: dayjs(item.startDate).format("YYYY-MM-DD"),
+          endDate: item.endDate ? dayjs(item.endDate).format("YYYY-MM-DD") : "",
+          title: item.title,
+          description: item.description,
+          isPeriodDate: item.isPeriodDate,
+        };
+      } else {
+        return {
+          startDate: dayjs(item.startDate).format("YYYY-MM-DD"),
+          endDate: item.endDate ? dayjs(item.endDate).format("YYYY-MM-DD") : "",
+          title: item.title,
+          description: item.description,
+          icon: item.icon as string,
+          isPeriodDate: item.isPeriodDate,
+        };
+      }
+    });
     submitMilestones({ items: payload });
   };
 

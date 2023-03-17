@@ -12,7 +12,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Else, If, Then } from "react-if";
 import { useUpdateEffect } from "react-use";
 import { useRouter } from "next/router";
@@ -76,6 +76,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
 }) => {
   const router = useRouter();
   const { id: isDetailPage } = router.query;
+  const iconActions = useRef<HTMLDivElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [reaction, setReaction] = useState<boolean>(liked);
   const [totalReaction, setTotalReaction] = useState<number>(postLikes);
@@ -100,6 +101,17 @@ const AthletePost: React.FC<IAthletePostProps> = ({
       onUpdated && onUpdated();
     }
   }, [isLoading]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (iconActions && iconActions?.current && isDetailPage) {
+        iconActions.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 250);
+  }, []);
 
   useUpdateEffect(() => {
     setReaction(liked);
@@ -138,6 +150,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
             color="white"
             lineHeight="19.6px"
             wordBreak="break-word"
+            mt={4}
           >
             <Text as="span" whiteSpace="break-spaces">
               {isReadMore && text.length > MAX_CONTENT_LENGTH
@@ -192,6 +205,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                   color="white"
                   lineHeight="19.6px"
                   wordBreak="break-word"
+                  mt={4}
                 >
                   <Text as="span" whiteSpace="break-spaces">
                     {postContent}
@@ -242,7 +256,12 @@ const AthletePost: React.FC<IAthletePostProps> = ({
           <Divider orientation="vertical" />
         </GridItem>
         <GridItem colSpan={4}>
-          <Flex alignItems="center" mb={{ base: 2, lg: 3.5 }}>
+          <Flex
+            alignItems="center"
+            mb={{ base: 2, lg: 3.5 }}
+            ref={iconActions}
+            pt={2}
+          >
             <LoveIcon
               w={5}
               color={reaction ? "acccent.1" : "white"}

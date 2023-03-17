@@ -39,11 +39,8 @@ const nextConfig = {
     domains: [
       "icon-library.com",
       "heros-media-dev.s3-website-ap-southeast-1.amazonaws.com",
-      process.env.HEROS_MEDIA_URL ?? ""
+      process.env.HEROS_MEDIA_URL,
     ],
-  },
-  experimental: {
-    scrollRestoration: true,
   },
 };
 

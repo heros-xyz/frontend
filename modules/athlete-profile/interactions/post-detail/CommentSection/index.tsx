@@ -1,13 +1,9 @@
-import { Button, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { FC, useEffect, useRef, useState } from "react";
-
-import {
-  useAddCommentInteractionMutation,
-  useGetListCommentInteractionQuery,
-} from "@/api/athlete";
-import { useReplyCommentMutation } from "@/api/fan";
+import { FC, useEffect, useRef } from "react";
 import CommentItem from "@/components/ui/Comment/Item";
+import { useComments } from "@/hooks/useComment";
+import LoadMoreSkeleton from "@/components/ui/AthletePost/LoadMoreSkeleton";
 import CommentField from "../../components/CommentField";
 import { SocialInteraction } from "../../components/SocialInteraction/SocialInteraction";
 import { IAthleteInteraction } from "../../constants";
@@ -25,36 +21,32 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
   const { view: postId, id: authorId } = router.query;
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const [takeComment, setTakeComment] = useState(10);
-  const [isFocusOnInput, setIsFocusOnInput] = useState(false);
-  const [isReplyingTo, setIsReplyingTo] = useState<IReplyingTo | undefined>(
-    undefined
-  );
-
-  const [replyComment, replyCommentResponse] = useReplyCommentMutation();
-  const [addComment, addCommentResponse] = useAddCommentInteractionMutation();
-
   const {
-    data: listComment,
-    refetch,
+    isFocusOnInput,
     isLoading,
-    isFetching,
-  } = useGetListCommentInteractionQuery({
+    listComment,
+    listMergedComments,
+    replyingTo,
+    isShowLoadMore,
+    totalComments,
+    handleSendMessage,
+    replyComment,
+    setOffset,
+    setReplyingTo,
+    setIsFocusOnInput,
+  } = useComments({
+    authorId: authorId as string,
+    isPreview: false,
     interactionId: postId as string,
-    pageInfo: {
-      page: 1,
-      take: takeComment,
-      order: "DESC",
-      authorId: authorId as string,
-    },
+    isAthlete: false,
   });
 
   const handleCancelReply = () => {
-    setIsReplyingTo(undefined);
+    setReplyingTo(undefined);
   };
 
   const handleReply = (value: IReplyingTo) => {
-    setIsReplyingTo(value);
+    setReplyingTo(value);
     setIsFocusOnInput(true);
   };
 
@@ -62,13 +54,9 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
     setIsFocusOnInput(value);
   };
 
-  const handleFetchMoreComment = () => {
-    setTakeComment((s) => s + 10);
-  };
-
   const handleSubmitComment = (content: string) => {
-    if (isReplyingTo) {
-      const { id: commentId } = isReplyingTo;
+    if (replyingTo) {
+      const { id: commentId } = replyingTo;
       replyComment({
         interactionId: postId,
         content,
@@ -76,17 +64,14 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
       });
       return;
     }
-    addComment({
+    handleSendMessage({
       interactionId: postId,
       content,
     });
   };
 
   useEffect(() => {
-    if (addCommentResponse.isSuccess || replyCommentResponse.isSuccess) {
-      setIsReplyingTo(undefined);
-      refetch();
-
+    if (totalComments) {
       if (scrollRef && scrollRef.current) {
         scrollRef.current.scrollIntoView({
           behavior: "smooth",
@@ -94,7 +79,7 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
         });
       }
     }
-  }, [addCommentResponse, replyCommentResponse]);
+  }, [totalComments]);
 
   if (!listComment) {
     return <></>;
@@ -107,7 +92,7 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
           liked={liked}
           postId={postId}
           reactionCount={reactionCount}
-          commentsCount={listComment.meta.itemCount ?? 0}
+          commentsCount={totalComments ?? 0}
           handleComment={() => handleFocusOnInput(true)}
         />
         <Flex
@@ -118,7 +103,7 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
           gap={{ base: 4, lg: 8 }}
           className="postComment"
         >
-          {listComment?.data.map(
+          {listMergedComments.map(
             ({
               id,
               liked,
@@ -132,6 +117,7 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
               <CommentItem
                 key={id}
                 isAuthorComment={isAuthorComment}
+                isReply={!!parentComment}
                 commentId={id}
                 handleReply={() =>
                   handleReply({
@@ -155,33 +141,16 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
               />
             )
           )}
-          {listComment.meta.hasNextPage && (
-            <Button
-              alignSelf="baseline"
-              variant="link"
-              color="secondary"
-              textDecoration="underline"
-              textTransform="unset"
-              mt={{ base: "5px", lg: "10px" }}
-              fontSize={{ base: "12px", lg: "18px" }}
-              fontWeight="bold"
-              mb="6"
-              cursor={isFetching ? "progress" : "pointer"}
-              opacity={isFetching ? 0.5 : 1}
-              onClick={() => {
-                if (isFetching) return;
-                handleFetchMoreComment();
-              }}
-            >
-              View more comments
-            </Button>
-          )}
         </Flex>
+        <LoadMoreSkeleton
+          isShowLoadMore={isShowLoadMore}
+          setOffset={() => setOffset((offset) => offset + 10)}
+        />
       </Flex>
 
       <CommentField
         isLoading={isLoading}
-        isReplying={isReplyingTo}
+        isReplying={replyingTo}
         isFocused={isFocusOnInput}
         onCancelReply={handleCancelReply}
         onSubmitComment={handleSubmitComment}

@@ -31,7 +31,7 @@ import {
 } from "@/types/athlete/types";
 
 import { ITimeLineInfo } from "@/components/ui/Timeline";
-import { IPagination } from "@/types/globals/types";
+import { ICommentParams, IPagination } from "@/types/globals/types";
 
 export const athleteApi = createApi({
   reducerPath: "athleteApi",
@@ -54,6 +54,7 @@ export const athleteApi = createApi({
       query: (data) => {
         const formData = new FormData();
         formData.append("firstName", data.firstName);
+        formData.append("middleName", data.middleName);
         formData.append("lastName", data.lastName);
         formData.append("nickName", data.nickName);
 
@@ -280,7 +281,7 @@ export const athleteApi = createApi({
       {
         interactionId?: string | string[];
         authorId?: string;
-        pageInfo?: IPagination;
+        pageInfo?: ICommentParams;
       }
     >({
       query: ({ interactionId, authorId, pageInfo }) => ({
@@ -289,6 +290,27 @@ export const athleteApi = createApi({
         params: { authorId, ...pageInfo },
       }),
     }),
+    getTotalComments: builder.query<
+      number,
+      {
+        interactionId?: string | string[];
+        authorId?: string;
+        pageInfo?: IPagination;
+      }
+    >({
+      query: ({ interactionId, authorId, pageInfo }) => ({
+        url: `/comment/${interactionId}`,
+        method: "GET",
+        params: { authorId, ...pageInfo },
+      }),
+      transformResponse: (response: {
+        data: IResponseComment[];
+        totalComments: number;
+        meta: IMeta;
+      }) => {
+        return response.meta.itemCount as number;
+      },
+    }),
     addPostInteraction: builder.mutation<
       IInteractionItem[],
       IAddInteractionInfo
@@ -296,9 +318,8 @@ export const athleteApi = createApi({
       query: (data) => {
         const formData = new FormData();
         formData.append("content", data.content);
-        formData.append("publicType", data.publicType);
         formData.append(`tags`, JSON.stringify(data.tags));
-        if (data.publicType === "fanOnly") {
+        if (data.schedule) {
           formData.append("publicDate", data.publicDate);
         }
         data.listMedia.forEach(({ file }) => {
@@ -318,12 +339,11 @@ export const athleteApi = createApi({
       query: ({ interactionId, data }) => {
         const formData = new FormData();
         formData.append("content", data.content);
-        formData.append("publicType", data.publicType);
         formData.append(`tags`, JSON.stringify(data.tags));
         data.listMedia.forEach(({ file }) => {
           formData.append("listMedia", file);
         });
-        if (data.publicType === "fanOnly") {
+        if (data.schedule) {
           formData.append("publicDate", data.publicDate);
         }
         if (data.listMediaExisted?.length) {
@@ -460,6 +480,7 @@ export const {
   usePutSportProfileMutation,
   useEditBasicInfoMutation,
   useEditPageInfoMutation,
+  useGetTotalCommentsQuery,
   util: { resetApiState, invalidateTags },
 } = athleteApi;
 

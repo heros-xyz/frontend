@@ -8,7 +8,7 @@ it("renders Enter Post Content Story unchanged", () => {
       onSubmit={console.log}
       initialValues={{
         shareWith: true,
-        earlyAccess: true,
+        schedule: true,
         publicDate: "2023-11-11",
         publicTime: "12:12",
       }}

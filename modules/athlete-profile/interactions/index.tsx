@@ -99,7 +99,7 @@ const Interactions: FC<IInteractionsProps> = ({
   });
 
   return (
-    <Box ref={tagSectionRef}>
+    <Box ref={tagSectionRef} className="view-athlete-interactions">
       <If condition={!!tag}>
         <Then>
           <Box my="30px">

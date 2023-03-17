@@ -11,7 +11,7 @@ import {
 } from "@/modules/athlete-interaction/hooks";
 import { useGetInteractionDetailQuery } from "@/api/athlete";
 import { getImageLink } from "@/utils/link";
-import { getTime, urlToObject } from "@/utils/functions";
+import { getTime } from "@/utils/functions";
 import { useLoading } from "@/hooks/useLoading";
 
 function EditInteractionsPost() {
@@ -39,7 +39,7 @@ function EditInteractionsPost() {
         })),
         tags: postInfo?.tags?.map((item) => item.name),
         publicType: postInfo?.publicType || "all",
-        earlyAccess: !!postInfo?.publicDate,
+        schedule: postInfo?.isSchedulePost,
         publicDate: postInfo?.publicDate
           ? dayjs(postInfo.publicDate).format("YYYY-MM-DD")
           : dayjs().add(3, "day").format("YYYY-MM-DD"),

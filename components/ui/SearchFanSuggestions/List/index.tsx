@@ -7,6 +7,7 @@ import ItemSuggestionsFan from "../../SearchFanSuggestions/ItemSuggestionsFan";
 interface SearchFanSuggestionsList extends BoxProps {
   buttonName: string;
   items: IFanInfo[];
+  searchKeyword?: string;
   onShowAllResult(): void;
   onSelectedItem: (item: IFanInfo) => void;
 }
@@ -14,6 +15,7 @@ interface SearchFanSuggestionsList extends BoxProps {
 const SearchFanSuggestionsList: React.FC<SearchFanSuggestionsList> = ({
   buttonName,
   items,
+  searchKeyword,
   onSelectedItem,
   onShowAllResult,
   ...props
@@ -25,6 +27,7 @@ const SearchFanSuggestionsList: React.FC<SearchFanSuggestionsList> = ({
           <Then>
             {items.map((item) => (
               <ItemSuggestionsFan
+                searchKeyword={searchKeyword}
                 key={item.id}
                 item={item}
                 onClickItem={onSelectedItem}

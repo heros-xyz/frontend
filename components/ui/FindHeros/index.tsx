@@ -45,7 +45,7 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
   const { data } = useSearchAthleteProfileQuery(
     {
       searching: searchValueDebounced?.toLocaleLowerCase(),
-      limit: LIMIT,
+      take: LIMIT,
     },
     { skip: searchValue.length <= 1 }
   );
@@ -108,6 +108,7 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
           left={8}
           top={{ base: "50px", lg: "60px" }}
           position="absolute"
+          searchKeyword={searchValue}
           buttonName={data.length ? "See All Results" : "No Result Found"}
           items={data}
           onShowAllResult={onShowAllResult}

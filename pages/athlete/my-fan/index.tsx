@@ -120,11 +120,34 @@ const MyFan = () => {
                   top={{ base: 5, lg: 8 }}
                   position="absolute"
                   buttonName={"See all results"}
+                  searchKeyword={searchValue}
                   items={athleteSearchList || []}
                   onShowAllResult={onShowAllResult}
                   onSelectedItem={onShowFanProfile}
                 />
               )}
+            </Box>
+            <Box w="full" position="relative">
+              {searchValue.length > 1 &&
+                focusSearch &&
+                !athleteSearchList?.length && (
+                  <Box
+                    w="full"
+                    zIndex={15}
+                    top={{ base: 5, lg: 8 }}
+                    position="absolute"
+                    bg="acccent.4"
+                    p="3"
+                    borderRadius="base"
+                    textAlign={"center"}
+                    fontWeight="bold"
+                    cursor="pointer"
+                    fontSize={{ base: "sm", lg: "md" }}
+                    onClick={onShowAllResult}
+                  >
+                    No Result Found
+                  </Box>
+                )}
             </Box>
           </Box>
         </Box>

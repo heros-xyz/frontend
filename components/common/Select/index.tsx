@@ -272,6 +272,11 @@ const Select: FC<SelectProps> = ({
             ...base,
             background: "none",
           }),
+          input: (base) => ({
+            ...base,
+            color: "white",
+            fontSize: "14px",
+          }),
         }}
         isMulti={isMulti}
         options={options}

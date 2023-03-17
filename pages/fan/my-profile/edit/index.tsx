@@ -23,7 +23,11 @@ import ErrorMessage from "@/components/common/ErrorMessage";
 import DateSelect from "@/components/ui/DateSelect";
 import SelectGender from "@/components/ui/SelectGender";
 import Select from "@/components/common/Select";
-import { filterSelectOptions, isValidDate } from "@/utils/functions";
+import {
+  filterSelectOptions,
+  isValidDate,
+  isValidString,
+} from "@/utils/functions";
 import { getImageLink } from "@/utils/link";
 import { IconEdit } from "@/components/svg/IconEdit";
 import {
@@ -47,13 +51,33 @@ const initialValues = {
 const validationSchema = Yup.object().shape({
   firstName: Yup.string()
     .max(20, "First name cannot exceed 20 characters")
+    .test(
+      "invalid-first-name",
+      "First name is not allowing special character",
+      (value: string | undefined) => {
+        if (value) {
+          return isValidString(value);
+        }
+        return false;
+      }
+    )
     .required("This is a required field"),
   lastName: Yup.string()
     .max(20, "Last name cannot exceed 20 characters")
+    .test(
+      "invalid-last-name",
+      "Last name is not allowing special character",
+      (value: string | undefined) => {
+        if (value) {
+          return isValidString(value);
+        }
+        return false;
+      }
+    )
     .required("This is a required field"),
   dateOfBirth: Yup.string()
     .required("This is a required field")
-    .test("valid-date", "Please select valid date", (value) => {
+    .test("valid-date", "Invalid date", (value) => {
       return isValidDate(value);
     }),
   gender: Yup.string().required("This is a required field"),
@@ -76,7 +100,7 @@ const EditAccountInfo = () => {
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      const { dateOfBirth, gender, sports, avatar, ...newValues } = values;
+      const { dateOfBirth, gender, sports, ...newValues } = values;
       const sportSubmit = sports
         .map((el: { value: string }) => el?.value)
         .join();
@@ -289,6 +313,7 @@ const EditAccountInfo = () => {
                 <Box fontWeight="medium" mb={2}>
                   Your profile pic
                 </Box>
+
                 <Center>
                   <Box
                     position="relative"
@@ -316,8 +341,11 @@ const EditAccountInfo = () => {
                       <IconEdit />
                     </Center>
                   </Box>
+                </Center>
+                <Center>
                   {errorMessage && (
                     <Box
+                      mt={2}
                       color="error.dark"
                       data-testid="error-message"
                       fontSize="xs"
@@ -325,13 +353,13 @@ const EditAccountInfo = () => {
                       {errorMessage}
                     </Box>
                   )}
-                  <VisuallyHiddenInput
-                    ref={upload}
-                    type="file"
-                    accept="image/jpeg,image/png"
-                    onChange={onChangeAvatar}
-                  />
                 </Center>
+                <VisuallyHiddenInput
+                  ref={upload}
+                  type="file"
+                  accept="image/jpeg,image/png"
+                  onChange={onChangeAvatar}
+                />
               </Box>
               <Box mb={7}>
                 <Box fontWeight="medium" mb={2}>
@@ -366,6 +394,7 @@ const EditAccountInfo = () => {
                   mt={2}
                   mb={2}
                   type="submit"
+                  isDisabled={!!errorMessage}
                   isLoading={isLoading}
                   fontSize={{ base: "md", xl: "xl" }}
                 >

@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
+import { Else, If, Then } from "react-if";
 import { useReactionCommentMutation } from "@/api/fan";
 import { Heart } from "@/components/svg/CommentHeart";
 import { CommentIcon } from "@/components/svg/CommentIcon";
@@ -20,15 +21,17 @@ import { Comment } from "../List/index.stories";
 interface CommentProps {
   item: Comment;
   commentId?: string;
-  handleReply?: () => void;
+  isReply: boolean;
   isAuthorComment?: boolean;
+  handleReply?: () => void;
 }
 
 const CommentItem: React.FC<CommentProps> = ({
   item,
-  handleReply,
   isAuthorComment,
   commentId,
+  isReply,
+  handleReply,
 }) => {
   const itemRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -66,12 +69,13 @@ const CommentItem: React.FC<CommentProps> = ({
     handler: () => setIsVisible(false),
   });
 
-  console.log(item);
-
   return (
     <Box bg="primary">
-      <Flex alignItems="end">
-        <WrapItem pr="2">
+      <Flex
+        alignItems="end"
+        justifyContent={isReply ? "flex-end" : "flex-start"}
+      >
+        <WrapItem pr="2" order={isReply ? 2 : 1}>
           <Image
             w={{ base: "32px", lg: "48px" }}
             h={{ base: "32px", lg: "48px" }}
@@ -82,7 +86,13 @@ const CommentItem: React.FC<CommentProps> = ({
             objectFit="cover"
           />
         </WrapItem>
-        <Box zIndex="1" flex={1} display={"flex"}>
+        <Box
+          zIndex="1"
+          flex={1}
+          justifyContent={isReply ? "flex-end" : "initial"}
+          display={"flex"}
+          order={isReply ? 1 : 2}
+        >
           <Box
             w="fit-content"
             px="3"
@@ -91,6 +101,8 @@ const CommentItem: React.FC<CommentProps> = ({
             bg={isAuthorComment ? "acccent.1" : "acccent.4"}
             position="relative"
             className="reply-comment"
+            order={isReply ? 2 : 1}
+            mr={isReply ? 3 : 0}
           >
             {item.parentComment && (
               <Box
@@ -113,7 +125,7 @@ const CommentItem: React.FC<CommentProps> = ({
             <Flex justifyContent="space-between" alignItems="end">
               <Box fontSize={["xs", "md"]} pr="3">
                 <Text fontWeight="extrabold">
-                  {isAuthorComment ? item.nickName : `${item?.name}`}
+                  {item.nickName ?? `${item?.name}`}
                 </Text>
                 <Text wordBreak="break-word">{item.text}</Text>
               </Box>
@@ -126,13 +138,32 @@ const CommentItem: React.FC<CommentProps> = ({
                 {getDateFromNow(item.createdAt)}
               </Text>
             </Flex>
-            <Box position="absolute" bottom="0" left="-2.5" zIndex="-1">
-              <CommentIcon
-                width="17"
-                height="10"
-                color={isAuthorComment ? "acccent.1" : "acccent.4"}
-              />
-            </Box>
+            <If condition={isReply}>
+              <Then>
+                <Box
+                  position="absolute"
+                  bottom="-5px"
+                  right="-2"
+                  zIndex="-1"
+                  transform={"rotate(-110deg);"}
+                >
+                  <CommentIcon
+                    width="17"
+                    height="10"
+                    color={isAuthorComment ? "acccent.1" : "acccent.4"}
+                  />
+                </Box>
+              </Then>
+              <Else>
+                <Box position="absolute" bottom="0" left="-2.5" zIndex="-1">
+                  <CommentIcon
+                    width="17"
+                    height="10"
+                    color={isAuthorComment ? "acccent.1" : "acccent.4"}
+                  />
+                </Box>
+              </Else>
+            </If>
             {totalLikes != 0 && (
               <Box
                 bg="error.dark"
@@ -161,8 +192,10 @@ const CommentItem: React.FC<CommentProps> = ({
                     bg="secondary"
                     borderRadius={["32", "xl"]}
                     position="absolute"
-                    right="-8"
+                    right={isReply ? "initial" : "-8"}
+                    left={isReply ? "-8" : "initial"}
                     top="-2.5"
+                    className="reactions"
                   >
                     <Flex px="3.5" py="2.5" justifyContent="center">
                       <ReplyIcon
@@ -192,9 +225,11 @@ const CommentItem: React.FC<CommentProps> = ({
             </AnimatePresence>
           </Box>
           <Dots
+            order={isReply ? 1 : 2}
             role="button"
             alignSelf="center"
             ml="1.5"
+            mr={isReply ? 1.5 : 0}
             onClick={handleOpenReactions}
           />
         </Box>

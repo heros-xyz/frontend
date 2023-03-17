@@ -21,21 +21,21 @@ import { IValuesTypes } from "../../../hooks";
 const ShareWith = () => {
   const { values, errors, setFieldValue } = useFormikContext<IValuesTypes>();
 
-  const renderEarlyAccess = (
-    <If condition={values.publicType === "fanOnly"}>
+  return (
+    <Box>
       <Then>
         <Flex gap={4} alignItems="center" mb={{ base: 4, lg: 8 }}>
           <Heading fontSize={{ lg: "xl" }} color="white">
-            Early access
+            Schedule
           </Heading>
           <Switch
             variant="primary"
             size={{ base: "md", lg: "lg" }}
-            isChecked={values.earlyAccess}
-            onChange={(val) => setFieldValue("earlyAccess", val.target.checked)}
+            isChecked={values.schedule}
+            onChange={(val) => setFieldValue("schedule", val.target.checked)}
           />
         </Flex>
-        <If condition={values.earlyAccess}>
+        <If condition={values.schedule}>
           <Then>
             <Box>
               <Text
@@ -96,35 +96,7 @@ const ShareWith = () => {
           </Then>
         </If>
       </Then>
-    </If>
-  );
-  return (
-    <Box>
-      <Box
-        p={{ base: 4, lg: 6 }}
-        bg="acccent.1"
-        rounded={{ base: "md", lg: "xl" }}
-        mb={{ base: 5, lg: 8 }}
-      >
-        <Heading fontSize={{ lg: "xl" }} mb={4}>
-          Share with ...
-        </Heading>
-        <RadioGroup
-          value={values.publicType}
-          colorScheme="purple"
-          onChange={(value) => setFieldValue("publicType", value)}
-        >
-          <Stack spacing={4} direction="column">
-            <Radio variant="primary" value="all">
-              <Text fontSize={{ base: "xs", lg: "lg" }}>All users</Text>
-            </Radio>
-            <Radio variant="primary" value="fanOnly">
-              <Text fontSize={{ base: "xs", lg: "lg" }}>Fans only</Text>
-            </Radio>
-          </Stack>
-        </RadioGroup>
-      </Box>
-      {renderEarlyAccess}
+      {/* {renderschedule} */}
     </Box>
   );
 };

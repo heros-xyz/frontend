@@ -34,8 +34,12 @@ const YourAthletesList: React.FC<YourAthletesProps> = ({
         >
           {athleteList?.length
             ? (isSearching ? `Showing` : `You are having`) +
-              ` ${athleteList?.length > 1 ? "fans" : "fans"}`
-            : "No result found"}
+              ` ${
+                athleteList?.length > 1
+                  ? `${athleteList?.length} fans`
+                  : `${athleteList?.length} fan`
+              }`
+            : "No results."}
         </Heading>
       )}
       <If condition={athleteList?.length}>

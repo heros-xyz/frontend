@@ -6,6 +6,8 @@ import {
   Checkbox,
   Container,
   Flex,
+  Grid,
+  GridItem,
   Modal,
   ModalContent,
   ModalOverlay,
@@ -315,25 +317,38 @@ const EditMilestone = () => {
                 >
                   Make your milestone even more interesting!
                 </Box>
-                <Stack spacing={{ base: 2, xl: 4 }} direction="row">
+                <Grid templateColumns="repeat(2, 1fr)" gap={1}>
                   {SPORT_ICONS_MOCK.map((el) => {
                     return (
-                      <Button
-                        key={el.value}
-                        w={{ base: "50px", xl: "70px" }}
-                        h={{ base: "50px", xl: "70px" }}
-                        borderRadius="full"
-                        bg={el.value === iconCheck ? "acccent.3" : "acccent.4"}
-                        color="primary"
-                        onClick={() => handleClickIcon(el.value, iconCheck)}
-                        _hover={{}}
-                        _active={{}}
-                      >
-                        {el.Icon}
-                      </Button>
+                      <GridItem key={el.value} w="100%" pb="2">
+                        <Flex>
+                          <Button
+                            w={{ base: "50px", xl: "70px" }}
+                            h={{ base: "50px", xl: "70px" }}
+                            borderRadius="full"
+                            bg={
+                              el.value === iconCheck ? "acccent.3" : "acccent.4"
+                            }
+                            color="primary"
+                            onClick={() => handleClickIcon(el.value, iconCheck)}
+                            _hover={{}}
+                            _active={{}}
+                          >
+                            {el.Icon}
+                          </Button>
+                          <Text
+                            display="flex"
+                            alignItems="center"
+                            ml={{ base: 1, xl: 2 }}
+                            fontSize={{ base: "xs", xl: "md" }}
+                          >
+                            {el.name}
+                          </Text>
+                        </Flex>
+                      </GridItem>
                     );
                   })}
-                </Stack>
+                </Grid>
               </Box>
               <Box float={{ xl: "right" }}>
                 <Button

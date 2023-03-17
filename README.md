@@ -27,44 +27,8 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy `development env` with Docker compose
+## Deploy on Vercel
 
-1: Create `.env.development` in the root of project
-2: Run command
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-- Step 1: run command `make build-development`
-- Step 2: To start the docker image, run command `make start-development`
-
-The application will be available in port `80` of docker, and port `3000` of http. (See `docker-compose.yml` file in `docker folder`)
-
-If you want to custom port, you can edit port in `docker-compose.yml` and `Dockerfile` in `docker/development` folder
-
-If you want to stop the app, run command `make stop-development`
-
-## Deploy `uat env` with Docker compose
-
-1: Create `.env.uat` in the root of project
-2: Run command
-
-- Step 1: run command `make build-uat`
-- Step 2: To start the docker image, run command `make start-uat`
-
-The application will be available in port `80` of docker, and port `3000` of http. (See `docker-compose.yml` file in `docker folder`)
-
-If you want to custom port, you can edit port in `docker-compose.yml` and `Dockerfile` in `docker/uat` folder
-
-If you want to stop the app, run command `make stop-uat`
-
-## Deploy `production env` with Docker compose
-
-1: Create `.env.production` in the root of project
-2: Run command
-
-- Step 1: run command `make build-production`
-- Step 2: To start the docker image, run command `make start-production`
-
-The application will be available in port `80` of docker, and port `3002` of http. (See `docker-compose.yml` file in `docker folder`)
-
-If you want to custom port, you can edit port in `docker-compose.yml` and `Dockerfile` in `docker/production` folder
-
-If you want to stop the app, run command `make stop-production`
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

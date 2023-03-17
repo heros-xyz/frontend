@@ -148,8 +148,9 @@ const AddTier: React.FC<IProp> = ({
               </Text>
             </Box>
             <Text mt={2.5} fontSize={{ base: "xs", xl: "md" }}>
-              Please enter a price between $1.00 and $10.00. This cannot be
-              changed once someone subscribes to this tier.
+              We recommend that you set a price between $1 and $10 per month for
+              the bronze tier to attract as many fans as possible. It is up to
+              you however how much you charge.
             </Text>
             <InputGroup h={{ base: "50px" }} mt={{ base: 2.5, xl: "30px" }}>
               <InputLeftAddon
