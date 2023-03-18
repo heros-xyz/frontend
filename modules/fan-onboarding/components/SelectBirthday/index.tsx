@@ -39,6 +39,7 @@ const EnterBirthday: React.FC<IProp> = ({ initialValues, onSubmit }) => {
       textButton="Proceed"
       IconButton={<ArrowRight />}
       onSubmit={formik.handleSubmit}
+      obBg="white"
     >
       <Box mb={{ base: 4, lg: 20 }} color="black.ish">
         <Box fontSize={{ lg: "xl" }} fontWeight="500" mb={3}>

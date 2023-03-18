@@ -63,6 +63,7 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
       textButton="Proceed"
       IconButton={<ArrowRight />}
       onSubmit={formik.handleSubmit}
+      obBg="white"
     >
       <Box color="black.ish">
         <Box mb={{ base: 5, lg: 8 }}>

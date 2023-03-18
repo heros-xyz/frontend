@@ -35,6 +35,7 @@ const EnterInterestedSport: React.FC<IProp> = ({ onSubmit }) => {
     <FanOnboardingWrapper
       Icon={<InterestedSport />}
       textButton="Submit"
+      obBg="white"
       onSubmit={formik.handleSubmit}
     >
       <Box mb={{ base: 4, lg: 20 }} color="black.ish">

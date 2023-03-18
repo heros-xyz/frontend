@@ -70,11 +70,6 @@ const SignIn = () => {
         <title>Heros | Sign In</title>
         <meta property="og:title" content="Welcome to Heros" key="title" />
         <meta
-          property="og:description"
-          content="We are a membership club of athletes and fans committed to inspiring and investing in each other"
-          key="description"
-        />
-        <meta
           property="description"
           content="We are a membership club of athletes and fans committed to inspiring and investing in each other"
           key="description"

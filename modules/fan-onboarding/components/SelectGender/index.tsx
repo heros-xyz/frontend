@@ -26,6 +26,7 @@ const EnterGender: React.FC<EnterGenderProps> = ({ gender, onSubmit }) => {
       textButton="Proceed"
       IconButton={<ArrowRight />}
       onSubmit={handleSubmit}
+      obBg="white"
     >
       <Box mb={6} color="black.ish">
         <Box mb={3.5} fontSize={{ lg: "xl" }} fontWeight="500">

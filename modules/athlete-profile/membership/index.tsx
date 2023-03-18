@@ -96,7 +96,12 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
           </Box>
         </Then>
         <Else>
-          <Box my={6} fontSize={{ base: "xs", lg: "md" }} fontWeight={400}>
+          <Box
+            my={6}
+            fontSize={{ base: "xs", lg: "md" }}
+            fontWeight={400}
+            color="primary"
+          >
             <Text as="span" fontWeight={"bold"}>
               {athleteNickname}
             </Text>{" "}

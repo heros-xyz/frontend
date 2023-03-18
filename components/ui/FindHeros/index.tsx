@@ -119,29 +119,39 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
           }}
         />
       )}
-      {searchValue.length === 0 && isSearchBarFocused && (
-        <HStack
-          bg="acccent.4"
-          p={{ base: 3, lg: 4 }}
-          borderRadius="base"
-          left={8}
-          right={0}
-          position="absolute"
-          zIndex={15}
-          alignItems="start"
-        >
-          <IconInfo
-            w={{ base: "15px", lg: "24px" }}
-            h={{ base: "15px", lg: "24px" }}
-            mt="0.5"
-            mr={{ lg: 2 }}
-          />
-          <Text fontSize={{ base: "xs", lg: "md" }} fontWeight={500}>
-            You can either search by athletes’ name or their sports and sports
-            related terms.
-          </Text>
-        </HStack>
-      )}
+      <AnimatePresence>
+        {searchValue.length === 0 && isSearchBarFocused && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.1 }}
+            exit={{ opacity: 0 }}
+          >
+            <HStack
+              bg="white"
+              p={{ base: 3, lg: 4 }}
+              borderRadius="base"
+              left={8}
+              right={0}
+              position="absolute"
+              zIndex={15}
+              alignItems="start"
+              boxShadow="0px 0px 10px rgba(0, 0, 0, 0.25)"
+            >
+              <IconInfo
+                w={{ base: "15px", lg: "24px" }}
+                h={{ base: "15px", lg: "24px" }}
+                mt="0.5"
+                mr={{ lg: 2 }}
+              />
+              <Text fontSize={{ base: "xs", lg: "md" }} fontWeight={500}>
+                You can either search by athletes’ name or their sports and
+                sports related terms.
+              </Text>
+            </HStack>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Box>
   );
 };

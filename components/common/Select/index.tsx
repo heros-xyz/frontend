@@ -103,11 +103,11 @@ const Select: FC<SelectProps> = ({
               justifyContent={isSelectDate ? "center" : "space-between"}
               cursor="pointer"
               onClick={setValue as any}
-              _hover={{ color: isDarkTheme ? "accent.1" : "accent.2" }}
+              _hover={{ color: isDarkTheme ? "primary" : "primary" }}
               color={
                 isDarkTheme
                   ? isSelected
-                    ? "secondary"
+                    ? "accent.2"
                     : "primary"
                   : isSelected
                   ? "accent.2"
@@ -164,6 +164,7 @@ const Select: FC<SelectProps> = ({
                   ? "primary"
                   : "primary"
               }
+              fontWeight="600"
               fontSize={placeholderSize ?? "sm"}
             >
               {value.children}
@@ -231,7 +232,7 @@ const Select: FC<SelectProps> = ({
           menu: () => ({
             marginTop: 10,
             borderRadius: 6,
-            border: `1px solid ${isDarkTheme ? "#FFC5EF" : "#505050"}  `,
+            border: `1px solid ${isDarkTheme ? "#7949FC" : "#7949FC"}  `,
             background: isDarkTheme ? "white" : "#33EFEF",
             position: "absolute",
             width: "100%",
@@ -246,7 +247,7 @@ const Select: FC<SelectProps> = ({
               background: "none",
             },
             "::-webkit-scrollbar-thumb": {
-              background: isDarkTheme ? "#FFC5EF" : "#5B30F9",
+              background: isDarkTheme ? "#7949FC" : "#7949FC",
               borderRadius: 10,
               marginRight: 10,
             },
@@ -268,6 +269,7 @@ const Select: FC<SelectProps> = ({
             ...base,
             color: isDarkTheme ? "white" : "#2A2A2A",
             fontSize: "14px",
+            fontWeight: "bold",
           }),
         }}
         isMulti={isMulti}

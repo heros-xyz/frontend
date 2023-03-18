@@ -96,6 +96,7 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
       textButton={image ? "Proceed" : "Upload Image"}
       IconButton={image ? <ArrowRight /> : <UploadIcon />}
       onSubmit={image ? handleSubmit : onClickUploadImage}
+      obBg="white"
     >
       <Box color="black.ish">
         <Box mb={{ base: 5, lg: 8 }}>

@@ -154,16 +154,11 @@ const EditPageInfo = () => {
     setErrorMessage(null);
   };
   return (
-    <Box bg="primary" pt={5} minH="100vh">
+    <Box bg="primary" pt={5} minH="100vh" color="primary">
       <Head>
         <title>Athlete | Edit Page Information</title>
       </Head>
-      <Center
-        color="white"
-        flexDirection="column"
-        p={"5"}
-        pt={{ xl: "3.75rem" }}
-      >
+      <Center flexDirection="column" p={"5"} pt={{ xl: "3.75rem" }}>
         <Box w={{ base: "full", xl: "30rem" }}>
           <Box w="full" fontWeight="bold">
             <Link as={NextLink} href="/athlete/my-profile">
