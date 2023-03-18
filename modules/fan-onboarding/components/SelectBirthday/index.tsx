@@ -59,6 +59,7 @@ const EnterBirthday: React.FC<IProp> = ({ initialValues, onSubmit }) => {
             onChange={(value) => formik.setFieldValue("dateOfBirth", value)}
             submitted={!!formik.submitCount}
             zIndex={20}
+            isDarkTheme={true}
           />
         </Flex>
         <ErrorMessage

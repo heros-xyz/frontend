@@ -7,13 +7,14 @@ import FanOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import { useGetSportListQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
 interface IProp {
+  isLoading?: boolean;
   onSubmit: (values: string) => void;
 }
 interface IItemSelect {
   label: string;
   value: string;
 }
-const EnterInterestedSport: React.FC<IProp> = ({ onSubmit }) => {
+const EnterInterestedSport: React.FC<IProp> = ({ isLoading, onSubmit }) => {
   const { data: sportsList } = useGetSportListQuery("");
 
   const validationSchema = Yup.object().shape({
@@ -36,6 +37,7 @@ const EnterInterestedSport: React.FC<IProp> = ({ onSubmit }) => {
       Icon={<InterestedSport />}
       textButton="Submit"
       obBg="white"
+      submitLoading={isLoading}
       onSubmit={formik.handleSubmit}
     >
       <Box mb={{ base: 4, lg: 20 }} color="black.ish">
@@ -55,6 +57,7 @@ const EnterInterestedSport: React.FC<IProp> = ({ onSubmit }) => {
             errorMessage={formik.errors.sports}
             isInvalid={Boolean(formik.errors.sports)}
             filterSelectOptions={filterSelectOptions}
+            isDarkTheme={true}
           />
         </Box>
       </Box>
