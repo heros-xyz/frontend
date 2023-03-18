@@ -68,16 +68,16 @@ const SignIn = () => {
     <Box>
       <Head>
         <title>Heros | Sign In</title>
-        <meta property="og:title" content="Heros" key="title" />
+        <meta property="og:title" content="Welcome to Heros" key="title" />
         <meta
-          property="og:desciption"
+          property="og:description"
           content="We are a membership club of athletes and fans committed to inspiring and investing in each other"
-          key="desciption"
+          key="description"
         />
         <meta
-          property="desciption"
+          property="description"
           content="We are a membership club of athletes and fans committed to inspiring and investing in each other"
-          key="desciption"
+          key="description"
         />
         <meta
           property="image"

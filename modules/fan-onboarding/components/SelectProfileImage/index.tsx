@@ -67,6 +67,7 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
             alt="preview"
             w={{ base: "150px", xl: "240px" }}
             h={{ base: "150px", xl: "240px" }}
+            objectFit="cover"
           />
           <Flex
             zIndex={2}

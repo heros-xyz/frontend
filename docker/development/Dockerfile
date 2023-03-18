@@ -1,6 +1,5 @@
 FROM node:16-alpine AS deps
-RUN apk add --no-cache libc6-compat
-RUN apk --no-cache add curl
+RUN apk add --no-cache libc6-compat curl
 
 WORKDIR /app
 COPY package.json yarn.lock ./
