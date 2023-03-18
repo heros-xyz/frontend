@@ -18,7 +18,7 @@ export interface IReplyingTo {
 
 const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
   const router = useRouter();
-  const { view: postId, id: authorId } = router.query;
+  const { view: postId, id: authorId, focus } = router.query;
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -29,6 +29,8 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
     replyingTo,
     isShowLoadMore,
     totalComments,
+    take,
+    setTake,
     handleSendMessage,
     replyComment,
     setOffset,
@@ -40,6 +42,12 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
     interactionId: postId as string,
     isAthlete: false,
   });
+
+  useEffect(() => {
+    if (focus) {
+      setIsFocusOnInput(true);
+    }
+  }, [focus]);
 
   const handleCancelReply = () => {
     setReplyingTo(undefined);
@@ -69,17 +77,6 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
       content,
     });
   };
-
-  useEffect(() => {
-    if (totalComments) {
-      if (scrollRef && scrollRef.current) {
-        scrollRef.current.scrollIntoView({
-          behavior: "smooth",
-          block: "start",
-        });
-      }
-    }
-  }, [totalComments]);
 
   if (!listComment) {
     return <></>;
@@ -144,7 +141,10 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
         </Flex>
         <LoadMoreSkeleton
           isShowLoadMore={isShowLoadMore}
-          setOffset={() => setOffset((offset) => offset + 10)}
+          setOffset={() => {
+            setTake(25);
+            setOffset((offset) => offset + take);
+          }}
         />
       </Flex>
 

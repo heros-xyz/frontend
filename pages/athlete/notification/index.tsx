@@ -28,7 +28,7 @@ const AthleteNotification = () => {
   } = useNotification();
 
   return (
-    <Box bg={"primary"} minHeight="100vh">
+    <Box bg={"white"} minHeight="100vh">
       <Head>
         <title>Athlete | Notifications</title>
       </Head>

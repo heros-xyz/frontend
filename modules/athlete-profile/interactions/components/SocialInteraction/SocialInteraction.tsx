@@ -35,8 +35,9 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
   const { data: listComment } = useGetListCommentInteractionQuery({
     interactionId: postId,
     pageInfo: {
-      take: 2,
-      order: "DESC",
+      take: 3,
+      order: "ASC",
+      getReply: false,
     },
   });
 
@@ -82,26 +83,35 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
           style={{ all: "unset", cursor: "pointer" }}
         >
           <LoveIcon
-            maxW={4}
+            width={{ base: "24px", lg: "32px" }}
+            height={{ base: "24px", lg: "32px" }}
             fill={isLiked ? "currentcolor" : "none"}
-            color={isLiked ? "acccent.1" : "white"}
+            color={isLiked ? "accent.5" : "primary"}
           />
         </Button>
         <Button
           onClick={handleComment}
           style={{ all: "unset", cursor: "pointer" }}
         >
-          <CommentIcon maxW={4} />
+          <CommentIcon
+            width={{ base: "24px", lg: "32px" }}
+            height={{ base: "24px", lg: "32px" }}
+            color="primary"
+          />
         </Button>
         <Button onClick={onOpen} style={{ all: "unset", cursor: "pointer" }}>
-          <ShareIcon maxW={4} />
+          <ShareIcon
+            width={{ base: "24px", lg: "32px" }}
+            height={{ base: "24px", lg: "32px" }}
+            color="primary"
+          />
         </Button>
       </Flex>
       <Text
         fontWeight="medium"
         mb={{ base: "5px", lg: "20px" }}
         fontSize={{ base: "xs", lg: "lg" }}
-        color="acccent.1"
+        color="secondary"
       >
         {totalReactions} like(s), {commentsCount ?? listComment?.meta.itemCount}{" "}
         comment(s)

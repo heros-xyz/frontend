@@ -37,7 +37,7 @@ const EditJourney = () => {
   return (
     <Box
       px={{ base: 5, lg: 0 }}
-      bg="primary"
+      bg="white"
       minH="100vh"
       pb={{ base: 16, xl: 8 }}
     >
@@ -62,7 +62,7 @@ const EditJourney = () => {
             <Text
               as="span"
               ml="6"
-              color="white"
+              color="primary"
               fontSize={{ base: "xl", xl: "2xl" }}
             >
               Edit Journey

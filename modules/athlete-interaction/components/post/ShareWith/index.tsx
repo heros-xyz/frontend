@@ -40,7 +40,7 @@ const ShareWith = () => {
             <Box>
               <Text
                 fontSize={{ base: "12px", lg: "16px" }}
-                color="acccent.3"
+                color="accent.3"
                 mb={{ base: 2, lg: 6 }}
               >
                 This interaction will become public on:
@@ -87,7 +87,7 @@ const ShareWith = () => {
               </InputGroup>
               <Text
                 fontSize={{ base: "12px", lg: "16px" }}
-                color="acccent.1"
+                color="accent.1"
                 mb={4}
               >
                 *Time is in your local timezone.

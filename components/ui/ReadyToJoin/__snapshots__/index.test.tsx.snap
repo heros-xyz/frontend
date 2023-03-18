@@ -3,13 +3,13 @@
 exports[`renders ReadyToJoin unchanged 1`] = `
 <div>
   <div
-    class="css-laphny"
+    class="css-z41i4a"
   >
     <div
       class="chakra-stack css-7ejnlj"
     >
       <span
-        class="chakra-text css-1we3h2x"
+        class="chakra-text css-2hcp8o"
       >
         Are you ready to join?
       </span>

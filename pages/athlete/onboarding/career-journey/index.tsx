@@ -36,7 +36,12 @@ const CareerJourney = () => {
       icon: values.icon ? values.icon : "",
       isPeriodDate: values.isPeriodDate,
     };
-    setMilestone((prevArr) => [...prevArr, data]);
+    // setMilestone((prevArr) =>
+    //   [data, ...prevArr].sort((a, b) => {
+    //     return dayjs(a.startDate).isBefore(b.startDate) ? 1 : -1;
+    //   })
+    // );
+    setMilestone((prevArr) => [data, ...prevArr]);
   };
 
   const handleSubmit = () => {

@@ -41,7 +41,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
   };
 
   return (
-    <Box as="section" bg="primary" minH="100vh" w="100%">
+    <Box as="section" bg="white" minH="100vh" w="100%">
       <Box px={{ base: "20px", lg: 0 }} mb={{ lg: "30px" }}>
         <FindHeros />
       </Box>
@@ -71,13 +71,13 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
           position="sticky"
           zIndex={8}
           top={"-3px"}
-          bg="primary"
+          bg="white"
           px={{ base: 5, lg: 0 }}
           pt={{ base: 3, lg: 4 }}
         >
           {TABS.map((tab, index) => (
             <Tab
-              color="white"
+              color="primary"
               key={tab}
               whiteSpace="nowrap"
               position="relative"
@@ -85,12 +85,12 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
               w="full"
               border={"none"}
               fontSize={{ base: "sm", lg: "lg" }}
-              _selected={{ color: "acccent.3" }}
+              _selected={{ color: "secondary" }}
               _before={{
                 content: '""',
                 display: "inline-block",
                 mr: "5px",
-                bgColor: currentTab === index ? "acccent.3" : "white",
+                bgColor: currentTab === index ? "secondary" : "primary",
                 w: "101%",
                 h: "4px",
                 position: "absolute",

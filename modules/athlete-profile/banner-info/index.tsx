@@ -110,6 +110,7 @@ const BasicInfoAthlete: React.FC<BasicInfoProps> = ({
           bottom={{ base: "20px", lg: "47px" }}
         >
           <VectorIcon
+            color="secondary"
             cursor="pointer"
             w={{ base: "32px", lg: "56px" }}
             h={{ base: "32px", lg: "56px" }}

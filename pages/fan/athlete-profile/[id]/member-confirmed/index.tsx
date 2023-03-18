@@ -13,7 +13,7 @@ const MembershipConfirmed = () => {
     }
   );
   return (
-    <Box bg="primary" minH="100vh">
+    <Box bg="white" minH="100vh">
       <Container
         size={["base", "sm", "md", "lg", "xl"]}
         display="flex"

@@ -31,7 +31,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
         {data.length === 0 && (
           <Box>
             <Text
-              color="acccent.3"
+              color="accent.3"
               fontSize={{ base: "lg", lg: "xl" }}
               mb={{ base: 1, lg: 3 }}
             >

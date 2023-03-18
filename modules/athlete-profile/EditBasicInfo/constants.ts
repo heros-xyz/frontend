@@ -28,8 +28,7 @@ export const validationSchema = yup.object().shape({
         }
         return true;
       }
-    )
-    .required("This is a required field"),
+    ),
   lastName: yup
     .string()
     .max(20, "Last name cannot exceed 20 characters")

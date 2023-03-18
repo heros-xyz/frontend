@@ -40,7 +40,7 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
       class="css-0"
     >
       <p
-        class="chakra-text css-2w8cmg"
+        class="chakra-text css-1net8dm"
       >
         This interaction will become public on:
       </p>
@@ -76,12 +76,12 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
                     class="css-xxdqwu"
                   >
                     <div
-                      class="css-1a0gbfz"
+                      class="css-1n9g9mr"
                     >
                       11
                     </div>
                     <div
-                      class=" css-qbdosj-Input"
+                      class=" css-1jiyesd-Input"
                       data-value=""
                     >
                       <input
@@ -110,7 +110,7 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
                     class=" css-1xjgjl1-IndicatorSeparator"
                   />
                   <svg
-                    class="chakra-icon css-1gqm9iz"
+                    class="chakra-icon css-u46z5d"
                     focusable="false"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -153,12 +153,12 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
                     class="css-xxdqwu"
                   >
                     <div
-                      class="css-1a0gbfz"
+                      class="css-1n9g9mr"
                     >
                       Nov
                     </div>
                     <div
-                      class=" css-qbdosj-Input"
+                      class=" css-1jiyesd-Input"
                       data-value=""
                     >
                       <input
@@ -187,7 +187,7 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
                     class=" css-1xjgjl1-IndicatorSeparator"
                   />
                   <svg
-                    class="chakra-icon css-1gqm9iz"
+                    class="chakra-icon css-u46z5d"
                     focusable="false"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -230,12 +230,12 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
                     class="css-xxdqwu"
                   >
                     <div
-                      class="css-1a0gbfz"
+                      class="css-1n9g9mr"
                     >
                       2023
                     </div>
                     <div
-                      class=" css-qbdosj-Input"
+                      class=" css-1jiyesd-Input"
                       data-value=""
                     >
                       <input
@@ -264,7 +264,7 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
                     class=" css-1xjgjl1-IndicatorSeparator"
                   />
                   <svg
-                    class="chakra-icon css-1gqm9iz"
+                    class="chakra-icon css-u46z5d"
                     focusable="false"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -306,7 +306,7 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
         </svg>
       </div>
       <p
-        class="chakra-text css-zihs4i"
+        class="chakra-text css-pvm5ed"
       >
         *Time is in your local timezone.
       </p>

@@ -49,7 +49,7 @@ const TimeLineJourney: React.FC<IProps> = ({
   return (
     <Flex
       flexDirection="column"
-      color={bgColor === "secondary" ? "primary" : "white"}
+      color={bgColor === "secondary" ? "primary" : "primary"}
       gap={4}
       w={w}
     >
@@ -61,7 +61,7 @@ const TimeLineJourney: React.FC<IProps> = ({
                 <Then>
                   {getSportIcon(
                     item?.icon,
-                    bgColor === "secondary" ? "primary" : "white"
+                    bgColor === "secondary" ? "primary" : "accent.2"
                   )}
                 </Then>
               </If>
@@ -76,10 +76,10 @@ const TimeLineJourney: React.FC<IProps> = ({
                 w="fit-content"
                 h="fit-content"
                 borderRadius="full"
-                bg="acccent.4"
+                bg="accent.2"
                 zIndex={1}
               >
-                <Box w={3} h={3} borderRadius="full" bg="acccent.2" />
+                <Box w={3} h={3} borderRadius="full" bg="white" />
               </Box>
               <If condition={items.length - 1 > index}>
                 <Then>
@@ -92,7 +92,7 @@ const TimeLineJourney: React.FC<IProps> = ({
                         ? "95px"
                         : "90px"
                     }
-                    bg={bgColor === "secondary" ? "acccent.2" : "white"}
+                    bg={bgColor === "secondary" ? "accent.2" : "accent.2"}
                   />
                 </Then>
               </If>
@@ -108,11 +108,11 @@ const TimeLineJourney: React.FC<IProps> = ({
                     <Box
                       w={0.5}
                       height="90px"
-                      bg={bgColor === "secondary" ? "acccent.2" : "white"}
+                      bg={bgColor === "secondary" ? "accent.2" : "accent.2"}
                     />
                     <Flex
                       alignItems="center"
-                      color={bgColor === "secondary" ? "primary" : "secondary"}
+                      color={bgColor === "secondary" ? "primary" : "primary"}
                     >
                       <Button
                         variant="ghost"

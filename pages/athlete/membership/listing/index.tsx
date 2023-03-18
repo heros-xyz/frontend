@@ -25,11 +25,11 @@ const ListingMembership = () => {
   }, [dataTier]);
 
   return (
-    <Box bg="primary" minH="100vh">
+    <Box bg="white" minH="100vh">
       <Head>
         <title>Athlete | Membership</title>
       </Head>
-      <Center color="white">
+      <Center color="primary">
         <Box
           w={{ base: "full", xl: "500px" }}
           mx={5}
@@ -56,15 +56,16 @@ const ListingMembership = () => {
               </Text>
               <Box
                 mt={{ base: 5, xl: 8 }}
-                bg="acccent.4"
+                bg="accent.2"
                 p={{ base: "4", xl: "30px" }}
-                color="black"
+                color="white"
                 rounded="lg"
               >
                 <Box mb="2" display="flex" justifyContent="space-between">
                   <Text
                     fontWeight="extrabold"
                     fontSize={{ base: "md", lg: "2xl" }}
+                    color="secondary"
                   >
                     Bronze
                   </Text>
@@ -114,7 +115,8 @@ const ListingMembership = () => {
                 w="full"
                 h={{ base: "50px", xl: "70px" }}
                 border="1px"
-                borderColor="acccent.4"
+                color="accent.2"
+                borderColor="accent.2"
                 borderRadius="8px"
               >
                 <Box
@@ -131,7 +133,8 @@ const ListingMembership = () => {
                 w="full"
                 h={{ base: "50px", xl: "70px" }}
                 border="1px"
-                borderColor="acccent.4"
+                color="accent.2"
+                borderColor="accent.2"
                 borderRadius="8px"
               >
                 <Box
@@ -171,7 +174,7 @@ const ListingMembership = () => {
             </Button>
             <If condition={!!dataRender}>
               <Then>
-                <Text mt={{ base: 2.5, xl: 4 }}>
+                <Text mt={{ base: 2.5, xl: 4 }} color="grey.300">
                   (You&apos;ll be able to add higher tiers in the future.)
                 </Text>
               </Then>

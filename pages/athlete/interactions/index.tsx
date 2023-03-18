@@ -96,7 +96,7 @@ const Interactions = () => {
           py={4}
           px={5}
           mb={5}
-          bg="acccent.4"
+          bg="accent.4"
           cursor="pointer"
           mx={{ base: -5, lg: 0 }}
           rounded={{ lg: "xl" }}

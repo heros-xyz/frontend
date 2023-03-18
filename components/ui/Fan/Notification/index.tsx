@@ -25,9 +25,9 @@ const NotificationFan = () => {
   } = useNotification();
 
   return (
-    <Box bg="primary" pb={4}>
+    <Box bg="white" pb={4}>
       <Flex
-        bg="primary"
+        bg="white"
         justifyContent="space-between"
         alignItems="center"
         color="white"
@@ -37,13 +37,15 @@ const NotificationFan = () => {
         px={[5, 0]}
         zIndex={10}
       >
-        <Heading fontSize={["xl", "2xl"]}>Notifications</Heading>
+        <Heading color="primary" fontSize={["xl", "2xl"]}>
+          Notifications
+        </Heading>
         <If condition={listNotification?.length}>
           <Then>
             <Text
               fontSize={["xs", "md"]}
               textDecoration="underline"
-              color={"secondary"}
+              color={"grey.300"}
               cursor={"pointer"}
               onClick={onMaskAllNotification}
             >

@@ -19,7 +19,7 @@ exports[`renders homepage unchanged 1`] = `
         >
           <img
             alt=""
-            class="chakra-image__placeholder css-3b5e7v"
+            class="chakra-image__placeholder css-w62gfb"
             src="https://via.placeholder.com/80"
           />
           <div
@@ -59,7 +59,8 @@ exports[`renders homepage unchanged 1`] = `
                 class="chakra-text css-ax9gf9"
               >
                 0
-                 fan(s)
+                 
+                fan
               </p>
             </div>
           </div>
@@ -73,7 +74,7 @@ exports[`renders homepage unchanged 1`] = `
         >
           <img
             alt=""
-            class="chakra-image__placeholder css-3b5e7v"
+            class="chakra-image__placeholder css-w62gfb"
             src="https://via.placeholder.com/80"
           />
           <div
@@ -113,7 +114,8 @@ exports[`renders homepage unchanged 1`] = `
                 class="chakra-text css-ax9gf9"
               >
                 0
-                 fan(s)
+                 
+                fan
               </p>
             </div>
           </div>

@@ -3,10 +3,10 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-go1kwr"
+    class="css-1b64ijp"
   >
     <p
-      class="chakra-text css-l1w3zv"
+      class="chakra-text css-1gekou7"
     >
       hehe
     </p>
@@ -14,7 +14,7 @@ exports[`renders homepage unchanged 1`] = `
       class="css-1j9fi3e"
     >
       <div
-        class="css-dfpqc0"
+        class="css-1v6mruv"
       >
         <img
           alt=""

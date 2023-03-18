@@ -78,7 +78,7 @@ const AddTag: FC<AddTagProps> = ({ onSubmit }) => {
             <Text
               key={it}
               as="span"
-              bg="acccent.2"
+              bg="accent.2"
               textColor="white"
               py="3px"
               px="12px"

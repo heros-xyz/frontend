@@ -91,7 +91,7 @@ const EnterPost = () => {
       <Box
         py={4}
         px={5}
-        bg="acccent.4"
+        bg="accent.4"
         mx={{ base: -5, lg: 0 }}
         rounded={{ lg: "xl" }}
       >
@@ -148,7 +148,7 @@ const EnterPost = () => {
                 <Text
                   key={it}
                   as="span"
-                  bg="acccent.2"
+                  bg="accent.2"
                   textColor="white"
                   py="3px"
                   px="12px"

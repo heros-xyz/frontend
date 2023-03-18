@@ -12,6 +12,7 @@ import {
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 import { LogoMiniIcon } from "@/components/svg/LogoMini";
 import { FindIcon } from "@/components/svg/Find";
 import { useSearchAthleteProfileQuery } from "@/api/athlete";
@@ -71,23 +72,24 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
           my={3}
           mr={3}
         >
-          <LogoMiniIcon w="100%" h="100%" />
+          <LogoMiniIcon color="primary" w="100%" h="100%" />
         </Center>
 
         <InputGroup>
           <InputLeftElement pointerEvents="none">
-            <FindIcon color="white" />
+            <FindIcon color="primary" />
           </InputLeftElement>
           <Input
             type="text"
             placeholder="Find your heros"
             _placeholder={{ color: "grey.100" }}
-            _focusVisible={{ boxShadow: "none", outline: "none" }}
-            color="white"
-            border={0}
-            value={value}
+            color="primary"
             borderRadius={0}
+            border="none"
+            _focusVisible={{ boxShadow: "none" }}
+            value={value}
             borderBottom="1px"
+            borderColor="primary"
             onChange={onChange}
             onFocus={onFocus}
             onBlur={onBlur}

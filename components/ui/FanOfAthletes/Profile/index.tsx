@@ -35,7 +35,7 @@ const FanOfAthleteProfile: FC<IFanOfAthleteProfileProps> = ({
           flexDirection="column"
           justifyContent="center"
           minHeight="100vh"
-          bg="acccent.4"
+          bg="accent.4"
           fontSize={{ base: "sm", lg: "md" }}
           px={{ base: 6, lg: 20 }}
         >
@@ -53,7 +53,7 @@ const FanOfAthleteProfile: FC<IFanOfAthleteProfileProps> = ({
             <Text as="b" fontSize={{ lg: "xl" }}>
               {fanInfo?.fullName}
             </Text>
-            <Text color="acccent.2">{"Bronze Tier"}</Text>
+            <Text color="accent.2">{"Bronze Tier"}</Text>
           </Center>
           <Flex gap={{ base: 2, lg: 4 }}>
             <Calendar w={{ base: 5, lg: 6 }} h={{ base: 5, lg: 6 }} />

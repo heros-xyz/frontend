@@ -163,17 +163,17 @@ const EditAccountInfo = () => {
   };
 
   return (
-    <Box bg="primary" color="white" pt={5} minH="100vh">
+    <Box bg="white" color="white" pt={5} minH="100vh">
       <Head>
         <title>Fan | Edit Account Information</title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Box
           w="auto"
-          bg="primary"
+          bg="white"
           minH="100vh"
           fontSize={{ base: "sm", xl: "xl" }}
-          color="white"
+          color="primary"
           alignItems="baseline"
           mb={{ base: 30, xl: 20 }}
         >
@@ -194,7 +194,7 @@ const EditAccountInfo = () => {
               Edit Account Information
             </Text>
           </Box>
-          <Box fontSize={{ base: "sm", lg: "md" }}>
+          <Box fontSize={{ base: "sm", lg: "md" }} color="black">
             <form onSubmit={formik.handleSubmit}>
               <Box my={{ base: 5, lg: 7 }}>
                 <Box fontWeight="medium">
@@ -204,6 +204,7 @@ const EditAccountInfo = () => {
                   </Text>
                 </Box>
                 <Input
+                  color="primary"
                   placeholder="First name"
                   autoComplete="off"
                   variant="flushed"
@@ -232,6 +233,7 @@ const EditAccountInfo = () => {
                   </Text>
                 </Box>
                 <Input
+                  color="primary"
                   placeholder="Last name"
                   autoComplete="off"
                   variant="flushed"
@@ -252,7 +254,7 @@ const EditAccountInfo = () => {
               </Box>
               <If condition={formik.values?.dateOfBirth}>
                 <Then>
-                  <Box mb={{ base: 5, lg: 7 }} color="white">
+                  <Box mb={{ base: 5, lg: 7 }}>
                     <Box fontWeight="medium">
                       Date of Birth
                       <Text as="span" color="error.dark">
@@ -338,7 +340,7 @@ const EditAccountInfo = () => {
                       rounded="full"
                       bg="linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))"
                     >
-                      <IconEdit />
+                      <IconEdit color="primary" />
                     </Center>
                   </Box>
                 </Center>

@@ -35,7 +35,7 @@ const MenuItem: React.FC<IMenuItemProps> = ({
         <Text
           fontFamily={isActive ? "heading" : ""}
           lineHeight="14px"
-          color="primary"
+          color="secondary"
           fontSize={{ base: "xxs", lg: "xl" }}
           as="div"
           fontWeight={isActive ? 700 : 500}

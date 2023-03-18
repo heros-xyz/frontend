@@ -69,7 +69,7 @@ const Interactions: FC<IInteractionsProps> = ({
   const navigateToPostDetail = useCallback((view: string) => {
     router.push({
       pathname: "[id]/interaction",
-      query: { id, view },
+      query: { id, view, focus: true },
     });
   }, []);
 
@@ -197,7 +197,7 @@ const TagButton = ({
       display="flex"
       size={{ base: "xs", lg: "sm" }}
       variant="unstyled"
-      bg="acccent.2"
+      bg="accent.2"
       pl="15px"
       py="4px"
       mr="12px"

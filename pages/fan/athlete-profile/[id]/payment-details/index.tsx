@@ -164,9 +164,9 @@ const PaymentDetails = () => {
 
   return (
     <Box
-      bg="primary"
+      bg="white"
       minH="100vh"
-      color="white"
+      color="primary"
       py={{ base: 5, xl: 12 }}
       pb={10}
       position="relative"
@@ -194,7 +194,7 @@ const PaymentDetails = () => {
                 Payment Details
               </Heading>
             </GridItem>
-            <GridItem area={"detail"}>
+            <GridItem area={"detail"} color="black">
               <If condition={paymentInfoList && paymentInfoList?.length > 0}>
                 <Then>
                   <Box>

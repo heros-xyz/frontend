@@ -56,7 +56,7 @@ const FanOnlySection = () => {
             </Text>
             <Button
               size="lg"
-              variant="primary"
+              variant="secondary"
               w={{ base: "312px", lg: "137px" }}
               mb={{ base: "15px", lg: "25px" }}
               onClick={() => {
@@ -81,9 +81,9 @@ const FanOnlySection = () => {
       <Button
         size="lg"
         onClick={onOpen}
-        bg="secondary"
+        bg="accent.1"
         gap="10px"
-        color="black"
+        color="accent.2"
         w="full"
       >
         <Text> FANS ONLY </Text>

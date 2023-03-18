@@ -3,7 +3,7 @@
 exports[`Change payment Page renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-1oxn70"
+    class="css-1xovlat"
   >
     <div
       class="css-n6rm0u"
@@ -12,17 +12,17 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
         class="css-soukc5"
       >
         <svg
-          class="chakra-icon css-1j7ou3l"
+          class="chakra-icon css-1vmpetx"
           focusable="false"
-          viewBox="0 0 14 14"
+          viewBox="0 0 32 32"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M13.25 7L0.75 7M0.75 7L6.375 1.375M0.75 7L6.375 12.625"
-            stroke="white"
+            d="M26 16L6 16M6 16L15 7M6 16L15 25"
+            stroke="#1E16C1"
             stroke-linecap="round"
             stroke-linejoin="round"
-            stroke-width="1.5"
+            stroke-width="2"
           />
         </svg>
         <span
@@ -37,7 +37,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
         This will be your lowest tier you can offer to your fans
       </p>
       <p
-        class="chakra-text css-1eu7sr4"
+        class="chakra-text css-di0dh5"
       >
         Bronze Tier
       </p>
@@ -46,7 +46,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
           class="css-44pj4x"
         >
           <div
-            class="css-1xnzs7r"
+            class="css-1b9qy74"
           >
             Monthly Price
             <span
@@ -59,19 +59,19 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
           <p
             class="chakra-text css-1zoz3t"
           >
-            Please enter a price between $1.00 and $10.00. This cannot be changed once someone subscribes to this tier.
+            We recommend that you set a price between $1 and $10 per month for the bronze tier to attract as many fans as possible. It is up to you however how much you charge.
           </p>
           <div
             class="chakra-input__group css-1vvc8lk"
           >
             <div
-              class="chakra-input__left-addon css-3hflpi"
+              class="chakra-input__left-addon css-4xsyo1"
             >
               $
             </div>
             <input
               autocomplete="off"
-              class="chakra-input css-1m1gq41"
+              class="chakra-input css-10i6nyx"
               id="monthlyPrice"
               name="monthlyPrice"
               placeholder="1.00"
@@ -83,18 +83,18 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
           class="css-1dd5wzm"
         >
           <div
-            class="css-1xnzs7r"
+            class="css-1b9qy74"
           >
             Tier Description (150 characters max)
           </div>
           <p
-            class="chakra-text css-1pv9wyu"
+            class="chakra-text css-kd7opq"
           >
             Describe the tier in a few words. For example: Follow my life through daily updates.
           </p>
           <textarea
             autocomplete="off"
-            class="chakra-textarea css-vfphem"
+            class="chakra-textarea css-1sewk71"
             id="tierDescription"
             name="tierDescription"
             placeholder="Tier description"
@@ -104,7 +104,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
           class="css-44pj4x"
         >
           <div
-            class="css-1xnzs7r"
+            class="css-1b9qy74"
           >
             Tier Benefits
             <span
@@ -115,7 +115,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
             </span>
           </div>
           <p
-            class="chakra-text css-1zoz3t"
+            class="chakra-text css-9k9qq9"
           >
             Let your fans know what they can get from this membership tier.
           </p>
@@ -123,7 +123,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
             aria-controls="menu-list-:r1:"
             aria-expanded="false"
             aria-haspopup="menu"
-            class="chakra-menu__menu-button css-tirjcu"
+            class="chakra-menu__menu-button css-v83hj7"
             id="menu-button-:r1:"
             type="button"
           >
@@ -131,7 +131,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
               class="css-xl71ch"
             >
               <svg
-                class="chakra-icon css-1nmqwc5"
+                class="chakra-icon css-waqxw7"
                 focusable="false"
                 viewBox="0 0 32 32"
                 xmlns="http://www.w3.org/2000/svg"
@@ -148,7 +148,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
                 />
               </svg>
               <span
-                class="chakra-text css-e32t2l"
+                class="chakra-text css-1uewnew"
               >
                 Select benefits
               </span>
@@ -160,7 +160,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
           >
             <div
               aria-orientation="vertical"
-              class="chakra-menu__menu-list css-11108v7"
+              class="chakra-menu__menu-list css-1b5sysi"
               id="menu-list-:r1:"
               role="menu"
               style="transform-origin: var(--popper-transform-origin); opacity: 0; visibility: hidden; transform: scale(0.8) translateZ(0);"

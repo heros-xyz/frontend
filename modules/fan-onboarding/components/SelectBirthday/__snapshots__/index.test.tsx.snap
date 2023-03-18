@@ -137,7 +137,7 @@ exports[`renders homepage unchanged 1`] = `
                               10
                             </div>
                             <div
-                              class=" css-qbdosj-Input"
+                              class=" css-119wo5m-Input"
                               data-value=""
                             >
                               <input
@@ -214,7 +214,7 @@ exports[`renders homepage unchanged 1`] = `
                               Oct
                             </div>
                             <div
-                              class=" css-qbdosj-Input"
+                              class=" css-119wo5m-Input"
                               data-value=""
                             >
                               <input
@@ -291,7 +291,7 @@ exports[`renders homepage unchanged 1`] = `
                               2012
                             </div>
                             <div
-                              class=" css-qbdosj-Input"
+                              class=" css-119wo5m-Input"
                               data-value=""
                             >
                               <input
@@ -358,7 +358,7 @@ exports[`renders homepage unchanged 1`] = `
                     >
                       <path
                         d="M1.25 7L13.75 7M13.75 7L8.125 1.375M13.75 7L8.125 12.625"
-                        stroke="#D2FFFA"
+                        stroke="#33EFEF"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="1.5"
@@ -385,7 +385,7 @@ exports[`renders homepage unchanged 1`] = `
               >
                 <path
                   d="M1.25 7L13.75 7M13.75 7L8.125 1.375M13.75 7L8.125 12.625"
-                  stroke="#D2FFFA"
+                  stroke="#33EFEF"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="1.5"

@@ -92,7 +92,9 @@ const AddTier: React.FC<IProp> = ({
   }, [submitCount]);
 
   useUpdateEffect(() => {
-    router.push("/athlete/membership/listing");
+    if (successAdd) {
+      router.push("/athlete/membership/listing");
+    }
   }, [successAdd]);
 
   useUpdateEffect(() => {
@@ -101,7 +103,7 @@ const AddTier: React.FC<IProp> = ({
 
   return (
     <Center
-      color="white"
+      color="primary"
       flexDirection="column"
       p={{ base: "5", xl: "19rem" }}
       pt={{ xl: "3.75rem" }}
@@ -133,14 +135,13 @@ const AddTier: React.FC<IProp> = ({
           w="full"
           fontSize={{ base: "md", xl: "xl" }}
           fontWeight="bold"
-          color="acccent.3"
           mt={{ base: "5", xl: "4" }}
         >
           Bronze Tier
         </Text>
         <form onSubmit={formik.handleSubmit}>
           <Box mt={{ base: "5", xl: "4" }}>
-            <Box fontWeight="medium">
+            <Box fontWeight="medium" color="black">
               Monthly Price
               <Text as="span" color="error.dark">
                 {" "}
@@ -155,7 +156,7 @@ const AddTier: React.FC<IProp> = ({
             <InputGroup h={{ base: "50px" }} mt={{ base: 2.5, xl: "30px" }}>
               <InputLeftAddon
                 color="primary"
-                bg="acccent.1"
+                bg="accent.2"
                 border={0}
                 h="full"
                 fontSize={{ base: "sm" }}
@@ -168,8 +169,8 @@ const AddTier: React.FC<IProp> = ({
                 isDisabled={!!totalFan && totalFan > 0}
                 border={0}
                 autoComplete="off"
-                bg="acccent.4"
-                color="grey.300"
+                bg="accent.3"
+                color="primary"
                 placeholder="1.00"
                 w="full"
                 id="monthlyPrice"
@@ -204,8 +205,14 @@ const AddTier: React.FC<IProp> = ({
             />
           </Box>
           <Box mt={{ base: "5", xl: "8" }}>
-            <Box fontWeight="medium">Tier Description (150 characters max)</Box>
-            <Text mt={{ base: 2.5, xl: 8 }} fontSize={{ base: "xs", xl: "md" }}>
+            <Box fontWeight="medium" color="black">
+              Tier Description (150 characters max)
+            </Box>
+            <Text
+              mt={{ base: 2.5, xl: 8 }}
+              fontSize={{ base: "xs", xl: "md" }}
+              color="grey.dark"
+            >
               Describe the tier in a few words. For example: Follow my life
               through daily updates.
             </Text>
@@ -213,7 +220,7 @@ const AddTier: React.FC<IProp> = ({
               resize={"none"}
               autoComplete="off"
               fontSize={{ base: "sm", xl: "lg" }}
-              color="white"
+              color="primary"
               mt={{ base: 2.5 }}
               variant="flushed"
               placeholder="Tier description"
@@ -222,7 +229,7 @@ const AddTier: React.FC<IProp> = ({
               name="tierDescription"
               onChange={formik.handleChange}
               value={formik.values.tierDescription}
-              borderColor="white"
+              borderColor="grey.dark"
               isInvalid={Boolean(
                 formik.errors.tierDescription && formik.touched.tierDescription
               )}
@@ -247,14 +254,18 @@ const AddTier: React.FC<IProp> = ({
             />
           </Box>
           <Box mt={{ base: "5", xl: "4" }}>
-            <Box fontWeight="medium">
+            <Box fontWeight="medium" color="black">
               Tier Benefits
               <Text as="span" color="error.dark">
                 {" "}
                 *
               </Text>
             </Box>
-            <Text mt={2.5} fontSize={{ base: "xs", xl: "md" }}>
+            <Text
+              mt={2.5}
+              fontSize={{ base: "xs", xl: "md" }}
+              color="grey.dark"
+            >
               Let your fans know what they can get from this membership tier.
             </Text>
             <Menu
@@ -266,7 +277,7 @@ const AddTier: React.FC<IProp> = ({
               isLazy
             >
               <MenuButton
-                bg="acccent.1"
+                bg="accent.2"
                 color="primary"
                 borderRadius={{ base: "6px", xl: "12px" }}
                 w="full"
@@ -280,13 +291,13 @@ const AddTier: React.FC<IProp> = ({
                   condition={benefitData.length > 0 && listBenefit.length > 0}
                 >
                   <Then>
-                    <Box color="white" w="full">
+                    <Box w="full">
                       <If
                         condition={benefitData?.includes(listBenefit[0]?.value)}
                       >
                         <Then>
                           <Text
-                            bg="primary"
+                            bg="white"
                             h={{ base: "44px" }}
                             borderRadius={{ base: "4px", xl: "6px" }}
                             display="flex"
@@ -307,7 +318,7 @@ const AddTier: React.FC<IProp> = ({
                       >
                         <Then>
                           <Text
-                            bg="primary"
+                            bg="white"
                             h={{ base: "44px" }}
                             borderRadius="4"
                             display="flex"
@@ -334,14 +345,23 @@ const AddTier: React.FC<IProp> = ({
                     </Box>
                   </Then>
                   <Else>
-                    <AddArchiveIcon w={{ base: "30px" }} h={{ base: "30px" }} />
-                    <Text as="span" ml="4" fontSize={{ base: "xs", xl: "xl" }}>
+                    <AddArchiveIcon
+                      w={{ base: "30px" }}
+                      h={{ base: "30px" }}
+                      color="white"
+                    />
+                    <Text
+                      as="span"
+                      ml="4"
+                      fontSize={{ base: "xs", xl: "xl" }}
+                      color="white"
+                    >
                       Select benefits
                     </Text>
                   </Else>
                 </If>
               </MenuButton>
-              <MenuList bg="primary" color="secondary" borderColor="acccent.1">
+              <MenuList bg="white" color="secondary" borderColor="accent.2">
                 <MenuOptionGroup
                   type="checkbox"
                   defaultValue={benefitData}
@@ -351,20 +371,20 @@ const AddTier: React.FC<IProp> = ({
                 >
                   <MenuItemOption
                     value={listBenefit[0]?.value}
-                    bg="primary"
-                    color="secondary"
+                    bg="white"
+                    color="accent.2"
                     w={{ base: "335px", xl: "500px" }}
                     flexDirection="row-reverse"
-                    _checked={{ color: "acccent.1" }}
+                    _checked={{ color: "primary" }}
                   >
                     {listBenefit[0]?.label}
                   </MenuItemOption>
                   <MenuItemOption
                     value={listBenefit[1]?.value}
-                    bg="primary"
-                    color="secondary"
+                    bg="white"
+                    color="accent.2"
                     flexDirection="row-reverse"
-                    _checked={{ color: "acccent.1" }}
+                    _checked={{ color: "primary" }}
                   >
                     {listBenefit[1]?.label}
                   </MenuItemOption>

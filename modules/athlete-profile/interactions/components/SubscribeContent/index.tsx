@@ -7,9 +7,9 @@ interface ISubscribeContentProps {
 
 const SubscribeContent: FC<ISubscribeContentProps> = ({ onClick }) => {
   return (
-    <Flex bg="acccent.1" borderRadius={{ base: "md", lg: "12px" }}>
+    <Flex bg="accent.2" borderRadius={{ base: "md", lg: "12px" }}>
       <Box
-        color="black"
+        color="white"
         py={{ base: "3" }}
         px={{ base: "4" }}
         p={{ lg: "30px" }}
@@ -27,7 +27,7 @@ const SubscribeContent: FC<ISubscribeContentProps> = ({ onClick }) => {
           px="7"
           fontWeight="bold"
           fontSize={{ base: "sm", lg: "xl" }}
-          color="acccent.2"
+          color="white"
           onClick={onClick}
         >
           Subscribe

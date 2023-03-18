@@ -25,7 +25,7 @@ const EditMembership = () => {
   }, [dataTier]);
 
   return (
-    <Box bg="primary" minH="100vh" pb={{ xl: 12 }}>
+    <Box bg="white" minH="100vh" pb={{ xl: 12 }}>
       <Head>
         <title>Athlete | Edit Tier</title>
       </Head>

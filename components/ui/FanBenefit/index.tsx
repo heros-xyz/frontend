@@ -23,7 +23,7 @@ const FanBenefit: React.FC = () => {
         </Text>
       </Box>
       <Box my={4}>
-        <Text fontSize={24} fontWeight={800} lineHeight={8} color="acccent.3">
+        <Text fontSize={24} fontWeight={800} lineHeight={8} color="accent.3">
           Follow your favourite athlete’s sporting journey and earn benefits
           along the way.
         </Text>

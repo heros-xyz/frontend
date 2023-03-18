@@ -35,7 +35,7 @@ const Wallet: React.FC<WalletProps> = ({
     <If condition={!isLoading}>
       <Then>
         <Box
-          bg="acccent.1"
+          bg="accent.1"
           borderRadius={{ base: "lg", xl: "xl" }}
           px={{ base: 5, xl: 7 }}
           py={{ base: 3, xl: 5 }}
@@ -92,7 +92,7 @@ const Wallet: React.FC<WalletProps> = ({
       </Then>
       <Else>
         <Box
-          bg="acccent.1"
+          bg="accent.1"
           borderRadius={{ base: "lg", xl: "xl" }}
           px={{ base: 5, xl: 7 }}
           py={{ base: 3, xl: 5 }}

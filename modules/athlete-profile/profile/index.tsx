@@ -20,7 +20,7 @@ export const Profile: React.FC<IProfileProps> = ({
   const router = useRouter();
   return (
     <Box>
-      <Box color="primary">
+      <Box color="primary" bg="accent.3">
         <MyStory
           description={basicInfo?.story as string}
           dob={dayjs(basicInfo?.dateOfBirth).format("DD MMM YYYY")}
@@ -28,10 +28,10 @@ export const Profile: React.FC<IProfileProps> = ({
           isEdit={isEdit}
         />
       </Box>
-      <Box px={{ base: "20px", xl: 0 }} pt="10" h="full">
+      <Box px={{ base: "20px", xl: 0 }} pt="10" h="full" color="primary">
         <Flex justifyContent="space-between" mb="5">
           <Text
-            color="acccent.3"
+            color="primary"
             fontWeight="bold"
             fontSize={{ base: "base", lg: "xl" }}
           >
@@ -40,35 +40,21 @@ export const Profile: React.FC<IProfileProps> = ({
           {isEdit && (
             <EditIcon
               cursor="pointer"
+              color="primary"
               onClick={() => {
                 router.push("/athlete/my-profile/edit-sport-profile");
               }}
             />
           )}
         </Flex>
-        <Box mb="7 " bg="acccent.1" px="6" py="4" rounded="lg">
-          <Text
-            color="acccent.2"
-            fontWeight="bold"
-            fontSize={{ base: "base", lg: "xl" }}
-          >
+        <Box mb="7" color="primary" bg="accent.1" px="6" py="4" rounded="lg">
+          <Text fontWeight="bold" fontSize={{ base: "base", lg: "xl" }}>
             {sportProfile?.data?.sportProfilesItems[0]?.sportName || ""}
           </Text>
-          <Text
-            color="primary"
-            fontWeight="normal"
-            fontSize={{ base: "xs", lg: "base" }}
-          >
+          <Text fontWeight="normal" fontSize={{ base: "xs", lg: "base" }}>
             {sportProfile?.data.currentTeam || ""}
           </Text>
         </Box>
-
-        <Text fontWeight="bold" mb="2.5" fontSize={{ base: "sm", lg: "md" }}>
-          My Goal
-        </Text>
-        <Text fontWeight="normal" fontSize={{ base: "xs", lg: "md" }}>
-          {sportProfile?.data.goal || ""}
-        </Text>
       </Box>
     </Box>
   );

@@ -27,7 +27,6 @@ const PostDetail = () => {
       minH={{ base: "100vh", lg: "unset" }}
       h={{ lg: "100vh" }}
       maxH={{ lg: "100vh" }}
-      bg="primary"
     >
       <Container
         h="full"
@@ -42,14 +41,13 @@ const PostDetail = () => {
               onClick={router.back}
               cursor="pointer"
               alignItems="center"
-              color="white"
+              color="primary"
               position={{ lg: "sticky" }}
               top="0"
               pb={5}
               zIndex={10}
-              bg="primary"
             >
-              <ArrowLeft />
+              <ArrowLeft w="32px" h="32px" color="primary" />
               <Text ml="20px" fontWeight="bold" fontSize="xl">
                 Interaction
               </Text>

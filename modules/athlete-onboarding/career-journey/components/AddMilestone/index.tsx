@@ -207,7 +207,7 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
                         w={{ base: "54px", xl: "80px" }}
                         h={{ base: "54px", xl: "80px" }}
                         borderRadius="full"
-                        bg={el.value === iconCheck ? "primary" : "acccent.4"}
+                        bg={el.value === iconCheck ? "primary" : "accent.4"}
                         color={el.value === iconCheck ? "secondary" : "primary"}
                         onClick={() => handleClickIcon(el.value, iconCheck)}
                         _hover={{}}

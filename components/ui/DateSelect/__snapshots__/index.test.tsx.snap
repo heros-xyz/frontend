@@ -33,7 +33,7 @@ exports[`renders Date Select unchanged 1`] = `
               DD
             </div>
             <div
-              class=" css-qbdosj-Input"
+              class=" css-119wo5m-Input"
               data-value=""
             >
               <input
@@ -111,7 +111,7 @@ exports[`renders Date Select unchanged 1`] = `
               MM
             </div>
             <div
-              class=" css-qbdosj-Input"
+              class=" css-119wo5m-Input"
               data-value=""
             >
               <input
@@ -189,7 +189,7 @@ exports[`renders Date Select unchanged 1`] = `
               YYYY
             </div>
             <div
-              class=" css-qbdosj-Input"
+              class=" css-119wo5m-Input"
               data-value=""
             >
               <input

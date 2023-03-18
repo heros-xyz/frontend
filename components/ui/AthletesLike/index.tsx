@@ -14,10 +14,10 @@ const AthletesLike: React.FC<AthletesLikeProp> = ({ data, title, onClick }) => {
       px={{ base: "5", xl: "30px" }}
       py={{ base: "7", xl: "30px" }}
       pt="7"
-      bg="primary"
+      bg="white"
     >
       <Text
-        color="acccent.3"
+        color="primary"
         fontWeight="bold"
         fontSize={{ xl: "xl" }}
         mb={{ base: "5", xl: "30px" }}
@@ -33,6 +33,8 @@ const AthletesLike: React.FC<AthletesLikeProp> = ({ data, title, onClick }) => {
       >
         {data.map((el) => (
           <Box
+            rounded="12px"
+            boxShadow="md"
             key={el?.id}
             position="relative"
             cursor="pointer"

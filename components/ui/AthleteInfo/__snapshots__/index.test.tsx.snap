@@ -3,7 +3,7 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-70qvj9"
+    class="athlete-info css-70qvj9"
   >
     <img
       alt="user-avatar"
@@ -14,12 +14,12 @@ exports[`renders homepage unchanged 1`] = `
       class="css-4wsamw"
     >
       <p
-        class="chakra-text css-mev91g"
+        class="chakra-text css-cps6wt"
       >
         Penguin
       </p>
       <div
-        class="css-xtguam"
+        class="css-13saoid"
       >
         <p
           class="chakra-text css-1g411le"

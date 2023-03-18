@@ -46,7 +46,7 @@ const ReadyToJoin: React.FC<ReadyToJoinProp> = (props) => {
   const { content } = props;
   return (
     <Box
-      bg="acccent.4"
+      bg="accent.4"
       maxWidth={375}
       minHeight={528}
       borderTopRightRadius={"18px"}
@@ -58,7 +58,7 @@ const ReadyToJoin: React.FC<ReadyToJoinProp> = (props) => {
           alignSelf={"flex-start"}
           fontSize={"2xl"}
           as="span"
-          color={"acccent.2"}
+          color={"accent.2"}
           lineHeight={"2.1rem"}
         >
           {content?.title}

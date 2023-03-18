@@ -20,13 +20,13 @@ export const useComments = ({
   isPreview,
   interactionId,
   authorId,
-  isAthlete,
 }: IAthleteCommentProps) => {
   const router = useRouter();
   const { commentId } = router.query;
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isFocusOnInput, setIsFocusOnInput] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [take, setTake] = useState(10);
   const [replyingTo, setReplyingTo] = useState<IReplyingTo | undefined>(
     undefined
   );
@@ -54,11 +54,11 @@ export const useComments = ({
       interactionId,
       authorId,
       pageInfo: {
-        take: isPreview ? 2 : 10,
-        order: "DESC",
+        take: isPreview ? 3 : take,
+        order: "ASC",
         offset,
         getReply: !isPreview,
-        ...(isPreview && { take: 2 }),
+        ...(isPreview && { take: 3 }),
         ...(commentId && { commentIdFocus: commentId as string }),
       },
     },
@@ -83,19 +83,18 @@ export const useComments = ({
     if (sendMessageResponse || replyCommentResponse) {
       setReplyingTo(undefined);
       setIsFocusOnInput(false);
-
-      if (isAthlete) {
-        window.scrollTo({
-          top: Number(scrollRef?.current?.offsetTop) - 60,
+      setTimeout(() => {
+        window.scroll({
+          top: document.body.clientHeight,
           behavior: "smooth",
         });
-      }
+      }, 50);
     }
   }, [sendMessageResponse, replyCommentResponse]);
 
   useEffect(() => {
     if (sendMessageResponse) {
-      setListComments((prevComments) => [sendMessageResponse, ...prevComments]);
+      setListComments((prevComments) => [...prevComments, sendMessageResponse]);
       refetch();
     }
   }, [sendMessageResponse]);
@@ -103,8 +102,8 @@ export const useComments = ({
   useEffect(() => {
     if (replyCommentResponse) {
       setListComments((prevComments) => [
-        replyCommentResponse,
         ...prevComments,
+        replyCommentResponse,
       ]);
       refetch();
     }
@@ -120,7 +119,9 @@ export const useComments = ({
     totalComments,
     isFetching,
     scrollRef,
+    take,
     setOffset,
+    setTake,
     setListComments,
     handleSendMessage,
     replyComment,

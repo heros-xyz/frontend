@@ -72,7 +72,7 @@ const ItemSuggestions: React.FC<IProps> = ({
           </Text>
           <Text
             as="p"
-            color="grey.200"
+            color="secondary"
             fontSize={{ base: "xs", xl: "md" }}
             fontWeight="500"
             lineHeight="120%"

@@ -11,48 +11,61 @@ import {
 } from "@/modules/athlete-interaction/hooks";
 import { useGetInteractionDetailQuery } from "@/api/athlete";
 import { getImageLink } from "@/utils/link";
-import { getTime } from "@/utils/functions";
-import { useLoading } from "@/hooks/useLoading";
+import { isBeforeEndDate } from "@/utils/functions";
 
 function EditInteractionsPost() {
   const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
   const router = useRouter();
   const { postId } = router.query;
-  const { start, finish } = useLoading();
 
   const { data: postInfo } = useGetInteractionDetailQuery(postId as string, {
     skip: typeof postId !== "string" || !Boolean(postId),
   });
 
-  const setInitialValue = () => {
-    try {
-      start();
-      const initValues = {
-        interactionId: postInfo?.id,
-        content: postInfo?.content || "",
-        listMedia: postInfo?.interactionMedia?.map((item) => ({
-          id: item.id,
-          fileName: item.url,
-          type: item.type,
-          extension: item.extension,
-          file: getImageLink(item.url),
-        })),
-        tags: postInfo?.tags?.map((item) => item.name),
-        publicType: postInfo?.publicType || "all",
-        schedule: postInfo?.isSchedulePost,
-        publicDate: postInfo?.publicDate
-          ? dayjs(postInfo.publicDate).format("YYYY-MM-DD")
-          : dayjs().add(3, "day").format("YYYY-MM-DD"),
-        publicTime: postInfo?.publicDate
-          ? dayjs(postInfo.publicDate).format("HH:MM")
-          : `${getTime("hour")}:${getTime("minute")}`,
-      };
+  const checkPublicDateTime = (
+    publicDate: string | Date | null | undefined
+  ) => {
+    const publicDateFormat = dayjs(publicDate).format("YYYY/MM/DD HH:mm");
 
-      formik.setValues(initValues as IValuesTypes);
-      finish();
-    } catch (error) {
-      finish();
+    if (
+      isBeforeEndDate(
+        publicDateFormat,
+        dayjs(new Date()).subtract(1, "minute").format("YYYY/MM/DD HH:mm"),
+        "YYYY/MM/DD HH:mm"
+      ) ||
+      !publicDate
+    ) {
+      return {
+        publicDate: dayjs().format("YYYY-MM-DD"),
+        publicTime: dayjs().format("HH:mm"),
+      };
     }
+
+    return {
+      publicDate: dayjs(publicDate).format("YYYY-MM-DD"),
+      publicTime: dayjs(publicDate).format("HH:MM"),
+    };
+  };
+
+  const setInitialValue = () => {
+    const initValues = {
+      interactionId: postInfo?.id,
+      content: postInfo?.content || "",
+      listMedia: postInfo?.interactionMedia?.map((item) => ({
+        id: item.id,
+        fileName: item.url,
+        type: item.type,
+        extension: item.extension,
+        file: getImageLink(item.url),
+      })),
+      tags: postInfo?.tags?.map((item) => item.name),
+      publicType: postInfo?.publicType || "all",
+      schedule: postInfo?.isSchedulePost,
+      publicDate: checkPublicDateTime(postInfo?.publicDate).publicDate,
+      publicTime: checkPublicDateTime(postInfo?.publicDate).publicTime,
+    };
+
+    formik.setValues(initValues as IValuesTypes);
   };
 
   useEffect(() => {

@@ -29,8 +29,9 @@ import { IMembershipTier } from "@/types/membership/types";
 import { ITimeLineInfo } from "@/components/ui/Timeline";
 import { getImageLink } from "@/utils/link";
 import CareerJourney from "./career-journey";
-import { Profile } from "./profile";
+
 import { Interaction } from "./interactions/Interaction";
+import { Profile } from "./profile";
 
 const TABS = ["Profile", "Interactions", "Career Journey", "Memberships"];
 
@@ -58,7 +59,7 @@ const AthleteProfile = () => {
   }, [careerJourneyData]);
 
   return (
-    <Box as="section" bg="primary" minH="100vh">
+    <Box as="section" bg="white" minH="100vh">
       <Flex as="header" alignItems="center" gap="5" position="relative" p={5}>
         <Image
           src={getImageLink(session?.user?.avatar)}
@@ -78,7 +79,7 @@ const AthleteProfile = () => {
                 textOverflow="ellipsis"
                 maxWidth="10ch"
                 as="p"
-                color="white"
+                color="primary"
                 fontWeight="bold"
                 fontSize="xl"
                 lineHeight="3xl"
@@ -88,15 +89,15 @@ const AthleteProfile = () => {
               </Text>
               {currentTab === 0 && (
                 <Link href={"/athlete/my-profile/edit-page-info"}>
-                  <EditIcon color="white" cursor="pointer" />
+                  <EditIcon color="primary" cursor="pointer" />
                 </Link>
               )}
             </Flex>
             <Link href="/athlete/my-profile/settings">
-              <Setting />
+              <Setting color="primary" />
             </Link>
           </Flex>
-          <Text color="white" wordBreak="break-word">
+          <Text color="primary" wordBreak="break-word">
             {pageInfo?.tagLine}
           </Text>
         </Box>
@@ -116,19 +117,19 @@ const AthleteProfile = () => {
         >
           {TABS.map((tab, index) => (
             <Tab
-              color="white"
+              color="primary"
               key={tab}
               whiteSpace="nowrap"
               position="relative"
               pb="4"
               border={"none"}
               fontSize={{ base: "sm", lg: "lg" }}
-              _selected={{ color: "acccent.3" }}
+              _selected={{ color: "accent.3" }}
               _before={{
                 content: '""',
                 display: "inline-block",
                 mr: "5px",
-                bgColor: currentTab === index ? "acccent.3" : "white",
+                bgColor: currentTab === index ? "accent.3" : "white",
                 w: "101%",
                 h: "4px",
                 position: "absolute",
@@ -150,20 +151,21 @@ const AthleteProfile = () => {
             <CareerJourney data={journeyData} />
           </TabPanel>
           <TabPanel px={{ base: 5, lg: 0 }} py={{ base: 0, lg: 2 }}>
-            <If condition={tierMembershipList?.data?.length}>
+            <If condition={!tierMembershipList?.data?.length}>
               <Then>
                 <Text
                   fontSize={{ base: "xs", lg: "md" }}
                   fontWeight="normal"
                   mt={{ base: 2 }}
+                  color="primary"
                 >
-                  Here you’ll see the membership tiers you are offering and the
-                  number of active fans.
+                  Here you&apos;ll see the membership tiers you are offering and
+                  the number of active fans.
                 </Text>
                 <Link href="/athlete/membership/listing">
                   <Text
                     py={{ base: 4, lg: 7 }}
-                    color="secondary"
+                    color="grey.200"
                     textDecoration="underline"
                     fontSize={{ base: "sm", lg: "lg" }}
                   >
@@ -182,6 +184,7 @@ const AthleteProfile = () => {
                   <Text
                     mb={{ base: 4, lg: 12 }}
                     fontSize={{ base: "xs", lg: "md" }}
+                    color="primary"
                   >
                     You have not had any membership tiers.
                   </Text>

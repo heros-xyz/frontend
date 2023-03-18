@@ -10,12 +10,12 @@ interface FanStayUpToDate {
 
 const FanStayUpToDate: React.FC<FanStayUpToDate> = ({ data, onClick }) => {
   return (
-    <Box bg="acccent.4" borderRadius={{ lg: "12px" }}>
+    <Box bg="secondary" borderRadius={{ lg: "12px" }}>
       <Box p={{ base: "20px", lg: "30px" }}>
         <Heading
           fontSize={{ base: "md", lg: "xl" }}
           fontWeight="bold"
-          color="black.ish"
+          color="primary"
           lineHeight="5"
           textAlign="left"
           as="h1"
@@ -69,7 +69,7 @@ const FanStayUpToDate: React.FC<FanStayUpToDate> = ({ data, onClick }) => {
                   </Text>
                   <Text
                     bg={
-                      item?.totalNewestInteraction ? "acccent.1" : "transparent"
+                      item?.totalNewestInteraction ? "accent.6" : "transparent"
                     }
                     borderRadius={{ base: "7px", xl: "100px" }}
                     fontSize={{ base: "10px", lg: "16px" }}

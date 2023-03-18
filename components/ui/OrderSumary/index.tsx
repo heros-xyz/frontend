@@ -29,11 +29,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   ...props
 }) => {
   return (
-    <Box bg="primary" color="white" {...props}>
-      <Heading fontSize={{ base: "md", lg: "xl" }} color="acccent.3">
-        Order Summary
-      </Heading>
-      <Flex py={5} gap={2.5}>
+    <Box bg="white" color="primary" {...props}>
+      <Heading fontSize={{ base: "md", lg: "xl" }}>Order Summary</Heading>
+      <Flex py={5} gap={2.5} color="black">
         <Image
           w={{ base: "40px", lg: "60px" }}
           h={{ base: "40px", lg: "60px" }}
@@ -62,8 +60,9 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         py={{ base: 2.5, lg: 3 }}
         gap={2.5}
         borderTopWidth={1}
-        borderColor="acccent.4"
+        borderColor="grey.100"
         fontSize="md"
+        color="black"
       >
         <Text fontSize={{ base: "sm", lg: "lg" }} fontWeight={500}>
           Monthly payment
@@ -81,7 +80,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         py={2.5}
         gap={2.5}
         borderTopWidth={1}
-        borderColor="acccent.4"
+        borderColor="grey.100"
         fontSize={{ base: "sm", lg: "lg" }}
         fontWeight={700}
       >
@@ -97,13 +96,18 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       <Text py={2.5} gap={2.5} fontSize="sm" fontWeight={500}>
         Renews automatically on {dateRenew}
       </Text>
-      <Box mb={8} fontSize={{ base: "xs", lg: "md" }} fontWeight={500}>
+      <Box
+        mb={8}
+        fontSize={{ base: "xs", lg: "md" }}
+        fontWeight={500}
+        color="grey.300"
+      >
         <Text as="span">By clicking subscribe now, you agree to our </Text>
         <Link
           href={getWebsiteLink(CorporateWebsiteLink.TERM_AND_CONDITION)}
           target="_blank"
         >
-          <Text as="span" color="secondary" textDecoration="underline">
+          <Text as="span" textDecoration="underline">
             Terms of User
           </Text>
         </Link>
@@ -112,7 +116,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           href={getWebsiteLink(CorporateWebsiteLink.PRIVACY_POLICY)}
           target="_blank"
         >
-          <Text as="span" color="secondary" textDecoration="underline">
+          <Text as="span" textDecoration="underline">
             Privacy Policy
           </Text>
         </Link>
@@ -122,7 +126,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           in your{" "}
         </Text>
         <Link href="/fan/active-subscriptions" target="_blank">
-          <Text as="span" color="secondary" textDecoration="underline">
+          <Text as="span" textDecoration="underline">
             membership settings
           </Text>
         </Link>

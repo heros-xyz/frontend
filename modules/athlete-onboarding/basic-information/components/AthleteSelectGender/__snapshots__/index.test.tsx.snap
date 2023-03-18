@@ -131,28 +131,28 @@ exports[`renders Athlete Select Gender unchanged 1`] = `
                   class="css-1omp9s3"
                 >
                   <div
-                    class="css-qh0ll2"
+                    class="css-15s5pib"
                   >
                     <p
-                      class="chakra-text css-j7hta7"
+                      class="chakra-text css-1thwf74"
                     >
                       Male
                     </p>
                   </div>
                   <div
-                    class="css-qh0ll2"
+                    class="css-15s5pib"
                   >
                     <p
-                      class="chakra-text css-j7hta7"
+                      class="chakra-text css-1thwf74"
                     >
                       Female
                     </p>
                   </div>
                   <div
-                    class="css-qh0ll2"
+                    class="css-15s5pib"
                   >
                     <p
-                      class="chakra-text css-j7hta7"
+                      class="chakra-text css-1thwf74"
                     >
                       Other
                     </p>
@@ -178,7 +178,7 @@ exports[`renders Athlete Select Gender unchanged 1`] = `
                     >
                       <path
                         d="M1.25 7L13.75 7M13.75 7L8.125 1.375M13.75 7L8.125 12.625"
-                        stroke="#D2FFFA"
+                        stroke="#33EFEF"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="1.5"
@@ -205,7 +205,7 @@ exports[`renders Athlete Select Gender unchanged 1`] = `
               >
                 <path
                   d="M1.25 7L13.75 7M13.75 7L8.125 1.375M13.75 7L8.125 12.625"
-                  stroke="#D2FFFA"
+                  stroke="#33EFEF"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="1.5"

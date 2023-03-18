@@ -5,14 +5,11 @@ import SelectRC, {
   OptionsOrGroups,
   ValueContainerProps,
   OptionProps,
-  MenuListProps,
 } from "react-select";
 import { FC, useId, useMemo, useRef } from "react";
 import { If, Then } from "react-if";
-import { FixedSizeList } from "react-window";
 import { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import { Checked, ChervonDown } from "@/components/svg";
-import { useDevice } from "@/hooks/useDevice";
 import ErrorMessage from "../ErrorMessage";
 
 type Option = {
@@ -20,10 +17,6 @@ type Option = {
   label: string;
 };
 
-type IValue = {
-  children: string | string[];
-  key: string;
-};
 interface SelectProps {
   id?: string;
   options?: OptionsOrGroups<Option, GroupBase<Option>> | undefined;
@@ -67,35 +60,35 @@ const Select: FC<SelectProps> = ({
   const renderOptionBaseOnOptionCount = useMemo(() => {
     if (!optionCount || optionCount > (options || []).length) return;
     /**  Option count * option's height + vertical padding 4 + 4  */
-    return optionCount * 35 + 8;
+    return optionCount * 33 + 8;
   }, [optionCount, options]);
 
   const ref = useRef(null);
 
-  const MenuList = (props: MenuListProps) => {
-    const { isDesktop } = useDevice();
-    const height = isDesktop ? 45 : 35;
-    const { options, children, maxHeight, getValue } = props;
-    const [value] = getValue();
-    const initialOffset = options.indexOf(value) * height;
+  // const MenuList = (props: MenuListProps) => {
+  //   const { isDesktop } = useDevice();
+  //   const height = isDesktop ? 45 : 35;
+  //   const { options, children, maxHeight, getValue } = props;
+  //   const [value] = getValue();
+  //   const initialOffset = options.indexOf(value) * height;
 
-    let childOptions: any[] = [];
-    if (Array.isArray(children)) {
-      childOptions = children;
-    }
-    return (
-      <FixedSizeList
-        width={"100%"}
-        height={maxHeight}
-        itemCount={childOptions.length}
-        itemSize={height}
-        initialScrollOffset={initialOffset}
-        className="menuSizeList"
-      >
-        {({ index, style }) => <div style={style}>{childOptions[index]}</div>}
-      </FixedSizeList>
-    );
-  };
+  //   let childOptions: any[] = [];
+  //   if (Array.isArray(children)) {
+  //     childOptions = children;
+  //   }
+  //   return (
+  //     <FixedSizeList
+  //       width={"100%"}
+  //       height={maxHeight}
+  //       itemCount={childOptions.length}
+  //       itemSize={height}
+  //       initialScrollOffset={initialOffset}
+  //       className="menuSizeList"
+  //     >
+  //       {({ index, style }) => <div style={style}>{childOptions[index]}</div>}
+  //     </FixedSizeList>
+  //   );
+  // };
 
   const CustomOption = (props: OptionProps<Option>) => {
     const { innerProps, isDisabled, children, setValue, isSelected } = props;
@@ -110,14 +103,14 @@ const Select: FC<SelectProps> = ({
               justifyContent={isSelectDate ? "center" : "space-between"}
               cursor="pointer"
               onClick={setValue as any}
-              _hover={{ color: isDarkTheme ? "acccent.1" : "acccent.2" }}
+              _hover={{ color: isDarkTheme ? "accent.1" : "accent.2" }}
               color={
                 isDarkTheme
                   ? isSelected
-                    ? "acccent.1"
-                    : "secondary"
+                    ? "secondary"
+                    : "primary"
                   : isSelected
-                  ? "acccent.2"
+                  ? "accent.2"
                   : "black"
               }
               {...innerProps}
@@ -168,7 +161,7 @@ const Select: FC<SelectProps> = ({
                 value.key === "placeholder"
                   ? "grey.300"
                   : isDarkTheme
-                  ? "white"
+                  ? "primary"
                   : "primary"
               }
               fontSize={placeholderSize ?? "sm"}
@@ -189,7 +182,7 @@ const Select: FC<SelectProps> = ({
   }, [value]);
 
   const DropdownIndicator = () => {
-    return <ChervonDown w={5} h={5} color={isDarkTheme ? "white" : ""} />;
+    return <ChervonDown w={5} h={5} color={isDarkTheme ? "primary" : ""} />;
   };
 
   return (
@@ -206,7 +199,6 @@ const Select: FC<SelectProps> = ({
           DropdownIndicator,
           Option: CustomOption,
           ValueContainer,
-          MenuList,
         }}
         filterOption={filterSelectOptions}
         styles={{
@@ -240,7 +232,7 @@ const Select: FC<SelectProps> = ({
             marginTop: 10,
             borderRadius: 6,
             border: `1px solid ${isDarkTheme ? "#FFC5EF" : "#505050"}  `,
-            background: isDarkTheme ? "#313F4C" : "#D2FFFA",
+            background: isDarkTheme ? "white" : "#33EFEF",
             position: "absolute",
             width: "100%",
           }),
@@ -274,7 +266,7 @@ const Select: FC<SelectProps> = ({
           }),
           input: (base) => ({
             ...base,
-            color: "white",
+            color: isDarkTheme ? "white" : "#2A2A2A",
             fontSize: "14px",
           }),
         }}
@@ -291,7 +283,7 @@ const Select: FC<SelectProps> = ({
 
 const theme = {
   colors: {
-    // primary25: "#DEEBFF",
+    primary25: "#DEEBFF",
   },
 
   spacing: {

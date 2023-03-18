@@ -57,6 +57,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
 
   return (
     <Box
+      bg="white"
       position={{ base: "fixed", lg: "sticky" }}
       w={{ base: "100vw", lg: "100%" }}
       alignSelf="center"
@@ -68,9 +69,9 @@ const CommentField: FC<IReplyingCommentProps> = ({
         <AnimatePresence>
           {isReplying && (
             <motion.div
-              initial={{ opacity: 0.8, top: isMobile ? -42 : -58 }}
+              initial={{ opacity: 0.8, top: isMobile ? -32 : -56 }}
               animate={{ opacity: 1, top: isMobile ? -52 : -68 }}
-              exit={{ opacity: 0, top: isMobile ? -42 : -58 }}
+              exit={{ opacity: 0, top: isMobile ? -32 : -56 }}
               transition={{ duration: 0.2 }}
               style={{
                 position: "absolute",
@@ -79,19 +80,20 @@ const CommentField: FC<IReplyingCommentProps> = ({
               }}
             >
               <Flex
+                bg="accent.3"
                 width="100%"
-                bg="secondary"
                 rounded={{ lg: "md" }}
                 justifyContent="space-between"
                 py="10px"
                 px="22px"
                 alignItems="center"
+                shadow="md"
               >
                 <Flex alignItems="center">
                   <ReplyIconLg role="button" />
                   <Box ml={{ base: "7px", lg: "17px" }}>
                     <Text
-                      color="acccent.2"
+                      color="accent.2"
                       fontWeight="extrabold"
                       fontSize={{ base: "10px", lg: "16px" }}
                     >
@@ -105,18 +107,18 @@ const CommentField: FC<IReplyingCommentProps> = ({
                       textOverflow="ellipsis"
                       whiteSpace="nowrap"
                       overflow="hidden"
+                      color="primary"
                     >
                       {isReplying.content}
                     </Text>
                   </Box>
                 </Flex>
-                <CloseButton onClick={onCancelReply} />
+                <CloseButton color="primary" onClick={onCancelReply} />
               </Flex>
             </motion.div>
           )}
         </AnimatePresence>
         <Flex
-          bg="primary"
           alignItems="center"
           gap={4}
           justifySelf="end"
@@ -139,7 +141,10 @@ const CommentField: FC<IReplyingCommentProps> = ({
             value={inputValue}
             onChange={handleInputChange}
             placeholder="Say something"
-            color="acccent.4"
+            color="primary"
+            _placeholder={{ color: "primary", opacity: 0.5 }}
+            _focus={{ borderColor: "primary" }}
+            borderColor="primary"
             variant="flushed"
             fontSize={{ base: "16px", lg: "xl" }}
             onBlur={isUnfocused}
@@ -152,7 +157,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
           />
           <Button
             variant="link"
-            color={inputValue ? "acccent.1" : "white"}
+            color={inputValue ? "secondary" : "gray"}
             fontSize={{ base: "sm", lg: "xl" }}
             textDecoration="unset"
             textTransform="unset"

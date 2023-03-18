@@ -34,7 +34,7 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
           py={[2.5, 4]}
           px={5}
           gap={2.5}
-          bg={`${item?.readAt === null && "acccent.1"} `}
+          bg={`${item?.readAt === null ? "accent.3" : "grey.0"} `}
           borderRadius={["0", "10px"]}
         >
           <Image
@@ -51,16 +51,16 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
             color={`${item?.readAt !== null && "white"}`}
             flex={1}
           >
-            <Heading as="span" fontSize={["xs", "md"]}>
+            <Heading as="span" color="primary" fontSize={["xs", "md"]}>
               {item?.source?.nickName ?? item?.source?.fullName}
             </Heading>
-            <Text as="span" wordBreak="break-word">
+            <Text as="span" color="primary" wordBreak="break-word">
               {notificationContent(item)}
             </Text>
             <Text
               fontFamily="heading"
               fontWeight="bold"
-              color={`${item?.readAt === null ? "acccent.2" : "secondary"}`}
+              color={`${item?.readAt === null ? "secondary" : "accent.2"}`}
             >
               {convertDateFromNow(item?.createdAt)}
             </Text>

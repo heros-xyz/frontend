@@ -37,7 +37,7 @@ const InteractionSection: FC<InteractionSectionProps> = ({
 
   if (!isAccessRight) {
     return (
-      <Box bg="primary" h="100%">
+      <Box h="100%">
         <Flex justifyContent="space-between" mb="20px">
           <AthleteInfo
             athleteName={nickName}
@@ -51,7 +51,7 @@ const InteractionSection: FC<InteractionSectionProps> = ({
   }
 
   return (
-    <Box bg="primary">
+    <Box>
       <Flex justifyContent="space-between">
         <AthleteInfo
           athleteName={nickName}
@@ -72,7 +72,7 @@ const InteractionSection: FC<InteractionSectionProps> = ({
           <Text
             fontWeight="medium"
             fontSize={{ base: "sm", lg: "xl" }}
-            color="white"
+            color="primary"
             lineHeight="19.6px"
             whiteSpace="break-spaces"
             mt={4}
@@ -83,7 +83,7 @@ const InteractionSection: FC<InteractionSectionProps> = ({
             <Text
               as="a"
               cursor="pointer"
-              color="secondary"
+              color="primary"
               textDecoration="underline"
               onClick={navigateToPostDetail}
             >
@@ -97,7 +97,7 @@ const InteractionSection: FC<InteractionSectionProps> = ({
               <Button
                 size="sm"
                 variant="unstyled"
-                bg="acccent.2"
+                bg="accent.2"
                 px="15px"
                 py="4px"
                 mr="12px"

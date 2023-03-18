@@ -15,17 +15,17 @@ exports[`renders homepage unchanged 1`] = `
           class="css-soukc5"
         >
           <svg
-            class="chakra-icon css-1o0utcg"
+            class="chakra-icon css-ltjg40"
             focusable="false"
-            viewBox="0 0 14 14"
+            viewBox="0 0 32 32"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              d="M13.25 7L0.75 7M0.75 7L6.375 1.375M0.75 7L6.375 12.625"
-              stroke="white"
+              d="M26 16L6 16M6 16L15 7M6 16L15 25"
+              stroke="#1E16C1"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="1.5"
+              stroke-width="2"
             />
           </svg>
           <span
@@ -128,7 +128,7 @@ exports[`renders homepage unchanged 1`] = `
                             DD
                           </div>
                           <div
-                            class=" css-qbdosj-Input"
+                            class=" css-119wo5m-Input"
                             data-value=""
                           >
                             <input
@@ -206,7 +206,7 @@ exports[`renders homepage unchanged 1`] = `
                             MM
                           </div>
                           <div
-                            class=" css-qbdosj-Input"
+                            class=" css-119wo5m-Input"
                             data-value=""
                           >
                             <input
@@ -284,7 +284,7 @@ exports[`renders homepage unchanged 1`] = `
                             YYYY
                           </div>
                           <div
-                            class=" css-qbdosj-Input"
+                            class=" css-119wo5m-Input"
                             data-value=""
                           >
                             <input
@@ -351,28 +351,28 @@ exports[`renders homepage unchanged 1`] = `
                 class="css-1a3i73t"
               >
                 <div
-                  class="css-gnh5lt"
+                  class="css-15s5pib"
                 >
                   <p
-                    class="chakra-text css-47z8gp"
+                    class="chakra-text css-1a4koi3"
                   >
                     Male
                   </p>
                 </div>
                 <div
-                  class="css-gnh5lt"
+                  class="css-15s5pib"
                 >
                   <p
-                    class="chakra-text css-47z8gp"
+                    class="chakra-text css-1a4koi3"
                   >
                     Female
                   </p>
                 </div>
                 <div
-                  class="css-gnh5lt"
+                  class="css-15s5pib"
                 >
                   <p
-                    class="chakra-text css-47z8gp"
+                    class="chakra-text css-1a4koi3"
                   >
                     Other
                   </p>
@@ -427,7 +427,7 @@ exports[`renders homepage unchanged 1`] = `
                             Select...
                           </div>
                           <div
-                            class=" css-qbdosj-Input"
+                            class=" css-119wo5m-Input"
                             data-value=""
                           >
                             <input
@@ -500,7 +500,7 @@ exports[`renders homepage unchanged 1`] = `
                 id="myStory"
                 name="myStory"
                 placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-                style="padding-left: 0px; border-radius: 0; border-color: white;"
+                style="padding-left: 0px; border-radius: 0; border-color: #adadad;"
               />
             </div>
             <button

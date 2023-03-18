@@ -23,7 +23,7 @@ const SearchFanSuggestionsList: React.FC<SearchFanSuggestionsList> = ({
   return (
     <If condition={items.length}>
       <Then>
-        <Box bg="acccent.4" p="3" pt="0" borderRadius="base" {...props}>
+        <Box bg="accent.4" p="3" pt="0" borderRadius="base" {...props}>
           <Then>
             {items.map((item) => (
               <ItemSuggestionsFan

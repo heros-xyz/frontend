@@ -3,29 +3,29 @@
 exports[`renders membership unchanged 1`] = `
 <div>
   <div
-    class="css-coa58c"
+    class="css-1h0mgil"
   >
     <div
       class="css-5tnwgz"
     >
       <h2
-        class="chakra-heading css-v3yr5u"
+        class="chakra-heading css-ayg11n"
       >
         Membership
       </h2>
       <p
-        class="chakra-text css-1d3wpnh"
+        class="chakra-text css-ohbwvd"
       >
         Manage
       </p>
     </div>
     <p
-      class="chakra-text css-1ew9a1o"
+      class="chakra-text css-71uet5"
     >
       You are currently offering.
     </p>
     <p
-      class="chakra-text css-ht6hf5"
+      class="chakra-text css-zvd5jj"
     >
       <span
         class="chakra-skeleton css-cdkrf0"
@@ -33,7 +33,7 @@ exports[`renders membership unchanged 1`] = `
         1
       </span>
        
-      Tier
+      tier
     </p>
   </div>
 </div>

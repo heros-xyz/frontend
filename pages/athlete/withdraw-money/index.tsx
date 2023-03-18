@@ -7,7 +7,7 @@ import WithdrawMoney from "@/components/payment/WithdrawMoney";
 const WalletWithdrawMoney = () => {
   const onsubmit = () => {};
   return (
-    <Box bg="primary" minH="100vh">
+    <Box bg="white" minH="100vh">
       <Head>
         <title>Athlete | Withdraw Money</title>
       </Head>

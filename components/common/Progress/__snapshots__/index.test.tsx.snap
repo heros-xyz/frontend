@@ -3,7 +3,7 @@
 exports[`renders progress unchanged 1`] = `
 <div>
   <div
-    class="CProgress css-lip81u"
+    class="CProgress css-6fz3yy"
   >
     <div
       aria-valuemax="100"

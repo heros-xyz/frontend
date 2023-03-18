@@ -23,7 +23,7 @@ const PostSkeleton: React.FC<IPostSkeletonProps> = ({
     <Box {...props}>
       <Flex>
         <SkeletonCircle size="10" mb={5} mr={3} />
-        <Box w="20%">
+        <Box w="40%">
           <SkeletonText noOfLines={2} skeletonHeight="3" />
         </Box>
       </Flex>
@@ -41,7 +41,7 @@ const PostSkeleton: React.FC<IPostSkeletonProps> = ({
       <SkeletonText w="80%" noOfLines={1} skeletonHeight="3" mb={2} />
       <SkeletonText w="30%" noOfLines={1} skeletonHeight="3" mb={2} />
 
-      <Divider display={{ lg: "none" }} my={10} />
+      <Divider display={{ lg: "none" }} my={4} />
     </Box>
   );
 };

@@ -117,7 +117,7 @@ const InteractionsByTag = () => {
           size={{ base: "sm", lg: "lg" }}
           borderRadius="full"
           variant="solid"
-          bg="acccent.2"
+          bg="accent.2"
           mb={{ base: 0, lg: 12 }}
         >
           <TagLabel fontSize={{ base: "sm", lg: "lg" }} color="white">

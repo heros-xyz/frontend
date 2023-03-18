@@ -1,7 +1,7 @@
-import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { FC } from "react";
 import { IMeta, IResponseComment } from "@/types/athlete/types";
-import { getImageLink } from "@/utils/link";
+import CommentItem from "@/components/ui/Comment/Item";
 
 interface IPreviewCommentProps {
   navigateToPostDetail?: () => void;
@@ -16,54 +16,33 @@ export const PreviewComment: FC<IPreviewCommentProps> = ({
   navigateToPostDetail,
 }) => {
   return (
-    <>
-      {(item?.data || []).map(
-        ({ id, content, user: { firstName, lastName, avatar, nickName } }) => (
-          <Box key={id}>
-            <Flex alignItems="start" gap="8px" my="10px">
-              <Image
-                src={getImageLink(avatar)}
-                w="30px"
-                h="30px"
-                borderRadius="full"
-                alt="user-avatar"
-                objectFit="cover"
-                fallbackSrc="https://via.placeholder.com/50"
-              />
-              <Text
-                fontSize={{ base: "xs", lg: "medium" }}
-                fontWeight="semibold"
-                color="white"
-              >
-                {nickName ?? firstName + " " + lastName}
-              </Text>
-              <Text
-                flex="1"
-                wordBreak="break-all"
-                fontSize={{ base: "xs", lg: "medium" }}
-                fontWeight="normal"
-                color="white"
-              >
-                {content}
-              </Text>
-            </Flex>
-          </Box>
-        )
-      )}
-      {item && item?.meta.itemCount > 2 && (
-        <Button
-          variant="link"
-          color="secondary"
-          textDecoration="underline"
-          textTransform="unset"
-          mt={{ base: "5px", lg: "10px" }}
-          fontSize={{ base: "12px", lg: "18px" }}
-          fontWeight="bold"
-          onClick={navigateToPostDetail}
-        >
-          View all comments
-        </Button>
-      )}
-    </>
+    <Box className="preview-comment">
+      {(item?.data || []).map((item) => (
+        <Box key={item.id} className="preview-comment__item" py={2}>
+          <CommentItem
+            showAcions={false}
+            key={item.id}
+            isAuthorComment={item.isAuthorComment}
+            isReply={!!item.parentComment}
+            commentId={item.id}
+            item={{
+              id: item.id,
+              name: `${item.user.firstName} ${item.user.lastName}`,
+              firstName: item.user.firstName,
+              lastName: item.user.lastName,
+              text: item.content,
+              avatar: item.user.avatar,
+              likeCount: item.reactedCommentsCount,
+              isLiked: item.liked,
+              parentComment: item.parentComment,
+              createdAt: item.createdAt,
+              isAuthorComment: item.isAuthorComment,
+              nickName: item.user.nickName,
+            }}
+            onClickComment={navigateToPostDetail}
+          />
+        </Box>
+      ))}
+    </Box>
   );
 };

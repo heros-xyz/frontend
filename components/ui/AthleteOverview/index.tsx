@@ -13,7 +13,12 @@ const AthleteOverview: React.FC<OverviewProps> = ({
   isLoading,
 }) => {
   return (
-    <Box bg="acccent.4" borderRadius="lg" p={{ base: 5, lg: "30px" }}>
+    <Box
+      bg="primary"
+      color="secondary"
+      borderRadius="lg"
+      p={{ base: 5, lg: "30px" }}
+    >
       <Heading
         fontSize={{ base: "md", xl: "xl" }}
         fontWeight={"extrabold"}
@@ -37,7 +42,7 @@ const AthleteOverview: React.FC<OverviewProps> = ({
             </Box>
           </Flex>
         </Box>
-        <Box borderLeftWidth={"thin"} w="50%" pl={7}>
+        <Box borderLeftWidth={"thin"} w="50%" pl={7} borderColor="grey.300">
           <Flex alignItems={"center"}>
             <WalletIcon
               w={{ base: 8, xl: "52px" }}

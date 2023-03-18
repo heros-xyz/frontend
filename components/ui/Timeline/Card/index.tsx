@@ -1,9 +1,10 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import dayjs from "dayjs";
 import React from "react";
 import { Else, If, Then } from "react-if";
-import dayjs from "dayjs";
 import { OutlineArrowIcon } from "@/components/svg/OutlineArrowIcon";
 import { ITimeLineInfo } from "..";
+
 interface IProps {
   item: ITimeLineInfo;
   canEdit?: boolean;
@@ -44,7 +45,7 @@ const JourneyCard: React.FC<IProps> = ({
       color="primary"
       justifyContent="space-between"
       alignItems="center"
-      bg={isCurrent ? "acccent.4" : "acccent.1"}
+      bg={isCurrent ? "accent.3" : "accent.1"}
       rounded="md"
       cursor={canEdit ? "pointer" : ""}
       onClick={() => setItemEdit(item)}
@@ -56,7 +57,7 @@ const JourneyCard: React.FC<IProps> = ({
         <Text fontSize={{ base: "xxs", lg: "md" }}>{item.description}</Text>
       </Box>
       <Flex w={{ lg: "145px" }}>
-        <Box w="1px" h={51} bg={isCurrent ? "primary" : "white"} />
+        <Box w="1px" h={51} bg={isCurrent ? "primary" : "accent.2"} />
         <If condition={item?.endDate}>
           <Then>
             <Box

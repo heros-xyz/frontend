@@ -88,7 +88,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
   };
 
   return (
-    <Box bg="secondary" p={2.5} borderColor="secondary">
+    <Box bg="primary" p={2.5} borderColor="primary">
       <Flex justifyContent="space-evenly">
         {menuList.map(
           (item) =>

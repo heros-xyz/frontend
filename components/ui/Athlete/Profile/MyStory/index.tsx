@@ -31,7 +31,8 @@ const MyStory: React.FC<Story> = ({ description, dob, gender, isEdit }) => {
   return (
     <Box
       pb={5}
-      bg="acccent.4"
+      bg="accent.3"
+      color="primary"
       px={5}
       py={10}
       pt={5}
@@ -40,7 +41,7 @@ const MyStory: React.FC<Story> = ({ description, dob, gender, isEdit }) => {
       {isEdit && (
         <Box textAlign="right">
           <Link as={NextLink} href={"/athlete/my-profile/edit-basic-info"}>
-            <EditIcon color="primary" cursor="pointer" />
+            <EditIcon cursor="pointer" />
           </Link>
         </Box>
       )}
@@ -76,7 +77,7 @@ const MyStory: React.FC<Story> = ({ description, dob, gender, isEdit }) => {
           </Text>
         </Flex>
         <Center height="50px">
-          <Divider orientation="vertical" borderLeftColor="black" />
+          <Divider orientation="vertical" borderLeftColor="grey.dark" />
         </Center>
         <Flex direction="column" w="40%">
           <Text fontSize="xs" fontWeight="medium">

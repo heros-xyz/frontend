@@ -40,7 +40,7 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
       <If condition={validateIsFan}>
         <Then>
           <Box my={6} fontSize={{ base: "xs", lg: "md" }} fontWeight={400}>
-            <Text as="span">
+            <Text as="span" color="primary">
               You can change tier at anytime. Visit heros&apos;s
             </Text>
             <Link href="" as="span">
@@ -49,7 +49,7 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
                 Membership guide
               </Text>
             </Link>
-            <Text as="span">
+            <Text as="span" color="primary">
               {" "}
               to learn about what will happen when you upgrade, downgrade, or
               cancel your membership tier.
@@ -59,8 +59,12 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
         <Else>
           <If condition={listMembershipTiers?.length}>
             <Then>
-              {" "}
-              <Text my={6} fontSize={{ base: "xs", lg: "md" }} fontWeight={400}>
+              <Text
+                my={6}
+                fontSize={{ base: "xs", lg: "md" }}
+                fontWeight={400}
+                color="primary"
+              >
                 Choose a tier that best suited you and your need to support your
                 favorite athlete!
               </Text>

@@ -40,7 +40,7 @@ exports[`renders homepage unchanged 1`] = `
       class="css-gmuwbf"
     >
       <button
-        class="chakra-button css-17tcw0u"
+        class="chakra-button css-1abxq3k"
         type="button"
       >
         yes, delete Interaction
@@ -54,7 +54,7 @@ exports[`renders homepage unchanged 1`] = `
         type="button"
       >
         <u
-          class="chakra-text css-1oide88"
+          class="chakra-text css-1lsjmdg"
         >
           Cancel
         </u>

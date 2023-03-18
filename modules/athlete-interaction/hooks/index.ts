@@ -3,7 +3,6 @@ import dayjs, { UnitType } from "dayjs";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
 import { useToast } from "@chakra-ui/react";
 import { isBeforeEndDate, isValidDate } from "@/utils/functions";
 import {
@@ -41,6 +40,35 @@ const getTime = (type: UnitType) => {
   return time;
 };
 
+const publicDateValidation = (
+  schedule: boolean,
+  publicTime: string,
+  schema: any
+) => {
+  if (schedule) {
+    return schema
+      .test("valid-date", "Invalid date", (value: string) => {
+        return isValidDate(value);
+      })
+      .test(
+        "is-before-end-date",
+        "Public date and time must be equal to or greater than current date and time",
+        (value: string) => {
+          const publicDate = new Date(`${value} ${publicTime}`);
+          const publicDateFormat = dayjs(publicDate).format("YYYY/MM/DD HH:mm");
+
+          return isBeforeEndDate(
+            dayjs(new Date()).subtract(1, "minute").format("YYYY/MM/DD HH:mm"),
+            publicDateFormat,
+            "YYYY/MM/DD HH:mm"
+          );
+        }
+      );
+  }
+
+  return schema;
+};
+
 const initialValues = {
   interactionId: "",
   content: "",
@@ -48,29 +76,19 @@ const initialValues = {
   tags: [] as string[],
   publicType: "fanOnly",
   schedule: false,
-  publicDate: dayjs().add(3, "day").format("YYYY-MM-DD"),
-  publicTime: `${getTime("hour")}:${getTime("minute")}`,
+  publicDate: dayjs().format("YYYY-MM-DD"),
+  publicTime: dayjs().format("HH:mm"),
 };
 
 const validationSchema = yup.object().shape({
+  schedule: yup.boolean(),
+  publicTime: yup.string(),
   content: yup
     .string()
     .max(2000, "Your interaction cannot exceed 2000 characters."),
   publicDate: yup
     .string()
-    .test("valid-date", "Invalid date", (value) => {
-      return isValidDate(value);
-    })
-    .test(
-      "is-before-end-date",
-      "Public date must be greatter than today",
-      (value) => {
-        if (value) {
-          return isBeforeEndDate(dayjs(new Date()).format("YYYY/MM/DD"), value);
-        }
-        return true;
-      }
-    ),
+    .when(["schedule", "publicTime"], publicDateValidation as any),
   listMedia: yup
     .array()
     .test(

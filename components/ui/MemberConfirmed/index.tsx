@@ -35,7 +35,7 @@ const MemberConfirmed: React.FC<MemberConfirmedProps> = ({
       </Box>
       <Box>
         <Box
-          color="white"
+          color="primary"
           display="flex"
           flexDirection="column"
           textAlign={{ base: "center", xl: "left" }}
@@ -44,15 +44,19 @@ const MemberConfirmed: React.FC<MemberConfirmedProps> = ({
           <Box fontWeight="bold" fontSize={{ base: "36px", xl: "48px" }} mb="4">
             {title}
           </Box>
-          <Box fontWeight={{ base: "medium", xl: "normal" }} fontSize="md">
+          <Box
+            fontWeight={{ base: "medium", xl: "normal" }}
+            fontSize="md"
+            color="grey.300"
+          >
             {description}
           </Box>
         </Box>
         <Button
           fontSize={{ base: "md", xl: "xl" }}
-          bg="secondary"
+          bg="primary"
           w={{ base: "100%", xl: "auto" }}
-          color="primary"
+          color="secondary"
           _hover={{ backgroundColor: "gray" }}
           onClick={onConfirmed}
         >

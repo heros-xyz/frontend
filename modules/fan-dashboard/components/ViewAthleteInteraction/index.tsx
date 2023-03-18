@@ -32,7 +32,7 @@ const FanAthleteInteraction = () => {
     }
   }, [successUpToDate]);
   return (
-    <Box as="section" bg="primary" minH="100vh" w="100%">
+    <Box as="section" bg="white" minH="100vh" w="100%">
       <Box
         pl={{ base: "10px", lg: 0 }}
         pr={{ base: "20px", lg: 0 }}

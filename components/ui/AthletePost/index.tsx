@@ -182,7 +182,10 @@ const AthletePost: React.FC<IAthletePostProps> = ({
       >
         <GridItem colSpan={4}>
           <Flex justifyContent="space-between" mb={{ base: 3, lg: 5 }}>
-            <AthleteInfo {...athleteInfo} />
+            <AthleteInfo
+              {...athleteInfo}
+              isSchedule={interactionInfo?.isSchedulePost}
+            />
             <AthleteMenu onClickItem={handleClickMenu} menuList={menuList} />
           </Flex>
 
@@ -228,7 +231,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                       size={{ base: "sm", lg: "lg" }}
                       borderRadius="full"
                       variant="solid"
-                      bg="acccent.2"
+                      bg="accent.2"
                     >
                       <TagLabel
                         fontSize={{ base: "sm", lg: "lg" }}
@@ -264,7 +267,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
           >
             <LoveIcon
               w={5}
-              color={reaction ? "acccent.1" : "white"}
+              color={reaction ? "accent.1" : "white"}
               fill={reaction ? "currentcolor" : "none"}
               onClick={handleReaction}
               cursor="pointer"
@@ -298,7 +301,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
             order={1}
             fontWeight="medium"
             fontSize={{ base: "xs", lg: "lg" }}
-            color="acccent.1"
+            color="accent.1"
           >
             {totalReaction} like(s), {postComments} comment(s)
           </Text>

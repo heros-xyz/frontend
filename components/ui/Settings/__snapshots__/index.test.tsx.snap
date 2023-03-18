@@ -3,13 +3,13 @@
 exports[`renders AthleteFanSettings unchanged 1`] = `
 <div>
   <div
-    class="css-1whykrx"
+    class="css-jfggi0"
   >
     <div
       class="css-r7q7qr"
     >
       <h2
-        class="chakra-heading css-1ox8zkd"
+        class="chakra-heading css-koqxfp"
       >
         Settings
       </h2>
@@ -17,7 +17,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
         class="css-1dcgbw2"
       >
         <svg
-          class="chakra-icon css-1o82bms"
+          class="chakra-icon css-izu9dx"
           focusable="false"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +41,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           class="css-8atqhb"
         >
           <p
-            class="chakra-text css-1jof7u3"
+            class="chakra-text css-hzyf7q"
           >
             Tatum Miller
           </p>
@@ -61,7 +61,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
         class="css-1jl9qej"
       >
         <svg
-          class="chakra-icon css-1o82bms"
+          class="chakra-icon css-izu9dx"
           focusable="false"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +78,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           class="css-8atqhb"
         >
           <p
-            class="chakra-text css-1jof7u3"
+            class="chakra-text css-hzyf7q"
           >
             tatummiller@gmail.com
           </p>
@@ -93,7 +93,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
         class="css-1g7srn1"
       >
         <svg
-          class="chakra-icon css-swpltc"
+          class="chakra-icon css-12vro0h"
           focusable="false"
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +106,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           />
         </svg>
         <p
-          class="chakra-text css-epc93y"
+          class="chakra-text css-m38eto"
         >
           This account is linked to Google
         </p>
@@ -115,7 +115,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
         class="css-1g7srn1"
       >
         <svg
-          class="chakra-icon css-swpltc"
+          class="chakra-icon css-12vro0h"
           focusable="false"
           viewBox="0 0 33 32"
           xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +126,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           />
         </svg>
         <p
-          class="chakra-text css-1jof7u3"
+          class="chakra-text css-1caa31g"
         >
           This account is linked to Facebook
         </p>
@@ -139,7 +139,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           href="/fan/payment"
         >
           <svg
-            class="chakra-icon css-swpltc"
+            class="chakra-icon css-12vro0h"
             focusable="false"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
@@ -153,7 +153,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
             />
           </svg>
           <p
-            class="chakra-text css-pnw9z9"
+            class="chakra-text css-ghfago"
           >
             Payment Information
           </p>
@@ -167,7 +167,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           href="/fan/active-subscriptions"
         >
           <svg
-            class="chakra-icon css-swpltc"
+            class="chakra-icon css-12vro0h"
             focusable="false"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
@@ -181,7 +181,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
             />
           </svg>
           <p
-            class="chakra-text css-pnw9z9"
+            class="chakra-text css-ghfago"
           >
             Active Subscriptions
           </p>
@@ -192,7 +192,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
       class="css-0"
     >
       <h2
-        class="chakra-heading css-6taxgj"
+        class="chakra-heading css-1pbb7x5"
       >
         Help
       </h2>
@@ -204,7 +204,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           href="https://pool-hub-178.notion.site/Fan-FAQs-16e01f81e529472b8bf8b621e1d247b2"
         >
           <svg
-            class="chakra-icon css-swpltc"
+            class="chakra-icon css-12vro0h"
             focusable="false"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
@@ -218,7 +218,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
             />
           </svg>
           <p
-            class="chakra-text css-pnw9z9"
+            class="chakra-text css-hzyf7q"
           >
             FAQs
           </p>
@@ -232,7 +232,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           href="undefined/privacy-policy"
         >
           <svg
-            class="chakra-icon css-swpltc"
+            class="chakra-icon css-12vro0h"
             focusable="false"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
@@ -245,7 +245,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
             />
           </svg>
           <p
-            class="chakra-text css-pnw9z9"
+            class="chakra-text css-hzyf7q"
           >
             Privacy Policy
           </p>
@@ -256,12 +256,12 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
       class="css-szqulz"
     >
       <h2
-        class="chakra-heading css-5ghd46"
+        class="chakra-heading css-1egyr9e"
       >
         sign out
       </h2>
       <svg
-        class="chakra-icon css-1vedd9t"
+        class="chakra-icon css-5jghth"
         focusable="false"
         viewBox="0 0 12 11"
         xmlns="http://www.w3.org/2000/svg"

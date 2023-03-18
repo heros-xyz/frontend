@@ -7,7 +7,7 @@ import FindHeros from "@/components/ui/FindHeros";
 
 const FanNotification = () => {
   return (
-    <Box bg={"primary"} minHeight="100vh">
+    <Box bg="white" minHeight="100vh">
       <Head>
         <title>Fan | Notifications</title>
       </Head>

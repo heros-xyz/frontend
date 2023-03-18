@@ -67,7 +67,29 @@ const SignIn = () => {
   return (
     <Box>
       <Head>
-        <title>Sign In</title>
+        <title>Heros | Sign In</title>
+        <meta property="og:title" content="Heros" key="title" />
+        <meta
+          property="og:desciption"
+          content="We are a membership club of athletes and fans committed to inspiring and investing in each other"
+          key="desciption"
+        />
+        <meta
+          property="desciption"
+          content="We are a membership club of athletes and fans committed to inspiring and investing in each other"
+          key="desciption"
+        />
+        <meta
+          property="image"
+          content="https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
+          key="image"
+        />
+        <meta
+          property="og:image"
+          content="https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
+          key="image"
+        />
+        <meta property="og:type" content="website" key="type" />
       </Head>
       <AuthTemplate
         pageType="signin"

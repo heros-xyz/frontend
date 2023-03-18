@@ -18,9 +18,9 @@ const HomePageBanner: React.FC<HomePageBannerProps> = ({ content, title }) => {
           height="100%"
         />
       </Box>
-      <Box bg="acccent.4" borderRadius="0px 0px 18px 18px" px="5" py="7">
+      <Box bg="accent.4" borderRadius="0px 0px 18px 18px" px="5" py="7">
         <Heading
-          color="acccent.2"
+          color="accent.2"
           fontSize="2xl"
           fontWeight="extrabold"
           lineHeight="140%"

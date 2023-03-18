@@ -20,13 +20,13 @@ const FanDashboard = ({ isFirstLogin }: IFanDashboardProps) => {
   const onChange = useCallback((el: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(el.target.value);
   }, []);
-  const { data: latestInteraction } = useGetLatestInteractionQuery({
+  const { data: latestInteraction, isLoading } = useGetLatestInteractionQuery({
     page: 1,
     take: 3,
   });
 
   return (
-    <Box bg="primary" minH="100vh">
+    <Box bg="white" minH="100vh">
       <Head>
         <title>Fan | Homepage</title>
       </Head>
@@ -37,14 +37,19 @@ const FanDashboard = ({ isFirstLogin }: IFanDashboardProps) => {
       </Container>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <Center
-          h="120px"
-          bg="acccent.1"
+          h="160px"
+          bg="linear-gradient(137.89deg, #1E16C1 15.14%, #298ADA 49.2%, #33EFEF 88.63%)"
           color="primary"
           mt={{ xl: 8 }}
           mb={{ xl: 4 }}
           borderRadius={{ lg: "12px" }}
         >
-          <Text fontSize="xl" fontFamily="heading" fontWeight={700}>
+          <Text
+            fontSize="xl"
+            color="white"
+            fontFamily="heading"
+            fontWeight={700}
+          >
             {isFirstLogin ? "Hello, heros" : "Welcome back, heros"}
           </Text>
         </Center>
@@ -54,6 +59,7 @@ const FanDashboard = ({ isFirstLogin }: IFanDashboardProps) => {
           <MyAthletes />
         </Box>
         <FanInteractions
+          isLoading={isLoading}
           titleHeading="Latest Interactions"
           items={latestInteraction?.data ?? []}
           actionText="View All"

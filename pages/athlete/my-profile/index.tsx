@@ -6,7 +6,7 @@ import AthleteProfile from "@/modules/athlete-profile";
 
 const MyProfile = () => {
   return (
-    <Box bg="primary">
+    <Box bg="white">
       <Head>
         <title>Athlete | My Profile</title>
       </Head>

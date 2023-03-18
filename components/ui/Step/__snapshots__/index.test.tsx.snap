@@ -21,16 +21,16 @@ exports[`Step renders step unchanged 1`] = `
         role="button"
       >
         <div
-          class="css-15g5d1j"
+          class="css-1hkqsnj"
           data-testid="button-step-1"
         />
       </div>
       <div
-        class="css-2e4i1v"
+        class="css-4eay9j"
         role="button"
       >
         <div
-          class="css-15g5d1j"
+          class="css-1hkqsnj"
           data-testid="button-step-2"
         />
       </div>

@@ -27,7 +27,7 @@ const AllAthletes = () => {
     return [];
   }, [listAthleteSubscribed]);
   return (
-    <Box bg="primary" minH="100vh">
+    <Box bg="white" minH="100vh">
       <Head>
         <title>Fan | All Subscribed Athletes </title>
       </Head>
@@ -38,7 +38,7 @@ const AllAthletes = () => {
 
         <Text
           fontSize={{ base: "xl", lg: "2xl" }}
-          color="white"
+          color="primary"
           fontWeight={700}
           mb={{ base: 5, xl: 6 }}
           mt={6}

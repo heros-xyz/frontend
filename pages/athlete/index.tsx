@@ -59,14 +59,14 @@ const AthleteDashboard = () => {
   };
 
   return (
-    <Box bg="primary" pt={6} minH="100vh">
+    <Box bg="white" pt={6} minH="100vh">
       <Head>
         <title>Athlete | Homepage</title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Grid gridGap={["5", "4"]}>
           <Flex
-            color={"white"}
+            color={"primary"}
             alignContent={"flex-start"}
             justifyContent={"space-between"}
             pb={["2", "4"]}
@@ -91,7 +91,7 @@ const AthleteDashboard = () => {
               href="/athlete/my-profile/settings"
               height="fit-content"
             >
-              <Setting w={["5", "6"]} h={["5", "6"]} />
+              <Setting w={["5", "6"]} h={["5", "6"]} color="primary" />
             </Link>
           </Flex>
           <AthleteOverview

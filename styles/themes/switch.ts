@@ -10,7 +10,7 @@ const primary = definePartsStyle({
   },
   thumb: {
     _checked: {
-      bg: "acccent.2",
+      bg: "accent.2",
     },
   },
 });

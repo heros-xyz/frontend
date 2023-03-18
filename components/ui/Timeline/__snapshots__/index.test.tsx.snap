@@ -3,7 +3,7 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-1rubkow"
+    class="css-e25rbx"
   >
     <div
       class="css-guqklo"
@@ -18,7 +18,7 @@ exports[`renders homepage unchanged 1`] = `
             class="css-nmqb8k"
           >
             <svg
-              class="chakra-icon css-x4x0z8"
+              class="chakra-icon css-jgvxrk"
               focusable="false"
               viewBox="0 0 12 14"
               xmlns="http://www.w3.org/2000/svg"
@@ -34,20 +34,20 @@ exports[`renders homepage unchanged 1`] = `
           class="css-ft2ktj"
         >
           <div
-            class="css-28p9v6"
+            class="css-18j2ay9"
           >
             <div
-              class="css-1jty2r7"
+              class="css-mlzgdd"
             />
           </div>
           <div
             class="css-1u3qjd0"
           >
             <div
-              class="css-1h2wxp8"
+              class="css-7aj1ay"
             />
             <div
-              class="css-1vrnezm"
+              class="css-52ky4n"
             >
               <button
                 class="chakra-button css-b1wgcr"
@@ -81,7 +81,7 @@ exports[`renders homepage unchanged 1`] = `
         </div>
       </div>
       <div
-        class="css-3ymxp"
+        class="css-1f0aong"
       >
         <div
           class="css-1jaf54"

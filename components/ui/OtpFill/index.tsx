@@ -198,7 +198,7 @@ const OtpFill: React.FC<OtpProps> = ({
               </Box>
             </Box>
             <Link
-              color="acccent.3"
+              color="accent.1"
               textDecorationLine="underline"
               fontWeight="medium"
               onClick={onResend}

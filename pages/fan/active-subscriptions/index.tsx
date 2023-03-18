@@ -73,7 +73,7 @@ const PaymentInfo = () => {
   }, []);
 
   return (
-    <Box bg="primary" minH="100vh" position="relative">
+    <Box bg="white" minH="100vh" position="relative">
       <Head>
         <title>Fan | Active Subscriptions</title>
       </Head>
@@ -100,7 +100,7 @@ const PaymentInfo = () => {
             <Text
               as="span"
               ml="6"
-              color="white"
+              color="primary"
               fontSize={{ base: "xl", xl: "2xl" }}
             >
               Active Subscriptions
@@ -110,7 +110,7 @@ const PaymentInfo = () => {
             <Box
               key={el?.id}
               w="full"
-              color="white"
+              color="primary"
               borderTop="1px"
               borderBottom={
                 el == dataRender[dataRender.length - 1] ? "1px" : ""
@@ -159,7 +159,7 @@ const PaymentInfo = () => {
                       h={{ base: "14px", xl: "18px" }}
                       mt={0.5}
                     />
-                    <Box ml={{ base: 2, xl: 3 }} color="acccent.4">
+                    <Box ml={{ base: 2, xl: 3 }}>
                       <If condition={el?.autoRenew}>
                         <Then>
                           <Text>Next Payment Due:</Text>
@@ -179,14 +179,14 @@ const PaymentInfo = () => {
                 </Box>
                 <If condition={el?.autoRenew}>
                   <Then>
-                    <Center w={{ base: "30%", xl: "20%" }} color="secondary">
+                    <Center w={{ base: "30%", xl: "20%" }} color="grey.200">
                       <Button
                         variant="outline"
                         h="auto"
                         px="4"
                         py="3"
                         border="2px"
-                        borderColor="secondary"
+                        borderColor="grey.200"
                         borderRadius="10px"
                         onClick={() => {
                           onOpenConfirm();

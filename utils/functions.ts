@@ -106,9 +106,14 @@ export const isValidString = (string: string) => {
   return false;
 };
 
-export const isBeforeEndDate = (startDate: string, endDate: string) => {
-  const end = dayjs(endDate, "YYYY-MM-DD");
-  return dayjs(startDate, "YYYY-MM-DD").isBefore(end);
+export const isBeforeEndDate = (
+  startDate: string,
+  endDate: string,
+  format?: string
+) => {
+  const formatDate = format ?? "YYYY-MM-DD";
+  const end = dayjs(endDate, formatDate);
+  return dayjs(startDate, formatDate).isBefore(end);
 };
 
 export const filterSelectOptions = (

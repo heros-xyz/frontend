@@ -31,7 +31,7 @@ const Step: React.FC<IProps> = ({ activeStep, totalStep, onChangeStep }) => {
         key={step}
         p={1.5}
         borderRadius="full"
-        bg={isActiveStep ? "acccent.4" : "none"}
+        bg={isActiveStep ? "white" : "none"}
         onClick={() => {
           if (step <= maxStep) onChangeStep(step);
         }}
@@ -41,7 +41,7 @@ const Step: React.FC<IProps> = ({ activeStep, totalStep, onChangeStep }) => {
           w={2.5}
           h={2.5}
           borderRadius="full"
-          bg={step <= maxStep ? "acccent.2" : "gray.100"}
+          bg={step <= maxStep ? "accent.2" : "gray.100"}
           pointerEvents={step <= maxStep ? "auto" : "none"}
         />
       </Box>

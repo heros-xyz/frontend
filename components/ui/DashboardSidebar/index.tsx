@@ -100,7 +100,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   return (
     <Box
-      bg="secondary"
+      bg="primary"
       p={{ base: 2.5, lg: 14 }}
       w={{ base: "full", lg: "320px" }}
       minH={{ base: "59px", lg: "100%" }}
