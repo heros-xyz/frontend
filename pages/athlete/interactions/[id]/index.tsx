@@ -14,7 +14,7 @@ import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/
 
 const InteractionDetail = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, focus } = router.query;
   const { data: session } = useSession();
   const [totalComments, setTotalComments] = useState(0);
   const [isFocusComment, setIsFocusComment] = useState(false);
@@ -49,6 +49,12 @@ const InteractionDetail = () => {
     }),
     [postInfo, totalComments]
   );
+
+  useEffect(() => {
+    if (focus) {
+      setIsFocusComment(true);
+    }
+  }, [focus]);
 
   useEffect(() => {
     if (postInfo) {

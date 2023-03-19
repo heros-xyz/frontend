@@ -1,14 +1,13 @@
-import { Image, Box, Flex, Text } from "@chakra-ui/react";
-import React, { FC, useEffect, useMemo, useRef } from "react";
+import { Box } from "@chakra-ui/react";
+import React, { FC, useEffect, useMemo } from "react";
 import { Else, If, Then } from "react-if";
-import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import CommentField from "@/modules/athlete-profile/interactions/components/CommentField";
-import { getImageLink } from "@/utils/link";
-import { IResponseComment } from "@/types/athlete/types";
 import { useComments } from "@/hooks/useComment";
 import Comments from "../../Comment/List";
 import LoadMoreSkeleton from "../LoadMoreSkeleton";
+import CommentItem from "../../Comment/Item";
 interface IAthleteInteractionCommentsProps {
   id: string;
   isPreview?: boolean;
@@ -25,18 +24,20 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
   setTotalComments,
 }) => {
   const { data: session } = useSession();
+  const router = useRouter();
   const {
     isFocusOnInput,
     isLoading,
-    listComment,
     listMergedComments,
     replyingTo,
     isShowLoadMore,
     totalComments,
     scrollRef,
+    take,
     handleSendMessage,
     replyComment,
     setOffset,
+    setTake,
     setReplyingTo,
     setIsFocusOnInput,
   } = useComments({
@@ -71,10 +72,6 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
       interactionId: id as string,
       content,
     });
-  };
-
-  const getUserName = (item: IResponseComment) => {
-    return item.user.nickName ?? `${item.user.firstName} ${item.user.lastName}`;
   };
 
   const formatDataComment = useMemo(() => {
@@ -112,48 +109,36 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
       <If condition={isPreview}>
         <Then>
           {listMergedComments.map((item, index) => (
-            <Box key={"key" + `${index}`} className="comment-box__preview">
-              <Box
-                color="grey.100"
-                fontSize={{ base: "xs", lg: "md" }}
-                my={{ base: 2, lg: 4 }}
-              >
-                <Flex alignItems="flex-start" gap={4}>
-                  <Flex alignItems="center" gap={2.5}>
-                    <Image
-                      src={getImageLink(item.user.avatar)}
-                      w={{ base: 5, lg: 8 }}
-                      h={{ base: 5, lg: 8 }}
-                      alt={item.user.avatar}
-                      rounded="full"
-                      fallbackSrc="https://via.placeholder.com/30"
-                    />
-                    <Text as="b">{getUserName(item)}</Text>
-                  </Flex>
-                  <Text wordBreak="break-word" flex={1} mt="1px">
-                    {item.content}
-                  </Text>
-                </Flex>
-              </Box>
+            <Box
+              className="comment-box__preview"
+              key={`${"key" + index}`}
+              py={2}
+            >
+              <CommentItem
+                showAcions={false}
+                commentId={item.id}
+                isReply={!!item.parentComment}
+                isAuthorComment={item.isAuthorComment}
+                item={{
+                  id,
+                  name: `${item.user.firstName} ${item.user.lastName}`,
+                  firstName: item.user.firstName,
+                  lastName: item.user.lastName,
+                  text: item.content,
+                  avatar: item.user.avatar,
+                  likeCount: item.reactedCommentsCount,
+                  isLiked: item.liked,
+                  parentComment: item.parentComment,
+                  createdAt: item.createdAt,
+                  isAuthorComment: item.isAuthorComment,
+                  nickName: item.user.nickName,
+                }}
+                onClickComment={() => {
+                  router.push(`/athlete/interactions/${id}?focus=true`);
+                }}
+              />
             </Box>
           ))}
-          <If
-            condition={
-              listComment?.meta?.itemCount && listComment?.meta?.itemCount > 2
-            }
-          >
-            <Then>
-              <Link href={`/athlete/interactions/${id}`}>
-                <Text
-                  color="secondary"
-                  textDecoration="underline"
-                  fontSize={{ base: "xs", lg: "lg" }}
-                >
-                  View all comments
-                </Text>
-              </Link>
-            </Then>
-          </If>
         </Then>
         <Else>
           <Box
@@ -173,7 +158,10 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
               <LoadMoreSkeleton
                 pt={8}
                 isShowLoadMore={isShowLoadMore}
-                setOffset={() => setOffset((offset) => offset + 10)}
+                setOffset={() => {
+                  setTake(25);
+                  setOffset((offset) => offset + take);
+                }}
               />
             </Box>
             <Box

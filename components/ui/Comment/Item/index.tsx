@@ -1,5 +1,6 @@
 import {
   Box,
+  BoxProps,
   Flex,
   Image,
   Text,
@@ -18,12 +19,14 @@ import { getDateFromNow } from "@/utils/functions";
 import { getImageLink } from "@/utils/link";
 import { Comment } from "../List/index.stories";
 
-interface CommentProps {
+interface CommentProps extends BoxProps {
   item: Comment;
   commentId?: string;
   isReply: boolean;
   isAuthorComment?: boolean;
+  showAcions?: boolean;
   handleReply?: () => void;
+  onClickComment?: () => void;
 }
 
 const CommentItem: React.FC<CommentProps> = ({
@@ -31,7 +34,10 @@ const CommentItem: React.FC<CommentProps> = ({
   isAuthorComment,
   commentId,
   isReply,
+  showAcions = true,
   handleReply,
+  onClickComment,
+  ...props
 }) => {
   const itemRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -70,7 +76,7 @@ const CommentItem: React.FC<CommentProps> = ({
   });
 
   return (
-    <Box bg="primary">
+    <Box bg="primary" {...props}>
       <Flex
         alignItems="end"
         justifyContent={isReply ? "flex-end" : "flex-start"}
@@ -103,6 +109,9 @@ const CommentItem: React.FC<CommentProps> = ({
             className="reply-comment"
             order={isReply ? 2 : 1}
             mr={isReply ? 3 : 0}
+            onClick={onClickComment}
+            cursor={!showAcions ? "pointer" : ""}
+            color="primary"
           >
             {item.parentComment && (
               <Box
@@ -224,14 +233,18 @@ const CommentItem: React.FC<CommentProps> = ({
               )}
             </AnimatePresence>
           </Box>
-          <Dots
-            order={isReply ? 1 : 2}
-            role="button"
-            alignSelf="center"
-            ml="1.5"
-            mr={isReply ? 1.5 : 0}
-            onClick={handleOpenReactions}
-          />
+          <If condition={showAcions}>
+            <Then>
+              <Dots
+                order={isReply ? 1 : 2}
+                role="button"
+                alignSelf="center"
+                ml="1.5"
+                mr={isReply ? 1.5 : 0}
+                onClick={handleOpenReactions}
+              />
+            </Then>
+          </If>
         </Box>
       </Flex>
     </Box>

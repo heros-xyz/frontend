@@ -182,7 +182,10 @@ const AthletePost: React.FC<IAthletePostProps> = ({
       >
         <GridItem colSpan={4}>
           <Flex justifyContent="space-between" mb={{ base: 3, lg: 5 }}>
-            <AthleteInfo {...athleteInfo} />
+            <AthleteInfo
+              {...athleteInfo}
+              isSchedule={interactionInfo?.isSchedulePost}
+            />
             <AthleteMenu onClickItem={handleClickMenu} menuList={menuList} />
           </Flex>
 

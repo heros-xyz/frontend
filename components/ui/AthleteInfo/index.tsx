@@ -8,15 +8,17 @@ export interface AthleteInfoProps {
   athleteName: string;
   publishDate: string | Date;
   id?: string;
+  isSchedule?: boolean;
 }
 
 const AthleteInfo: React.FC<AthleteInfoProps> = ({
   imagePath,
   athleteName,
   publishDate,
+  isSchedule,
 }) => {
   return (
-    <Flex alignItems="center">
+    <Flex alignItems="center" className="athlete-info">
       <Image
         w={10}
         h={10}
@@ -35,10 +37,23 @@ const AthleteInfo: React.FC<AthleteInfoProps> = ({
         >
           {athleteName}
         </Text>
-        <Flex alignItems="center" fontSize={{ base: "12px", lg: "16px" }}>
+        <Flex alignItems="self-start" fontSize={{ base: "12px", lg: "16px" }}>
           <Text color="grey.100" fontWeight="500">
             {dayjs(publishDate).format("DD/MM/YY | HH:mm")}
           </Text>
+          {isSchedule ? (
+            <Image
+              ml={2}
+              src="/images/Schedule.svg"
+              width="4"
+              height="4"
+              alt=""
+              fill="currentColor"
+              color={"white"}
+            />
+          ) : (
+            <></>
+          )}
         </Flex>
       </Box>
     </Flex>

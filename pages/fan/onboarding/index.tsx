@@ -21,6 +21,7 @@ const FanOnboarding = () => {
     gender,
     step,
     fullNameState,
+    isLoading,
     handleChangeAvatar,
     handleChangeDateOfBirth,
     handleChangeFullName,
@@ -59,8 +60,11 @@ const FanOnboarding = () => {
                   onSubmit={handleChangeAvatar}
                 />
               </Case>
-              <Case condition={step === 5}>
-                <EnterInterestedSport onSubmit={handleChangeSport} />
+              <Case condition={step === 5 || step === 6}>
+                <EnterInterestedSport
+                  isLoading={isLoading}
+                  onSubmit={handleChangeSport}
+                />
               </Case>
             </Switch>
           </Box>

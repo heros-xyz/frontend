@@ -57,7 +57,7 @@ const AthleteLegalNameStep: React.FC<IProp> = ({ onSubmit }) => {
       <Box mb={{ base: 5, xl: 10 }}>
         <Input
           variant="flushed"
-          placeholder="Middle Name"
+          placeholder="Middle Name (Optional)"
           borderColor="primary"
           name="middleName"
           fontSize={{ base: "sm", lg: "3xl" }}

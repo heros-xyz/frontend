@@ -35,8 +35,9 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
   const { data: listComment } = useGetListCommentInteractionQuery({
     interactionId: postId,
     pageInfo: {
-      take: 2,
-      order: "DESC",
+      take: 3,
+      order: "ASC",
+      getReply: false,
     },
   });
 

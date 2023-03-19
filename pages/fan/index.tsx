@@ -20,7 +20,7 @@ const FanDashboard = ({ isFirstLogin }: IFanDashboardProps) => {
   const onChange = useCallback((el: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(el.target.value);
   }, []);
-  const { data: latestInteraction } = useGetLatestInteractionQuery({
+  const { data: latestInteraction, isLoading } = useGetLatestInteractionQuery({
     page: 1,
     take: 3,
   });
@@ -54,6 +54,7 @@ const FanDashboard = ({ isFirstLogin }: IFanDashboardProps) => {
           <MyAthletes />
         </Box>
         <FanInteractions
+          isLoading={isLoading}
           titleHeading="Latest Interactions"
           items={latestInteraction?.data ?? []}
           actionText="View All"

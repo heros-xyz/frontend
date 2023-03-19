@@ -69,7 +69,7 @@ const Interactions: FC<IInteractionsProps> = ({
   const navigateToPostDetail = useCallback((view: string) => {
     router.push({
       pathname: "[id]/interaction",
-      query: { id, view },
+      query: { id, view, focus: true },
     });
   }, []);
 

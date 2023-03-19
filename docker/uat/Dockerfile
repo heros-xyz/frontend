@@ -1,6 +1,5 @@
 FROM node:16-alpine AS deps
-RUN apk add --no-cache libc6-compat
-RUN apk --no-cache add curl
+RUN apk add --no-cache libc6-compat curl
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -8,6 +7,8 @@ RUN yarn install --frozen-lockfile
 
 FROM node:16-alpine AS builder
 WORKDIR /app
+RUN apk add --no-cache curl
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
@@ -17,6 +18,7 @@ RUN yarn build
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
 WORKDIR /app
+RUN apk add --no-cache curl
 
 ENV NODE_ENV production
 

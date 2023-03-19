@@ -11,7 +11,7 @@ interface IFullName {
 export const useFanOnboarding = () => {
   const TOTAL_STEP = 6;
   const [step, setStep] = useState(1);
-  const [submit, { data: fanSetupAccountData, error }] =
+  const [submit, { data: fanSetupAccountData, error, isLoading }] =
     useSetUpAccountMutation();
   const [fullNameState, setFullName] = useState({
     firstName: "",
@@ -90,6 +90,7 @@ export const useFanOnboarding = () => {
     gender,
     sportIds,
     step,
+    isLoading,
     handleChangeFullName,
     handleChangeGender,
     handleChangeSport,
