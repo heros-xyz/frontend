@@ -16,7 +16,7 @@ RUN yarn build
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
 WORKDIR /app
-
+RUN apk add --no-cache libc6-compat curl
 ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs
