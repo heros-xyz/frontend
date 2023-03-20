@@ -78,7 +78,7 @@ const Interactions = () => {
   };
 
   return (
-    <Box bg="primary" minHeight="100vh">
+    <Box minHeight="100vh">
       <Head>
         <title>Athlete | Interactions</title>
       </Head>
@@ -87,22 +87,27 @@ const Interactions = () => {
           <Text
             fontFamily="heading"
             fontSize={{ base: "xl", lg: "2xl" }}
-            color="white"
+            color="primary"
           >
             Interactions
           </Text>
         </Box>
         <Box
-          py={4}
+          py={{ base: 4, lg: 6 }}
           px={5}
           mb={5}
-          bg="accent.4"
+          bg="grey.0"
           cursor="pointer"
           mx={{ base: -5, lg: 0 }}
           rounded={{ lg: "xl" }}
           onClick={() => router.push("/athlete/interactions/post")}
         >
-          <Text fontSize={{ base: "xs", lg: "lg" }} color="grey.300" mb={10}>
+          <Text
+            fontSize={{ base: "xs", lg: "lg" }}
+            color="grey.300"
+            mb={10}
+            fontWeight={{ base: "normal", lg: "500" }}
+          >
             {interactionData?.data?.length
               ? "Let your fans know what's on your mind."
               : "Add your first interaction."}
@@ -112,10 +117,12 @@ const Interactions = () => {
               <PhotoIcon
                 w={{ base: "20px", lg: "26px" }}
                 h={{ base: "20px", lg: "26px" }}
+                color="primary"
               />
               <HashTagIcon
                 w={{ base: "16px", lg: "21px" }}
                 h={{ base: "16px", lg: "21px" }}
+                color="primary"
               />
             </Flex>
           </Box>
@@ -163,7 +170,7 @@ const Interactions = () => {
             </Flex>
             <If condition={!interactionData?.data?.length}>
               <Then>
-                <Text color="white" fontSize={{ base: "xs", lg: "md" }}>
+                <Text color="grey.300" fontSize={{ base: "xs", lg: "md" }}>
                   You have not had any interactions. Start interacting with your
                   fans by sharing your thoughts, or just some daily updates!
                 </Text>

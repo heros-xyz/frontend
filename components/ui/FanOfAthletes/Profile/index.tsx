@@ -30,14 +30,15 @@ const FanOfAthleteProfile: FC<IFanOfAthleteProfileProps> = ({
     <Drawer onClose={onClose} isOpen={isOpen} size={{ base: "full", lg: "sm" }}>
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerCloseButton />
+        <DrawerCloseButton color="white" />
         <Flex
           flexDirection="column"
           justifyContent="center"
           minHeight="100vh"
-          bg="accent.4"
+          bg="primary"
           fontSize={{ base: "sm", lg: "md" }}
           px={{ base: 6, lg: 20 }}
+          color="white"
         >
           <Center flexDirection="column" mb={{ base: 10, lg: 12 }}>
             <Image
@@ -53,7 +54,7 @@ const FanOfAthleteProfile: FC<IFanOfAthleteProfileProps> = ({
             <Text as="b" fontSize={{ lg: "xl" }}>
               {fanInfo?.fullName}
             </Text>
-            <Text color="accent.2">{"Bronze Tier"}</Text>
+            <Text color="secondary">{"Bronze Tier"}</Text>
           </Center>
           <Flex gap={{ base: 2, lg: 4 }}>
             <Calendar w={{ base: 5, lg: 6 }} h={{ base: 5, lg: 6 }} />

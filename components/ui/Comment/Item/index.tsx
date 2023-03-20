@@ -76,7 +76,7 @@ const CommentItem: React.FC<CommentProps> = ({
   });
 
   return (
-    <Box bg="primary" {...props}>
+    <Box {...props}>
       <Flex
         alignItems="end"
         justifyContent={isReply ? "flex-end" : "flex-start"}
@@ -104,7 +104,7 @@ const CommentItem: React.FC<CommentProps> = ({
             px="3"
             borderRadius="12"
             py="2"
-            bg={isAuthorComment ? "accent.1" : "accent.3"}
+            bg={isAuthorComment ? "accent.1" : "grey.0"}
             position="relative"
             className="reply-comment"
             order={isReply ? 2 : 1}
@@ -159,7 +159,7 @@ const CommentItem: React.FC<CommentProps> = ({
                   <CommentIcon
                     width="17"
                     height="10"
-                    color={isAuthorComment ? "acccent.1" : "acccent.4"}
+                    color={isAuthorComment ? "accent.1" : "accent.4"}
                   />
                 </Box>
               </Then>
@@ -168,7 +168,7 @@ const CommentItem: React.FC<CommentProps> = ({
                   <CommentIcon
                     width="17"
                     height="10"
-                    color={isAuthorComment ? "acccent.1" : "acccent.4"}
+                    color={isAuthorComment ? "accent.1" : "grey.0"}
                   />
                 </Box>
               </Else>
@@ -237,6 +237,7 @@ const CommentItem: React.FC<CommentProps> = ({
                 alignSelf="center"
                 ml="1.5"
                 mr={isReply ? 1.5 : 0}
+                color="grey.100"
                 onClick={handleOpenReactions}
               />
             </Then>

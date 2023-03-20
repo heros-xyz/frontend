@@ -91,7 +91,7 @@ const EnterPost = () => {
       <Box
         py={4}
         px={5}
-        bg="accent.4"
+        bg="grey.0"
         mx={{ base: -5, lg: 0 }}
         rounded={{ lg: "xl" }}
       >
@@ -121,6 +121,7 @@ const EnterPost = () => {
           <PhotoIcon
             w={{ base: "20px", lg: "26px" }}
             h={{ base: "20px", lg: "26px" }}
+            color="primary"
             cursor="pointer"
             onClick={onSelectMedia}
           />
@@ -128,6 +129,7 @@ const EnterPost = () => {
             <HashTagIcon
               w={{ base: "16px", lg: "21px" }}
               h={{ base: "16px", lg: "21px" }}
+              color="primary"
             />
             <Input
               variant="flushed"

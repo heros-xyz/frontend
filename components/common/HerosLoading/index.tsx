@@ -12,7 +12,7 @@ const HerosLoading = () => {
           w="full"
           h="full"
           bg="primary"
-          opacity={0.6}
+          opacity={0.8}
           display="flex"
           alignItems="center"
           justifyContent="center"

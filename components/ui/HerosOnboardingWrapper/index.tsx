@@ -12,8 +12,6 @@ interface OnboardingProps {
   fullWidth?: boolean;
   ImagePreview?: ReactNode;
   isUploadImage?: boolean;
-  obBg?: string;
-  submitLoading?: boolean;
   onSubmit?: () => void;
 }
 const HerosOnboardingWrapper: React.FC<OnboardingProps> = ({
@@ -26,12 +24,10 @@ const HerosOnboardingWrapper: React.FC<OnboardingProps> = ({
   fullWidth,
   ImagePreview,
   isUploadImage,
-  submitLoading,
-  obBg = "secondary",
   onSubmit,
 }) => {
   return (
-    <Box bg={obBg} minH={"90vh"} height="100vh">
+    <Box bg="secondary" minH={"90vh"} height="100vh">
       <Container size={["full", "sm", "md", "lg", "xl"]} h="100%">
         <Box
           textAlign="center"
@@ -95,7 +91,6 @@ const HerosOnboardingWrapper: React.FC<OnboardingProps> = ({
                         w={{ base: "100%", xl: "fit-content" }}
                         h="48px"
                         onClick={onSubmit}
-                        isLoading={submitLoading}
                         fontSize={{ base: "md", xl: "xl" }}
                       >
                         {textButton}
@@ -120,7 +115,6 @@ const HerosOnboardingWrapper: React.FC<OnboardingProps> = ({
                 h="48px"
                 display={{ base: "flex", xl: "none" }}
                 onClick={onSubmit}
-                isLoading={submitLoading}
                 fontSize={{ base: "md", xl: "xl" }}
               >
                 {textButton}

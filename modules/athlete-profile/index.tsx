@@ -89,12 +89,12 @@ const AthleteProfile = () => {
               </Text>
               {currentTab === 0 && (
                 <Link href={"/athlete/my-profile/edit-page-info"}>
-                  <EditIcon color="primary" cursor="pointer" />
+                  <EditIcon color="primary" cursor="pointer" mb="6px" />
                 </Link>
               )}
             </Flex>
             <Link href="/athlete/my-profile/settings">
-              <Setting color="primary" />
+              <Setting color="primary" w="20px" h="20px" />
             </Link>
           </Flex>
           <Text color="primary" wordBreak="break-word">
@@ -124,12 +124,12 @@ const AthleteProfile = () => {
               pb="4"
               border={"none"}
               fontSize={{ base: "sm", lg: "lg" }}
-              _selected={{ color: "accent.3" }}
+              _selected={{ color: "secondary", fontWeight: "bold" }}
               _before={{
                 content: '""',
                 display: "inline-block",
                 mr: "5px",
-                bgColor: currentTab === index ? "accent.3" : "white",
+                bgColor: currentTab === index ? "secondary" : "primary",
                 w: "101%",
                 h: "4px",
                 position: "absolute",

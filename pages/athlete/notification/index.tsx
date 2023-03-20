@@ -33,12 +33,12 @@ const AthleteNotification = () => {
         <title>Athlete | Notifications</title>
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
-        <Box pb={5} bg="primary">
+        <Box pb={5}>
           <Flex
-            bg="primary"
             justifyContent="space-between"
             alignItems="center"
-            color="white"
+            color="primary"
+            bg="white"
             position="sticky"
             top={0}
             py={[5, 10]}
@@ -62,7 +62,7 @@ const AthleteNotification = () => {
           </Flex>
           <If condition={listNotification?.length}>
             <Then>
-              <Flex flexDirection="column" gap={2.5} bg="primary">
+              <Flex flexDirection="column" gap={2.5}>
                 <If condition={notificationOnToday?.length}>
                   <Then>
                     <NotificationList
@@ -121,7 +121,7 @@ const AthleteNotification = () => {
               <Text
                 px={[5, 0]}
                 fontSize={{ base: "sm", lg: "lg" }}
-                color="primary"
+                color="white"
               >
                 {`You haven't had any notifications yet!`}
               </Text>

@@ -25,7 +25,7 @@ const ShareWith = () => {
     <Box>
       <Then>
         <Flex gap={4} alignItems="center" mb={{ base: 4, lg: 8 }}>
-          <Heading fontSize={{ lg: "xl" }} color="white">
+          <Heading fontSize={{ lg: "xl" }} color="accent.2">
             Schedule
           </Heading>
           <Switch
@@ -40,7 +40,7 @@ const ShareWith = () => {
             <Box>
               <Text
                 fontSize={{ base: "12px", lg: "16px" }}
-                color="accent.3"
+                color="accent.2"
                 mb={{ base: 2, lg: 6 }}
               >
                 This interaction will become public on:
@@ -71,15 +71,14 @@ const ShareWith = () => {
                   type="time"
                   variant="flushed"
                   value={values.publicTime}
-                  color="white"
+                  color="primary"
                   fontSize={{ base: "sm", lg: "lg" }}
                   onChange={(e) => setFieldValue("publicTime", e.target.value)}
                 />
                 <Clock
                   w={5}
                   h={5}
-                  color="white"
-                  bg="primary"
+                  color="primary"
                   position="absolute"
                   right={0}
                   bottom={2.5}

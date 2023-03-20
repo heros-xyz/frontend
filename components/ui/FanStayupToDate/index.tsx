@@ -10,7 +10,7 @@ interface FanStayUpToDate {
 
 const FanStayUpToDate: React.FC<FanStayUpToDate> = ({ data, onClick }) => {
   return (
-    <Box bg="secondary" borderRadius={{ lg: "12px" }}>
+    <Box bg="accent.1" borderRadius={{ lg: "12px" }}>
       <Box p={{ base: "20px", lg: "30px" }}>
         <Heading
           fontSize={{ base: "md", lg: "xl" }}

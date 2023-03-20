@@ -67,7 +67,6 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
             alt="preview"
             w={{ base: "150px", xl: "240px" }}
             h={{ base: "150px", xl: "240px" }}
-            objectFit="cover"
           />
           <Flex
             zIndex={2}
@@ -96,7 +95,6 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
       textButton={image ? "Proceed" : "Upload Image"}
       IconButton={image ? <ArrowRight /> : <UploadIcon />}
       onSubmit={image ? handleSubmit : onClickUploadImage}
-      obBg="white"
     >
       <Box color="black.ish">
         <Box mb={{ base: 5, lg: 8 }}>

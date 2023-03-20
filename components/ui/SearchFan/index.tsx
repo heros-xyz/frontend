@@ -20,18 +20,18 @@ const SearchFan: React.FC<SearchProp> = ({
   ...props
 }) => {
   return (
-    <Box bg="primary" {...props}>
+    <Box {...props}>
       <Flex h={14} pt={{ base: "22px", lg: "30px" }}>
-        <InputGroup bg="primary">
+        <InputGroup>
           <InputLeftElement pointerEvents="none" w="18" h="18">
-            <FindIcon color="white" mt="18px" />
+            <FindIcon color="primary" mt="18px" />
           </InputLeftElement>
           <Input
             type="text"
             placeholder={placeholder}
             _placeholder={{ color: "grey.100" }}
             _focusVisible={{ boxShadow: "none", outline: "none" }}
-            color="white"
+            color="primary"
             border={0}
             borderRadius={0}
             borderBottom="1px"

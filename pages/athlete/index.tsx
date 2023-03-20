@@ -30,7 +30,7 @@ import {
   useGetSportProfileQuery,
   useGetTotalSubscriptionQuery,
 } from "@/api/athlete";
-import { useProfileQuery } from "@/api/user";
+import { getRunningQueriesThunk, profile, useProfileQuery } from "@/api/user";
 import { getImageLink } from "@/utils/link";
 
 const AthleteDashboard = () => {
@@ -136,8 +136,11 @@ AthleteDashboard.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
+  (store) => async (context) => {
     setContext(context);
+
+    store.dispatch(profile.initiate(""));
+    await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

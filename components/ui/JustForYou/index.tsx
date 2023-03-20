@@ -70,16 +70,21 @@ const JustForYou: React.FC<JustForYouProps> = ({
           <Box
             borderRadius="md"
             borderWidth="2px"
-            borderColor="accent.1"
+            borderColor="primary"
             my="6"
             p="5"
           >
-            <Text color="white" fontSize={["sm", "xl"]} fontWeight={700} mb="1">
+            <Text
+              color="primary"
+              fontSize={["sm", "xl"]}
+              fontWeight={700}
+              mb="1"
+            >
               Create a new interaction
             </Text>
-            <Text as="p" color="grey.100" fontSize={["xs", "md"]}>
-              You have not created any interaction recently. Share some updates
-              with your fans
+            <Text as="p" color="primary" fontSize={["xs", "md"]}>
+              primary You have not created any interaction recently. Share some
+              updates with your fans
             </Text>
             <Box mt={3}>
               <Link as={NextLink} href={href}>

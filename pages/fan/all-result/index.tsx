@@ -52,7 +52,7 @@ const AllResult = () => {
   };
 
   return (
-    <Container bg="primary">
+    <Container>
       <Head>
         <title>Fan | All Results</title>
       </Head>

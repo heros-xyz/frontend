@@ -167,7 +167,7 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
             <Box
               position="sticky"
               bottom={0}
-              bg="primary"
+              bg="white"
               alignItems="center"
               gap={4}
               py={{ base: 5, lg: 0 }}

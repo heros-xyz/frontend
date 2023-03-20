@@ -21,7 +21,7 @@ const NotificationAthlete = () => {
         <Text
           fontSize={["xs", "md"]}
           textDecoration="underline"
-          color={"secondary"}
+          color={"primary"}
           cursor={"pointer"}
         >
           Mark all as read

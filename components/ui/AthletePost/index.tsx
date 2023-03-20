@@ -147,7 +147,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
         <Then>
           <Box
             fontSize={{ base: "sm", lg: "xl" }}
-            color="white"
+            color="primary"
             lineHeight="19.6px"
             wordBreak="break-word"
             mt={4}
@@ -173,7 +173,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
   };
 
   return (
-    <Box bg="primary" h="100%">
+    <Box h="100%">
       <Grid
         templateColumns={{
           base: "",
@@ -205,7 +205,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
               <Else>
                 <Box
                   fontSize={{ base: "sm", lg: "xl" }}
-                  color="white"
+                  color="primary"
                   lineHeight="19.6px"
                   wordBreak="break-word"
                   mt={4}
@@ -232,6 +232,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                       borderRadius="full"
                       variant="solid"
                       bg="accent.2"
+                      py={1}
                     >
                       <TagLabel
                         fontSize={{ base: "sm", lg: "lg" }}
@@ -266,8 +267,9 @@ const AthletePost: React.FC<IAthletePostProps> = ({
             pt={2}
           >
             <LoveIcon
-              w={5}
-              color={reaction ? "accent.1" : "white"}
+              w={6}
+              h={6}
+              color={reaction ? "accent.5" : "primary"}
               fill={reaction ? "currentcolor" : "none"}
               onClick={handleReaction}
               cursor="pointer"
@@ -276,8 +278,11 @@ const AthletePost: React.FC<IAthletePostProps> = ({
               <Then>
                 <CommentIcon
                   cursor="pointer"
-                  ml={5}
+                  ml={3}
+                  w={6}
+                  h={6}
                   maxW={6}
+                  color="primary"
                   onClick={() => focusInputComment && focusInputComment(true)}
                 />
               </Then>
@@ -290,9 +295,13 @@ const AthletePost: React.FC<IAthletePostProps> = ({
 
             <ShareIcon
               cursor="pointer"
-              ml={5}
+              ml={3}
+              w={6}
+              h={6}
               maxW={6}
               maxH={5}
+              color="primary"
+              fontWeight="bold"
               onClick={onOpen}
             />
           </Flex>
@@ -301,7 +310,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
             order={1}
             fontWeight="medium"
             fontSize={{ base: "xs", lg: "lg" }}
-            color="accent.1"
+            color="secondary"
           >
             {totalReaction} like(s), {postComments} comment(s)
           </Text>

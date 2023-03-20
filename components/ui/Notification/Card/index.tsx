@@ -34,7 +34,7 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
           py={[2.5, 4]}
           px={5}
           gap={2.5}
-          bg={`${item?.readAt === null ? "accent.3" : "grey.0"} `}
+          bg={`${item?.readAt === null ? "accent.1" : "grey.0"} `}
           borderRadius={["0", "10px"]}
         >
           <Image

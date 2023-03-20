@@ -154,11 +154,16 @@ const EditPageInfo = () => {
     setErrorMessage(null);
   };
   return (
-    <Box bg="primary" pt={5} minH="100vh" color="primary">
+    <Box pt={5} minH="100vh" color="primary">
       <Head>
         <title>Athlete | Edit Page Information</title>
       </Head>
-      <Center flexDirection="column" p={"5"} pt={{ xl: "3.75rem" }}>
+      <Center
+        color="primary"
+        flexDirection="column"
+        p={"5"}
+        pt={{ xl: "3.75rem" }}
+      >
         <Box w={{ base: "full", xl: "30rem" }}>
           <Box w="full" fontWeight="bold">
             <Link as={NextLink} href="/athlete/my-profile">
@@ -184,15 +189,18 @@ const EditPageInfo = () => {
               mt={["5", "8"]}
               fontWeight="medium"
             >
-              Nick Name
+              <Text as="span" color="black">
+                Nick Name
+              </Text>
               <Text as="span" color="error.dark">
-                *
+                {" *"}
               </Text>
               <Input
                 variant="flushed"
                 placeholder="Nick Name"
-                borderColor="white"
+                borderColor="grey.100"
                 name="nickName"
+                fontWeight="500"
                 fontSize={["sm", "lg"]}
                 onChange={formik.handleChange}
                 value={formik?.values?.nickName}
@@ -208,9 +216,11 @@ const EditPageInfo = () => {
             </Box>
             <Box>
               <Box fontSize={["sm", "md"]} fontWeight="medium">
-                Your profile pic
+                <Text as="span" color="black">
+                  Your profile pic
+                </Text>
                 <Text as="span" color="error.dark">
-                  *
+                  {" *"}
                 </Text>
               </Box>
               <Center>
@@ -267,14 +277,15 @@ const EditPageInfo = () => {
               fontSize={{ base: "sm", xl: "md" }}
               mt={{ base: 5, xl: 10 }}
             >
-              <Text fontSize={["sm", "md"]} fontWeight="medium">
+              <Text fontSize={["sm", "md"]} fontWeight="medium" color="black">
                 Tagline (50 words limited)
               </Text>
               <Input
                 variant="flushed"
                 placeholder="Nick Name"
-                borderColor="white"
+                borderColor="grey.100"
                 name="tagLine"
+                fontWeight={500}
                 fontSize={["sm", "lg"]}
                 onChange={formik.handleChange}
                 value={formik?.values?.tagLine}
@@ -288,7 +299,7 @@ const EditPageInfo = () => {
               fontSize={{ base: "sm", xl: "md" }}
               mt={{ base: 5, xl: 10 }}
             >
-              <Text fontSize={["sm", "md"]} fontWeight="medium">
+              <Text fontSize={["sm", "md"]} fontWeight="medium" color="black">
                 Tags
               </Text>
               <Text color={"secondary"}>
@@ -298,7 +309,7 @@ const EditPageInfo = () => {
               <Input
                 variant="flushed"
                 placeholder="Add Tags"
-                borderColor="white"
+                borderColor="grey.100"
                 name="tags"
                 fontSize={["sm", "lg"]}
                 onKeyDown={handleKeyDown}

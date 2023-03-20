@@ -85,7 +85,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
               w="full"
               border={"none"}
               fontSize={{ base: "sm", lg: "lg" }}
-              _selected={{ color: "secondary" }}
+              _selected={{ color: "secondary", fontWeight: "bold" }}
               _before={{
                 content: '""',
                 display: "inline-block",

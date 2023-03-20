@@ -73,17 +73,16 @@ const EditBasicInfo = () => {
   }, [basicInfo]);
 
   return (
-    <Box bg="primary" pt={5} minH="100vh">
+    <Box pt={5} minH="100vh">
       <Head>
         <title>Athlete | Edit Basic Information</title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Box
           w="auto"
-          bg="primary"
           minH="100vh"
           fontSize={{ base: "sm", xl: "xl" }}
-          color="white"
+          color="primary"
           alignItems="baseline"
         >
           <Box
@@ -108,9 +107,12 @@ const EditBasicInfo = () => {
             <form onSubmit={formik.handleSubmit}>
               <Box my={7}>
                 <Box fontWeight="medium">
-                  Legal First Name
+                  <Text as="span" color="black">
+                    {" "}
+                    Legal First Name
+                  </Text>
                   <Text as="span" color="error.dark">
-                    *
+                    {" *"}
                   </Text>
                 </Box>
                 <Input
@@ -118,6 +120,7 @@ const EditBasicInfo = () => {
                   w="full"
                   id="firstName"
                   name="firstName"
+                  fontWeight={500}
                   onChange={formik.handleChange}
                   value={formik.values.firstName}
                   isInvalid={Boolean(
@@ -134,9 +137,12 @@ const EditBasicInfo = () => {
               </Box>
               <Box my={7}>
                 <Box fontWeight="medium">
-                  Legal Middle Name
+                  <Text as="span" color="black">
+                    {" "}
+                    Legal Middle Name
+                  </Text>
                   <Text as="span" color="error.dark">
-                    *
+                    {" *"}
                   </Text>
                 </Box>
                 <Input
@@ -144,6 +150,7 @@ const EditBasicInfo = () => {
                   w="full"
                   id="middleName"
                   name="middleName"
+                  fontWeight={500}
                   onChange={formik.handleChange}
                   value={formik.values.middleName}
                   isInvalid={Boolean(
@@ -160,9 +167,12 @@ const EditBasicInfo = () => {
               </Box>
               <Box mb={7}>
                 <Box fontWeight="medium">
-                  Legal Last Name
+                  <Text as="span" color="black">
+                    {" "}
+                    Legal Last Name
+                  </Text>
                   <Text as="span" color="error.dark">
-                    *
+                    {" *"}
                   </Text>
                 </Box>
                 <Input
@@ -170,6 +180,7 @@ const EditBasicInfo = () => {
                   w="full"
                   id="lastName"
                   name="lastName"
+                  fontWeight={500}
                   onChange={formik.handleChange}
                   value={formik.values.lastName}
                   isInvalid={Boolean(
@@ -184,11 +195,14 @@ const EditBasicInfo = () => {
               </Box>
               <If condition={formik.values?.dateOfBirth}>
                 <Then>
-                  <Box mb={{ base: 10, lg: 20 }} color="white">
+                  <Box mb={{ base: 10, lg: 20 }} color="primary">
                     <Box fontWeight="medium" mt={7}>
-                      Date of Birth
+                      <Text as="span" color="black">
+                        {" "}
+                        Date of Birth
+                      </Text>
                       <Text as="span" color="error.dark">
-                        *
+                        {" *"}
                       </Text>
                     </Box>
                     <Flex
@@ -221,9 +235,12 @@ const EditBasicInfo = () => {
                 <Then>
                   <Box mb={7}>
                     <Box fontWeight="medium" mb={2}>
-                      Gender
+                      <Text as="span" color="black">
+                        {" "}
+                        Gender
+                      </Text>
                       <Text as="span" color="error.dark">
-                        *
+                        {" *"}
                       </Text>
                     </Box>
                     <SelectGender
@@ -247,9 +264,12 @@ const EditBasicInfo = () => {
               </If>
               <Box mb={7}>
                 <Box fontWeight="medium">
-                  Nationality
+                  <Text as="span" color="black">
+                    {" "}
+                    Nationality
+                  </Text>
                   <Text as="span" color="error.dark">
-                    *
+                    {" *"}
                   </Text>
                 </Box>
                 <Box mt={{ base: "2", xl: "4" }}>
@@ -269,9 +289,12 @@ const EditBasicInfo = () => {
               </Box>
               <Box mb={7}>
                 <Box fontWeight="medium">
-                  My Story
+                  <Text as="span" color="black">
+                    {" "}
+                    My Story
+                  </Text>
                   <Text as="span" color="error.dark">
-                    *
+                    {" *"}
                   </Text>
                 </Box>
                 <Text as="span" color="secondary" fontSize={["xs", "md"]}>

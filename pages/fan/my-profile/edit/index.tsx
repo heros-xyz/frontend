@@ -163,7 +163,7 @@ const EditAccountInfo = () => {
   };
 
   return (
-    <Box bg="white" pt={5} minH="100vh">
+    <Box bg="white" color="white" pt={5} minH="100vh">
       <Head>
         <title>Fan | Edit Account Information</title>
       </Head>
@@ -194,7 +194,7 @@ const EditAccountInfo = () => {
               Edit Account Information
             </Text>
           </Box>
-          <Box fontSize={{ base: "sm", lg: "md" }}>
+          <Box fontSize={{ base: "sm", lg: "md" }} color="black">
             <form onSubmit={formik.handleSubmit}>
               <Box my={{ base: 5, lg: 7 }}>
                 <Box fontWeight="medium">

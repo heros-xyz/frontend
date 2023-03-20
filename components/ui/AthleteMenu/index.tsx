@@ -34,6 +34,7 @@ const AthleteMenu: React.FC<IAthleteMenuProps> = ({
         icon={<MenuIcon />}
         variant="transparent"
         minW={"initial"}
+        color="primary"
       />
       <MenuList px={3} zIndex={11}>
         {menuList &&

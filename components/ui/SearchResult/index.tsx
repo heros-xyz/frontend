@@ -18,22 +18,17 @@ const SearchResult: React.FC<SearchResultProps> = ({
   ...props
 }) => {
   return (
-    <Box
-      bg="primary"
-      color="white"
-      w={{ base: "auto", xl: "31.25rem" }}
-      {...props}
-    >
+    <Box color="primary" w={{ base: "auto", xl: "31.25rem" }} {...props}>
       <Text as="b" fontSize={{ base: "xl", xl: "2xl" }}>
         {title}
       </Text>
       <Box mt={{ base: 3, xl: 7 }}>
         {data.length === 0 && (
-          <Box>
+          <Box color="grey.300">
             <Text
-              color="accent.3"
               fontSize={{ base: "lg", lg: "xl" }}
               mb={{ base: 1, lg: 3 }}
+              fontWeight="700"
             >
               No athletes found matching {`"${searchValue}"`}
             </Text>
@@ -64,7 +59,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
               />
               <Box
                 ml={4}
-                color="white"
+                color="primary"
                 fontSize={{ base: "xs", xl: "md" }}
                 pt={1}
               >
@@ -78,7 +73,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
                 <Text
                   pb={1}
                   fontSize={{ base: "xs", xl: "md" }}
-                  fontWeight="normal"
+                  fontWeight="500"
                   color="secondary"
                 >
                   {el?.isCurrentUserSubscribed
@@ -87,6 +82,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
                 </Text>
                 <Flex
                   flexDirection={"row"}
+                  fontWeight="500"
                   fontSize={{ base: "xs", xl: "base" }}
                 >
                   <FlagIcon mr={2} w="12px" />

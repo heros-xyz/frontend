@@ -3,6 +3,7 @@ import { ReactElement, useMemo, useRef, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useUpdateEffect } from "react-use";
+import { AnimatePresence, motion } from "framer-motion";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import SearchFan from "@components/ui/SearchFan/index";
 import YourAthletesList from "@/components/ui/FanOfAthletes/List/index";
@@ -73,7 +74,7 @@ const MyFan = () => {
   }, [router.query]);
 
   return (
-    <Box bg="primary" minH={{ base: "95vh", lg: "100vh" }}>
+    <Box minH={{ base: "95vh", lg: "100vh" }}>
       <Head>
         <title>Athlete | My Fans</title>
       </Head>
@@ -81,13 +82,13 @@ const MyFan = () => {
         size={["base", "sm", "md", "lg", "500px"]}
         pt={{ base: "10px", lg: "32px" }}
       >
-        <Box position="sticky" top={0} bg="primary" zIndex={10}>
+        <Box position="sticky" top={0} zIndex={10}>
           <Text
             pt={{ base: "10px", lg: "32px" }}
             fontFamily="heading"
             fontWeight="bold"
             fontSize={{ base: "20px", lg: "24px" }}
-            color="white"
+            color="primary"
             lineHeight="28px"
             textTransform="capitalize"
           >
@@ -113,19 +114,28 @@ const MyFan = () => {
               }}
             />
             <Box w="full" position="relative">
-              {searchValue.length > 1 && focusSearch && (
-                <SearchFanSuggestionsList
-                  w="full"
-                  zIndex={15}
-                  top={{ base: 5, lg: 8 }}
-                  position="absolute"
-                  buttonName={"See all results"}
-                  searchKeyword={searchValue}
-                  items={athleteSearchList || []}
-                  onShowAllResult={onShowAllResult}
-                  onSelectedItem={onShowFanProfile}
-                />
-              )}
+              <AnimatePresence>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  {searchValue.length > 1 && focusSearch && (
+                    <SearchFanSuggestionsList
+                      w="full"
+                      zIndex={15}
+                      top={{ base: 5, lg: 8 }}
+                      position="absolute"
+                      buttonName={"See all results"}
+                      searchKeyword={searchValue}
+                      items={athleteSearchList || []}
+                      onShowAllResult={onShowAllResult}
+                      onSelectedItem={onShowFanProfile}
+                    />
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </Box>
             <Box w="full" position="relative">
               {searchValue.length > 1 &&

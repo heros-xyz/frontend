@@ -16,7 +16,6 @@ const FinishOnboarding = () => {
         />
       }
       textButton="Start Discovering"
-      obBg="white"
       IconButton={<ArrowRight />}
       onSubmit={async () => {
         await fetch("/api/set-first-login");

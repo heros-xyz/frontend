@@ -101,7 +101,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
                         lg: `${!item.interactionMedia?.[0]?.url ? "2px" : ""}`,
                       }}
                       borderColor={`${
-                        !item.interactionMedia?.[0]?.url ? "grey.100" : ""
+                        !item.interactionMedia?.[0]?.url ? "secondary" : ""
                       }`}
                       w="full"
                       h="full"
@@ -222,7 +222,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
             <Box>
               <Text
                 fontSize={{ base: "sm", xl: "md" }}
-                color="primary"
+                color="white"
                 fontWeight="normal"
               >
                 Subscribe to athletes, and you&apos;ll see their latest

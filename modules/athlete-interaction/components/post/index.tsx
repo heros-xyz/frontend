@@ -45,7 +45,7 @@ const InteractionsPost: FC<IProps> = ({
           <Text
             fontFamily="heading"
             fontSize={{ base: "xl", lg: "2xl" }}
-            color="white"
+            color="primary"
           >
             Interaction
           </Text>

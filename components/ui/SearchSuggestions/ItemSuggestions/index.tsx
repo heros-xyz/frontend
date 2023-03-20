@@ -65,7 +65,7 @@ const ItemSuggestions: React.FC<IProps> = ({
           >
             <Highlight
               query={searchKeyword ?? ""}
-              styles={{ fontWeight: "extrabold" }}
+              styles={{ fontWeight: "extrabold", color: "primary" }}
             >
               {item?.nickName ?? item?.fullName}
             </Highlight>

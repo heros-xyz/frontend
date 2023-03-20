@@ -103,22 +103,32 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
           />
         </InputGroup>
       </Flex>
-      {data && showSuggestList && (
-        <SearchSuggestionsList
-          zIndex={15}
-          right={0}
-          left={8}
-          top={{ base: "50px", lg: "60px" }}
-          position="absolute"
-          searchKeyword={searchValue}
-          buttonName={data.length ? "See All Results" : "No Result Found"}
-          items={data}
-          onShowAllResult={onShowAllResult}
-          onClick={() => {
-            setShowSuggestList(false);
-          }}
-        />
-      )}
+      <AnimatePresence>
+        {data && showSuggestList && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.1 }}
+            exit={{ opacity: 0 }}
+          >
+            <SearchSuggestionsList
+              zIndex={15}
+              right={0}
+              left={8}
+              top={{ base: "50px", lg: "60px" }}
+              position="absolute"
+              searchKeyword={searchValue}
+              buttonName={data.length ? "See All Results" : "No Result Found"}
+              items={data}
+              onShowAllResult={onShowAllResult}
+              onClick={() => {
+                setShowSuggestList(false);
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <AnimatePresence>
         {searchValue.length === 0 && isSearchBarFocused && (
           <motion.div
