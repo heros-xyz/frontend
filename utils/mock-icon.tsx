@@ -18,13 +18,13 @@ export const SPORT_ICONS_MOCK = [
     Icon: <CricketIcon />,
     IconBorder: (color: string) => <ArchiveIconCricket color={color} />,
     value: "MATCH",
-    name: "match/game/tournament",
+    name: "match/game/ tournament",
   },
   {
     Icon: <FlagIcon />,
     IconBorder: (color: string) => <ArchiveIconFlag color={color} />,
     value: "FLAG",
-    name: "win/loss/outcome",
+    name: "win/loss/ outcome",
   },
   {
     Icon: <SoccerIcon />,

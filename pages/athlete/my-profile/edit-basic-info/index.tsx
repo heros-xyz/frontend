@@ -126,6 +126,11 @@ const EditBasicInfo = () => {
                   isInvalid={Boolean(
                     formik.errors.firstName && formik.touched.firstName
                   )}
+                  borderColor="grey.200"
+                  _focusVisible={{
+                    borderColor: "grey.200",
+                    boxShadow: "none",
+                  }}
                 />
                 <ErrorMessage
                   mt={0.5}
@@ -148,6 +153,11 @@ const EditBasicInfo = () => {
                   isInvalid={Boolean(
                     formik.errors.middleName && formik.touched.middleName
                   )}
+                  borderColor="grey.200"
+                  _focusVisible={{
+                    borderColor: "grey.200",
+                    boxShadow: "none",
+                  }}
                 />
                 <ErrorMessage
                   mt={0.5}
@@ -178,6 +188,11 @@ const EditBasicInfo = () => {
                   isInvalid={Boolean(
                     formik.errors.lastName && formik.touched.lastName
                   )}
+                  borderColor="grey.200"
+                  _focusVisible={{
+                    borderColor: "grey.200",
+                    boxShadow: "none",
+                  }}
                 />
                 <ErrorMessage
                   mt={0.5}
@@ -289,7 +304,7 @@ const EditBasicInfo = () => {
                     {" *"}
                   </Text>
                 </Box>
-                <Text as="span" color="secondary" fontSize={["xs", "md"]}>
+                <Text as="span" color="grey.200" fontSize={["xs", "md"]}>
                   This is the first thing potential patrons will see when they
                   land on your page, so make sure you paint a compelling picture
                   of how they can join you on this journey.
@@ -308,6 +323,12 @@ const EditBasicInfo = () => {
                     formik.errors.story && formik.touched.story
                   )}
                   className="postComment"
+                  fontWeight="medium"
+                  borderColor="grey.200"
+                  _focusVisible={{
+                    borderColor: "grey.200",
+                    boxShadow: "none",
+                  }}
                 />
                 <ErrorMessage
                   mb={8}

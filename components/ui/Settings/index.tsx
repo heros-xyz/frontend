@@ -118,7 +118,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
                   fontSize={["xs", "md"]}
                   fontWeight="normal"
                   lineHeight="110%"
-                  color="grey.200"
+                  color="grey.100"
                   pt="5px"
                 >
                   This cannot be changed

@@ -29,9 +29,13 @@ const SearchFan: React.FC<SearchProp> = ({
           <Input
             type="text"
             placeholder={placeholder}
+            _hover={{
+              borderColor: "primary",
+            }}
             _placeholder={{ color: "grey.100" }}
             _focusVisible={{ boxShadow: "none", outline: "none" }}
             color="primary"
+            borderColor="primary"
             border={0}
             borderRadius={0}
             borderBottom="1px"

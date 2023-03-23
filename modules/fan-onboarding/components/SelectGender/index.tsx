@@ -32,6 +32,9 @@ const EnterGender: React.FC<EnterGenderProps> = ({ gender, onSubmit }) => {
       IconButton={<ArrowRight />}
       onSubmit={handleSubmit}
       bgIconColor="accent.2"
+      display="flex"
+      alignItems="center"
+      isPaddingTop={false}
     >
       <Box mb={6} color="primary">
         <Box mb={3.5} fontSize={{ lg: "xl" }} fontWeight="500">

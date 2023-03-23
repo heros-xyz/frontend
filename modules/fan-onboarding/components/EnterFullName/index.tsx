@@ -65,6 +65,9 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
       IconButton={<ArrowRight />}
       onSubmit={formik.handleSubmit}
       bgIconColor="#E2FF65"
+      display="flex"
+      alignItems="center"
+      isPaddingTop={false}
     >
       <Box color="primary">
         <Box mb={{ base: 5, lg: 8 }}>

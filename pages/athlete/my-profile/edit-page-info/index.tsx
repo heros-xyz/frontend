@@ -189,7 +189,7 @@ const EditPageInfo = () => {
               mt={["5", "8"]}
               fontWeight="medium"
             >
-              <Text as="span" color="black">
+              <Text as="span" color="black.primary">
                 Nick Name
               </Text>
               <Text as="span" color="error.dark">
@@ -216,7 +216,7 @@ const EditPageInfo = () => {
             </Box>
             <Box>
               <Box fontSize={["sm", "md"]} fontWeight="medium">
-                <Text as="span" color="black">
+                <Text as="span" color="black.primary">
                   Your profile pic
                 </Text>
                 <Text as="span" color="error.dark">
@@ -230,25 +230,25 @@ const EditPageInfo = () => {
                   onClick={onClickUploadImage}
                 >
                   <Image
-                    w={["120px", "200px"]}
-                    h={["160px", "250px"]}
+                    w={{ base: "120px", xl: "200px" }}
+                    h={{ base: "160px", xl: "250px" }}
                     src={image || getImageLink(formik.values.avatar)}
                     alt="user-avatar"
                     objectFit="cover"
-                    rounded={["none", "md"]}
+                    borderRadius={{ base: "none", xl: "md" }}
                     fallbackSrc="https://via.placeholder.com/50"
                   />
                   <Center
                     position="absolute"
-                    w={["120px", "200px"]}
-                    h={["160px", "250px"]}
+                    w={{ base: "120px", xl: "200px" }}
+                    h={{ base: "160px", xl: "250px" }}
                     top="0"
                     left="0"
-                    rounded={["none", "md"]}
+                    borderRadius={{ base: "none", xl: "md" }}
                     bg="linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))"
                     cursor={"pointer"}
                   >
-                    <IconEdit />
+                    <IconEdit color="primary" />
                   </Center>
                 </Box>
               </Center>
@@ -277,7 +277,11 @@ const EditPageInfo = () => {
               fontSize={{ base: "sm", xl: "md" }}
               mt={{ base: 5, xl: 10 }}
             >
-              <Text fontSize={["sm", "md"]} fontWeight="medium" color="black">
+              <Text
+                fontSize={["sm", "md"]}
+                fontWeight="medium"
+                color="black.primary"
+              >
                 Tagline (50 words limited)
               </Text>
               <Input
@@ -299,10 +303,14 @@ const EditPageInfo = () => {
               fontSize={{ base: "sm", xl: "md" }}
               mt={{ base: 5, xl: 10 }}
             >
-              <Text fontSize={["sm", "md"]} fontWeight="medium" color="black">
+              <Text
+                fontSize={["sm", "md"]}
+                fontWeight="medium"
+                color="black.primary"
+              >
                 Tags
               </Text>
-              <Text color={"secondary"}>
+              <Text color="grey.200" fontSize={{ base: "xs", xl: "md" }}>
                 Help people find you easier by adding keywords related to you
                 and your content.
               </Text>
@@ -315,6 +323,7 @@ const EditPageInfo = () => {
                 onKeyDown={handleKeyDown}
                 value={input}
                 onChange={handleChange}
+                fontWeight="medium"
               />
               <ErrorMessage errorMessage={undefined} condition={undefined} />
             </Box>
