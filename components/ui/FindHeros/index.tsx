@@ -86,6 +86,7 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
             borderRadius={0}
             border="none"
             _focusVisible={{ boxShadow: "none" }}
+            _hover={{ borderBottom: "1px solid primary" }}
             value={value}
             borderBottom="1px"
             borderColor="primary"

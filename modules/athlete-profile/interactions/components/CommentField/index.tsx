@@ -80,7 +80,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
               }}
             >
               <Flex
-                bg="accent.3"
+                bg="grey.0"
                 width="100%"
                 rounded={{ lg: "md" }}
                 justifyContent="space-between"

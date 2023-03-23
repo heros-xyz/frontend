@@ -20,6 +20,7 @@ export const colors = {
   black: {
     ish: "#2A2A2A",
     default: "#3d3d3d",
+    primary: "#1D1D1D",
   },
   error: {
     default: "#CF3C34",

@@ -40,6 +40,7 @@ const FindHerosWithoutResult: React.FC<Props> = (props) => {
           placeholder="Find your heros"
           _placeholder={{ color: "grey.100" }}
           _focusVisible={{ boxShadow: "none", outline: "none" }}
+          _hover={{ borderBottom: "1px solid primary" }}
           color="white"
           border={0}
           value={props.value}

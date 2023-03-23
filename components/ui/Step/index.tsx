@@ -27,6 +27,7 @@ const Step: React.FC<IProps> = ({ activeStep, totalStep, onChangeStep }) => {
     return (
       <Box
         role="button"
+        className="step"
         cursor={step <= maxStep ? "pointer" : ""}
         key={step}
         p={1.5}

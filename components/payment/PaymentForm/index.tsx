@@ -13,7 +13,7 @@ const PaymentForm: React.FC<IProp> = ({ ...props }) => {
     useFormikContext<IPaymentForm>();
 
   return (
-    <Box color="black" {...props}>
+    <Box color="black.primary" {...props}>
       <Box w="full" fontSize={{ base: "sm", xl: "md" }}>
         <form onSubmit={handleSubmit}>
           <Box>
@@ -51,6 +51,7 @@ const PaymentForm: React.FC<IProp> = ({ ...props }) => {
             <Input
               autoComplete="off"
               placeholder="Name on Card"
+              _placeholder={{ color: "grey.200" }}
               variant="flushed"
               w="full"
               id="nameOnCard"
@@ -67,6 +68,11 @@ const PaymentForm: React.FC<IProp> = ({ ...props }) => {
               value={values.nameOnCard}
               isInvalid={Boolean(errors.nameOnCard && touched.nameOnCard)}
               fontSize={{ base: "sm", xl: "lg" }}
+              borderColor="grey.200"
+              _focusVisible={{
+                borderColor: "grey.200",
+                boxShadow: "none",
+              }}
             />
             <ErrorMessage
               fontSize={{ xl: "sm" }}
@@ -88,6 +94,7 @@ const PaymentForm: React.FC<IProp> = ({ ...props }) => {
               mask="9999 9999 9999 9999"
               maskChar={null}
               placeholder="Card Number"
+              _placeholder={{ color: "grey.200" }}
               variant="flushed"
               w="full"
               id="cardNumber"
@@ -96,6 +103,11 @@ const PaymentForm: React.FC<IProp> = ({ ...props }) => {
               value={values.cardNumber}
               isInvalid={Boolean(errors.cardNumber && touched.cardNumber)}
               fontSize={{ base: "sm", xl: "lg" }}
+              borderColor="grey.200"
+              _focusVisible={{
+                borderColor: "grey.200",
+                boxShadow: "none",
+              }}
             />
             <ErrorMessage
               mt={0.5}
@@ -117,6 +129,7 @@ const PaymentForm: React.FC<IProp> = ({ ...props }) => {
                 mask="99/99"
                 maskChar={null}
                 placeholder="MM/YY"
+                _placeholder={{ color: "grey.200" }}
                 variant="flushed"
                 w="full"
                 id="expiredDate"
@@ -125,6 +138,11 @@ const PaymentForm: React.FC<IProp> = ({ ...props }) => {
                 value={values.expiredDate}
                 isInvalid={Boolean(errors.expiredDate && touched.expiredDate)}
                 fontSize={{ base: "sm", xl: "lg" }}
+                borderColor="grey.200"
+                _focusVisible={{
+                  borderColor: "grey.200",
+                  boxShadow: "none",
+                }}
               />
               <ErrorMessage
                 mt={0.5}
@@ -145,6 +163,7 @@ const PaymentForm: React.FC<IProp> = ({ ...props }) => {
                 mask="9999"
                 maskChar={null}
                 placeholder="CVV"
+                _placeholder={{ color: "grey.200" }}
                 variant="flushed"
                 w="full"
                 id="cvv"
@@ -153,6 +172,11 @@ const PaymentForm: React.FC<IProp> = ({ ...props }) => {
                 value={values.cvv}
                 isInvalid={Boolean(errors.cvv && touched.cvv)}
                 fontSize={{ base: "sm", xl: "lg" }}
+                borderColor="grey.200"
+                _focusVisible={{
+                  borderColor: "grey.200",
+                  boxShadow: "none",
+                }}
               />
               <ErrorMessage
                 mt={0.5}
