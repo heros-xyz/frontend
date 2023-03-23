@@ -6,28 +6,28 @@ exports[`renders select gender unchanged 1`] = `
     class="css-1omp9s3"
   >
     <div
-      class="css-qh0ll2"
+      class="css-15s5pib"
     >
       <p
-        class="chakra-text css-j7hta7"
+        class="chakra-text css-1thwf74"
       >
         Male
       </p>
     </div>
     <div
-      class="css-qh0ll2"
+      class="css-15s5pib"
     >
       <p
-        class="chakra-text css-j7hta7"
+        class="chakra-text css-1thwf74"
       >
         Female
       </p>
     </div>
     <div
-      class="css-qh0ll2"
+      class="css-15s5pib"
     >
       <p
-        class="chakra-text css-j7hta7"
+        class="chakra-text css-1thwf74"
       >
         Other
       </p>

@@ -44,8 +44,9 @@ const InteractionsPost: FC<IProps> = ({
           <ArrowLeft />
           <Text
             fontFamily="heading"
+            fontWeight={700}
             fontSize={{ base: "xl", lg: "2xl" }}
-            color="white"
+            color="primary"
           >
             Interaction
           </Text>
@@ -59,6 +60,7 @@ const InteractionsPost: FC<IProps> = ({
           _disabled={{
             bg: "grey.100",
             pointerEvents: "none",
+            color: "grey.300",
           }}
           isLoading={isLoading}
           onClick={handleSubmits}
@@ -69,7 +71,7 @@ const InteractionsPost: FC<IProps> = ({
       <Box>
         <EnterPost />
         <Box py={{ base: 4, lg: 8 }}>
-          <ShareWith />
+          <ShareWith isDisabled={isEdit} />
         </Box>
       </Box>
     </>

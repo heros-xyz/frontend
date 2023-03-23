@@ -18,22 +18,20 @@ import {
 import AthleteAvatar from "@/components/ui/AthleteAvatar";
 
 const MyAthletes: FC = () => {
-  const {
-    data: listAthleteSubscribed,
-    isSuccess,
-    isLoading,
-  } = useGetListAthleteSubscribedQuery({
-    take: 3,
-    page: 1,
-  });
-  const { data: listAthleteRecommended } = useGetListAthleteRecommendedQuery(
-    {
-      take: listAthleteSubscribed?.data?.length ? 2 : 3,
-    },
-    {
-      skip: !isSuccess,
-    }
-  );
+  const { data: listAthleteSubscribed, isSuccess } =
+    useGetListAthleteSubscribedQuery({
+      take: 3,
+      page: 1,
+    });
+  const { data: listAthleteRecommended, isLoading } =
+    useGetListAthleteRecommendedQuery(
+      {
+        take: listAthleteSubscribed?.data?.length ? 2 : 3,
+      },
+      {
+        skip: !isSuccess,
+      }
+    );
 
   const athleteList = useMemo(() => {
     let listAthleteRecommendedFormat = [];
@@ -49,7 +47,7 @@ const MyAthletes: FC = () => {
   }, [listAthleteSubscribed, listAthleteRecommended]);
 
   return (
-    <Box bg="primary">
+    <Box bg="white">
       <Box
         display="flex"
         justifyContent="space-between"
@@ -57,7 +55,7 @@ const MyAthletes: FC = () => {
         mb="5"
       >
         <Heading
-          color="acccent.3"
+          color="primary"
           fontWeight="bold"
           fontSize="xl"
           lineHeight="110%"
@@ -66,13 +64,13 @@ const MyAthletes: FC = () => {
         </Heading>
         <If condition={listAthleteSubscribed?.data?.length}>
           <Then>
-            <Box borderBottom="1px" borderColor="secondary">
+            <Box borderBottom="1px" borderColor="grey.3">
               <Link
                 as={NextLink}
                 fontSize={{ base: "xs", lg: "md" }}
                 fontWeight="medium"
                 lineHeight="100%"
-                color="secondary"
+                color="grey.3"
                 href="/fan/all-athletes"
                 textTransform="capitalize"
                 mr="2"
@@ -81,7 +79,7 @@ const MyAthletes: FC = () => {
                 View All
               </Link>
               <Link as={NextLink} href="/fan/all-athletes">
-                <IconArrowRight width="3" height="11" color="secondary" />
+                <IconArrowRight width="3" height="11" color="grey.3" />
               </Link>
             </Box>
           </Then>

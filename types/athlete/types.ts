@@ -161,6 +161,7 @@ export interface IAthleteProfileResponse {
   dateOfBirth: Date;
   currentTeam: string;
   goal: string;
+  nickName: string;
 }
 export interface IAthleteUpToDate {
   id: string;
@@ -341,6 +342,7 @@ export interface IUserPostInfo {
   sentOtpTime?: string | null;
   stripeCustomerId?: string | null;
   netAmount: number;
+  publicDate?: string;
 }
 
 export interface IUserComment {

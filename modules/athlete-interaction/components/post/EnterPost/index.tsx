@@ -2,6 +2,7 @@ import { Box, Flex, Input, Text, Textarea } from "@chakra-ui/react";
 import React, {
   ChangeEvent,
   KeyboardEvent,
+  MutableRefObject,
   useEffect,
   useMemo,
   useRef,
@@ -26,8 +27,7 @@ import { IValuesTypes } from "../../../hooks";
 const EnterPost = () => {
   const { data: session } = useSession();
   const { values, errors, setFieldValue } = useFormikContext<IValuesTypes>();
-  const initialRef: any = null;
-  const upload = useRef(initialRef);
+  const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [editor] = useState(() => withReact(createEditor()));
   const [inputValueTag, setInputValueTag] = useState<string>("");
 
@@ -91,7 +91,7 @@ const EnterPost = () => {
       <Box
         py={4}
         px={5}
-        bg="acccent.4"
+        bg="grey.0"
         mx={{ base: -5, lg: 0 }}
         rounded={{ lg: "xl" }}
       >
@@ -121,6 +121,7 @@ const EnterPost = () => {
           <PhotoIcon
             w={{ base: "20px", lg: "26px" }}
             h={{ base: "20px", lg: "26px" }}
+            color="primary"
             cursor="pointer"
             onClick={onSelectMedia}
           />
@@ -128,6 +129,7 @@ const EnterPost = () => {
             <HashTagIcon
               w={{ base: "16px", lg: "21px" }}
               h={{ base: "16px", lg: "21px" }}
+              color="primary"
             />
             <Input
               variant="flushed"
@@ -148,7 +150,7 @@ const EnterPost = () => {
                 <Text
                   key={it}
                   as="span"
-                  bg="acccent.2"
+                  bg="accent.2"
                   textColor="white"
                   py="3px"
                   px="12px"

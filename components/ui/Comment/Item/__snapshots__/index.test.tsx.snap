@@ -3,13 +3,13 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-1whykrx"
+    class="css-0"
   >
     <div
-      class="css-1yl4gnp"
+      class="css-j1h89o"
     >
       <li
-        class="chakra-wrap__listitem css-1yqzpau"
+        class="chakra-wrap__listitem css-jdg3hs"
       >
         <img
           alt="avatar"
@@ -18,16 +18,16 @@ exports[`renders homepage unchanged 1`] = `
         />
       </li>
       <div
-        class="css-unabpe"
+        class="css-mjcwi4"
       >
         <div
-          class="sdsd css-35xbfl"
+          class="reply-comment css-1gaxkqf"
         >
           <div
             class="css-101bh7m"
           >
             <div
-              class="css-1yzwep6"
+              class="css-naqd4o"
             >
               <p
                 class="chakra-text css-appnyl"
@@ -35,7 +35,7 @@ exports[`renders homepage unchanged 1`] = `
                 Kate
               </p>
               <p
-                class="chakra-text css-1hg9omi"
+                class="chakra-text css-542wex"
               >
                 Champion! 🏆
               </p>
@@ -48,7 +48,7 @@ exports[`renders homepage unchanged 1`] = `
             class="css-1hdq093"
           >
             <svg
-              class="chakra-icon css-88lhbq"
+              class="chakra-icon css-3ijxh7"
               focusable="false"
               viewBox="0 0 16 14"
               xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@ exports[`renders homepage unchanged 1`] = `
           </div>
         </div>
         <svg
-          class="chakra-icon css-8nv72g"
+          class="chakra-icon css-84z8pi"
           focusable="false"
           role="button"
           viewBox="0 0 20 21"
@@ -69,7 +69,7 @@ exports[`renders homepage unchanged 1`] = `
         >
           <path
             d="M9.99967 4.66683L9.99967 4.67516M9.99967 10.5002L9.99967 10.5085M9.99967 16.3335L9.99967 16.3418M9.99967 5.50016C9.53944 5.50016 9.16634 5.12707 9.16634 4.66683C9.16634 4.20659 9.53944 3.8335 9.99967 3.8335C10.4599 3.8335 10.833 4.20659 10.833 4.66683C10.833 5.12707 10.4599 5.50016 9.99967 5.50016ZM9.99967 11.3335C9.53944 11.3335 9.16634 10.9604 9.16634 10.5002C9.16634 10.0399 9.53944 9.66683 9.99967 9.66683C10.4599 9.66683 10.833 10.0399 10.833 10.5002C10.833 10.9604 10.4599 11.3335 9.99967 11.3335ZM9.99967 17.1668C9.53944 17.1668 9.16634 16.7937 9.16634 16.3335C9.16634 15.8733 9.53944 15.5002 9.99967 15.5002C10.4599 15.5002 10.833 15.8733 10.833 16.3335C10.833 16.7937 10.4599 17.1668 9.99967 17.1668Z"
-            stroke="white"
+            stroke="currentColor"
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="1.5"

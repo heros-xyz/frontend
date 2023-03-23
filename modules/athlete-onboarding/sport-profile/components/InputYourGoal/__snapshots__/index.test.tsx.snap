@@ -3,27 +3,27 @@
 exports[`renders add Input Your Goal unchanged 1`] = `
 <div>
   <div
-    class="css-16tif5l"
+    class="css-1jvt6v8"
   >
     <div
-      class="chakra-container css-10klw3m"
+      class="css-1kmmdcq"
+    >
+      Sport profile
+    </div>
+    <div
+      class="chakra-container css-17f3xev"
     >
       <div
-        class="css-12ij4x2"
-      >
-        SPORT PROFILE
-      </div>
-      <div
-        class="css-8qr4sb"
+        class="css-1ispe57"
       >
         <div
-          class="css-tayfq6"
+          class="css-l29o6j"
         >
           <div
-            class="css-6ywt87"
+            class="css-1jz6iun"
           >
             <svg
-              class="chakra-icon css-h2mabo"
+              class="chakra-icon css-1e009k1"
               focusable="false"
               viewBox="0 0 151 150"
               xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +31,7 @@ exports[`renders add Input Your Goal unchanged 1`] = `
               <circle
                 cx="75.5"
                 cy="75"
-                fill="white"
+                fill="currentColor"
                 r="74.5"
                 stroke="#DDDDDD"
               />
@@ -173,11 +173,15 @@ exports[`renders add Input Your Goal unchanged 1`] = `
               </defs>
             </svg>
           </div>
+        </div>
+        <div
+          class="css-14s5ckc"
+        >
           <div
-            class="css-yzqqny"
+            class="css-1s2o82u"
           >
             <div
-              class="css-0"
+              class="css-1uoge8t"
             >
               <div
                 class="css-1itv5e3"
@@ -189,7 +193,7 @@ exports[`renders add Input Your Goal unchanged 1`] = `
                     class="css-0"
                   >
                     <span
-                      class="chakra-text css-35ezg3"
+                      class="chakra-text css-1jjm4rf"
                     >
                       Enter Your Goal (500 characters max)
                     </span>
@@ -238,9 +242,6 @@ exports[`renders add Input Your Goal unchanged 1`] = `
           </button>
         </div>
       </div>
-      <p
-        class="chakra-text css-1n4wwj3"
-      />
     </div>
   </div>
 </div>

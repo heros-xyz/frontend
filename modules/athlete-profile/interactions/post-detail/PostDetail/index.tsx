@@ -3,23 +3,40 @@ import { useRouter } from "next/router";
 import { useGetAthleteInteractionDetailQuery } from "@/api/fan";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { useAthleteProfile } from "@/hooks/useAthleteProfile";
+import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/detail/SkeletonInteractionDetail";
 import InteractionSection from "../../components/InteractionSection";
 import CommentSection from "../CommentSection";
+import NotFoundPage from "../../components/NotFound";
 
 const PostDetail = () => {
   const router = useRouter();
   const { view: postId } = router.query;
   const { validateIsFan } = useAthleteProfile();
-  const { data: interactionDetail } = useGetAthleteInteractionDetailQuery(
-    postId as string,
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !postId,
-    }
-  );
+  const {
+    data: interactionDetail,
+    error,
+    isSuccess,
+    isLoading,
+  } = useGetAthleteInteractionDetailQuery(postId as string, {
+    refetchOnMountOrArgChange: true,
+    skip: !postId,
+  });
 
-  if (!interactionDetail) {
-    return <></>;
+  if (!interactionDetail || isLoading) {
+    return (
+      <Container
+        size={["base", "sm", "md", "lg", "xl"]}
+        pt={{ base: 6, lg: 12 }}
+      >
+        <Box mt={2}>
+          <SkeletonInteractionDetail />
+        </Box>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return <NotFoundPage />;
   }
 
   return (
@@ -27,7 +44,6 @@ const PostDetail = () => {
       minH={{ base: "100vh", lg: "unset" }}
       h={{ lg: "100vh" }}
       maxH={{ lg: "100vh" }}
-      bg="primary"
     >
       <Container
         h="full"
@@ -42,35 +58,42 @@ const PostDetail = () => {
               onClick={router.back}
               cursor="pointer"
               alignItems="center"
-              color="white"
+              color="primary"
               position={{ lg: "sticky" }}
               top="0"
               pb={5}
               zIndex={10}
-              bg="primary"
             >
-              <ArrowLeft />
+              <ArrowLeft w="32px" h="32px" color="primary" />
               <Text ml="20px" fontWeight="bold" fontSize="xl">
                 Interaction
               </Text>
             </Flex>
 
-            <Box mb={{ lg: "30px" }}>
-              <InteractionSection
-                validateIsFan={validateIsFan}
-                isDetailView
-                {...interactionDetail}
-              />
-            </Box>
+            {isSuccess ? (
+              <Box mb={{ lg: "30px" }}>
+                <InteractionSection
+                  validateIsFan={validateIsFan}
+                  isDetailView
+                  {...interactionDetail}
+                />
+              </Box>
+            ) : (
+              <></>
+            )}
           </Box>
           <Divider
             display={{ base: "none", lg: "block" }}
             mx="80px"
             orientation="vertical"
           />
-          <Box flex={{ lg: "1" }}>
-            <CommentSection {...interactionDetail} />
-          </Box>
+          {isSuccess ? (
+            <Box flex={{ lg: "1" }}>
+              <CommentSection {...interactionDetail} />
+            </Box>
+          ) : (
+            <></>
+          )}
         </Flex>
       </Container>
     </Box>

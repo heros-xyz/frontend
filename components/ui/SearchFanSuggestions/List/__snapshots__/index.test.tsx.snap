@@ -3,7 +3,7 @@
 exports[`renders List unchanged 1`] = `
 <div>
   <div
-    class="css-g9fuix"
+    class="css-m035ue"
   >
     <div
       class="css-kcc1xl"
@@ -24,7 +24,7 @@ exports[`renders List unchanged 1`] = `
           class="css-zupw4a"
         >
           <p
-            class="chakra-text css-wwubfu"
+            class="chakra-text css-a63bcf"
           >
             Matt Prior
           </p>
@@ -50,7 +50,7 @@ exports[`renders List unchanged 1`] = `
           class="css-zupw4a"
         >
           <p
-            class="chakra-text css-wwubfu"
+            class="chakra-text css-a63bcf"
           >
             Matt Prior
           </p>
@@ -76,7 +76,7 @@ exports[`renders List unchanged 1`] = `
           class="css-zupw4a"
         >
           <p
-            class="chakra-text css-wwubfu"
+            class="chakra-text css-a63bcf"
           >
             Matt Prior
           </p>

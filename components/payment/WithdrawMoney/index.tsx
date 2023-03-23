@@ -53,7 +53,7 @@ const WithdrawMoney: React.FC<IProp> = ({ onSubmit }) => {
   return (
     <>
       <Center
-        color="white"
+        color="primary"
         flexDirection="column"
         p={{ base: "5", xl: "19rem" }}
         pt={{ xl: "3.75rem" }}
@@ -75,7 +75,7 @@ const WithdrawMoney: React.FC<IProp> = ({ onSubmit }) => {
               Withdraw Money
             </Text>
           </Box>
-          <Box w="full" fontSize={{ base: "sm", xl: "md" }}>
+          <Box w="full" fontSize={{ base: "sm", xl: "md" }} color="black">
             <form onSubmit={formik.handleSubmit}>
               <Box mt={{ base: 5, xl: 8 }}>
                 <Box fontWeight="medium">
@@ -92,6 +92,7 @@ const WithdrawMoney: React.FC<IProp> = ({ onSubmit }) => {
                   w="full"
                   id="bankName"
                   name="bankName"
+                  borderColor="grey.dark"
                   onChange={(e) => {
                     const regex = new RegExp(`[A-Za-z]`);
                     const lastChar = e.target.value.slice(-1);
@@ -132,6 +133,7 @@ const WithdrawMoney: React.FC<IProp> = ({ onSubmit }) => {
                   w="full"
                   id="swiftCode"
                   name="swiftCode"
+                  borderColor="grey.dark"
                   onChange={formik.handleChange}
                   value={formik.values.swiftCode}
                   isInvalid={Boolean(
@@ -163,6 +165,7 @@ const WithdrawMoney: React.FC<IProp> = ({ onSubmit }) => {
                   w="full"
                   id="cardNumber"
                   name="cardNumber"
+                  borderColor="grey.dark"
                   onChange={formik.handleChange}
                   value={formik.values.cardNumber}
                   isInvalid={Boolean(
@@ -189,7 +192,7 @@ const WithdrawMoney: React.FC<IProp> = ({ onSubmit }) => {
                   Disclaimer
                 </Text>
               </Flex>
-              <Text mt={{ base: "1", xl: "2.5" }} color="secondary">
+              <Text mt={{ base: "1", xl: "2.5" }} color="grey.dark">
                 Whilst Herosxyz Pte Ltd does not charge fees for withdrawals,
                 banks may do so. <br />
                 You will be withdrawing all money in the wallet.
@@ -197,8 +200,8 @@ const WithdrawMoney: React.FC<IProp> = ({ onSubmit }) => {
                 Minimum withdrawal amount is $100.
               </Text>
               <Button
-                bg="secondary"
-                color="primary"
+                bg="primary"
+                color="secondary"
                 w={{ base: "100%", xl: "auto" }}
                 mt={"12"}
                 fontWeight={"bold"}

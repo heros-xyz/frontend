@@ -128,7 +128,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
             >
               <Text
                 as="span"
-                color="acccent.3"
+                color="secondary"
                 textDecoration="underline"
                 fontSize={{ base: "md", xl: "xl" }}
                 fontWeight="medium"
@@ -150,7 +150,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
       height="100vh"
       textAlign="center"
       color="white"
-      overflowY="scroll"
+      overflowY="auto"
       display="flex"
       justifyContent="center"
     >
@@ -274,7 +274,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                     link="/sign-in"
                     linkText="sign in here!"
                     errorMessage={
-                      "You’ve already registered with this email. Please"
+                      "You've already registered with this email. Please"
                     }
                   />
                 </Then>
@@ -329,7 +329,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
           <Box fontSize="md">
             <Text as="span" mr={2} fontWeight="normal" lineHeight="140%">
               {pageType === "signin"
-                ? "Don’t have an account?"
+                ? "Don't have an account?"
                 : `Already have an account?`}
             </Text>
             <If condition={pageType === "signin"}>
@@ -338,7 +338,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                   <Text
                     fontFamily="heading"
                     as="span"
-                    color="acccent.3"
+                    color="secondary"
                     textDecoration="underline"
                     fontWeight="medium"
                   >
@@ -351,7 +351,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                   <Text
                     fontFamily="heading"
                     as="span"
-                    color="acccent.3"
+                    color="secondary"
                     textDecoration="underline"
                     fontWeight="medium"
                   >

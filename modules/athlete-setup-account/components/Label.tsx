@@ -9,7 +9,7 @@ const Label: React.FC<Props> = ({ title, description, ...props }) => {
   return (
     <Box pb={5} {...props}>
       <HStack
-        fontWeight="medium"
+        fontWeight="bold"
         fontSize={{ base: "md", xl: "xl" }}
         pb={2.5}
         fontFamily="heading"
@@ -19,7 +19,7 @@ const Label: React.FC<Props> = ({ title, description, ...props }) => {
       <Text
         fontWeight="400"
         fontSize={{ base: "xs", xl: "md" }}
-        color={"black.ish"}
+        color="grey.300"
         fontFamily="heading"
       >
         {description}

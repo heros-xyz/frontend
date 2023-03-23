@@ -6,6 +6,7 @@ import { ChakraProvider as ThemeProvider } from "@chakra-ui/react";
 import { SessionProvider } from "next-auth/react";
 import { NextAdapter } from "next-query-params";
 import { QueryParamProvider } from "use-query-params";
+import Head from "next/head";
 import theme from "@/styles/themes/theme";
 import { wrapper } from "@/store";
 
@@ -30,6 +31,12 @@ function MyApp({
     <QueryParamProvider adapter={NextAdapter}>
       <SessionProvider session={session}>
         <ThemeProvider theme={theme}>
+          <Head>
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
+            />
+          </Head>
           <HerosLoading />
           <NextNProgress options={{ showSpinner: false }} />
           {getLayout(<Component {...pageProps} />)}

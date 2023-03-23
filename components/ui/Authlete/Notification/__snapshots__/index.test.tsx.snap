@@ -14,7 +14,7 @@ exports[`renders homepage unchanged 1`] = `
         Notifications
       </h2>
       <p
-        class="chakra-text css-lxu7ci"
+        class="chakra-text css-5tq913"
       >
         Mark all as read
       </p>

@@ -19,10 +19,10 @@ import { Else, If, Then } from "react-if";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { useUpdateEffect } from "react-use";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
 import {
   useAddPaymentInfoMutation,
+  useGetAthleteProfileQuery,
   useGetAthleteTierMembershipQuery,
   useGetPaymentInfoQuery,
   useSubscribeAthleteMutation,
@@ -34,28 +34,27 @@ import { formatMoney } from "@/utils/functions";
 import { AlertIcon } from "@/components/svg";
 import DeleteSubscription from "@/components/ui/DeleteSubscription";
 import { useGetBasicInformationQuery } from "@/api/athlete";
+import { IHerosError } from "@/types/globals/types";
 
 const PaymentDetails = () => {
   const router = useRouter();
-  const { data: session } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isError, setIsError] = useState<boolean>(false);
   const [errorCard, setErrorCard] = useState<boolean>(false);
-  const [errorData, setErrorData] = useState<
-    | {
-        data: { message: string; statusCode: number };
-        status: number;
-      }
-    | {}
-  >();
+
   const { data: dataAthlete } = useGetBasicInformationQuery(
     router.query.id as string,
     {
       skip: typeof router.query.id !== "string",
     }
   );
-  const { data: paymentInfoList, isLoading: isGetPaymentLoading } =
-    useGetPaymentInfoQuery("");
+  const { data: athleteProfile } = useGetAthleteProfileQuery(
+    router.query.id as string,
+    {
+      skip: typeof router.query.id !== "string",
+    }
+  );
+  const { data: paymentInfoList } = useGetPaymentInfoQuery("");
   const { data: tierMembershipList } = useGetAthleteTierMembershipQuery(
     {
       page: 1,
@@ -77,7 +76,7 @@ const PaymentDetails = () => {
   ] = useSubscribeAthleteMutation();
   const [
     addPayment,
-    { data: dataSuccess, isLoading: loadingAdd, error: errorAdd },
+    { data: dataSuccess, isLoading: loadingAdd, error: errorData },
   ] = useAddPaymentInfoMutation();
   const { formik, isValid, submitCount, handleSubmit, values } =
     usePaymentForm();
@@ -132,21 +131,15 @@ const PaymentDetails = () => {
       );
   }, [successSubscribe]);
 
-  //Handle Add Card Error
   useUpdateEffect(() => {
-    if (!!errorAdd) {
-      setErrorData(errorAdd);
-    }
-  }, [errorAdd]);
-  useUpdateEffect(() => {
-    if (errorData && "data" in errorData) {
-      if (errorData.data.statusCode === 3002) {
+    if (errorData) {
+      if ((errorData as IHerosError).data.statusCode === 3002) {
         setErrorCard(true);
         setTimeout(() => {
           setErrorCard(false);
         }, 5000);
       }
-      if (errorData.data.statusCode === 3000) {
+      if ((errorData as IHerosError).data.statusCode === 3000) {
         setIsError(true);
         setTimeout(() => {
           setIsError(false);
@@ -164,9 +157,9 @@ const PaymentDetails = () => {
 
   return (
     <Box
-      bg="primary"
+      bg="white"
       minH="100vh"
-      color="white"
+      color="primary"
       py={{ base: 5, xl: 12 }}
       pb={10}
       position="relative"
@@ -194,7 +187,7 @@ const PaymentDetails = () => {
                 Payment Details
               </Heading>
             </GridItem>
-            <GridItem area={"detail"}>
+            <GridItem area={"detail"} color="black">
               <If condition={paymentInfoList && paymentInfoList?.length > 0}>
                 <Then>
                   <Box>
@@ -287,7 +280,7 @@ const PaymentDetails = () => {
             >
               <OrderSummary
                 mt={8}
-                avatar={session?.user.avatar ?? ""}
+                avatar={athleteProfile?.avatar ?? ""}
                 userName={dataAthlete?.nickName ?? ""}
                 dateRenew={dayjs(new Date()).format("DD MMM YYYY")}
                 price={formatMoney(tierSelected?.monthlyPrice as number, true)}

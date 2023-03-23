@@ -9,11 +9,11 @@ const primary = definePartsStyle({
     borderColor: "primary",
     _checked: {
       border: "3px",
-      background: "acccent.2",
-      borderColor: "acccent.2",
+      background: "accent.2",
+      borderColor: "accent.2",
     },
     "::before": {
-      bg: "acccent.1 !important",
+      bg: "accent.1 !important",
     },
   },
 });

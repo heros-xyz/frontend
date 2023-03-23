@@ -7,6 +7,7 @@ import AuthTemplate from "@/components/ui/AuthTemplate";
 import { usePreSignInWithEmailMutation } from "@/api/user";
 import { wrapper } from "@/store";
 import { loggedInGuard } from "@/middleware/loggedInGuard";
+import { IHerosError } from "@/types/globals/types";
 
 const FanSignUp = () => {
   const router = useRouter();
@@ -58,8 +59,10 @@ const FanSignUp = () => {
       </Head>
       <AuthTemplate
         pageType="fan"
-        authErrorMessage={(signUpWithEmailError as any)?.data?.message ?? ""}
-        authErrorCode={(signUpWithEmailError as any)?.data?.statusCode ?? ""}
+        authErrorMessage={
+          (signUpWithEmailError as IHerosError)?.data?.message ?? ""
+        }
+        authErrorCode={(signUpWithEmailError as IHerosError)?.data?.statusCode}
         isLoading={isLoading}
         onSubmitForm={handleSignUpWithEmail}
         handleSignInFacebook={handleSignUpFacebook}

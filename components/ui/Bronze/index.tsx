@@ -36,13 +36,13 @@ const BronzeTier: React.FC<SearchResultProps> = ({
 
   return (
     <Box
-      bg="acccent.4"
+      bg="accent.2"
       minH={142}
       border="1px"
-      borderColor="grey.500"
+      borderColor="accent.2"
       borderRadius={{ base: 8, xl: 12 }}
       p={4}
-      color="primary"
+      color="white"
       fontSize={{ base: "2xs", xl: "md" }}
       position="relative"
       w="100%"
@@ -58,21 +58,34 @@ const BronzeTier: React.FC<SearchResultProps> = ({
           <CheckBoxRadioIcon checked={check} />
         </Box>
       )}
-      <Text fontSize={{ base: "md", xl: "2xl" }} fontWeight="800">
+      <Text
+        fontSize={{ base: "md", xl: "2xl" }}
+        fontWeight="800"
+        color="secondary"
+      >
         {title}
       </Text>
       <If condition={data?.tierDescription}>
         <Then>
-          <Text fontWeight="300" fontSize={{ base: "xxs", xl: "md" }}>
+          <Text
+            fontWeight="300"
+            color="white"
+            fontSize={{ base: "xxs", xl: "md" }}
+          >
             {data?.tierDescription}
           </Text>
         </Then>
       </If>
-      <Text fontWeight="500" fontSize={{ base: "xs", xl: "md" }} my={2.5}>
+      <Text
+        fontWeight="500"
+        color="white"
+        fontSize={{ base: "xs", xl: "md" }}
+        my={2.5}
+      >
         ${data?.monthlyPrice?.toFixed(2)}/month · {data?.totalFan ?? 0} fan
         {data?.totalFan && data.totalFan > 1 ? "s" : ""}
       </Text>
-      <Box>
+      <Box color="white">
         <Text fontWeight="500" mb={1} fontSize={{ base: "xs", xl: "md" }}>
           Benefit
         </Text>

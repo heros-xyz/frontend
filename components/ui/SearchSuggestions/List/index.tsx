@@ -20,7 +20,14 @@ const SearchSuggestionsList: React.FC<SearchSuggestionsProps> = ({
   ...props
 }) => {
   return (
-    <Box bg="acccent.4" p="3" pt="0" borderRadius="base" {...props}>
+    <Box
+      bg="white"
+      shadow="0px 0px 10px rgba(0, 0, 0, 0.25)"
+      p="3"
+      pt="0"
+      borderRadius="base"
+      {...props}
+    >
       {items.map((item) => (
         <ItemSuggestions
           searchKeyword={searchKeyword}

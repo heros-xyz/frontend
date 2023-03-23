@@ -119,7 +119,7 @@ exports[`renders homepage unchanged 1`] = `
             </div>
           </div>
           <a
-            class="chakra-link css-116y5fs"
+            class="chakra-link css-ptpdh5"
           >
             Resend OTP
           </a>

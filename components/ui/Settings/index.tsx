@@ -34,11 +34,11 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
   onSignOut,
 }) => {
   return (
-    <Box bg="primary">
+    <Box bg="white">
       <Box mb="5">
         <Heading
           fontSize={["md", "xl"]}
-          color="acccent.3"
+          color="secondary"
           fontWeight="bold"
           lineHeight="110%"
           mb="3"
@@ -58,14 +58,14 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
                 mr="2.5"
                 w={{ base: "20px", "2xl": "32px" }}
                 h={{ base: "20px", "2xl": "32px" }}
-                color="white"
+                color="primary"
               />
               <Box w="100%">
                 <Text
                   fontSize={["sm", "md"]}
                   fontWeight="medium"
                   lineHeight="110%"
-                  color="white"
+                  color="primary"
                 >
                   {name}
                 </Text>
@@ -101,14 +101,14 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
             mr="2.5"
             w={{ base: "20px", "2xl": "32px" }}
             h={{ base: "20px", "2xl": "32px" }}
-            color="white"
+            color="primary"
           />
           <Box w="100%">
             <Text
               fontSize={["sm", "md"]}
               fontWeight="medium"
               lineHeight="110%"
-              color="white"
+              color="primary"
             >
               {email || "No email"}
             </Text>
@@ -118,7 +118,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
                   fontSize={["xs", "md"]}
                   fontWeight="normal"
                   lineHeight="110%"
-                  color="grey.100"
+                  color="grey.200"
                   pt="5px"
                 >
                   This cannot be changed
@@ -140,13 +140,13 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
                 mr="2.5"
                 w={{ base: "24px", "2xl": "32px" }}
                 h={{ base: "24px", "2xl": "32px" }}
-                color="white"
+                color="primary"
               />
               <Text
                 fontSize={["sm", "md"]}
                 fontWeight="medium"
                 lineHeight="110%"
-                color="white"
+                color="primary"
                 textTransform="capitalize"
               >
                 This account is linked to Google
@@ -167,13 +167,13 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
                 mr="2.5"
                 w={{ base: "24px", "2xl": "32px" }}
                 h={{ base: "24px", "2xl": "32px" }}
-                color="white"
+                color="primary"
               />
               <Text
                 fontSize={["sm", "md"]}
                 fontWeight="medium"
                 lineHeight="110%"
-                color="white"
+                color="grey.200"
               >
                 This account is linked to Facebook
               </Text>
@@ -195,13 +195,13 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
                   mr="2.5"
                   w={{ base: "24px", "2xl": "32px" }}
                   h={{ base: "24px", "2xl": "32px" }}
-                  color="white"
+                  color="primary"
                 />
                 <Text
                   fontSize={["sm", "md"]}
                   fontWeight="medium"
                   lineHeight="110%"
-                  color="white"
+                  color="primary"
                   _hover={{ color: "secondary" }}
                 >
                   Payment Information
@@ -221,13 +221,13 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
                   mr="2.5"
                   w={{ base: "24px", "2xl": "32px" }}
                   h={{ base: "24px", "2xl": "32px" }}
-                  color="white"
+                  color="primary"
                 />
                 <Text
                   fontSize={["sm", "md"]}
                   fontWeight="medium"
                   lineHeight="110%"
-                  color="white"
+                  color="primary"
                   _hover={{ color: "secondary" }}
                 >
                   Active Subscriptions
@@ -240,7 +240,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
       <Box>
         <Heading
           fontSize={["md", "xl"]}
-          color="acccent.3"
+          color="secondary"
           fontWeight="bold"
           lineHeight="110%"
           mt="8"
@@ -265,14 +265,14 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
               mr="2.5"
               w={{ base: "24px", "2xl": "32px" }}
               h={{ base: "24px", "2xl": "32px" }}
-              color="white"
+              color="primary"
             />
             <Text
               fontSize={["sm", "md"]}
               fontWeight="medium"
               lineHeight="110%"
-              color="white"
-              _hover={{ color: "secondary" }}
+              color="primary"
+              // _hover={{ color: "secondary" }}
             >
               FAQs
             </Text>
@@ -291,14 +291,14 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
               mr="2.5"
               w={{ base: "24px", "2xl": "32px" }}
               h={{ base: "24px", "2xl": "32px" }}
-              color="white"
+              color="primary"
             />
             <Text
               fontSize={["sm", "md"]}
               fontWeight="medium"
               lineHeight="110%"
-              color="white"
-              _hover={{ color: "secondary" }}
+              color="primary"
+              // _hover={{ color: "secondary" }}
             >
               Privacy Policy
             </Text>
@@ -313,7 +313,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
         mt="10"
       >
         <Heading
-          color="secondary"
+          color="grey.200"
           fontWeight="bold"
           fontSize={["md", "lg"]}
           lineHeight="110%"
@@ -327,7 +327,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
         <IconArrowRight
           width="15px"
           height="15px"
-          color="secondary"
+          color="grey.200"
           cursor="pointer"
           onClick={onSignOut}
         />

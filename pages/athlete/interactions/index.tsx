@@ -1,16 +1,13 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import { Box, Container, Divider, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { useDispatch } from "react-redux";
-import { useUnmount } from "react-use";
 import { Waypoint } from "react-waypoint";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { HashTagIcon } from "@/components/svg/HashTagIcon";
 import { PhotoIcon } from "@/components/svg/Photo";
-import { resetApiState, useGetMyListInteractionsQuery } from "@/api/athlete";
 import AthletePost from "@/components/ui/AthletePost";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
@@ -21,39 +18,22 @@ import { setContext } from "@/libs/axiosInstance";
 import { wrapper } from "@/store";
 import { IGuards } from "@/types/globals/types";
 import { athleteGuard } from "@/middleware/athleteGuard";
+import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
 
 const Interactions = () => {
   const { data: session, status } = useSession();
-  const dispatch = useDispatch();
-  const [take] = useState(10);
-  const [page, setPage] = useState(1);
-
+  const router = useRouter();
   const {
-    data: interactionData,
+    hasNextPage,
+    interactionsList,
     isLoading,
-    isFetching,
-  } = useGetMyListInteractionsQuery(
-    {
-      page,
-      take,
-      order: "DESC",
-    },
-    {
-      refetchOnMountOrArgChange: true,
-    }
-  );
-
-  const onLoadMore = () => {
-    if (interactionData?.meta?.hasNextPage && !isFetching) {
-      setPage((p) => p + 1);
-    }
-  };
-
-  useUnmount(() => {
-    dispatch(resetApiState());
+    interactionData,
+    onLoadMore,
+  } = useAthleteInteraction({
+    isGetPublic: false,
+    take: 10,
   });
 
-  const router = useRouter();
   const formatPropAthletePost = (postInfo: IInteractionItem) => {
     return {
       id: postInfo.id,
@@ -64,7 +44,7 @@ const Interactions = () => {
       athleteInfo: {
         imagePath: session?.user?.avatar || "",
         athleteName: session?.user.nickname ?? "",
-        publishDate: postInfo.createdAt,
+        publishDate: postInfo.publicDate,
         id: session?.user?.id ?? "",
       },
       slideData: postInfo.interactionMedia ?? [],
@@ -78,7 +58,7 @@ const Interactions = () => {
   };
 
   return (
-    <Box bg="primary" minHeight="100vh">
+    <Box minHeight="100vh">
       <Head>
         <title>Athlete | Interactions</title>
       </Head>
@@ -87,23 +67,28 @@ const Interactions = () => {
           <Text
             fontFamily="heading"
             fontSize={{ base: "xl", lg: "2xl" }}
-            color="white"
+            color="primary"
           >
             Interactions
           </Text>
         </Box>
         <Box
-          py={4}
+          py={{ base: 4, lg: 6 }}
           px={5}
           mb={5}
-          bg="acccent.4"
+          bg="grey.0"
           cursor="pointer"
           mx={{ base: -5, lg: 0 }}
           rounded={{ lg: "xl" }}
           onClick={() => router.push("/athlete/interactions/post")}
         >
-          <Text fontSize={{ base: "xs", lg: "lg" }} color="grey.300" mb={10}>
-            {interactionData?.data?.length
+          <Text
+            fontSize={{ base: "xs", lg: "lg" }}
+            color="grey.300"
+            mb={10}
+            fontWeight={{ base: "normal", lg: "500" }}
+          >
+            {interactionsList.length
               ? "Let your fans know what's on your mind."
               : "Add your first interaction."}
           </Text>
@@ -112,23 +97,29 @@ const Interactions = () => {
               <PhotoIcon
                 w={{ base: "20px", lg: "26px" }}
                 h={{ base: "20px", lg: "26px" }}
+                color="primary"
               />
               <HashTagIcon
                 w={{ base: "16px", lg: "21px" }}
                 h={{ base: "16px", lg: "21px" }}
+                color="primary"
               />
             </Flex>
           </Box>
         </Box>
-        <If condition={status !== "loading" && !isLoading}>
+        <If condition={status === "loading" || isLoading}>
           <Then>
+            <PostSkeleton pb={12} />
+            <PostSkeleton pb={12} />
+            <PostSkeleton pb={12} />
+          </Then>
+          <Else>
             <Flex
               flexDirection="column"
-              pb={10}
               gap={{ base: 0, lg: 12 }}
               position="relative"
             >
-              {interactionData?.data?.map((item) => (
+              {interactionsList.map((item) => (
                 <Box key={item.id}>
                   <Box>
                     <AthletePost
@@ -147,7 +138,7 @@ const Interactions = () => {
                 </Box>
               ))}
 
-              {interactionData?.meta?.hasNextPage && (
+              {hasNextPage && (
                 <Waypoint onEnter={onLoadMore}>
                   <Box
                     className="post-load-more"
@@ -161,19 +152,14 @@ const Interactions = () => {
                 </Waypoint>
               )}
             </Flex>
-            <If condition={!interactionData?.data?.length}>
+            <If condition={!interactionsList.length}>
               <Then>
-                <Text color="white" fontSize={{ base: "xs", lg: "md" }}>
+                <Text color="grey.300" fontSize={{ base: "xs", lg: "md" }}>
                   You have not had any interactions. Start interacting with your
                   fans by sharing your thoughts, or just some daily updates!
                 </Text>
               </Then>
             </If>
-          </Then>
-          <Else>
-            <PostSkeleton pb={12} />
-            <PostSkeleton pb={12} />
-            <PostSkeleton pb={12} />
           </Else>
         </If>
       </Container>

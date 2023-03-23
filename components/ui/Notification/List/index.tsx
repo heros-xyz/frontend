@@ -17,7 +17,7 @@ const NotificationList: React.FC<IProps> = ({
         mx={[5, 0]}
         my={[3, 3.5]}
         fontSize={["md", "xl"]}
-        color="acccent.3"
+        color="primary"
       >
         {periodTitle}
       </Heading>

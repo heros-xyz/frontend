@@ -4,18 +4,16 @@ export const CommentIcon: React.FC<IconProps> = (props) => {
   return (
     <Icon
       {...props}
-      width="20"
-      height="19"
-      viewBox="0 0 20 19"
       fill="none"
+      viewBox="0 0 32 32"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M6 7H6.01M10 7H10.01M14 7H14.01M7 13H3C1.89543 13 1 12.1046 1 11V3C1 1.89543 1.89543 1 3 1H17C18.1046 1 19 1.89543 19 3V11C19 12.1046 18.1046 13 17 13H12L7 18V13Z"
-        stroke="white"
+        d="M10.6667 13.332H10.68M16 13.332H16.0133M21.3333 13.332H21.3467M12 21.332H6.66667C5.19391 21.332 4 20.1381 4 18.6654V7.9987C4 6.52594 5.19391 5.33203 6.66667 5.33203H25.3333C26.8061 5.33203 28 6.52594 28 7.9987V18.6654C28 20.1381 26.8061 21.332 25.3333 21.332H18.6667L12 27.9987V21.332Z"
+        stroke="currentColor"
         strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        stroke-linecap="round"
+        stroke-linejoin="round"
       />
     </Icon>
   );

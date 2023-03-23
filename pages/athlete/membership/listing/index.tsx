@@ -3,14 +3,23 @@ import { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
 import Head from "next/head";
+import { useSession } from "next-auth/react";
 import EditPencilIcon from "@/components/svg/EditPencilIcon";
 import { useGetSubscriptionInfoQuery } from "@/api/athlete";
 import { ListMembershipTiers } from "@/types/athlete/types";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
+import { useLoading } from "@/hooks/useLoading";
 
 const ListingMembership = () => {
   const router = useRouter();
-  const { data: dataTier } = useGetSubscriptionInfoQuery("");
+  const { data: session } = useSession();
+  const { start, finish } = useLoading();
+  const { data: dataTier } = useGetSubscriptionInfoQuery(
+    session?.user.id ?? "",
+    {
+      skip: !session?.user.id,
+    }
+  );
   const [dataRender, setDataRender] = useState<ListMembershipTiers>();
 
   const handleAdd = () => {
@@ -21,15 +30,19 @@ const ListingMembership = () => {
   };
 
   useEffect(() => {
-    if (dataTier?.data) setDataRender(dataTier?.data[0]);
+    start();
+    if (dataTier?.data) {
+      setDataRender(dataTier?.data[0]);
+      finish();
+    }
   }, [dataTier]);
 
   return (
-    <Box bg="primary" minH="100vh">
+    <Box bg="white" minH="100vh">
       <Head>
         <title>Athlete | Membership</title>
       </Head>
-      <Center color="white">
+      <Center color="primary">
         <Box
           w={{ base: "full", xl: "500px" }}
           mx={5}
@@ -56,15 +69,16 @@ const ListingMembership = () => {
               </Text>
               <Box
                 mt={{ base: 5, xl: 8 }}
-                bg="acccent.4"
+                bg="accent.2"
                 p={{ base: "4", xl: "30px" }}
-                color="black"
+                color="white"
                 rounded="lg"
               >
                 <Box mb="2" display="flex" justifyContent="space-between">
                   <Text
                     fontWeight="extrabold"
                     fontSize={{ base: "md", lg: "2xl" }}
+                    color="secondary"
                   >
                     Bronze
                   </Text>
@@ -114,7 +128,8 @@ const ListingMembership = () => {
                 w="full"
                 h={{ base: "50px", xl: "70px" }}
                 border="1px"
-                borderColor="acccent.4"
+                color="accent.2"
+                borderColor="accent.2"
                 borderRadius="8px"
               >
                 <Box
@@ -131,7 +146,8 @@ const ListingMembership = () => {
                 w="full"
                 h={{ base: "50px", xl: "70px" }}
                 border="1px"
-                borderColor="acccent.4"
+                color="accent.2"
+                borderColor="accent.2"
                 borderRadius="8px"
               >
                 <Box
@@ -171,7 +187,7 @@ const ListingMembership = () => {
             </Button>
             <If condition={!!dataRender}>
               <Then>
-                <Text mt={{ base: 2.5, xl: 4 }}>
+                <Text mt={{ base: 2.5, xl: 4 }} color="grey.300">
                   (You&apos;ll be able to add higher tiers in the future.)
                 </Text>
               </Then>

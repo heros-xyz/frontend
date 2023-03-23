@@ -14,6 +14,7 @@ import {
   ProfileActive,
 } from "@/components/svg/Navigate";
 import { ACTIVE_PATHS } from "@/utils/constants";
+import { updateSession } from "@/utils/auth";
 import MenuItem from "../MenuItem";
 
 interface BottomBarProps {
@@ -85,10 +86,11 @@ const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
 
   const handleChangeTab = (tab: string): void => {
     setTab(tab);
+    updateSession();
   };
 
   return (
-    <Box bg="secondary" p={2.5} borderColor="secondary">
+    <Box bg="primary" p={2.5} borderColor="primary">
       <Flex justifyContent="space-evenly">
         {menuList.map(
           (item) =>

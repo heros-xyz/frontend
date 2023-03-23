@@ -22,14 +22,14 @@ const Membership: React.FC<IWalletProps> = ({
 }) => {
   return (
     <Box
-      bg="acccent.1"
+      bg="accent.2"
       borderRadius={{ base: "lg", xl: "xl" }}
       px={{ base: 5, xl: 7 }}
       py={{ base: 3, xl: 5 }}
     >
       <Flex mb="1.5" justify="space-between" align="center">
         <Heading
-          color="primary"
+          color="white"
           fontSize={{ base: "md", xl: "xl" }}
           fontWeight="extrabold"
           textTransform="capitalize"
@@ -42,7 +42,7 @@ const Membership: React.FC<IWalletProps> = ({
             cursor="pointer"
             fontSize={{ base: "xs", xl: "lg" }}
             fontWeight="medium"
-            color="acccent.2"
+            color="grey.100"
             lineHeight="140%"
             onClick={onClickManage}
           >
@@ -53,7 +53,7 @@ const Membership: React.FC<IWalletProps> = ({
       <Text
         fontSize={{ base: "xs", xl: "md" }}
         fontWeight="normal"
-        color="primary"
+        color="white"
       >
         {isMembership
           ? "You are currently offering."
@@ -64,13 +64,13 @@ const Membership: React.FC<IWalletProps> = ({
           mt={{ base: 3.5, xl: 7 }}
           fontSize={{ base: "md", xl: "xl" }}
           fontWeight="medium"
-          color="primary"
+          color="secondary"
           lineHeight="140%"
         >
           <Skeleton isLoaded={!isLoading} as="span">
             {tier}
           </Skeleton>{" "}
-          Tier
+          tier
         </Text>
       ) : (
         <Flex justify={{ base: "center", xl: "flex-end" }}>

@@ -39,7 +39,6 @@ const PostSkeleton: React.FC<IPostSkeletonProps> = ({
       <SkeletonText w="50%" noOfLines={1} skeletonHeight="3" mb={2} />
       <SkeletonText w="70%" noOfLines={1} skeletonHeight="3" mb={2} />
       <SkeletonText w="80%" noOfLines={1} skeletonHeight="3" mb={2} />
-      <SkeletonText w="30%" noOfLines={1} skeletonHeight="3" mb={2} />
 
       <Divider display={{ lg: "none" }} my={4} />
     </Box>

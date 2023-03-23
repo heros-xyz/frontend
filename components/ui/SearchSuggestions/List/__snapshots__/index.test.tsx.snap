@@ -3,7 +3,7 @@
 exports[`renders List unchanged 1`] = `
 <div>
   <div
-    class="css-g9fuix"
+    class="css-p3diwk"
   >
     <div
       class="css-kcc1xl"
@@ -29,7 +29,7 @@ exports[`renders List unchanged 1`] = `
             Matt Prior
           </p>
           <p
-            class="chakra-text css-5dlqde"
+            class="chakra-text css-1sl60kx"
           >
             Cricket
           </p>
@@ -60,7 +60,7 @@ exports[`renders List unchanged 1`] = `
             Mavis Breitenberg
           </p>
           <p
-            class="chakra-text css-5dlqde"
+            class="chakra-text css-1sl60kx"
           >
             Marathon
           </p>
@@ -91,7 +91,7 @@ exports[`renders List unchanged 1`] = `
             Marcus Mariota
           </p>
           <p
-            class="chakra-text css-5dlqde"
+            class="chakra-text css-1sl60kx"
           >
             Football
           </p>
@@ -122,7 +122,7 @@ exports[`renders List unchanged 1`] = `
             Marshall Eriksen
           </p>
           <p
-            class="chakra-text css-5dlqde"
+            class="chakra-text css-1sl60kx"
           >
             Surfing
           </p>

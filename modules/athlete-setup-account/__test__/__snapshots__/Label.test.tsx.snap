@@ -6,7 +6,7 @@ exports[`Label renders step unchanged 1`] = `
     class="css-tik1gu"
   >
     <div
-      class="chakra-stack css-qwa3br"
+      class="chakra-stack css-w4uw6y"
     >
       <p
         class="chakra-text css-0"
@@ -20,7 +20,7 @@ exports[`Label renders step unchanged 1`] = `
       </p>
     </div>
     <p
-      class="chakra-text css-yvawug"
+      class="chakra-text css-1j9gw2f"
     >
       test
     </p>

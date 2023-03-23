@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { getImageLink } from "@/utils/link";
-
 export interface AthleteInfoProps {
   imagePath: string;
   athleteName: string;
-  publishDate: string | Date;
+  publishDate: string | Date | null | undefined;
   id?: string;
   isSchedule?: boolean;
 }
@@ -17,6 +16,10 @@ const AthleteInfo: React.FC<AthleteInfoProps> = ({
   publishDate,
   isSchedule,
 }) => {
+  const showScheduleIcon = useMemo(() => {
+    return publishDate && dayjs(new Date().toJSON()).isBefore(publishDate);
+  }, [publishDate, new Date()]);
+
   return (
     <Flex alignItems="center" className="athlete-info">
       <Image
@@ -33,7 +36,7 @@ const AthleteInfo: React.FC<AthleteInfoProps> = ({
           fontSize={{ base: "md", lg: "xl" }}
           fontWeight={{ base: "bold", lg: "medium" }}
           fontFamily="heading"
-          color="white"
+          color="primary"
         >
           {athleteName}
         </Text>
@@ -41,12 +44,12 @@ const AthleteInfo: React.FC<AthleteInfoProps> = ({
           <Text color="grey.100" fontWeight="500">
             {dayjs(publishDate).format("DD/MM/YY | HH:mm")}
           </Text>
-          {isSchedule ? (
+          {showScheduleIcon ? (
             <Image
-              ml={2}
+              ml={{ base: 2, lg: 3 }}
               src="/images/Schedule.svg"
-              width="4"
-              height="4"
+              w={{ base: 4, lg: 6 }}
+              h={{ base: 4, lg: 6 }}
               alt=""
               fill="currentColor"
               color={"white"}

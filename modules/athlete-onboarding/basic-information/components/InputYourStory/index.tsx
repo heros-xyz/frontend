@@ -1,10 +1,9 @@
 import { Box, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useFormikContext } from "formik";
-import { ArrowRight } from "@/components/svg/ArrowRight";
-import FanOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import { YourStoryIcon } from "@/components/svg/YourStoryIcon";
 import ErrorMessage from "@/components/common/ErrorMessage";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 import { IValuesTypes } from "../../hooks";
 
 interface InputYourStoryProps {
@@ -26,27 +25,34 @@ const InputYourStory: React.FC<InputYourStoryProps> = ({ onSubmit }) => {
   };
 
   return (
-    <FanOnboardingWrapper
-      Icon={<YourStoryIcon w="full" h="full" />}
+    <HerosOnboardingWrapperNew
+      Icon={
+        <YourStoryIcon
+          w={{ base: "90px", xl: "145px" }}
+          h={{ base: "80px", xl: "128px" }}
+          color={{ base: "#FFFAE8", xl: "accent.6" }}
+        />
+      }
       textButton="SUBMIT"
       onSubmit={submitForm}
-      title="BASIC INFORMATION"
+      title="Basic information"
+      bgIconColor="accent.6"
     >
-      <Box mb={{ base: 4, lg: 10 }} color="black.ish">
-        <Box fontSize={{ lg: "xl" }} fontWeight="500" mb={1.5}>
+      <Box mb={{ base: 4, lg: 10 }} color="primary">
+        <Box fontSize={{ lg: "xl" }} fontWeight="bold" mb={1.5}>
           Tell Your Story (500 characters max)
           <Text as="span" color="error.dark">
             {" "}
             *
           </Text>
         </Box>
-        <Text as="p" fontSize="xs" mb={2}>
+        <Text as="p" fontSize="xs" mb={2} color="grey.300">
           Tell a compelling story of yourself to inspire potential fans.
         </Text>
         <Input
           variant="flushed"
           placeholder="Tell Your Story"
-          borderColor="primary"
+          borderColor="grey.200"
           name="story"
           fontSize={{ base: "sm" }}
           isInvalid={Boolean(errors.story && submitted)}
@@ -58,7 +64,7 @@ const InputYourStory: React.FC<InputYourStoryProps> = ({ onSubmit }) => {
           errorMessage={errors.story}
         />
       </Box>
-    </FanOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

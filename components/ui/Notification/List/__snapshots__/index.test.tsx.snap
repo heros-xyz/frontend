@@ -6,7 +6,7 @@ exports[`renders homepage unchanged 1`] = `
     class="css-0"
   >
     <h2
-      class="chakra-heading css-12xjuw9"
+      class="chakra-heading css-1fv5r2n"
     >
       Today
     </h2>
@@ -20,7 +20,7 @@ exports[`renders homepage unchanged 1`] = `
           class="css-0"
         >
           <div
-            class="css-xcz3ls"
+            class="css-rrajmt"
           >
             <img
               alt="avatar"
@@ -28,22 +28,22 @@ exports[`renders homepage unchanged 1`] = `
               src="https://via.placeholder.com/50"
             />
             <div
-              class="css-10t7lev"
+              class="css-1bv04n9"
             >
               <span
-                class="chakra-heading css-gjq7fp"
+                class="chakra-heading css-1esm7ln"
               >
                 Sam Smith
               </span>
               <span
-                class="chakra-text css-1hg9omi"
+                class="chakra-text css-19xmqnt"
               >
                  has made a new interaction.
               </span>
               <p
-                class="chakra-text css-8w4xdt"
+                class="chakra-text css-1i719ia"
               >
-                2w ago
+                4w ago
               </p>
             </div>
           </div>
@@ -56,7 +56,7 @@ exports[`renders homepage unchanged 1`] = `
           class="css-0"
         >
           <div
-            class="css-xcz3ls"
+            class="css-rrajmt"
           >
             <img
               alt="avatar"
@@ -64,22 +64,22 @@ exports[`renders homepage unchanged 1`] = `
               src="https://via.placeholder.com/50"
             />
             <div
-              class="css-10t7lev"
+              class="css-1bv04n9"
             >
               <span
-                class="chakra-heading css-gjq7fp"
+                class="chakra-heading css-1esm7ln"
               >
                 Sam Smith
               </span>
               <span
-                class="chakra-text css-1hg9omi"
+                class="chakra-text css-19xmqnt"
               >
                  has made a new interaction.
               </span>
               <p
-                class="chakra-text css-8w4xdt"
+                class="chakra-text css-1i719ia"
               >
-                2w ago
+                4w ago
               </p>
             </div>
           </div>

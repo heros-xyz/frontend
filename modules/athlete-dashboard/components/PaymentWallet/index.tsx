@@ -14,7 +14,7 @@ const PaymentWallet: React.FC<IProp> = ({ onBack, onSubmit, paymentData }) => {
   };
 
   return (
-    <Center color="white" flexDirection="column">
+    <Center color="primary" flexDirection="column">
       <Box w="full" fontWeight="bold">
         <ArrowLeft
           verticalAlign=""
@@ -27,7 +27,7 @@ const PaymentWallet: React.FC<IProp> = ({ onBack, onSubmit, paymentData }) => {
           Payment Information
         </Text>
       </Box>
-      <Text mt="8" color="acccent.3" w="full" fontSize={{ xl: "xl" }}>
+      <Text mt="8" fontWeight="bold" w="full" fontSize={{ xl: "xl" }}>
         Payment Method
       </Text>
       <If condition={paymentData?.cardNumber}>

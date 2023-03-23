@@ -1,13 +1,14 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import dayjs from "dayjs";
 import React from "react";
 import { Else, If, Then } from "react-if";
-import dayjs from "dayjs";
 import { OutlineArrowIcon } from "@/components/svg/OutlineArrowIcon";
 import { ITimeLineInfo } from "..";
+
 interface IProps {
   item: ITimeLineInfo;
   canEdit?: boolean;
-  setItemEdit?: any;
+  setItemEdit?: (item: ITimeLineInfo) => void;
   isCurrent: boolean;
 }
 
@@ -40,14 +41,15 @@ const JourneyCard: React.FC<IProps> = ({
     <Flex
       p={{ base: 2.5, lg: 4 }}
       pr={0}
-      w={{ base: "80%", sm: "100%" }}
+      w={{ base: "80%", xl: "540px" }}
       color="primary"
       justifyContent="space-between"
       alignItems="center"
-      bg={isCurrent ? "acccent.4" : "acccent.1"}
+      // bg={isCurrent ? "accent.3" : "accent.1"}
+      bg="grey.0"
       rounded="md"
       cursor={canEdit ? "pointer" : ""}
-      onClick={() => setItemEdit(item)}
+      onClick={() => setItemEdit && setItemEdit(item)}
     >
       <Box pr={2} w={{ base: "170px", sm: "75%" }}>
         <Heading fontSize={{ base: "xs", lg: "lg" }} mb={1}>
@@ -56,7 +58,7 @@ const JourneyCard: React.FC<IProps> = ({
         <Text fontSize={{ base: "xxs", lg: "md" }}>{item.description}</Text>
       </Box>
       <Flex w={{ lg: "145px" }}>
-        <Box w="1px" h={51} bg={isCurrent ? "primary" : "white"} />
+        <Box w="1px" h={51} bg={isCurrent ? "primary" : "accent.2"} />
         <If condition={item?.endDate}>
           <Then>
             <Box

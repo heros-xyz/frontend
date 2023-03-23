@@ -3,7 +3,7 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-1adwzom"
+    class="css-136xprj"
   >
     <h2
       class="chakra-heading css-6dvxm2"
@@ -11,7 +11,7 @@ exports[`renders homepage unchanged 1`] = `
       My Story
     </h2>
     <div
-      class="css-1yr7q3z"
+      class="css-1qsl6ue"
     >
       <span
         class="chakra-text css-0"
@@ -37,7 +37,7 @@ exports[`renders homepage unchanged 1`] = `
       >
         <hr
           aria-orientation="vertical"
-          class="chakra-divider css-1mwrsa5"
+          class="chakra-divider css-17eavvr"
         />
       </div>
       <div

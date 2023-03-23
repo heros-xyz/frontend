@@ -20,7 +20,7 @@ const AthleteSetupAccount = () => {
 
   return (
     <FormikContext.Provider value={formik}>
-      <Box minHeight="100vh" overflowY="scroll" bg="secondary">
+      <Box minHeight="100vh" overflowY="auto" bg="secondary">
         <Head>
           <title>Athlete | Setup Account</title>
         </Head>

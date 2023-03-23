@@ -29,7 +29,7 @@ const YourAthleteCard: React.FC<YourAthleteCardProps> = ({
     <Box
       borderBottomWidth="thin"
       borderColor="grey.100"
-      bg="primary"
+      bg="white"
       py="4"
       cursor="pointer"
       _hover={{
@@ -51,7 +51,7 @@ const YourAthleteCard: React.FC<YourAthleteCardProps> = ({
           />
         </WrapItem>
         <Box pl={4}>
-          <Heading fontSize={{ base: "12px", lg: "18px" }} color="white">
+          <Heading fontSize={{ base: "12px", lg: "18px" }} color="primary">
             {item?.fullName}
           </Heading>
           <Text
@@ -69,11 +69,11 @@ const YourAthleteCard: React.FC<YourAthleteCardProps> = ({
             pt={["2", "1"]}
           >
             <Clock
-              color="acccent.4"
+              color="primary"
               width={["15px", "18px"]}
               height={["15px", "18px"]}
             />
-            <Text color="acccent.4" fontWeight="medium" pl={["2", "2.5"]}>
+            <Text color="primary" fontWeight="medium" pl={["2", "2.5"]}>
               Joined: {joinedDate}
             </Text>
           </Flex>

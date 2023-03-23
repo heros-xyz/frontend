@@ -31,7 +31,7 @@ const SelectGender: React.FC<IProp> = ({
   useEffect(() => {
     onChange(genderValue);
   }, [genderValue]);
-  const selectColor = bgColor === "primary" ? "acccent.3" : "acccent.2";
+  const selectColor = bgColor === "primary" ? "accent.2" : "accent.2";
   return (
     <>
       <Flex
@@ -50,7 +50,7 @@ const SelectGender: React.FC<IProp> = ({
               color: selectColor,
             }}
             border={isActive(item.value) ? "2px" : "1px"}
-            borderColor={isActive(item.value) ? selectColor : ""}
+            borderColor={isActive(item.value) ? selectColor : "grey.100"}
             onClick={() => setGenderValue(item.value)}
           >
             <Text
@@ -60,7 +60,7 @@ const SelectGender: React.FC<IProp> = ({
                   : { base: "sm", lg: "3xl" }
               }
               fontWeight={isActive(item.value) ? 700 : 500}
-              color={isActive(item.value) ? selectColor : ""}
+              color={isActive(item.value) ? selectColor : "grey.100"}
             >
               {item.label}
             </Text>

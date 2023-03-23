@@ -18,13 +18,13 @@ exports[`renders avatar recommend 1`] = `
         />
       </div>
       <div
-        class="css-17fdx5f"
+        class="css-1gi3dih"
       >
         RECOMMEND
       </div>
     </div>
     <p
-      class="chakra-text css-h0t0vc"
+      class="chakra-text css-7ehhn"
     >
       John Smith
     </p>
@@ -51,7 +51,7 @@ exports[`renders avatar unchanged 1`] = `
       </div>
     </div>
     <p
-      class="chakra-text css-h0t0vc"
+      class="chakra-text css-7ehhn"
     >
       John Smith
     </p>

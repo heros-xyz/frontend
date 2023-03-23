@@ -109,6 +109,7 @@ const ChangePayment: React.FC<IProp> = ({
             fontWeight={"bold"}
             type="submit"
             fontSize={{ xl: "xl" }}
+            isLoading={loadingAdd || loadingUpdate}
             onClick={() => {
               if (loadingAdd || loadingUpdate || isError) {
                 return;

@@ -1,10 +1,21 @@
-import { Box, Button, Text } from "@chakra-ui/react";
-import React, { FC, useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
+import React, { FC, useState } from "react";
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 import BronzeTier from "@/components/ui/Bronze";
 import { IMembershipTier } from "@/types/membership/types";
+import DeleteSubscription from "@/components/ui/DeleteSubscription";
+import SubscribeAthlete from "@/components/ui/SubscribeAthlete";
 interface IMembershipSubscribeProps {
   listMembershipTiers: IMembershipTier[];
   validateIsFan?: boolean;
@@ -16,13 +27,22 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
   athleteNickname,
 }) => {
   const router = useRouter();
+  const { data: session } = useSession();
   const [membershipTierId, setMembershipTierId] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onSubscribe = () => {
+    if (!session) {
+      onOpen();
+      return;
+    }
+
     if (membershipTierId) {
       router.push({
-        pathname: "[id]/payment-details",
-        query: { id: router.query.id, membershipTierId },
+        pathname: `/fan/athlete-profile/${router.query.id}/payment-details`,
+        query: {
+          membershipTierId,
+        },
       });
     }
   };
@@ -40,7 +60,7 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
       <If condition={validateIsFan}>
         <Then>
           <Box my={6} fontSize={{ base: "xs", lg: "md" }} fontWeight={400}>
-            <Text as="span">
+            <Text as="span" color="primary">
               You can change tier at anytime. Visit heros&apos;s
             </Text>
             <Link href="" as="span">
@@ -49,7 +69,7 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
                 Membership guide
               </Text>
             </Link>
-            <Text as="span">
+            <Text as="span" color="primary">
               {" "}
               to learn about what will happen when you upgrade, downgrade, or
               cancel your membership tier.
@@ -59,8 +79,12 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
         <Else>
           <If condition={listMembershipTiers?.length}>
             <Then>
-              {" "}
-              <Text my={6} fontSize={{ base: "xs", lg: "md" }} fontWeight={400}>
+              <Text
+                my={6}
+                fontSize={{ base: "xs", lg: "md" }}
+                fontWeight={400}
+                color="primary"
+              >
                 Choose a tier that best suited you and your need to support your
                 favorite athlete!
               </Text>
@@ -80,12 +104,13 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
             onChange={onSelectBronzeTier}
           />
 
-          <Box textAlign={{ lg: "right" }} onClick={() => onSubscribe()}>
+          <Box textAlign={{ lg: "right" }}>
             <Button
               isDisabled={!membershipTierId || validateIsFan}
               variant="secondary"
               mt={6}
               w={{ base: "100%", xl: "fit-content" }}
+              onClick={() => onSubscribe()}
             >
               {validateIsFan ? "change tier" : "Subscribe"}
             </Button>
@@ -100,6 +125,17 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
           </Box>
         </Else>
       </If>
+      <Modal isCentered isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent
+          pt="5"
+          px="4"
+          maxW="unset"
+          w={{ base: "95%", lg: "740px" }}
+        >
+          <SubscribeAthlete />
+        </ModalContent>
+      </Modal>
     </>
   );
 };

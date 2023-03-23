@@ -1,4 +1,4 @@
-import { Box, Container, useToast } from "@chakra-ui/react";
+import { Box, Center, Container, useToast } from "@chakra-ui/react";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { Case, Switch } from "react-if";
@@ -12,7 +12,7 @@ import AthleteUpdatedSuccessfully from "@/components/ui/AthleteUpdatedSuccessful
 import { wrapper } from "@/store";
 import { athleteOnboardingGuard } from "@/middleware/athleteOnboardingGuard";
 import { setContext } from "@/libs/axiosInstance";
-import { IGuards } from "@/types/globals/types";
+import { IGuards, IHerosError } from "@/types/globals/types";
 import { useOnboardingCareerJourneyMutation } from "@/api/athlete";
 import { updateSession } from "@/utils/auth";
 
@@ -22,6 +22,7 @@ const CareerJourney = () => {
     "firstAdd" | "addingForm" | "showTimeline" | "successfully"
   >("firstAdd");
   const [milestones, setMilestone] = useState<ITimeLineInfo[]>([]);
+  const [itemCurrent, setItemCurrent] = useState<ITimeLineInfo>();
   const [submitMilestones, { data: milestonesData, error, isLoading }] =
     useOnboardingCareerJourneyMutation();
 
@@ -36,12 +37,18 @@ const CareerJourney = () => {
       icon: values.icon ? values.icon : "",
       isPeriodDate: values.isPeriodDate,
     };
-    // setMilestone((prevArr) =>
-    //   [data, ...prevArr].sort((a, b) => {
-    //     return dayjs(a.startDate).isBefore(b.startDate) ? 1 : -1;
-    //   })
-    // );
-    setMilestone((prevArr) => [data, ...prevArr]);
+    setItemCurrent(data);
+    setMilestone((prevArr) =>
+      [data, ...prevArr]?.sort((a, b) => {
+        return dayjs(a.startDate).isBefore(b.startDate)
+          ? 1
+          : dayjs(a.startDate).isSame(b.startDate)
+          ? dayjs(a.endDate).isBefore(b.endDate)
+            ? 1
+            : -1
+          : -1;
+      })
+    );
   };
 
   const handleSubmit = () => {
@@ -78,18 +85,18 @@ const CareerJourney = () => {
   useEffect(() => {
     if (error) {
       toast({
-        title: (error as any)?.data?.error || "Something went wrong",
+        title: (error as IHerosError)?.data?.error || "Something went wrong",
         status: "error",
       });
     }
   }, [error]);
 
   return (
-    <Box minHeight="100vh" overflowY="scroll" bg="secondary">
+    <Box minHeight="100vh" overflowY="auto" bg="white">
       <Head>
         <title>Athelete | Career Journey</title>
       </Head>
-      <Container size={["base", "sm", "md", "lg", "xl"]}>
+      <Container size="full">
         <Switch>
           <Case condition={step === "firstAdd"}>
             <AddFirstMilestone
@@ -100,20 +107,23 @@ const CareerJourney = () => {
             <MilestoneTimeline isLoading={isLoading} onSubmit={handleSubmit}>
               <TimeLineJourney
                 w="100%"
-                bgColor={"secondary"}
+                bgColor="secondary"
                 isAddJourney={true}
                 items={milestones}
                 handleClickAdd={() => setStep("addingForm")}
+                itemCurrent={itemCurrent}
               />
             </MilestoneTimeline>
           </Case>
           <Case condition={step === "addingForm"}>
-            <Box w={{ xl: "720px" }} m="0 auto">
-              <AddMilestone onSubmit={handleSaveMilestone} />
-            </Box>
+            <Center>
+              <Center w={{ xl: "720px" }} mx={{ base: "5", xl: "0" }}>
+                <AddMilestone onSubmit={handleSaveMilestone} />
+              </Center>
+            </Center>
           </Case>
           <Case condition={step === "successfully"}>
-            <AthleteUpdatedSuccessfully />
+            <AthleteUpdatedSuccessfully title="Career journey" />
           </Case>
         </Switch>
       </Container>

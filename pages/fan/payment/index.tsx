@@ -19,7 +19,7 @@ const PaymentInfo = () => {
   };
 
   return (
-    <Box bg="primary" minH="100vh">
+    <Box bg="white" minH="100vh">
       <Head>
         <title>Fan | Payment Information</title>
       </Head>

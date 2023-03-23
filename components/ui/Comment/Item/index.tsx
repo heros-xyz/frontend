@@ -76,7 +76,7 @@ const CommentItem: React.FC<CommentProps> = ({
   });
 
   return (
-    <Box bg="primary" {...props}>
+    <Box {...props}>
       <Flex
         alignItems="end"
         justifyContent={isReply ? "flex-end" : "flex-start"}
@@ -104,7 +104,7 @@ const CommentItem: React.FC<CommentProps> = ({
             px="3"
             borderRadius="12"
             py="2"
-            bg={isAuthorComment ? "acccent.1" : "acccent.4"}
+            bg={isAuthorComment ? "accent.1" : "grey.0"}
             position="relative"
             className="reply-comment"
             order={isReply ? 2 : 1}
@@ -117,11 +117,11 @@ const CommentItem: React.FC<CommentProps> = ({
               <Box
                 fontSize={["xs", "md"]}
                 borderLeft="2px"
-                borderColor="acccent.2"
+                borderColor="accent.2"
                 px="1.5"
                 my="1.5"
               >
-                <Text color="acccent.2" fontWeight="extrabold" className="name">
+                <Text color="accent.2" fontWeight="extrabold" className="name">
                   {item?.parentComment?.user?.role === "ATHLETE"
                     ? item.parentComment?.user?.nickName
                     : `${item?.parentComment?.user?.firstName} ${item?.parentComment?.user?.lastName}`}{" "}
@@ -132,7 +132,7 @@ const CommentItem: React.FC<CommentProps> = ({
               </Box>
             )}
             <Flex justifyContent="space-between" alignItems="end">
-              <Box fontSize={["xs", "md"]} pr="3">
+              <Box color="primary" fontSize={["xs", "md"]} pr="3">
                 <Text fontWeight="extrabold">
                   {item.nickName ?? `${item?.name}`}
                 </Text>
@@ -159,7 +159,7 @@ const CommentItem: React.FC<CommentProps> = ({
                   <CommentIcon
                     width="17"
                     height="10"
-                    color={isAuthorComment ? "acccent.1" : "acccent.4"}
+                    color={isAuthorComment ? "accent.1" : "accent.4"}
                   />
                 </Box>
               </Then>
@@ -168,18 +168,13 @@ const CommentItem: React.FC<CommentProps> = ({
                   <CommentIcon
                     width="17"
                     height="10"
-                    color={isAuthorComment ? "acccent.1" : "acccent.4"}
+                    color={isAuthorComment ? "accent.1" : "grey.0"}
                   />
                 </Box>
               </Else>
             </If>
             {totalLikes != 0 && (
-              <Box
-                bg="error.dark"
-                borderRadius="9"
-                position="absolute"
-                right="0"
-              >
+              <Box bg="accent.5" borderRadius="9" position="absolute" right="0">
                 <Flex color="white" px="1.5" gap="0.5" pt="0.5" pb="0">
                   <Text fontSize="xs" fontWeight="bold">
                     {totalLikes}
@@ -198,7 +193,7 @@ const CommentItem: React.FC<CommentProps> = ({
                 >
                   <Box
                     ref={itemRef}
-                    bg="secondary"
+                    bg="primary"
                     borderRadius={["32", "xl"]}
                     position="absolute"
                     right={isReply ? "initial" : "-8"}
@@ -210,6 +205,7 @@ const CommentItem: React.FC<CommentProps> = ({
                       <ReplyIcon
                         role="button"
                         mr="1.5"
+                        color="white"
                         onClick={() => {
                           handleReply && handleReply();
                           setIsVisible(false);
@@ -218,14 +214,14 @@ const CommentItem: React.FC<CommentProps> = ({
                       <Text
                         as={"span"}
                         borderLeft="1px"
-                        borderColor={"primary"}
+                        borderColor={"white"}
                       />
                       <Heart
                         role="button"
                         ml="1.5"
-                        color="primary"
                         onClick={handleReactToComment}
-                        fill={isLiked ? "primary" : "secondary"}
+                        color="white"
+                        fill={isLiked ? "white" : "none"}
                       />
                     </Flex>
                   </Box>
@@ -241,6 +237,7 @@ const CommentItem: React.FC<CommentProps> = ({
                 alignSelf="center"
                 ml="1.5"
                 mr={isReply ? 1.5 : 0}
+                color="grey.100"
                 onClick={handleOpenReactions}
               />
             </Then>

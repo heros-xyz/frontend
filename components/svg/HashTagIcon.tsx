@@ -10,7 +10,7 @@ export const HashTagIcon: React.FC<IconProps> = (props) => {
     >
       <path
         d="M4 17L8 1M10 17L14 1M3 6H17M1 12H15"
-        stroke="#313F4C"
+        stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"

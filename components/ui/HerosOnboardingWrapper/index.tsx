@@ -29,7 +29,7 @@ const HerosOnboardingWrapper: React.FC<OnboardingProps> = ({
   onSubmit,
 }) => {
   return (
-    <Box bg="secondary" minH={"90vh"} height="100vh">
+    <Box bg="white" minH={"90vh"} height="100vh">
       <Container size={["full", "sm", "md", "lg", "xl"]} h="100%">
         <Box
           textAlign="center"

@@ -18,7 +18,7 @@ interface OtpProps {
   description: string;
   validTime: number;
   textButton: string;
-  errorMessage?: string;
+  errorMessage?: string | number;
   isLoading?: boolean;
   otpValue: string;
   onSubmit: (otp: string) => void;
@@ -36,7 +36,9 @@ const OtpFill: React.FC<OtpProps> = ({
   onSubmit,
   resendOtp,
 }) => {
-  const [verifyOtpError, setVerifyOtpError] = useState<string | undefined>("");
+  const [verifyOtpError, setVerifyOtpError] = useState<
+    string | undefined | number
+  >("");
   const { minutes, seconds, reset } = useCountdown(validTime);
 
   const formik = useFormik({
@@ -198,7 +200,7 @@ const OtpFill: React.FC<OtpProps> = ({
               </Box>
             </Box>
             <Link
-              color="acccent.3"
+              color="accent.1"
               textDecorationLine="underline"
               fontWeight="medium"
               onClick={onResend}

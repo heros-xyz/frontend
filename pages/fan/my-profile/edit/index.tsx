@@ -10,7 +10,13 @@ import {
   Text,
   VisuallyHiddenInput,
 } from "@chakra-ui/react";
-import { ReactElement, useEffect, useRef, useState } from "react";
+import {
+  MutableRefObject,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import * as Yup from "yup";
 import Head from "next/head";
 import { useFormik } from "formik";
@@ -53,12 +59,12 @@ const validationSchema = Yup.object().shape({
     .max(20, "First name cannot exceed 20 characters")
     .test(
       "invalid-first-name",
-      "First name is not allowing special character",
+      "This field contains text only",
       (value: string | undefined) => {
         if (value) {
           return isValidString(value);
         }
-        return false;
+        return true;
       }
     )
     .required("This is a required field"),
@@ -66,12 +72,12 @@ const validationSchema = Yup.object().shape({
     .max(20, "Last name cannot exceed 20 characters")
     .test(
       "invalid-last-name",
-      "Last name is not allowing special character",
+      "This field contains text only",
       (value: string | undefined) => {
         if (value) {
           return isValidString(value);
         }
-        return false;
+        return true;
       }
     )
     .required("This is a required field"),
@@ -89,8 +95,7 @@ const EditAccountInfo = () => {
   const { data: fanProfile, refetch } = useGetFanSettingQuery("", {
     refetchOnMountOrArgChange: true,
   });
-  const initialRef: any = null;
-  const upload = useRef(initialRef);
+  const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [image, setImage] = useState("");
   const [fileSubmit, setFileSubmit] = useState<File>();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -163,17 +168,17 @@ const EditAccountInfo = () => {
   };
 
   return (
-    <Box bg="primary" color="white" pt={5} minH="100vh">
+    <Box bg="white" color="white" pt={5} minH="100vh">
       <Head>
         <title>Fan | Edit Account Information</title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Box
           w="auto"
-          bg="primary"
+          bg="white"
           minH="100vh"
           fontSize={{ base: "sm", xl: "xl" }}
-          color="white"
+          color="primary"
           alignItems="baseline"
           mb={{ base: 30, xl: 20 }}
         >
@@ -194,7 +199,7 @@ const EditAccountInfo = () => {
               Edit Account Information
             </Text>
           </Box>
-          <Box fontSize={{ base: "sm", lg: "md" }}>
+          <Box fontSize={{ base: "sm", lg: "md" }} color="black">
             <form onSubmit={formik.handleSubmit}>
               <Box my={{ base: 5, lg: 7 }}>
                 <Box fontWeight="medium">
@@ -204,6 +209,7 @@ const EditAccountInfo = () => {
                   </Text>
                 </Box>
                 <Input
+                  color="primary"
                   placeholder="First name"
                   autoComplete="off"
                   variant="flushed"
@@ -232,6 +238,7 @@ const EditAccountInfo = () => {
                   </Text>
                 </Box>
                 <Input
+                  color="primary"
                   placeholder="Last name"
                   autoComplete="off"
                   variant="flushed"
@@ -252,7 +259,7 @@ const EditAccountInfo = () => {
               </Box>
               <If condition={formik.values?.dateOfBirth}>
                 <Then>
-                  <Box mb={{ base: 5, lg: 7 }} color="white">
+                  <Box mb={{ base: 5, lg: 7 }}>
                     <Box fontWeight="medium">
                       Date of Birth
                       <Text as="span" color="error.dark">
@@ -338,7 +345,7 @@ const EditAccountInfo = () => {
                       rounded="full"
                       bg="linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))"
                     >
-                      <IconEdit />
+                      <IconEdit color="primary" />
                     </Center>
                   </Box>
                 </Center>
@@ -402,7 +409,7 @@ const EditAccountInfo = () => {
                 </Button>
                 {isSuccess && (
                   <Text color={"#65D169"} fontSize={["xs", "md"]}>
-                    Changes saved!
+                    Changes Saved
                   </Text>
                 )}
               </Box>

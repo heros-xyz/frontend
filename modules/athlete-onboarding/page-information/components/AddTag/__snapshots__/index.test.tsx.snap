@@ -3,38 +3,38 @@
 exports[`renders add tag unchanged 1`] = `
 <div>
   <div
-    class="css-16tif5l"
+    class="css-1jvt6v8"
   >
     <div
-      class="chakra-container css-10klw3m"
+      class="css-1kmmdcq"
+    >
+      Page information
+    </div>
+    <div
+      class="chakra-container css-17f3xev"
     >
       <div
-        class="css-12ij4x2"
-      >
-        PAGE INFORMATION
-      </div>
-      <div
-        class="css-8qr4sb"
+        class="css-1iltqwc"
       >
         <div
-          class="css-tayfq6"
+          class="css-14s5ckc"
         >
           <div
-            class="css-yzqqny"
+            class="css-1s2o82u"
           >
             <div
-              class="css-0"
+              class="css-5k9psj"
             >
               <div
-                class="css-0"
+                class="css-11pajvj"
               >
                 <p
-                  class="chakra-text css-12qkx1z"
+                  class="chakra-text css-12j3vcb"
                 >
                   Add Tag(s)
                 </p>
                 <p
-                  class="chakra-text css-1vcqs2l"
+                  class="chakra-text css-1suvgez"
                 >
                   Help people find you easier by adding keywords related to you and your content. Tags will not be visible to fans on your profile page. Separate tags by comma.
                 </p>
@@ -78,9 +78,6 @@ exports[`renders add tag unchanged 1`] = `
           </button>
         </div>
       </div>
-      <p
-        class="chakra-text css-1n4wwj3"
-      />
     </div>
   </div>
 </div>

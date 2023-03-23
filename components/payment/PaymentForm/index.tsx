@@ -13,7 +13,7 @@ const PaymentForm: React.FC<IProp> = ({ ...props }) => {
     useFormikContext<IPaymentForm>();
 
   return (
-    <Box color="white" {...props}>
+    <Box color="black" {...props}>
       <Box w="full" fontSize={{ base: "sm", xl: "md" }}>
         <form onSubmit={handleSubmit}>
           <Box>
@@ -28,8 +28,8 @@ const PaymentForm: React.FC<IProp> = ({ ...props }) => {
               fontWeight="medium"
               w="50%"
               border={{ base: "1px", xl: "2px" }}
-              borderColor="acccent.3"
-              color="acccent.3"
+              borderColor="secondary"
+              color="secondary"
               borderRadius={4}
               h={{ base: 8, xl: 12 }}
               pl={4}
@@ -142,7 +142,7 @@ const PaymentForm: React.FC<IProp> = ({ ...props }) => {
               </Box>
               <Input
                 as={InputMask}
-                mask="999"
+                mask="9999"
                 maskChar={null}
                 placeholder="CVV"
                 variant="flushed"

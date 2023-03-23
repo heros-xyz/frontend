@@ -5,38 +5,21 @@ import {
   Grid,
   GridItem,
   Image,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import { Else, If, Then } from "react-if";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { resetApiState, useGetMyListInteractionsQuery } from "@/api/athlete";
+import { Waypoint } from "react-waypoint";
 import Chat from "@/components/svg/Chat";
-import { useScrollToBottom } from "@/hooks/useScrollToBottom";
+import { getImageLink } from "@/utils/link";
+import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
+import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
 
 export const Interaction = ({}) => {
-  const { isBottom } = useScrollToBottom();
-  const dispatch = useDispatch();
-  const [take] = useState(15);
-  const [page, setPage] = useState(1);
-  const { data: interactionData, isFetching } = useGetMyListInteractionsQuery({
-    page,
-    take,
-    order: "DESC",
+  const { hasNextPage, interactionsList, onLoadMore } = useAthleteInteraction({
+    isGetPublic: true,
   });
-
-  useEffect(() => {
-    if (isBottom && interactionData?.meta?.hasNextPage && !isFetching) {
-      setPage((p) => p + 1);
-    }
-  }, [isBottom]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(resetApiState());
-    };
-  }, []);
 
   return (
     <Box marginTop={{ base: 0, xl: "50px" }} maxWidth="500px">
@@ -44,7 +27,7 @@ export const Interaction = ({}) => {
         paddingX={{ base: "16px", xl: "110px" }}
         marginBottom={{ base: "20px", xl: "50px" }}
       >
-        {!interactionData?.data?.length && (
+        {!interactionsList.length && (
           <Text
             mb={{ base: "15px", xl: "50px" }}
             fontSize={{ base: "xs", xl: "md" }}
@@ -73,21 +56,59 @@ export const Interaction = ({}) => {
         gap={{ base: "3px", xl: "5px" }}
         justifyItems="center"
       >
-        {interactionData?.data?.length
-          ? interactionData?.data?.map((item) => (
+        {interactionsList.length
+          ? interactionsList.map((item) => (
               <GridItem borderRadius="4px" key={item?.id} w="full">
                 <AspectRatio ratio={1} w="100%">
-                  <Link href={`/athlete/interactions/${item?.id}`}>
+                  <Link
+                    href={`/athlete/interactions/${item?.id}`}
+                    style={{ borderRadius: "4px" }}
+                  >
                     <If condition={item?.interactionMedia?.length > 0}>
                       <Then>
-                        <Image
-                          src={item?.interactionMedia[0]?.url}
-                          w="full"
-                          h="full"
-                          alt=""
-                          fallbackSrc="https://via.placeholder.com/120"
-                          rounded="md"
-                        />
+                        <If
+                          condition={
+                            item?.interactionMedia?.[0]?.type === "image"
+                          }
+                        >
+                          <Then>
+                            <Image
+                              src={getImageLink(item?.interactionMedia[0]?.url)}
+                              w="full"
+                              h="full"
+                              alt=""
+                              fallbackSrc="https://via.placeholder.com/120"
+                              objectFit="cover"
+                              loading="lazy"
+                            />
+                          </Then>
+                          <Else>
+                            <Box
+                              position="relative"
+                              w="full"
+                              h="full"
+                              rounded="8px"
+                            >
+                              <video
+                                src={getImageLink(
+                                  item?.interactionMedia[0]?.url
+                                )}
+                                style={{
+                                  borderRadius: "8px",
+                                  width: "100%",
+                                }}
+                              />
+                              <PlayVideoIcon
+                                w={{ base: "30px", lg: "35px" }}
+                                h={{ base: "30px", lg: "35px" }}
+                                position="absolute"
+                                top="50%"
+                                left="50%"
+                                transform="translate(-50%,-50%)"
+                              />
+                            </Box>
+                          </Else>
+                        </If>
                       </Then>
                       <Else>
                         <Box
@@ -105,11 +126,13 @@ export const Interaction = ({}) => {
                             w={{ base: "26px", xl: "32px" }}
                             h={{ base: "24px", xl: "32px" }}
                             marginBottom={{ base: "6px", xl: "10px" }}
+                            color="primary"
                           />
                           <Text
                             fontSize={{ base: "10px", xl: "16px" }}
                             fontWeight="medium"
                             lineHeight="120%"
+                            color="primary"
                           >
                             {item?.content.slice(0, 29).concat("...")}
                           </Text>
@@ -122,6 +145,13 @@ export const Interaction = ({}) => {
             ))
           : ""}
       </Grid>
+      {hasNextPage && (
+        <Waypoint onEnter={onLoadMore}>
+          <Box display="flex" justifyContent="center" mt={5}>
+            <Spinner color="secondary" />
+          </Box>
+        </Waypoint>
+      )}
     </Box>
   );
 };

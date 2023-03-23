@@ -36,7 +36,7 @@ const InteractionDetail = () => {
       athleteInfo: {
         imagePath: postInfo?.user?.avatar || "",
         athleteName: session?.user?.nickname ?? "",
-        publishDate: postInfo?.user?.createdAt || "",
+        publishDate: postInfo?.publicDate || postInfo?.createdAt,
         id: postInfo?.user?.id,
       },
       slideData: postInfo?.interactionMedia ?? [],
@@ -63,13 +63,12 @@ const InteractionDetail = () => {
   }, [postInfo]);
 
   return (
-    <Box bg="primary" minHeight="100vh" pb={8}>
+    <Box bg="white" minHeight="100vh" pb={8}>
       <Head>
         <title>Athlete | Interaction Details</title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "xl"]}>
         <Box
-          bg="primary"
           position={{ sm: "sticky", lg: "static" }}
           top={0}
           mx={{ base: -5, lg: 0 }}
@@ -87,7 +86,7 @@ const InteractionDetail = () => {
             <Text
               fontFamily="heading"
               fontSize={{ base: "xl", lg: "2xl" }}
-              color="white"
+              color="primary"
             >
               Interaction
             </Text>

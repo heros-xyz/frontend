@@ -2,7 +2,6 @@ import { Pagination } from "swiper";
 import { AspectRatio, Box, Image } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Case, Else, If, Switch, Then } from "react-if";
-import { useMemo } from "react";
 import { getImageLink } from "@/utils/link";
 import { IInteractionMedia } from "@/types/athlete/types";
 import { cssStyles } from "./styles";

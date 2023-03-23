@@ -42,12 +42,12 @@ const ItemSuggestionsFan: React.FC<IProps> = ({
             color="primary"
             fontSize={{ base: "xs", xl: "md" }}
             mb={{ xl: 1 }}
-            fontWeight={"700"}
+            fontWeight={"500"}
             lineHeight="140%"
           >
             <Highlight
               query={searchKeyword ?? ""}
-              styles={{ fontWeight: "extrabold" }}
+              styles={{ fontWeight: "extrabold", color: "primary" }}
             >
               {item?.fullName}
             </Highlight>

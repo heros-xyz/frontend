@@ -3,9 +3,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { FullNameFanOnBoardingIcon } from "@/components/svg/FullNameFanOnBoarding";
 import { ArrowRight } from "@/components/svg/ArrowRight";
-import FanOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { isValidString } from "@/utils/functions";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 
 interface initialValues {
   firstName: string;
@@ -22,12 +22,12 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
       .max(20, "First name cannot exceeds 20 characters")
       .test(
         "invalid-firstname",
-        "First name is not allowing special character",
+        "This field contains text only",
         (value: string | undefined) => {
           if (value) {
             return isValidString(value);
           }
-          return false;
+          return true;
         }
       )
       .required("This is a required field"),
@@ -35,12 +35,12 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
       .max(20, "Last name cannot exceeds 20 characters")
       .test(
         "invalid-lastname",
-        "Last name is not allowing special character",
+        "This field contains text only",
         (value: string | undefined) => {
           if (value) {
             return isValidString(value);
           }
-          return false;
+          return true;
         }
       )
       .required("This is a required field"),
@@ -53,18 +53,20 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
     },
   });
   return (
-    <FanOnboardingWrapper
+    <HerosOnboardingWrapperNew
       Icon={
         <FullNameFanOnBoardingIcon
-          w={{ base: "150px", xl: "240px" }}
-          h={{ base: "150px", xl: "240px" }}
+          w={{ base: "72px", xl: "115px" }}
+          h={{ base: "90px", xl: "144px" }}
+          color={{ base: "#FFFAE8", xl: "#E2FF65" }}
         />
       }
       textButton="Proceed"
       IconButton={<ArrowRight />}
       onSubmit={formik.handleSubmit}
+      bgIconColor="#E2FF65"
     >
-      <Box color="black.ish">
+      <Box color="primary">
         <Box mb={{ base: 5, lg: 8 }}>
           <Box mb={2.5} fontSize={{ lg: "xl" }} fontWeight="500">
             Enter Your Full Name
@@ -75,11 +77,11 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
           </Box>
           <Box
             fontWeight="normal"
-            color={{ lg: "grey.300" }}
+            color="grey.300"
             fontSize={{ base: "xs", lg: "md" }}
           >
-            Let’s your favorite athletes know who is following and supporting
-            them. Your full name will be shown to the public.
+            Let&apos;s your favorite athletes know who is following and
+            supporting them. Your full name will be shown to the public.
           </Box>
         </Box>
         <Box mb={4}>
@@ -94,6 +96,7 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
               isInvalid={Boolean(
                 formik.errors.firstName && formik.touched.firstName
               )}
+              borderColor="grey.200"
             />
             <ErrorMessage
               condition={formik.errors.firstName && formik.touched.firstName}
@@ -112,6 +115,7 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
               isInvalid={Boolean(
                 formik.errors.lastName && formik.touched.lastName
               )}
+              borderColor="grey.200"
             />
             <ErrorMessage
               condition={formik.errors.lastName && formik.touched.lastName}
@@ -120,7 +124,7 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
           </Box>
         </Box>
       </Box>
-    </FanOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

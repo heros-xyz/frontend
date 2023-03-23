@@ -15,7 +15,7 @@ function InteractionsPostPage() {
       <Head>
         <title>Athlete | Post Interaction</title>
       </Head>
-      <Box bg="primary" minHeight="100vh">
+      <Box minHeight="100vh">
         <Container
           position="relative"
           size={["base", "sm", "md", "lg", "500px"]}

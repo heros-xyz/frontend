@@ -3,7 +3,7 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-16tif5l"
+    class="css-1cmnbwr"
   >
     <div
       class="chakra-container css-10klw3m"
@@ -31,7 +31,7 @@ exports[`renders homepage unchanged 1`] = `
               <circle
                 cx="75.5"
                 cy="75"
-                fill="white"
+                fill="currentColor"
                 r="74.5"
                 stroke="#DDDDDD"
               />
@@ -843,7 +843,7 @@ exports[`renders homepage unchanged 1`] = `
                     >
                       <path
                         d="M3.83398 13.3332L3.83398 14.1665C3.83398 15.5472 4.95327 16.6665 6.33398 16.6665L14.6673 16.6665C16.048 16.6665 17.1673 15.5472 17.1673 14.1665L17.1673 13.3332M13.834 6.6665L10.5006 3.33317M10.5006 3.33317L7.16732 6.6665M10.5006 3.33317L10.5006 13.3332"
-                        stroke="#D2FFFA"
+                        stroke="currentColor"
                         stroke-linecap="round"
                         stroke-linejoin="round"
                         stroke-width="1.5"
@@ -871,7 +871,7 @@ exports[`renders homepage unchanged 1`] = `
               >
                 <path
                   d="M3.83398 13.3332L3.83398 14.1665C3.83398 15.5472 4.95327 16.6665 6.33398 16.6665L14.6673 16.6665C16.048 16.6665 17.1673 15.5472 17.1673 14.1665L17.1673 13.3332M13.834 6.6665L10.5006 3.33317M10.5006 3.33317L7.16732 6.6665M10.5006 3.33317L10.5006 13.3332"
-                  stroke="#D2FFFA"
+                  stroke="currentColor"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="1.5"

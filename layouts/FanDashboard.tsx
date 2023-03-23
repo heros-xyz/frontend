@@ -19,7 +19,7 @@ const FanDashboardLayout: React.FC<LayoutProps> = ({ children }) => {
           flex={1}
           pl={{ xl: "320px" }}
           pb={{ base: 16, lg: 12 }}
-          bg="primary"
+          bg="white"
         >
           {children}
         </Box>

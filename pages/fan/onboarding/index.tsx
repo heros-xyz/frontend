@@ -31,7 +31,7 @@ const FanOnboarding = () => {
   } = useFanOnboarding();
 
   return (
-    <Box bg="secondary" minHeight="100vh" overflowY="scroll">
+    <Box bg="white" minHeight="100vh" overflowY="auto">
       <Head>
         <title>Fan | Onboarding</title>
       </Head>

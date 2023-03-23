@@ -26,9 +26,11 @@ const AthleteProfile = () => {
   );
 
   return (
-    <Box bg="primary" pb={6}>
+    <Box bg="white" pb={6}>
       <Head>
-        <title>Athlete Profile</title>
+        <title>
+          {athleteProfile?.nickName || "Athlete Profile"} | Athlete | Heros
+        </title>
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <ViewAthleteProfile athleteProfile={athleteProfile} />

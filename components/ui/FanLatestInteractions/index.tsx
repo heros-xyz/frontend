@@ -32,7 +32,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
   isLoading,
 }) => {
   return (
-    <Box bg="primary" py="5">
+    <Box bg="white" py="5">
       <Box
         display="flex"
         justifyContent="space-between"
@@ -40,7 +40,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
         mb={{ base: 5, lg: 7 }}
       >
         <Heading
-          color="acccent.3"
+          color="primary"
           fontWeight="bold"
           fontSize="xl"
           lineHeight="110%"
@@ -48,13 +48,13 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
           {titleHeading}
         </Heading>
         {items?.length ? (
-          <Box borderBottom="1px" borderColor="secondary">
+          <Box borderBottom="1px" borderColor="grey.3">
             <Link
               as={NextLink}
               fontSize={{ base: "xs", lg: "md" }}
               fontWeight="medium"
               lineHeight="100%"
-              color="secondary"
+              color="grey.3"
               href="fan/interactions"
               textTransform="capitalize"
               mr="2"
@@ -63,7 +63,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
               {actionText}
             </Link>
             <Link as={NextLink} href="fan/interactions">
-              <IconArrowRight width="3" height="11" color="secondary" />
+              <IconArrowRight width="3" height="11" color="grey.3" />
             </Link>
           </Box>
         ) : (
@@ -101,7 +101,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
                         lg: `${!item.interactionMedia?.[0]?.url ? "2px" : ""}`,
                       }}
                       borderColor={`${
-                        !item.interactionMedia?.[0]?.url ? "grey.100" : ""
+                        !item.interactionMedia?.[0]?.url ? "secondary" : ""
                       }`}
                       w="full"
                       h="full"

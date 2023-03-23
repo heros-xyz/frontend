@@ -30,7 +30,7 @@ import {
   useGetSportProfileQuery,
   useGetTotalSubscriptionQuery,
 } from "@/api/athlete";
-import { useProfileQuery } from "@/api/user";
+import { getRunningQueriesThunk, profile, useProfileQuery } from "@/api/user";
 import { getImageLink } from "@/utils/link";
 
 const AthleteDashboard = () => {
@@ -41,8 +41,8 @@ const AthleteDashboard = () => {
     useGetTotalSubscriptionQuery("");
   const { data: grossMoneyData } = useGetGrossAmountMoneyQuery("");
   const { data: membershipData, isLoading: isGettingMembership } =
-    useGetMembershipListQuery({
-      userId: session?.user?.id,
+    useGetMembershipListQuery(session?.user?.id ?? "", {
+      skip: !session?.user?.id,
     });
   const { data: profile, isLoading: isGettingNetMoney } = useProfileQuery("");
   const { data: sportProfile } = useGetSportProfileQuery("");
@@ -59,14 +59,16 @@ const AthleteDashboard = () => {
   };
 
   return (
-    <Box bg="primary" pt={6} minH="100vh">
+    <Box bg="white" pt={6} minH="100vh">
       <Head>
-        <title>Athlete | Homepage</title>
+        <title>
+          {profile?.nickname || "Athlete Profile"} | Athlete | Heros
+        </title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Grid gridGap={["5", "4"]}>
           <Flex
-            color={"white"}
+            color={"primary"}
             alignContent={"flex-start"}
             justifyContent={"space-between"}
             pb={["2", "4"]}
@@ -91,7 +93,7 @@ const AthleteDashboard = () => {
               href="/athlete/my-profile/settings"
               height="fit-content"
             >
-              <Setting w={["5", "6"]} h={["5", "6"]} />
+              <Setting w={["5", "6"]} h={["5", "6"]} color="primary" />
             </Link>
           </Flex>
           <AthleteOverview
@@ -136,8 +138,11 @@ AthleteDashboard.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
+  (store) => async (context) => {
     setContext(context);
+
+    store.dispatch(profile.initiate(""));
+    await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

@@ -27,7 +27,7 @@ const AthleteAvatar: FC<AthleteAvatarProps> = ({
         </AspectRatio>
         {isRecommend && (
           <Center
-            bg="acccent.1"
+            bg="accent.1"
             position="absolute"
             bottom={0}
             left="50%"
@@ -37,14 +37,18 @@ const AthleteAvatar: FC<AthleteAvatarProps> = ({
             h={{ base: "15px", lg: "30px" }}
             fontSize={{ base: "2xs", lg: "md" }}
             fontFamily="heading"
-            color="acccent.2"
+            color="accent.2"
             fontWeight={700}
           >
             RECOMMEND
           </Center>
         )}
       </Box>
-      <Text fontSize={{ base: "sm", lg: "18px" }} color="white">
+      <Text
+        fontSize={{ base: "sm", lg: "18px" }}
+        fontWeight={500}
+        color="primary"
+      >
         {name}
       </Text>
     </Box>

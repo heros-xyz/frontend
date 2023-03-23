@@ -74,16 +74,11 @@ const EditSportProfile = () => {
   });
 
   return (
-    <Box
-      px={{ base: 5, lg: 0 }}
-      bg="primary"
-      minH="100vh"
-      pb={{ base: 16, xl: 8 }}
-    >
+    <Box px={{ base: 5, lg: 0 }} minH="100vh" pb={{ base: 16, xl: 8 }}>
       <Head>
         <title>Athlete | Edit Journey</title>
       </Head>
-      <Container size={["full", "sm", "md", "lg", "500px"]}>
+      <Container size={["full", "sm", "md", "lg", "500px"]} color="primary">
         <Box>
           <form onSubmit={formik.handleSubmit}>
             <Box
@@ -99,26 +94,23 @@ const EditSportProfile = () => {
                 cursor="pointer"
                 onClick={() => router.push("/athlete/my-profile")}
               />
-              <Text
-                as="span"
-                ml="6"
-                color="white"
-                fontSize={{ base: "xl", xl: "2xl" }}
-              >
+              <Text as="span" ml="6" fontSize={{ base: "xl", xl: "2xl" }}>
                 Edit Sport Profile
               </Text>
             </Box>
             <Box mb="50px">
               <Box mb={{ base: 5, xl: 8 }}>
                 <Text
-                  color="white"
                   fontSize={{ base: "sm", xl: "md" }}
                   fontWeight="medium"
                   marginBottom={{ base: "10px", xl: "15px" }}
                 >
-                  Sport{" "}
-                  <Text as="span" color="red">
-                    *
+                  <Text as="span" color="black">
+                    {" "}
+                    Sport
+                  </Text>
+                  <Text as="span" color="error.dark">
+                    {" *"}
                   </Text>
                 </Text>
                 <Select
@@ -133,19 +125,18 @@ const EditSportProfile = () => {
               <Box mb={{ base: 5, xl: 8 }}>
                 <Text
                   marginBottom={{ base: "10px", xl: "15px" }}
-                  color="white"
                   fontSize={{ base: "sm", xl: "md" }}
                   fontWeight="medium"
+                  color="black"
                 >
                   Current team/Association/Club
                 </Text>
                 <Input
                   variant="flushed"
                   placeholder="Tell Your Story"
-                  borderColor="white"
+                  borderColor="grey.100"
                   name="currentTeam"
                   fontSize={{ base: "sm", xl: "lg" }}
-                  color="white"
                   value={formik.values?.currentTeam}
                   onChange={formik.handleChange}
                 />
@@ -158,24 +149,25 @@ const EditSportProfile = () => {
               </Box>
               <Box>
                 <Text
-                  color="white"
                   fontSize={{ base: "sm", xl: "md" }}
                   fontWeight="medium"
                   marginBottom={{ base: "10px", xl: "15px" }}
                 >
-                  My goal{" "}
-                  <Text as="span" color="red">
-                    *
+                  <Text as="span" color="black">
+                    {" "}
+                    My Goal
+                  </Text>
+                  <Text as="span" color="error.dark">
+                    {" *"}
                   </Text>
                 </Text>
                 <Textarea
                   resize="none"
                   variant="flushed"
                   placeholder="Your goal"
-                  borderColor="white"
+                  borderColor="grey.100"
                   name="goal"
                   fontSize={{ base: "sm", xl: "lg" }}
-                  color="white"
                   onChange={(el) =>
                     formik.setFieldValue("goal", el.target.value)
                   }
@@ -206,7 +198,7 @@ const EditSportProfile = () => {
                     mt={{ base: 2.5, xl: 4 }}
                     fontSize={{ base: "xs", xl: "md" }}
                   >
-                    Changes saved!
+                    Changes Saved
                   </Box>
                 </Then>
               </If>

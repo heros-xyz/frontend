@@ -19,6 +19,7 @@ import {
   useRef,
   useState,
   KeyboardEvent,
+  MutableRefObject,
 } from "react";
 import Head from "next/head";
 import { useFormik } from "formik";
@@ -49,8 +50,7 @@ const EditPageInfo = () => {
     useEditPageInfoMutation();
   const [input, setInput] = useState("");
   const [tagsValue, setTags] = useState<string[]>([]);
-  const initialRef: any = null;
-  const upload = useRef(initialRef);
+  const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [image, setImage] = useState("");
   const [fileSubmit, setFileSubmit] = useState<File>();
 
@@ -154,12 +154,12 @@ const EditPageInfo = () => {
     setErrorMessage(null);
   };
   return (
-    <Box bg="primary" pt={5} minH="100vh">
+    <Box pt={5} minH="100vh" color="primary">
       <Head>
         <title>Athlete | Edit Page Information</title>
       </Head>
       <Center
-        color="white"
+        color="primary"
         flexDirection="column"
         p={"5"}
         pt={{ xl: "3.75rem" }}
@@ -189,15 +189,18 @@ const EditPageInfo = () => {
               mt={["5", "8"]}
               fontWeight="medium"
             >
-              Nick Name
+              <Text as="span" color="black">
+                Nick Name
+              </Text>
               <Text as="span" color="error.dark">
-                *
+                {" *"}
               </Text>
               <Input
                 variant="flushed"
                 placeholder="Nick Name"
-                borderColor="white"
+                borderColor="grey.100"
                 name="nickName"
+                fontWeight="500"
                 fontSize={["sm", "lg"]}
                 onChange={formik.handleChange}
                 value={formik?.values?.nickName}
@@ -213,9 +216,11 @@ const EditPageInfo = () => {
             </Box>
             <Box>
               <Box fontSize={["sm", "md"]} fontWeight="medium">
-                Your profile pic
+                <Text as="span" color="black">
+                  Your profile pic
+                </Text>
                 <Text as="span" color="error.dark">
-                  *
+                  {" *"}
                 </Text>
               </Box>
               <Center>
@@ -272,14 +277,15 @@ const EditPageInfo = () => {
               fontSize={{ base: "sm", xl: "md" }}
               mt={{ base: 5, xl: 10 }}
             >
-              <Text fontSize={["sm", "md"]} fontWeight="medium">
+              <Text fontSize={["sm", "md"]} fontWeight="medium" color="black">
                 Tagline (50 words limited)
               </Text>
               <Input
                 variant="flushed"
                 placeholder="Nick Name"
-                borderColor="white"
+                borderColor="grey.100"
                 name="tagLine"
+                fontWeight={500}
                 fontSize={["sm", "lg"]}
                 onChange={formik.handleChange}
                 value={formik?.values?.tagLine}
@@ -293,7 +299,7 @@ const EditPageInfo = () => {
               fontSize={{ base: "sm", xl: "md" }}
               mt={{ base: 5, xl: 10 }}
             >
-              <Text fontSize={["sm", "md"]} fontWeight="medium">
+              <Text fontSize={["sm", "md"]} fontWeight="medium" color="black">
                 Tags
               </Text>
               <Text color={"secondary"}>
@@ -303,7 +309,7 @@ const EditPageInfo = () => {
               <Input
                 variant="flushed"
                 placeholder="Add Tags"
-                borderColor="white"
+                borderColor="grey.100"
                 name="tags"
                 fontSize={["sm", "lg"]}
                 onKeyDown={handleKeyDown}
@@ -368,7 +374,7 @@ const EditPageInfo = () => {
               </Flex>
               {isSuccess && (
                 <Flex justify={{ base: "center", xl: "flex-end" }} pt="2">
-                  <Text color="#65D169">Changes saved!</Text>
+                  <Text color="#65D169">Changes Saved</Text>
                 </Flex>
               )}
             </Box>

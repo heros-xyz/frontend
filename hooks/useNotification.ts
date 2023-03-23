@@ -3,11 +3,9 @@ import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import updateLocale from "dayjs/plugin/updateLocale";
 import isToday from "dayjs/plugin/isToday";
-import { useDispatch } from "react-redux";
 import { useUnmount } from "react-use";
 import { INotificationInfo } from "@/types/notifications/types";
 import {
-  resetApiState,
   useGetListNotificationQuery,
   useMaskAllNotificationMutation,
 } from "@/api/global";
@@ -19,8 +17,6 @@ dayjs.updateLocale("en", {
 });
 
 export const useNotification = () => {
-  const dispatch = useDispatch();
-  const router = useRouter();
   const { start, finish } = useLoading();
   const [beforeDate, setBeforeDate] = useState<string | Date | undefined>(
     undefined
@@ -50,14 +46,16 @@ export const useNotification = () => {
   };
 
   const onRefetchNotificationList = async () => {
-    await refetch().unwrap();
-    router.reload();
-    finish();
+    setListNotification([]);
+    setBeforeDate(undefined);
+
+    setTimeout(async () => {
+      await refetch().unwrap();
+      finish();
+    });
   };
 
   const onLoadMore = () => {
-    console.log("load more");
-
     if (!isFetching && notificationData?.meta?.hasNextPage) {
       const lastItem = notificationData?.data?.slice(-1)?.pop();
       setBeforeDate(lastItem?.createdAt);
@@ -110,7 +108,7 @@ export const useNotification = () => {
   }, [listNotification]);
 
   useUnmount(() => {
-    dispatch(resetApiState());
+    setListNotification([]);
   });
 
   return {

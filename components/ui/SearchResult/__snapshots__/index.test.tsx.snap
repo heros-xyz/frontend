@@ -3,7 +3,7 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-evw22j"
+    class="css-n01cp4"
   >
     <b
       class="chakra-text css-1vj13dc"
@@ -19,20 +19,20 @@ exports[`renders homepage unchanged 1`] = `
         >
           <img
             alt=""
-            class="chakra-image__placeholder css-3b5e7v"
+            class="chakra-image__placeholder css-w62gfb"
             src="https://via.placeholder.com/80"
           />
           <div
-            class="css-zqivrz"
+            class="css-1de0wfg"
           >
             <p
               class="chakra-text css-klkhh2"
             />
             <p
-              class="chakra-text css-f0tr84"
+              class="chakra-text css-1hjpc7i"
             />
             <div
-              class="css-xw0f7y"
+              class="css-g74sjt"
             >
               <svg
                 class="chakra-icon css-1c338ae"
@@ -59,7 +59,8 @@ exports[`renders homepage unchanged 1`] = `
                 class="chakra-text css-ax9gf9"
               >
                 0
-                 fan(s)
+                 
+                fan
               </p>
             </div>
           </div>
@@ -73,20 +74,20 @@ exports[`renders homepage unchanged 1`] = `
         >
           <img
             alt=""
-            class="chakra-image__placeholder css-3b5e7v"
+            class="chakra-image__placeholder css-w62gfb"
             src="https://via.placeholder.com/80"
           />
           <div
-            class="css-zqivrz"
+            class="css-1de0wfg"
           >
             <p
               class="chakra-text css-klkhh2"
             />
             <p
-              class="chakra-text css-f0tr84"
+              class="chakra-text css-1hjpc7i"
             />
             <div
-              class="css-xw0f7y"
+              class="css-g74sjt"
             >
               <svg
                 class="chakra-icon css-1c338ae"
@@ -113,7 +114,8 @@ exports[`renders homepage unchanged 1`] = `
                 class="chakra-text css-ax9gf9"
               >
                 0
-                 fan(s)
+                 
+                fan
               </p>
             </div>
           </div>

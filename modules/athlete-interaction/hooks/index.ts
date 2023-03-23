@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import dayjs, { UnitType } from "dayjs";
+import dayjs from "dayjs";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
@@ -17,6 +17,7 @@ import {
 } from "@/utils/inputRules";
 import { updateSession } from "@/utils/auth";
 import { IMediaExisted } from "@/types/athlete/types";
+import { IHerosError } from "@/types/globals/types";
 export interface IUploadFile {
   type: string;
   file: File | string;
@@ -30,22 +31,16 @@ export interface IValuesTypes {
   schedule: boolean;
   publicDate: string;
   publicTime: string;
+  isPost: boolean;
 }
-
-const getTime = (type: UnitType) => {
-  const time = dayjs().get(type);
-  if (+time < 10) {
-    return `0${time}`;
-  }
-  return time;
-};
 
 const publicDateValidation = (
   schedule: boolean,
   publicTime: string,
+  isPost: boolean,
   schema: any
 ) => {
-  if (schedule) {
+  if (schedule && isPost) {
     return schema
       .test("valid-date", "Invalid date", (value: string) => {
         return isValidDate(value);
@@ -78,17 +73,19 @@ const initialValues = {
   schedule: false,
   publicDate: dayjs().format("YYYY-MM-DD"),
   publicTime: dayjs().format("HH:mm"),
+  isPost: true,
 };
 
 const validationSchema = yup.object().shape({
   schedule: yup.boolean(),
+  isPost: yup.boolean(),
   publicTime: yup.string(),
   content: yup
     .string()
     .max(2000, "Your interaction cannot exceed 2000 characters."),
   publicDate: yup
     .string()
-    .when(["schedule", "publicTime"], publicDateValidation as any),
+    .when(["schedule", "publicTime", "isPost"], publicDateValidation as any),
   listMedia: yup
     .array()
     .test(
@@ -149,14 +146,15 @@ export const useInteractionInfo = () => {
       publicTime,
       schedule,
     }) => {
-      const formatDate = new Date(`${publicDate} ${publicTime} UTC`);
+      const formatDate = new Date(`${publicDate} ${publicTime}`).toUTCString();
       const mapPayload = {
         content,
         tags,
         listMedia,
         schedule,
-        publicDate: formatDate.toISOString(),
+        publicDate: dayjs(formatDate).format(),
       };
+
       submit(mapPayload);
     },
   });
@@ -169,7 +167,7 @@ export const useInteractionInfo = () => {
     if (error) {
       toast({
         title:
-          (error as any)?.data?.error ||
+          (error as IHerosError)?.data?.error ||
           "Something went wrong, please try again!",
         status: "error",
       });
@@ -202,7 +200,7 @@ export const useUpdateInteractionInfo = () => {
       publicDate,
       publicTime,
     }) => {
-      const formatDate = new Date(`${publicDate} ${publicTime} UTC`);
+      const formatDate = new Date(`${publicDate} ${publicTime}`).toUTCString();
       const listMediaExisted = listMedia.filter(
         (item) => typeof item.file === "string"
       ) as IMediaExisted[];
@@ -213,7 +211,7 @@ export const useUpdateInteractionInfo = () => {
         listMedia,
         listMediaExisted,
         schedule,
-        publicDate: formatDate.toISOString(),
+        publicDate: dayjs(formatDate).format(),
       };
       submit({ interactionId, data: mapPayload });
     },
@@ -233,7 +231,7 @@ export const useUpdateInteractionInfo = () => {
     if (error) {
       toast({
         title:
-          (error as any)?.data?.error ||
+          (error as IHerosError)?.data?.error ||
           "Something went wrong, please try again!",
         status: "error",
       });

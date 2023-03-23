@@ -6,23 +6,33 @@ import OnboardingWrapper, {
 } from "@/components/ui/OnboardingWrapper";
 import { NextIcon } from "@/components/svg/NextIcon";
 import { FanOnboardingSuccess } from "@/components/svg/FanOnboardingSuccess";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 
 const AthleteSuccessStep: React.FC<OnboardingProps> = (props) => {
   const router = useRouter();
   return (
-    <OnboardingWrapper
+    <HerosOnboardingWrapperNew
       {...props}
-      onNextStep={() => router.push("/athlete")}
-      Icon={<FanOnboardingSuccess w="full" h="full" />}
+      onSubmit={() => router.push("/athlete")}
+      Icon={
+        <FanOnboardingSuccess
+          w={{ base: "90px", xl: "144px" }}
+          h={{ base: "90px", xl: "144px" }}
+          color={{ base: "#FFFAE8", xl: "secondary" }}
+        />
+      }
       textButton="build up your story"
       IconButton={<NextIcon />}
+      bgIconColor="secondary"
+      isSuccessPage
     >
       <Box textAlign={{ base: "center", xl: "left" }} w={"100%"}>
         <Text
-          fontSize={"4xl"}
+          fontSize={{ base: "xl", xl: "4xl" }}
           fontWeight={"800"}
           lineHeight="50.4px"
           fontFamily="heading"
+          color="primary"
         >
           Account Set Up Successfully
         </Text>
@@ -33,12 +43,13 @@ const AthleteSuccessStep: React.FC<OnboardingProps> = (props) => {
           fontWeight={"normal"}
           fontSize={"md"}
           fontFamily="heading"
+          color="grey.300"
         >
-          Your account has been set up. Let’s build up and share your amazing
-          story to your fans.
+          Your account has been set up. Let&apos;s build up and share your
+          amazing story to your fans.
         </Text>
       </Box>
-    </OnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

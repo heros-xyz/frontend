@@ -33,6 +33,7 @@ interface SelectProps {
   isInvalid?: boolean;
   isSelectDate?: boolean;
   placeholderSize?: string;
+  isDisabled?: boolean;
   filterSelectOptions?:
     | ((option: FilterOptionOption<any>, inputValue: string) => boolean)
     | null
@@ -49,11 +50,13 @@ const Select: FC<SelectProps> = ({
   errorMessage = null,
   isMulti = false,
   isDarkTheme = false,
-  onChange,
+
   isInvalid,
   zIndex,
   isSelectDate,
   placeholderSize,
+  isDisabled,
+  onChange,
   filterSelectOptions,
   ...rest
 }) => {
@@ -103,14 +106,14 @@ const Select: FC<SelectProps> = ({
               justifyContent={isSelectDate ? "center" : "space-between"}
               cursor="pointer"
               onClick={setValue as any}
-              _hover={{ color: isDarkTheme ? "acccent.1" : "acccent.2" }}
+              _hover={{ color: isDarkTheme ? "primary" : "primary" }}
               color={
                 isDarkTheme
                   ? isSelected
-                    ? "acccent.1"
-                    : "secondary"
+                    ? "accent.2"
+                    : "primary"
                   : isSelected
-                  ? "acccent.2"
+                  ? "accent.2"
                   : "black"
               }
               {...innerProps}
@@ -159,12 +162,14 @@ const Select: FC<SelectProps> = ({
               mr={1}
               color={
                 value.key === "placeholder"
-                  ? "grey.300"
+                  ? "grey.200"
                   : isDarkTheme
-                  ? "white"
+                  ? "primary"
                   : "primary"
               }
+              fontWeight="600"
               fontSize={placeholderSize ?? "sm"}
+              cursor={isDisabled ? "not-allowed" : ""}
             >
               {value.children}
               {index <= selected.length - 2 ? "," : ""}
@@ -182,7 +187,7 @@ const Select: FC<SelectProps> = ({
   }, [value]);
 
   const DropdownIndicator = () => {
-    return <ChervonDown w={5} h={5} color={isDarkTheme ? "white" : ""} />;
+    return <ChervonDown w={5} h={5} color="grey.200" />;
   };
 
   return (
@@ -195,6 +200,7 @@ const Select: FC<SelectProps> = ({
         onChange={onChange}
         maxMenuHeight={renderOptionBaseOnOptionCount}
         placeholder={placeHolder}
+        isDisabled={isDisabled}
         components={{
           DropdownIndicator,
           Option: CustomOption,
@@ -220,7 +226,7 @@ const Select: FC<SelectProps> = ({
             borderRadius: "none",
             borderBottom: isInvalid
               ? "1px solid #FF6767"
-              : `1px solid ${isDarkTheme ? "#D9D9D9" : "#505050"}`,
+              : `1px solid ${isDarkTheme ? "#ADADAD" : "#505050"}`,
             boxShadow: "none",
             "&:hover": {
               borderColor: "none",
@@ -231,8 +237,8 @@ const Select: FC<SelectProps> = ({
           menu: () => ({
             marginTop: 10,
             borderRadius: 6,
-            border: `1px solid ${isDarkTheme ? "#FFC5EF" : "#505050"}  `,
-            background: isDarkTheme ? "#313F4C" : "#D2FFFA",
+            border: `1px solid ${isDarkTheme ? "#7949FC" : "#7949FC"}  `,
+            background: isDarkTheme ? "white" : "#33EFEF",
             position: "absolute",
             width: "100%",
           }),
@@ -246,7 +252,7 @@ const Select: FC<SelectProps> = ({
               background: "none",
             },
             "::-webkit-scrollbar-thumb": {
-              background: isDarkTheme ? "#FFC5EF" : "#5B30F9",
+              background: isDarkTheme ? "#7949FC" : "#7949FC",
               borderRadius: 10,
               marginRight: 10,
             },
@@ -268,6 +274,7 @@ const Select: FC<SelectProps> = ({
             ...base,
             color: isDarkTheme ? "white" : "#2A2A2A",
             fontSize: "14px",
+            fontWeight: "bold",
           }),
         }}
         isMulti={isMulti}
@@ -283,7 +290,7 @@ const Select: FC<SelectProps> = ({
 
 const theme = {
   colors: {
-    primary25: "#DEEBFF",
+    primary25: "#FFFFFF",
   },
 
   spacing: {

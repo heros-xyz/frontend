@@ -41,7 +41,6 @@ export const validationSchema = yup.object().shape({
     .string()
     .when(["isPeriodDate", "startDate"], endDateValidation as any),
   isPeriodDate: yup.boolean(),
-  icon: yup.string(),
 });
 
 export const initialValues = {

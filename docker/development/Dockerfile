@@ -1,6 +1,5 @@
 FROM node:16-alpine AS deps
-RUN apk add --no-cache libc6-compat
-RUN apk --no-cache add curl
+RUN apk add --no-cache libc6-compat curl
 
 WORKDIR /app
 COPY package.json yarn.lock ./
@@ -11,13 +10,13 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-COPY .env.qa .env.production
+COPY .env.development .env.production
 RUN yarn build
 
 # Production image, copy all the files and run next
 FROM node:16-alpine AS runner
 WORKDIR /app
-
+RUN apk add --no-cache libc6-compat curl
 ENV NODE_ENV production
 
 RUN addgroup --system --gid 1001 nodejs

@@ -1,11 +1,11 @@
 import { Box } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { InterestedSport } from "@/components/svg/InterestedSportFanOnBoarding";
 import Select from "@/components/common/Select";
-import FanOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import { useGetSportListQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
+import { InterestedSport } from "@/components/svg/InterestedSportFanOnBoarding";
 interface IProp {
   isLoading: boolean;
   onSubmit: (values: string) => void;
@@ -33,13 +33,20 @@ const EnterInterestedSport: React.FC<IProp> = ({ isLoading, onSubmit }) => {
   });
 
   return (
-    <FanOnboardingWrapper
-      Icon={<InterestedSport />}
+    <HerosOnboardingWrapperNew
+      Icon={
+        <InterestedSport
+          w={{ base: "57px", xl: "91px" }}
+          h={{ base: "90px", xl: "144px" }}
+          color={{ base: "#FFFAE8", xl: "accent.2" }}
+        />
+      }
       textButton="Submit"
       submitLoading={isLoading}
       onSubmit={formik.handleSubmit}
+      bgIconColor="accent.2"
     >
-      <Box mb={{ base: 4, lg: 20 }} color="black.ish">
+      <Box mb={{ base: 4, lg: 20 }} color="primary">
         <Box mb={{ base: 5, lg: 8 }}>
           <Box fontSize={{ lg: "xl" }} fontWeight="500">
             Select Your Interested Sport(s)
@@ -56,10 +63,11 @@ const EnterInterestedSport: React.FC<IProp> = ({ isLoading, onSubmit }) => {
             errorMessage={formik.errors.sports}
             isInvalid={Boolean(formik.errors.sports)}
             filterSelectOptions={filterSelectOptions}
+            isDarkTheme
           />
         </Box>
       </Box>
-    </FanOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

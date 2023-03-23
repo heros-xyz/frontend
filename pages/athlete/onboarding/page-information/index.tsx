@@ -52,7 +52,7 @@ const PageInformation = () => {
   };
 
   return (
-    <Box minHeight="100vh" overflowY="scroll" bg="secondary">
+    <Box minHeight="100vh" overflowY="auto" bg="white">
       <Head>
         <title>Athele | Page Information</title>
       </Head>
@@ -79,7 +79,14 @@ const PageInformation = () => {
               />
             </Case>
           </Switch>
-          <Box position="absolute" bottom={5} w="100%" textAlign="center">
+          <Box
+            position="absolute"
+            top={{ lg: "59%" }}
+            bottom={{ base: 0, lg: "unset" }}
+            left={{ lg: "130px" }}
+            w={{ base: "100%", lg: "unset" }}
+            textAlign="center"
+          >
             <Step
               activeStep={step}
               totalStep={TOTAL_STEP}
@@ -88,7 +95,7 @@ const PageInformation = () => {
           </Box>
         </Then>
         <Else>
-          <AthleteUpdatedSuccessfully />
+          <AthleteUpdatedSuccessfully title="Page Information" />
         </Else>
       </If>
     </Box>

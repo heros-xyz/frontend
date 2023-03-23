@@ -26,6 +26,7 @@ export interface IPagination {
   tag?: string;
   authorId?: string;
   offset?: number;
+  isGetPublic?: boolean;
 }
 
 export interface ICommentParams {
@@ -38,4 +39,14 @@ export interface ICommentParams {
   offset?: number;
   commentIdFocus?: string;
   getReply?: boolean;
+}
+
+export interface IHerosError {
+  data: {
+    message?: string;
+    statusCode?: number;
+    error?: string;
+  };
+  errors?: string;
+  statusCode?: number;
 }

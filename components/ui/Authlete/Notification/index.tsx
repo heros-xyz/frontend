@@ -1,7 +1,5 @@
 import React from "react";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import { notiList } from "@/utils/mock";
-import NotificationList from "../../Notification/List";
 
 const NotificationAthlete = () => {
   return (
@@ -21,7 +19,7 @@ const NotificationAthlete = () => {
         <Text
           fontSize={["xs", "md"]}
           textDecoration="underline"
-          color={"secondary"}
+          color={"primary"}
           cursor={"pointer"}
         >
           Mark all as read

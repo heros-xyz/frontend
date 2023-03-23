@@ -81,7 +81,7 @@ exports[`renders homepage unchanged 1`] = `
       class="css-0"
     >
       <div
-        class="css-9o17h9"
+        class="css-1lxnpx8"
       >
         <div
           class="css-1rcptoi"
@@ -89,13 +89,13 @@ exports[`renders homepage unchanged 1`] = `
           Membership Confirmed
         </div>
         <div
-          class="css-1k1lzfe"
+          class="css-2wnhso"
         >
           You are now a fan of Matt Prior! Get started by exploring the benefits that come with your membership.
         </div>
       </div>
       <button
-        class="chakra-button css-l5p0sl"
+        class="chakra-button css-175h15w"
         type="button"
       >
         <div

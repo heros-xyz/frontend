@@ -11,7 +11,6 @@ import {
   Modal,
   ModalContent,
   ModalOverlay,
-  Stack,
   Text,
   Textarea,
   useDisclosure,
@@ -64,7 +63,7 @@ const EditMilestone = () => {
           endDate: values.isPeriodDate ? values.endDate : "",
           icon: values.icon,
           title: values.title,
-          description: values.description,
+          description: values.description ?? "",
         };
         if (router.query.id === "0") {
           editMilestone(editData);
@@ -85,7 +84,7 @@ const EditMilestone = () => {
     formik.setFieldValue("icon", milestoneData?.icon);
     formik.setFieldValue("title", milestoneData?.title);
     formik.setFieldValue("endDate", milestoneData?.endDate ?? "");
-    formik.setFieldValue("description", milestoneData?.description);
+    formik.setFieldValue("description", milestoneData?.description ?? "");
     formik.setFieldValue("startDate", milestoneData?.startDate);
     formik.setFieldValue("isPeriodDate", milestoneData?.endDate ? true : false);
   }, [milestoneData]);
@@ -106,7 +105,7 @@ const EditMilestone = () => {
     }
   }, [successDelete]);
   return (
-    <Box px={{ base: 5, lg: 0 }} bg="primary" minH="100vh" position="relative">
+    <Box px={{ base: 5, lg: 0 }} bg="white" minH="100vh" position="relative">
       <Head>
         <title>Athlete | Edit Journey</title>
       </Head>
@@ -131,7 +130,7 @@ const EditMilestone = () => {
               <Text
                 as="span"
                 ml="6"
-                color="white"
+                color="primary"
                 fontSize={{ base: "xl", xl: "2xl" }}
               >
                 {router.query.id && router.query.id !== "0" ? "Edit" : "Add"}{" "}
@@ -143,13 +142,14 @@ const EditMilestone = () => {
                 <TrashIcon
                   w={{ base: "16px", xl: "20px" }}
                   h={{ base: "18px", xl: "24px" }}
+                  color="primary"
                   cursor="pointer"
                   onClick={onOpen}
                 />
               </Then>
             </If>
           </Flex>
-          <Box fontSize={{ base: "sm", lg: "md" }} color="white">
+          <Box fontSize={{ base: "sm", lg: "md" }} color="primary">
             <form onSubmit={formik.handleSubmit}>
               <Flex mt={4}>
                 <Checkbox
@@ -157,12 +157,12 @@ const EditMilestone = () => {
                   name="isPeriodDate"
                   onChange={formik.handleChange}
                   isChecked={formik.values.isPeriodDate}
-                  colorScheme="#FFC5EF"
+                  colorScheme="#FFC0F0"
                   iconColor="black"
                   sx={{
                     _checked: {
                       span: {
-                        bg: "acccent.1",
+                        bg: "accent.4",
                       },
                     },
                     span: {
@@ -313,7 +313,7 @@ const EditMilestone = () => {
                   fontWeight="normal"
                   fontSize={{ base: "xs", lg: "md" }}
                   mb={4}
-                  color="secondary"
+                  color="grey.200"
                 >
                   Make your milestone even more interesting!
                 </Box>
@@ -326,10 +326,10 @@ const EditMilestone = () => {
                             w={{ base: "50px", xl: "70px" }}
                             h={{ base: "50px", xl: "70px" }}
                             borderRadius="full"
-                            bg={
-                              el.value === iconCheck ? "acccent.3" : "acccent.4"
+                            bg={el.value === iconCheck ? "primary" : "accent.3"}
+                            color={
+                              el.value === iconCheck ? "accent.3" : "primary"
                             }
-                            color="primary"
                             onClick={() => handleClickIcon(el.value, iconCheck)}
                             _hover={{}}
                             _active={{}}
@@ -368,7 +368,7 @@ const EditMilestone = () => {
                       mt={{ base: 2.5, xl: 4 }}
                       fontSize={{ base: "xs", xl: "md" }}
                     >
-                      Changes saved!
+                      Changes Saved
                     </Center>
                   </Then>
                 </If>

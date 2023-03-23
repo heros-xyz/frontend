@@ -19,7 +19,7 @@ const BasicInformation = () => {
 
   return (
     <FormikContext.Provider value={formik}>
-      <Box minHeight="100vh" overflowY="scroll" bg="secondary">
+      <Box minHeight="100vh" overflowY="auto" bg="white">
         <Head>
           <title>Athlete | Basic Information</title>
         </Head>
@@ -39,7 +39,14 @@ const BasicInformation = () => {
                 <InputYourStory />
               </Case>
             </Switch>
-            <Box position="absolute" bottom={5} w="100%" textAlign="center">
+            <Box
+              position="absolute"
+              top={{ lg: "59%" }}
+              bottom={{ base: 0, lg: "unset" }}
+              left={{ lg: "130px" }}
+              w={{ base: "100%", lg: "unset" }}
+              textAlign="center"
+            >
               <Step
                 activeStep={step}
                 totalStep={totalStep}
@@ -48,7 +55,7 @@ const BasicInformation = () => {
             </Box>
           </Then>
           <Else>
-            <AthleteUpdatedSuccessfully />
+            <AthleteUpdatedSuccessfully title="Basic information" />
           </Else>
         </If>
       </Box>

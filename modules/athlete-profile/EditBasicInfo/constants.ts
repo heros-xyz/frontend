@@ -1,5 +1,6 @@
+import dayjs from "dayjs";
 import * as yup from "yup";
-import { isValidDate, isValidString } from "@/utils/functions";
+import { isBeforeEndDate, isValidDate, isValidString } from "@/utils/functions";
 
 export const validationSchema = yup.object().shape({
   firstName: yup
@@ -7,7 +8,7 @@ export const validationSchema = yup.object().shape({
     .max(20, "First name cannot exceed 20 characters")
     .test(
       "invalid-firstName",
-      "Legal first name is not allowing special character",
+      "This field contains text only",
       (value: string | undefined) => {
         if (value) {
           return isValidString(value);
@@ -21,7 +22,7 @@ export const validationSchema = yup.object().shape({
     .max(20, "Middle name cannot exceed 20 characters")
     .test(
       "invalid-middleName",
-      "Legal middle name is not allowing special character",
+      "This field contains text only",
       (value: string | undefined) => {
         if (value) {
           return isValidString(value);
@@ -34,7 +35,7 @@ export const validationSchema = yup.object().shape({
     .max(20, "Last name cannot exceed 20 characters")
     .test(
       "invalid-lastName",
-      "Legal last name is not allowing special character",
+      "This field contains text only",
       (value: string | undefined) => {
         if (value) {
           return isValidString(value);
@@ -48,6 +49,12 @@ export const validationSchema = yup.object().shape({
     .required("This is a required field")
     .test("valid-date", "Invalid date", (value) => {
       return isValidDate(value);
+    })
+    .test("is-before-today", "Invalid date", (value) => {
+      return isBeforeEndDate(
+        dayjs(value, "YYYY/MM/DD").format("YYYY/MM/DD"),
+        dayjs(new Date()).format("YYYY/MM/DD")
+      );
     }),
   gender: yup.string().required("This is a required field"),
   story: yup

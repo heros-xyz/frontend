@@ -78,7 +78,7 @@ const InteractionsByTag = () => {
       athleteInfo: {
         imagePath: session?.user?.avatar || "",
         athleteName: session?.user.nickname ?? "",
-        publishDate: postInfo.createdAt,
+        publishDate: postInfo.publicDate,
         id: session?.user?.id ?? "",
       },
       slideData: postInfo.interactionMedia ?? [],
@@ -92,7 +92,7 @@ const InteractionsByTag = () => {
   };
 
   return (
-    <Box bg="primary" minHeight="100vh">
+    <Box minHeight="100vh">
       <Head>
         <title>Athlete | Interactions By Tag</title>
       </Head>
@@ -105,19 +105,19 @@ const InteractionsByTag = () => {
           <Text
             fontFamily="heading"
             fontSize={{ base: "xl", lg: "2xl" }}
-            color="white"
+            color="primary"
           >
             Interactions
           </Text>
         </Box>
-        <Text color="white" mb={2.5} fontSize={{ base: "xs ", lg: "lg" }}>
+        <Text color="primary" mb={2.5} fontSize={{ base: "xs ", lg: "lg" }}>
           You are viewing the interactions with the tag:
         </Text>
         <Tag
           size={{ base: "sm", lg: "lg" }}
           borderRadius="full"
           variant="solid"
-          bg="acccent.2"
+          bg="accent.2"
           mb={{ base: 0, lg: 12 }}
         >
           <TagLabel fontSize={{ base: "sm", lg: "lg" }} color="white">

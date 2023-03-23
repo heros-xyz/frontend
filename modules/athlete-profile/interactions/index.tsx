@@ -56,6 +56,10 @@ const Interactions: FC<IInteractionsProps> = ({
     },
   });
 
+  useEffect(() => {
+    console.log(interactionsList);
+  }, [interactionsList]);
+
   const handleFilterPostsByTag = (tagName: string) => {
     if (tag !== tagName) {
       setPage(1);
@@ -118,7 +122,9 @@ const Interactions: FC<IInteractionsProps> = ({
         </Then>
       </If>
 
-      {!validateIsFan && <SubscribeContent onClick={onSubscribe} />}
+      {!validateIsFan && (
+        <SubscribeContent athleteName={athleteNickname} onClick={onSubscribe} />
+      )}
       <If condition={interactionsList.length}>
         <Then>
           {interactionsList?.map(
@@ -197,7 +203,7 @@ const TagButton = ({
       display="flex"
       size={{ base: "xs", lg: "sm" }}
       variant="unstyled"
-      bg="acccent.2"
+      bg="accent.2"
       pl="15px"
       py="4px"
       mr="12px"

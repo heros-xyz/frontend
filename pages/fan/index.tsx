@@ -26,7 +26,7 @@ const FanDashboard = ({ isFirstLogin }: IFanDashboardProps) => {
   });
 
   return (
-    <Box bg="primary" minH="100vh">
+    <Box bg="white" minH="100vh">
       <Head>
         <title>Fan | Homepage</title>
       </Head>
@@ -37,14 +37,19 @@ const FanDashboard = ({ isFirstLogin }: IFanDashboardProps) => {
       </Container>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <Center
-          h="120px"
-          bg="acccent.1"
+          h="160px"
+          bg="linear-gradient(137.89deg, #1E16C1 15.14%, #298ADA 49.2%, #33EFEF 88.63%)"
           color="primary"
           mt={{ xl: 8 }}
           mb={{ xl: 4 }}
           borderRadius={{ lg: "12px" }}
         >
-          <Text fontSize="xl" fontFamily="heading" fontWeight={700}>
+          <Text
+            fontSize="xl"
+            color="white"
+            fontFamily="heading"
+            fontWeight={700}
+          >
             {isFirstLogin ? "Hello, heros" : "Welcome back, heros"}
           </Text>
         </Center>

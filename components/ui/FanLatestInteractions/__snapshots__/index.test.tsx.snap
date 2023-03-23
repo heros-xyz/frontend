@@ -3,21 +3,21 @@
 exports[`renders FanLatestInteractions unchanged 1`] = `
 <div>
   <div
-    class="css-8uk7d7"
+    class="css-1pwwxxz"
   >
     <div
       class="css-n6hccp"
     >
       <h2
-        class="chakra-heading css-1jqifn0"
+        class="chakra-heading css-qr4qy3"
       >
         Latest interactions
       </h2>
       <div
-        class="css-16pmqrn"
+        class="css-1xthohk"
       >
         <a
-          class="chakra-link css-1xh19a9"
+          class="chakra-link css-9r3vuz"
           href="fan/interactions"
         >
           view all
@@ -27,7 +27,7 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
           href="fan/interactions"
         >
           <svg
-            class="chakra-icon css-2m8jfu"
+            class="chakra-icon css-akomz7"
             focusable="false"
             viewBox="0 0 12 11"
             xmlns="http://www.w3.org/2000/svg"
@@ -42,6 +42,7 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
         </a>
       </div>
     </div>
+     
     <div
       class="css-zxuka3"
     >
@@ -53,7 +54,7 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
           class="chakra-aspect-ratio css-1vf0n2n"
         >
           <div
-            class="css-1e9d1mh"
+            class="css-159vqpg"
           >
             <div
               class="css-15l3wnn"
@@ -73,7 +74,7 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
               </svg>
             </div>
             <p
-              class="chakra-text css-114poxz"
+              class="chakra-text css-1ep18j5"
             >
               123
             </p>
@@ -97,7 +98,7 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
           class="chakra-aspect-ratio css-1vf0n2n"
         >
           <div
-            class="css-1e9d1mh"
+            class="css-159vqpg"
           >
             <div
               class="css-15l3wnn"
@@ -117,7 +118,7 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
               </svg>
             </div>
             <p
-              class="chakra-text css-114poxz"
+              class="chakra-text css-1ep18j5"
             >
               123
             </p>

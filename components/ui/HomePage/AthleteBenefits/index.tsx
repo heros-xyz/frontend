@@ -29,7 +29,7 @@ const AthleteBenefits: React.FC<IAthleteBenefits> = ({
           fontSize="2xl"
           fontWeight="extrabold"
           lineHeight={8}
-          color="acccent.3"
+          color="accent.3"
         >
           {description}
         </Text>

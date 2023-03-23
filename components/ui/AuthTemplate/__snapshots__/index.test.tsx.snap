@@ -3,7 +3,7 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-vnksp"
+    class="css-35b87d"
   >
     <div
       class="css-gfl415"
@@ -28,7 +28,7 @@ exports[`renders homepage unchanged 1`] = `
             href="/fan/sign-up"
           >
             <span
-              class="chakra-text css-1cyds87"
+              class="chakra-text css-78p1va"
             >
               Sign up as fan here
             </span>
@@ -74,7 +74,7 @@ exports[`renders homepage unchanged 1`] = `
         </p>
         <form>
           <div
-            class="css-19idom"
+            class="css-iskddk"
           >
             <input
               class="chakra-input css-1gssj7e"
@@ -83,46 +83,65 @@ exports[`renders homepage unchanged 1`] = `
               placeholder="Email address"
               value=""
             />
+            <label
+              class="chakra-checkbox css-e2849d"
+            >
+              <input
+                class="chakra-checkbox__input"
+                style="border: 0px; clip: rect(0px, 0px, 0px, 0px); height: 1px; width: 1px; margin: -1px; padding: 0px; overflow: hidden; white-space: nowrap; position: absolute;"
+                type="checkbox"
+                value=""
+              />
+              <span
+                aria-hidden="true"
+                class="chakra-checkbox__control css-dnty2r"
+              />
+              <span
+                class="chakra-checkbox__label css-1oeb2oe"
+              >
+                <div
+                  class="css-e9k318"
+                >
+                  <span
+                    class="chakra-text css-0"
+                  >
+                    I agree to 
+                  </span>
+                  <a
+                    href="undefined/term-of-service"
+                  >
+                    <span
+                      class="chakra-text css-q4ss7u"
+                    >
+                      Heros’s Terms & Conditions
+                    </span>
+                  </a>
+                  <span
+                    class="chakra-text css-0"
+                  >
+                     and 
+                  </span>
+                  <a
+                    href="undefined/privacy-policy"
+                  >
+                    <span
+                      class="chakra-text css-q4ss7u"
+                    >
+                      Privacy & Cookie Policy
+                    </span>
+                  </a>
+                </div>
+              </span>
+            </label>
           </div>
           <button
-            class="chakra-button css-1sopbnw"
+            class="chakra-button css-y7y23k"
+            disabled=""
             type="submit"
           >
             Continue with email
           </button>
         </form>
-        <div
-          class="css-1s0lpj9"
-        >
-          <span
-            class="chakra-text css-0"
-          >
-            By signing up you agree to 
-          </span>
-          <a
-            href="undefined/term-of-service"
-          >
-            <span
-              class="chakra-text css-q4ss7u"
-            >
-              Heros’s Terms & Conditions
-            </span>
-          </a>
-          <span
-            class="chakra-text css-0"
-          >
-             and 
-          </span>
-          <a
-            href="undefined/privacy-policy"
-          >
-            <span
-              class="chakra-text css-q4ss7u"
-            >
-              Privacy & Cookie Policy
-            </span>
-          </a>
-        </div>
         <div
           class="css-504jus"
         >
@@ -135,7 +154,7 @@ exports[`renders homepage unchanged 1`] = `
             href="/sign-in"
           >
             <span
-              class="chakra-text css-kcjho3"
+              class="chakra-text css-131fbkz"
             >
               Sign in here
             </span>

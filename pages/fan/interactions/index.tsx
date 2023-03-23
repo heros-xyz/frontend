@@ -5,7 +5,7 @@ import FanDashboardLayout from "@/layouts/FanDashboard";
 import FanAthleteInteraction from "@/modules/fan-dashboard/components/ViewAthleteInteraction";
 const Interactions = () => {
   return (
-    <Box bg="primary">
+    <Box bg="white">
       <Head>
         <title>Fan | Interactions</title>
       </Head>

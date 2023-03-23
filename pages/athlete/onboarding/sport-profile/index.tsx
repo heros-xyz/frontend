@@ -12,7 +12,7 @@ import AthleteUpdatedSuccessfully from "@/components/ui/AthleteUpdatedSuccessful
 import { wrapper } from "@/store";
 import { athleteOnboardingGuard } from "@/middleware/athleteOnboardingGuard";
 import { setContext } from "@/libs/axiosInstance";
-import { IGuards } from "@/types/globals/types";
+import { IGuards, IHerosError } from "@/types/globals/types";
 import { updateSession } from "@/utils/auth";
 
 const SportProfile = () => {
@@ -46,6 +46,13 @@ const SportProfile = () => {
     setStep(step + 1);
   };
 
+  const setStepValue = (value: object) => {
+    setFinalValue({
+      ...finalValue,
+      ...value,
+    });
+  };
+
   useEffect(() => {
     if (sportProfileData) {
       setStep((step) => step + 1);
@@ -56,31 +63,50 @@ const SportProfile = () => {
   useEffect(() => {
     if (error) {
       toast({
-        title: (error as any)?.data?.message || "Something went wrong",
+        title: (error as IHerosError)?.data?.message || "Something went wrong",
         status: "error",
       });
     }
   }, [error]);
 
   return (
-    <Box minHeight="100vh" overflowY="scroll" bg="secondary">
+    <Box minHeight="100vh" overflowY="auto" bg="white">
       <Head>
-        <title>Athele | Sport Profile</title>
+        <title>Athlete | Sport Profile</title>
       </Head>
       <If condition={step <= totalStep}>
         <Then>
           <Switch>
             <Case condition={step === 1}>
-              <SelectYourSport onSubmit={setValueByStep} />
+              <SelectYourSport
+                sportId={finalValue.sportId}
+                setStepValue={setStepValue}
+                onSubmit={setValueByStep}
+              />
             </Case>
             <Case condition={step === 2}>
-              <InputCurrentTeam onSubmit={setValueByStep} />
+              <InputCurrentTeam
+                currentTeam={finalValue.currentTeam}
+                onSubmit={setValueByStep}
+                setStepValue={setStepValue}
+              />
             </Case>
             <Case condition={step === 3}>
-              <InputYourGoal onSubmit={setValueByStep} />
+              <InputYourGoal
+                goal={finalValue.goal}
+                setStepValue={setStepValue}
+                onSubmit={setValueByStep}
+              />
             </Case>
           </Switch>
-          <Box position="absolute" bottom={5} w="100%" textAlign="center">
+          <Box
+            position="absolute"
+            top={{ lg: "59%" }}
+            bottom={{ base: 0, lg: "unset" }}
+            left={{ lg: "130px" }}
+            w={{ base: "100%", lg: "unset" }}
+            textAlign="center"
+          >
             <Step
               activeStep={step}
               totalStep={totalStep}
@@ -89,7 +115,7 @@ const SportProfile = () => {
           </Box>
         </Then>
         <Else>
-          <AthleteUpdatedSuccessfully />
+          <AthleteUpdatedSuccessfully title="Sport profile" />
         </Else>
       </If>
     </Box>

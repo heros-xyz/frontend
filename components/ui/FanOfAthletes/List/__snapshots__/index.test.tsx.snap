@@ -9,7 +9,7 @@ exports[`renders homepage unchanged 1`] = `
     <h2
       class="chakra-heading css-e9d1fw"
     >
-      No result found
+      No results.
     </h2>
   </div>
 </div>

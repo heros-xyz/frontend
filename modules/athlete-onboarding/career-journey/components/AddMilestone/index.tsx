@@ -6,7 +6,6 @@ import {
   Flex,
   Grid,
   GridItem,
-  Stack,
   Text,
   Textarea,
 } from "@chakra-ui/react";
@@ -42,8 +41,8 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
 
   return (
     <Box
-      w="auto"
-      bg="secondary"
+      w="full"
+      bg="white"
       minH="100vh"
       fontSize={{ base: "sm", xl: "xl" }}
       color="primary"
@@ -54,12 +53,12 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
         fontWeight="extrabold"
         fontSize={{ base: "xs", xl: "xl" }}
       >
-        CAREER JOURNEY
+        Career journey
       </Center>
       <Text mt={7} fontWeight="bold" fontSize={{ base: "md ", xl: "xl" }}>
         ADD MILESTONE
       </Text>
-      <Box fontSize={{ base: "sm", lg: "xl" }}>
+      <Box fontSize={{ base: "sm", lg: "xl" }} color="black.ish">
         <form onSubmit={formik.handleSubmit}>
           <Flex mt={4}>
             <Checkbox
@@ -67,9 +66,14 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
               name="isPeriodDate"
               onChange={formik.handleChange}
               isChecked={formik.values.isPeriodDate}
-              colorScheme="facebook"
-              borderColor="#313F4C"
+              colorScheme="#FFC0F0"
+              iconColor="primary"
               sx={{
+                _checked: {
+                  span: {
+                    bg: "accent.4",
+                  },
+                },
                 span: {
                   borderRadius: 4,
                 },
@@ -80,11 +84,12 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
               ml="2.5"
               fontSize={{ base: "xs", lg: "md" }}
               fontWeight="medium"
+              color="primary"
             >
               I want this to be a period of time
             </Text>
           </Flex>
-          <Box mb={{ base: 10, lg: 20 }} color="black.ish">
+          <Box mb={{ base: 10, lg: 20 }}>
             <Box fontWeight="medium" mt={7}>
               {formik.values.isPeriodDate ? "Start" : "Enter"} Date
               <Text as="span" color="error.dark">
@@ -98,6 +103,7 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
                 onChange={(value) => formik.setFieldValue("startDate", value)}
                 submitted={!!formik.submitCount}
                 zIndex={20}
+                isDarkTheme
               />
             </Flex>
             <ErrorMessage
@@ -111,7 +117,7 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
 
           <If condition={formik.values.isPeriodDate}>
             <Then>
-              <Box mb={{ base: 12, lg: 20 }} color="black.ish">
+              <Box mb={{ base: 12, lg: 20 }}>
                 <Box fontWeight="medium" mt={7}>
                   End Date
                   <Text as="span" color="error.dark">
@@ -124,6 +130,7 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
                     date={formik.values?.endDate}
                     onChange={(value) => formik.setFieldValue("endDate", value)}
                     submitted={!!formik.submitCount}
+                    isDarkTheme
                   />
                 </Flex>
                 <ErrorMessage
@@ -207,7 +214,7 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
                         w={{ base: "54px", xl: "80px" }}
                         h={{ base: "54px", xl: "80px" }}
                         borderRadius="full"
-                        bg={el.value === iconCheck ? "primary" : "acccent.4"}
+                        bg={el.value === iconCheck ? "primary" : "grey.0"}
                         color={el.value === iconCheck ? "secondary" : "primary"}
                         onClick={() => handleClickIcon(el.value, iconCheck)}
                         _hover={{}}

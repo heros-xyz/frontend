@@ -3,15 +3,15 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-1m5jvko"
+    class="css-17xqm9q"
   >
     <p
-      class="chakra-text css-10ay8m3"
+      class="chakra-text css-1n1nz9u"
     >
       Bronze
     </p>
     <p
-      class="chakra-text css-1a2ewle"
+      class="chakra-text css-1nxhvdu"
     >
       $
       /month · 
@@ -19,7 +19,7 @@ exports[`renders homepage unchanged 1`] = `
        fan
     </p>
     <div
-      class="css-0"
+      class="css-kbn7if"
     >
       <p
         class="chakra-text css-jyh61a"

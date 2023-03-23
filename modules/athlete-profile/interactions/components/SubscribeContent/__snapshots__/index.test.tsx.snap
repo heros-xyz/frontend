@@ -3,10 +3,10 @@
 exports[`renders subscribe content section unchanged 1`] = `
 <div>
   <div
-    class="css-1x2cq1b"
+    class="css-1vwpc76"
   >
     <div
-      class="css-1cb77po"
+      class="css-5bd7x2"
     >
       <p
         class="chakra-text css-1tdozh"
@@ -16,14 +16,19 @@ exports[`renders subscribe content section unchanged 1`] = `
       <p
         class="chakra-text css-13oolba"
       >
-        You can view fan-only posts and interact with all Matt Prior’s content once you are a sucbriber.
+        You can view fan-only posts and interact with all
+         
+        <b>
+          ’s 
+        </b>
+        content once you are a sucbriber.
       </p>
     </div>
     <div
       class="css-1onq7gh"
     >
       <a
-        class="chakra-link css-5pomxi"
+        class="chakra-link css-1kjg9rc"
       >
         Subscribe
       </a>

@@ -42,7 +42,7 @@ const Settings = () => {
   };
 
   return (
-    <Box bg="primary" pt={5} minH="100vh">
+    <Box bg="white" pt={5} minH="100vh">
       <Head>
         <title>Athlete | Settings</title>
       </Head>
@@ -52,7 +52,7 @@ const Settings = () => {
           fontSize={{ base: "xl", lg: "2xl" }}
           mb={8}
           mt={8}
-          color="white"
+          color="primary"
         >
           Settings
         </Text>

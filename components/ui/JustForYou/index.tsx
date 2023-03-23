@@ -15,7 +15,7 @@ const JustForYou: React.FC<JustForYouProps> = ({
   href,
 }) => {
   return (
-    <Box bg="primary" pt={"8"}>
+    <Box bg="white" pt={"8"}>
       <If
         condition={
           showCreateFirstInteraction ||
@@ -26,7 +26,7 @@ const JustForYou: React.FC<JustForYouProps> = ({
           <Text
             fontSize={{ base: "md", xl: "xl" }}
             fontWeight={"extrabold"}
-            color="acccent.3"
+            color="primary"
           >
             Just for you
           </Text>
@@ -38,14 +38,15 @@ const JustForYou: React.FC<JustForYouProps> = ({
           <Box
             borderRadius="md"
             borderWidth="2px"
-            borderColor="acccent.1"
+            borderColor="primary"
             my="6"
             p="5"
+            color="primary"
           >
-            <Text color="white" fontSize={["sm", "xl"]} fontWeight={700} mb="1">
+            <Text fontSize={["sm", "xl"]} fontWeight={700} mb="1">
               Create your first interaction
             </Text>
-            <Text as="p" color="grey.100" fontSize={["xs", "md"]}>
+            <Text as="p" fontSize={["xs", "md"]}>
               This is how you can interact with your fan. Let’s give them
               something
             </Text>
@@ -69,16 +70,21 @@ const JustForYou: React.FC<JustForYouProps> = ({
           <Box
             borderRadius="md"
             borderWidth="2px"
-            borderColor="acccent.1"
+            borderColor="primary"
             my="6"
             p="5"
           >
-            <Text color="white" fontSize={["sm", "xl"]} fontWeight={700} mb="1">
+            <Text
+              color="primary"
+              fontSize={["sm", "xl"]}
+              fontWeight={700}
+              mb="1"
+            >
               Create a new interaction
             </Text>
-            <Text as="p" color="grey.100" fontSize={["xs", "md"]}>
-              You have not created any interaction recently. Share some updates
-              with your fans
+            <Text as="p" color="primary" fontSize={["xs", "md"]}>
+              primary You have not created any interaction recently. Share some
+              updates with your fans
             </Text>
             <Box mt={3}>
               <Link as={NextLink} href={href}>

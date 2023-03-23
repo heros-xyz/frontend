@@ -17,25 +17,25 @@ exports[`Step renders step unchanged 1`] = `
       class="css-1owjrhv"
     >
       <div
-        class="css-1vtpq8h"
+        class="css-4eay9j"
         role="button"
       >
         <div
-          class="css-15g5d1j"
+          class="css-1hkqsnj"
           data-testid="button-step-1"
         />
       </div>
       <div
-        class="css-2e4i1v"
+        class="css-2x4aut"
         role="button"
       >
         <div
-          class="css-15g5d1j"
+          class="css-1hkqsnj"
           data-testid="button-step-2"
         />
       </div>
       <div
-        class="css-b16efr"
+        class="css-179v6qh"
         role="button"
       >
         <div
@@ -44,7 +44,7 @@ exports[`Step renders step unchanged 1`] = `
         />
       </div>
       <div
-        class="css-b16efr"
+        class="css-179v6qh"
         role="button"
       >
         <div
@@ -53,7 +53,7 @@ exports[`Step renders step unchanged 1`] = `
         />
       </div>
       <div
-        class="css-b16efr"
+        class="css-179v6qh"
         role="button"
       >
         <div

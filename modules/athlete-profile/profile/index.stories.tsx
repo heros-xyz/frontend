@@ -20,7 +20,13 @@ export const ProfileComponent: Story = {
   render: () => (
     <Provider store={store}>
       <Box h="100vh" bg="primary" color="white">
-        <Profile isEdit basicInfo={basicTest} sportProfile={sportProfile} />
+        <Profile
+          isEdit
+          basicInfo={basicTest}
+          sportProfile={sportProfile}
+          athleteId="dsdsd"
+          athleteNickname="phonght"
+        />
       </Box>
     </Provider>
   ),

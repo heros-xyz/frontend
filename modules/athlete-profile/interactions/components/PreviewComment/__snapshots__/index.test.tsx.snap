@@ -1,3 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders preview interaction comment section unchanged 1`] = `<div />`;
+exports[`renders preview interaction comment section unchanged 1`] = `
+<div>
+  <div
+    class="preview-comment css-0"
+  />
+</div>
+`;
