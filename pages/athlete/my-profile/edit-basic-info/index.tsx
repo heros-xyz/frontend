@@ -73,7 +73,7 @@ const EditBasicInfo = () => {
   }, [basicInfo]);
 
   return (
-    <Box pt={5} minH="100vh">
+    <Box pt={{ base: 5, lg: 0 }} minH="100vh">
       <Head>
         <title>Athlete | Edit Basic Information</title>
       </Head>
@@ -121,6 +121,7 @@ const EditBasicInfo = () => {
                   id="firstName"
                   name="firstName"
                   fontWeight={500}
+                  fontSize={{ base: "sm", lg: "lg" }}
                   onChange={formik.handleChange}
                   value={formik.values.firstName}
                   isInvalid={Boolean(
@@ -148,6 +149,7 @@ const EditBasicInfo = () => {
                   id="middleName"
                   name="middleName"
                   fontWeight={500}
+                  fontSize={{ base: "sm", lg: "lg" }}
                   onChange={formik.handleChange}
                   value={formik.values.middleName}
                   isInvalid={Boolean(
@@ -183,6 +185,7 @@ const EditBasicInfo = () => {
                   id="lastName"
                   name="lastName"
                   fontWeight={500}
+                  fontSize={{ base: "sm", lg: "lg" }}
                   onChange={formik.handleChange}
                   value={formik.values.lastName}
                   isInvalid={Boolean(

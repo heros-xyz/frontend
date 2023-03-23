@@ -15,7 +15,7 @@ exports[`renders homepage unchanged 1`] = `
       </h2>
     </div>
     <p
-      class="chakra-text css-153jkc0"
+      class="chakra-text css-1ct4pun"
     >
       You haven't had any notifications yet!
     </p>

@@ -3,7 +3,7 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-1jvt6v8"
+    class="css-15p2wse"
   >
     <div
       class="css-1kmmdcq"
@@ -100,7 +100,7 @@ exports[`renders homepage unchanged 1`] = `
                   Account set up Successfully
                 </p>
                 <p
-                  class="chakra-text css-rdj3im"
+                  class="chakra-text css-o14qdk"
                 >
                   Your account has been set up successfully.
                 </p>

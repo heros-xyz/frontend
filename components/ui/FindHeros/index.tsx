@@ -12,6 +12,7 @@ import {
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { AnimatePresence, motion } from "framer-motion";
+import { skipToken } from "@reduxjs/toolkit/query";
 import { LogoMiniIcon } from "@/components/svg/LogoMini";
 import { FindIcon } from "@/components/svg/Find";
 import { useSearchAthleteProfileQuery } from "@/api/athlete";
@@ -38,7 +39,7 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
     setShowSuggestList(true);
   }, []);
 
-  const searchValueDebounced = useDebounce(searchValue, 500);
+  const searchValueDebounced = useDebounce(searchValue, 0);
 
   const LIMIT = 5;
 

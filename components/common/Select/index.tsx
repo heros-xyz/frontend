@@ -10,6 +10,7 @@ import { FC, useId, useMemo, useRef } from "react";
 import { If, Then } from "react-if";
 import { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import { Checked, ChervonDown } from "@/components/svg";
+import { useDevice } from "@/hooks/useDevice";
 import ErrorMessage from "../ErrorMessage";
 
 type Option = {
@@ -60,38 +61,15 @@ const Select: FC<SelectProps> = ({
   filterSelectOptions,
   ...rest
 }) => {
+  const { isMobile, isDesktop } = useDevice();
   const renderOptionBaseOnOptionCount = useMemo(() => {
     if (!optionCount || optionCount > (options || []).length) return;
     /**  Option count * option's height + vertical padding 4 + 4  */
-    return optionCount * 33 + 8;
-  }, [optionCount, options]);
+    const height = isMobile ? 33 : 42;
+    return optionCount * height + 8;
+  }, [optionCount, options, isMobile]);
 
   const ref = useRef(null);
-
-  // const MenuList = (props: MenuListProps) => {
-  //   const { isDesktop } = useDevice();
-  //   const height = isDesktop ? 45 : 35;
-  //   const { options, children, maxHeight, getValue } = props;
-  //   const [value] = getValue();
-  //   const initialOffset = options.indexOf(value) * height;
-
-  //   let childOptions: any[] = [];
-  //   if (Array.isArray(children)) {
-  //     childOptions = children;
-  //   }
-  //   return (
-  //     <FixedSizeList
-  //       width={"100%"}
-  //       height={maxHeight}
-  //       itemCount={childOptions.length}
-  //       itemSize={height}
-  //       initialScrollOffset={initialOffset}
-  //       className="menuSizeList"
-  //     >
-  //       {({ index, style }) => <div style={style}>{childOptions[index]}</div>}
-  //     </FixedSizeList>
-  //   );
-  // };
 
   const CustomOption = (props: OptionProps<Option>) => {
     const { innerProps, isDisabled, children, setValue, isSelected } = props;
@@ -168,7 +146,10 @@ const Select: FC<SelectProps> = ({
                   : "primary"
               }
               fontWeight="600"
-              fontSize={placeholderSize ?? "sm"}
+              fontSize={{
+                base: placeholderSize ?? "sm",
+                lg: placeholderSize ?? "lg",
+              }}
               cursor={isDisabled ? "not-allowed" : ""}
             >
               {value.children}
@@ -272,8 +253,8 @@ const Select: FC<SelectProps> = ({
           }),
           input: (base) => ({
             ...base,
-            color: isDarkTheme ? "white" : "#2A2A2A",
-            fontSize: "14px",
+            color: "#1E16C1",
+            fontSize: isDesktop ? "18px" : "14px",
             fontWeight: "bold",
           }),
         }}
