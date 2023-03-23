@@ -1,17 +1,24 @@
 import { Box, Text } from "@chakra-ui/react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { SelectSportIcon } from "@/components/svg/SelectSportIcon";
+import { useEffect } from "react";
 import Select from "@/components/common/Select";
 import { IconArrowRight } from "@/components/svg/IconArrowRight";
-import HerosOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import { useGetSportListQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
+import { InterestedSport } from "@/components/svg/InterestedSportFanOnBoarding";
 interface IProps {
+  sportId?: string;
+  setStepValue?: (value: object) => void;
   onSubmit: (value: object) => void;
 }
 
-const SelectYourSport: React.FC<IProps> = ({ onSubmit }) => {
+const SelectYourSport: React.FC<IProps> = ({
+  sportId,
+  onSubmit,
+  setStepValue,
+}) => {
   const { data: sportsList } = useGetSportListQuery("");
 
   const validationSchema = Yup.object().shape({
@@ -33,17 +40,36 @@ const SelectYourSport: React.FC<IProps> = ({ onSubmit }) => {
     },
   });
 
+  useEffect(() => {
+    if (sportId && sportId) {
+      const sport = sportsList?.find((sport) => sport.value === sportId);
+      formik.setFieldValue("sports", sport);
+    }
+  }, [sportsList]);
+
   return (
-    <HerosOnboardingWrapper
-      Icon={<SelectSportIcon w="full" h="full" />}
+    <HerosOnboardingWrapperNew
+      Icon={
+        <InterestedSport
+          w={{ base: "57px", xl: "91px" }}
+          h={{ base: "90px", xl: "144px" }}
+          color={{ base: "#FFFAE8", xl: "accent.2" }}
+        />
+      }
       textButton="Proceed"
       IconButton={<IconArrowRight />}
-      title="SPORT PROFILE"
+      title="Sport profile"
       onSubmit={formik.handleSubmit}
+      bgIconColor="accent.2"
     >
       <Box mb={4}>
         <Box mb={3.5}>
-          <Text as="span" fontWeight="600">
+          <Text
+            as="span"
+            fontWeight="bold"
+            color="primary"
+            fontSize={{ base: "md", xl: "xl" }}
+          >
             Select Your Sport
           </Text>
           <Text as="span" color={"red"} ml={1}>
@@ -55,13 +81,17 @@ const SelectYourSport: React.FC<IProps> = ({ onSubmit }) => {
           options={sportsList || []}
           optionCount={5}
           value={formik.values.sports}
-          onChange={(value) => formik.setFieldValue("sports", value)}
+          onChange={(value) => {
+            formik.setFieldValue("sports", value);
+            setStepValue && setStepValue({ sportId: value.value });
+          }}
           errorMessage={formik.errors.sports?.value}
           isInvalid={Boolean(formik.errors.sports?.value)}
           filterSelectOptions={filterSelectOptions}
+          isDarkTheme
         />
       </Box>
-    </HerosOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

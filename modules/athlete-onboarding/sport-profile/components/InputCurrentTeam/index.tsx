@@ -1,23 +1,30 @@
 import { Box, Input, Text } from "@chakra-ui/react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import HerosOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import { IconArrowRight } from "@/components/svg/IconArrowRight";
 import ErrorMessage from "@/components/common/ErrorMessage";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 interface IProps {
+  currentTeam: string;
+  setStepValue: (value: object) => void;
   onSubmit: (value: object) => void;
 }
 
-const InputCurrentTeam: React.FC<IProps> = ({ onSubmit }) => {
+const InputCurrentTeam: React.FC<IProps> = ({
+  currentTeam,
+  onSubmit,
+  setStepValue,
+}) => {
   const validationSchema = Yup.object().shape({
-    currentTeam: Yup.string()
-      .max(100, "Current Team cannot exceed 100 characters.")
-      .required("This is a required field."),
+    currentTeam: Yup.string().max(
+      100,
+      "Current Team cannot exceed 100 characters."
+    ),
   });
 
   const formik = useFormik({
     initialValues: {
-      currentTeam: "",
+      currentTeam,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -25,26 +32,33 @@ const InputCurrentTeam: React.FC<IProps> = ({ onSubmit }) => {
     },
   });
   return (
-    <HerosOnboardingWrapper
-      Icon={<></>}
+    <HerosOnboardingWrapperNew
       textButton="Proceed"
       IconButton={<IconArrowRight />}
-      title="SPORT PROFILE"
+      title="Sport profile"
       onSubmit={formik.handleSubmit}
     >
-      <Box mb={4}>
+      <Box mb={4} mt={{ base: 20, xl: 0 }}>
         <Box mb={2}>
-          <Text as="span" fontWeight="600">
+          <Text
+            as="span"
+            fontWeight="bold"
+            fontSize={{ base: "md", xl: "xl" }}
+            color="primary"
+          >
             Enter your Current Team/ Association/ Club
           </Text>
         </Box>
         <Input
           id="currentTeam"
           variant={"flushed"}
-          borderColor="primary"
+          borderColor="grey.200"
           value={formik.values.currentTeam}
           placeholder="Current Team/ association/ Club"
-          onChange={formik.handleChange}
+          onChange={(event) => {
+            formik.handleChange(event);
+            setStepValue({ currentTeam: event.target.value });
+          }}
           isInvalid={Boolean(
             formik.errors.currentTeam && formik.touched.currentTeam
           )}
@@ -54,7 +68,7 @@ const InputCurrentTeam: React.FC<IProps> = ({ onSubmit }) => {
           errorMessage={formik.errors.currentTeam}
         />
       </Box>
-    </HerosOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

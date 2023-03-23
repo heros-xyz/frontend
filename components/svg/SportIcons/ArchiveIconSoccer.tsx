@@ -3,16 +3,16 @@ import { Center, Icon, IconProps } from "@chakra-ui/react";
 export const ArchiveIconSoccer: React.FC<IconProps> = (props) => {
   return (
     <Center
-      w={"30px"}
-      h={"30px"}
+      w={{ base: "30px", xl: "60px" }}
+      h={{ base: "30px", xl: "60px" }}
       borderRadius="full"
       border="1px"
       borderColor="currentColor"
     >
       <Icon
         {...props}
-        width="20px"
-        height="20px"
+        width={{ base: "20px", xl: "33px" }}
+        height={{ base: "20px", xl: "33px" }}
         viewBox="0 0 20 20"
         fill="currentColor"
         xmlns="http://www.w3.org/2000/svg"

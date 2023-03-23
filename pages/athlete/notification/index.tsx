@@ -121,7 +121,7 @@ const AthleteNotification = () => {
               <Text
                 px={[5, 0]}
                 fontSize={{ base: "sm", lg: "lg" }}
-                color="white"
+                color="primary"
               >
                 {`You haven't had any notifications yet!`}
               </Text>

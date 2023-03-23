@@ -33,6 +33,7 @@ interface SelectProps {
   isInvalid?: boolean;
   isSelectDate?: boolean;
   placeholderSize?: string;
+  isDisabled?: boolean;
   filterSelectOptions?:
     | ((option: FilterOptionOption<any>, inputValue: string) => boolean)
     | null
@@ -49,11 +50,13 @@ const Select: FC<SelectProps> = ({
   errorMessage = null,
   isMulti = false,
   isDarkTheme = false,
-  onChange,
+
   isInvalid,
   zIndex,
   isSelectDate,
   placeholderSize,
+  isDisabled,
+  onChange,
   filterSelectOptions,
   ...rest
 }) => {
@@ -159,13 +162,14 @@ const Select: FC<SelectProps> = ({
               mr={1}
               color={
                 value.key === "placeholder"
-                  ? "grey.300"
+                  ? "grey.200"
                   : isDarkTheme
                   ? "primary"
                   : "primary"
               }
               fontWeight="600"
               fontSize={placeholderSize ?? "sm"}
+              cursor={isDisabled ? "not-allowed" : ""}
             >
               {value.children}
               {index <= selected.length - 2 ? "," : ""}
@@ -183,7 +187,7 @@ const Select: FC<SelectProps> = ({
   }, [value]);
 
   const DropdownIndicator = () => {
-    return <ChervonDown w={5} h={5} color={isDarkTheme ? "primary" : ""} />;
+    return <ChervonDown w={5} h={5} color="grey.200" />;
   };
 
   return (
@@ -196,6 +200,7 @@ const Select: FC<SelectProps> = ({
         onChange={onChange}
         maxMenuHeight={renderOptionBaseOnOptionCount}
         placeholder={placeHolder}
+        isDisabled={isDisabled}
         components={{
           DropdownIndicator,
           Option: CustomOption,
@@ -221,7 +226,7 @@ const Select: FC<SelectProps> = ({
             borderRadius: "none",
             borderBottom: isInvalid
               ? "1px solid #FF6767"
-              : `1px solid ${isDarkTheme ? "#D9D9D9" : "#505050"}`,
+              : `1px solid ${isDarkTheme ? "#ADADAD" : "#505050"}`,
             boxShadow: "none",
             "&:hover": {
               borderColor: "none",
@@ -285,7 +290,7 @@ const Select: FC<SelectProps> = ({
 
 const theme = {
   colors: {
-    primary25: "#DEEBFF",
+    primary25: "#FFFFFF",
   },
 
   spacing: {

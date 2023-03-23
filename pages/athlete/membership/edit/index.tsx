@@ -2,6 +2,7 @@ import { Box } from "@chakra-ui/react";
 import { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { useSession } from "next-auth/react";
 import AddTier from "@/modules/athlete-dashboard/components/AddTier";
 import {
   useGetListBenefitQuery,
@@ -9,10 +10,18 @@ import {
 } from "@/api/athlete";
 import { ListMembershipTiers } from "@/types/athlete/types";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
+import { useLoading } from "@/hooks/useLoading";
 
 const EditMembership = () => {
   const router = useRouter();
-  const { data: dataTier } = useGetSubscriptionInfoQuery("");
+  const { data: session } = useSession();
+  const { start, finish } = useLoading();
+  const { data: dataTier } = useGetSubscriptionInfoQuery(
+    session?.user.id ?? "",
+    {
+      skip: !session?.user.id,
+    }
+  );
   const { data: dataBenefit } = useGetListBenefitQuery("");
   const [dataRender, setDataRender] = useState<ListMembershipTiers>();
 
@@ -21,7 +30,11 @@ const EditMembership = () => {
   };
 
   useEffect(() => {
-    if (dataTier?.data) setDataRender(dataTier?.data[0]);
+    start();
+    if (dataTier?.data) {
+      setDataRender(dataTier?.data[0]);
+      finish();
+    }
   }, [dataTier]);
 
   return (

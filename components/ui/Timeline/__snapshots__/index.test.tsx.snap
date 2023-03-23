@@ -6,7 +6,7 @@ exports[`renders homepage unchanged 1`] = `
     class="css-e25rbx"
   >
     <div
-      class="css-guqklo"
+      class="css-19f3oqx"
     >
       <div
         class="css-70qvj9"
@@ -15,10 +15,10 @@ exports[`renders homepage unchanged 1`] = `
           class="css-f1zsqn"
         >
           <div
-            class="css-nmqb8k"
+            class="css-46mybu"
           >
             <svg
-              class="chakra-icon css-jgvxrk"
+              class="chakra-icon css-tho3iz"
               focusable="false"
               viewBox="0 0 12 14"
               xmlns="http://www.w3.org/2000/svg"
@@ -31,10 +31,10 @@ exports[`renders homepage unchanged 1`] = `
           </div>
         </div>
         <div
-          class="css-ft2ktj"
+          class="css-bt25en"
         >
           <div
-            class="css-18j2ay9"
+            class="css-1agcy0f"
           >
             <div
               class="css-mlzgdd"
@@ -54,7 +54,7 @@ exports[`renders homepage unchanged 1`] = `
                 type="button"
               >
                 <svg
-                  class="chakra-icon css-rspwrc"
+                  class="chakra-icon css-17cusq9"
                   focusable="false"
                   viewBox="0 0 32 32"
                   xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@ exports[`renders homepage unchanged 1`] = `
                 </svg>
               </button>
               <p
-                class="chakra-text css-snutcs"
+                class="chakra-text css-3c892c"
               >
                 Add as many as you like to tell your journey
               </p>
@@ -81,7 +81,7 @@ exports[`renders homepage unchanged 1`] = `
         </div>
       </div>
       <div
-        class="css-1f0aong"
+        class="css-q9og19"
       >
         <div
           class="css-1jaf54"
@@ -101,7 +101,7 @@ exports[`renders homepage unchanged 1`] = `
           class="css-64rv73"
         >
           <div
-            class="css-xt3441"
+            class="css-174s0jl"
           />
           <div
             class="css-1kmzqxq"

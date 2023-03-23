@@ -1,8 +1,8 @@
 import { Box, Flex, Text, Input } from "@chakra-ui/react";
-import { ChangeEvent, FC, KeyboardEvent, useEffect, useState } from "react";
+import { ChangeEvent, FC, KeyboardEvent, useState } from "react";
 import { Close } from "@/components/svg/Close";
-import HerosOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import ErrorMessage from "@/components/common/ErrorMessage";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 
 interface AddTagProps {
   onSubmit: (value: string[]) => void;
@@ -42,16 +42,27 @@ const AddTag: FC<AddTagProps> = ({ onSubmit }) => {
   };
 
   return (
-    <HerosOnboardingWrapper
+    <HerosOnboardingWrapperNew
       onSubmit={() => onSubmit(tags)}
       textButton="SUBMIT"
-      title="PAGE INFORMATION"
+      title="Page information"
     >
-      <Box>
-        <Text as="p" fontWeight={500} fontSize="base" mb={2.5}>
+      <Box minW={{ xl: "750px" }}>
+        <Text
+          as="p"
+          fontWeight="bold"
+          fontSize={{ base: "md", xl: "xl" }}
+          mb={2.5}
+          color="primary"
+        >
           Add Tag(s)
         </Text>
-        <Text as="p" fontSize="xs" fontWeight={400} mb={2.5}>
+        <Text
+          as="p"
+          fontSize={{ base: "xs", xl: "md" }}
+          fontWeight={400}
+          mb={2.5}
+        >
           Help people find you easier by adding keywords related to you and your
           content. Tags will not be visible to fans on your profile page.
           Separate tags by comma.
@@ -63,7 +74,7 @@ const AddTag: FC<AddTagProps> = ({ onSubmit }) => {
           variant="flushed"
           mb={2.5}
           placeholder="Add Tags"
-          borderColor="primary"
+          borderColor="grey.200"
           fontSize={{ base: "sm" }}
           onKeyDown={handleKeyDown}
           value={inputValue}
@@ -100,7 +111,7 @@ const AddTag: FC<AddTagProps> = ({ onSubmit }) => {
           ))}
         </Flex>
       </Box>
-    </HerosOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

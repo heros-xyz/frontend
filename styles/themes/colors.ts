@@ -10,7 +10,7 @@ export const colors = {
     dark: "#8F8F8F",
   },
   accent: {
-    1: "#DCF76B",
+    1: "#E2FF65",
     2: "#7949FC",
     3: "#FFFAE8",
     4: "#FFC0F0",

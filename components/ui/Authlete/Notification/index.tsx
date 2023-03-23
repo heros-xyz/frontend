@@ -1,7 +1,5 @@
 import React from "react";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import { notiList } from "@/utils/mock";
-import NotificationList from "../../Notification/List";
 
 const NotificationAthlete = () => {
   return (

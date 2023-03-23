@@ -5,20 +5,22 @@ import {
   Heading,
   Input,
   InputGroup,
-  Radio,
-  RadioGroup,
-  Stack,
   Switch,
   Text,
 } from "@chakra-ui/react";
 import { If, Then } from "react-if";
 import { useFormikContext } from "formik";
+import dayjs from "dayjs";
 import DateSelect from "@/components/ui/DateSelect";
 import { Clock } from "@/components/svg/Clock";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { IValuesTypes } from "../../../hooks";
 
-const ShareWith = () => {
+interface IShareWithProps {
+  isDisabled?: boolean;
+}
+
+const ShareWith: React.FC<IShareWithProps> = ({ isDisabled = false }) => {
   const { values, errors, setFieldValue } = useFormikContext<IValuesTypes>();
 
   return (
@@ -32,7 +34,12 @@ const ShareWith = () => {
             variant="primary"
             size={{ base: "md", lg: "lg" }}
             isChecked={values.schedule}
-            onChange={(val) => setFieldValue("schedule", val.target.checked)}
+            isDisabled={isDisabled}
+            onChange={(val) => {
+              setFieldValue("schedule", val.target.checked);
+              setFieldValue("publicDate", dayjs().format("YYYY-MM-DD"));
+              setFieldValue("publicTime", dayjs().format("HH:mm"));
+            }}
           />
         </Flex>
         <If condition={values.schedule}>
@@ -43,7 +50,7 @@ const ShareWith = () => {
                 color="accent.2"
                 mb={{ base: 2, lg: 6 }}
               >
-                This interaction will become public on:
+                This interaction will be post on:
               </Text>
               <Box mb={{ base: 4, lg: 8 }}>
                 <Flex
@@ -57,6 +64,7 @@ const ShareWith = () => {
                     date={values?.publicDate}
                     submitted={false}
                     zIndex={20}
+                    isDisabled={isDisabled}
                   />
                 </Flex>
                 <ErrorMessage
@@ -70,23 +78,27 @@ const ShareWith = () => {
                 <Input
                   type="time"
                   variant="flushed"
+                  isDisabled={isDisabled}
                   value={values.publicTime}
                   color="primary"
+                  fontWeight={500}
                   fontSize={{ base: "sm", lg: "lg" }}
                   onChange={(e) => setFieldValue("publicTime", e.target.value)}
+                  className="clockIcon"
                 />
                 <Clock
-                  w={5}
-                  h={5}
+                  w="24px"
+                  h="24px"
                   color="primary"
                   position="absolute"
                   right={0}
                   bottom={2.5}
+                  zIndex={-1}
                 />
               </InputGroup>
               <Text
                 fontSize={{ base: "12px", lg: "16px" }}
-                color="accent.1"
+                color="grey.300"
                 mb={4}
               >
                 *Time is in your local timezone.

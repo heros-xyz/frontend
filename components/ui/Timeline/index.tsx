@@ -1,6 +1,6 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { If, Then } from "react-if";
+import { Else, If, Then } from "react-if";
 import { useUpdateEffect } from "react-use";
 import AddArchiveIcon from "@/components/svg/AddArchiveIcon";
 import { getSportIcon } from "@/utils/mock-icon";
@@ -23,6 +23,7 @@ interface IProps {
   handleClickAdd?: () => void;
   handleClickEdit?: (item: ITimeLineInfo) => void;
   canEdit?: boolean;
+  itemCurrent?: ITimeLineInfo;
 }
 
 const TimeLineJourney: React.FC<IProps> = ({
@@ -33,6 +34,7 @@ const TimeLineJourney: React.FC<IProps> = ({
   handleClickAdd,
   handleClickEdit,
   canEdit,
+  itemCurrent,
 }) => {
   const [itemEdit, setItemEdit] = useState<ITimeLineInfo>();
 
@@ -51,10 +53,13 @@ const TimeLineJourney: React.FC<IProps> = ({
       flexDirection="column"
       color={bgColor === "secondary" ? "primary" : "primary"}
       gap={4}
-      w={w}
     >
       {items.map((item, index) => (
-        <Flex key={`${"key" + index}`} alignItems="center" gap={3}>
+        <Flex
+          key={`${"key" + index}`}
+          alignItems="center"
+          gap={{ base: 3, xl: 7 }}
+        >
           <Flex alignItems="center">
             <Box minWidth={10}>
               <If condition={item?.icon}>
@@ -64,15 +69,24 @@ const TimeLineJourney: React.FC<IProps> = ({
                     bgColor === "secondary" ? "primary" : "accent.2"
                   )}
                 </Then>
+                <Else>
+                  <Box
+                    w={{ base: "30px", xl: "60px" }}
+                    h={{ base: "30px", xl: "60px" }}
+                  >
+                    <Box display="none" />
+                  </Box>
+                </Else>
               </If>
             </Box>
             <Flex
               position="relative"
               flexDirection="column"
               alignItems="center"
+              mx={{ xl: 7 }}
             >
               <Box
-                p={0.5}
+                p={1}
                 w="fit-content"
                 h="fit-content"
                 borderRadius="full"
@@ -87,7 +101,7 @@ const TimeLineJourney: React.FC<IProps> = ({
                     position="absolute"
                     top={3.5}
                     w={0.5}
-                    height={
+                    h={
                       item.title?.length > 25 && item.description?.length > 70
                         ? "95px"
                         : "90px"
@@ -107,7 +121,7 @@ const TimeLineJourney: React.FC<IProps> = ({
                   >
                     <Box
                       w={0.5}
-                      height="90px"
+                      h="90px"
                       bg={bgColor === "secondary" ? "accent.2" : "accent.2"}
                     />
                     <Flex
@@ -124,14 +138,17 @@ const TimeLineJourney: React.FC<IProps> = ({
                         _active={{ bg: "transparent" }}
                         onClick={handleAdd}
                       >
-                        <AddArchiveIcon w={8} h={8} />
+                        <AddArchiveIcon
+                          w={{ base: "30px", xl: "45px" }}
+                          h={{ base: "30px", xl: "45px" }}
+                        />
                       </Button>
                       <Text
                         position="absolute"
-                        left="45px"
-                        fontSize="xs"
+                        left={{ base: "45px", xl: 20 }}
+                        fontSize={{ base: "xs", xl: "2xl" }}
                         whiteSpace="nowrap"
-                        fontWeight={700}
+                        fontWeight="medium"
                       >
                         Add as many as you like to tell your journey
                       </Text>
@@ -145,7 +162,7 @@ const TimeLineJourney: React.FC<IProps> = ({
             item={item}
             canEdit={canEdit}
             setItemEdit={setItemEdit}
-            isCurrent={item == items[0]}
+            isCurrent={false}
           />
         </Flex>
       ))}

@@ -1,5 +1,6 @@
 import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { LegacyRef } from "react";
+import { If, Then } from "react-if";
 import FindHeros from "@components/ui/FindHeros";
 import { IAthleteProfileResponse } from "@/types/athlete/types";
 import { Profile } from "@/modules/athlete-profile/profile";
@@ -10,12 +11,14 @@ import CareerJourney from "@/modules/athlete-profile/career-journey";
 import { useAthleteProfile } from "@/hooks/useAthleteProfile";
 
 interface IFanAthleteProfileProps {
+  showFindHeros?: boolean;
   athleteProfile: IAthleteProfileResponse | undefined;
 }
 
 const TABS = ["Profile", "Interactions", "Career Journey", "Memberships"];
 
 const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
+  showFindHeros = true,
   athleteProfile,
 }) => {
   const {
@@ -27,6 +30,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
     journeyData,
     navigationBarRef,
     sportProfile,
+    athleteId,
     handleSubscribe,
     setCurrentTab,
   } = useAthleteProfile();
@@ -41,10 +45,21 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
   };
 
   return (
-    <Box as="section" bg="white" minH="100vh" w="100%">
-      <Box px={{ base: "20px", lg: 0 }} mb={{ lg: "30px" }}>
-        <FindHeros />
-      </Box>
+    <Box
+      as="section"
+      bg="white"
+      minH="100vh"
+      w="100%"
+      mt={{ lg: showFindHeros ? 0 : 4 }}
+    >
+      <If condition={showFindHeros}>
+        <Then>
+          <Box px={{ base: "20px", lg: 0 }} mb={{ lg: "30px" }}>
+            <FindHeros />
+          </Box>
+        </Then>
+      </If>
+
       <BasicInfoAthlete
         image={athleteProfile?.avatar ?? ""}
         nickname={basicInfo?.nickName ?? ""}
@@ -63,7 +78,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
         minH="100vh"
       >
         <TabList
-          overflowX="scroll"
+          overflowX="auto"
           overflowY="hidden"
           maxW="100vw"
           className="tabHorizontal"
@@ -107,6 +122,8 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
               isEdit={false}
               basicInfo={basicInfo}
               sportProfile={sportProfile}
+              athleteId={athleteId ?? ""}
+              athleteNickname={basicInfo?.nickName ?? ""}
             />
           </TabPanel>
           <TabPanel p={{ xl: "unset" }} px={{ base: 5, xl: "unset" }}>

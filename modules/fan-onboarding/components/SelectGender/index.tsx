@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Box, Text } from "@chakra-ui/react";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import { GenderFanOnBoarding } from "@/components/svg/GenderFanOnBoarding";
-import FanOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import SelectGender from "@/components/ui/SelectGender";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 interface EnterGenderProps {
   onSubmit: (gender: string) => void;
   gender: string;
@@ -21,13 +21,19 @@ const EnterGender: React.FC<EnterGenderProps> = ({ gender, onSubmit }) => {
   };
 
   return (
-    <FanOnboardingWrapper
-      Icon={<GenderFanOnBoarding w="full" h="full" />}
+    <HerosOnboardingWrapperNew
+      Icon={
+        <GenderFanOnBoarding
+          w={{ base: "80px", xl: "128px" }}
+          h={{ base: "79px", xl: "127px" }}
+        />
+      }
       textButton="Proceed"
       IconButton={<ArrowRight />}
       onSubmit={handleSubmit}
+      bgIconColor="accent.2"
     >
-      <Box mb={6} color="black.ish">
+      <Box mb={6} color="primary">
         <Box mb={3.5} fontSize={{ lg: "xl" }} fontWeight="500">
           Select Gender
           <Text as="span" color="error.dark">
@@ -43,7 +49,7 @@ const EnterGender: React.FC<EnterGenderProps> = ({ gender, onSubmit }) => {
           }
         />
       </Box>
-    </FanOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

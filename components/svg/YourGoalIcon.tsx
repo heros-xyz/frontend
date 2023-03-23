@@ -8,7 +8,7 @@ export const YourGoalIcon: React.FC<IconProps> = (props) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="75.5" cy="75" r="74.5" fill="white" stroke="#DDDDDD" />
+      <circle cx="75.5" cy="75" r="74.5" fill="currentColor" stroke="#DDDDDD" />
       <g clipPath="url(#clip0_1504_20084)">
         <path
           fillRule="evenodd"

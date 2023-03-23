@@ -10,6 +10,7 @@ interface DateSelectProps {
   onChange: (date: string) => void;
   format?: string;
   zIndex?: number;
+  isDisabled?: boolean;
   isDarkTheme?: boolean;
 }
 
@@ -19,6 +20,7 @@ const DateSelect: React.FC<DateSelectProps> = ({
   format = "YYYY-MM-DD",
   zIndex,
   isDarkTheme,
+  isDisabled,
   onChange,
 }) => {
   const dateDefault = dayjs(date ? date : new Date(), format, true);
@@ -61,6 +63,7 @@ const DateSelect: React.FC<DateSelectProps> = ({
         isInvalid={submitted && !day.value}
         zIndex={zIndex}
         isDarkTheme={isDarkTheme}
+        isDisabled={isDisabled}
       />
       <Select
         showTick={false}
@@ -73,6 +76,7 @@ const DateSelect: React.FC<DateSelectProps> = ({
         isInvalid={submitted && !month.value}
         zIndex={zIndex}
         isDarkTheme={isDarkTheme}
+        isDisabled={isDisabled}
       />
       <Select
         showTick={false}
@@ -85,6 +89,7 @@ const DateSelect: React.FC<DateSelectProps> = ({
         isInvalid={submitted && !year.value}
         zIndex={zIndex}
         isDarkTheme={isDarkTheme}
+        isDisabled={isDisabled}
       />
     </>
   );

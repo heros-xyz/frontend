@@ -57,7 +57,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
             </span>
           </div>
           <p
-            class="chakra-text css-1zoz3t"
+            class="chakra-text css-m9oxd3"
           >
             We recommend that you set a price between $1 and $10 per month for the bronze tier to attract as many fans as possible. It is up to you however how much you charge.
           </p>
@@ -71,7 +71,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
             </div>
             <input
               autocomplete="off"
-              class="chakra-input css-10i6nyx"
+              class="chakra-input css-1x81zkp"
               id="monthlyPrice"
               name="monthlyPrice"
               placeholder="1.00"
@@ -94,7 +94,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
           </p>
           <textarea
             autocomplete="off"
-            class="chakra-textarea css-1sewk71"
+            class="chakra-textarea css-u6mj2c"
             id="tierDescription"
             name="tierDescription"
             placeholder="Tier description"
@@ -148,7 +148,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
                 />
               </svg>
               <span
-                class="chakra-text css-1uewnew"
+                class="chakra-text css-8vqkxc"
               >
                 Select benefits
               </span>

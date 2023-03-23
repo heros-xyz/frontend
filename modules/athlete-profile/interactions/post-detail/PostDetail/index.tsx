@@ -3,23 +3,40 @@ import { useRouter } from "next/router";
 import { useGetAthleteInteractionDetailQuery } from "@/api/fan";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { useAthleteProfile } from "@/hooks/useAthleteProfile";
+import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/detail/SkeletonInteractionDetail";
 import InteractionSection from "../../components/InteractionSection";
 import CommentSection from "../CommentSection";
+import NotFoundPage from "../../components/NotFound";
 
 const PostDetail = () => {
   const router = useRouter();
   const { view: postId } = router.query;
   const { validateIsFan } = useAthleteProfile();
-  const { data: interactionDetail } = useGetAthleteInteractionDetailQuery(
-    postId as string,
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !postId,
-    }
-  );
+  const {
+    data: interactionDetail,
+    error,
+    isSuccess,
+    isLoading,
+  } = useGetAthleteInteractionDetailQuery(postId as string, {
+    refetchOnMountOrArgChange: true,
+    skip: !postId,
+  });
 
-  if (!interactionDetail) {
-    return <></>;
+  if (!interactionDetail || isLoading) {
+    return (
+      <Container
+        size={["base", "sm", "md", "lg", "xl"]}
+        pt={{ base: 6, lg: 12 }}
+      >
+        <Box mt={2}>
+          <SkeletonInteractionDetail />
+        </Box>
+      </Container>
+    );
+  }
+
+  if (error) {
+    return <NotFoundPage />;
   }
 
   return (
@@ -53,22 +70,30 @@ const PostDetail = () => {
               </Text>
             </Flex>
 
-            <Box mb={{ lg: "30px" }}>
-              <InteractionSection
-                validateIsFan={validateIsFan}
-                isDetailView
-                {...interactionDetail}
-              />
-            </Box>
+            {isSuccess ? (
+              <Box mb={{ lg: "30px" }}>
+                <InteractionSection
+                  validateIsFan={validateIsFan}
+                  isDetailView
+                  {...interactionDetail}
+                />
+              </Box>
+            ) : (
+              <></>
+            )}
           </Box>
           <Divider
             display={{ base: "none", lg: "block" }}
             mx="80px"
             orientation="vertical"
           />
-          <Box flex={{ lg: "1" }}>
-            <CommentSection {...interactionDetail} />
-          </Box>
+          {isSuccess ? (
+            <Box flex={{ lg: "1" }}>
+              <CommentSection {...interactionDetail} />
+            </Box>
+          ) : (
+            <></>
+          )}
         </Flex>
       </Container>
     </Box>

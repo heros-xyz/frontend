@@ -136,15 +136,7 @@ const EditBasicInfo = () => {
                 />
               </Box>
               <Box my={7}>
-                <Box fontWeight="medium">
-                  <Text as="span" color="black">
-                    {" "}
-                    Legal Middle Name
-                  </Text>
-                  <Text as="span" color="error.dark">
-                    {" *"}
-                  </Text>
-                </Box>
+                <Box fontWeight="medium">Legal Middle Name</Box>
                 <Input
                   variant="flushed"
                   w="full"
@@ -340,7 +332,7 @@ const EditBasicInfo = () => {
                 </Button>
                 {isEdited && (
                   <Text color={"#65D169"} fontSize={["xs", "md"]}>
-                    Changes saved!
+                    Changes Saved
                   </Text>
                 )}
               </Box>

@@ -19,6 +19,7 @@ import {
   useRef,
   useState,
   KeyboardEvent,
+  MutableRefObject,
 } from "react";
 import Head from "next/head";
 import { useFormik } from "formik";
@@ -49,8 +50,7 @@ const EditPageInfo = () => {
     useEditPageInfoMutation();
   const [input, setInput] = useState("");
   const [tagsValue, setTags] = useState<string[]>([]);
-  const initialRef: any = null;
-  const upload = useRef(initialRef);
+  const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [image, setImage] = useState("");
   const [fileSubmit, setFileSubmit] = useState<File>();
 
@@ -374,7 +374,7 @@ const EditPageInfo = () => {
               </Flex>
               {isSuccess && (
                 <Flex justify={{ base: "center", xl: "flex-end" }} pt="2">
-                  <Text color="#65D169">Changes saved!</Text>
+                  <Text color="#65D169">Changes Saved</Text>
                 </Flex>
               )}
             </Box>

@@ -22,6 +22,8 @@ import {
   LARGE_SIZE_MESSAGE,
   MAX_SIZE,
 } from "@/utils/inputRules";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
+import { IconOnboarding } from "@/components/svg/IconOnboarding";
 
 const AthleteProfileImageStep: FC<OnboardingProps> = (props) => {
   const { setFieldValue } = useFormikContext<IValuesTypes>();
@@ -87,6 +89,8 @@ const AthleteProfileImageStep: FC<OnboardingProps> = (props) => {
           overflow="hidden"
           as="label"
           cursor="pointer"
+          bg="gradient.dark"
+          borderRadius={{ base: "8px", xl: "18px" }}
         >
           <IconEdit
             position="absolute"
@@ -94,18 +98,16 @@ const AthleteProfileImageStep: FC<OnboardingProps> = (props) => {
             left="50%"
             transform="translate(-50%, -50%)"
             zIndex={10}
+            color="white"
           />
           <Image
             zIndex={1}
             width={"100%"}
             alignSelf={"center"}
             style={{ opacity: 0.4 }}
-            mt={5}
-            mb={7.5}
             src={imgSrc}
             alt="preview"
             objectFit="cover"
-            borderRadius={"8px"}
           />
           <input
             data-testid="file-input"
@@ -121,20 +123,30 @@ const AthleteProfileImageStep: FC<OnboardingProps> = (props) => {
   );
 
   return (
-    <HerosOnboardingWrapper
+    <HerosOnboardingWrapperNew
       {...props}
-      Icon={!file && <IconProfileImage w="full" h="full" />}
+      Icon={
+        !file && (
+          <IconOnboarding
+            w={{ base: "150px", xl: "240px" }}
+            h={{ base: "150px", xl: "240px" }}
+            color={{ base: "accent.1", xl: "white" }}
+          />
+        )
+      }
       ImagePreview={imgSrc ? <ImagePreview /> : null}
       IconButton={IconButton}
       isUploadImage
       onSubmit={console.log}
+      bgIconColor={"accent.1"}
     >
       <Box mb={{ xl: 12 }}>
         <HStack
-          fontWeight="500"
+          fontWeight="bold"
           fontSize={{ base: "md", xl: "xl" }}
           mb={2.5}
           fontFamily="heading"
+          color="primary"
         >
           <Text>Upload Profile Image</Text> <Text color={"error.dark"}>*</Text>
         </HStack>
@@ -142,7 +154,7 @@ const AthleteProfileImageStep: FC<OnboardingProps> = (props) => {
           mb={1}
           fontWeight="400"
           fontSize={{ base: "xs", xl: "md" }}
-          color={"black.ish"}
+          color="grey.300"
           fontFamily="heading"
         >
           This is the first thing your fans see on your page. We recommend a
@@ -158,7 +170,7 @@ const AthleteProfileImageStep: FC<OnboardingProps> = (props) => {
           </Box>
         )}
       </Box>
-    </HerosOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

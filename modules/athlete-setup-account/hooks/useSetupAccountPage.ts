@@ -30,12 +30,12 @@ const validationSchema = yub.object().shape({
     .required(REQUIRED_MESSAGE)
     .test(
       "invalid-firstname",
-      "First name is not allowing special character",
+      "This field contains text only",
       (value: string | undefined) => {
         if (value) {
           return isValidString(value);
         }
-        return false;
+        return true;
       }
     ),
   middleName: yub
@@ -43,7 +43,7 @@ const validationSchema = yub.object().shape({
     .max(20, getCharacterMessage("Middle name"))
     .test(
       "invalid-middlename",
-      "Middle name is not allowing special character",
+      "This field contains text only",
       (value: string | undefined) => {
         if (!value) {
           return true;
@@ -58,12 +58,12 @@ const validationSchema = yub.object().shape({
     .required(REQUIRED_MESSAGE)
     .test(
       "invalid-lastname",
-      "Last name is not allowing special character",
+      "This field contains text only",
       (value: string | undefined) => {
         if (value) {
           return isValidString(value);
         }
-        return false;
+        return true;
       }
     ),
   nickName: yub

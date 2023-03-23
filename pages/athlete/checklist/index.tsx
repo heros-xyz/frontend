@@ -93,7 +93,7 @@ const AthleteChecklist: FC = () => {
   };
 
   return (
-    <Box as="section" bg="secondary" minH="100vh">
+    <Box as="section" bg="white" minH="100vh">
       <Head>
         <title>Athlete | Checklist</title>
       </Head>
@@ -122,6 +122,7 @@ const AthleteChecklist: FC = () => {
               />
               <Text
                 as="p"
+                color="primary"
                 fontWeight={700}
                 fontSize="1.25rem"
                 lineHeight="1.75rem"
@@ -135,6 +136,7 @@ const AthleteChecklist: FC = () => {
               fontSize={{ base: "md", xl: "3xl" }}
               alignSelf={{ xl: "end" }}
               lineHeight="22px"
+              color="primary"
             >
               Share your story with your followers!
             </Text>
@@ -168,6 +170,7 @@ const AthleteChecklist: FC = () => {
             lineHeight="16px"
             textAlign="center"
             as="p"
+            color="primary"
             display={isGettingOnboardingInformation ? "none" : "block"}
           >
             {`${PROGRESS_POINT}% completion. ${renderProgressMessage()}`}

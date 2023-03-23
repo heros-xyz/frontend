@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   BoxProps,
   Flex,
@@ -39,6 +38,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           alt="image"
           rounded="full"
           fallbackSrc="https://via.placeholder.com/50"
+          objectFit="cover"
         />
         <Box px={2.5}>
           <Heading as="span" fontSize="md" fontWeight={500}>

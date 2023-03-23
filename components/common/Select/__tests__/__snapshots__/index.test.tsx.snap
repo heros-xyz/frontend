@@ -28,12 +28,12 @@ exports[`renders select unchanged 1`] = `
             class="css-xxdqwu"
           >
             <div
-              class="css-1yks822"
+              class="css-1oemo71"
             >
               Select...
             </div>
             <div
-              class=" css-119wo5m-Input"
+              class=" css-1gd3orv-Input"
               data-value=""
             >
               <input
@@ -63,7 +63,7 @@ exports[`renders select unchanged 1`] = `
             class=" css-1xjgjl1-IndicatorSeparator"
           />
           <svg
-            class="chakra-icon css-fgc0y"
+            class="chakra-icon css-h50qoc"
             focusable="false"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"

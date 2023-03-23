@@ -11,7 +11,6 @@ import {
   Modal,
   ModalContent,
   ModalOverlay,
-  Stack,
   Text,
   Textarea,
   useDisclosure,
@@ -64,7 +63,7 @@ const EditMilestone = () => {
           endDate: values.isPeriodDate ? values.endDate : "",
           icon: values.icon,
           title: values.title,
-          description: values.description,
+          description: values.description ?? "",
         };
         if (router.query.id === "0") {
           editMilestone(editData);
@@ -85,7 +84,7 @@ const EditMilestone = () => {
     formik.setFieldValue("icon", milestoneData?.icon);
     formik.setFieldValue("title", milestoneData?.title);
     formik.setFieldValue("endDate", milestoneData?.endDate ?? "");
-    formik.setFieldValue("description", milestoneData?.description);
+    formik.setFieldValue("description", milestoneData?.description ?? "");
     formik.setFieldValue("startDate", milestoneData?.startDate);
     formik.setFieldValue("isPeriodDate", milestoneData?.endDate ? true : false);
   }, [milestoneData]);
@@ -369,7 +368,7 @@ const EditMilestone = () => {
                       mt={{ base: 2.5, xl: 4 }}
                       fontSize={{ base: "xs", xl: "md" }}
                     >
-                      Changes saved!
+                      Changes Saved
                     </Center>
                   </Then>
                 </If>

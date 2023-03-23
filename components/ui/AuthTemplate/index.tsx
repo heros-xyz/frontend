@@ -150,7 +150,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
       height="100vh"
       textAlign="center"
       color="white"
-      overflowY="scroll"
+      overflowY="auto"
       display="flex"
       justifyContent="center"
     >

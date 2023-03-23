@@ -10,7 +10,13 @@ import {
   Text,
   VisuallyHiddenInput,
 } from "@chakra-ui/react";
-import { ReactElement, useEffect, useRef, useState } from "react";
+import {
+  MutableRefObject,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import * as Yup from "yup";
 import Head from "next/head";
 import { useFormik } from "formik";
@@ -53,12 +59,12 @@ const validationSchema = Yup.object().shape({
     .max(20, "First name cannot exceed 20 characters")
     .test(
       "invalid-first-name",
-      "First name is not allowing special character",
+      "This field contains text only",
       (value: string | undefined) => {
         if (value) {
           return isValidString(value);
         }
-        return false;
+        return true;
       }
     )
     .required("This is a required field"),
@@ -66,12 +72,12 @@ const validationSchema = Yup.object().shape({
     .max(20, "Last name cannot exceed 20 characters")
     .test(
       "invalid-last-name",
-      "Last name is not allowing special character",
+      "This field contains text only",
       (value: string | undefined) => {
         if (value) {
           return isValidString(value);
         }
-        return false;
+        return true;
       }
     )
     .required("This is a required field"),
@@ -89,8 +95,7 @@ const EditAccountInfo = () => {
   const { data: fanProfile, refetch } = useGetFanSettingQuery("", {
     refetchOnMountOrArgChange: true,
   });
-  const initialRef: any = null;
-  const upload = useRef(initialRef);
+  const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [image, setImage] = useState("");
   const [fileSubmit, setFileSubmit] = useState<File>();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -404,7 +409,7 @@ const EditAccountInfo = () => {
                 </Button>
                 {isSuccess && (
                   <Text color={"#65D169"} fontSize={["xs", "md"]}>
-                    Changes saved!
+                    Changes Saved
                   </Text>
                 )}
               </Box>

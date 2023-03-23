@@ -3,19 +3,19 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-1whykrx"
+    class="css-0"
   >
     <div
       class="css-1fwkvq8"
     >
       <div
-        class="chakra-input__group css-1vitonv"
+        class="chakra-input__group css-bx0blc"
       >
         <div
           class="chakra-input__left-element css-dyheo2"
         >
           <svg
-            class="chakra-icon css-1g9g4ul"
+            class="chakra-icon css-1n4zmxg"
             focusable="false"
             viewBox="0 0 18 18"
             xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +30,7 @@ exports[`renders homepage unchanged 1`] = `
           </svg>
         </div>
         <input
-          class="chakra-input css-g6ikkp"
+          class="chakra-input css-15a4dgn"
           placeholder="Search Fans"
           type="text"
         />

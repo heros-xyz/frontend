@@ -287,7 +287,9 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                 />
               </Then>
               <Else>
-                <Link href={`/athlete/interactions/${interactionInfo?.id}`}>
+                <Link
+                  href={`/athlete/interactions/${interactionInfo?.id}?focus=true`}
+                >
                   <CommentIcon cursor="pointer" ml={5} maxW={6} />
                 </Link>
               </Else>

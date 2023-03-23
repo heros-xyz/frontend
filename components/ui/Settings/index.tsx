@@ -118,7 +118,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
                   fontSize={["xs", "md"]}
                   fontWeight="normal"
                   lineHeight="110%"
-                  color="grey.100"
+                  color="grey.200"
                   pt="5px"
                 >
                   This cannot be changed
@@ -173,7 +173,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
                 fontSize={["sm", "md"]}
                 fontWeight="medium"
                 lineHeight="110%"
-                color="grey.100"
+                color="grey.200"
               >
                 This account is linked to Facebook
               </Text>

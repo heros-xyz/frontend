@@ -1,24 +1,22 @@
-import { useMemo, useRef, useState } from "react";
+import { MutableRefObject, useMemo, useRef, useState } from "react";
 import { Box, Flex, Image, VisuallyHiddenInput } from "@chakra-ui/react";
 import { IconOnboarding } from "@/components/svg/IconOnboarding";
 import { UploadIcon } from "@/components/svg/UploadIcon";
 import { PencilEdit } from "@/components/svg/PencilEdit";
 import { ArrowRight } from "@/components/svg/ArrowRight";
-import FanOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import {
   ALLOWED_TYPES,
   FILE_FORMAT_MESSAGE,
   LARGE_SIZE_MESSAGE,
   MAX_SIZE,
 } from "@/utils/inputRules";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 interface IProp {
   onSubmit: (image: File) => void;
   avatar: File | null;
 }
 const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
-  const initialRef: any = null;
-
-  const upload = useRef(initialRef);
+  const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [image, setImage] = useState(avatar ? URL.createObjectURL(avatar) : "");
   const [fileSubmit, setFileSubmit] = useState<File>();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -67,6 +65,7 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
             alt="preview"
             w={{ base: "150px", xl: "240px" }}
             h={{ base: "150px", xl: "240px" }}
+            objectFit="cover"
           />
           <Flex
             zIndex={2}
@@ -85,18 +84,20 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
       <IconOnboarding
         w={{ base: "150px", xl: "240px" }}
         h={{ base: "150px", xl: "240px" }}
+        color={{ base: "accent.1", xl: "white" }}
       />
     );
   }, [image]);
 
   return (
-    <FanOnboardingWrapper
+    <HerosOnboardingWrapperNew
       Icon={Icon}
       textButton={image ? "Proceed" : "Upload Image"}
       IconButton={image ? <ArrowRight /> : <UploadIcon />}
       onSubmit={image ? handleSubmit : onClickUploadImage}
+      bgIconColor={"accent.1"}
     >
-      <Box color="black.ish">
+      <Box color="primary">
         <Box mb={{ base: 5, lg: 8 }}>
           <Box mb={2.5} fontSize={{ lg: "xl" }} fontWeight="500">
             Upload Profile Image
@@ -104,7 +105,7 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
           <Box
             mb={1}
             fontWeight="normal"
-            color={{ lg: "grey.300" }}
+            color="grey.300"
             fontSize={{ base: "xs", lg: "md" }}
           >
             This is how other people will see you. We recommend a square image
@@ -123,7 +124,7 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
           onChange={onChange}
         />
       </Box>
-    </FanOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

@@ -41,8 +41,8 @@ const AthleteDashboard = () => {
     useGetTotalSubscriptionQuery("");
   const { data: grossMoneyData } = useGetGrossAmountMoneyQuery("");
   const { data: membershipData, isLoading: isGettingMembership } =
-    useGetMembershipListQuery({
-      userId: session?.user?.id,
+    useGetMembershipListQuery(session?.user?.id ?? "", {
+      skip: !session?.user?.id,
     });
   const { data: profile, isLoading: isGettingNetMoney } = useProfileQuery("");
   const { data: sportProfile } = useGetSportProfileQuery("");
@@ -61,7 +61,9 @@ const AthleteDashboard = () => {
   return (
     <Box bg="white" pt={6} minH="100vh">
       <Head>
-        <title>Athlete | Homepage</title>
+        <title>
+          {profile?.nickname || "Athlete Profile"} | Athlete | Heros
+        </title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Grid gridGap={["5", "4"]}>

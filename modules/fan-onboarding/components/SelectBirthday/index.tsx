@@ -3,10 +3,10 @@ import * as Yup from "yup";
 import { useFormik } from "formik";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import { BirthdateFanOnBoarding } from "@/components/svg/BirthdateFanOnBoarding";
-import FanOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import DateSelect from "@/components/ui/DateSelect";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { isValidDate } from "@/utils/functions";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 
 interface initialValues {
   dateOfBirth: string;
@@ -34,13 +34,20 @@ const EnterBirthday: React.FC<IProp> = ({ initialValues, onSubmit }) => {
   });
 
   return (
-    <FanOnboardingWrapper
-      Icon={<BirthdateFanOnBoarding w="full" h="full" />}
+    <HerosOnboardingWrapperNew
+      Icon={
+        <BirthdateFanOnBoarding
+          w={{ base: "67px", xl: "107px" }}
+          h={{ base: "80px", xl: "128px" }}
+          color={{ base: "#FFFAE8", xl: "accent.4" }}
+        />
+      }
       textButton="Proceed"
       IconButton={<ArrowRight />}
       onSubmit={formik.handleSubmit}
+      bgIconColor="accent.4"
     >
-      <Box mb={{ base: 4, lg: 20 }} color="black.ish">
+      <Box mb={{ base: 4, lg: 20 }} color="primary">
         <Box fontSize={{ lg: "xl" }} fontWeight="500" mb={3}>
           Select Date of Birth
           <Text as="span" color="error.dark">
@@ -58,6 +65,7 @@ const EnterBirthday: React.FC<IProp> = ({ initialValues, onSubmit }) => {
             onChange={(value) => formik.setFieldValue("dateOfBirth", value)}
             submitted={!!formik.submitCount}
             zIndex={20}
+            isDarkTheme
           />
         </Flex>
         <ErrorMessage
@@ -66,7 +74,7 @@ const EnterBirthday: React.FC<IProp> = ({ initialValues, onSubmit }) => {
           errorMessage={formik.errors?.dateOfBirth}
         />
       </Box>
-    </FanOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

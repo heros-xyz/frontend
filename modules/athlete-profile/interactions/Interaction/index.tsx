@@ -10,32 +10,15 @@ import {
 } from "@chakra-ui/react";
 import { Else, If, Then } from "react-if";
 import Link from "next/link";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { Waypoint } from "react-waypoint";
-import { useUnmount } from "react-use";
-import { resetApiState, useGetMyListInteractionsQuery } from "@/api/athlete";
 import Chat from "@/components/svg/Chat";
 import { getImageLink } from "@/utils/link";
 import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
+import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
 
 export const Interaction = ({}) => {
-  const dispatch = useDispatch();
-  const [take] = useState(15);
-  const [page, setPage] = useState(1);
-  const { data: interactionData, isFetching } = useGetMyListInteractionsQuery({
-    page,
-    take,
-    order: "DESC",
-  });
-  const onLoadMore = () => {
-    if (interactionData?.meta?.hasNextPage && !isFetching) {
-      setPage((p) => p + 1);
-    }
-  };
-
-  useUnmount(() => {
-    dispatch(resetApiState());
+  const { hasNextPage, interactionsList, onLoadMore } = useAthleteInteraction({
+    isGetPublic: true,
   });
 
   return (
@@ -44,7 +27,7 @@ export const Interaction = ({}) => {
         paddingX={{ base: "16px", xl: "110px" }}
         marginBottom={{ base: "20px", xl: "50px" }}
       >
-        {!interactionData?.data?.length && (
+        {!interactionsList.length && (
           <Text
             mb={{ base: "15px", xl: "50px" }}
             fontSize={{ base: "xs", xl: "md" }}
@@ -73,8 +56,8 @@ export const Interaction = ({}) => {
         gap={{ base: "3px", xl: "5px" }}
         justifyItems="center"
       >
-        {interactionData?.data?.length
-          ? interactionData?.data?.map((item) => (
+        {interactionsList.length
+          ? interactionsList.map((item) => (
               <GridItem borderRadius="4px" key={item?.id} w="full">
                 <AspectRatio ratio={1} w="100%">
                   <Link
@@ -143,11 +126,13 @@ export const Interaction = ({}) => {
                             w={{ base: "26px", xl: "32px" }}
                             h={{ base: "24px", xl: "32px" }}
                             marginBottom={{ base: "6px", xl: "10px" }}
+                            color="primary"
                           />
                           <Text
                             fontSize={{ base: "10px", xl: "16px" }}
                             fontWeight="medium"
                             lineHeight="120%"
+                            color="primary"
                           >
                             {item?.content.slice(0, 29).concat("...")}
                           </Text>
@@ -160,7 +145,7 @@ export const Interaction = ({}) => {
             ))
           : ""}
       </Grid>
-      {interactionData?.meta?.hasNextPage && (
+      {hasNextPage && (
         <Waypoint onEnter={onLoadMore}>
           <Box display="flex" justifyContent="center" mt={5}>
             <Spinner color="secondary" />

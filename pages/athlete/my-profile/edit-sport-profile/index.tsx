@@ -198,7 +198,7 @@ const EditSportProfile = () => {
                     mt={{ base: 2.5, xl: 4 }}
                     fontSize={{ base: "xs", xl: "md" }}
                   >
-                    Changes saved!
+                    Changes Saved
                   </Box>
                 </Then>
               </If>

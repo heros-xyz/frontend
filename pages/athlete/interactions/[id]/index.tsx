@@ -36,7 +36,7 @@ const InteractionDetail = () => {
       athleteInfo: {
         imagePath: postInfo?.user?.avatar || "",
         athleteName: session?.user?.nickname ?? "",
-        publishDate: postInfo?.user?.createdAt || "",
+        publishDate: postInfo?.publicDate || postInfo?.createdAt,
         id: postInfo?.user?.id,
       },
       slideData: postInfo?.interactionMedia ?? [],

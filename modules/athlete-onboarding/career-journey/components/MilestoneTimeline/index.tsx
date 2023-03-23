@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Grid,
-  GridItem,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Center } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { ArrowRightIcon } from "@/components/svg/ArrowRightIcon";
 
@@ -24,7 +16,7 @@ const MilestoneTimeline: React.FC<MilestoneTimelineProps> = ({
   return (
     <Box
       w="full"
-      bg="secondary"
+      bg="white"
       fontSize="xs"
       minH="100vh"
       p={5}
@@ -34,8 +26,9 @@ const MilestoneTimeline: React.FC<MilestoneTimelineProps> = ({
         pt={{ base: 5, xl: 14 }}
         fontWeight="extrabold"
         fontSize={{ xl: "xl" }}
+        color="primary"
       >
-        CAREER JOURNEY
+        Career journey
       </Center>
       <Center
         mt={{ base: "40px", xl: "5rem" }}
@@ -44,7 +37,7 @@ const MilestoneTimeline: React.FC<MilestoneTimelineProps> = ({
         Try adding more milestones, or click “Proceed” to finish your journey.
         You can always add more later.
       </Center>
-      <Box w={{ xl: "full" }} display={{ xl: "flex" }} ml={{ xl: "45%" }}>
+      <Box w={{ xl: "full" }} display={{ xl: "flex" }} ml={{ xl: "25%" }}>
         <Box mt={{ base: "5", xl: "5.875rem" }} alignItems="center">
           {children}
         </Box>

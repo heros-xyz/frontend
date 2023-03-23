@@ -36,10 +36,10 @@ export const IconCheck: React.FC<IconProps> = (props) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect y="0.5" width="33" height="33" rx="16.5" fill="#313F4C" />
+      <rect y="0.5" width="33" height="33" rx="16.5" fill="currentColor" />
       <path
         d="M10 17.5L14 21.5L24 11.5"
-        stroke="#E2FF65"
+        stroke="white"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

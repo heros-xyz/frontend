@@ -1,22 +1,18 @@
 import { Center, Icon, IconProps } from "@chakra-ui/react";
 
-export const ArchiveIconFlag: React.FC<IconProps> = ({
-  w = "30px",
-  h = "30px",
-  ...props
-}) => {
+export const ArchiveIconFlag: React.FC<IconProps> = ({ ...props }) => {
   return (
     <Center
-      w={w}
-      h={h}
+      w={{ base: "30px", xl: "60px" }}
+      h={{ base: "30px", xl: "60px" }}
       borderRadius="full"
       border="1px"
       borderColor="currentColor"
     >
       <Icon
         {...props}
-        width="12px"
-        height="14px"
+        w={{ base: "12px", xl: "23px" }}
+        h={{ base: "14px", xl: "27px" }}
         viewBox="0 0 12 14"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

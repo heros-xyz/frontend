@@ -98,7 +98,9 @@ const AddTier: React.FC<IProp> = ({
   }, [successAdd]);
 
   useUpdateEffect(() => {
-    setEdited(true);
+    if (successUpdate) {
+      setEdited(true);
+    }
   }, [successUpdate]);
 
   return (
@@ -148,7 +150,7 @@ const AddTier: React.FC<IProp> = ({
                 *
               </Text>
             </Box>
-            <Text mt={2.5} fontSize={{ base: "xs", xl: "md" }}>
+            <Text mt={2.5} fontSize={{ base: "xs", xl: "md" }} color="grey.300">
               We recommend that you set a price between $1 and $10 per month for
               the bronze tier to attract as many fans as possible. It is up to
               you however how much you charge.
@@ -168,8 +170,9 @@ const AddTier: React.FC<IProp> = ({
               <Input
                 isDisabled={!!totalFan && totalFan > 0}
                 border={0}
+                fontWeight="medium"
                 autoComplete="off"
-                bg="accent.3"
+                bg="grey.0"
                 color="primary"
                 placeholder="1.00"
                 w="full"
@@ -217,6 +220,7 @@ const AddTier: React.FC<IProp> = ({
               through daily updates.
             </Text>
             <Textarea
+              fontWeight="medium"
               resize={"none"}
               autoComplete="off"
               fontSize={{ base: "sm", xl: "lg" }}
@@ -297,6 +301,7 @@ const AddTier: React.FC<IProp> = ({
                       >
                         <Then>
                           <Text
+                            fontWeight="medium"
                             bg="white"
                             h={{ base: "44px" }}
                             borderRadius={{ base: "4px", xl: "6px" }}
@@ -318,6 +323,7 @@ const AddTier: React.FC<IProp> = ({
                       >
                         <Then>
                           <Text
+                            fontWeight="medium"
                             bg="white"
                             h={{ base: "44px" }}
                             borderRadius="4"
@@ -329,7 +335,7 @@ const AddTier: React.FC<IProp> = ({
                           </Text>
                         </Then>
                       </If>
-                      <Box mt={{ base: 4 }} color="primary">
+                      <Box mt={{ base: 4 }} color="white">
                         <EditPencilIcon
                           w={{ base: "16px", xl: "19px" }}
                           h={{ base: "16px", xl: "19px" }}
@@ -338,6 +344,7 @@ const AddTier: React.FC<IProp> = ({
                           as="span"
                           ml="4"
                           fontSize={{ base: "xs", xl: "xl" }}
+                          fontWeight="medium"
                         >
                           Edit benefits
                         </Text>
@@ -355,6 +362,7 @@ const AddTier: React.FC<IProp> = ({
                       ml="4"
                       fontSize={{ base: "xs", xl: "xl" }}
                       color="white"
+                      fontWeight="medium"
                     >
                       Select benefits
                     </Text>
@@ -375,7 +383,8 @@ const AddTier: React.FC<IProp> = ({
                     color="accent.2"
                     w={{ base: "335px", xl: "500px" }}
                     flexDirection="row-reverse"
-                    _checked={{ color: "primary" }}
+                    fontWeight="medium"
+                    _checked={{ color: "primary", fontWeight: "bold" }}
                   >
                     {listBenefit[0]?.label}
                   </MenuItemOption>
@@ -384,7 +393,8 @@ const AddTier: React.FC<IProp> = ({
                     bg="white"
                     color="accent.2"
                     flexDirection="row-reverse"
-                    _checked={{ color: "primary" }}
+                    fontWeight="medium"
+                    _checked={{ color: "primary", fontWeight: "bold" }}
                   >
                     {listBenefit[1]?.label}
                   </MenuItemOption>
@@ -424,7 +434,7 @@ const AddTier: React.FC<IProp> = ({
                   mt={{ base: 2.5, xl: 4 }}
                   fontSize={{ base: "xs", xl: "md" }}
                 >
-                  Changes saved!
+                  Changes Saved
                 </Center>
               </Then>
             </If>

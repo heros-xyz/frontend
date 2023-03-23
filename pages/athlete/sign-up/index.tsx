@@ -7,6 +7,7 @@ import AuthTemplate from "@/components/ui/AuthTemplate";
 import { usePreSignInWithEmailMutation } from "@/api/user";
 import { loggedInGuard } from "@/middleware/loggedInGuard";
 import { wrapper } from "@/store";
+import { IHerosError } from "@/types/globals/types";
 
 const AthleteSignUp = () => {
   const router = useRouter();
@@ -59,8 +60,10 @@ const AthleteSignUp = () => {
       <AuthTemplate
         pageType="athlete"
         isLoading={isLoading}
-        authErrorMessage={(signUpWithEmailError as any)?.data?.message ?? ""}
-        authErrorCode={(signUpWithEmailError as any)?.data?.statusCode ?? ""}
+        authErrorMessage={
+          (signUpWithEmailError as IHerosError)?.data?.message ?? ""
+        }
+        authErrorCode={(signUpWithEmailError as IHerosError)?.data?.statusCode}
         onSubmitForm={handleSignUpWithEmail}
         handleSignInFacebook={handleSignUpFacebook}
         handleSignInGoogle={handleSignUpGoogle}

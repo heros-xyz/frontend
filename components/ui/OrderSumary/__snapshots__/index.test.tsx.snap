@@ -16,7 +16,7 @@ exports[`renders homepage unchanged 1`] = `
     >
       <img
         alt="image"
-        class="chakra-image__placeholder css-ggb67f"
+        class="chakra-image__placeholder css-n0pcsx"
         src="https://via.placeholder.com/50"
       />
       <div

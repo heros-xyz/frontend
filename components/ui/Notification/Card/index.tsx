@@ -1,27 +1,24 @@
 import React from "react";
 import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
 import { INotificationInfo } from "@/types/notifications/types";
 import {
   convertDateFromNow,
   getLinkByNotificationType,
   notificationContent,
 } from "@/utils/functions";
-import { resetApiState, useMaskNotificationMutation } from "@/api/global";
+import { useMaskNotificationMutation } from "@/api/global";
 import { getImageLink } from "@/utils/link";
 interface IProps {
   item?: INotificationInfo;
 }
 
 const NotificationCard: React.FC<IProps> = ({ item }) => {
-  const dispatch = useDispatch();
   const [onMaskNotification] = useMaskNotificationMutation();
 
   const onClickNotification = () => {
     if (item?.id) {
       onMaskNotification(item?.id);
-      dispatch(resetApiState());
     }
   };
   return (

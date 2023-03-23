@@ -35,6 +35,7 @@ export const fanApi = createApi({
   reducerPath: "fanApi",
   refetchOnReconnect: true,
   refetchOnMountOrArgChange: true,
+  keepUnusedDataFor: 0,
   baseQuery: staggeredAxiosBaseQuery({
     baseUrl: process.env.HEROS_BASE_URL || "",
   }),
@@ -55,7 +56,6 @@ export const fanApi = createApi({
         if (data.avatar) {
           formData.append("avatar", data.avatar);
         }
-        console.log(formData);
 
         return {
           url: `/users/setup-account/fan`,
@@ -70,6 +70,7 @@ export const fanApi = createApi({
         method: "GET",
         data,
       }),
+      keepUnusedDataFor: 10,
     }),
     addPaymentInfo: builder.mutation<UpdatedPaymentInfo, AddPaymentForm>({
       query: (data) => ({
@@ -103,18 +104,21 @@ export const fanApi = createApi({
         url: `/onboarding/basic-information/${athleteId}`,
         method: "GET",
       }),
+      keepUnusedDataFor: 30,
     }),
     getAthletePageInfo: builder.query<IPageInfo, string>({
       query: (athleteId) => ({
         url: `/onboarding/page-information/${athleteId}`,
         method: "GET",
       }),
+      keepUnusedDataFor: 30,
     }),
     getAthleteSportProfile: builder.query<ISportProfile, string>({
       query: (athleteId) => ({
         url: `/onboarding/sport-profile/${athleteId}`,
         method: "GET",
       }),
+      keepUnusedDataFor: 30,
     }),
     getAthleteTierMembership: builder.query<ITierMembershipList, IParams>({
       query: (params) => ({
@@ -184,6 +188,7 @@ export const fanApi = createApi({
         url: `/dashboard/athlete-profile/${athleteId}`,
         method: "GET",
       }),
+      keepUnusedDataFor: 30,
     }),
     // Active Subscriptions
     getActiveSubscriptions: builder.query<
@@ -324,7 +329,7 @@ export const {
   useReactionCommentMutation,
   useGetFanSettingQuery,
   useEditFanInfoMutation,
-  util: { getRunningQueriesThunk, resetApiState },
+  util: { getRunningQueriesThunk },
 } = fanApi;
 
 export const { getAthleteBasicInfo, getAthleteProfile, getPaymentInfo } =

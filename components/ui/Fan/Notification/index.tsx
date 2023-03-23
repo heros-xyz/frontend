@@ -112,7 +112,7 @@ const NotificationFan = () => {
           )}
         </Then>
         <Else>
-          <Text px={[5, 0]} fontSize={{ base: "sm", lg: "lg" }} color="white">
+          <Text px={[5, 0]} fontSize={{ base: "sm", lg: "lg" }} color="primary">
             {`You haven't had any notifications yet!`}
           </Text>
         </Else>

@@ -18,22 +18,20 @@ import {
 import AthleteAvatar from "@/components/ui/AthleteAvatar";
 
 const MyAthletes: FC = () => {
-  const {
-    data: listAthleteSubscribed,
-    isSuccess,
-    isLoading,
-  } = useGetListAthleteSubscribedQuery({
-    take: 3,
-    page: 1,
-  });
-  const { data: listAthleteRecommended } = useGetListAthleteRecommendedQuery(
-    {
-      take: listAthleteSubscribed?.data?.length ? 2 : 3,
-    },
-    {
-      skip: !isSuccess,
-    }
-  );
+  const { data: listAthleteSubscribed, isSuccess } =
+    useGetListAthleteSubscribedQuery({
+      take: 3,
+      page: 1,
+    });
+  const { data: listAthleteRecommended, isLoading } =
+    useGetListAthleteRecommendedQuery(
+      {
+        take: listAthleteSubscribed?.data?.length ? 2 : 3,
+      },
+      {
+        skip: !isSuccess,
+      }
+    );
 
   const athleteList = useMemo(() => {
     let listAthleteRecommendedFormat = [];

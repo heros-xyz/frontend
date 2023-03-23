@@ -1,25 +1,48 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Text,
+  useClipboard,
+  useToast,
+} from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import { useMemo } from "react";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 import MyStory from "@/components/ui/Athlete/Profile/MyStory";
 import { getGender } from "@/utils/functions";
 import { IBasicInfo, ISportProfile } from "@/types/athlete/types";
+import { useDevice } from "@/hooks/useDevice";
 
 interface IProfileProps {
   basicInfo: IBasicInfo | undefined;
   sportProfile: ISportProfile | undefined;
   isEdit?: boolean;
+  athleteId: string;
+  athleteNickname: string;
 }
 
 export const Profile: React.FC<IProfileProps> = ({
   basicInfo,
   sportProfile,
   isEdit,
+  athleteId,
+  athleteNickname,
 }) => {
   const router = useRouter();
+  const { onCopy, setValue } = useClipboard("");
+  const toast = useToast();
+  const { isMobile } = useDevice();
+
+  const profileLink = useMemo(() => {
+    const link = `${process.env.NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
+    setValue(link);
+    return `${process.env.NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
+  }, [athleteId, athleteNickname]);
   return (
-    <Box>
+    <Box pb={5}>
       <Box color="primary" bg="accent.3">
         <MyStory
           description={basicInfo?.story as string}
@@ -62,6 +85,29 @@ export const Profile: React.FC<IProfileProps> = ({
           <Text fontSize={{ base: "xs", lg: "md" }}>
             {sportProfile?.data.goal || ""}
           </Text>
+        </Box>
+
+        <Box mt={6}>
+          <Text fontWeight="bold" fontSize={{ base: "base", lg: "xl" }} mb={1}>
+            Profile Link
+          </Text>
+          <Text fontSize={{ base: "xs", lg: "md" }}>{profileLink}</Text>
+          <Button
+            mt={3}
+            variant="primary"
+            w="full"
+            onClick={() => {
+              toast({
+                title: "Copied Profile Link",
+                status: "success",
+                duration: 2000,
+                position: isMobile ? "bottom" : "bottom-right",
+              });
+              onCopy();
+            }}
+          >
+            Copy link
+          </Button>
         </Box>
       </Box>
     </Box>

@@ -7,6 +7,7 @@ import OtpFill from "@/components/ui/OtpFill";
 import { useResendOtpMutation, useVerifyOtpMutation } from "@/api/user";
 import { IToken } from "@/types/users/types";
 import { useLoading } from "@/hooks/useLoading";
+import { IHerosError } from "@/types/globals/types";
 
 const VerifyOtp = () => {
   const { query, replace } = useRouter();
@@ -80,8 +81,9 @@ const VerifyOtp = () => {
         isLoading={isLoading}
         otpValue={otp}
         errorMessage={
-          (verifyOtpError as any)?.data?.statusCode ||
-          (resendOtpError as any)?.data?.statusCode
+          ((verifyOtpError as IHerosError)?.data?.statusCode ||
+            (resendOtpError as IHerosError)?.data?.statusCode) ??
+          ""
         }
         onSubmit={handleVerify}
         resendOtp={onResendOtp}

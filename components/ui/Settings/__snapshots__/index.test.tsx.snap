@@ -83,7 +83,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
             tatummiller@gmail.com
           </p>
           <p
-            class="chakra-text css-1bh2ssn"
+            class="chakra-text css-1xr6r3d"
           >
             This cannot be changed
           </p>
@@ -126,7 +126,7 @@ exports[`renders AthleteFanSettings unchanged 1`] = `
           />
         </svg>
         <p
-          class="chakra-text css-1caa31g"
+          class="chakra-text css-rpuxep"
         >
           This account is linked to Facebook
         </p>

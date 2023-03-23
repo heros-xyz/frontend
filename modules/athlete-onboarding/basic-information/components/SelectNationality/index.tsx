@@ -2,11 +2,11 @@ import { Box, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useFormikContext } from "formik";
 import { ArrowRight } from "@/components/svg/ArrowRight";
-import FanOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import Select from "@/components/common/Select";
 import { NationalityIcon } from "@/components/svg/NationalityIcon";
 import { useGetNationalityQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 import { IValuesTypes } from "../../hooks";
 
 interface SelectNationalityProps {
@@ -30,15 +30,22 @@ const SelectNationality: React.FC<SelectNationalityProps> = ({ onSubmit }) => {
   };
 
   return (
-    <FanOnboardingWrapper
-      Icon={<NationalityIcon w="full" h="full" />}
+    <HerosOnboardingWrapperNew
+      Icon={
+        <NationalityIcon
+          w={{ base: "88px", xl: "140px" }}
+          h={{ base: "75px", xl: "118px" }}
+          color={{ base: "#FFFAE8", xl: "accent.1" }}
+        />
+      }
       textButton="Proceed"
       IconButton={<ArrowRight />}
       onSubmit={submitForm}
-      title="BASIC INFORMATION"
+      title="Basic information"
+      bgIconColor="accent.1"
     >
-      <Box mb={{ base: 4, lg: 20 }} color="black.ish">
-        <Box fontSize={{ lg: "xl" }} fontWeight="500" mb={3}>
+      <Box mb={{ base: 4, lg: 20 }} color="primary">
+        <Box fontSize={{ lg: "xl" }} fontWeight="bold" mb={3}>
           Select Nationality
           <Text as="span" color="error.dark">
             {" "}
@@ -55,10 +62,11 @@ const SelectNationality: React.FC<SelectNationalityProps> = ({ onSubmit }) => {
             errorMessage={"This is a required field"}
             isInvalid={Boolean(submitted && errors.nationality)}
             filterSelectOptions={filterSelectOptions}
+            isDarkTheme
           />
         </Box>
       </Box>
-    </FanOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

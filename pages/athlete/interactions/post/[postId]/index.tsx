@@ -11,7 +11,6 @@ import {
 } from "@/modules/athlete-interaction/hooks";
 import { useGetInteractionDetailQuery } from "@/api/athlete";
 import { getImageLink } from "@/utils/link";
-import { isBeforeEndDate } from "@/utils/functions";
 
 function EditInteractionsPost() {
   const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
@@ -21,31 +20,6 @@ function EditInteractionsPost() {
   const { data: postInfo } = useGetInteractionDetailQuery(postId as string, {
     skip: typeof postId !== "string" || !Boolean(postId),
   });
-
-  const checkPublicDateTime = (
-    publicDate: string | Date | null | undefined
-  ) => {
-    const publicDateFormat = dayjs(publicDate).format("YYYY/MM/DD HH:mm");
-
-    if (
-      isBeforeEndDate(
-        publicDateFormat,
-        dayjs(new Date()).subtract(1, "minute").format("YYYY/MM/DD HH:mm"),
-        "YYYY/MM/DD HH:mm"
-      ) ||
-      !publicDate
-    ) {
-      return {
-        publicDate: dayjs().format("YYYY-MM-DD"),
-        publicTime: dayjs().format("HH:mm"),
-      };
-    }
-
-    return {
-      publicDate: dayjs(publicDate).format("YYYY-MM-DD"),
-      publicTime: dayjs(publicDate).format("HH:MM"),
-    };
-  };
 
   const setInitialValue = () => {
     const initValues = {
@@ -61,8 +35,9 @@ function EditInteractionsPost() {
       tags: postInfo?.tags?.map((item) => item.name),
       publicType: postInfo?.publicType || "all",
       schedule: postInfo?.isSchedulePost,
-      publicDate: checkPublicDateTime(postInfo?.publicDate).publicDate,
-      publicTime: checkPublicDateTime(postInfo?.publicDate).publicTime,
+      publicDate: dayjs(postInfo?.publicDate).format("YYYY-MM-DD"),
+      publicTime: dayjs(postInfo?.publicDate).format("HH:MM"),
+      isPost: false,
     };
 
     formik.setValues(initValues as IValuesTypes);
@@ -79,7 +54,7 @@ function EditInteractionsPost() {
       <Head>
         <title>Athlete | Edit Interaction</title>
       </Head>
-      <Box bg="primary" minHeight="100vh">
+      <Box minHeight="100vh">
         <Container
           position="relative"
           size={["base", "sm", "md", "lg", "500px"]}

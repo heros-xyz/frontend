@@ -2,6 +2,7 @@ import { Box, Flex, Input, Text, Textarea } from "@chakra-ui/react";
 import React, {
   ChangeEvent,
   KeyboardEvent,
+  MutableRefObject,
   useEffect,
   useMemo,
   useRef,
@@ -26,8 +27,7 @@ import { IValuesTypes } from "../../../hooks";
 const EnterPost = () => {
   const { data: session } = useSession();
   const { values, errors, setFieldValue } = useFormikContext<IValuesTypes>();
-  const initialRef: any = null;
-  const upload = useRef(initialRef);
+  const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [editor] = useState(() => withReact(createEditor()));
   const [inputValueTag, setInputValueTag] = useState<string>("");
 

@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { LogoMiniIcon } from "@/components/svg/LogoMini";
 import { FindIcon } from "@/components/svg/Find";

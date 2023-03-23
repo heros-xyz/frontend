@@ -31,7 +31,7 @@ const MyStory: React.FC<Story> = ({ description, dob, gender, isEdit }) => {
   return (
     <Box
       pb={5}
-      bg="accent.3"
+      bg="grey.0"
       color="primary"
       px={5}
       py={10}

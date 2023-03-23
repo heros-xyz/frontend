@@ -3,16 +3,17 @@ import { Box, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import { FanOnboardingSuccess } from "@/components/svg/FanOnboardingSuccess";
-import FanOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 
 const FinishOnboarding = () => {
   const router = useRouter();
   return (
-    <FanOnboardingWrapper
+    <HerosOnboardingWrapperNew
       Icon={
         <FanOnboardingSuccess
-          w={{ base: "150px", xl: "240px" }}
-          h={{ base: "150px", xl: "240px" }}
+          w={{ base: "90px", xl: "144px" }}
+          h={{ base: "90px", xl: "144px" }}
+          color={{ base: "#FFFAE8", xl: "secondary" }}
         />
       }
       textButton="Start Discovering"
@@ -21,8 +22,10 @@ const FinishOnboarding = () => {
         await fetch("/api/set-first-login");
         router.push("/fan");
       }}
+      bgIconColor="secondary"
+      isSuccessPage
     >
-      <Box textAlign={{ base: "center", lg: "left" }} mb={5}>
+      <Box textAlign={{ base: "center", lg: "left" }} mb={5} color="primary">
         <Text
           fontFamily="heading"
           fontSize={{ base: "2xl", lg: "5xl" }}
@@ -32,11 +35,11 @@ const FinishOnboarding = () => {
         >
           Account set up Successfully
         </Text>
-        <Text fontSize={{ base: "xs" }} color={{ lg: "grey.300" }}>
+        <Text fontSize={{ base: "xs", xl: "md" }} color="grey.300">
           Your account has been set up successfully.
         </Text>
       </Box>
-    </FanOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 

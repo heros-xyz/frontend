@@ -1,8 +1,8 @@
-import { Box, Container } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import MemberConfirmed from "@/components/ui/MemberConfirmed";
 import { FanOnboardingSuccess } from "@/components/svg/FanOnboardingSuccess";
 import { useGetBasicInformationQuery } from "@/api/athlete";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 
 const MembershipConfirmed = () => {
   const router = useRouter();
@@ -13,28 +13,43 @@ const MembershipConfirmed = () => {
     }
   );
   return (
-    <Box bg="white" minH="100vh">
-      <Container
-        size={["base", "sm", "md", "lg", "xl"]}
-        display="flex"
-        alignItems="center"
-        minH="100vh"
-      >
-        <MemberConfirmed
-          textButton="back to athlete profile"
-          Icon={<FanOnboardingSuccess w="full" h="full" />}
-          title="Membership Confirmed"
-          description={`You are now a fan of ${
-            dataAthlete?.nickName ?? ""
-          }! Get started by exploring the benefits that come with your membership.`}
-          onConfirmed={() => {
-            if (router.query.id as string) {
-              router.push(`/fan/athlete-profile/${router.query.id}`);
-            }
-          }}
+    <HerosOnboardingWrapperNew
+      onSubmit={() => router.push(`/fan/athlete-profile/${router.query.id}`)}
+      Icon={
+        <FanOnboardingSuccess
+          w={{ base: "90px", xl: "144px" }}
+          h={{ base: "90px", xl: "144px" }}
+          color={{ base: "#FFFAE8", xl: "secondary" }}
         />
-      </Container>
-    </Box>
+      }
+      textButton="BACK TO ATHLETE PROFILE"
+      bgIconColor="secondary"
+      isSuccessPage
+    >
+      <Box textAlign={{ base: "center", xl: "left" }} w={"100%"}>
+        <Text
+          fontSize={{ base: "xl", xl: "4xl" }}
+          fontWeight={"800"}
+          lineHeight="50.4px"
+          fontFamily="heading"
+          color="primary"
+        >
+          Membership Confirmed
+        </Text>
+        <Text
+          w={"100%"}
+          pt={2}
+          pb={7.5}
+          fontWeight={500}
+          fontSize={"md"}
+          fontFamily="heading"
+          color="grey.300"
+        >
+          You are now a fan of <b>{dataAthlete?.nickName ?? ""}</b>! Get started
+          by exploring the benefits that come with your membership.
+        </Text>
+      </Box>
+    </HerosOnboardingWrapperNew>
   );
 };
 

@@ -45,7 +45,12 @@ const AthleteProfile = () => {
     session?.user?.id as string,
     { skip: typeof session?.user?.id !== "string" }
   );
-  const { data: tierMembershipList } = useGetAthleteTierMembershipQuery({});
+  const { data: tierMembershipList } = useGetAthleteTierMembershipQuery(
+    {
+      userId: session?.user?.id as string,
+    },
+    { skip: typeof session?.user?.id !== "string" }
+  );
 
   const [currentTab, setCurrentTab] = useQueryParam(
     "current",
@@ -109,7 +114,7 @@ const AthleteProfile = () => {
         index={currentTab}
       >
         <TabList
-          overflowX="scroll"
+          overflowX="auto"
           overflowY="hidden"
           maxW="100vw"
           className="tabHorizontal"
@@ -142,7 +147,13 @@ const AthleteProfile = () => {
         </TabList>
         <TabPanels mt="5" color="white">
           <TabPanel p="unset">
-            <Profile isEdit basicInfo={basicInfo} sportProfile={sportProfile} />
+            <Profile
+              isEdit
+              basicInfo={basicInfo}
+              sportProfile={sportProfile}
+              athleteId={session?.user.id ?? ""}
+              athleteNickname={session?.user.nickname ?? ""}
+            />
           </TabPanel>
           <TabPanel p={{ base: "4px", xl: "0" }}>
             <Interaction />
@@ -151,7 +162,7 @@ const AthleteProfile = () => {
             <CareerJourney data={journeyData} />
           </TabPanel>
           <TabPanel px={{ base: 5, lg: 0 }} py={{ base: 0, lg: 2 }}>
-            <If condition={!tierMembershipList?.data?.length}>
+            <If condition={tierMembershipList?.data?.length}>
               <Then>
                 <Text
                   fontSize={{ base: "xs", lg: "md" }}

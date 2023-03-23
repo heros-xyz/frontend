@@ -74,7 +74,7 @@ const Checklist: React.FC<ChecklistProps> = ({
   };
   return (
     <Box
-      bg={checked ? "secondary" : "primary"}
+      bg={checked ? "white" : "primary"}
       p={{ base: "14px", lg: "30px" }}
       borderRadius="md"
       border={checked ? "2px" : ""}
@@ -85,6 +85,7 @@ const Checklist: React.FC<ChecklistProps> = ({
     >
       <Flex
         gap={3}
+        h="full"
         direction={{ base: "row", lg: "column" }}
         justify="space-between"
         align={{ base: "center", lg: "flex-start" }}
@@ -120,6 +121,7 @@ const Checklist: React.FC<ChecklistProps> = ({
               <IconCheck
                 w={{ base: "32px", lg: "48px" }}
                 h={{ base: "32px", lg: "48px" }}
+                color="primary"
               />
             </Box>
           </Then>

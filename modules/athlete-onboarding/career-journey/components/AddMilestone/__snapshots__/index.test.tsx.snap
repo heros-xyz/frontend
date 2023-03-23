@@ -3,12 +3,12 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-1d4zvd6"
+    class="css-1hcgici"
   >
     <div
       class="css-17etjhj"
     >
-      CAREER JOURNEY
+      Career journey
     </div>
     <p
       class="chakra-text css-15wsqor"
@@ -16,14 +16,14 @@ exports[`renders homepage unchanged 1`] = `
       ADD MILESTONE
     </p>
     <div
-      class="css-z2k2e5"
+      class="css-dbycc2"
     >
       <form>
         <div
           class="css-1n0zz00"
         >
           <label
-            class="chakra-checkbox css-135hl63"
+            class="chakra-checkbox css-7f8tdh"
           >
             <input
               class="chakra-checkbox__input"
@@ -39,13 +39,13 @@ exports[`renders homepage unchanged 1`] = `
             />
           </label>
           <p
-            class="chakra-text css-1rvolpk"
+            class="chakra-text css-w0nbjt"
           >
             I want this to be a period of time
           </p>
         </div>
         <div
-          class="css-1n4fp72"
+          class="css-14s9o6g"
         >
           <div
             class="css-lo4xcv"
@@ -79,7 +79,7 @@ exports[`renders homepage unchanged 1`] = `
                   class="css-1f43avz-a11yText-A11yText"
                 />
                 <div
-                  class=" css-6o1t9b-control"
+                  class=" css-1ya43kt-control"
                 >
                   <div
                     class=" css-15ki4p9-ValueContainer"
@@ -88,12 +88,12 @@ exports[`renders homepage unchanged 1`] = `
                       class="css-xxdqwu"
                     >
                       <div
-                        class="css-1yks822"
+                        class="css-1oemo71"
                       >
                         DD
                       </div>
                       <div
-                        class=" css-119wo5m-Input"
+                        class=" css-nbdjr5-Input"
                         data-value=""
                       >
                         <input
@@ -123,7 +123,7 @@ exports[`renders homepage unchanged 1`] = `
                       class=" css-1xjgjl1-IndicatorSeparator"
                     />
                     <svg
-                      class="chakra-icon css-fgc0y"
+                      class="chakra-icon css-h50qoc"
                       focusable="false"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -157,7 +157,7 @@ exports[`renders homepage unchanged 1`] = `
                   class="css-1f43avz-a11yText-A11yText"
                 />
                 <div
-                  class=" css-6o1t9b-control"
+                  class=" css-1ya43kt-control"
                 >
                   <div
                     class=" css-15ki4p9-ValueContainer"
@@ -166,12 +166,12 @@ exports[`renders homepage unchanged 1`] = `
                       class="css-xxdqwu"
                     >
                       <div
-                        class="css-1yks822"
+                        class="css-1oemo71"
                       >
                         MM
                       </div>
                       <div
-                        class=" css-119wo5m-Input"
+                        class=" css-nbdjr5-Input"
                         data-value=""
                       >
                         <input
@@ -201,7 +201,7 @@ exports[`renders homepage unchanged 1`] = `
                       class=" css-1xjgjl1-IndicatorSeparator"
                     />
                     <svg
-                      class="chakra-icon css-fgc0y"
+                      class="chakra-icon css-h50qoc"
                       focusable="false"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -235,7 +235,7 @@ exports[`renders homepage unchanged 1`] = `
                   class="css-1f43avz-a11yText-A11yText"
                 />
                 <div
-                  class=" css-6o1t9b-control"
+                  class=" css-1ya43kt-control"
                 >
                   <div
                     class=" css-15ki4p9-ValueContainer"
@@ -244,12 +244,12 @@ exports[`renders homepage unchanged 1`] = `
                       class="css-xxdqwu"
                     >
                       <div
-                        class="css-1yks822"
+                        class="css-1oemo71"
                       >
                         YYYY
                       </div>
                       <div
-                        class=" css-119wo5m-Input"
+                        class=" css-nbdjr5-Input"
                         data-value=""
                       >
                         <input
@@ -279,7 +279,7 @@ exports[`renders homepage unchanged 1`] = `
                       class=" css-1xjgjl1-IndicatorSeparator"
                     />
                     <svg
-                      class="chakra-icon css-fgc0y"
+                      class="chakra-icon css-h50qoc"
                       focusable="false"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
@@ -359,7 +359,7 @@ exports[`renders homepage unchanged 1`] = `
                 class="css-k008qs"
               >
                 <button
-                  class="chakra-button css-b4ebuq"
+                  class="chakra-button css-bup6h2"
                   type="button"
                 >
                   <svg
@@ -388,7 +388,7 @@ exports[`renders homepage unchanged 1`] = `
                 class="css-k008qs"
               >
                 <button
-                  class="chakra-button css-b4ebuq"
+                  class="chakra-button css-bup6h2"
                   type="button"
                 >
                   <svg
@@ -477,7 +477,7 @@ exports[`renders homepage unchanged 1`] = `
                 class="css-k008qs"
               >
                 <button
-                  class="chakra-button css-b4ebuq"
+                  class="chakra-button css-bup6h2"
                   type="button"
                 >
                   <svg
@@ -506,7 +506,7 @@ exports[`renders homepage unchanged 1`] = `
                 class="css-k008qs"
               >
                 <button
-                  class="chakra-button css-b4ebuq"
+                  class="chakra-button css-bup6h2"
                   type="button"
                 >
                   <svg

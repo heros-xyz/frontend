@@ -31,7 +31,7 @@ const Step: React.FC<IProps> = ({ activeStep, totalStep, onChangeStep }) => {
         key={step}
         p={1.5}
         borderRadius="full"
-        bg={isActiveStep ? "white" : "none"}
+        bg={isActiveStep ? "secondary" : "white"}
         onClick={() => {
           if (step <= maxStep) onChangeStep(step);
         }}

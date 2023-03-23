@@ -37,6 +37,7 @@ export const athleteApi = createApi({
   reducerPath: "athleteApi",
   refetchOnReconnect: true,
   refetchOnMountOrArgChange: true,
+  keepUnusedDataFor: 0,
   baseQuery: staggeredAxiosBaseQuery({
     baseUrl: process.env.HEROS_BASE_URL || "",
   }),
@@ -128,11 +129,13 @@ export const athleteApi = createApi({
         method: "get",
       }),
     }),
-    getMembershipList: builder.query({
+    getMembershipList: builder.query<{ data: ListMembershipTiers[] }, string>({
       query: (userId) => ({
         url: `/dashboard/list-membership-tiers`,
         method: "get",
-        params: userId,
+        params: {
+          userId,
+        },
       }),
     }),
     getGrossAmountMoney: builder.query<{ total: number }, string>({
@@ -183,10 +186,12 @@ export const athleteApi = createApi({
     // API Subscription (Add Tier)
     getSubscriptionInfo: builder.query<{ data: ListMembershipTiers[] }, string>(
       {
-        query: (data) => ({
+        query: (userId) => ({
           url: `/dashboard/list-membership-tiers`,
           method: "GET",
-          data,
+          params: {
+            userId,
+          },
         }),
       }
     ),
@@ -258,17 +263,6 @@ export const athleteApi = createApi({
         method: "GET",
         params,
       }),
-      providesTags: () => ["AtheleInteractions"],
-      serializeQueryArgs: ({ endpointName }) => {
-        return endpointName;
-      },
-      merge: (currentCache, newItems) => {
-        currentCache?.data.push(...newItems?.data);
-        currentCache.meta = newItems?.meta;
-      },
-      forceRefetch({ currentArg, previousArg }) {
-        return currentArg !== previousArg;
-      },
     }),
     getInteractionDetail: builder.query<IInteractionItem, string>({
       query: (interactionId) => ({
@@ -401,6 +395,7 @@ export const athleteApi = createApi({
         url: `/subscription/validate-is-fan/${id}`,
         method: "GET",
       }),
+      keepUnusedDataFor: 1,
     }),
     putSportProfile: builder.mutation<
       boolean,
@@ -481,7 +476,6 @@ export const {
   useEditBasicInfoMutation,
   useEditPageInfoMutation,
   useGetTotalCommentsQuery,
-  util: { resetApiState, invalidateTags },
 } = athleteApi;
 
 export const { getValidateIsFan } = athleteApi.endpoints;

@@ -6,6 +6,8 @@ import { IconLegalName } from "@/components/svg/IconLegalName";
 import { IValuesTypes } from "@/modules/athlete-setup-account/hooks/useSetupAccountPage";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import HerosOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
+import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
+import { FullNameFanOnBoardingIcon } from "@/components/svg/FullNameFanOnBoarding";
 import Label from "./components/Label";
 interface IProp {
   onSubmit: () => void;
@@ -21,19 +23,28 @@ const AthleteLegalNameStep: React.FC<IProp> = ({ onSubmit }) => {
       !errors.firstName &&
       values.firstName &&
       !errors.lastName &&
-      values.lastName
+      values.lastName &&
+      !errors.middleName
     ) {
       onSubmit();
     }
   };
   return (
-    <HerosOnboardingWrapper
-      Icon={<IconLegalName w="full" h="full" />}
+    <HerosOnboardingWrapperNew
+      Icon={
+        <FullNameFanOnBoardingIcon
+          w={{ base: "72px", xl: "115px" }}
+          h={{ base: "90px", xl: "144px" }}
+          color={{ base: "#FFFAE8", xl: "accent.1" }}
+        />
+      }
       textButton="Proceed"
       IconButton={<NextIcon />}
       onSubmit={submitForm}
+      bgIconColor="accent.1"
     >
       <Label
+        color="primary"
         title="Enter Your Legal Name"
         description={`We need this for tax and payout purposes so you can get paid. We'll
           never show it publicly.`}
@@ -86,7 +97,7 @@ const AthleteLegalNameStep: React.FC<IProp> = ({ onSubmit }) => {
           errorMessage={errors.lastName}
         />
       </Box>
-    </HerosOnboardingWrapper>
+    </HerosOnboardingWrapperNew>
   );
 };
 export default AthleteLegalNameStep;

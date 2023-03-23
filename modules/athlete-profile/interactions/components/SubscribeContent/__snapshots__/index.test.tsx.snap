@@ -16,7 +16,12 @@ exports[`renders subscribe content section unchanged 1`] = `
       <p
         class="chakra-text css-13oolba"
       >
-        You can view fan-only posts and interact with all Matt Prior’s content once you are a sucbriber.
+        You can view fan-only posts and interact with all
+         
+        <b>
+          ’s 
+        </b>
+        content once you are a sucbriber.
       </p>
     </div>
     <div

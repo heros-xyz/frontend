@@ -20,7 +20,7 @@ exports[`renders homepage unchanged 1`] = `
           class="css-0"
         >
           <div
-            class="css-1lu7j16"
+            class="css-rrajmt"
           >
             <img
               alt="avatar"
@@ -43,7 +43,7 @@ exports[`renders homepage unchanged 1`] = `
               <p
                 class="chakra-text css-1i719ia"
               >
-                3w ago
+                4w ago
               </p>
             </div>
           </div>
@@ -56,7 +56,7 @@ exports[`renders homepage unchanged 1`] = `
           class="css-0"
         >
           <div
-            class="css-1lu7j16"
+            class="css-rrajmt"
           >
             <img
               alt="avatar"
@@ -79,7 +79,7 @@ exports[`renders homepage unchanged 1`] = `
               <p
                 class="chakra-text css-1i719ia"
               >
-                3w ago
+                4w ago
               </p>
             </div>
           </div>

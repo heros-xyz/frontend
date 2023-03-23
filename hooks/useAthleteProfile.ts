@@ -76,6 +76,7 @@ export const useAthleteProfile = () => {
     basicInfo,
     journeyData,
     currentTab,
+    athleteId: query.id as string,
     handleSubscribe,
     setCurrentTab,
   };

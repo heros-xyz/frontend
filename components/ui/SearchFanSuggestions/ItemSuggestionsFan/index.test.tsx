@@ -2,8 +2,6 @@ import { render } from "@testing-library/react";
 import ItemSuggestionsFan from ".";
 
 it("renders List unchanged", () => {
-  const onShowAllResult = () => {};
-
   const { container } = render(
     <ItemSuggestionsFan
       item={{

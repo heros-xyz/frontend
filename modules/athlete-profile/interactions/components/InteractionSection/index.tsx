@@ -18,6 +18,7 @@ const MAX_CONTENT_LENGTH = 200;
 const InteractionSection: FC<InteractionSectionProps> = ({
   content = "",
   createdAt,
+  publicDate,
   user,
   interactionMedia,
   navigateToPostDetail,
@@ -41,7 +42,7 @@ const InteractionSection: FC<InteractionSectionProps> = ({
         <Flex justifyContent="space-between" mb="20px">
           <AthleteInfo
             athleteName={nickName}
-            publishDate={createdAt}
+            publishDate={publicDate}
             imagePath={avatar}
           />
         </Flex>
@@ -55,7 +56,7 @@ const InteractionSection: FC<InteractionSectionProps> = ({
       <Flex justifyContent="space-between">
         <AthleteInfo
           athleteName={nickName}
-          publishDate={createdAt}
+          publishDate={publicDate}
           imagePath={avatar}
         />
       </Flex>

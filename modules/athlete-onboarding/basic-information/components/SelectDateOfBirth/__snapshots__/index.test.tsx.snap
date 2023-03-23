@@ -3,99 +3,95 @@
 exports[`renders Select Date Of Birth unchanged 1`] = `
 <div>
   <div
-    class="css-16tif5l"
+    class="css-1jvt6v8"
   >
     <div
-      class="chakra-container css-10klw3m"
+      class="css-1kmmdcq"
+    >
+      Basic Information
+    </div>
+    <div
+      class="chakra-container css-17f3xev"
     >
       <div
-        class="css-12ij4x2"
-      >
-        BASIC INFORMATION
-      </div>
-      <div
-        class="css-8qr4sb"
+        class="css-1ispe57"
       >
         <div
-          class="css-tayfq6"
+          class="css-cgkfdy"
         >
           <div
-            class="css-6ywt87"
+            class="css-1llc4z1"
           >
             <svg
-              class="chakra-icon css-h2mabo"
+              class="chakra-icon css-1pmed7j"
               focusable="false"
-              viewBox="0 0 151 150"
+              viewBox="0 0 67 80"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <circle
-                cx="75.5"
-                cy="75"
-                fill="white"
-                r="74.5"
-                stroke="#DDDDDD"
-              />
               <g
-                clip-path="url(#clip0_1512_24344)"
+                clip-path="url(#clip0_5448_58455)"
               >
                 <path
-                  d="M108.364 67.7274C106.455 64.0001 61.1826 65.3638 44.9099 72.5456C39.0008 75.182 42.4553 113.455 52.4553 114.637C60.2735 115.546 77.0917 114.364 84.0917 113C86.9099 114.909 96.0917 111.091 96.0008 106.546C95.9099 104 94.4553 101.909 93.0917 100.546C94.4553 99.3638 95.4553 98.0001 95.7281 96.5456C96.1826 93.6365 94.0917 91.2729 92.3644 89.9092C94.4553 88.6365 96.0917 86.8183 96.4553 84.9092C96.9099 82.2729 94.6371 79.4547 92.5462 77.5456C105.637 75.9092 110.455 71.6365 108.364 67.7274Z"
-                  fill="#FAC484"
+                  d="M66.3644 32.7272C64.4553 28.9999 19.1826 30.3635 2.90987 37.5454C-2.99922 40.1817 0.455325 78.4544 10.4553 79.6363C18.2735 80.5454 35.0917 79.3635 42.0917 77.9999C44.9099 79.909 54.0917 76.0908 54.0008 71.5454C53.9099 68.9999 52.4553 66.909 51.0917 65.5454C52.4553 64.3635 53.4553 62.9999 53.7281 61.5454C54.1826 58.6363 52.0917 56.2726 50.3644 54.909C52.4553 53.6363 54.0917 51.8181 54.4553 49.909C54.9099 47.2726 52.6371 44.4544 50.5462 42.5454C63.6371 40.909 68.4553 36.6363 66.3644 32.7272Z"
+                  fill="currentColor"
                 />
                 <path
-                  d="M94.0012 109.545C94.0012 109.545 85.4557 115.818 83.4557 112.273C81.0921 108.091 85.3648 105.273 85.3648 105.273C85.3648 105.273 79.3648 107.364 78.0921 103.727C76.8193 100.091 77.4557 97.3636 83.8193 94.6363C83.8193 94.6363 76.0012 97.3636 74.4557 93.4545C72.3648 88.0909 78.6375 83.6363 85.4557 80.2727"
+                  d="M52.0012 74.5442C52.0012 74.5442 43.4557 80.8169 41.4557 77.2715C39.0921 73.0897 43.3648 70.2715 43.3648 70.2715C43.3648 70.2715 37.3648 72.3624 36.0921 68.726C34.8193 65.0897 35.4557 62.3624 41.8193 59.6351C41.8193 59.6351 34.0012 62.3624 32.4557 58.4533C30.3648 53.0897 36.6375 48.6351 43.4557 45.2715"
                   stroke="black"
                   stroke-miterlimit="10"
                   stroke-width="1.5"
                 />
                 <path
-                  d="M68.0004 69.5454C73.0004 66.909 76.7276 72.8181 72.4549 77.2727C68.0913 81.6363 60.7276 82.8181 60.7276 82.8181C60.7276 82.8181 72.4549 91.9999 60.6367 95.6363"
+                  d="M26.0004 34.5454C31.0004 31.909 34.7276 37.8181 30.4549 42.2727C26.0913 46.6363 18.7276 47.8181 18.7276 47.8181C18.7276 47.8181 30.4549 56.9999 18.6367 60.6363"
                   stroke="black"
                   stroke-miterlimit="10"
                   stroke-width="1.5"
                 />
                 <path
-                  d="M89.0921 67.2728C88.5466 67.2728 88.183 66.9091 88.0921 66.3637C88.0012 64.1818 88.4557 60.6364 88.4557 60.5455C88.5466 60 89.0012 59.6364 89.5466 59.7273C90.0921 59.8182 90.4557 60.2728 90.3648 60.8182C90.3648 60.8182 89.9103 64.2728 90.0012 66.2728C90.0921 66.7273 89.7285 67.1818 89.0921 67.2728Z"
-                  fill="#F37421"
+                  d="M47.0921 32.2723C46.5466 32.2723 46.183 31.9086 46.0921 31.3632C46.0012 29.1814 46.4557 25.6359 46.4557 25.545C46.5466 24.9995 47.0012 24.6359 47.5466 24.7268C48.0921 24.8177 48.4557 25.2723 48.3648 25.8177C48.3648 25.8177 47.9103 29.2723 48.0012 31.2723C48.0921 31.7268 47.7285 32.1814 47.0921 32.2723Z"
+                  fill="#FD2D55"
                 />
                 <path
-                  d="M83.1819 67.4544C82.6365 67.4544 82.2729 67.0908 82.1819 66.5453C82.091 64.3635 82.5456 60.818 82.5456 60.7271C82.6365 60.1817 83.091 59.818 83.6365 59.9089C84.1819 59.9999 84.5456 60.4544 84.4547 60.9999C84.4547 60.9999 84.0001 64.4544 84.091 66.4544C84.1819 66.9999 83.8183 67.4544 83.1819 67.4544C83.2729 67.4544 83.1819 67.4544 83.1819 67.4544Z"
-                  fill="#F37421"
+                  d="M41.1819 32.4539C40.6365 32.4539 40.2729 32.0903 40.1819 31.5448C40.091 29.363 40.5456 25.8175 40.5456 25.7266C40.6365 25.1812 41.091 24.8175 41.6365 24.9085C42.1819 24.9994 42.5456 25.4539 42.4547 25.9994C42.4547 25.9994 42.0001 29.4539 42.091 31.4539C42.1819 31.9994 41.8183 32.4539 41.1819 32.4539C41.2729 32.4539 41.1819 32.4539 41.1819 32.4539Z"
+                  fill="#FD2D55"
                 />
                 <path
-                  d="M93.7275 59.7273C95.7275 57.8182 103.546 49.8182 99.3639 50.2728C98.7275 50.3637 97.273 51.3637 97.273 51.3637C97.273 51.3637 98.6366 48.7273 97.273 48.1818C96.0003 47.6364 93.8184 49.9091 93.8184 49.8182C93.7275 49.6364 95.3639 47.8182 94.5457 47.0909C94.1821 46.7273 92.7275 46.7273 90.5457 49.2728C89.7275 50.2728 92.9093 40.4546 91.3639 37.6364C89.4548 34.1818 82.3639 33.3637 79.273 39.9091C76.1821 46.4546 73.4548 57.4546 81.7275 61.0909C87.6366 63.6364 91.7275 61.7273 93.7275 59.7273Z"
-                  fill="#FEBF2E"
+                  d="M51.7275 24.7266C53.7275 22.8175 61.5457 14.8175 57.3639 15.272C56.7275 15.3629 55.273 16.3629 55.273 16.3629C55.273 16.3629 56.6366 13.7266 55.273 13.1811C54.0003 12.6357 51.8184 14.9084 51.8184 14.8175C51.7275 14.6357 53.3639 12.8175 52.5457 12.0902C52.1821 11.7266 50.7275 11.7266 48.5457 14.272C47.7275 15.272 50.9093 5.45384 49.3639 2.63566C47.4548 -0.818888 40.3639 -1.63707 37.273 4.90838C34.1821 11.4538 31.4548 22.4538 39.7275 26.0902C45.6366 28.6357 49.7275 26.7266 51.7275 24.7266Z"
+                  fill="#FFA757"
                 />
                 <path
-                  d="M80.3638 40.0908L74.9093 41.4545H74.8184L78.7275 44.9999L80.3638 40.0908Z"
-                  fill="#F37421"
+                  d="M38.3638 5.08984L32.9093 6.45348H32.8184L36.7275 9.99893L38.3638 5.08984Z"
+                  fill="#FD2D55"
                 />
               </g>
               <defs>
                 <clippath
-                  id="clip0_1512_24344"
+                  id="clip0_5448_58455"
                 >
                   <rect
                     fill="white"
                     height="80"
-                    transform="translate(42 35)"
                     width="66.8182"
                   />
                 </clippath>
               </defs>
             </svg>
           </div>
+        </div>
+        <div
+          class="css-14s5ckc"
+        >
           <div
-            class="css-yzqqny"
+            class="css-1s2o82u"
           >
             <div
-              class="css-0"
+              class="css-1uoge8t"
             >
               <div
-                class="css-1tilclj"
+                class="css-coo02u"
               >
                 <div
-                  class="css-johq1t"
+                  class="css-achvtx"
                 >
                   Select Date of Birth
                   <span
@@ -125,7 +121,7 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                         class="css-1f43avz-a11yText-A11yText"
                       />
                       <div
-                        class=" css-6o1t9b-control"
+                        class=" css-1ya43kt-control"
                       >
                         <div
                           class=" css-15ki4p9-ValueContainer"
@@ -134,12 +130,12 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                             class="css-xxdqwu"
                           >
                             <div
-                              class="css-1yks822"
+                              class="css-1oemo71"
                             >
                               DD
                             </div>
                             <div
-                              class=" css-119wo5m-Input"
+                              class=" css-nbdjr5-Input"
                               data-value=""
                             >
                               <input
@@ -169,7 +165,7 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                             class=" css-1xjgjl1-IndicatorSeparator"
                           />
                           <svg
-                            class="chakra-icon css-fgc0y"
+                            class="chakra-icon css-h50qoc"
                             focusable="false"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -203,7 +199,7 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                         class="css-1f43avz-a11yText-A11yText"
                       />
                       <div
-                        class=" css-6o1t9b-control"
+                        class=" css-1ya43kt-control"
                       >
                         <div
                           class=" css-15ki4p9-ValueContainer"
@@ -212,12 +208,12 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                             class="css-xxdqwu"
                           >
                             <div
-                              class="css-1yks822"
+                              class="css-1oemo71"
                             >
                               MM
                             </div>
                             <div
-                              class=" css-119wo5m-Input"
+                              class=" css-nbdjr5-Input"
                               data-value=""
                             >
                               <input
@@ -247,7 +243,7 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                             class=" css-1xjgjl1-IndicatorSeparator"
                           />
                           <svg
-                            class="chakra-icon css-fgc0y"
+                            class="chakra-icon css-h50qoc"
                             focusable="false"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -281,7 +277,7 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                         class="css-1f43avz-a11yText-A11yText"
                       />
                       <div
-                        class=" css-6o1t9b-control"
+                        class=" css-1ya43kt-control"
                       >
                         <div
                           class=" css-15ki4p9-ValueContainer"
@@ -290,12 +286,12 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                             class="css-xxdqwu"
                           >
                             <div
-                              class="css-1yks822"
+                              class="css-1oemo71"
                             >
                               YYYY
                             </div>
                             <div
-                              class=" css-119wo5m-Input"
+                              class=" css-nbdjr5-Input"
                               data-value=""
                             >
                               <input
@@ -325,7 +321,7 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                             class=" css-1xjgjl1-IndicatorSeparator"
                           />
                           <svg
-                            class="chakra-icon css-fgc0y"
+                            class="chakra-icon css-h50qoc"
                             focusable="false"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -400,9 +396,6 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
           </button>
         </div>
       </div>
-      <p
-        class="chakra-text css-1n4wwj3"
-      />
     </div>
   </div>
 </div>

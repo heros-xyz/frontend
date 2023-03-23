@@ -3,14 +3,23 @@ import { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
 import Head from "next/head";
+import { useSession } from "next-auth/react";
 import EditPencilIcon from "@/components/svg/EditPencilIcon";
 import { useGetSubscriptionInfoQuery } from "@/api/athlete";
 import { ListMembershipTiers } from "@/types/athlete/types";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
+import { useLoading } from "@/hooks/useLoading";
 
 const ListingMembership = () => {
   const router = useRouter();
-  const { data: dataTier } = useGetSubscriptionInfoQuery("");
+  const { data: session } = useSession();
+  const { start, finish } = useLoading();
+  const { data: dataTier } = useGetSubscriptionInfoQuery(
+    session?.user.id ?? "",
+    {
+      skip: !session?.user.id,
+    }
+  );
   const [dataRender, setDataRender] = useState<ListMembershipTiers>();
 
   const handleAdd = () => {
@@ -21,7 +30,11 @@ const ListingMembership = () => {
   };
 
   useEffect(() => {
-    if (dataTier?.data) setDataRender(dataTier?.data[0]);
+    start();
+    if (dataTier?.data) {
+      setDataRender(dataTier?.data[0]);
+      finish();
+    }
   }, [dataTier]);
 
   return (

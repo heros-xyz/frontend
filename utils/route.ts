@@ -13,4 +13,7 @@ export const RoutePath = {
   FAN_SIGN_UP: "/fan/sign-up",
   ATHLETE_SIGN_UP: "/athlete/sign-up",
   JOINING_AS: "/joining-as",
+  ATHLETE_PROFILE: "/athlete/my-profile",
+  FAN_VIEW_ATHLETE_PROFILE: (athleteId: string) =>
+    `/fan/athlete-profile/${athleteId}`,
 };

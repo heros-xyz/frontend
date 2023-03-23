@@ -21,6 +21,7 @@ const FanOnboarding = () => {
     gender,
     step,
     fullNameState,
+    isLoading,
     handleChangeAvatar,
     handleChangeDateOfBirth,
     handleChangeFullName,
@@ -30,7 +31,7 @@ const FanOnboarding = () => {
   } = useFanOnboarding();
 
   return (
-    <Box bg="secondary" minHeight="100vh" overflowY="scroll">
+    <Box bg="white" minHeight="100vh" overflowY="auto">
       <Head>
         <title>Fan | Onboarding</title>
       </Head>
@@ -59,8 +60,11 @@ const FanOnboarding = () => {
                   onSubmit={handleChangeAvatar}
                 />
               </Case>
-              <Case condition={step === 5}>
-                <EnterInterestedSport onSubmit={handleChangeSport} />
+              <Case condition={step === 5 || step === 6}>
+                <EnterInterestedSport
+                  isLoading={isLoading}
+                  onSubmit={handleChangeSport}
+                />
               </Case>
             </Switch>
           </Box>

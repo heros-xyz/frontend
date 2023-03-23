@@ -7,8 +7,6 @@ import { IMeta } from "@/types/athlete/types";
 
 export const globalApi = createApi({
   reducerPath: "globalApi",
-  refetchOnReconnect: true,
-  refetchOnMountOrArgChange: true,
   baseQuery: staggeredAxiosBaseQuery({
     baseUrl: process.env.HEROS_BASE_URL || "",
   }),
@@ -17,6 +15,7 @@ export const globalApi = createApi({
       return action.payload[reducerPath];
     }
   },
+  tagTypes: ["Notifications"],
   endpoints: (builder) => ({
     getNationality: builder.query<IOption[], string>({
       query: () => ({
@@ -42,6 +41,8 @@ export const globalApi = createApi({
         method: "GET",
         params,
       }),
+      providesTags: () => ["Notifications"],
+      keepUnusedDataFor: 0,
     }),
     maskNotification: builder.mutation<boolean, string>({
       query: (notificationId) => ({
@@ -64,7 +65,6 @@ export const {
   useGetListNotificationQuery,
   useMaskNotificationMutation,
   useMaskAllNotificationMutation,
-  util: { resetApiState },
 } = globalApi;
 
 export const {} = globalApi.endpoints;

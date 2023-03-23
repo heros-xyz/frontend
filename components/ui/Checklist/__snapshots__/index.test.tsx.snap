@@ -3,10 +3,10 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-1j1lqel"
+    class="css-1updty1"
   >
     <div
-      class="css-1oqp3m1"
+      class="css-iwomsf"
     >
       <div
         class="css-0"
@@ -52,13 +52,13 @@ exports[`renders homepage unchanged 1`] = `
         class="css-fr60pb"
       >
         <svg
-          class="chakra-icon css-13b3rad"
+          class="chakra-icon css-1tuorrv"
           focusable="false"
           viewBox="0 0 33 34"
           xmlns="http://www.w3.org/2000/svg"
         >
           <rect
-            fill="#313F4C"
+            fill="currentColor"
             height="33"
             rx="16.5"
             width="33"
@@ -66,7 +66,7 @@ exports[`renders homepage unchanged 1`] = `
           />
           <path
             d="M10 17.5L14 21.5L24 11.5"
-            stroke="#E2FF65"
+            stroke="white"
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"

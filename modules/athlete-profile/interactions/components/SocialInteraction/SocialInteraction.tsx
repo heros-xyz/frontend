@@ -32,14 +32,20 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
   const [totalReactions, setTotalReactions] = useState(reactionCount);
   const [request, { data }] = useReactionInteractionMutation();
 
-  const { data: listComment } = useGetListCommentInteractionQuery({
-    interactionId: postId,
-    pageInfo: {
-      take: 3,
-      order: "ASC",
-      getReply: false,
+  const { data: listComment } = useGetListCommentInteractionQuery(
+    {
+      interactionId: postId,
+      pageInfo: {
+        take: 3,
+        order: "ASC",
+        getReply: false,
+        authorId: id as string,
+      },
     },
-  });
+    {
+      skip: typeof id !== "string",
+    }
+  );
 
   useEffect(() => {
     !!data && setTotalReactions(data?.totalReaction);

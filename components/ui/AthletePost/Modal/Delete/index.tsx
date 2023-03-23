@@ -66,12 +66,16 @@ const DeletePostModal: FC<IDeletePostModalProps> = ({
           This action cannot be undone. Are you sure you want to delete this
           interaction?
         </Text>
-        <Box>
+        <Box w="full">
           <Button
             variant="primary"
             mb={{ base: 4, lg: 7 }}
             fontSize={{ lg: "xl" }}
             onClick={handleDeletePost}
+            bg="secondary"
+            color="primary"
+            size="lg"
+            w={{ base: "full", lg: "fit-content" }}
           >
             yes, delete Interaction
           </Button>
@@ -82,6 +86,7 @@ const DeletePostModal: FC<IDeletePostModalProps> = ({
             textDecoration="underline"
             textColor="primary"
             onClick={onClose}
+            color="grey.200"
           >
             Cancel
           </Text>
