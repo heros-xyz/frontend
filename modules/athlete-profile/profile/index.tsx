@@ -8,7 +8,6 @@ import {
 } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
 import { useMemo } from "react";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 import MyStory from "@/components/ui/Athlete/Profile/MyStory";
@@ -41,6 +40,26 @@ export const Profile: React.FC<IProfileProps> = ({
     setValue(link);
     return `${process.env.NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
   }, [athleteId, athleteNickname]);
+
+  const onClickCopy = () => {
+    // if (isMobile) {
+    //   const shareData = {
+    //     title: `${athleteNickname}'s Profile Link`,
+    //     url: profileLink,
+    //   };
+
+    //   navigator.share(shareData);
+    // }
+
+    toast({
+      title: "Profile Link Copied",
+      status: "success",
+      duration: 2000,
+      position: "bottom",
+    });
+    onCopy();
+  };
+
   return (
     <Box pb={5}>
       <Box color="primary" bg="accent.3">
@@ -88,23 +107,17 @@ export const Profile: React.FC<IProfileProps> = ({
         </Box>
 
         <Box mt={6}>
-          <Text fontWeight="bold" fontSize={{ base: "base", lg: "xl" }} mb={1}>
+          <Text fontWeight="bold" fontSize={{ base: "sm", lg: "md" }} mb={1}>
             Profile Link
           </Text>
-          <Text fontSize={{ base: "xs", lg: "md" }}>{profileLink}</Text>
+          <Text fontSize={{ base: "xs", lg: "md" }} textDecoration="none">
+            {profileLink}
+          </Text>
           <Button
             mt={3}
             variant="primary"
-            w="full"
-            onClick={() => {
-              toast({
-                title: "Copied Profile Link",
-                status: "success",
-                duration: 2000,
-                position: isMobile ? "bottom" : "bottom-right",
-              });
-              onCopy();
-            }}
+            w={{ base: "full", lg: "fit-content" }}
+            onClick={onClickCopy}
           >
             Copy link
           </Button>

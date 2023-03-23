@@ -73,7 +73,7 @@ const EditBasicInfo = () => {
   }, [basicInfo]);
 
   return (
-    <Box pt={5} minH="100vh">
+    <Box pt={{ base: 5, lg: 0 }} minH="100vh">
       <Head>
         <title>Athlete | Edit Basic Information</title>
       </Head>
@@ -121,11 +121,17 @@ const EditBasicInfo = () => {
                   id="firstName"
                   name="firstName"
                   fontWeight={500}
+                  fontSize={{ base: "sm", lg: "lg" }}
                   onChange={formik.handleChange}
                   value={formik.values.firstName}
                   isInvalid={Boolean(
                     formik.errors.firstName && formik.touched.firstName
                   )}
+                  borderColor="grey.200"
+                  _focusVisible={{
+                    borderColor: "grey.200",
+                    boxShadow: "none",
+                  }}
                 />
                 <ErrorMessage
                   mt={0.5}
@@ -143,11 +149,17 @@ const EditBasicInfo = () => {
                   id="middleName"
                   name="middleName"
                   fontWeight={500}
+                  fontSize={{ base: "sm", lg: "lg" }}
                   onChange={formik.handleChange}
                   value={formik.values.middleName}
                   isInvalid={Boolean(
                     formik.errors.middleName && formik.touched.middleName
                   )}
+                  borderColor="grey.200"
+                  _focusVisible={{
+                    borderColor: "grey.200",
+                    boxShadow: "none",
+                  }}
                 />
                 <ErrorMessage
                   mt={0.5}
@@ -173,11 +185,17 @@ const EditBasicInfo = () => {
                   id="lastName"
                   name="lastName"
                   fontWeight={500}
+                  fontSize={{ base: "sm", lg: "lg" }}
                   onChange={formik.handleChange}
                   value={formik.values.lastName}
                   isInvalid={Boolean(
                     formik.errors.lastName && formik.touched.lastName
                   )}
+                  borderColor="grey.200"
+                  _focusVisible={{
+                    borderColor: "grey.200",
+                    boxShadow: "none",
+                  }}
                 />
                 <ErrorMessage
                   mt={0.5}
@@ -289,7 +307,7 @@ const EditBasicInfo = () => {
                     {" *"}
                   </Text>
                 </Box>
-                <Text as="span" color="secondary" fontSize={["xs", "md"]}>
+                <Text as="span" color="grey.200" fontSize={["xs", "md"]}>
                   This is the first thing potential patrons will see when they
                   land on your page, so make sure you paint a compelling picture
                   of how they can join you on this journey.
@@ -308,6 +326,12 @@ const EditBasicInfo = () => {
                     formik.errors.story && formik.touched.story
                   )}
                   className="postComment"
+                  fontWeight="medium"
+                  borderColor="grey.200"
+                  _focusVisible={{
+                    borderColor: "grey.200",
+                    boxShadow: "none",
+                  }}
                 />
                 <ErrorMessage
                   mb={8}

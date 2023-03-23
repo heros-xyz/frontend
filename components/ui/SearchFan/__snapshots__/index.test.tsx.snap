@@ -30,7 +30,7 @@ exports[`renders homepage unchanged 1`] = `
           </svg>
         </div>
         <input
-          class="chakra-input css-15a4dgn"
+          class="chakra-input css-1kfcnoc"
           placeholder="Search Fans"
           type="text"
         />

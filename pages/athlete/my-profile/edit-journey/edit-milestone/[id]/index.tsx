@@ -183,7 +183,7 @@ const EditMilestone = () => {
               >
                 <Then>
                   <Box mb={7}>
-                    <Box fontWeight="medium" mt={7}>
+                    <Box fontWeight="medium" mt={7} color="black.primary">
                       Enter Date
                       <Text as="span" color="error.dark">
                         {" "}
@@ -218,7 +218,7 @@ const EditMilestone = () => {
               <If condition={formik.values.isPeriodDate}>
                 <Then>
                   <Box mb={7}>
-                    <Box fontWeight="medium" mt={7}>
+                    <Box fontWeight="medium" mt={7} color="black.primary">
                       End Date
                       <Text as="span" color="error.dark">
                         {" "}
@@ -250,7 +250,7 @@ const EditMilestone = () => {
               </If>
 
               <Box mb={7}>
-                <Box fontWeight="medium">
+                <Box fontWeight="medium" color="black.primary">
                   Enter Name/Title
                   <Text as="span" color="error.dark">
                     {" "}
@@ -280,7 +280,9 @@ const EditMilestone = () => {
               </Box>
 
               <Box mb={7}>
-                <Box fontWeight="medium">Enter Description/Subtitle</Box>
+                <Box fontWeight="medium" color="black.primary">
+                  Enter Description/Subtitle
+                </Box>
                 <Textarea
                   id="description"
                   name="description"
@@ -306,7 +308,7 @@ const EditMilestone = () => {
               </Box>
 
               <Box mb={8}>
-                <Box fontWeight="medium" mb={3}>
+                <Box fontWeight="medium" mb={3} color="black.primary">
                   Choose an icon to represent the milestone
                 </Box>
                 <Box
@@ -326,9 +328,9 @@ const EditMilestone = () => {
                             w={{ base: "50px", xl: "70px" }}
                             h={{ base: "50px", xl: "70px" }}
                             borderRadius="full"
-                            bg={el.value === iconCheck ? "primary" : "accent.3"}
+                            bg={el.value === iconCheck ? "primary" : "grey.0"}
                             color={
-                              el.value === iconCheck ? "accent.3" : "primary"
+                              el.value === iconCheck ? "secondary" : "primary"
                             }
                             onClick={() => handleClickIcon(el.value, iconCheck)}
                             _hover={{}}
@@ -337,10 +339,18 @@ const EditMilestone = () => {
                             {el.Icon}
                           </Button>
                           <Text
+                            w={{ base: "75px", xl: "100px" }}
                             display="flex"
                             alignItems="center"
                             ml={{ base: 1, xl: 2 }}
                             fontSize={{ base: "xs", xl: "md" }}
+                            fontWeight={
+                              el.value === iconCheck ? "bold" : "normal"
+                            }
+                            color={
+                              el.value === iconCheck ? "primary" : "grey.300"
+                            }
+                            wordBreak="break-word"
                           >
                             {el.name}
                           </Text>

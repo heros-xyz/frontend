@@ -8,6 +8,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { NumberParam, useQueryParam, withDefault } from "use-query-params";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import ExclamationIcon from "@/components/svg/Exclamation";
 import { LockCloseIcon } from "@/components/svg/Settings";
 
@@ -16,8 +18,9 @@ const FanOnlySection = () => {
     "current",
     withDefault(NumberParam, 0)
   );
-
+  const { data: session } = useSession();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
 
   return (
     <>
@@ -60,8 +63,13 @@ const FanOnlySection = () => {
               w={{ base: "312px", lg: "137px" }}
               mb={{ base: "15px", lg: "25px" }}
               onClick={() => {
-                setCurrentTab(3);
                 onClose();
+                if (session) {
+                  setCurrentTab(3);
+                  return;
+                }
+
+                router.push("/sign-in");
               }}
             >
               JOIN NOW

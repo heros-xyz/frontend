@@ -1,8 +1,16 @@
-import { Box, Button, Center, Container, Flex, Text } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Button,
+  Center,
+  Container,
+  Flex,
+  Text,
+} from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { Else, If, Then } from "react-if";
 
-interface OnboardingProps {
+interface OnboardingProps extends BoxProps {
   title?: string;
   Icon?: ReactNode;
   IconButton?: ReactNode;
@@ -17,6 +25,7 @@ interface OnboardingProps {
   submitLoading?: boolean;
   isSuccessPage?: boolean;
   isDisabled?: boolean;
+  isPaddingTop?: boolean;
 }
 const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
   title,
@@ -31,6 +40,8 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
   bgIconColor,
   isSuccessPage,
   isDisabled,
+  isPaddingTop = true,
+  ...props
 }) => {
   const [bgIcon, setBgIcon] = useState<string>();
   useEffect(() => {
@@ -40,7 +51,13 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
   }, [bgIconColor]);
 
   return (
-    <Box bg="white" minH={"90vh"} h="100vh" w="100vw">
+    <Box
+      {...props}
+      bg="white"
+      minH={"90vh"}
+      h={{ base: "full", lg: "100vh" }}
+      w="100%"
+    >
       <Box
         position={{ xl: "fixed" }}
         textAlign={{ base: "center", xl: "left" }}
@@ -57,7 +74,7 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
         h="full"
         w="full"
         px={{ base: 5, xl: 0 }}
-        pt={{ base: "150px", xl: "0" }}
+        pt={{ base: isPaddingTop ? "150px" : 0, xl: "0" }}
       >
         <Flex
           flexDirection={

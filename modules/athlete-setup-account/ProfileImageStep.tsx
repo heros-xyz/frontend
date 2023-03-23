@@ -124,7 +124,7 @@ const AthleteProfileImageStep: FC<OnboardingProps> = (props) => {
 
   return (
     <HerosOnboardingWrapperNew
-      {...props}
+      // {...props}
       Icon={
         !file && (
           <IconOnboarding
@@ -139,6 +139,9 @@ const AthleteProfileImageStep: FC<OnboardingProps> = (props) => {
       isUploadImage
       onSubmit={console.log}
       bgIconColor={"accent.1"}
+      display="flex"
+      alignItems="center"
+      isPaddingTop={false}
     >
       <Box mb={{ xl: 12 }}>
         <HStack

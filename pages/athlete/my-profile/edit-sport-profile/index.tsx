@@ -105,7 +105,7 @@ const EditSportProfile = () => {
                   fontWeight="medium"
                   marginBottom={{ base: "10px", xl: "15px" }}
                 >
-                  <Text as="span" color="black">
+                  <Text as="span" color="black.primary">
                     {" "}
                     Sport
                   </Text>
@@ -127,18 +127,23 @@ const EditSportProfile = () => {
                   marginBottom={{ base: "10px", xl: "15px" }}
                   fontSize={{ base: "sm", xl: "md" }}
                   fontWeight="medium"
-                  color="black"
+                  color="black.primary"
                 >
                   Current team/Association/Club
                 </Text>
                 <Input
                   variant="flushed"
                   placeholder="Tell Your Story"
-                  borderColor="grey.100"
+                  borderColor="grey.200"
                   name="currentTeam"
                   fontSize={{ base: "sm", xl: "lg" }}
                   value={formik.values?.currentTeam}
                   onChange={formik.handleChange}
+                  fontWeight="medium"
+                  _focusVisible={{
+                    borderColor: "grey.200",
+                    boxShadow: "none",
+                  }}
                 />
                 <ErrorMessage
                   condition={
@@ -153,7 +158,7 @@ const EditSportProfile = () => {
                   fontWeight="medium"
                   marginBottom={{ base: "10px", xl: "15px" }}
                 >
-                  <Text as="span" color="black">
+                  <Text as="span" color="black.primary">
                     {" "}
                     My Goal
                   </Text>
@@ -165,7 +170,7 @@ const EditSportProfile = () => {
                   resize="none"
                   variant="flushed"
                   placeholder="Your goal"
-                  borderColor="grey.100"
+                  borderColor="grey.200"
                   name="goal"
                   fontSize={{ base: "sm", xl: "lg" }}
                   onChange={(el) =>
@@ -173,6 +178,11 @@ const EditSportProfile = () => {
                   }
                   className="postComment"
                   value={formik.values?.goal}
+                  fontWeight="medium"
+                  _focusVisible={{
+                    borderColor: "grey.200",
+                    boxShadow: "none",
+                  }}
                 />
                 <ErrorMessage
                   condition={formik.errors.goal && formik.touched.goal}

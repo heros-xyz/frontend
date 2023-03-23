@@ -42,6 +42,9 @@ const AthleteLegalNameStep: React.FC<IProp> = ({ onSubmit }) => {
       IconButton={<NextIcon />}
       onSubmit={submitForm}
       bgIconColor="accent.1"
+      display="flex"
+      alignItems="center"
+      isPaddingTop={false}
     >
       <Label
         color="primary"

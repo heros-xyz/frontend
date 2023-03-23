@@ -20,7 +20,7 @@ const AthleteSetupAccount = () => {
 
   return (
     <FormikContext.Provider value={formik}>
-      <Box minHeight="100vh" overflowY="auto" bg="secondary">
+      <Box minHeight="100vh" overflowY="auto">
         <Head>
           <title>Athlete | Setup Account</title>
         </Head>
@@ -41,7 +41,13 @@ const AthleteSetupAccount = () => {
                   />
                 </Case>
               </Switch>
-              <Box position="absolute" bottom={5} w="100%" textAlign="center">
+              <Box
+                position="absolute"
+                bottom={5}
+                w="100%"
+                textAlign="center"
+                className="step"
+              >
                 <Step
                   activeStep={step}
                   totalStep={totalStep}

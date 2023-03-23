@@ -46,7 +46,7 @@ const PaymentWallet: React.FC<IProp> = ({ onBack, onSubmit, paymentData }) => {
           w={{ base: "full", xl: "auto" }}
           mt={{ base: "5", xl: "3.125rem" }}
           bg="secondary"
-          color="black"
+          color="primary"
           textTransform="uppercase"
           h="auto"
           py="3"

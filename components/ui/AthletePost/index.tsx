@@ -265,23 +265,23 @@ const AthletePost: React.FC<IAthletePostProps> = ({
             mb={{ base: 2, lg: 3.5 }}
             ref={iconActions}
             pt={2}
+            gap={5}
           >
             <LoveIcon
-              w={6}
-              h={6}
-              color={reaction ? "accent.5" : "primary"}
-              fill={reaction ? "currentcolor" : "none"}
-              onClick={handleReaction}
               cursor="pointer"
+              width={{ base: "24px", lg: "32px" }}
+              height={{ base: "24px", lg: "32px" }}
+              fill={reaction ? "currentcolor" : "none"}
+              color={reaction ? "accent.5" : "primary"}
+              onClick={handleReaction}
             />
+
             <If condition={!!isDetailPage}>
               <Then>
                 <CommentIcon
                   cursor="pointer"
-                  ml={3}
-                  w={6}
-                  h={6}
-                  maxW={6}
+                  width={{ base: "24px", lg: "32px" }}
+                  height={{ base: "24px", lg: "32px" }}
                   color="primary"
                   onClick={() => focusInputComment && focusInputComment(true)}
                 />
@@ -290,21 +290,20 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                 <Link
                   href={`/athlete/interactions/${interactionInfo?.id}?focus=true`}
                 >
-                  <CommentIcon cursor="pointer" ml={5} maxW={6} />
+                  <CommentIcon
+                    width={{ base: "24px", lg: "32px" }}
+                    height={{ base: "24px", lg: "32px" }}
+                    color="primary"
+                  />
                 </Link>
               </Else>
             </If>
-
             <ShareIcon
-              cursor="pointer"
-              ml={3}
-              w={6}
-              h={6}
-              maxW={6}
-              maxH={5}
-              color="primary"
-              fontWeight="bold"
               onClick={onOpen}
+              cursor="pointer"
+              width={{ base: "24px", lg: "32px" }}
+              height={{ base: "24px", lg: "32px" }}
+              color="primary"
             />
           </Flex>
 
