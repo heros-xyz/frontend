@@ -21,7 +21,7 @@ export const checkUserRoles = async (
     nextAuthOptions(req as NextApiRequest, res as NextApiResponse)
   );
 
-  if (!session) {
+  if (!session || (session && !session.user?.role)) {
     return {
       redirect: {
         destination: RoutePath.SIGN_IN,
