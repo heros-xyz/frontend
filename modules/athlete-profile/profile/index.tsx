@@ -52,7 +52,7 @@ export const Profile: React.FC<IProfileProps> = ({
     // }
 
     toast({
-      title: "Profile Copied Link",
+      title: "Profile Link Copied",
       status: "success",
       duration: 2000,
       position: isMobile ? "bottom" : "bottom-right",
@@ -110,7 +110,7 @@ export const Profile: React.FC<IProfileProps> = ({
           <Text fontWeight="bold" fontSize={{ base: "sm", lg: "md" }} mb={1}>
             Profile Link
           </Text>
-          <Text fontSize={{ base: "xs", lg: "md" }} textDecoration="underline">
+          <Text fontSize={{ base: "xs", lg: "md" }} textDecoration="none">
             {profileLink}
           </Text>
           <Button
