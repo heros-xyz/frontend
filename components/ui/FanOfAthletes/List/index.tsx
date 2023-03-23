@@ -26,7 +26,7 @@ const YourAthletesList: React.FC<YourAthletesProps> = ({
     <Box {...props}>
       {hasFanText && (
         <Heading
-          color="white"
+          color="primary"
           pb={{ base: "15px", lg: "15px" }}
           pt={{ base: "32px", lg: "40px" }}
           fontSize={{ base: "12px", lg: "16px" }}

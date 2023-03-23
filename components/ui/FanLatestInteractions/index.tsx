@@ -222,7 +222,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
             <Box>
               <Text
                 fontSize={{ base: "sm", xl: "md" }}
-                color="white"
+                color="primary"
                 fontWeight="normal"
               >
                 Subscribe to athletes, and you&apos;ll see their latest
