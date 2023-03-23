@@ -3,7 +3,7 @@
 exports[`renders add Input Your Goal unchanged 1`] = `
 <div>
   <div
-    class="css-1jvt6v8"
+    class="css-15p2wse"
   >
     <div
       class="css-1kmmdcq"
@@ -210,7 +210,7 @@ exports[`renders add Input Your Goal unchanged 1`] = `
                   </p>
                 </div>
                 <input
-                  class="chakra-input css-1oz8u65"
+                  class="chakra-input css-13a06tl"
                   id="goal"
                   placeholder="Your Goal"
                   value=""

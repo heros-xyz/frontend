@@ -102,7 +102,7 @@ const SportProfile = () => {
           <Box
             position="absolute"
             top={{ lg: "59%" }}
-            bottom={{ base: 0, lg: "unset" }}
+            bottom={{ base: 5, lg: "unset" }}
             left={{ lg: "130px" }}
             w={{ base: "100%", lg: "unset" }}
             textAlign="center"

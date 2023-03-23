@@ -21,7 +21,7 @@ export const loggedInGuard = async (
     nextAuthOptions(req as NextApiRequest, res as NextApiResponse)
   );
 
-  if (session) {
+  if (session && session.user.role) {
     return {
       redirect: {
         destination: RoutePath.HOME,

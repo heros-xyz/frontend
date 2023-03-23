@@ -12,7 +12,7 @@ const AthleteSuccessStep: React.FC<OnboardingProps> = (props) => {
   const router = useRouter();
   return (
     <HerosOnboardingWrapperNew
-      {...props}
+      // {...props}
       onSubmit={() => router.push("/athlete")}
       Icon={
         <FanOnboardingSuccess

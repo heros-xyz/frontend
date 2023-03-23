@@ -3,7 +3,7 @@
 exports[`renders Select Nationality unchanged 1`] = `
 <div>
   <div
-    class="css-1jvt6v8"
+    class="css-15p2wse"
   >
     <div
       class="css-1kmmdcq"
@@ -153,7 +153,7 @@ exports[`renders Select Nationality unchanged 1`] = `
                         class="css-1f43avz-a11yText-A11yText"
                       />
                       <div
-                        class=" css-1ya43kt-control"
+                        class=" css-1xuao1n-control"
                       >
                         <div
                           class=" css-15ki4p9-ValueContainer"
@@ -162,12 +162,12 @@ exports[`renders Select Nationality unchanged 1`] = `
                             class="css-xxdqwu"
                           >
                             <div
-                              class="css-1oemo71"
+                              class="css-138yobv"
                             >
                               Nationality
                             </div>
                             <div
-                              class=" css-nbdjr5-Input"
+                              class=" css-1fs6gt4-Input"
                               data-value=""
                             >
                               <input

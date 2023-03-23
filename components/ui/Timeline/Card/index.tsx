@@ -104,7 +104,11 @@ const JourneyCard: React.FC<IProps> = ({
                 </Text>
                 <Text as="span">{dayjs(item?.startDate).format(" MMM")}</Text>
               </Box>
-              <Text as="b" fontFamily="heading">
+              <Text
+                as="b"
+                fontFamily="heading"
+                fontSize={{ base: "md", xl: "xl" }}
+              >
                 {dayjs(item?.startDate).format("YYYY")}
               </Text>
             </Box>

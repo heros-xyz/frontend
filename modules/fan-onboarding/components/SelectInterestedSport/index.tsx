@@ -45,6 +45,9 @@ const EnterInterestedSport: React.FC<IProp> = ({ isLoading, onSubmit }) => {
       submitLoading={isLoading}
       onSubmit={formik.handleSubmit}
       bgIconColor="accent.2"
+      display="flex"
+      alignItems="center"
+      isPaddingTop={false}
     >
       <Box mb={{ base: 4, lg: 20 }} color="primary">
         <Box mb={{ base: 5, lg: 8 }}>

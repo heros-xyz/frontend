@@ -120,8 +120,12 @@ export const nextAuthOptions = (
           account &&
           (account.provider === "google" || account.provider === "facebook")
         ) {
-          const userData = await fetchUser(accessToken as string);
-          user = userData ?? account;
+          try {
+            const userData = await fetchUser(accessToken as string);
+            user = userData ?? account;
+          } catch (error) {
+            console.log('sign in social error');
+          }
         }
 
         token.user = user;

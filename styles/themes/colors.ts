@@ -1,5 +1,5 @@
 export const colors = {
-  primary: "#1E16C1 ",
+  primary: "#1E16C1",
   secondary: "#33EFEF",
   grey: {
     0: "#F5F5F5",
@@ -20,6 +20,7 @@ export const colors = {
   black: {
     ish: "#2A2A2A",
     default: "#3d3d3d",
+    primary: "#1D1D1D",
   },
   error: {
     default: "#CF3C34",

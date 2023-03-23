@@ -3,10 +3,17 @@ import { Else, If, Then } from "react-if";
 
 const CheckBoxRadioIcon = ({ checked }: { checked: boolean }) => {
   return (
-    <Center h={6} w={6} borderRadius="full" border="2px" borderColor="primary">
+    <Center
+      h={6}
+      w={6}
+      borderRadius="full"
+      border="1px"
+      borderColor="primary"
+      bg="grey.100"
+    >
       <If condition={checked}>
         <Then>
-          <Center h={4} w={4} borderRadius="full" bg="primary">
+          <Center h={4} w={4} borderRadius="full" bg="accent.2">
             <Box h={1.5} w={1.5} borderRadius="full" bg="grey.100" />
           </Center>
         </Then>
@@ -16,7 +23,7 @@ const CheckBoxRadioIcon = ({ checked }: { checked: boolean }) => {
             w={4}
             borderRadius="full"
             border="1px"
-            borderColor="grey.100"
+            borderColor="grey.200"
           />
         </Else>
       </If>

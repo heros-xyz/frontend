@@ -49,7 +49,7 @@ exports[`renders homepage unchanged 1`] = `
         </svg>
       </div>
       <input
-        class="chakra-input css-g6ikkp"
+        class="chakra-input css-hv1r2w"
         placeholder="Find your heros"
         type="text"
         value=""
