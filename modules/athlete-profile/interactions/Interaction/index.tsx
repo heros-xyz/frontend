@@ -33,6 +33,7 @@ export const Interaction = ({}) => {
             fontSize={{ base: "xs", xl: "md" }}
             lineHeight="140%"
             fontWeight="normal"
+            color="primary"
             textAlign={{ xl: "center" }}
           >
             You have not had any interactions.

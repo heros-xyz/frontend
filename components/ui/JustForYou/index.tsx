@@ -83,8 +83,8 @@ const JustForYou: React.FC<JustForYouProps> = ({
               Create a new interaction
             </Text>
             <Text as="p" color="primary" fontSize={["xs", "md"]}>
-              primary You have not created any interaction recently. Share some
-              updates with your fans
+              You have not created any interaction recently. Share some updates
+              with your fans
             </Text>
             <Box mt={3}>
               <Link as={NextLink} href={href}>
