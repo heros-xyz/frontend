@@ -150,6 +150,7 @@ export const athleteApi = createApi({
         method: "get",
         params,
       }),
+      keepUnusedDataFor: 0
     }),
     getSportProfile: builder.query<ISportProfile, string>({
       query: () => ({
