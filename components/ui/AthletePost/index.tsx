@@ -273,6 +273,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
               height={{ base: "24px", lg: "32px" }}
               fill={reaction ? "currentcolor" : "none"}
               color={reaction ? "accent.5" : "primary"}
+              onClick={handleReaction}
             />
 
             <If condition={!!isDetailPage}>
