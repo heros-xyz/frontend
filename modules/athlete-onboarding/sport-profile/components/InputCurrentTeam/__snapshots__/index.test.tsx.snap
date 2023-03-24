@@ -3,7 +3,7 @@
 exports[`renders add Input Current Team unchanged 1`] = `
 <div>
   <div
-    class="css-15p2wse"
+    class="css-1jvt6v8"
   >
     <div
       class="css-1kmmdcq"
@@ -38,7 +38,7 @@ exports[`renders add Input Current Team unchanged 1`] = `
                   </span>
                 </div>
                 <input
-                  class="chakra-input css-13a06tl"
+                  class="chakra-input css-1oz8u65"
                   id="currentTeam"
                   placeholder="Current Team/ association/ Club"
                   value=""

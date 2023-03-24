@@ -17,7 +17,6 @@ import {
   FacebookIcon,
   TwitterIcon,
 } from "@/components/svg/SocialSharingIcons";
-import { getEnvVariables } from "@/utils/env";
 
 interface ISocialSharingModalProps {
   onClose: () => void;
@@ -33,11 +32,10 @@ export default function SocialSharing({
   onClose,
 }: ISocialSharingModalProps) {
   const { onCopy, setValue } = useClipboard("");
-  const { NEXTAUTH_URL } = getEnvVariables();
   const toast = useToast();
 
   const postLink = useMemo(() => {
-    return `${NEXTAUTH_URL}/fan/athlete-profile/${athleteId}/interaction?view=${postId}`;
+    return `${process.env.NEXTAUTH_URL}/fan/athlete-profile/${athleteId}/interaction?view=${postId}`;
   }, [postId, athleteId]);
 
   useEffect(() => {

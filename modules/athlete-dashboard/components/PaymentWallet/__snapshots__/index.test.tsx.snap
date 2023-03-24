@@ -37,7 +37,7 @@ exports[`renders homepage unchanged 1`] = `
       class="css-13rbvqk"
     >
       <button
-        class="chakra-button css-1ofr8m2"
+        class="chakra-button css-1kgh699"
         type="button"
       >
         Update payment method
