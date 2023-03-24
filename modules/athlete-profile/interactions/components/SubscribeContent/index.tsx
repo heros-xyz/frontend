@@ -32,7 +32,7 @@ const SubscribeContent: FC<ISubscribeContentProps> = ({
           px="7"
           fontWeight="bold"
           fontSize={{ base: "sm", lg: "xl" }}
-          color="secondary"
+          color="white"
           onClick={onClick}
         >
           Subscribe
