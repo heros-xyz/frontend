@@ -16,7 +16,63 @@ exports[`renders my athletes 1`] = `
     </div>
     <div
       class="css-1wgcbf6"
-    />
+    >
+      <div
+        class="css-1gvp5h0"
+      >
+        <div
+          class="chakra-aspect-ratio css-rioh04"
+        >
+          <div
+            class="chakra-skeleton css-1kgvji0"
+          />
+        </div>
+      </div>
+      <div
+        class="css-1gvp5h0"
+      >
+        <div
+          class="chakra-aspect-ratio css-rioh04"
+        >
+          <div
+            class="chakra-skeleton css-1kgvji0"
+          />
+        </div>
+      </div>
+      <div
+        class="css-1gvp5h0"
+      >
+        <div
+          class="chakra-aspect-ratio css-rioh04"
+        >
+          <div
+            class="chakra-skeleton css-1kgvji0"
+          />
+        </div>
+      </div>
+      <div
+        class="css-1gvp5h0"
+      >
+        <div
+          class="chakra-aspect-ratio css-rioh04"
+        >
+          <div
+            class="chakra-skeleton css-1kgvji0"
+          />
+        </div>
+      </div>
+      <div
+        class="css-1gvp5h0"
+      >
+        <div
+          class="chakra-aspect-ratio css-rioh04"
+        >
+          <div
+            class="chakra-skeleton css-1kgvji0"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

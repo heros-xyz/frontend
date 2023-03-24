@@ -87,7 +87,6 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   const handleChangeTab = (tab: string): void => {
     setTab(tab);
-    updateSession();
   };
 
   useEffect(() => {
