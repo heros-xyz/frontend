@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-
+import { getEnvVariables } from "@/utils/env";
+const { HEROS_BASE_URL } = getEnvVariables()
 export const $http = axios.create({
-  baseURL: process.env.HEROS_BASE_URL,
+  baseURL: HEROS_BASE_URL,
 });
 
 $http.interceptors.response.use(

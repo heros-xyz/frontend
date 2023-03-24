@@ -5,17 +5,20 @@ import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 import { Session } from "next-auth";
 import { deleteCookie } from "cookies-next";
+import { useUnmount } from "react-use";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { usePreSignInWithEmailMutation } from "@/api/user";
 import { wrapper } from "@/store";
 import { loggedInGuard } from "@/middleware/loggedInGuard";
 import { IHerosError } from "@/types/globals/types";
+import { useLoading } from "@/hooks/useLoading";
 
 const SignIn = () => {
   const router = useRouter();
   const [signInWithEmail, { isLoading, error: signInWithEmailError }] =
     usePreSignInWithEmailMutation();
   const [, setLoginError] = useState<string | undefined>("");
+  const { start, finish } = useLoading();
 
   const callbackUrl = useMemo(() => {
     return router.query.callbackUrl ?? "/";
@@ -34,6 +37,7 @@ const SignIn = () => {
   };
 
   const handleSignInFacebook = async () => {
+    start();
     try {
       const res = await signIn("facebook", {
         callbackUrl: callbackUrl as string,
@@ -43,11 +47,13 @@ const SignIn = () => {
         setLoginError(res?.error);
       }
     } catch (error) {
+      finish();
       console.log("next auth google error", error);
     }
   };
 
   const handleSignInGoogle = async () => {
+    start();
     try {
       const res = await signIn("google", {
         callbackUrl: callbackUrl as string,
@@ -57,6 +63,7 @@ const SignIn = () => {
         setLoginError(res?.error);
       }
     } catch (error) {
+      finish();
       console.log("next auth google error", error);
     }
   };
@@ -64,6 +71,10 @@ const SignIn = () => {
   useEffect(() => {
     fetch("/api/remove-first-login");
   }, []);
+
+  useUnmount(() => {
+    finish();
+  });
 
   return (
     <Box>
