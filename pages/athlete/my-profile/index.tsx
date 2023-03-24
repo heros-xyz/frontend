@@ -5,13 +5,16 @@ import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import AthleteProfile from "@/modules/athlete-profile";
 import { store, wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
-import { getRunningQueriesThunk, profile } from "@/api/user";
+import { getRunningQueriesThunk, profile, useProfileQuery } from "@/api/user";
 
 const MyProfile = () => {
+  const { data: profile } = useProfileQuery("");
   return (
     <Box bg="white">
       <Head>
-        <title>Athlete | My Profile</title>
+        <title>{`${
+          profile?.nickname || "Athlete Profile"
+        } | Athlete | Heros`}</title>
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <AthleteProfile />

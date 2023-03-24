@@ -5,6 +5,8 @@ import { IAuthResponse, IToken } from "@/types/users/types";
 import { $http } from "@/libs/http";
 import { store } from "@/store";
 import { finishLoading, startLoading } from "@/store/globalSlice";
+import { getEnvVariables } from "./env";
+const { HEROS_BASE_URL } = getEnvVariables()
 
 export const updateSession = async () => {
   await fetch("/api/auth/session?update");
@@ -52,7 +54,7 @@ export const setAccessTokenToCookie = (
     res,
     path: "/",
     // httpOnly: true,
-    // secure: process.env.NODE_ENV !== 'development',
+    // secure: NODE_ENV !== 'development',
     expires: new Date(expire),
   });
 
@@ -66,7 +68,7 @@ export const setAccessTokenToCookie = (
 
 export const fetchUser = async (accessToken: string) => {
   try {
-    const res = await fetch(`${process.env.HEROS_BASE_URL}/auth/me`, {
+    const res = await fetch(`${HEROS_BASE_URL}/auth/me`, {
       method: "GET",
       credentials: "include",
       headers: {
@@ -99,7 +101,7 @@ export const signInSocial = async (
         ? "/auth/google-authenticate"
         : "/auth/facebook-authenticate";
     const loginResp = await $http.post<unknown, IAuthResponse>(
-      `${process.env.HEROS_BASE_URL}${url}`,
+      `${HEROS_BASE_URL}${url}`,
       data
     );
 

@@ -1,7 +1,9 @@
 import { getCookie } from "cookies-next";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { $http } from "@/libs/http";
+import { getEnvVariables } from "@/utils/env";
 
+const { HEROS_BASE_URL } = getEnvVariables();
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -20,7 +22,7 @@ export default async function handler(
   if (!refreshToken) return;
 
   try {
-    await $http.post(`${process.env.HEROS_BASE_URL}/auth/sign-out`, {
+    await $http.post(`${HEROS_BASE_URL}/auth/sign-out`, {
       refreshToken,
     });
     res.status(200).send({ message: "Sign out successfully" });

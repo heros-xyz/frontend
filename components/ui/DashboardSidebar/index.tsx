@@ -16,7 +16,6 @@ import {
 } from "@/components/svg/Navigate";
 import LogoSidebar from "@/components/svg/LogoSidebar";
 import { ACTIVE_PATHS } from "@/utils/constants";
-import { updateSession } from "@/utils/auth";
 import MenuItem from "../MenuItem";
 
 interface DashboardSidebarProps extends BoxProps {
@@ -87,7 +86,6 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
 
   const handleChangeTab = (tab: string): void => {
     setTab(tab);
-    updateSession();
   };
 
   useEffect(() => {
