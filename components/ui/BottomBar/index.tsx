@@ -86,7 +86,6 @@ const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
 
   const handleChangeTab = (tab: string): void => {
     setTab(tab);
-    updateSession();
   };
 
   return (
