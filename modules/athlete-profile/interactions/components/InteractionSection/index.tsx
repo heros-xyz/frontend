@@ -17,6 +17,7 @@ const MAX_CONTENT_LENGTH = 200;
 
 const InteractionSection: FC<InteractionSectionProps> = ({
   content = "",
+  createdAt,
   publicDate,
   user,
   interactionMedia,

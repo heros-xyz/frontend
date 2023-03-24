@@ -130,7 +130,7 @@ const Interactions: FC<IInteractionsProps> = ({
           {interactionsList?.map(
             (interactionPost: IAthleteInteraction, idx: number) => (
               <Fragment key={interactionPost.id}>
-                {idx !== 0 && <Divider borderColor="#ADADAD" />}
+                {idx !== 0 && <Divider />}
                 <Box py={{ base: 6, lg: 8 }}>
                   <InteractionSection
                     validateIsFan={validateIsFan}

@@ -3,7 +3,7 @@
 exports[`renders tag line unchanged 1`] = `
 <div>
   <div
-    class="css-1jvt6v8"
+    class="css-15p2wse"
   >
     <div
       class="css-1kmmdcq"
@@ -193,7 +193,7 @@ exports[`renders tag line unchanged 1`] = `
                   You can add your favorite line or anything that define you or your personality. It will be shown below your Nickname.
                 </p>
                 <input
-                  class="chakra-input css-h4bd2x"
+                  class="chakra-input css-r65ur4"
                   maxlength="101"
                   placeholder="Tagline"
                   value=""
