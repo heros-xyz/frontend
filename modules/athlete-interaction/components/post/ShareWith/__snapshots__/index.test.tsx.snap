@@ -68,7 +68,7 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
                 class="css-1f43avz-a11yText-A11yText"
               />
               <div
-                class=" css-1xuao1n-control"
+                class=" css-1ya43kt-control"
               >
                 <div
                   class=" css-15ki4p9-ValueContainer"
@@ -77,12 +77,12 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
                     class="css-xxdqwu"
                   >
                     <div
-                      class="css-1gmy4hn"
+                      class="css-2b6yr6"
                     >
                       11
                     </div>
                     <div
-                      class=" css-1fs6gt4-Input"
+                      class=" css-nbdjr5-Input"
                       data-value=""
                     >
                       <input
@@ -145,7 +145,7 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
                 class="css-1f43avz-a11yText-A11yText"
               />
               <div
-                class=" css-1xuao1n-control"
+                class=" css-1ya43kt-control"
               >
                 <div
                   class=" css-15ki4p9-ValueContainer"
@@ -154,12 +154,12 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
                     class="css-xxdqwu"
                   >
                     <div
-                      class="css-1gmy4hn"
+                      class="css-2b6yr6"
                     >
                       Nov
                     </div>
                     <div
-                      class=" css-1fs6gt4-Input"
+                      class=" css-nbdjr5-Input"
                       data-value=""
                     >
                       <input
@@ -222,7 +222,7 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
                 class="css-1f43avz-a11yText-A11yText"
               />
               <div
-                class=" css-1xuao1n-control"
+                class=" css-1ya43kt-control"
               >
                 <div
                   class=" css-15ki4p9-ValueContainer"
@@ -231,12 +231,12 @@ exports[`renders Enter Post Content Story unchanged 1`] = `
                     class="css-xxdqwu"
                   >
                     <div
-                      class="css-1gmy4hn"
+                      class="css-2b6yr6"
                     >
                       2023
                     </div>
                     <div
-                      class=" css-1fs6gt4-Input"
+                      class=" css-nbdjr5-Input"
                       data-value=""
                     >
                       <input

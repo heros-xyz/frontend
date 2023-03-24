@@ -3,7 +3,7 @@
 exports[`renders Input Your Story unchanged 1`] = `
 <div>
   <div
-    class="css-15p2wse"
+    class="css-1jvt6v8"
   >
     <div
       class="css-1kmmdcq"
@@ -199,7 +199,7 @@ exports[`renders Input Your Story unchanged 1`] = `
                   Tell a compelling story of yourself to inspire potential fans.
                 </p>
                 <input
-                  class="chakra-input css-gfpp31"
+                  class="chakra-input css-12odza4"
                   name="story"
                   placeholder="Tell Your Story"
                   value=""
