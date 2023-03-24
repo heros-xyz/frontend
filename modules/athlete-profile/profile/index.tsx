@@ -14,7 +14,6 @@ import MyStory from "@/components/ui/Athlete/Profile/MyStory";
 import { getGender } from "@/utils/functions";
 import { IBasicInfo, ISportProfile } from "@/types/athlete/types";
 import { useDevice } from "@/hooks/useDevice";
-import { getEnvVariables } from "@/utils/env";
 
 interface IProfileProps {
   basicInfo: IBasicInfo | undefined;
@@ -34,12 +33,12 @@ export const Profile: React.FC<IProfileProps> = ({
   const router = useRouter();
   const { onCopy, setValue } = useClipboard("");
   const toast = useToast();
-  const { NEXTAUTH_URL } = getEnvVariables();
+  const { isMobile } = useDevice();
 
   const profileLink = useMemo(() => {
-    const link = `${NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
+    const link = `${process.env.NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
     setValue(link);
-    return `${NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
+    return `${process.env.NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
   }, [athleteId, athleteNickname]);
 
   const onClickCopy = () => {
@@ -56,7 +55,7 @@ export const Profile: React.FC<IProfileProps> = ({
       title: "Profile Link Copied",
       status: "success",
       duration: 2000,
-      position: "bottom",
+      position: isMobile ? "bottom" : "bottom-right",
     });
     onCopy();
   };

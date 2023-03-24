@@ -79,7 +79,7 @@ exports[`renders homepage unchanged 1`] = `
                   class="css-1f43avz-a11yText-A11yText"
                 />
                 <div
-                  class=" css-1xuao1n-control"
+                  class=" css-1ya43kt-control"
                 >
                   <div
                     class=" css-15ki4p9-ValueContainer"
@@ -88,12 +88,12 @@ exports[`renders homepage unchanged 1`] = `
                       class="css-xxdqwu"
                     >
                       <div
-                        class="css-138yobv"
+                        class="css-1oemo71"
                       >
                         DD
                       </div>
                       <div
-                        class=" css-1fs6gt4-Input"
+                        class=" css-nbdjr5-Input"
                         data-value=""
                       >
                         <input
@@ -157,7 +157,7 @@ exports[`renders homepage unchanged 1`] = `
                   class="css-1f43avz-a11yText-A11yText"
                 />
                 <div
-                  class=" css-1xuao1n-control"
+                  class=" css-1ya43kt-control"
                 >
                   <div
                     class=" css-15ki4p9-ValueContainer"
@@ -166,12 +166,12 @@ exports[`renders homepage unchanged 1`] = `
                       class="css-xxdqwu"
                     >
                       <div
-                        class="css-138yobv"
+                        class="css-1oemo71"
                       >
                         MM
                       </div>
                       <div
-                        class=" css-1fs6gt4-Input"
+                        class=" css-nbdjr5-Input"
                         data-value=""
                       >
                         <input
@@ -235,7 +235,7 @@ exports[`renders homepage unchanged 1`] = `
                   class="css-1f43avz-a11yText-A11yText"
                 />
                 <div
-                  class=" css-1xuao1n-control"
+                  class=" css-1ya43kt-control"
                 >
                   <div
                     class=" css-15ki4p9-ValueContainer"
@@ -244,12 +244,12 @@ exports[`renders homepage unchanged 1`] = `
                       class="css-xxdqwu"
                     >
                       <div
-                        class="css-138yobv"
+                        class="css-1oemo71"
                       >
                         YYYY
                       </div>
                       <div
-                        class=" css-1fs6gt4-Input"
+                        class=" css-nbdjr5-Input"
                         data-value=""
                       >
                         <input
@@ -466,7 +466,7 @@ exports[`renders homepage unchanged 1`] = `
                 <p
                   class="chakra-text css-1rks5pc"
                 >
-                  match/game/ tournament
+                  match/game/tournament
                 </p>
               </div>
             </div>
@@ -495,7 +495,7 @@ exports[`renders homepage unchanged 1`] = `
                 <p
                   class="chakra-text css-1rks5pc"
                 >
-                  win/loss/ outcome
+                  win/loss/outcome
                 </p>
               </div>
             </div>
