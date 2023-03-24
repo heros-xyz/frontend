@@ -5,7 +5,6 @@ import {
   Center,
   Container,
   Flex,
-  Text,
 } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { Else, If, Then } from "react-if";

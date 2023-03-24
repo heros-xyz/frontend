@@ -30,11 +30,9 @@ const TimeLineJourney: React.FC<IProps> = ({
   items,
   isAddJourney,
   bgColor,
-  w,
   handleClickAdd,
   handleClickEdit,
   canEdit,
-  itemCurrent,
 }) => {
   const [itemEdit, setItemEdit] = useState<ITimeLineInfo>();
 

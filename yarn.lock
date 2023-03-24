@@ -9585,6 +9585,13 @@ next@13.1.1:
     "@next/swc-win32-ia32-msvc" "13.1.1"
     "@next/swc-win32-x64-msvc" "13.1.1"
 
+nextjs-google-analytics@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/nextjs-google-analytics/-/nextjs-google-analytics-2.3.3.tgz#8393804b89915b22d94e0fabb786bdd4012cb888"
+  integrity sha512-Y6sI6A7wt5dji8hYBnVkOh9LTyImSLFZXx3FpyQgVW7W4b4qEFHjH2u3fhDJsrRZeLlUGM8/RuHD/mhHc2Axfg==
+  optionalDependencies:
+    fsevents "^2.3.2"
+
 nextjs-progressbar@^0.0.16:
   version "0.0.16"
   resolved "https://registry.yarnpkg.com/nextjs-progressbar/-/nextjs-progressbar-0.0.16.tgz#d2c1e54ffc2c6d52b64282c0d764a44241fbc36e"

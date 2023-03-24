@@ -8,11 +8,13 @@ import { usePreSignInWithEmailMutation } from "@/api/user";
 import { wrapper } from "@/store";
 import { loggedInGuard } from "@/middleware/loggedInGuard";
 import { IHerosError } from "@/types/globals/types";
+import { useLoading } from "@/hooks/useLoading";
 
 const FanSignUp = () => {
   const router = useRouter();
   const [signUpWithEmail, { isLoading, error: signUpWithEmailError }] =
     usePreSignInWithEmailMutation();
+  const { start, finish } = useLoading();
 
   const handleSignUpWithEmail = async (email: string) => {
     try {
@@ -31,23 +33,29 @@ const FanSignUp = () => {
   };
 
   const handleSignUpFacebook = async () => {
+    start();
     try {
       await fetch("/api/set-role?role=FAN");
       await signIn("facebook", {
         callbackUrl: "/",
       });
+      finish();
     } catch (error) {
+      finish();
       console.log("next facebook google error", error);
     }
   };
 
   const handleSignUpGoogle = async () => {
+    start();
     try {
       await fetch("/api/set-role?role=FAN");
       await signIn("google", {
         callbackUrl: "/",
       });
+      finish();
     } catch (error) {
+      finish();
       console.log("next auth google error", error);
     }
   };
