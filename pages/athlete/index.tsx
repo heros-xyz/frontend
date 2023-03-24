@@ -25,6 +25,7 @@ import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { formatMoney, formatNumber } from "@/utils/functions";
 
 import {
+  getSportProfile,
   useGetGrossAmountMoneyQuery,
   useGetMembershipListQuery,
   useGetSportProfileQuery,
@@ -62,7 +63,7 @@ const AthleteDashboard = () => {
     <Box bg="white" pt={6} minH="100vh">
       <Head>
         <title>
-          {profile?.nickname || "Athlete Profile"} | Athlete | Heros
+          {`${session?.user.nickname || "Athlete Profile"} | Athlete | Heros`}
         </title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
@@ -142,6 +143,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     setContext(context);
 
     store.dispatch(profile.initiate(""));
+    store.dispatch(getSportProfile.initiate(""));
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
     return athleteGuard(context, ({ session }: IGuards) => {

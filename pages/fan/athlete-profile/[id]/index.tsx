@@ -29,7 +29,7 @@ const AthleteProfile = () => {
     <Box bg="white" pb={6}>
       <Head>
         <title>
-          {athleteProfile?.nickName || "Athlete Profile"} | Athlete | Heros
+          <title>{`${athleteProfile?.nickName} | Athlete | Heros`}</title>
         </title>
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>

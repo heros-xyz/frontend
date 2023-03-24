@@ -12,7 +12,6 @@ import {
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { AnimatePresence, motion } from "framer-motion";
-import { skipToken } from "@reduxjs/toolkit/query";
 import { LogoMiniIcon } from "@/components/svg/LogoMini";
 import { FindIcon } from "@/components/svg/Find";
 import { useSearchAthleteProfileQuery } from "@/api/athlete";
