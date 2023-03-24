@@ -3,7 +3,7 @@
 exports[`renders add tag unchanged 1`] = `
 <div>
   <div
-    class="css-15p2wse"
+    class="css-1jvt6v8"
   >
     <div
       class="css-1kmmdcq"
@@ -44,7 +44,7 @@ exports[`renders add tag unchanged 1`] = `
                   Ideas for you: #sport, #athlete,...
                 </p>
                 <input
-                  class="chakra-input css-1bhv13g"
+                  class="chakra-input css-1dhk8tj"
                   placeholder="Add Tags"
                   value=""
                 />

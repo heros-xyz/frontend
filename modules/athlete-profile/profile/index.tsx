@@ -56,7 +56,7 @@ export const Profile: React.FC<IProfileProps> = ({
       title: "Profile Link Copied",
       status: "success",
       duration: 2000,
-      position: "bottom",
+      position: isMobile ? "bottom" : "bottom-right",
     });
     onCopy();
   };
