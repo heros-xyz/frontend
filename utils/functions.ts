@@ -308,7 +308,7 @@ export const getLinkByNotificationType = (notification?: INotificationInfo) => {
       return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}`;
 
     case NotificationEventType.ATHLETE_LIKE_INTERACTION:
-      return " has liked on your interaction.";
+      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}`;
 
     case NotificationEventType.ATHLETE_LIKE_COMMENT:
       return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}&commentId=${notification.comment?.id}`;

@@ -62,9 +62,7 @@ const AthleteDashboard = () => {
   return (
     <Box bg="white" pt={6} minH="100vh">
       <Head>
-        <title>
-          {`${session?.user.nickname || "Athlete Profile"} | Athlete | Heros`}
-        </title>
+        <title>{`${session?.user.nickname} | Home Page | Heros`}</title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Grid gridGap={["5", "4"]}>

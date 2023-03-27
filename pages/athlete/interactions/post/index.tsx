@@ -5,6 +5,10 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import InteractionsPost from "@/modules/athlete-interaction/components/post";
 import { useInteractionInfo } from "@/modules/athlete-interaction/hooks";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
 
 function InteractionsPostPage() {
   const { formik, isLoading, handleSubmit } = useInteractionInfo();
@@ -32,3 +36,17 @@ function InteractionsPostPage() {
 }
 
 export default InteractionsPostPage;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

@@ -70,7 +70,12 @@ const FanOnlySection = () => {
                   return;
                 }
 
-                router.push("/sign-in");
+                router.push({
+                  pathname: "/sign-in",
+                  query: {
+                    callbackUrl: location.href,
+                  },
+                });
               }}
             >
               JOIN NOW

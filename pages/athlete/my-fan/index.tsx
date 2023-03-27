@@ -12,6 +12,10 @@ import SearchFanSuggestionsList from "@/components/ui/SearchFanSuggestions/List"
 import FanOfAthleteProfile from "@/components/ui/FanOfAthletes/Profile";
 import { useGetListFansQuery } from "@/api/athlete";
 import { IFanInfo } from "@/types/athlete/types";
+import { setContext } from "@/libs/axiosInstance";
+import { wrapper } from "@/store";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
 
 const MyFan = () => {
   const router = useRouter();
@@ -186,3 +190,17 @@ export default MyFan;
 MyFan.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

@@ -44,6 +44,10 @@ import {
 } from "@/utils/inputRules";
 import { useEditFanInfoMutation, useGetFanSettingQuery } from "@/api/fan";
 import { updateSession } from "@/utils/auth";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { fanAuthGuard } from "@/middleware/fanGuard";
+import { IGuards } from "@/types/globals/types";
 
 const initialValues = {
   firstName: "",
@@ -426,3 +430,17 @@ export default EditAccountInfo;
 EditAccountInfo.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => (context) => {
+    setContext(context);
+
+    return fanAuthGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

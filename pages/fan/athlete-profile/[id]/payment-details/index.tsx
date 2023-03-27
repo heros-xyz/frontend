@@ -34,7 +34,10 @@ import { formatMoney } from "@/utils/functions";
 import { AlertIcon } from "@/components/svg";
 import DeleteSubscription from "@/components/ui/DeleteSubscription";
 import { useGetBasicInformationQuery } from "@/api/athlete";
-import { IHerosError } from "@/types/globals/types";
+import { IGuards, IHerosError } from "@/types/globals/types";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { fanAuthGuard } from "@/middleware/fanGuard";
 
 const PaymentDetails = () => {
   const router = useRouter();
@@ -345,3 +348,17 @@ const PaymentDetails = () => {
 };
 
 export default PaymentDetails;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => (context) => {
+    setContext(context);
+
+    return fanAuthGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

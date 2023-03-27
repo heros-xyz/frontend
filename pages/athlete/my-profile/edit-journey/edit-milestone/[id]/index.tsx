@@ -37,6 +37,10 @@ import {
   initialValues,
   validationSchema,
 } from "@/modules/athlete-onboarding/career-journey/constants";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
 
 const EditMilestone = () => {
   const router = useRouter();
@@ -414,3 +418,17 @@ export default EditMilestone;
 EditMilestone.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

@@ -9,6 +9,10 @@ import { useGetSubscriptionInfoQuery } from "@/api/athlete";
 import { ListMembershipTiers } from "@/types/athlete/types";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { useLoading } from "@/hooks/useLoading";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
 
 const ListingMembership = () => {
   const router = useRouter();
@@ -203,3 +207,17 @@ export default ListingMembership;
 ListingMembership.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);
