@@ -164,6 +164,11 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
               minH={16}
               style={styles.textarea}
               isInvalid={Boolean(formik.errors.title && formik.touched.title)}
+              borderColor="grey.200"
+              _focusVisible={{
+                borderColor: "grey.200",
+                boxShadow: "none",
+              }}
             />
             <ErrorMessage
               mt={0.5}
@@ -188,6 +193,11 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
               isInvalid={Boolean(
                 formik.errors.description && formik.touched.description
               )}
+              borderColor="grey.200"
+              _focusVisible={{
+                borderColor: "grey.200",
+                boxShadow: "none",
+              }}
             />
             <ErrorMessage
               mb={8}
@@ -202,13 +212,28 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
             <Box fontWeight="medium" mb={3}>
               Choose an icon to represent the milestone
             </Box>
-            <Box fontWeight="normal" fontSize={{ base: "xs", lg: "md" }} mb={4}>
+            <Box
+              fontWeight="normal"
+              fontSize={{ base: "xs", lg: "md" }}
+              mb={4}
+              color="grey.300"
+            >
               Make your milestone even more interesting!
             </Box>
-            <Grid templateColumns="repeat(2, 1fr)" gap={1}>
+            <Grid
+              templateColumns={{
+                base: "repeat(2, 1fr)",
+                xl: "repeat(4, 1fr)",
+              }}
+              gap={{ base: 2, xl: 7 }}
+            >
               {SPORT_ICONS_MOCK.map((el) => {
                 return (
-                  <GridItem key={el.value} w="100%" pb="2">
+                  <GridItem
+                    key={el.value}
+                    w={{ base: "100%", xl: "fit-content(300px)" }}
+                    pb="2"
+                  >
                     <Flex>
                       <Button
                         w={{ base: "54px", xl: "80px" }}
@@ -223,6 +248,9 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
                         {el.Icon}
                       </Button>
                       <Text
+                        w={{
+                          xl: el.name === "goal met" ? "auto" : "min-content",
+                        }}
                         display="flex"
                         alignItems="center"
                         ml={1}
@@ -241,6 +269,8 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
             w={{ base: "100%", xl: "auto" }}
             mt={2}
             type="submit"
+            float={{ xl: "right" }}
+            fontSize={{ base: "md", xl: "xl" }}
           >
             SAVE
           </Button>
