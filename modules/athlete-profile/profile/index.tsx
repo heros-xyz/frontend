@@ -90,7 +90,7 @@ export const Profile: React.FC<IProfileProps> = ({
             />
           )}
         </Flex>
-        <Box mb="7" color="primary" bg="accent.1" px="6" py="4" rounded="lg">
+        <Box mb="7" color="accent.2" bg="accent.1" px="6" py="4" rounded="lg">
           <Text fontWeight="bold" fontSize={{ base: "base", lg: "xl" }}>
             {sportProfile?.data?.sportProfilesItems[0]?.sportName || ""}
           </Text>

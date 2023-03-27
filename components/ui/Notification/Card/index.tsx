@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { INotificationInfo } from "@/types/notifications/types";
@@ -21,6 +21,11 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
       onMaskNotification(item?.id);
     }
   };
+
+  const hasBeenRead = useMemo(() => {
+    return item?.readAt === null;
+  }, [item?.readAt]);
+
   return (
     <Link
       href={getLinkByNotificationType(item) ?? ""}
@@ -31,7 +36,10 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
           py={[2.5, 4]}
           px={5}
           gap={2.5}
-          bg={`${item?.readAt === null ? "accent.1" : "grey.0"} `}
+          bg={{
+            base: hasBeenRead ? "accent.1" : "",
+            lg: hasBeenRead ? "accent.1" : "grey.0",
+          }}
           borderRadius={["0", "10px"]}
         >
           <Image
@@ -44,7 +52,7 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
           />
           <Box
             fontSize={["xs", "md"]}
-            color={`${item?.readAt !== null && "white"}`}
+            color={`${!hasBeenRead && "white"}`}
             flex={1}
           >
             <Heading as="span" color="primary" fontSize={["xs", "md"]}>
@@ -56,7 +64,7 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
             <Text
               fontFamily="heading"
               fontWeight="bold"
-              color={`${item?.readAt === null ? "secondary" : "accent.2"}`}
+              color={`${hasBeenRead ? "secondary" : "accent.2"}`}
             >
               {convertDateFromNow(item?.createdAt)}
             </Text>

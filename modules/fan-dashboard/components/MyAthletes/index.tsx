@@ -69,13 +69,13 @@ const MyAthletes: FC = () => {
         </Heading>
         <If condition={listAthleteSubscribed?.data?.length}>
           <Then>
-            <Box borderBottom="1px" borderColor="grey.3">
+            <Box borderBottom="1px" borderColor="grey.300">
               <Link
                 as={NextLink}
                 fontSize={{ base: "xs", lg: "md" }}
                 fontWeight="medium"
                 lineHeight="100%"
-                color="grey.3"
+                color="grey.300"
                 href="/fan/all-athletes"
                 textTransform="capitalize"
                 mr="2"
@@ -84,7 +84,7 @@ const MyAthletes: FC = () => {
                 View All
               </Link>
               <Link as={NextLink} href="/fan/all-athletes">
-                <IconArrowRight width="3" height="11" color="grey.3" />
+                <IconArrowRight width="3" height="11" color="grey.300" />
               </Link>
             </Box>
           </Then>
