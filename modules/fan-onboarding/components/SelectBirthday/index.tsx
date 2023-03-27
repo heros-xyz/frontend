@@ -51,7 +51,7 @@ const EnterBirthday: React.FC<IProp> = ({ initialValues, onSubmit }) => {
       isPaddingTop={false}
     >
       <Box mb={{ base: 4, lg: 20 }} color="primary">
-        <Box fontSize={{ lg: "xl" }} fontWeight="500" mb={3}>
+        <Box fontSize={{ lg: "xl" }} fontWeight="bold" mb={3}>
           Select Date of Birth
           <Text as="span" color="error.dark">
             {" "}

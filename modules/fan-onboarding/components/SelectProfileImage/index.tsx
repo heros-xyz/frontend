@@ -102,7 +102,7 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
     >
       <Box color="primary">
         <Box mb={{ base: 5, lg: 8 }}>
-          <Box mb={2.5} fontSize={{ lg: "xl" }} fontWeight="500">
+          <Box mb={2.5} fontSize={{ lg: "xl" }} fontWeight="bold">
             Upload Profile Image
           </Box>
           <Box

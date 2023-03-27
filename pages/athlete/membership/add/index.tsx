@@ -5,6 +5,10 @@ import Head from "next/head";
 import AddTier from "@/modules/athlete-dashboard/components/AddTier";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { useGetListBenefitQuery } from "@/api/athlete";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
+import { setContext } from "@/libs/axiosInstance";
+import { wrapper } from "@/store";
 
 const AddMembership = () => {
   const router = useRouter();
@@ -31,3 +35,17 @@ export default AddMembership;
 AddMembership.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

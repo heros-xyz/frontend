@@ -35,36 +35,16 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
         modules={[Pagination]}
         lazy={true}
       >
-        {slideData &&
-          slideData.map((item) => (
-            <SwiperSlide key={item.id}>
-              <Switch>
-                <Case condition={slideData.length > 1}>
-                  <AspectRatio w="full" ratio={1}>
-                    <If condition={item.type === "image"}>
-                      <Then>
-                        <Image
-                          src={getImageLink(item.url)}
-                          alt={item.url}
-                          fallbackSrc="https://via.placeholder.com/500x500"
-                          rounded={{ base: "8px", lg: "12px" }}
-                          loading="lazy"
-                          objectFit="cover"
-                        />
-                      </Then>
-                      <Else>
-                        <VideoPlayer url={getImageLink(item.url)} />
-                      </Else>
-                    </If>
-                  </AspectRatio>
-                </Case>
-                <Case condition={slideData.length <= 1}>
+        {slideData?.map((item) => (
+          <SwiperSlide key={item.id}>
+            <Switch>
+              <Case condition={slideData.length > 1}>
+                <AspectRatio w="full" ratio={1}>
                   <If condition={item.type === "image"}>
                     <Then>
                       <Image
                         src={getImageLink(item.url)}
                         alt={item.url}
-                        fallbackSrc="https://via.placeholder.com/500x500"
                         rounded={{ base: "8px", lg: "12px" }}
                         loading="lazy"
                         objectFit="cover"
@@ -74,26 +54,42 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
                       <VideoPlayer url={getImageLink(item.url)} />
                     </Else>
                   </If>
-                </Case>
-                <Case condition={slideData.length <= 1}>
-                  <If condition={item.type === "image"}>
-                    <Then>
-                      <Image
-                        src={getImageLink(item.url)}
-                        alt={item.url}
-                        fallbackSrc="https://via.placeholder.com/500x500"
-                        rounded={{ base: "8px", lg: "12px" }}
-                        loading="lazy"
-                      />
-                    </Then>
-                    <Else>
-                      <VideoPlayer url={getImageLink(item.url)} />
-                    </Else>
-                  </If>
-                </Case>
-              </Switch>
-            </SwiperSlide>
-          ))}
+                </AspectRatio>
+              </Case>
+              <Case condition={slideData.length <= 1}>
+                <If condition={item.type === "image"}>
+                  <Then>
+                    <Image
+                      src={getImageLink(item.url)}
+                      alt={item.url}
+                      rounded={{ base: "8px", lg: "12px" }}
+                      loading="lazy"
+                      objectFit="cover"
+                    />
+                  </Then>
+                  <Else>
+                    <VideoPlayer url={getImageLink(item.url)} />
+                  </Else>
+                </If>
+              </Case>
+              <Case condition={slideData.length <= 1}>
+                <If condition={item.type === "image"}>
+                  <Then>
+                    <Image
+                      src={getImageLink(item.url)}
+                      alt={item.url}
+                      rounded={{ base: "8px", lg: "12px" }}
+                      loading="lazy"
+                    />
+                  </Then>
+                  <Else>
+                    <VideoPlayer url={getImageLink(item.url)} />
+                  </Else>
+                </If>
+              </Case>
+            </Switch>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </Box>
   );

@@ -6,7 +6,6 @@ import FanDashboardLayout from "@/layouts/FanDashboard";
 import ViewAthleteProfile from "@/modules/fan-dashboard/components/ViewAthleteProfile";
 import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
-import { authGuard } from "@/middleware/authGuard";
 import { IGuards } from "@/types/globals/types";
 import {
   getAthleteProfile,
@@ -15,6 +14,7 @@ import {
   useGetAthleteProfileQuery,
 } from "@/api/fan";
 import { getValidateIsFan } from "@/api/athlete";
+import { fanAuthGuard } from "@/middleware/fanGuard";
 
 const AthleteProfile = () => {
   const { query } = useRouter();
@@ -28,9 +28,7 @@ const AthleteProfile = () => {
   return (
     <Box bg="white" pb={6}>
       <Head>
-        <title>
-          <title>{`${athleteProfile?.nickName} | Athlete | Heros`}</title>
-        </title>
+        <title>{`${athleteProfile?.nickName} | Athlete | Heros`}</title>
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <ViewAthleteProfile athleteProfile={athleteProfile} />
@@ -57,7 +55,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     }
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
-    return authGuard(context, ({ session }: IGuards) => {
+    return fanAuthGuard(context, ({ session }: IGuards) => {
       return {
         props: {
           session,

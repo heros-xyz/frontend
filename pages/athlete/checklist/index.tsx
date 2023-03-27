@@ -108,7 +108,6 @@ const AthleteChecklist: FC = () => {
               as="header"
               alignItems="center"
               gap="20px"
-              mb={4}
               flexDirection={{ xl: "row-reverse" }}
             >
               <Image
@@ -117,7 +116,6 @@ const AthleteChecklist: FC = () => {
                 h="60px"
                 alt="avatar"
                 rounded="full"
-                fallbackSrc="https://via.placeholder.com/50"
                 objectFit="cover"
               />
               <Text

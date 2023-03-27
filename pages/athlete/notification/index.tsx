@@ -7,6 +7,10 @@ import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import NotificationList from "@/components/ui/Notification/List";
 import { useNotification } from "@/hooks/useNotification";
 import NotiSkeleton from "@/components/ui/Notification/Skeleton";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
 
 const AthleteNotification = () => {
   const {
@@ -129,3 +133,17 @@ export default AthleteNotification;
 AthleteNotification.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

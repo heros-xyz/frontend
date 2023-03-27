@@ -72,7 +72,6 @@ const AthleteProfile = () => {
           h="60px"
           alt="user-avatar"
           rounded="full"
-          fallbackSrc="https://via.placeholder.com/50"
           objectFit="cover"
         />
         <Box w="full" flex={1}>

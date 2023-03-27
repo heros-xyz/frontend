@@ -5,7 +5,7 @@ import { Logo } from "@/components/svg/Logo";
 const JoinPage = () => {
   return (
     <Box display="flex" justifyContent="center" bg="primary" height="100vh">
-      <Center>
+      <Center w={{ base: "full", xl: "500px" }}>
         <Box px={5}>
           <Logo
             w={{ base: "161px", xl: "323px" }}
@@ -28,7 +28,8 @@ const JoinPage = () => {
                   variant="secondaryOutline"
                   justifyContent="flex-start"
                   px="5"
-                  py={{ base: "2", xl: "3" }}
+                  py={{ base: "2", xl: "5" }}
+                  fontSize={{ base: "sm", xl: "32px" }}
                 >
                   Fan
                 </Button>
@@ -48,7 +49,8 @@ const JoinPage = () => {
                   variant="secondaryOutline"
                   justifyContent="flex-start"
                   px="5"
-                  py={{ base: "2", xl: "3" }}
+                  py={{ base: "2", xl: "5" }}
+                  fontSize={{ base: "sm", xl: "32px" }}
                 >
                   Athlete
                 </Button>

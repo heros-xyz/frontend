@@ -5,6 +5,10 @@ import YourAthletesList from "@/components/ui/FanOfAthletes/List";
 import FindHeros from "@/components/ui/FindHeros";
 import { useGetListAthleteSubscribedQuery } from "@/api/fan";
 import FanDashboardLayout from "@/layouts/FanDashboard";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { fanAuthGuard } from "@/middleware/fanGuard";
+import { IGuards } from "@/types/globals/types";
 
 const AllAthletes = () => {
   const { data: listAthleteSubscribed } = useGetListAthleteSubscribedQuery({
@@ -61,3 +65,17 @@ export default AllAthletes;
 AllAthletes.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => (context) => {
+    setContext(context);
+
+    return fanAuthGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

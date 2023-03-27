@@ -4,11 +4,14 @@ import { ReactElement } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import AthleteFanSettings from "@/components/ui/Settings";
-import { setToken } from "@/libs/axiosInstance";
+import { setContext, setToken } from "@/libs/axiosInstance";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { useLoading } from "@/hooks/useLoading";
 import { $http } from "@/libs/http";
 import { useProfileQuery } from "@/api/user";
+import { wrapper } from "@/store";
+import { IGuards } from "@/types/globals/types";
+import { athleteGuard } from "@/middleware/athleteGuard";
 
 const Settings = () => {
   const { data: session } = useSession();
@@ -74,3 +77,17 @@ export default Settings;
 Settings.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);
