@@ -9,10 +9,8 @@ import {
 import { useFormikContext } from "formik";
 import { FC, Fragment, useMemo, useState } from "react";
 import { IconEdit } from "@/components/svg/IconEdit";
-import { IconProfileImage } from "@/components/svg/IconProfileImage";
 import { NextIcon } from "@/components/svg/NextIcon";
 import { UploadIcon } from "@/components/svg/UploadIcon";
-import HerosOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import { NextButton, OnboardingProps } from "@/components/ui/OnboardingWrapper";
 import FileUpload from "@/components/ui/Upload";
 import { IValuesTypes } from "@/modules/athlete-setup-account/hooks/useSetupAccountPage";

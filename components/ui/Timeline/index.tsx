@@ -61,12 +61,7 @@ const TimeLineJourney: React.FC<IProps> = ({
           <Flex alignItems="center">
             <Box minWidth={10}>
               <If condition={item?.icon}>
-                <Then>
-                  {getSportIcon(
-                    item?.icon,
-                    bgColor === "secondary" ? "primary" : "accent.2"
-                  )}
-                </Then>
+                <Then>{getSportIcon(item?.icon, "primary")}</Then>
                 <Else>
                   <Box
                     w={{ base: "30px", xl: "60px" }}

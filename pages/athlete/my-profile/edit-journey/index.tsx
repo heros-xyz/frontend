@@ -69,7 +69,7 @@ const EditJourney = () => {
               color="primary"
               fontSize={{ base: "xl", xl: "2xl" }}
             >
-              Edit Journey
+              Edit Career Journey
             </Text>
           </Box>
           <TimeLineJourney

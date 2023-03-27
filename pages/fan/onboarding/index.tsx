@@ -68,7 +68,14 @@ const FanOnboarding = () => {
               </Case>
             </Switch>
           </Box>
-          <Box position="absolute" bottom={5} w="100%" textAlign="center">
+          <Box
+            position="absolute"
+            top={{ lg: "59%" }}
+            bottom={{ base: 5, lg: "unset" }}
+            left={{ lg: "130px" }}
+            w={{ base: "100%", lg: "unset" }}
+            textAlign="center"
+          >
             <Step
               activeStep={step}
               totalStep={5}
