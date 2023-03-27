@@ -338,7 +338,6 @@ const EditAccountInfo = () => {
                       alt="user-avatar"
                       objectFit="cover"
                       rounded="full"
-                      fallbackSrc="https://via.placeholder.com/50"
                     />
                     <Center
                       position="absolute"

@@ -132,7 +132,6 @@ const CommentField: FC<IReplyingCommentProps> = ({
             src={getImageLink(userSession?.user?.avatar)}
             alt="avatar"
             rounded="full"
-            fallbackSrc="https://via.placeholder.com/50"
             objectFit="cover"
           />
           <Input

@@ -40,7 +40,6 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
             height={["50px", "60px"]}
             alt="avatar"
             rounded="full"
-            fallbackSrc="https://via.placeholder.com/50"
             objectFit="cover"
           />
           <Box

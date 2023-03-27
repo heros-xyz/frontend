@@ -119,7 +119,6 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
                                 item.interactionMedia?.[0]?.url
                               )}
                               alt="heros item"
-                              fallbackSrc="https://via.placeholder.com/150x200"
                               w="full"
                               h="full"
                               objectFit="cover"
@@ -209,7 +208,6 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
                     <Image
                       alt="avatar"
                       src={getImageLink(item.user?.avatar)}
-                      fallbackSrc="https://via.placeholder.com/150"
                       w="full"
                       h="full"
                       objectFit="cover"

@@ -117,7 +117,6 @@ const AthleteChecklist: FC = () => {
                 h="60px"
                 alt="avatar"
                 rounded="full"
-                fallbackSrc="https://via.placeholder.com/50"
                 objectFit="cover"
               />
               <Text

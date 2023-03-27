@@ -79,7 +79,6 @@ const AthleteDashboard = () => {
               src={getImageLink(session?.user?.avatar)}
               alt="user-avatar"
               objectFit="cover"
-              fallbackSrc="https://via.placeholder.com/50"
             />
             <Box flex={"1"} alignSelf={"center"} pl={"5"}>
               <Text fontWeight={"bold"}>{profile?.nickname}</Text>

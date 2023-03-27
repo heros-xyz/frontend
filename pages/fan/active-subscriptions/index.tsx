@@ -130,7 +130,6 @@ const PaymentInfo = () => {
                     boxSize={{ base: "50px", xl: "80px" }}
                     loading="lazy"
                     zIndex={1}
-                    fallbackSrc="https://via.placeholder.com/50"
                     cursor="pointer"
                     onClick={() =>
                       router.push(`/fan/athlete-profile/${el?.athleteId}`)

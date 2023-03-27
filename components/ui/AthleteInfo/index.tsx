@@ -27,7 +27,6 @@ const AthleteInfo: React.FC<AthleteInfoProps> = ({
         src={getImageLink(imagePath)}
         alt="user-avatar"
         rounded="full"
-        fallbackSrc="https://via.placeholder.com/50"
         objectFit="cover"
       />
       <Box ml={3} flex={1}>

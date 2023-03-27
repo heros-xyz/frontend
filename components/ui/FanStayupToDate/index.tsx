@@ -42,7 +42,6 @@ const FanStayUpToDate: React.FC<FanStayUpToDate> = ({ data, onClick }) => {
                   borderRadius="xl"
                   objectFit="cover"
                   w="100%"
-                  fallbackSrc="https://via.placeholder.com/210x265"
                 />
               </AspectRatio>
 

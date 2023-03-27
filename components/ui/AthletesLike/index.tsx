@@ -47,7 +47,6 @@ const AthletesLike: React.FC<AthletesLikeProp> = ({ data, title, onClick }) => {
               objectFit="cover"
               h={{ base: "200px", lg: "265px" }}
               w="100%"
-              fallbackSrc="https://via.placeholder.com/210x265"
             />
             <Box
               position="absolute"

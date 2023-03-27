@@ -22,7 +22,6 @@ const AthleteAvatar: FC<AthleteAvatarProps> = ({
             alt={name}
             borderRadius="full"
             objectFit="cover"
-            fallbackSrc="https://via.placeholder.com/150"
           />
         </AspectRatio>
         {isRecommend && (

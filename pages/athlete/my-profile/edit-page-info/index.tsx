@@ -240,7 +240,6 @@ const EditPageInfo = () => {
                     alt="user-avatar"
                     objectFit="cover"
                     borderRadius={{ base: "none", xl: "md" }}
-                    fallbackSrc="https://via.placeholder.com/50"
                   />
                   <Center
                     position="absolute"
