@@ -39,7 +39,7 @@ const AthleteInfo: React.FC<AthleteInfoProps> = ({
           {athleteName}
         </Text>
         <Flex alignItems="self-start" fontSize={{ base: "12px", lg: "16px" }}>
-          <Text color="grey.100" fontWeight="500">
+          <Text color="grey.200" fontWeight="500">
             {dayjs(publishDate).format("DD/MM/YY | HH:mm")}
           </Text>
           {showScheduleIcon ? (

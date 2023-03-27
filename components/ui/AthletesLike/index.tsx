@@ -62,7 +62,7 @@ const AthletesLike: React.FC<AthletesLikeProp> = ({ data, title, onClick }) => {
               <Box w="fit-content" ml={2.5} mb={2.5}>
                 <Text
                   fontSize={{ base: "14px", lg: "18px" }}
-                  color="white"
+                  color="grey.100"
                   fontWeight="bold"
                   lineHeight={{ base: "20px", lg: "25px" }}
                   textTransform="capitalize"
@@ -70,7 +70,7 @@ const AthletesLike: React.FC<AthletesLikeProp> = ({ data, title, onClick }) => {
                   {el?.nickName}
                 </Text>
                 <Text
-                  color={el?.sportName ? "white" : "transparent"}
+                  color={el?.sportName ? "grey.100" : "transparent"}
                   fontSize={{ base: "10px", lg: "16px" }}
                   fontWeight="500"
                   lineHeight="14px"

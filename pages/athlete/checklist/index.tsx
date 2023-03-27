@@ -108,7 +108,6 @@ const AthleteChecklist: FC = () => {
               as="header"
               alignItems="center"
               gap="20px"
-              mb={4}
               flexDirection={{ xl: "row-reverse" }}
             >
               <Image

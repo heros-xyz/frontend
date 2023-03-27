@@ -48,13 +48,13 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
           {titleHeading}
         </Heading>
         {items?.length ? (
-          <Box borderBottom="1px" borderColor="grey.3">
+          <Box borderBottom="1px" borderColor="grey.300">
             <Link
               as={NextLink}
               fontSize={{ base: "xs", lg: "md" }}
               fontWeight="medium"
               lineHeight="100%"
-              color="grey.3"
+              color="grey.300"
               href="fan/interactions"
               textTransform="capitalize"
               mr="2"
@@ -63,7 +63,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
               {actionText}
             </Link>
             <Link as={NextLink} href="fan/interactions">
-              <IconArrowRight width="3" height="11" color="grey.3" />
+              <IconArrowRight width="3" height="11" color="grey.300" />
             </Link>
           </Box>
         ) : (
@@ -162,7 +162,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
                             <IconMessage
                               width={{ base: "22px", lg: "24px" }}
                               height="5"
-                              color="secondary"
+                              color="primary"
                             />
                           </Box>
                           <Text
@@ -171,7 +171,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
                             top={{ base: "45px", lg: "55px" }}
                             bottom="auto"
                             transform="translate(50%, 0)"
-                            color="secondary"
+                            color="primary"
                             fontSize={{ base: "xxs", lg: "md" }}
                             fontWeight="medium"
                             lineHeight="120%"
