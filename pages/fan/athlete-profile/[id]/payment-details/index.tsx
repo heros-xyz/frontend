@@ -187,7 +187,7 @@ const PaymentDetails = () => {
                 Payment Details
               </Heading>
             </GridItem>
-            <GridItem area={"detail"} color="black">
+            <GridItem area={"detail"} color="black.primary">
               <If condition={paymentInfoList && paymentInfoList?.length > 0}>
                 <Then>
                   <Box>
