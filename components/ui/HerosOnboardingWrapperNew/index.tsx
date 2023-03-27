@@ -77,7 +77,7 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
       >
         <Flex
           flexDirection={
-            !!Icon
+            !!Icon || !!ImagePreview
               ? {
                   base: "column",
                   xl: "row-reverse",
@@ -87,7 +87,7 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
           w="full"
           h="full"
         >
-          <If condition={!!Icon}>
+          <If condition={!!Icon || !!ImagePreview}>
             <Then>
               <Center
                 minW={{ xl: "500px" }}

@@ -204,7 +204,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                   setErrorCode(undefined);
                 }}
                 value={formik.values.email}
-                placeholder="Email address"
+                placeholder="Email Address"
                 fontSize={{ base: "sm", xl: "18px" }}
                 fontWeight={{ base: "medium", xl: "normal" }}
                 lineHeight="140%"
@@ -244,7 +244,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                       >
                         <Text
                           as="span"
-                          color="acccent.3"
+                          color="secondary"
                           textDecoration="underline"
                         >
                           Heros’s Terms & Conditions
@@ -259,7 +259,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                       >
                         <Text
                           as="span"
-                          color="acccent.3"
+                          color="secondary"
                           textDecoration="underline"
                         >
                           Privacy & Cookie Policy
@@ -309,7 +309,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                 <Link
                   href={getWebsiteLink(CorporateWebsiteLink.TERM_AND_CONDITION)}
                 >
-                  <Text as="span" color="acccent.3" textDecoration="underline">
+                  <Text as="span" color="secondary" textDecoration="underline">
                     Heros’s Terms & Conditions
                   </Text>
                 </Link>
@@ -318,7 +318,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                 <Link
                   href={getWebsiteLink(CorporateWebsiteLink.PRIVACY_POLICY)}
                 >
-                  <Text as="span" color="acccent.3" textDecoration="underline">
+                  <Text as="span" color="secondary" textDecoration="underline">
                     Privacy & Cookie Policy
                   </Text>
                 </Link>

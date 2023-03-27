@@ -38,6 +38,9 @@ const SubscribeAthlete = () => {
           onClick={() => {
             router.push({
               pathname: "/sign-in",
+              query: {
+                callbackUrl: location.href,
+              },
             });
           }}
         >

@@ -22,7 +22,7 @@ export const generateOptions = (type: string) => {
       end = new Date().getFullYear();
       break;
   }
-  for (let i = end; i >= start; i--) {
+  for (let i = start; i <= end; i++) {
     const value = i < 10 ? `0${i}` : `${i}`;
     const option: IOption = { value, label: `${i}` };
     if (type === "month") {
@@ -39,52 +39,52 @@ export const generateOptions = (type: string) => {
 
 export const monthOptions = [
   {
-    label: "Dec",
-    value: "12",
-  },
-  {
-    label: "Nov",
-    value: "11",
-  },
-  {
-    label: "Oct",
-    value: "10",
-  },
-  {
-    label: "Sep",
-    value: "09",
-  },
-  {
-    label: "Aug",
-    value: "08",
-  },
-  {
-    label: "Jul",
-    value: "07",
-  },
-  {
-    label: "Jun",
-    value: "06",
-  },
-  {
-    label: "May",
-    value: "05",
-  },
-  {
-    label: "Apr",
-    value: "04",
-  },
-  {
-    label: "Mar",
-    value: "03",
+    label: "Jan",
+    value: "01",
   },
   {
     label: "Feb",
     value: "02",
   },
   {
-    label: "Jan",
-    value: "01",
+    label: "Mar",
+    value: "03",
+  },
+  {
+    label: "Apr",
+    value: "04",
+  },
+  {
+    label: "May",
+    value: "05",
+  },
+  {
+    label: "Jun",
+    value: "06",
+  },
+  {
+    label: "Jul",
+    value: "07",
+  },
+  {
+    label: "Aug",
+    value: "08",
+  },
+  {
+    label: "Sep",
+    value: "09",
+  },
+  {
+    label: "Oct",
+    value: "10",
+  },
+  {
+    label: "Nov",
+    value: "11",
+  },
+  {
+    label: "Dec",
+    value: "12",
   },
 ];
 
@@ -308,7 +308,7 @@ export const getLinkByNotificationType = (notification?: INotificationInfo) => {
       return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}`;
 
     case NotificationEventType.ATHLETE_LIKE_INTERACTION:
-      return " has liked on your interaction.";
+      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}`;
 
     case NotificationEventType.ATHLETE_LIKE_COMMENT:
       return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}&commentId=${notification.comment?.id}`;

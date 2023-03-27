@@ -76,7 +76,6 @@ const MyProfile = () => {
               objectFit="cover"
               rounded="full"
               mr={3}
-              fallbackSrc="https://via.placeholder.com/50"
             />
             <Text fontWeight={700} flex={1} color="grey.0">
               {session?.user.firstName} {session?.user.lastName}

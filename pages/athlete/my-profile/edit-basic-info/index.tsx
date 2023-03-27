@@ -31,6 +31,10 @@ import {
   initialBasicValues,
   validationSchema,
 } from "@/modules/athlete-profile/EditBasicInfo/constants";
+import { wrapper } from "@/store";
+import { IGuards } from "@/types/globals/types";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { setContext } from "@/libs/axiosInstance";
 
 const EditBasicInfo = () => {
   const { data: basicInfo } = useGetBasicInformationQuery("");
@@ -373,3 +377,17 @@ export default EditBasicInfo;
 EditBasicInfo.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

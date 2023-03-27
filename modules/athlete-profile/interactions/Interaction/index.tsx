@@ -19,6 +19,7 @@ import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
 export const Interaction = ({}) => {
   const { hasNextPage, interactionsList, onLoadMore } = useAthleteInteraction({
     isGetPublic: true,
+    take: 15,
   });
 
   return (
@@ -78,7 +79,6 @@ export const Interaction = ({}) => {
                               w="full"
                               h="full"
                               alt=""
-                              fallbackSrc="https://via.placeholder.com/120"
                               objectFit="cover"
                               loading="lazy"
                             />

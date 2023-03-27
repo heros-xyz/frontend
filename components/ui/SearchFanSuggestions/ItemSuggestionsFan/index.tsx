@@ -34,7 +34,6 @@ const ItemSuggestionsFan: React.FC<IProps> = ({
             width={{ base: "40px", xl: "50px" }}
             height={{ base: "40px", xl: "50px" }}
             objectFit="cover"
-            fallbackSrc="https://via.placeholder.com/50"
           />
         </Box>
         <Box display="flex" justifyContent="center" flexDirection="column">

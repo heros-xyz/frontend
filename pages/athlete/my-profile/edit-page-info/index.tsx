@@ -42,6 +42,10 @@ import {
   FILE_FORMAT_MESSAGE,
 } from "@/utils/inputRules";
 import { updateSession } from "@/utils/auth";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
 
 const EditPageInfo = () => {
   const { data: session } = useSession();
@@ -236,7 +240,6 @@ const EditPageInfo = () => {
                     alt="user-avatar"
                     objectFit="cover"
                     borderRadius={{ base: "none", xl: "md" }}
-                    fallbackSrc="https://via.placeholder.com/50"
                   />
                   <Center
                     position="absolute"
@@ -399,3 +402,17 @@ export default EditPageInfo;
 EditPageInfo.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

@@ -8,6 +8,10 @@ import FanDashboardLayout from "@/layouts/FanDashboard";
 import { useSearchAthleteProfileQuery } from "@/api/athlete";
 import SearchResult from "@/components/ui/SearchResult";
 import FindHeros from "@/components/ui/FindHeros";
+import { wrapper } from "@/store";
+import { fanAuthGuard } from "@/middleware/fanGuard";
+import { setContext } from "@/libs/axiosInstance";
+import { IGuards } from "@/types/globals/types";
 
 const AllResult = () => {
   const router = useRouter();
@@ -82,3 +86,17 @@ export default AllResult;
 AllResult.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => (context) => {
+    setContext(context);
+
+    return fanAuthGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

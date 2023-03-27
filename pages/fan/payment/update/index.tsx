@@ -8,6 +8,10 @@ import ChangePayment from "@/modules/fan-dashboard/components/ChangePayment";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { useGetPaymentInfoQuery } from "@/api/fan";
 import { AlertIcon } from "@/components/svg";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { fanAuthGuard } from "@/middleware/fanGuard";
+import { IGuards } from "@/types/globals/types";
 
 const PaymentInfo = () => {
   const router = useRouter();
@@ -91,3 +95,17 @@ export default PaymentInfo;
 PaymentInfo.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => (context) => {
+    setContext(context);
+
+    return fanAuthGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);
