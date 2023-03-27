@@ -6,15 +6,15 @@ import AthleteProfile from "@/modules/athlete-profile";
 import { store, wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
 import { getRunningQueriesThunk, profile, useProfileQuery } from "@/api/user";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
 
 const MyProfile = () => {
   const { data: profile } = useProfileQuery("");
   return (
     <Box bg="white">
       <Head>
-        <title>{`${
-          profile?.nickname || "Athlete Profile"
-        } | Athlete | Heros`}</title>
+        <title>{`${profile?.nickname} | Profile | Heros`}</title>
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <AthleteProfile />
@@ -36,8 +36,12 @@ export const getServerSideProps = wrapper.getServerSideProps(
     store.dispatch(profile.initiate(""));
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
-    return {
-      props: {},
-    };
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
   }
 );

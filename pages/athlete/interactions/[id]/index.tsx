@@ -11,6 +11,10 @@ import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/detail/SkeletonInteractionDetail";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
 
 const InteractionDetail = () => {
   const router = useRouter();
@@ -123,3 +127,17 @@ const InteractionDetail = () => {
 };
 
 export default InteractionDetail;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);
