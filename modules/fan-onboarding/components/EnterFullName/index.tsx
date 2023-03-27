@@ -71,7 +71,7 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
     >
       <Box color="primary">
         <Box mb={{ base: 5, lg: 8 }}>
-          <Box mb={2.5} fontSize={{ lg: "xl" }} fontWeight="500">
+          <Box mb={2.5} fontSize={{ lg: "xl" }} fontWeight="bold">
             Enter Your Full Name
             <Text as="span" color="error.dark">
               {" "}
