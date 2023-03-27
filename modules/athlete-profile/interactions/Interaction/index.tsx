@@ -19,6 +19,7 @@ import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
 export const Interaction = ({}) => {
   const { hasNextPage, interactionsList, onLoadMore } = useAthleteInteraction({
     isGetPublic: true,
+    take: 15,
   });
 
   return (

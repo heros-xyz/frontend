@@ -29,7 +29,6 @@ export const userApi = createApi({
           method: "GET",
         };
       },
-      keepUnusedDataFor: 10,
     }),
     getOnboardingInformation: builder.query<
       OnboardingInformationResponse,
