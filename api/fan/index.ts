@@ -98,6 +98,7 @@ export const fanApi = createApi({
         method: "GET",
         params,
       }),
+      keepUnusedDataFor: 10
     }),
     getAthleteBasicInfo: builder.query<IBasicInfo, string>({
       query: (athleteId) => ({
@@ -151,6 +152,7 @@ export const fanApi = createApi({
         method: "GET",
         params,
       }),
+      keepUnusedDataFor: 10
     }),
 
     getListAthleteRecommended: builder.query<IAthleteSubscribed[], IPagination>(
@@ -160,6 +162,7 @@ export const fanApi = createApi({
           method: "GET",
           params,
         }),
+        keepUnusedDataFor: 10
       }
     ),
     getListAthleteMightLike: builder.query<IAthleteInfo[], string>({

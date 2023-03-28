@@ -21,10 +21,37 @@ export const guestGuard = async (
     nextAuthOptions(req as NextApiRequest, res as NextApiResponse)
   );
 
+  if (session && session.user.role === "ATHLETE" && !session.user.isActive) {
+    return {
+      redirect: {
+        destination: RoutePath.ATHLETE_SETUP_ACCOUNT,
+        permanent: false,
+      },
+    };
+  }
+
+  if (session && session.user.role === "ATHLETE" && !session.user.isFinishOnboarding) {
+    return {
+      redirect: {
+        destination: RoutePath.ATHLETE_CHECKLIST,
+        permanent: false,
+      },
+    };
+  }
+
   if (session && session.user.role === "ATHLETE") {
     return {
       redirect: {
         destination: RoutePath.ATHLETE_PROFILE,
+        permanent: false,
+      },
+    };
+  }
+
+  if (session && session.user.role === "FAN" && !session.user.isActive) {
+    return {
+      redirect: {
+        destination: RoutePath.FAN_ONBOARDING,
         permanent: false,
       },
     };

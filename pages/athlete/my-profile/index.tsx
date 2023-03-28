@@ -3,15 +3,18 @@ import { Box, Container } from "@chakra-ui/react";
 import Head from "next/head";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import AthleteProfile from "@/modules/athlete-profile";
-import { store, wrapper } from "@/store";
+import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
-import { getRunningQueriesThunk, profile } from "@/api/user";
+import { getRunningQueriesThunk, profile, useProfileQuery } from "@/api/user";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
 
 const MyProfile = () => {
+  const { data: profile } = useProfileQuery("");
   return (
     <Box bg="white">
       <Head>
-        <title>Athlete | My Profile</title>
+        <title>{`${profile?.nickname ?? ""} | Profile | Heros`}</title>
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <AthleteProfile />
@@ -27,14 +30,18 @@ MyProfile.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
+  (store) => async (context) => {
     setContext(context);
 
     store.dispatch(profile.initiate(""));
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
-    return {
-      props: {},
-    };
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
   }
 );

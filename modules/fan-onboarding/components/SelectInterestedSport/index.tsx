@@ -51,7 +51,7 @@ const EnterInterestedSport: React.FC<IProp> = ({ isLoading, onSubmit }) => {
     >
       <Box mb={{ base: 4, lg: 20 }} color="primary">
         <Box mb={{ base: 5, lg: 8 }}>
-          <Box fontSize={{ lg: "xl" }} fontWeight="500">
+          <Box fontSize={{ lg: "xl" }} fontWeight="bold">
             Select Your Interested Sport(s)
           </Box>
         </Box>

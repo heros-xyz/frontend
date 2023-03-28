@@ -1,12 +1,4 @@
-import {
-  Box,
-  Container,
-  Flex,
-  Heading,
-  Skeleton,
-  SkeletonCircle,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Text } from "@chakra-ui/react";
 import { ReactElement } from "react";
 import Head from "next/head";
 import { Else, If, Then } from "react-if";
@@ -14,6 +6,11 @@ import { Waypoint } from "react-waypoint";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import NotificationList from "@/components/ui/Notification/List";
 import { useNotification } from "@/hooks/useNotification";
+import NotiSkeleton from "@/components/ui/Notification/Skeleton";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
 
 const AthleteNotification = () => {
   const {
@@ -23,6 +20,7 @@ const AthleteNotification = () => {
     notificationEarlier,
     hasMore,
     listNotification,
+    isLoading,
     onLoadMore,
     onMaskAllNotification,
   } = useNotification();
@@ -60,71 +58,68 @@ const AthleteNotification = () => {
               </Then>
             </If>
           </Flex>
-          <If condition={listNotification?.length}>
+          <If condition={isLoading}>
             <Then>
-              <Flex flexDirection="column" gap={2.5}>
-                <If condition={notificationOnToday?.length}>
-                  <Then>
-                    <NotificationList
-                      periodTitle="Today"
-                      items={notificationOnToday}
-                    />
-                  </Then>
-                </If>
-                <If condition={notificationOnWeek?.length}>
-                  <Then>
-                    <NotificationList
-                      periodTitle="This week"
-                      items={notificationOnWeek}
-                    />
-                  </Then>
-                </If>
-                <If condition={notificationOnMonth?.length}>
-                  <Then>
-                    <NotificationList
-                      periodTitle="This month"
-                      items={notificationOnMonth}
-                    />
-                  </Then>
-                </If>
-                <If condition={notificationEarlier?.length}>
-                  <Then>
-                    <NotificationList
-                      periodTitle="Earlier"
-                      items={notificationEarlier}
-                    />
-                  </Then>
-                </If>
-              </Flex>
-
-              {hasMore && (
-                <Waypoint onEnter={onLoadMore}>
-                  <Box
-                    px={5}
-                    pt={2}
-                    display="flex"
-                    justifyContent="center"
-                    alignItems={"center"}
-                    gap={2.5}
-                    w="full"
-                  >
-                    <SkeletonCircle w="50px" h="50px" />
-                    <Box pl={1} flex={1}>
-                      <Skeleton w="40%" height="12px" color="white" mb={2} />
-                      <Skeleton w="80%" height="12px" color="white" />
-                    </Box>
-                  </Box>
-                </Waypoint>
-              )}
+              {Array.from(Array(10).keys()).map((key) => {
+                return <NotiSkeleton key={key} />;
+              })}
             </Then>
             <Else>
-              <Text
-                px={[5, 0]}
-                fontSize={{ base: "sm", lg: "lg" }}
-                color="primary"
-              >
-                {`You haven't had any notifications yet!`}
-              </Text>
+              <If condition={listNotification?.length}>
+                <Then>
+                  <Flex flexDirection="column" gap={2.5}>
+                    <If condition={notificationOnToday?.length}>
+                      <Then>
+                        <NotificationList
+                          periodTitle="Today"
+                          items={notificationOnToday}
+                        />
+                      </Then>
+                    </If>
+                    <If condition={notificationOnWeek?.length}>
+                      <Then>
+                        <NotificationList
+                          periodTitle="This week"
+                          items={notificationOnWeek}
+                        />
+                      </Then>
+                    </If>
+                    <If condition={notificationOnMonth?.length}>
+                      <Then>
+                        <NotificationList
+                          periodTitle="This month"
+                          items={notificationOnMonth}
+                        />
+                      </Then>
+                    </If>
+                    <If condition={notificationEarlier?.length}>
+                      <Then>
+                        <NotificationList
+                          periodTitle="Earlier"
+                          items={notificationEarlier}
+                        />
+                      </Then>
+                    </If>
+                  </Flex>
+
+                  {hasMore && (
+                    <Waypoint onEnter={onLoadMore}>
+                      <Box>
+                        <NotiSkeleton />
+                      </Box>
+                    </Waypoint>
+                  )}
+                </Then>
+                <Else>
+                  <Text
+                    px={[5, 0]}
+                    fontSize={{ base: "sm", lg: "lg" }}
+                    color="primary"
+                  >
+                    {`You haven't had any notifications yet!`}
+                  </Text>
+                </Else>
+              </If>
             </Else>
           </If>
         </Box>
@@ -138,3 +133,17 @@ export default AthleteNotification;
 AthleteNotification.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

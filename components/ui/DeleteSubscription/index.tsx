@@ -40,7 +40,7 @@ const DeleteSubscription: React.FC<DeleteProps> = ({
           <If condition={success}>
             <Then>
               <CheckIcon
-                color="#65D169"
+                color="#52C152"
                 w={{ base: "20px", xl: "30px" }}
                 h={{ base: "18px", xl: "26px" }}
               />
@@ -69,7 +69,7 @@ const DeleteSubscription: React.FC<DeleteProps> = ({
       </If>
       <Box
         textAlign="center"
-        color={"black.ish"}
+        color={"black.primary"}
         fontSize={{ base: "lg", xl: success ? "2xl" : "xl" }}
       >
         <If condition={name}>
@@ -91,7 +91,7 @@ const DeleteSubscription: React.FC<DeleteProps> = ({
           <Box
             mt={2}
             textAlign="center"
-            color={"red"}
+            color={"#FD2D55"}
             fontSize={{ base: "md", xl: "xl" }}
           >
             {alert}
@@ -132,7 +132,7 @@ const DeleteSubscription: React.FC<DeleteProps> = ({
                 textTransform="capitalize"
                 fontSize={{ base: "sm", xl: "lg" }}
                 fontWeight="medium"
-                color="primary"
+                color="grey.300"
               >
                 {cancel}
               </Text>

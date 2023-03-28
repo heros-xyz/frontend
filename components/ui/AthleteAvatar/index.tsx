@@ -22,7 +22,6 @@ const AthleteAvatar: FC<AthleteAvatarProps> = ({
             alt={name}
             borderRadius="full"
             objectFit="cover"
-            fallbackSrc="https://via.placeholder.com/150"
           />
         </AspectRatio>
         {isRecommend && (
@@ -33,14 +32,17 @@ const AthleteAvatar: FC<AthleteAvatarProps> = ({
             left="50%"
             css={{ transform: "translate(-50%)" }}
             borderRadius={28}
-            w={{ base: "79px", lg: "124px" }}
+            w="fit-content"
             h={{ base: "15px", lg: "30px" }}
             fontSize={{ base: "2xs", lg: "md" }}
             fontFamily="heading"
             color="accent.2"
             fontWeight={700}
+            px={{ base: 1.5, lg: 2 }}
+            pt={{ base: 0.5, lg: 0 }}
+            textTransform="uppercase"
           >
-            RECOMMEND
+            recommended
           </Center>
         )}
       </Box>

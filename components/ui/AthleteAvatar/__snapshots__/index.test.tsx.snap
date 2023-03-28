@@ -18,9 +18,9 @@ exports[`renders avatar recommend 1`] = `
         />
       </div>
       <div
-        class="css-1gi3dih"
+        class="css-4j7euu"
       >
-        RECOMMEND
+        recommended
       </div>
     </div>
     <p

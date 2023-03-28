@@ -47,6 +47,7 @@ const FanOnlySection = () => {
               fontWeight="medium"
               fontSize={{ base: "lg", lg: "2xl" }}
               mb="5px"
+              color="#1D1D1D"
             >
               Restricted to fans only
             </Text>
@@ -69,12 +70,18 @@ const FanOnlySection = () => {
                   return;
                 }
 
-                router.push("/sign-in");
+                router.push({
+                  pathname: "/sign-in",
+                  query: {
+                    callbackUrl: location.href,
+                  },
+                });
               }}
             >
               JOIN NOW
             </Button>
             <Button
+              color="#797979"
               onClick={onClose}
               textDecoration="underline"
               variant="link"

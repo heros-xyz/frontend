@@ -1,16 +1,10 @@
 import React from "react";
-import {
-  Box,
-  Flex,
-  Heading,
-  Skeleton,
-  SkeletonCircle,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { Else, If, Then } from "react-if";
 import { Waypoint } from "react-waypoint";
 import { useNotification } from "@/hooks/useNotification";
 import NotificationList from "../../Notification/List";
+import NotiSkeleton from "../../Notification/Skeleton";
 
 const NotificationFan = () => {
   const {
@@ -20,6 +14,7 @@ const NotificationFan = () => {
     notificationEarlier,
     hasMore,
     listNotification,
+    isLoading,
     onLoadMore,
     onMaskAllNotification,
   } = useNotification();
@@ -54,67 +49,68 @@ const NotificationFan = () => {
           </Then>
         </If>
       </Flex>
-      <If condition={listNotification?.length}>
+      <If condition={isLoading}>
         <Then>
-          <Flex flexDirection="column" gap={2.5}>
-            <If condition={notificationOnToday?.length}>
-              <Then>
-                <NotificationList
-                  periodTitle="Today"
-                  items={notificationOnToday}
-                />
-              </Then>
-            </If>
-            <If condition={notificationOnWeek?.length}>
-              <Then>
-                <NotificationList
-                  periodTitle="This week"
-                  items={notificationOnWeek}
-                />
-              </Then>
-            </If>
-            <If condition={notificationOnMonth?.length}>
-              <Then>
-                <NotificationList
-                  periodTitle="This month"
-                  items={notificationOnMonth}
-                />
-              </Then>
-            </If>
-            <If condition={notificationEarlier?.length}>
-              <Then>
-                <NotificationList
-                  periodTitle="Earlier"
-                  items={notificationEarlier}
-                />
-              </Then>
-            </If>
-          </Flex>
+          {Array.from(Array(10).keys()).map((key) => {
+            return <NotiSkeleton key={key} />;
+          })}
+        </Then>
+        <Else>
+          <If condition={!listNotification.length}>
+            <Then>
+              <Text
+                px={[5, 0]}
+                fontSize={{ base: "sm", lg: "lg" }}
+                color="primary"
+              >
+                {`You haven't had any notifications yet!`}
+              </Text>
+            </Then>
+            <Else>
+              <Flex flexDirection="column" gap={2.5}>
+                <If condition={notificationOnToday?.length}>
+                  <Then>
+                    <NotificationList
+                      periodTitle="Today"
+                      items={notificationOnToday}
+                    />
+                  </Then>
+                </If>
+                <If condition={notificationOnWeek?.length}>
+                  <Then>
+                    <NotificationList
+                      periodTitle="This week"
+                      items={notificationOnWeek}
+                    />
+                  </Then>
+                </If>
+                <If condition={notificationOnMonth?.length}>
+                  <Then>
+                    <NotificationList
+                      periodTitle="This month"
+                      items={notificationOnMonth}
+                    />
+                  </Then>
+                </If>
+                <If condition={notificationEarlier?.length}>
+                  <Then>
+                    <NotificationList
+                      periodTitle="Earlier"
+                      items={notificationEarlier}
+                    />
+                  </Then>
+                </If>
+              </Flex>
+            </Else>
+          </If>
 
           {hasMore && (
             <Waypoint onEnter={onLoadMore}>
-              <Box
-                px={5}
-                pt={2}
-                display="flex"
-                justifyContent="center"
-                alignItems={"center"}
-                gap={2.5}
-                w="full"
-              >
-                <SkeletonCircle w="50px" h="50px" />
-                <Box pl={1} flex={1}>
-                  <Skeleton w="40%" height="12px" color="white" mb={2} />
-                  <Skeleton w="80%" height="12px" color="white" />
-                </Box>
+              <Box>
+                <NotiSkeleton />
               </Box>
             </Waypoint>
           )}
-        </Then>
-        <Else>
-          <Text px={[5, 0]} fontSize={{ base: "sm", lg: "lg" }} color="primary">
-            {`You haven't had any notifications yet!`}
-          </Text>
         </Else>
       </If>
     </Box>

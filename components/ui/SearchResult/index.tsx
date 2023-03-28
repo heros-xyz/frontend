@@ -54,7 +54,6 @@ const SearchResult: React.FC<SearchResultProps> = ({
                 alt=""
                 w={{ base: "50px", xl: "80px" }}
                 h={{ base: "50px", xl: "80px" }}
-                fallbackSrc="https://via.placeholder.com/80"
                 objectFit="cover"
               />
               <Box

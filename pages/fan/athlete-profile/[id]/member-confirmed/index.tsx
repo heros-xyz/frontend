@@ -3,6 +3,10 @@ import { useRouter } from "next/router";
 import { FanOnboardingSuccess } from "@/components/svg/FanOnboardingSuccess";
 import { useGetBasicInformationQuery } from "@/api/athlete";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { fanAuthGuard } from "@/middleware/fanGuard";
+import { IGuards } from "@/types/globals/types";
 
 const MembershipConfirmed = () => {
   const router = useRouter();
@@ -54,3 +58,17 @@ const MembershipConfirmed = () => {
 };
 
 export default MembershipConfirmed;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => (context) => {
+    setContext(context);
+
+    return fanAuthGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

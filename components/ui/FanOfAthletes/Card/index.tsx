@@ -47,7 +47,6 @@ const YourAthleteCard: React.FC<YourAthleteCardProps> = ({
             alt="user-avatar"
             rounded="full"
             objectFit="cover"
-            fallbackSrc="https://via.placeholder.com/50"
           />
         </WrapItem>
         <Box pl={4}>

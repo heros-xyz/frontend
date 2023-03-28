@@ -14,6 +14,7 @@ import MyStory from "@/components/ui/Athlete/Profile/MyStory";
 import { getGender } from "@/utils/functions";
 import { IBasicInfo, ISportProfile } from "@/types/athlete/types";
 import { useDevice } from "@/hooks/useDevice";
+import { getEnvVariables } from "@/utils/env";
 
 interface IProfileProps {
   basicInfo: IBasicInfo | undefined;
@@ -33,12 +34,12 @@ export const Profile: React.FC<IProfileProps> = ({
   const router = useRouter();
   const { onCopy, setValue } = useClipboard("");
   const toast = useToast();
-  const { isMobile } = useDevice();
+  const { NEXTAUTH_URL } = getEnvVariables();
 
   const profileLink = useMemo(() => {
-    const link = `${process.env.NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
+    const link = `${NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
     setValue(link);
-    return `${process.env.NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
+    return `${NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
   }, [athleteId, athleteNickname]);
 
   const onClickCopy = () => {
@@ -89,7 +90,7 @@ export const Profile: React.FC<IProfileProps> = ({
             />
           )}
         </Flex>
-        <Box mb="7" color="primary" bg="accent.1" px="6" py="4" rounded="lg">
+        <Box mb="7" color="accent.2" bg="accent.1" px="6" py="4" rounded="lg">
           <Text fontWeight="bold" fontSize={{ base: "base", lg: "xl" }}>
             {sportProfile?.data?.sportProfilesItems[0]?.sportName || ""}
           </Text>

@@ -1,8 +1,11 @@
+import { getEnvVariables } from "./env";
+const { HEROS_MEDIA_URL, WEBSITE_URL } = getEnvVariables()
+
 export const getWebsiteLink = (link: string) => {
-  return `${process.env.WEBSITE_URL}/${link}`;
+  return `${WEBSITE_URL}/${link}`;
 };
 
 export const getImageLink = (link: string | undefined) => {
   if (!link) return "";
-  return `${process.env.HEROS_MEDIA_URL}/${link}`;
+  return `${HEROS_MEDIA_URL}/${link}`;
 };

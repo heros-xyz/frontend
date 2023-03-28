@@ -14,7 +14,6 @@ import {
   ProfileActive,
 } from "@/components/svg/Navigate";
 import { ACTIVE_PATHS } from "@/utils/constants";
-import { updateSession } from "@/utils/auth";
 import MenuItem from "../MenuItem";
 
 interface BottomBarProps {
@@ -86,7 +85,6 @@ const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
 
   const handleChangeTab = (tab: string): void => {
     setTab(tab);
-    updateSession();
   };
 
   return (

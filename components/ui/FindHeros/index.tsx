@@ -82,7 +82,7 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
           <Input
             type="text"
             placeholder="Find your heros"
-            _placeholder={{ color: "grey.100" }}
+            _placeholder={{ color: "grey.200" }}
             color="primary"
             borderRadius={0}
             border="none"

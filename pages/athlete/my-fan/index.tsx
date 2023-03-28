@@ -12,6 +12,10 @@ import SearchFanSuggestionsList from "@/components/ui/SearchFanSuggestions/List"
 import FanOfAthleteProfile from "@/components/ui/FanOfAthletes/Profile";
 import { useGetListFansQuery } from "@/api/athlete";
 import { IFanInfo } from "@/types/athlete/types";
+import { setContext } from "@/libs/axiosInstance";
+import { wrapper } from "@/store";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
 
 const MyFan = () => {
   const router = useRouter();
@@ -138,26 +142,37 @@ const MyFan = () => {
               </AnimatePresence>
             </Box>
             <Box w="full" position="relative">
-              {searchValue.length > 1 &&
-                focusSearch &&
-                !athleteSearchList?.length && (
-                  <Box
-                    w="full"
-                    zIndex={15}
-                    top={{ base: 5, lg: 8 }}
-                    position="absolute"
-                    bg="acccent.4"
-                    p="3"
-                    borderRadius="base"
-                    textAlign={"center"}
-                    fontWeight="bold"
-                    cursor="pointer"
-                    fontSize={{ base: "sm", lg: "md" }}
-                    onClick={onShowAllResult}
-                  >
-                    No Result Found
-                  </Box>
-                )}
+              <AnimatePresence>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  {searchValue.length > 1 &&
+                    focusSearch &&
+                    !athleteSearchList?.length && (
+                      <Box
+                        w="full"
+                        zIndex={15}
+                        top={{ base: 5, lg: 8 }}
+                        position="absolute"
+                        bg="acccent.4"
+                        p="3"
+                        borderRadius="base"
+                        textAlign={"center"}
+                        fontWeight="bold"
+                        cursor="pointer"
+                        fontSize={{ base: "sm", lg: "md" }}
+                        onClick={onShowAllResult}
+                        shadow="0px 0px 10px rgba(0, 0, 0, 0.25)"
+                        background="white"
+                      >
+                        No Result Found
+                      </Box>
+                    )}
+                </motion.div>
+              </AnimatePresence>
             </Box>
           </Box>
         </Box>
@@ -186,3 +201,17 @@ export default MyFan;
 MyFan.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

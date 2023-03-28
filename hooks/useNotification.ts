@@ -27,6 +27,8 @@ export const useNotification = () => {
   const {
     data: notificationData,
     isFetching,
+    isLoading,
+    isSuccess,
     refetch,
   } = useGetListNotificationQuery({
     beforeDate,
@@ -116,6 +118,8 @@ export const useNotification = () => {
     listNotification,
     isFetching,
     hasMore: notificationData?.meta?.hasNextPage,
+    isLoading,
+    isSuccess,
     onMaskAllNotification,
     onLoadMore,
   };

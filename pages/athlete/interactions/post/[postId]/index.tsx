@@ -11,6 +11,10 @@ import {
 } from "@/modules/athlete-interaction/hooks";
 import { useGetInteractionDetailQuery } from "@/api/athlete";
 import { getImageLink } from "@/utils/link";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { athleteGuard } from "@/middleware/athleteGuard";
+import { IGuards } from "@/types/globals/types";
 
 function EditInteractionsPost() {
   const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
@@ -72,3 +76,17 @@ function EditInteractionsPost() {
 }
 
 export default EditInteractionsPost;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

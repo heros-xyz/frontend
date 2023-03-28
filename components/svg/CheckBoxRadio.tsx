@@ -9,12 +9,12 @@ const CheckBoxRadioIcon = ({ checked }: { checked: boolean }) => {
       borderRadius="full"
       border="1px"
       borderColor="primary"
-      bg="grey.100"
+      bg="white"
     >
       <If condition={checked}>
         <Then>
-          <Center h={4} w={4} borderRadius="full" bg="accent.2">
-            <Box h={1.5} w={1.5} borderRadius="full" bg="grey.100" />
+          <Center h={4} w={4} borderRadius="full" bg="primary">
+            <Box h={1.5} w={1.5} borderRadius="full" bg="white" />
           </Center>
         </Then>
         <Else>

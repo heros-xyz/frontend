@@ -30,14 +30,13 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
   return (
     <Box bg="white" color="primary" {...props}>
       <Heading fontSize={{ base: "md", lg: "xl" }}>Order Summary</Heading>
-      <Flex py={5} gap={2.5} color="black">
+      <Flex py={5} gap={2.5} color="black.primary">
         <Image
           w={{ base: "40px", lg: "60px" }}
           h={{ base: "40px", lg: "60px" }}
           src={getImageLink(avatar)}
           alt="image"
           rounded="full"
-          fallbackSrc="https://via.placeholder.com/50"
           objectFit="cover"
         />
         <Box px={2.5}>
@@ -62,7 +61,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         borderTopWidth={1}
         borderColor="grey.100"
         fontSize="md"
-        color="black"
+        color="black.primary"
       >
         <Text fontSize={{ base: "sm", lg: "lg" }} fontWeight={500}>
           Monthly payment

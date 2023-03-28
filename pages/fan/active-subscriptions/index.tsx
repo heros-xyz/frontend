@@ -26,6 +26,10 @@ import ClockMiniIcon from "@/components/svg/ClockMiniIcon";
 import { GetActiveSubscription } from "@/types/fan/types";
 import DeleteSubscription from "@/components/ui/DeleteSubscription";
 import { getImageLink } from "@/utils/link";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { fanAuthGuard } from "@/middleware/fanGuard";
+import { IGuards } from "@/types/globals/types";
 
 const PaymentInfo = () => {
   const router = useRouter();
@@ -126,7 +130,6 @@ const PaymentInfo = () => {
                     boxSize={{ base: "50px", xl: "80px" }}
                     loading="lazy"
                     zIndex={1}
-                    fallbackSrc="https://via.placeholder.com/50"
                     cursor="pointer"
                     onClick={() =>
                       router.push(`/fan/athlete-profile/${el?.athleteId}`)
@@ -259,3 +262,17 @@ export default PaymentInfo;
 PaymentInfo.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => (context) => {
+    setContext(context);
+
+    return fanAuthGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);
