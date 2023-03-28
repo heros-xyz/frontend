@@ -17,15 +17,17 @@ interface Story {
   gender: string;
   isEdit?: boolean;
 }
+const MY_STORY_SHOWING = 1000;
+
 const MyStory: React.FC<Story> = ({ description, dob, gender, isEdit }) => {
   const [readMore, setReadMore] = useState(false);
 
   const descSubstring = useMemo(() => {
-    return description?.substring(0, 200);
+    return description?.substring(0, MY_STORY_SHOWING);
   }, [description]);
 
   const showReadMore = useMemo(() => {
-    return description?.length > 200 && !readMore;
+    return description?.length > MY_STORY_SHOWING && !readMore;
   }, [description, readMore]);
 
   return (

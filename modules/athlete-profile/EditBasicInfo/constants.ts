@@ -59,7 +59,7 @@ export const validationSchema = yup.object().shape({
   gender: yup.string().required("This is a required field"),
   story: yup
     .string()
-    .max(500, "My story cannot exceed 500 characters")
+    .max(5000, "My story cannot exceed 5000 characters")
     .required("This is a required field"),
 });
 

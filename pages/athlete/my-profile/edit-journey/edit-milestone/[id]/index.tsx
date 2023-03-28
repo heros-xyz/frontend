@@ -14,6 +14,7 @@ import {
   Text,
   Textarea,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -40,18 +41,21 @@ import {
 import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
 import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards } from "@/types/globals/types";
+import { IGuards, IHerosError } from "@/types/globals/types";
 
 const EditMilestone = () => {
   const router = useRouter();
+  const toast = useToast();
   const [iconCheck, setIconCheck] = useState<string | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: milestoneData } = useGetMilestoneQuery(
     router.query.id as string,
     { skip: typeof router.query.id !== "string" || router.query.id === "0" }
   );
-  const [editMilestone, { isLoading: loadingEdit, isSuccess: successEdit }] =
-    useEditMilestoneMutation();
+  const [
+    editMilestone,
+    { isLoading: loadingEdit, isSuccess: successEdit, error },
+  ] = useEditMilestoneMutation();
   const [
     deleteMilestone,
     { isLoading: loadingDelete, isSuccess: successDelete },
@@ -108,6 +112,17 @@ const EditMilestone = () => {
       router.push("/athlete/my-profile/edit-journey");
     }
   }, [successDelete]);
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title:
+          (error as IHerosError)?.data?.error || "Oops! Something went wrong",
+        status: "error",
+      });
+    }
+  }, [error]);
+
   return (
     <Box px={{ base: 5, lg: 0 }} bg="white" minH="100vh" position="relative">
       <Head>

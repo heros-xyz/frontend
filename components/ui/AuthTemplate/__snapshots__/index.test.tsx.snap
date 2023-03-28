@@ -77,10 +77,11 @@ exports[`renders homepage unchanged 1`] = `
             class="css-iskddk"
           >
             <input
+              autocomplete="off"
               class="chakra-input css-1gssj7e"
               id="email"
               name="email"
-              placeholder="Email address"
+              placeholder="Email Address"
               value=""
             />
             <label
@@ -111,7 +112,7 @@ exports[`renders homepage unchanged 1`] = `
                     href="undefined/term-of-service"
                   >
                     <span
-                      class="chakra-text css-q4ss7u"
+                      class="chakra-text css-18noweo"
                     >
                       Heros’s Terms & Conditions
                     </span>
@@ -125,7 +126,7 @@ exports[`renders homepage unchanged 1`] = `
                     href="undefined/privacy-policy"
                   >
                     <span
-                      class="chakra-text css-q4ss7u"
+                      class="chakra-text css-18noweo"
                     >
                       Privacy & Cookie Policy
                     </span>
