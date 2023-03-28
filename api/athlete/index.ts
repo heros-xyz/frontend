@@ -150,7 +150,7 @@ export const athleteApi = createApi({
         method: "get",
         params,
       }),
-      keepUnusedDataFor: 0
+      keepUnusedDataFor: 0,
     }),
     getSportProfile: builder.query<ISportProfile, string>({
       query: () => ({
@@ -479,4 +479,10 @@ export const {
   useGetTotalCommentsQuery,
 } = athleteApi;
 
-export const { getValidateIsFan } = athleteApi.endpoints;
+export const {
+  getValidateIsFan,
+  getTotalSubscription,
+  getGrossAmountMoney,
+  getSportProfile,
+  getMembershipList,
+} = athleteApi.endpoints;

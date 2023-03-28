@@ -88,7 +88,6 @@ const CommentItem: React.FC<CommentProps> = ({
             src={getImageLink(item.avatar)}
             alt="avatar"
             rounded="full"
-            fallbackSrc="https://via.placeholder.com/30"
             objectFit="cover"
           />
         </WrapItem>

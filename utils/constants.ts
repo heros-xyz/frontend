@@ -22,3 +22,5 @@ export const ACTIVE_PATHS = [
   "/athlete/my-profile",
   "/fan/my-profile",
 ];
+
+export const gaMeasurementId = "G-W55H90J71S"

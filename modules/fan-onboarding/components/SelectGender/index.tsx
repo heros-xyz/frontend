@@ -37,7 +37,7 @@ const EnterGender: React.FC<EnterGenderProps> = ({ gender, onSubmit }) => {
       isPaddingTop={false}
     >
       <Box mb={6} color="primary">
-        <Box mb={3.5} fontSize={{ lg: "xl" }} fontWeight="500">
+        <Box mb={3.5} fontSize={{ lg: "xl" }} fontWeight="bold">
           Select Gender
           <Text as="span" color="error.dark">
             {" "}

@@ -5,7 +5,6 @@ import {
   Center,
   Container,
   Flex,
-  Text,
 } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { Else, If, Then } from "react-if";
@@ -78,7 +77,7 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
       >
         <Flex
           flexDirection={
-            !!Icon
+            !!Icon || !!ImagePreview
               ? {
                   base: "column",
                   xl: "row-reverse",
@@ -88,7 +87,7 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
           w="full"
           h="full"
         >
-          <If condition={!!Icon}>
+          <If condition={!!Icon || !!ImagePreview}>
             <Then>
               <Center
                 minW={{ xl: "500px" }}

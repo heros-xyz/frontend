@@ -23,16 +23,11 @@ import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
 const Interactions = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const {
-    hasNextPage,
-    interactionsList,
-    isLoading,
-    interactionData,
-    onLoadMore,
-  } = useAthleteInteraction({
-    isGetPublic: false,
-    take: 10,
-  });
+  const { hasNextPage, interactionsList, isLoading, onLoadMore } =
+    useAthleteInteraction({
+      isGetPublic: false,
+      take: 10,
+    });
 
   const formatPropAthletePost = (postInfo: IInteractionItem) => {
     return {

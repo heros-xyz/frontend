@@ -174,6 +174,9 @@ const Select: FC<SelectProps> = ({
   return (
     <Box zIndex={zIndex || 10} w="100%" position="relative">
       <SelectRC
+        onInputChange={(el) => {
+          return el.length > 5 && isSelectDate ? el.slice(0, 5) : el;
+        }}
         ref={ref}
         id={id}
         instanceId={useId()}

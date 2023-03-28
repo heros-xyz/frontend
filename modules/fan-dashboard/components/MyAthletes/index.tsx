@@ -18,20 +18,25 @@ import {
 import AthleteAvatar from "@/components/ui/AthleteAvatar";
 
 const MyAthletes: FC = () => {
-  const { data: listAthleteSubscribed, isSuccess } =
-    useGetListAthleteSubscribedQuery({
-      take: 3,
-      page: 1,
-    });
-  const { data: listAthleteRecommended, isLoading } =
-    useGetListAthleteRecommendedQuery(
-      {
-        take: listAthleteSubscribed?.data?.length ? 2 : 3,
-      },
-      {
-        skip: !isSuccess,
-      }
-    );
+  const {
+    data: listAthleteSubscribed,
+    isSuccess,
+    isLoading: getListAthleteSubscribedLoading,
+  } = useGetListAthleteSubscribedQuery({
+    take: 3,
+    page: 1,
+  });
+  const {
+    data: listAthleteRecommended,
+    isLoading: getListAthleteRecommendedLoading,
+  } = useGetListAthleteRecommendedQuery(
+    {
+      take: listAthleteSubscribed?.data?.length ? 2 : 3,
+    },
+    {
+      skip: !isSuccess,
+    }
+  );
 
   const athleteList = useMemo(() => {
     let listAthleteRecommendedFormat = [];
@@ -64,13 +69,13 @@ const MyAthletes: FC = () => {
         </Heading>
         <If condition={listAthleteSubscribed?.data?.length}>
           <Then>
-            <Box borderBottom="1px" borderColor="grey.3">
+            <Box borderBottom="1px" borderColor="grey.300">
               <Link
                 as={NextLink}
                 fontSize={{ base: "xs", lg: "md" }}
                 fontWeight="medium"
                 lineHeight="100%"
-                color="grey.3"
+                color="grey.300"
                 href="/fan/all-athletes"
                 textTransform="capitalize"
                 mr="2"
@@ -79,13 +84,17 @@ const MyAthletes: FC = () => {
                 View All
               </Link>
               <Link as={NextLink} href="/fan/all-athletes">
-                <IconArrowRight width="3" height="11" color="grey.3" />
+                <IconArrowRight width="3" height="11" color="grey.300" />
               </Link>
             </Box>
           </Then>
         </If>
       </Box>
-      <If condition={!isLoading}>
+      <If
+        condition={
+          !getListAthleteSubscribedLoading && !getListAthleteRecommendedLoading
+        }
+      >
         <Then>
           <Grid
             templateColumns="repeat(3, 1fr)"

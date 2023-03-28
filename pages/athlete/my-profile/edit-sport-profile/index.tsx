@@ -21,6 +21,10 @@ import {
   useGetSportProfileQuery,
   usePutSportProfileMutation,
 } from "@/api/athlete";
+import { wrapper } from "@/store";
+import { setContext } from "@/libs/axiosInstance";
+import { IGuards } from "@/types/globals/types";
+import { athleteGuard } from "@/middleware/athleteGuard";
 
 const EditSportProfile = () => {
   const router = useRouter();
@@ -44,9 +48,10 @@ const EditSportProfile = () => {
     sports: Yup.object().shape({
       label: Yup.string().required("This is a required field!"),
     }),
-    currentTeam: Yup.string()
-      .required("This is a required field!")
-      .max(100, "Current team/ association/ club cannot exceed 100 characters"),
+    currentTeam: Yup.string().max(
+      100,
+      "Current team/ association/ club cannot exceed 100 characters"
+    ),
     goal: Yup.string()
       .required("This is a required field!")
       .max(500, "My goal cannot exceed 500 characters"),
@@ -225,3 +230,17 @@ export default EditSportProfile;
 EditSportProfile.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
+
+export const getServerSideProps = wrapper.getServerSideProps(
+  () => async (context) => {
+    setContext(context);
+
+    return athleteGuard(context, ({ session }: IGuards) => {
+      return {
+        props: {
+          session,
+        },
+      };
+    });
+  }
+);

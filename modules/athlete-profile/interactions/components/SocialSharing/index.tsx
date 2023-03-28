@@ -17,6 +17,7 @@ import {
   FacebookIcon,
   TwitterIcon,
 } from "@/components/svg/SocialSharingIcons";
+import { getEnvVariables } from "@/utils/env";
 
 interface ISocialSharingModalProps {
   onClose: () => void;
@@ -32,10 +33,11 @@ export default function SocialSharing({
   onClose,
 }: ISocialSharingModalProps) {
   const { onCopy, setValue } = useClipboard("");
+  const { NEXTAUTH_URL } = getEnvVariables();
   const toast = useToast();
 
   const postLink = useMemo(() => {
-    return `${process.env.NEXTAUTH_URL}/fan/athlete-profile/${athleteId}/interaction?view=${postId}`;
+    return `${NEXTAUTH_URL}/fan/athlete-profile/${athleteId}/interaction?view=${postId}`;
   }, [postId, athleteId]);
 
   useEffect(() => {
@@ -61,10 +63,12 @@ export default function SocialSharing({
           >
             <Flex role="button" _hover={{ opacity: 0.5 }} alignItems="center">
               <FacebookIcon w="50px" h="50px" my="10px" />
-              <Text ml="16px">Share to Facebook</Text>
+              <Text color="primary" ml="16px">
+                Share to Facebook
+              </Text>
             </Flex>
           </FacebookShareButton>
-          <Divider />
+          <Divider borderColor="#ADADAD" />
           <TwitterShareButton
             url={postLink}
             title={"ostDetails.content"}
@@ -72,10 +76,12 @@ export default function SocialSharing({
           >
             <Flex role="button" _hover={{ opacity: 0.5 }} alignItems="center">
               <TwitterIcon w="50px" h="50px" my="10px" />
-              <Text ml="16px">Share to Twitter</Text>
+              <Text color="primary" ml="16px">
+                Share to Twitter
+              </Text>
             </Flex>
           </TwitterShareButton>
-          <Divider />
+          <Divider borderColor="#ADADAD" />
           <Flex
             role="button"
             _hover={{ opacity: 0.5 }}
@@ -91,7 +97,9 @@ export default function SocialSharing({
             }}
           >
             <CopyLinkIcon w="50px" h="50px" my="10px" />
-            <Text ml="16px">Copy Link</Text>
+            <Text color="primary" ml="16px">
+              Copy Link
+            </Text>
           </Flex>
         </Box>
 

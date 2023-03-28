@@ -31,7 +31,6 @@ const BasicInfoAthlete: React.FC<BasicInfoProps> = ({
         h={{ base: "667px", lg: "750px" }}
         objectFit="cover"
         borderRadius={{ lg: "12px" }}
-        fallbackSrc="https://via.placeholder.com/750"
       />
       <Box
         position="absolute"
