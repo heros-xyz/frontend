@@ -1,9 +1,11 @@
 import { Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useEffect, useRef } from "react";
+import { If, Then } from "react-if";
 import CommentItem from "@/components/ui/Comment/Item";
 import { useComments } from "@/hooks/useComment";
 import LoadMoreSkeleton from "@/components/ui/AthletePost/LoadMoreSkeleton";
+import { useDevice } from "@/hooks/useDevice";
 import CommentField from "../../components/CommentField";
 import { SocialInteraction } from "../../components/SocialInteraction/SocialInteraction";
 import { IAthleteInteraction } from "../../constants";
@@ -18,6 +20,7 @@ export interface IReplyingTo {
 
 const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
   const router = useRouter();
+  const { isMobile } = useDevice();
   const { view: postId, id: authorId, focus } = router.query;
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -138,14 +141,29 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
               />
             )
           )}
+          <If condition={!isMobile}>
+            <Then>
+              <LoadMoreSkeleton
+                isShowLoadMore={isShowLoadMore}
+                setOffset={() => {
+                  setTake(20);
+                  setOffset((offset) => offset + take);
+                }}
+              />
+            </Then>
+          </If>
         </Flex>
-        <LoadMoreSkeleton
-          isShowLoadMore={isShowLoadMore}
-          setOffset={() => {
-            setTake(25);
-            setOffset((offset) => offset + take);
-          }}
-        />
+        <If condition={isMobile}>
+          <Then>
+            <LoadMoreSkeleton
+              isShowLoadMore={isShowLoadMore}
+              setOffset={() => {
+                setTake(20);
+                setOffset((offset) => offset + take);
+              }}
+            />
+          </Then>
+        </If>
       </Flex>
 
       <CommentField

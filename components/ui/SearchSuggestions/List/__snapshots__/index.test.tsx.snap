@@ -16,8 +16,8 @@ exports[`renders List unchanged 1`] = `
         >
           <img
             alt="heros item"
-            class="chakra-image__placeholder css-k6jbwm"
-            src="https://via.placeholder.com/50"
+            class="chakra-image css-k6jbwm"
+            src=""
           />
         </div>
         <div
@@ -47,8 +47,8 @@ exports[`renders List unchanged 1`] = `
         >
           <img
             alt="heros item"
-            class="chakra-image__placeholder css-k6jbwm"
-            src="https://via.placeholder.com/50"
+            class="chakra-image css-k6jbwm"
+            src=""
           />
         </div>
         <div
@@ -78,8 +78,8 @@ exports[`renders List unchanged 1`] = `
         >
           <img
             alt="heros item"
-            class="chakra-image__placeholder css-k6jbwm"
-            src="https://via.placeholder.com/50"
+            class="chakra-image css-k6jbwm"
+            src=""
           />
         </div>
         <div
@@ -109,8 +109,8 @@ exports[`renders List unchanged 1`] = `
         >
           <img
             alt="heros item"
-            class="chakra-image__placeholder css-k6jbwm"
-            src="https://via.placeholder.com/50"
+            class="chakra-image css-k6jbwm"
+            src=""
           />
         </div>
         <div

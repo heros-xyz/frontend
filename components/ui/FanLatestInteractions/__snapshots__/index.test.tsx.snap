@@ -14,10 +14,10 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
         Latest interactions
       </h2>
       <div
-        class="css-1xthohk"
+        class="css-14s0qel"
       >
         <a
-          class="chakra-link css-9r3vuz"
+          class="chakra-link css-1th3ek1"
           href="fan/interactions"
         >
           view all
@@ -27,7 +27,7 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
           href="fan/interactions"
         >
           <svg
-            class="chakra-icon css-akomz7"
+            class="chakra-icon css-xnm48g"
             focusable="false"
             viewBox="0 0 12 11"
             xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +60,7 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
               class="css-15l3wnn"
             >
               <svg
-                class="chakra-icon css-m2p330"
+                class="chakra-icon css-s04ltm"
                 focusable="false"
                 viewBox="0 0 22 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +74,7 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
               </svg>
             </div>
             <p
-              class="chakra-text css-1ep18j5"
+              class="chakra-text css-i2rf96"
             >
               123
             </p>
@@ -85,8 +85,8 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
         >
           <img
             alt="avatar"
-            class="chakra-image__placeholder css-1gthvdk"
-            src="https://via.placeholder.com/150"
+            class="chakra-image css-1gthvdk"
+            src="undefined/123124"
           />
         </div>
       </a>
@@ -104,7 +104,7 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
               class="css-15l3wnn"
             >
               <svg
-                class="chakra-icon css-m2p330"
+                class="chakra-icon css-s04ltm"
                 focusable="false"
                 viewBox="0 0 22 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +118,7 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
               </svg>
             </div>
             <p
-              class="chakra-text css-1ep18j5"
+              class="chakra-text css-i2rf96"
             >
               123
             </p>
@@ -129,8 +129,8 @@ exports[`renders FanLatestInteractions unchanged 1`] = `
         >
           <img
             alt="avatar"
-            class="chakra-image__placeholder css-1gthvdk"
-            src="https://via.placeholder.com/150"
+            class="chakra-image css-1gthvdk"
+            src="undefined/123124"
           />
         </div>
       </a>

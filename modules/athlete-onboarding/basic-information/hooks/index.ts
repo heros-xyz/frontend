@@ -8,6 +8,7 @@ import {
 } from "@/api/athlete";
 import { updateSession } from "@/utils/auth";
 import { isValidDate } from "@/utils/functions";
+import { IHerosError } from "@/types/globals/types";
 export interface IValuesTypes {
   dateOfBirth: string;
   gender: string;
@@ -28,7 +29,7 @@ const validationSchema = yup.object().shape({
   gender: yup.string().required("This is a required field"),
   story: yup
     .string()
-    .max(500, "Your Story cannot exceed 500 characters")
+    .max(5000, "Your Story cannot exceed 5000 characters")
     .required("This is a required field"),
   nationality: yup.object().shape({
     value: yup.string().required("This is a required field!"),
@@ -82,7 +83,7 @@ export const useBasicInfo = () => {
   useEffect(() => {
     if (error) {
       toast({
-        title: (error as any)?.data?.error || "Something went wrong",
+        title: (error as IHerosError)?.data?.error || "Oops! Something went wrong",
         status: "error",
       });
     }

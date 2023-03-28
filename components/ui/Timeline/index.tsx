@@ -24,6 +24,7 @@ interface IProps {
   handleClickEdit?: (item: ITimeLineInfo) => void;
   canEdit?: boolean;
   itemCurrent?: ITimeLineInfo;
+  message?: string;
 }
 
 const TimeLineJourney: React.FC<IProps> = ({
@@ -33,6 +34,7 @@ const TimeLineJourney: React.FC<IProps> = ({
   handleClickAdd,
   handleClickEdit,
   canEdit,
+  message,
 }) => {
   const [itemEdit, setItemEdit] = useState<ITimeLineInfo>();
 
@@ -47,11 +49,7 @@ const TimeLineJourney: React.FC<IProps> = ({
     }
   }, [itemEdit]);
   return (
-    <Flex
-      flexDirection="column"
-      color={bgColor === "secondary" ? "primary" : "primary"}
-      gap={4}
-    >
+    <Flex flexDirection="column" color="accent.2" gap={4}>
       {items.map((item, index) => (
         <Flex
           key={`${"key" + index}`}
@@ -61,7 +59,7 @@ const TimeLineJourney: React.FC<IProps> = ({
           <Flex alignItems="center">
             <Box minWidth={10}>
               <If condition={item?.icon}>
-                <Then>{getSportIcon(item?.icon, "primary")}</Then>
+                <Then>{getSportIcon(item?.icon, "accent.2")}</Then>
                 <Else>
                   <Box
                     w={{ base: "30px", xl: "60px" }}
@@ -86,7 +84,7 @@ const TimeLineJourney: React.FC<IProps> = ({
                 bg="accent.2"
                 zIndex={1}
               >
-                <Box w={3} h={3} borderRadius="full" bg="white" />
+                <Box w={3} h={3} borderRadius="full" bg="grey.0" />
               </Box>
               <If condition={items.length - 1 > index}>
                 <Then>
@@ -96,8 +94,8 @@ const TimeLineJourney: React.FC<IProps> = ({
                     w={0.5}
                     h={
                       item.title?.length > 25 && item.description?.length > 70
-                        ? "95px"
-                        : "90px"
+                        ? { base: "95px", xl: "115px" }
+                        : { base: "90px", xl: "110px" }
                     }
                     bg={bgColor === "secondary" ? "accent.2" : "accent.2"}
                   />
@@ -139,11 +137,12 @@ const TimeLineJourney: React.FC<IProps> = ({
                       <Text
                         position="absolute"
                         left={{ base: "45px", xl: 20 }}
-                        fontSize={{ base: "xs", xl: "2xl" }}
+                        fontSize={{ base: "xs", xl: message ? "md" : "2xl" }}
                         whiteSpace="nowrap"
                         fontWeight="medium"
                       >
-                        Add as many as you like to tell your journey
+                        {message ??
+                          "Add as many as you like to tell your journey"}
                       </Text>
                     </Flex>
                   </Flex>

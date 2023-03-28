@@ -1,9 +1,12 @@
 import { Box, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useFormikContext } from "formik";
+import TextareaAutoSize from "react-textarea-autosize";
 import { YourStoryIcon } from "@/components/svg/YourStoryIcon";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
+import { colors } from "@/styles/themes/colors";
+import { useDevice } from "@/hooks/useDevice";
 import { IValuesTypes } from "../../hooks";
 
 interface InputYourStoryProps {
@@ -12,6 +15,7 @@ interface InputYourStoryProps {
 
 const InputYourStory: React.FC<InputYourStoryProps> = ({ onSubmit }) => {
   const [submitted, setSubmitted] = useState(false);
+  const { isDesktop } = useDevice();
   const { values, errors, handleSubmit, handleChange } =
     useFormikContext<IValuesTypes>();
 
@@ -40,7 +44,7 @@ const InputYourStory: React.FC<InputYourStoryProps> = ({ onSubmit }) => {
     >
       <Box mb={{ base: 4, lg: 10 }} color="primary">
         <Box fontSize={{ lg: "xl" }} fontWeight="bold" mb={1.5}>
-          Tell Your Story (500 characters max)
+          Tell Your Story (5000 characters max)
           <Text as="span" color="error.dark">
             {" "}
             *
@@ -49,13 +53,28 @@ const InputYourStory: React.FC<InputYourStoryProps> = ({ onSubmit }) => {
         <Text as="p" fontSize="xs" mb={2} color="grey.300">
           Tell a compelling story of yourself to inspire potential fans.
         </Text>
-        <Input
-          variant="flushed"
-          placeholder="Tell Your Story"
-          borderColor="grey.200"
+        <TextareaAutoSize
+          id="story"
           name="story"
-          fontSize={{ base: "sm" }}
-          isInvalid={Boolean(errors.story && submitted)}
+          className="postComment"
+          placeholder="Tell Your Story"
+          style={{
+            width: "100%",
+            borderBottom: `1px solid`,
+            outline: "none",
+            paddingTop: "10px",
+            paddingLeft: 0,
+            borderRadius: 0,
+            fontWeight: 500,
+            paddingBottom: "10px",
+            fontSize: isDesktop ? "18px" : "14px",
+            lineHeight: isDesktop ? "28px" : "22px",
+            borderColor: Boolean(errors.story && submitted)
+              ? colors.error.dark
+              : colors.grey[200],
+          }}
+          minRows={1}
+          maxRows={4}
           value={values?.story}
           onChange={handleChange}
         />

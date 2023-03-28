@@ -6,19 +6,19 @@ import {
   Input,
   Link,
   Text,
-  Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import Head from "next/head";
 
 import { useFormik } from "formik";
-import { ReactElement, useState, useEffect } from "react";
+import { ReactElement, useEffect } from "react";
 import { If, Then } from "react-if";
 import NextLink from "next/link";
+import TextareaAutoSize from "react-textarea-autosize";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import DateSelect from "@/components/ui/DateSelect";
 import Select from "@/components/common/Select";
 import ErrorMessage from "@/components/common/ErrorMessage";
-import { styles } from "@/modules/athlete-dashboard/components/AddPayment/styles";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { useGetNationalityQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
@@ -32,16 +32,19 @@ import {
   validationSchema,
 } from "@/modules/athlete-profile/EditBasicInfo/constants";
 import { wrapper } from "@/store";
-import { IGuards } from "@/types/globals/types";
+import { IGuards, IHerosError } from "@/types/globals/types";
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { setContext } from "@/libs/axiosInstance";
+import { colors } from "@/styles/themes/colors";
+import { useDevice } from "@/hooks/useDevice";
 
 const EditBasicInfo = () => {
+  const toast = useToast();
+  const { isDesktop } = useDevice();
   const { data: basicInfo } = useGetBasicInformationQuery("");
-
   const { data: nationalityList } = useGetNationalityQuery("");
-  const [isEdited, setIsEdited] = useState(false);
-  const [editBasicInfo, { isLoading }] = useEditBasicInfoMutation();
+  const [editBasicInfo, { isLoading, isSuccess, error }] =
+    useEditBasicInfoMutation();
 
   const formik = useFormik({
     initialValues: initialBasicValues,
@@ -58,9 +61,9 @@ const EditBasicInfo = () => {
         story: values.story,
       };
       editBasicInfo(editData);
-      setIsEdited(true);
     },
   });
+
   useEffect(() => {
     if (basicInfo) {
       formik.setFieldValue("firstName", basicInfo?.firstName);
@@ -75,6 +78,16 @@ const EditBasicInfo = () => {
       formik.setFieldValue("story", basicInfo?.story);
     }
   }, [basicInfo]);
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title:
+          (error as IHerosError)?.data?.error || "Oops! Something went wrong",
+        status: "error",
+      });
+    }
+  }, [error]);
 
   return (
     <Box pt={{ base: 5, lg: 0 }} minH="100vh">
@@ -92,7 +105,7 @@ const EditBasicInfo = () => {
           <Box
             w="full"
             pt={{ base: 0, xl: "4rem" }}
-            fontWeight="extrabold"
+            fontWeight="bold"
             fontSize={{ base: "xs", xl: "xl" }}
           >
             <Link as={NextLink} href="/athlete/my-profile">
@@ -311,31 +324,37 @@ const EditBasicInfo = () => {
                     {" *"}
                   </Text>
                 </Box>
-                <Text as="span" color="grey.200" fontSize={["xs", "md"]}>
+                <Text as="span" color="grey.200" fontSize={["xs", "md"]} mb={1}>
                   This is the first thing potential patrons will see when they
                   land on your page, so make sure you paint a compelling picture
                   of how they can join you on this journey.
                 </Text>
-                <Textarea
+                <TextareaAutoSize
                   id="story"
                   name="story"
-                  variant="flushed"
-                  onChange={formik.handleChange}
-                  value={formik.values.story}
-                  resize={"none"}
-                  size={{ base: "sm", xl: "md" }}
-                  minH={{ base: 20, lg: 40 }}
-                  style={styles.textarea}
-                  isInvalid={Boolean(
-                    formik.errors.story && formik.touched.story
-                  )}
                   className="postComment"
-                  fontWeight="medium"
-                  borderColor="grey.200"
-                  _focusVisible={{
-                    borderColor: "grey.200",
-                    boxShadow: "none",
+                  placeholder="Tell Your Story"
+                  style={{
+                    width: "100%",
+                    borderBottom: `1px solid`,
+                    outline: "none",
+                    paddingTop: "10px",
+                    paddingLeft: 0,
+                    borderRadius: 0,
+                    fontWeight: 500,
+                    paddingBottom: "10px",
+                    fontSize: isDesktop ? "18px" : "14px",
+                    lineHeight: isDesktop ? "28px" : "22px",
+                    borderColor: Boolean(
+                      formik.errors.story && formik.touched.story
+                    )
+                      ? colors.error.dark
+                      : colors.grey[200],
                   }}
+                  minRows={2}
+                  maxRows={10}
+                  value={formik.values.story}
+                  onChange={formik.handleChange}
                 />
                 <ErrorMessage
                   mb={8}
@@ -358,7 +377,7 @@ const EditBasicInfo = () => {
                 >
                   SAVE
                 </Button>
-                {isEdited && (
+                {isSuccess && (
                   <Text color={"#65D169"} fontSize={["xs", "md"]}>
                     Changes Saved
                   </Text>

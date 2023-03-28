@@ -37,7 +37,6 @@ const AddPayment: React.FC<IProp> = ({ onSubmit }) => {
     initialValues: initialValues,
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
       onSubmit(values);
     },
   });
