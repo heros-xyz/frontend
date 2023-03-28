@@ -49,4 +49,5 @@ export interface IHerosError {
   };
   errors?: string;
   statusCode?: number;
+  status?: number;
 }

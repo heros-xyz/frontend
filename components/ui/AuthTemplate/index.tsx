@@ -212,6 +212,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                   color: "grey.100",
                   fontWeight: 400,
                 }}
+                autoComplete="off"
               />
               <ErrorMessage
                 mt={{ xl: 1 }}

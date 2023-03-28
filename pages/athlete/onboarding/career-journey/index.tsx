@@ -85,7 +85,8 @@ const CareerJourney = () => {
   useEffect(() => {
     if (error) {
       toast({
-        title: (error as IHerosError)?.data?.error || "Something went wrong",
+        title:
+          (error as IHerosError)?.data?.error || "Oops! Something went wrong",
         status: "error",
       });
     }

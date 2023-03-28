@@ -51,16 +51,31 @@ const UploadMediaPost = forwardRef<HTMLInputElement, IProps>(
             <Swiper
               slidesPerView={4.2}
               breakpoints={{
-                376: {
-                  slidesPerView: 5,
+                380: {
+                  slidesPerView: 4.5,
                 },
-                476: {
-                  slidesPerView: 8,
+                405: {
+                  slidesPerView: 4.8,
+                },
+                425: {
+                  slidesPerView: 5.2,
+                },
+                450: {
+                  slidesPerView: 5.5,
+                },
+                480: {
+                  slidesPerView: 5.8,
+                },
+                500: {
+                  slidesPerView: 6.2,
+                },
+                550: {
+                  slidesPerView: 7,
                 },
                 769: {
                   slidesPerView: 10,
                 },
-                1025: {
+                1024: {
                   slidesPerView: 4.2,
                 },
               }}
@@ -100,7 +115,7 @@ const UploadMediaPost = forwardRef<HTMLInputElement, IProps>(
                       </Then>
                       <Else>
                         <Box w={styleSquare} h={styleSquare}>
-                          <video muted>
+                          <video muted style={{ width: "100%" }}>
                             <source src={formatFile(item.file)} />
                           </video>
                           <Flex

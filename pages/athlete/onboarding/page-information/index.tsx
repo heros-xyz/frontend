@@ -33,7 +33,7 @@ const PageInformation = () => {
   useUpdateEffect(() => {
     if (isError) {
       toast({
-        title: "Something went wrong",
+        title: "Oops! Something went wrong",
         status: "error",
       });
       return;

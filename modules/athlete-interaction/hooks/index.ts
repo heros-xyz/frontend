@@ -14,6 +14,7 @@ import {
   MAX_SIZE_MEDIA_POST_VIDEO,
   ALLOWED_TYPES_POST_IMAGE,
   ALLOWED_TYPES_POST_VIDEO,
+  ALLOWED_TYPES_VIDEO
 } from "@/utils/inputRules";
 import { updateSession } from "@/utils/auth";
 import { IMediaExisted } from "@/types/athlete/types";
@@ -63,6 +64,11 @@ const publicDateValidation = (
 
   return schema;
 };
+
+const getExtension = (filename: string) => {
+  const parts = filename.split('.');
+  return parts[parts.length - 1];
+}
 
 const initialValues = {
   interactionId: "",
@@ -117,7 +123,7 @@ const validationSchema = yup.object().shape({
 
             return value?.type?.split("/")[0] === "image"
               ? ALLOWED_TYPES_POST_IMAGE.includes(value?.type)
-              : ALLOWED_TYPES_POST_VIDEO.includes(value?.type);
+              : ALLOWED_TYPES_VIDEO.includes(getExtension(value?.name));
           }),
       })
     ),
@@ -168,7 +174,7 @@ export const useInteractionInfo = () => {
       toast({
         title:
           (error as IHerosError)?.data?.error ||
-          "Something went wrong, please try again!",
+          "Oops! Something went wrong, please try again!",
         status: "error",
       });
     }
@@ -232,7 +238,7 @@ export const useUpdateInteractionInfo = () => {
       toast({
         title:
           (error as IHerosError)?.data?.error ||
-          "Something went wrong, please try again!",
+          "Oops! Something went wrong, please try again!",
         status: "error",
       });
     }

@@ -145,7 +145,7 @@ const Select: FC<SelectProps> = ({
                   ? "primary"
                   : "primary"
               }
-              fontWeight="600"
+              fontWeight="500"
               fontSize={{
                 base: placeholderSize ?? "sm",
                 lg: placeholderSize ?? "lg",
@@ -229,16 +229,16 @@ const Select: FC<SelectProps> = ({
           menuList: (base) => ({
             ...base,
             "::-webkit-scrollbar": {
-              width: "4px",
-              height: "0px",
+              width: isMobile ? "7px" : "12px",
+              height: "auto",
             },
             "::-webkit-scrollbar-track": {
               background: "none",
             },
             "::-webkit-scrollbar-thumb": {
               background: isDarkTheme ? "#7949FC" : "#7949FC",
-              borderRadius: 10,
-              marginRight: 10,
+              border: `${isMobile ? "2px" : "4px"} solid white`,
+              borderRadius: "10px",
             },
           }),
           indicatorSeparator: () => ({ display: "none" }),

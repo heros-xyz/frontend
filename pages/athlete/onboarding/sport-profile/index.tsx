@@ -63,7 +63,8 @@ const SportProfile = () => {
   useEffect(() => {
     if (error) {
       toast({
-        title: (error as IHerosError)?.data?.message || "Something went wrong",
+        title:
+          (error as IHerosError)?.data?.message || "Oops! Something went wrong",
         status: "error",
       });
     }

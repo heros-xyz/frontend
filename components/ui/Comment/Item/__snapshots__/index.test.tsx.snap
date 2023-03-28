@@ -13,8 +13,8 @@ exports[`renders homepage unchanged 1`] = `
       >
         <img
           alt="avatar"
-          class="chakra-image__placeholder css-1bzl79i"
-          src="https://via.placeholder.com/30"
+          class="chakra-image css-1bzl79i"
+          src="undefined/https://bit.ly/dan-abramov"
         />
       </li>
       <div

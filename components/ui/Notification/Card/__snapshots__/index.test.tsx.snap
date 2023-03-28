@@ -9,12 +9,12 @@ exports[`renders homepage unchanged 1`] = `
       class="css-0"
     >
       <div
-        class="css-rrajmt"
+        class="css-17ztzjy"
       >
         <img
           alt="avatar"
-          class="chakra-image__placeholder css-1fr13bp"
-          src="https://via.placeholder.com/50"
+          class="chakra-image css-1fr13bp"
+          src="undefined/https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
         />
         <div
           class="css-1bv04n9"

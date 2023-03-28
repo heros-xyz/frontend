@@ -18,8 +18,8 @@ exports[`renders homepage unchanged 1`] = `
       >
         <img
           alt=""
-          class="chakra-image__placeholder css-1nqnlj4"
-          src="https://via.placeholder.com/210x265"
+          class="chakra-image css-1nqnlj4"
+          src="undefined/https://images.pexels.com/photos/127160/pexels-photo-127160.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
         />
         <div
           class="css-rzhx1g"
@@ -28,7 +28,7 @@ exports[`renders homepage unchanged 1`] = `
             class="css-1p6uzmq"
           >
             <p
-              class="chakra-text css-1yzyoi4"
+              class="chakra-text css-1pe5p2g"
             />
             <p
               class="chakra-text css-4uwlir"

@@ -6,7 +6,9 @@ const ALLOWED_TYPES = ["image/jpeg", "image/png"];
 
 const ALLOWED_TYPES_POST_IMAGE = ["image/jpeg", "image/png", "image/gif"];
 
-const ALLOWED_TYPES_POST_VIDEO = ["video/mov", "video/mp4", "video/avi"];
+const ALLOWED_TYPES_POST_VIDEO = ["video/mov", "video/mp4", "video/avi", "video/quicktime"];
+
+const ALLOWED_TYPES_VIDEO = ["mov", "mp4", "avi"];
 
 const LARGE_SIZE_MESSAGE =
   "Your image size is too large, limit size is less than 2MB";
@@ -49,5 +51,6 @@ export {
   REQUIRED_MESSAGE,
   ERROR_SIZE_UPLOAD_POST_MEDIA,
   ERROR_TYPE_UPLOAD_POST_MEDIA,
+  ALLOWED_TYPES_VIDEO,
   getCharacterMessage,
 };
