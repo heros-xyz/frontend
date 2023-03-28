@@ -9,7 +9,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
       class="fdfdf css-0"
     >
       <div
-        class="css-1xu3tth"
+        class="css-xrkqoi"
       >
         <div
           class="css-1ex591z"
@@ -51,7 +51,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
               </div>
               <input
                 autocomplete="off"
-                class="chakra-input css-1w85wjl"
+                class="chakra-input css-22ukb7"
                 id="nameOnCard"
                 name="nameOnCard"
                 placeholder="Name on Card"
@@ -73,7 +73,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
                 </span>
               </div>
               <input
-                class="chakra-input css-1w85wjl"
+                class="chakra-input css-22ukb7"
                 id="cardNumber"
                 name="cardNumber"
                 placeholder="Card Number"
@@ -98,7 +98,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
                   </span>
                 </div>
                 <input
-                  class="chakra-input css-1w85wjl"
+                  class="chakra-input css-22ukb7"
                   id="expiredDate"
                   name="expiredDate"
                   placeholder="MM/YY"
@@ -120,7 +120,7 @@ exports[`Change payment Page renders homepage unchanged 1`] = `
                   </span>
                 </div>
                 <input
-                  class="chakra-input css-1w85wjl"
+                  class="chakra-input css-22ukb7"
                   id="cvv"
                   name="cvv"
                   placeholder="CVV"

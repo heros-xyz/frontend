@@ -65,9 +65,6 @@ const WithdrawMoney: React.FC<IProp> = ({ onSubmit }) => {
                 verticalAlign=""
                 w={{ base: "14px", xl: "18px" }}
                 h={{ base: "14px", xl: "18px" }}
-                onClick={() => {
-                  console.log("Back");
-                }}
                 cursor="pointer"
               />
             </Link>

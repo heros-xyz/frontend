@@ -58,7 +58,7 @@ const JourneyCard: React.FC<IProps> = ({
         <Text fontSize={{ base: "xxs", lg: "md" }}>{item.description}</Text>
       </Box>
       <Flex w={{ lg: "145px" }}>
-        <Box w="1px" h={51} bg={isCurrent ? "primary" : "accent.2"} />
+        <Box w="1px" h={{ base: "51px", xl: "74px" }} bg="grey.300" />
         <If condition={item?.endDate}>
           <Then>
             <Box
@@ -77,7 +77,7 @@ const JourneyCard: React.FC<IProps> = ({
                   {dayjs(item?.startDate).format(" MMM YYYY")}
                 </Text>
               </Box>
-              <OutlineArrowIcon />
+              <OutlineArrowIcon color="primary" />
               <Box fontSize={{ base: "xxs", lg: "md" }}>
                 <Text as="span">{getDay(item?.endDate || "")}</Text>
                 <Text as="sup" fontSize={{ base: "8px", lg: "xxs" }}>

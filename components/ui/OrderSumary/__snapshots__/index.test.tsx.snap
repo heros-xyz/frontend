@@ -12,12 +12,12 @@ exports[`renders homepage unchanged 1`] = `
       Order Summary
     </h2>
     <div
-      class="css-10iu9yf"
+      class="css-4u0ish"
     >
       <img
         alt="image"
-        class="chakra-image__placeholder css-n0pcsx"
-        src="https://via.placeholder.com/50"
+        class="chakra-image css-n0pcsx"
+        src=""
       />
       <div
         class="css-9knh52"
@@ -41,7 +41,7 @@ exports[`renders homepage unchanged 1`] = `
       />
     </div>
     <div
-      class="css-uxaojz"
+      class="css-1xp3c0"
     >
       <p
         class="chakra-text css-16579vr"
