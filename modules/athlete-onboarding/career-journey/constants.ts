@@ -14,7 +14,7 @@ const endDateValidation = (
       })
       .test(
         "is-before-end-date",
-        "Start date cannot greater than end date",
+        "Start date cannot be greater than end date",
         (value: string) => {
           return isBeforeEndDate(startDate, value);
         }
