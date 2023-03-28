@@ -1,5 +1,5 @@
-import { Flex } from "@chakra-ui/react";
-import React from "react";
+import { Box, Flex } from "@chakra-ui/react";
+import React, { ReactNode } from "react";
 import { Else, If, Then } from "react-if";
 import { IReplyingTo } from "@/modules/athlete-profile/interactions/post-detail/CommentSection";
 import { useDevice } from "@/hooks/useDevice";
@@ -10,12 +10,14 @@ import SkeletonComments from "../SkeletonComments";
 interface CommentsProps {
   comments: Comment[];
   isLoading?: boolean;
+  children?: ReactNode;
   onReply?: (value: IReplyingTo) => void;
 }
 
 const Comments: React.FC<CommentsProps> = ({
   comments,
   isLoading,
+  children,
   onReply,
 }) => {
   const { isMobile } = useDevice();
@@ -29,6 +31,7 @@ const Comments: React.FC<CommentsProps> = ({
           flexDirection="column"
           gap={{ base: 4, lg: 8 }}
           pt={2.5}
+          pr={{ lg: 2 }}
           className={isMobile ? "" : "postComment"}
         >
           {comments.map((item, index) => (
@@ -50,6 +53,7 @@ const Comments: React.FC<CommentsProps> = ({
               item={item}
             />
           ))}
+          <Box>{children}</Box>
         </Flex>
       </Then>
       <Else>

@@ -4,6 +4,7 @@ import { useGetAthleteInteractionDetailQuery } from "@/api/fan";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { useAthleteProfile } from "@/hooks/useAthleteProfile";
 import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/detail/SkeletonInteractionDetail";
+import { IHerosError } from "@/types/globals/types";
 import InteractionSection from "../../components/InteractionSection";
 import CommentSection from "../CommentSection";
 import NotFoundPage from "../../components/NotFound";
@@ -22,7 +23,7 @@ const PostDetail = () => {
     skip: !postId,
   });
 
-  if (!interactionDetail || isLoading) {
+  if (isLoading) {
     return (
       <Container
         size={["base", "sm", "md", "lg", "xl"]}
@@ -35,7 +36,11 @@ const PostDetail = () => {
     );
   }
 
-  if (error) {
+  if (
+    error &&
+    ((error as IHerosError).status === 404 ||
+      (error as IHerosError).status === 500)
+  ) {
     return <NotFoundPage />;
   }
 

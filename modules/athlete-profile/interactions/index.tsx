@@ -103,7 +103,11 @@ const Interactions: FC<IInteractionsProps> = ({
       <If condition={!!tag}>
         <Then>
           <Box my="30px">
-            <Text mb="10px" fontSize={{ base: "12px", lg: "16px" }}>
+            <Text
+              mb="10px"
+              fontSize={{ base: "12px", lg: "16px" }}
+              color="primary"
+            >
               You are viewing the interactions with the tag:
             </Text>
             <TagButton
