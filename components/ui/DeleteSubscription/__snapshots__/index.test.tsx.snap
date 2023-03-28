@@ -28,7 +28,7 @@ exports[`renders homepage unchanged 1`] = `
       </div>
     </div>
     <div
-      class="css-urt1a9"
+      class="css-leo9qh"
     >
       <p
         class="chakra-text css-in3yi3"
@@ -54,7 +54,7 @@ exports[`renders homepage unchanged 1`] = `
         type="button"
       >
         <u
-          class="chakra-text css-1lsjmdg"
+          class="chakra-text css-qunxzg"
         >
           Cancel
         </u>

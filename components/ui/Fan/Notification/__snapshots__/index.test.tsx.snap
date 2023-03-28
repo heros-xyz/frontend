@@ -14,11 +14,176 @@ exports[`renders homepage unchanged 1`] = `
         Notifications
       </h2>
     </div>
-    <p
-      class="chakra-text css-1ct4pun"
+    <div
+      class="css-4pwat1"
     >
-      You haven't had any notifications yet!
-    </p>
+      <div
+        class="chakra-skeleton css-1optrij"
+      />
+      <div
+        class="css-phsfew"
+      >
+        <div
+          class="chakra-skeleton css-1tp2kot"
+        />
+        <div
+          class="chakra-skeleton css-2fr6bk"
+        />
+      </div>
+    </div>
+    <div
+      class="css-4pwat1"
+    >
+      <div
+        class="chakra-skeleton css-1optrij"
+      />
+      <div
+        class="css-phsfew"
+      >
+        <div
+          class="chakra-skeleton css-1tp2kot"
+        />
+        <div
+          class="chakra-skeleton css-2fr6bk"
+        />
+      </div>
+    </div>
+    <div
+      class="css-4pwat1"
+    >
+      <div
+        class="chakra-skeleton css-1optrij"
+      />
+      <div
+        class="css-phsfew"
+      >
+        <div
+          class="chakra-skeleton css-1tp2kot"
+        />
+        <div
+          class="chakra-skeleton css-2fr6bk"
+        />
+      </div>
+    </div>
+    <div
+      class="css-4pwat1"
+    >
+      <div
+        class="chakra-skeleton css-1optrij"
+      />
+      <div
+        class="css-phsfew"
+      >
+        <div
+          class="chakra-skeleton css-1tp2kot"
+        />
+        <div
+          class="chakra-skeleton css-2fr6bk"
+        />
+      </div>
+    </div>
+    <div
+      class="css-4pwat1"
+    >
+      <div
+        class="chakra-skeleton css-1optrij"
+      />
+      <div
+        class="css-phsfew"
+      >
+        <div
+          class="chakra-skeleton css-1tp2kot"
+        />
+        <div
+          class="chakra-skeleton css-2fr6bk"
+        />
+      </div>
+    </div>
+    <div
+      class="css-4pwat1"
+    >
+      <div
+        class="chakra-skeleton css-1optrij"
+      />
+      <div
+        class="css-phsfew"
+      >
+        <div
+          class="chakra-skeleton css-1tp2kot"
+        />
+        <div
+          class="chakra-skeleton css-2fr6bk"
+        />
+      </div>
+    </div>
+    <div
+      class="css-4pwat1"
+    >
+      <div
+        class="chakra-skeleton css-1optrij"
+      />
+      <div
+        class="css-phsfew"
+      >
+        <div
+          class="chakra-skeleton css-1tp2kot"
+        />
+        <div
+          class="chakra-skeleton css-2fr6bk"
+        />
+      </div>
+    </div>
+    <div
+      class="css-4pwat1"
+    >
+      <div
+        class="chakra-skeleton css-1optrij"
+      />
+      <div
+        class="css-phsfew"
+      >
+        <div
+          class="chakra-skeleton css-1tp2kot"
+        />
+        <div
+          class="chakra-skeleton css-2fr6bk"
+        />
+      </div>
+    </div>
+    <div
+      class="css-4pwat1"
+    >
+      <div
+        class="chakra-skeleton css-1optrij"
+      />
+      <div
+        class="css-phsfew"
+      >
+        <div
+          class="chakra-skeleton css-1tp2kot"
+        />
+        <div
+          class="chakra-skeleton css-2fr6bk"
+        />
+      </div>
+    </div>
+    <div
+      class="css-4pwat1"
+    >
+      <div
+        class="chakra-skeleton css-1optrij"
+      />
+      <div
+        class="css-phsfew"
+      >
+        <div
+          class="chakra-skeleton css-1tp2kot"
+        />
+        <div
+          class="chakra-skeleton css-2fr6bk"
+        />
+      </div>
+    </div>
   </div>
 </div>
 `;

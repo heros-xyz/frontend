@@ -14,7 +14,7 @@ import { useFormik } from "formik";
 import { ReactElement, useEffect } from "react";
 import { If, Then } from "react-if";
 import NextLink from "next/link";
-import TextareaAutosize from "react-textarea-autosize";
+import TextareaAutoSize from "react-textarea-autosize";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import DateSelect from "@/components/ui/DateSelect";
 import Select from "@/components/common/Select";
@@ -329,7 +329,7 @@ const EditBasicInfo = () => {
                   land on your page, so make sure you paint a compelling picture
                   of how they can join you on this journey.
                 </Text>
-                <TextareaAutosize
+                <TextareaAutoSize
                   id="story"
                   name="story"
                   className="postComment"
@@ -351,7 +351,7 @@ const EditBasicInfo = () => {
                       ? colors.error.dark
                       : colors.grey[200],
                   }}
-                  minRows={4}
+                  minRows={2}
                   maxRows={10}
                   value={formik.values.story}
                   onChange={formik.handleChange}

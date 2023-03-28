@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import { ReactElement, useEffect } from "react";
 import { If, Then } from "react-if";
 import * as Yup from "yup";
-import TextareaAutosize from "react-textarea-autosize";
+import TextareaAutoSize from "react-textarea-autosize";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import Select from "@/components/common/Select";
@@ -187,7 +187,7 @@ const EditSportProfile = () => {
                     {" *"}
                   </Text>
                 </Text>
-                <TextareaAutosize
+                <TextareaAutoSize
                   id="goal"
                   name="goal"
                   className="postComment"
@@ -209,7 +209,7 @@ const EditSportProfile = () => {
                       ? colors.error.dark
                       : colors.grey[200],
                   }}
-                  minRows={4}
+                  minRows={2}
                   maxRows={10}
                   value={formik.values?.goal}
                   onChange={(el) =>

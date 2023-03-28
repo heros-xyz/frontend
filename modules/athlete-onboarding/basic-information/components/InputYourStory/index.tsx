@@ -1,7 +1,7 @@
 import { Box, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useFormikContext } from "formik";
-import ReactTextareaAutosize from "react-textarea-autosize";
+import TextareaAutoSize from "react-textarea-autosize";
 import { YourStoryIcon } from "@/components/svg/YourStoryIcon";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
@@ -53,7 +53,7 @@ const InputYourStory: React.FC<InputYourStoryProps> = ({ onSubmit }) => {
         <Text as="p" fontSize="xs" mb={2} color="grey.300">
           Tell a compelling story of yourself to inspire potential fans.
         </Text>
-        <ReactTextareaAutosize
+        <TextareaAutoSize
           id="story"
           name="story"
           className="postComment"
