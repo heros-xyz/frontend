@@ -322,6 +322,7 @@ const PaymentDetails = () => {
               px="4"
               py="6"
               borderRadius="8px"
+              boxShadow="0px 0px 15px rgba(0, 0, 0, 0.2)"
             >
               <Center
                 bg="#FEE2E2"

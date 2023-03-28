@@ -27,7 +27,7 @@ const PaymentInfo = () => {
     });
   };
   return (
-    <Box bg="primary" minH="100vh">
+    <Box bg="white" minH="100vh">
       <Head>
         <title>Fan | Update Payment Information</title>
       </Head>
@@ -49,7 +49,7 @@ const PaymentInfo = () => {
             <Text
               as="span"
               ml="6"
-              color="white"
+              color="primary"
               fontSize={{ base: "xl", xl: "2xl" }}
             >
               Update Payment Information
@@ -73,6 +73,7 @@ const PaymentInfo = () => {
               px="4"
               py="6"
               borderRadius="8px"
+              boxShadow="0px 0px 15px rgba(0, 0, 0, 0.2)"
             >
               <Center
                 bg="#FEE2E2"
