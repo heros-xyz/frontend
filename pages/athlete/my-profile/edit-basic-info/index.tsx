@@ -105,7 +105,7 @@ const EditBasicInfo = () => {
           <Box
             w="full"
             pt={{ base: 0, xl: "4rem" }}
-            fontWeight="extrabold"
+            fontWeight="bold"
             fontSize={{ base: "xs", xl: "xl" }}
           >
             <Link as={NextLink} href="/athlete/my-profile">
@@ -324,7 +324,7 @@ const EditBasicInfo = () => {
                     {" *"}
                   </Text>
                 </Box>
-                <Text as="span" color="grey.200" fontSize={["xs", "md"]}>
+                <Text as="span" color="grey.200" fontSize={["xs", "md"]} mb={1}>
                   This is the first thing potential patrons will see when they
                   land on your page, so make sure you paint a compelling picture
                   of how they can join you on this journey.

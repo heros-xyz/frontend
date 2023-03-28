@@ -49,7 +49,10 @@ const SelectGender: React.FC<IProp> = ({
             _hover={{
               color: selectColor,
             }}
-            border={isActive(item.value) ? "2px" : "1px"}
+            borderWidth={{
+              base: isActive(item.value) ? "2px" : "1px",
+              lg: "2px",
+            }}
             borderColor={isActive(item.value) ? selectColor : "grey.100"}
             onClick={() => setGenderValue(item.value)}
           >
