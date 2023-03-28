@@ -100,7 +100,7 @@ const UploadMediaPost = forwardRef<HTMLInputElement, IProps>(
                       </Then>
                       <Else>
                         <Box w={styleSquare} h={styleSquare}>
-                          <video muted>
+                          <video muted style={{ width: "100%" }}>
                             <source src={formatFile(item.file)} />
                           </video>
                           <Flex

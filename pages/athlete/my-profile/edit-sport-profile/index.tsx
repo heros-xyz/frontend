@@ -5,6 +5,7 @@ import {
   Input,
   Text,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import Head from "next/head";
@@ -12,6 +13,7 @@ import { useRouter } from "next/router";
 import { ReactElement, useEffect } from "react";
 import { If, Then } from "react-if";
 import * as Yup from "yup";
+import TextareaAutosize from "react-textarea-autosize";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import Select from "@/components/common/Select";
@@ -23,13 +25,17 @@ import {
 } from "@/api/athlete";
 import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
-import { IGuards } from "@/types/globals/types";
+import { IGuards, IHerosError } from "@/types/globals/types";
 import { athleteGuard } from "@/middleware/athleteGuard";
+import { colors } from "@/styles/themes/colors";
+import { useDevice } from "@/hooks/useDevice";
 
 const EditSportProfile = () => {
+  const toast = useToast();
   const router = useRouter();
+  const { isDesktop } = useDevice();
   const { data: sportsList } = useGetSportListQuery("");
-  const [putProfileSport, { isSuccess: successEdit, isLoading }] =
+  const [putProfileSport, { isSuccess: successEdit, isLoading, error }] =
     usePutSportProfileMutation();
 
   const { data: sportProfile } = useGetSportProfileQuery("");
@@ -77,6 +83,16 @@ const EditSportProfile = () => {
       putProfileSport({ data: newValues, id: sportProfile?.data?.id ?? "" });
     },
   });
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title:
+          (error as IHerosError)?.data?.error || "Oops! Something went wrong",
+        status: "error",
+      });
+    }
+  }, [error]);
 
   return (
     <Box px={{ base: 5, lg: 0 }} minH="100vh" pb={{ base: 16, xl: 8 }}>
@@ -171,23 +187,34 @@ const EditSportProfile = () => {
                     {" *"}
                   </Text>
                 </Text>
-                <Textarea
-                  resize="none"
-                  variant="flushed"
-                  placeholder="Your goal"
-                  borderColor="grey.200"
+                <TextareaAutosize
+                  id="goal"
                   name="goal"
-                  fontSize={{ base: "sm", xl: "lg" }}
+                  className="postComment"
+                  placeholder="Tell Your Goal"
+                  style={{
+                    width: "100%",
+                    borderBottom: `1px solid ${colors.grey[200]}`,
+                    outline: "none",
+                    paddingTop: "10px",
+                    paddingBottom: "10px",
+                    paddingLeft: 0,
+                    borderRadius: 0,
+                    fontWeight: 500,
+                    fontSize: isDesktop ? "18px" : "14px",
+                    lineHeight: isDesktop ? "28px" : "22px",
+                    borderColor: Boolean(
+                      formik.errors.goal && formik.touched.goal
+                    )
+                      ? colors.error.dark
+                      : colors.grey[200],
+                  }}
+                  minRows={4}
+                  maxRows={10}
+                  value={formik.values?.goal}
                   onChange={(el) =>
                     formik.setFieldValue("goal", el.target.value)
                   }
-                  className="postComment"
-                  value={formik.values?.goal}
-                  fontWeight="medium"
-                  _focusVisible={{
-                    borderColor: "grey.200",
-                    boxShadow: "none",
-                  }}
                 />
                 <ErrorMessage
                   condition={formik.errors.goal && formik.touched.goal}

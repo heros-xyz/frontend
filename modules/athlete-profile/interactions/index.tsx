@@ -56,10 +56,6 @@ const Interactions: FC<IInteractionsProps> = ({
     },
   });
 
-  useEffect(() => {
-    console.log(interactionsList);
-  }, [interactionsList]);
-
   const handleFilterPostsByTag = (tagName: string) => {
     if (tag !== tagName) {
       setPage(1);
