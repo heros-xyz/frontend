@@ -10,6 +10,7 @@ import {
   TagLabel,
   Button,
   VisuallyHiddenInput,
+  useToast,
 } from "@chakra-ui/react";
 import { useSession } from "next-auth/react";
 import {
@@ -45,13 +46,16 @@ import { updateSession } from "@/utils/auth";
 import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
 import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards } from "@/types/globals/types";
+import { IGuards, IHerosError } from "@/types/globals/types";
 
 const EditPageInfo = () => {
+  const toast = useToast();
   const { data: session } = useSession();
   const { data: pageInfo } = useGetPageInformationQuery("");
-  const [editPageInfo, { data: editPageInfoData, isLoading, isSuccess }] =
-    useEditPageInfoMutation();
+  const [
+    editPageInfo,
+    { data: editPageInfoData, isLoading, isSuccess, error },
+  ] = useEditPageInfoMutation();
   const [input, setInput] = useState("");
   const [tagsValue, setTags] = useState<string[]>([]);
   const upload = useRef() as MutableRefObject<HTMLInputElement>;
@@ -157,6 +161,17 @@ const EditPageInfo = () => {
     setFileSubmit(selectedFile);
     setErrorMessage(null);
   };
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title:
+          (error as IHerosError)?.data?.error || "Oops! Something went wrong",
+        status: "error",
+      });
+    }
+  }, [error]);
+
   return (
     <Box pt={5} minH="100vh" color="primary">
       <Head>
@@ -175,9 +190,6 @@ const EditPageInfo = () => {
                 verticalAlign=""
                 w={{ base: "14px", xl: "18px" }}
                 h={{ base: "14px", xl: "18px" }}
-                onClick={() => {
-                  console.log("Back");
-                }}
                 cursor="pointer"
               />
             </Link>

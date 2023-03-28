@@ -5,6 +5,7 @@ import * as yub from "yup";
 import { useAthleteSetupAccountMutation } from "@/api/athlete";
 import { updateSession } from "@/utils/auth";
 import { isValidString } from "@/utils/functions";
+import { IHerosError } from "@/types/globals/types";
 import { getCharacterMessage, REQUIRED_MESSAGE } from "../constants";
 
 export type IValuesTypes = {
@@ -99,7 +100,7 @@ const useSetupAccountPage = () => {
   useEffect(() => {
     if (error) {
       toast({
-        title: (error as any)?.data?.message || "Something went wrong",
+        title: (error as IHerosError)?.data?.message || "Oops! Something went wrong",
         status: "error",
       });
     }
