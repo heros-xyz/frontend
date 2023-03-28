@@ -13,12 +13,12 @@ exports[`renders avatar recommend 1`] = `
       >
         <img
           alt="John Smith"
-          class="chakra-image__placeholder css-1g04xlb"
-          src="https://via.placeholder.com/150"
+          class="chakra-image css-1g04xlb"
+          src="undefined/https://cdn.iconscout.com/icon/free/png-256/avatar-370-456322.png"
         />
       </div>
       <div
-        class="css-4j7euu"
+        class="css-1ps3ybl"
       >
         recommended
       </div>
@@ -45,8 +45,8 @@ exports[`renders avatar unchanged 1`] = `
       >
         <img
           alt="John Smith"
-          class="chakra-image__placeholder css-1g04xlb"
-          src="https://via.placeholder.com/150"
+          class="chakra-image css-1g04xlb"
+          src="undefined/https://cdn.iconscout.com/icon/free/png-256/avatar-370-456322.png"
         />
       </div>
     </div>

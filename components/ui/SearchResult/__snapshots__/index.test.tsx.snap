@@ -19,8 +19,8 @@ exports[`renders homepage unchanged 1`] = `
         >
           <img
             alt=""
-            class="chakra-image__placeholder css-w62gfb"
-            src="https://via.placeholder.com/80"
+            class="chakra-image css-w62gfb"
+            src="undefined/https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?w=2000"
           />
           <div
             class="css-1de0wfg"
@@ -74,8 +74,8 @@ exports[`renders homepage unchanged 1`] = `
         >
           <img
             alt=""
-            class="chakra-image__placeholder css-w62gfb"
-            src="https://via.placeholder.com/80"
+            class="chakra-image css-w62gfb"
+            src="undefined/https://www.w3schools.com/howto/img_avatar2.png"
           />
           <div
             class="css-1de0wfg"

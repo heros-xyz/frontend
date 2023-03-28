@@ -79,6 +79,7 @@ const EditJourney = () => {
             canEdit
             handleClickEdit={handleClickEdit}
             handleClickAdd={handleClickAdd}
+            message="You can add as many as you like to tell your journey"
           />
         </Box>
       </Container>

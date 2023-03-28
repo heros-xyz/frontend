@@ -30,7 +30,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({
             <Then>
               <Text
                 fontSize={{ base: "xs", lg: "md" }}
-                color="accent.3"
+                color="secondary"
                 textDecoration="underline"
                 mb={{ base: "1px", lg: 0 }}
                 ml="4px"

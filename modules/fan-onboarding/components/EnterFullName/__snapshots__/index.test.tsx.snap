@@ -3,13 +3,13 @@
 exports[`renders homepage unchanged 1`] = `
 <div>
   <div
-    class="css-1jvt6v8"
+    class="css-1g2wpaw"
   >
     <div
       class="css-1kmmdcq"
     />
     <div
-      class="chakra-container css-17f3xev"
+      class="chakra-container css-p5v03p"
     >
       <div
         class="css-1ispe57"
@@ -245,7 +245,7 @@ exports[`renders homepage unchanged 1`] = `
                   class="css-78ozrq"
                 >
                   <div
-                    class="css-1kt4cil"
+                    class="css-785d8t"
                   >
                     Enter Your Full Name
                     <span

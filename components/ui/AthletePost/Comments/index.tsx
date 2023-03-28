@@ -1,10 +1,11 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Hide, Show } from "@chakra-ui/react";
 import React, { FC, useEffect, useMemo } from "react";
 import { Else, If, Then } from "react-if";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import CommentField from "@/modules/athlete-profile/interactions/components/CommentField";
 import { useComments } from "@/hooks/useComment";
+import { useDevice } from "@/hooks/useDevice";
 import Comments from "../../Comment/List";
 import LoadMoreSkeleton from "../LoadMoreSkeleton";
 import CommentItem from "../../Comment/Item";
@@ -24,6 +25,7 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
   setTotalComments,
 }) => {
   const { data: session } = useSession();
+  const { isMobile } = useDevice();
   const router = useRouter();
   const {
     isFocusOnInput,
@@ -154,15 +156,32 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
                   setReplyingTo(value);
                   setIsFocusOnInput(true);
                 }}
-              />
-              <LoadMoreSkeleton
-                pt={8}
-                isShowLoadMore={isShowLoadMore}
-                setOffset={() => {
-                  setTake(25);
-                  setOffset((offset) => offset + take);
-                }}
-              />
+              >
+                <If condition={!isMobile}>
+                  <Then>
+                    <LoadMoreSkeleton
+                      pt={8}
+                      isShowLoadMore={isShowLoadMore}
+                      setOffset={() => {
+                        setTake(20);
+                        setOffset((offset) => offset + take);
+                      }}
+                    />
+                  </Then>
+                </If>
+              </Comments>
+              <If condition={isMobile}>
+                <Then>
+                  <LoadMoreSkeleton
+                    pt={8}
+                    isShowLoadMore={isShowLoadMore}
+                    setOffset={() => {
+                      setTake(20);
+                      setOffset((offset) => offset + take);
+                    }}
+                  />
+                </Then>
+              </If>
             </Box>
             <Box
               position="sticky"

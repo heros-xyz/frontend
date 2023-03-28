@@ -24,8 +24,8 @@ exports[`renders homepage unchanged 1`] = `
           >
             <img
               alt=""
-              class="chakra-image__placeholder css-9theft"
-              src="https://via.placeholder.com/210x265"
+              class="chakra-image css-9theft"
+              src=""
             />
           </div>
           <div
@@ -53,8 +53,8 @@ exports[`renders homepage unchanged 1`] = `
           >
             <img
               alt=""
-              class="chakra-image__placeholder css-9theft"
-              src="https://via.placeholder.com/210x265"
+              class="chakra-image css-9theft"
+              src=""
             />
           </div>
           <div
