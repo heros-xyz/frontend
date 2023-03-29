@@ -67,7 +67,6 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
       bgIconColor="#E2FF65"
       display="flex"
       alignItems="center"
-      isPaddingTop={false}
     >
       <Box color="primary">
         <Box mb={{ base: 5, lg: 8 }}>

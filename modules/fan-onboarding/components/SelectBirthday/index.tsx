@@ -48,7 +48,6 @@ const EnterBirthday: React.FC<IProp> = ({ initialValues, onSubmit }) => {
       bgIconColor="accent.4"
       display="flex"
       alignItems="center"
-      isPaddingTop={false}
     >
       <Box mb={{ base: 4, lg: 20 }} color="primary">
         <Box fontSize={{ lg: "xl" }} fontWeight="bold" mb={3}>
