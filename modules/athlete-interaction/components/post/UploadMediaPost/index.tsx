@@ -1,13 +1,13 @@
-import { Box, Flex, Image, VisuallyHiddenInput } from "@chakra-ui/react";
+import { Box, Flex, VisuallyHiddenInput } from "@chakra-ui/react";
 import React, { forwardRef } from "react";
-import { Else, If, Then } from "react-if";
+import { If, Then } from "react-if";
 import { useFormikContext } from "formik";
 import { Swiper, SwiperSlide } from "swiper/react";
 import RemoveImage from "@/components/svg/RemoveImage";
 import { PlusIcon } from "@/components/svg/PlusIcon";
-import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
 import { IUploadFile, IValuesTypes } from "@/modules/athlete-interaction/hooks";
 import "swiper/css";
+import PreviewFile from "../PreviewFile";
 
 export interface IProps {
   onAdd?: () => void;
@@ -101,41 +101,7 @@ const UploadMediaPost = forwardRef<HTMLInputElement, IProps>(
                         : ""
                     }
                   >
-                    <If condition={item.type === "image"}>
-                      <Then>
-                        <Box>
-                          <Image
-                            w={styleSquare}
-                            h={styleSquare}
-                            objectFit="cover"
-                            src={formatFile(item.file)}
-                            alt=""
-                          />
-                        </Box>
-                      </Then>
-                      <Else>
-                        <Box w={styleSquare} h={styleSquare}>
-                          <video muted style={{ width: "100%" }}>
-                            <source src={formatFile(item.file)} />
-                          </video>
-                          <Flex
-                            w="full"
-                            h="full"
-                            alignItems="center"
-                            justifyContent="center"
-                            bg="gradient.dark"
-                            position="absolute"
-                            top={0}
-                          >
-                            <PlayVideoIcon
-                              w={{ base: "18px", lg: "25px" }}
-                              h={{ base: "18px", lg: "25px" }}
-                              position="absolute"
-                            />
-                          </Flex>
-                        </Box>
-                      </Else>
-                    </If>
+                    <PreviewFile item={item} styleSquare={styleSquare} />
                     <RemoveImage
                       w={{ base: "18px", lg: "25px" }}
                       h={{ base: "18px", lg: "25px" }}

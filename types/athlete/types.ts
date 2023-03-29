@@ -269,6 +269,7 @@ export interface IFanInfo {
 export interface IUploadFileInteraction {
   type: string;
   file: File | string;
+  fullType?: string;
 }
 export interface IMediaExisted {
   id: string;
