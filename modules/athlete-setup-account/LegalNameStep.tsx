@@ -2,10 +2,8 @@ import { useFormikContext } from "formik";
 import { Box, Input } from "@chakra-ui/react";
 import { useState } from "react";
 import { NextIcon } from "@/components/svg/NextIcon";
-import { IconLegalName } from "@/components/svg/IconLegalName";
 import { IValuesTypes } from "@/modules/athlete-setup-account/hooks/useSetupAccountPage";
 import ErrorMessage from "@/components/common/ErrorMessage";
-import HerosOnboardingWrapper from "@/components/ui/HerosOnboardingWrapper";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 import { FullNameFanOnBoardingIcon } from "@/components/svg/FullNameFanOnBoarding";
 import Label from "./components/Label";
@@ -44,7 +42,6 @@ const AthleteLegalNameStep: React.FC<IProp> = ({ onSubmit }) => {
       bgIconColor="accent.1"
       display="flex"
       alignItems="center"
-      isPaddingTop={false}
     >
       <Label
         color="primary"

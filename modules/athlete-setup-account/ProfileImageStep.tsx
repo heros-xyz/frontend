@@ -139,7 +139,6 @@ const AthleteProfileImageStep: FC<OnboardingProps> = (props) => {
       bgIconColor={"accent.1"}
       display="flex"
       alignItems="center"
-      isPaddingTop={false}
     >
       <Box mb={{ xl: 12 }}>
         <HStack

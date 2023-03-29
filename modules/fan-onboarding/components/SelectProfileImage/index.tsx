@@ -98,7 +98,6 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
       bgIconColor={"accent.1"}
       display="flex"
       alignItems="center"
-      isPaddingTop={false}
     >
       <Box color="primary">
         <Box mb={{ base: 5, lg: 8 }}>
