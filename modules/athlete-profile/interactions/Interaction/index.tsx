@@ -11,6 +11,7 @@ import {
 import { Else, If, Then } from "react-if";
 import Link from "next/link";
 import { Waypoint } from "react-waypoint";
+import { isIOS } from "react-device-detect";
 import Chat from "@/components/svg/Chat";
 import { getImageLink } from "@/utils/link";
 import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
@@ -94,6 +95,8 @@ export const Interaction = ({}) => {
                                 src={getImageLink(
                                   item?.interactionMedia[0]?.url
                                 )}
+                                playsInline
+                                autoPlay={isIOS}
                                 style={{
                                   borderRadius: "8px",
                                   width: "100%",

@@ -12,6 +12,7 @@ import {
 import React from "react";
 import NextLink from "next/link";
 import { Else, If, Then } from "react-if";
+import { isIOS } from "react-device-detect";
 import { IconArrowRight } from "@/components/svg/IconArrowRight";
 import { IconMessage } from "@/components/svg/IconMessage";
 import { ILatestInteraction } from "@/types/athlete/types";
@@ -135,6 +136,8 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
                                 src={getImageLink(
                                   item?.interactionMedia[0]?.url
                                 )}
+                                playsInline
+                                autoPlay={isIOS}
                                 style={{
                                   borderRadius: "8px",
                                   width: "100%",
