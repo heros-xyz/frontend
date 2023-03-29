@@ -24,7 +24,6 @@ interface OnboardingProps extends BoxProps {
   submitLoading?: boolean;
   isSuccessPage?: boolean;
   isDisabled?: boolean;
-  isPaddingTop?: boolean;
 }
 const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
   title,
@@ -39,7 +38,6 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
   bgIconColor,
   isSuccessPage,
   isDisabled,
-  isPaddingTop = true,
   ...props
 }) => {
   const [bgIcon, setBgIcon] = useState<string>();
@@ -56,6 +54,9 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
       minH={"90vh"}
       h={{ base: "full", lg: "100vh" }}
       w="100%"
+      className="onboarding-wrapper"
+      display="flex"
+      flexDirection="column"
     >
       <Box
         position={{ xl: "fixed" }}
@@ -73,7 +74,10 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
         h="full"
         w="full"
         px={{ base: 5, xl: 0 }}
-        pt={{ base: isPaddingTop ? "150px" : 0, xl: "0" }}
+        className="onboarding-wrapper__container"
+        display="flex"
+        alignItems="center"
+        flex={1}
       >
         <Flex
           flexDirection={
