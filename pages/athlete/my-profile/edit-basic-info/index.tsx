@@ -325,10 +325,18 @@ const EditBasicInfo = () => {
                     {" *"}
                   </Text>
                 </Box>
-                <Text as="span" color="grey.200" fontSize={["xs", "md"]} mb={1}>
-                  This is the first thing potential patrons will see when they
-                  land on your page, so make sure you paint a compelling picture
-                  of how they can join you on this journey.
+                <Text
+                  as="span"
+                  color="grey.200"
+                  fontSize={{ base: "xs", xl: "md" }}
+                  mb={1}
+                >
+                  Tell your fans your amazing story. This is important as your
+                  fans are looking for the inspiration and the connection to
+                  invest in you. Your story can include a <b>background</b>,
+                  your <b>life journey</b>, your <b>struggles & wins</b>, the{" "}
+                  <b>love for your sport</b> and what you want to <b>achieve</b>
+                  .
                 </Text>
                 <TextareaAutoSize
                   id="story"
@@ -336,6 +344,7 @@ const EditBasicInfo = () => {
                   className="postComment"
                   placeholder="Tell Your Story"
                   style={{
+                    resize: "none",
                     width: "100%",
                     borderBottom: `1px solid`,
                     outline: "none",
