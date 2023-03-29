@@ -68,7 +68,7 @@ const InputYourGoal: React.FC<IProps> = ({ goal, onSubmit, setStepValue }) => {
           id="goal"
           name="goal"
           className="postComment"
-          placeholder="Tell Your Story"
+          placeholder="Your Goal"
           style={{
             resize: "none",
             width: "100%",

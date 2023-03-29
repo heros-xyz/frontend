@@ -57,10 +57,11 @@ const InputYourStory: React.FC<InputYourStoryProps> = ({ onSubmit }) => {
           color="grey.300"
         >
           Tell your fans your amazing story. This is important as your fans are
-          looking for the inspiration and the connection to invest in you. Your
-          story can include a <b>background</b>, your <b>life journey</b>, your{" "}
-          <b>struggles & wins</b>, the <b>love for your sport</b> and what you
-          want to <b>achieve</b>.
+          looking for the inspiration and the connection to invest in you.
+          <br />
+          Your story can include a <b>background</b>, your <b>life journey</b>,
+          your <b>struggles & wins</b>, the <b>love for your sport</b> and what
+          you want to <b>achieve</b>.
         </Text>
         <TextareaAutoSize
           id="story"
