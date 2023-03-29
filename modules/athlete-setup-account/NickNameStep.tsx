@@ -38,7 +38,6 @@ const AthleteNickNameStep: React.FC<IProp> = ({ onSubmit }) => {
       bgIconColor="secondary"
       display="flex"
       alignItems="center"
-      isPaddingTop={false}
     >
       <Label
         title="Enter Your Nickname"
