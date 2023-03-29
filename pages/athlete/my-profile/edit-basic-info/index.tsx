@@ -124,7 +124,7 @@ const EditBasicInfo = () => {
             <form onSubmit={formik.handleSubmit}>
               <Box my={7}>
                 <Box fontWeight="medium">
-                  <Text as="span" color="black">
+                  <Text as="span" color="black.primary">
                     {" "}
                     Legal First Name
                   </Text>
@@ -159,7 +159,9 @@ const EditBasicInfo = () => {
                 />
               </Box>
               <Box my={7}>
-                <Box fontWeight="medium">Legal Middle Name</Box>
+                <Box fontWeight="medium" color="black.primary">
+                  Legal Middle Name (Optional)
+                </Box>
                 <Input
                   variant="flushed"
                   w="full"
@@ -188,7 +190,7 @@ const EditBasicInfo = () => {
               </Box>
               <Box mb={7}>
                 <Box fontWeight="medium">
-                  <Text as="span" color="black">
+                  <Text as="span" color="black.primary">
                     {" "}
                     Legal Last Name
                   </Text>
@@ -222,9 +224,9 @@ const EditBasicInfo = () => {
               </Box>
               <If condition={formik.values?.dateOfBirth}>
                 <Then>
-                  <Box mb={{ base: 10, lg: 20 }} color="primary">
+                  <Box mb={7} color="primary">
                     <Box fontWeight="medium" mt={7}>
-                      <Text as="span" color="black">
+                      <Text as="span" color="black.primary">
                         {" "}
                         Date of Birth
                       </Text>
@@ -262,7 +264,7 @@ const EditBasicInfo = () => {
                 <Then>
                   <Box mb={7}>
                     <Box fontWeight="medium" mb={2}>
-                      <Text as="span" color="black">
+                      <Text as="span" color="black.primary">
                         {" "}
                         Gender
                       </Text>
@@ -291,8 +293,7 @@ const EditBasicInfo = () => {
               </If>
               <Box mb={7}>
                 <Box fontWeight="medium">
-                  <Text as="span" color="black">
-                    {" "}
+                  <Text as="span" color="black.primary">
                     Nationality
                   </Text>
                   <Text as="span" color="error.dark">
@@ -316,7 +317,7 @@ const EditBasicInfo = () => {
               </Box>
               <Box mb={7}>
                 <Box fontWeight="medium">
-                  <Text as="span" color="black">
+                  <Text as="span" color="black.primary">
                     {" "}
                     My Story
                   </Text>
