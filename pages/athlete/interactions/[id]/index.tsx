@@ -80,6 +80,8 @@ const InteractionDetail = () => {
           py={6}
           px={{ base: 5, lg: 0 }}
           zIndex={10}
+          fontWeight="bold"
+          bg="white"
         >
           <BackButton href="/athlete/interactions" title="Interaction" />
         </Box>
