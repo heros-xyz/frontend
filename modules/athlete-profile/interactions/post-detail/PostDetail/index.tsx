@@ -69,7 +69,7 @@ const PostDetail = () => {
               pb={5}
               zIndex={10}
             >
-              <ArrowLeft w="32px" h="32px" color="primary" />
+              <ArrowLeft color="primary" />
               <Text ml="20px" fontWeight="bold" fontSize="xl">
                 Interaction
               </Text>

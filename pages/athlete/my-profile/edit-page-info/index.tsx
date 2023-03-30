@@ -47,6 +47,7 @@ import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards, IHerosError } from "@/types/globals/types";
+import BackButton from "@/components/ui/BackButton";
 
 const EditPageInfo = () => {
   const toast = useToast();
@@ -185,17 +186,10 @@ const EditPageInfo = () => {
       >
         <Box w={{ base: "full", xl: "30rem" }}>
           <Box w="full" fontWeight="bold">
-            <Link as={NextLink} href="/athlete/my-profile">
-              <ArrowLeft
-                verticalAlign=""
-                w={{ base: "14px", xl: "18px" }}
-                h={{ base: "14px", xl: "18px" }}
-                cursor="pointer"
-              />
-            </Link>
-            <Text as="span" ml="6" fontSize={{ base: "xl", xl: "2xl" }}>
-              Edit Page Information
-            </Text>
+            <BackButton
+              href="/athlete/my-profile"
+              title=" Edit Page Information"
+            />
           </Box>
           <form onSubmit={formik.handleSubmit}>
             <Box

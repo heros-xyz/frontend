@@ -1,5 +1,5 @@
 import { Pagination } from "swiper";
-import { AspectRatio, Box, Image } from "@chakra-ui/react";
+import { AspectRatio, Box, Image, Skeleton, Spinner } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Case, Else, If, Switch, Then } from "react-if";
 import { getImageLink } from "@/utils/link";
@@ -46,8 +46,12 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
                         src={getImageLink(item.url)}
                         alt={item.url}
                         rounded={{ base: "8px", lg: "12px" }}
-                        loading="lazy"
                         objectFit="cover"
+                        fallback={
+                          <Box rounded="10px" w="full" h="300px" bg="grey.0">
+                            <Spinner color="accent.2" size="md" />
+                          </Box>
+                        }
                       />
                     </Then>
                     <Else>
@@ -63,23 +67,20 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
                       src={getImageLink(item.url)}
                       alt={item.url}
                       rounded={{ base: "8px", lg: "12px" }}
-                      loading="lazy"
                       objectFit="cover"
-                    />
-                  </Then>
-                  <Else>
-                    <VideoPlayer url={getImageLink(item.url)} />
-                  </Else>
-                </If>
-              </Case>
-              <Case condition={slideData.length <= 1}>
-                <If condition={item.type === "image"}>
-                  <Then>
-                    <Image
-                      src={getImageLink(item.url)}
-                      alt={item.url}
-                      rounded={{ base: "8px", lg: "12px" }}
-                      loading="lazy"
+                      fallback={
+                        <Box
+                          rounded="10px"
+                          w="full"
+                          h="300px"
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center"
+                          bg="grey.0"
+                        >
+                          <Spinner color="accent.2" size="md" />
+                        </Box>
+                      }
                     />
                   </Then>
                   <Else>

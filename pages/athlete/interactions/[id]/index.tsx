@@ -15,6 +15,7 @@ import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards } from "@/types/globals/types";
+import BackButton from "@/components/ui/BackButton";
 
 const InteractionDetail = () => {
   const router = useRouter();
@@ -79,22 +80,10 @@ const InteractionDetail = () => {
           py={6}
           px={{ base: 5, lg: 0 }}
           zIndex={10}
+          fontWeight="bold"
+          bg="white"
         >
-          <Flex
-            alignItems="center"
-            gap={3}
-            cursor="pointer"
-            onClick={() => router.push("/athlete/interactions")}
-          >
-            <ArrowLeft />
-            <Text
-              fontFamily="heading"
-              fontSize={{ base: "xl", lg: "2xl" }}
-              color="primary"
-            >
-              Interaction
-            </Text>
-          </Flex>
+          <BackButton href="/athlete/interactions" title="Interaction" />
         </Box>
         <Box>
           <If condition={!isLoading && !!postInfo}>

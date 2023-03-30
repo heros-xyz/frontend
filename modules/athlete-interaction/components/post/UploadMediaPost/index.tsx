@@ -143,7 +143,7 @@ const UploadMediaPost = forwardRef<HTMLInputElement, IProps>(
           ref={ref}
           type="file"
           multiple
-          accept="image/jpeg,image/png,image/gif,video/mov,video/mp4,video/avi,"
+          accept="image/jpeg,image/png,image/gif,video/*,video/mov,video/mp4,video/avi"
           onChange={onSelectMediaPost}
         />
       </Box>
