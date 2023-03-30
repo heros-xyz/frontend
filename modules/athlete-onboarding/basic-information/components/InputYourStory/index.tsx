@@ -43,15 +43,25 @@ const InputYourStory: React.FC<InputYourStoryProps> = ({ onSubmit }) => {
       bgIconColor="accent.6"
     >
       <Box mb={{ base: 4, lg: 10 }} color="primary">
-        <Box fontSize={{ lg: "xl" }} fontWeight="bold" mb={1.5}>
+        <Box fontSize={{ base: "md", xl: "xl" }} fontWeight="bold" mb={1.5}>
           Tell Your Story (5000 characters max)
           <Text as="span" color="error.dark">
             {" "}
             *
           </Text>
         </Box>
-        <Text as="p" fontSize="xs" mb={2} color="grey.300">
-          Tell a compelling story of yourself to inspire potential fans.
+        <Text
+          as="p"
+          fontSize={{ base: "xs", xl: "md" }}
+          mb={2}
+          color="grey.300"
+        >
+          Tell your fans your amazing story. This is important as your fans are
+          looking for the inspiration and the connection to invest in you.
+          <br />
+          Your story can include a <b>background</b>, your <b>life journey</b>,
+          your <b>struggles & wins</b>, the <b>love for your sport</b> and what
+          you want to <b>achieve</b>.
         </Text>
         <TextareaAutoSize
           id="story"
@@ -59,6 +69,7 @@ const InputYourStory: React.FC<InputYourStoryProps> = ({ onSubmit }) => {
           className="postComment"
           placeholder="Tell Your Story"
           style={{
+            resize: "none",
             width: "100%",
             borderBottom: `1px solid`,
             outline: "none",

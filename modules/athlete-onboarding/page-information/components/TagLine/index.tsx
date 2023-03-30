@@ -45,8 +45,10 @@ const TagLine: FC<TagLineProps> = ({ value, onSubmit }) => {
           mb={5}
           color="grey.300"
         >
-          You can add your favorite line or anything that define you or your
-          personality. It will be shown below your Nickname.
+          The tagline is an opportunity to connect and inspire fans immediately.
+          <br />
+          Add your <b>favourite quote</b> or anything that <b>defines you</b> or
+          your <b>personality</b>.
         </Text>
         <Input
           value={tag}
@@ -54,10 +56,15 @@ const TagLine: FC<TagLineProps> = ({ value, onSubmit }) => {
             setTag(e.target.value)
           }
           variant="flushed"
-          fontSize={{ base: "sm" }}
-          borderColor="grey.200"
+          fontSize={{ base: "sm", xl: "lg" }}
           placeholder="Tagline"
           maxLength={101}
+          color="primary"
+          borderColor="grey.200"
+          _focusVisible={{
+            borderColor: "grey.200",
+            boxShadow: "none",
+          }}
         />
         <ErrorMessage
           condition={tag.length > 100}

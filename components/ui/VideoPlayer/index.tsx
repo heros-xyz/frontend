@@ -2,9 +2,9 @@ import React, { useRef, useState } from "react";
 import { Waypoint } from "react-waypoint";
 import { Box } from "@chakra-ui/react";
 import { If, Then } from "react-if";
+import { isIOS } from "react-device-detect";
 import { useDevice } from "@/hooks/useDevice";
 import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
-
 interface IVideoPlayerProps {
   url: string;
 }
@@ -39,6 +39,8 @@ export const VideoPlayer: React.FC<IVideoPlayerProps> = ({ url }) => {
         <video
           muted
           controls
+          playsInline
+          autoPlay={isIOS}
           ref={vidRef}
           style={{
             borderRadius: isMobile ? "8px" : "12px",
