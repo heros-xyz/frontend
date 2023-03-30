@@ -3,7 +3,11 @@ import { ReactElement } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import FanDashboardLayout from "@/layouts/FanDashboard";
-import { useGetPaymentInfoQuery } from "@/api/fan";
+import {
+  getPaymentInfo,
+  getRunningQueriesThunk,
+  useGetPaymentInfoQuery,
+} from "@/api/fan";
 import PaymentWallet from "@/modules/athlete-dashboard/components/PaymentWallet";
 import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
@@ -51,8 +55,10 @@ PaymentInfo.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
+  (store) => async (context) => {
     setContext(context);
+    store.dispatch(getPaymentInfo.initiate(""));
+    await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
     return fanAuthGuard(context, ({ session }: IGuards) => {
       return {

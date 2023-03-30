@@ -33,7 +33,10 @@ const PaymentWallet: React.FC<IProp> = ({ onBack, onSubmit, paymentData }) => {
       <If condition={paymentData?.cardNumber}>
         <Then>
           <Text mt="5" w="full">
-            {paymentData?.cardType ?? "Visa"} ****
+            <Text as="span" textTransform="capitalize">
+              {paymentData?.cardType?.toLocaleLowerCase() ?? ""}
+            </Text>{" "}
+            ****
             {paymentData?.cardNumber?.split(" ").join("").slice(-4)},{" "}
             {paymentData?.expiredDate.slice(0, -2)}20
             {paymentData?.expiredDate.slice(-2)}

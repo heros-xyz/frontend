@@ -85,12 +85,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       >
         <Text>Today Charge</Text>
         <Spacer />
-        <Text
-          fontWeight={{ base: 500, lg: 700 }}
-          fontSize={{ base: "sm", lg: "lg" }}
-        >
-          {price}
-        </Text>
+        <Text fontSize={{ base: "sm", lg: "lg" }}>{price}</Text>
       </Flex>
       <Text py={2.5} gap={2.5} fontSize="sm" fontWeight={500}>
         Renews automatically on {dateRenew}
