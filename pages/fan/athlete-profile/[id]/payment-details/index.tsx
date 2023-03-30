@@ -21,6 +21,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useUpdateEffect } from "react-use";
 import Head from "next/head";
 import {
+  getAthleteProfile,
+  getAthleteTierMembership,
   getPaymentInfo,
   getRunningQueriesThunk,
   useAddPaymentInfoMutation,
@@ -35,7 +37,6 @@ import OrderSummary from "@/components/ui/OrderSumary";
 import { formatMoney } from "@/utils/functions";
 import { AlertIcon } from "@/components/svg";
 import DeleteSubscription from "@/components/ui/DeleteSubscription";
-import { useGetBasicInformationQuery } from "@/api/athlete";
 import { IGuards, IHerosError } from "@/types/globals/types";
 import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
@@ -46,13 +47,6 @@ const PaymentDetails = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isError, setIsError] = useState<boolean>(false);
   const [errorCard, setErrorCard] = useState<boolean>(false);
-
-  const { data: dataAthlete } = useGetBasicInformationQuery(
-    router.query.id as string,
-    {
-      skip: typeof router.query.id !== "string",
-    }
-  );
   const { data: athleteProfile } = useGetAthleteProfileQuery(
     router.query.id as string,
     {
@@ -290,7 +284,7 @@ const PaymentDetails = () => {
               <OrderSummary
                 mt={8}
                 avatar={athleteProfile?.avatar ?? ""}
-                userName={dataAthlete?.nickName ?? ""}
+                userName={athleteProfile?.nickName ?? ""}
                 dateRenew={dayjs(new Date()).format("DD MMM YYYY")}
                 price={formatMoney(tierSelected?.monthlyPrice as number, true)}
                 tier={tierSelected?.name ?? ""}
@@ -360,6 +354,17 @@ export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     setContext(context);
     store.dispatch(getPaymentInfo.initiate(""));
+    if (typeof context.query.id === "string") {
+      store.dispatch(getAthleteProfile.initiate(context.query.id));
+      store.dispatch(getAthleteProfile.initiate(context.query.id));
+      store.dispatch(
+        getAthleteTierMembership.initiate({
+          page: 1,
+          take: 10,
+          userId: context.query.id,
+        })
+      );
+    }
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
     return fanAuthGuard(context, ({ session }: IGuards) => {

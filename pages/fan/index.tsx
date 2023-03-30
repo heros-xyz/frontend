@@ -10,7 +10,11 @@ import { setContext, setToken } from "@/libs/axiosInstance";
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
 import MyAthletes from "@/modules/fan-dashboard/components/MyAthletes";
-import { useGetLatestInteractionQuery } from "@/api/fan";
+import {
+  getLatestInteraction,
+  getRunningQueriesThunk,
+  useGetLatestInteractionQuery,
+} from "@/api/fan";
 interface IFanDashboardProps {
   isFirstLogin: boolean;
 }
@@ -76,7 +80,7 @@ FanDashboard.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
+  (store) => async (context) => {
     setContext(context);
 
     const access_token = getCookie("_Auth.access-token", {
@@ -92,6 +96,14 @@ export const getServerSideProps = wrapper.getServerSideProps(
     });
 
     setToken(access_token);
+
+    store.dispatch(
+      getLatestInteraction.initiate({
+        page: 1,
+        take: 3,
+      })
+    );
+    await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
     return fanAuthGuard(context, ({ session }: IGuards) => {
       return {
