@@ -58,7 +58,7 @@ const JourneyCard: React.FC<IProps> = ({
         <Text fontSize={{ base: "xxs", lg: "md" }}>{item.description}</Text>
       </Box>
       <Flex w={{ lg: "145px" }}>
-        <Box w="1px" h={{ base: "51px", xl: "74px" }} bg="grey.300" />
+        <Box w="1px" h={{ base: "51px", xl: "74px" }} bg="grey.200" />
         <If condition={item?.endDate}>
           <Then>
             <Box
