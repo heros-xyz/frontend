@@ -209,7 +209,7 @@ const PaymentDetails = () => {
                       fontSize={{ base: "md", xl: "xl" }}
                     >
                       <Text>
-                        Visa ****
+                        {paymentInfoList?.[0]?.cardType ?? "Visa"} ****
                         {paymentInfoList
                           ? paymentInfoList[0]?.cardNumber.slice(-4)
                           : ""}

@@ -11,6 +11,7 @@ import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards } from "@/types/globals/types";
+import BackButton from "@/components/ui/BackButton";
 
 const EditJourney = () => {
   const router = useRouter();
@@ -56,22 +57,12 @@ const EditJourney = () => {
             pt={{ base: 5, xl: "3.75rem" }}
             mb={{ base: 5, lg: 8 }}
           >
-            <ArrowLeft
-              verticalAlign=""
-              w={{ base: "14px", xl: "18px" }}
-              h={{ base: "14px", xl: "18px" }}
-              cursor="pointer"
-              onClick={() => router.push("/athlete/my-profile?current=2")}
+            <BackButton
+              href="/athlete/my-profile?current=2"
+              title="Edit Career Journey"
             />
-            <Text
-              as="span"
-              ml="6"
-              color="primary"
-              fontSize={{ base: "xl", xl: "2xl" }}
-            >
-              Edit Career Journey
-            </Text>
           </Box>
+
           <TimeLineJourney
             items={sortData || []}
             isAddJourney

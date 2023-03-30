@@ -37,6 +37,7 @@ import { athleteGuard } from "@/middleware/athleteGuard";
 import { setContext } from "@/libs/axiosInstance";
 import { colors } from "@/styles/themes/colors";
 import { useDevice } from "@/hooks/useDevice";
+import BackButton from "@/components/ui/BackButton";
 
 const EditBasicInfo = () => {
   const toast = useToast();
@@ -108,17 +109,10 @@ const EditBasicInfo = () => {
             fontWeight="bold"
             fontSize={{ base: "xs", xl: "xl" }}
           >
-            <Link as={NextLink} href="/athlete/my-profile">
-              <ArrowLeft
-                verticalAlign=""
-                w={{ base: "14px", xl: "18px" }}
-                h={{ base: "14px", xl: "18px" }}
-                cursor="pointer"
-              />
-            </Link>
-            <Text as="span" ml="6" fontSize={{ base: "xl", xl: "2xl" }}>
-              Edit Basic Information
-            </Text>
+            <BackButton
+              href="/athlete/my-profile"
+              title="Edit Basic Information"
+            />
           </Box>
           <Box fontSize={{ base: "sm", lg: "xl" }}>
             <form onSubmit={formik.handleSubmit}>

@@ -5,9 +5,10 @@ export interface PaymentInfo {
   nameOnCard: string;
   cardNumber: string;
   expiredDate: string;
-  cvv: string;
+  cvv?: string;
   country: string;
   postCode: string;
+  cardType: string;
 }
 
 export interface UpdatedPaymentInfo {
