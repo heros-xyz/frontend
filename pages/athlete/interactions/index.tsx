@@ -63,6 +63,7 @@ const Interactions = () => {
             fontFamily="heading"
             fontSize={{ base: "xl", lg: "2xl" }}
             color="primary"
+            fontWeight="bold"
           >
             Interactions
           </Text>
