@@ -68,7 +68,7 @@ export default function SocialSharing({
               </Text>
             </Flex>
           </FacebookShareButton>
-          <Divider borderColor="#ADADAD" />
+          <Divider borderColor="#DDDDDD" />
           <TwitterShareButton
             url={postLink}
             title={"ostDetails.content"}
@@ -81,7 +81,7 @@ export default function SocialSharing({
               </Text>
             </Flex>
           </TwitterShareButton>
-          <Divider borderColor="#ADADAD" />
+          <Divider borderColor="#DDDDDD" />
           <Flex
             role="button"
             _hover={{ opacity: 0.5 }}
