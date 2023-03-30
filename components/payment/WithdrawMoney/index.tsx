@@ -23,6 +23,7 @@ import {
 import { WarningIcon } from "@/components/svg/WarningIcon";
 import { CheckIcon } from "@/components/svg/CheckIcon";
 import { useUpdateWithdrawMoneyMutation } from "@/api/athlete";
+import BackButton from "@/components/ui/BackButton";
 interface IProp {
   onSubmit: (values: initialWithdrawMoney) => void;
   initialValues?: initialWithdrawMoney;
@@ -60,17 +61,7 @@ const WithdrawMoney: React.FC<IProp> = ({ onSubmit }) => {
       >
         <Box w={{ base: "full", xl: "30rem" }}>
           <Box w="full" fontWeight="bold">
-            <Link href="/athlete">
-              <ArrowLeft
-                verticalAlign=""
-                w={{ base: "14px", xl: "18px" }}
-                h={{ base: "14px", xl: "18px" }}
-                cursor="pointer"
-              />
-            </Link>
-            <Text as="span" ml="6" fontSize={{ base: "xl", xl: "2xl" }}>
-              Withdraw Money
-            </Text>
+            <BackButton href="/athlete" title="Withdraw Money" />
           </Box>
           <Box w="full" fontSize={{ base: "sm", xl: "md" }} color="black">
             <form onSubmit={formik.handleSubmit}>

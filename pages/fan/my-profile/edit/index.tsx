@@ -48,6 +48,7 @@ import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
+import BackButton from "@/components/ui/BackButton";
 
 const initialValues = {
   firstName: "",
@@ -192,16 +193,10 @@ const EditAccountInfo = () => {
             fontWeight="bold"
             fontSize={{ base: "xs", xl: "xl" }}
           >
-            <Link as={NextLink} href={"/fan/my-profile"}>
-              <ArrowLeft
-                verticalAlign=""
-                w={{ base: "14px", xl: "18px" }}
-                h={{ base: "14px", xl: "18px" }}
-              />
-            </Link>
-            <Text as="span" ml="6" fontSize={{ base: "xl", xl: "2xl" }}>
-              Edit Account Information
-            </Text>
+            <BackButton
+              href="/fan/my-profile"
+              title="Edit Account Information"
+            />
           </Box>
           <Box fontSize={{ base: "sm", lg: "md" }} color="black">
             <form onSubmit={formik.handleSubmit}>

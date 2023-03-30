@@ -21,6 +21,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useUpdateEffect } from "react-use";
 import Head from "next/head";
 import {
+  getPaymentInfo,
+  getRunningQueriesThunk,
   useAddPaymentInfoMutation,
   useGetAthleteProfileQuery,
   useGetAthleteTierMembershipQuery,
@@ -209,7 +211,11 @@ const PaymentDetails = () => {
                       fontSize={{ base: "md", xl: "xl" }}
                     >
                       <Text>
-                        Visa ****
+                        <Text as="span" textTransform="capitalize">
+                          {paymentInfoList?.[0]?.cardType?.toLocaleLowerCase() ??
+                            ""}
+                        </Text>{" "}
+                        ****
                         {paymentInfoList
                           ? paymentInfoList[0]?.cardNumber.slice(-4)
                           : ""}
@@ -351,8 +357,10 @@ const PaymentDetails = () => {
 export default PaymentDetails;
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
+  (store) => async (context) => {
     setContext(context);
+    store.dispatch(getPaymentInfo.initiate(""));
+    await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
     return fanAuthGuard(context, ({ session }: IGuards) => {
       return {

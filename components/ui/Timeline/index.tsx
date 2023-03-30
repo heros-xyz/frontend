@@ -139,7 +139,7 @@ const TimeLineJourney: React.FC<IProps> = ({
                         left={{ base: "45px", xl: 20 }}
                         fontSize={{ base: "xs", xl: message ? "md" : "2xl" }}
                         whiteSpace="nowrap"
-                        fontWeight="medium"
+                        fontWeight={message ? "bold" : "medium"}
                       >
                         {message ??
                           "Add as many as you like to tell your journey"}

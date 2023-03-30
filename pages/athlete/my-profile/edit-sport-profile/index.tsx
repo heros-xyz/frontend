@@ -29,6 +29,7 @@ import { IGuards, IHerosError } from "@/types/globals/types";
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { colors } from "@/styles/themes/colors";
 import { useDevice } from "@/hooks/useDevice";
+import BackButton from "@/components/ui/BackButton";
 
 const EditSportProfile = () => {
   const toast = useToast();
@@ -108,16 +109,10 @@ const EditSportProfile = () => {
               pt={{ base: 5, xl: "3.75rem" }}
               mb={{ base: 5, lg: 8 }}
             >
-              <ArrowLeft
-                verticalAlign=""
-                w={{ base: "14px", xl: "18px" }}
-                h={{ base: "14px", xl: "18px" }}
-                cursor="pointer"
-                onClick={() => router.push("/athlete/my-profile")}
+              <BackButton
+                href="/athlete/my-profile"
+                title="Edit Sport Profile"
               />
-              <Text as="span" ml="6" fontSize={{ base: "xl", xl: "2xl" }}>
-                Edit Sport Profile
-              </Text>
             </Box>
             <Box mb="50px">
               <Box mb={{ base: 5, xl: 8 }}>
