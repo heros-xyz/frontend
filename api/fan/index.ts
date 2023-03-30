@@ -335,5 +335,5 @@ export const {
   util: { getRunningQueriesThunk },
 } = fanApi;
 
-export const { getAthleteBasicInfo, getAthleteProfile, getPaymentInfo } =
+export const { getAthleteBasicInfo, getAthleteProfile, getPaymentInfo, getAthleteTierMembership, getLatestInteraction } =
   fanApi.endpoints;

@@ -49,7 +49,7 @@ const MyStory: React.FC<Story> = ({ description, dob, gender, isEdit }) => {
       )}
       <Heading fontSize="xl">My Story</Heading>
       <Box fontSize={{ base: "xs", lg: "md" }} mt={2.5} wordBreak="break-word">
-        <Text as="span">
+        <Text as="span" whiteSpace="break-spaces">
           {readMore ? description : descSubstring}
           {showReadMore ? "...." : ""}
         </Text>

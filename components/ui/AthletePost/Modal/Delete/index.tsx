@@ -72,8 +72,8 @@ const DeletePostModal: FC<IDeletePostModalProps> = ({
             mb={{ base: 4, lg: 7 }}
             fontSize={{ lg: "xl" }}
             onClick={handleDeletePost}
-            bg="secondary"
-            color="primary"
+            bg="primary"
+            color="secondary"
             size="lg"
             w={{ base: "full", lg: "fit-content" }}
           >

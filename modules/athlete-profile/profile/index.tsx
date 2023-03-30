@@ -102,7 +102,7 @@ export const Profile: React.FC<IProfileProps> = ({
           <Text fontWeight="bold" fontSize={{ base: "sm", lg: "md" }} mb={2}>
             My Goal
           </Text>
-          <Text fontSize={{ base: "xs", lg: "md" }}>
+          <Text fontSize={{ base: "xs", lg: "md" }} whiteSpace="break-spaces">
             {sportProfile?.data.goal || ""}
           </Text>
         </Box>
