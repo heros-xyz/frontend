@@ -11,7 +11,7 @@ const ALLOWED_TYPES_POST_VIDEO = ["video/mov", "video/mp4", "video/avi", "video/
 const ALLOWED_TYPES_VIDEO = ["mov", "mp4", "avi", "hevc"];
 
 const LARGE_SIZE_MESSAGE =
-  "Your image size is too large, limit size is less than 2MB";
+  "Your image size is too large, limit size is less than 10MB";
 const ERROR_SIZE_UPLOAD_POST_MEDIA =
   "Your image file size must not exceed 30MB and video file size must not exceed 1GB.";
 
