@@ -27,7 +27,7 @@ exports[`renders homepage unchanged 1`] = `
               xmlns="http://www.w3.org/2000/svg"
             >
               <g
-                clip-path="url(#clip0_5448_58240)"
+                clipPath="url(#clip0_5448_58240)"
               >
                 <path
                   d="M16.0496 25.9568L14.5449 36.0195H18.8709L27.7111 34.0445L28.9336 24.1699L16.0496 25.9568Z"
@@ -36,8 +36,8 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M16.0496 25.9568L14.5449 36.0195H18.8709L27.7111 34.0445L28.9336 24.1699L16.0496 25.9568Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M42.8521 24.0742L41.4414 33.1965L49.6232 38.4629L51.1279 28.4943L42.8521 24.0742Z"
@@ -46,8 +46,8 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M42.8521 24.0742L41.4414 33.1965L49.6232 38.4629L51.1279 28.4943L42.8521 24.0742Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M46.3322 3.85547C46.2382 3.94951 45.0156 12.4135 45.0156 12.4135L52.5391 16.1752L54.1379 7.89936L46.3322 3.85547Z"
@@ -56,8 +56,8 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M46.3322 3.85547C46.2382 3.94951 45.0156 12.4135 45.0156 12.4135L52.5391 16.1752L54.1379 7.89936L46.3322 3.85547Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M32.0373 12.4133L30.7207 22.476L41.9119 22.7581L43.7928 12.5073C43.7928 12.5073 34.8586 11.0967 32.0373 12.4133Z"
@@ -66,8 +66,8 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M32.0373 12.4133L30.7207 22.476L41.9119 22.7581L43.7928 12.5073C43.7928 12.5073 34.8586 11.0967 32.0373 12.4133Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M19.3417 5.54855L18.1191 13.7304L30.8151 11.7554L31.9436 3.76172L19.3417 5.54855Z"
@@ -76,8 +76,8 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M19.3417 5.54855L18.1191 13.7304L30.8151 11.7554L31.9436 3.76172L19.3417 5.54855Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M5.23439 11.2852L3.35352 21.63C3.35352 21.63 13.1341 25.956 14.6388 25.2037C16.2375 24.5453 16.7077 14.2946 16.7077 14.2946L5.23439 11.2852Z"
@@ -86,8 +86,8 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M5.23439 11.2852L3.35352 21.63C3.35352 21.63 13.1341 25.956 14.6388 25.2037C16.2375 24.5453 16.7077 14.2946 16.7077 14.2946L5.23439 11.2852Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M63.6361 89.4347C66.7396 89.4347 70.8775 86.9895 70.4073 81.2529C70.1251 78.5256 67.0217 78.4315 67.0217 78.4315C67.0217 78.4315 71.2537 77.1149 70.6894 70.6259C70.3132 66.1118 66.7395 66.582 66.7395 66.582C66.7395 66.582 71.2537 64.513 71.7239 59.1525C72.1941 53.1337 67.3979 53.0397 67.3979 53.0397C73.4167 49.466 71.7239 41.8485 66.9276 40.0616C62.6016 38.4629 39.6549 38.4629 39.6549 38.4629C31.6612 39.2152 25.1721 39.8735 25.1721 39.8735L9.6549 40.6259L7.58594 89.9989C7.58594 89.9989 29.5922 89.9049 63.6361 89.4347Z"
@@ -96,56 +96,56 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M30.908 52.1002C29.6854 56.6143 29.7794 60.282 32.3186 64.0438C34.1995 66.8651 38.3374 66.5829 40.9707 64.4199C44.2622 61.7867 46.8954 55.4858 41.9111 44.2945C41.9111 44.2945 38.3374 34.8902 25.3594 40.7209"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M30.4375 58.8711C29.2149 62.5388 24.6068 63.6673 21.6914 63.4792"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M5.42188 10.627C5.42188 10.627 11.3466 15.4232 22.2557 14.0125C33.1648 12.5078 40.5943 7.14733 52.914 16.9279"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M3.54102 22.0996C3.54102 22.0996 9.65387 26.7078 20.3749 25.2971C31.1899 23.8864 38.5253 18.5259 50.7511 28.2125"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M18.6827 5.73633L13.9805 36.3946"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M32.6005 3.47852L28.5566 33.5726"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M45.955 3.29102L40.9707 33.197"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M54.5133 7.71139L49.9051 39.2161C49.9051 39.2161 41.5352 28.9653 27.5227 34.1377C13.4161 39.4042 2.50698 35.6424 1.09632 33.8556C0.908235 33.6675 6.64491 1.31641 6.64491 1.31641C6.64491 1.31641 13.0399 6.30073 23.8549 4.89007C34.764 3.38537 42.0995 -2.06917 54.5133 7.71139Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M50.7525 33.291L49.3418 42.8835"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M17.9298 5.45453L16.5192 14.3887L4.76367 10.5329L6.17433 1.88086L17.9298 5.45453Z"
@@ -154,8 +154,8 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M17.9298 5.45453L16.5192 14.3887L4.76367 10.5329L6.17433 1.88086L17.9298 5.45453Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M30.1566 13.2598L29.4042 23.6986L15.6738 25.7676L17.8368 14.1062L30.1566 13.2598Z"
@@ -164,8 +164,8 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M30.1566 13.2598L29.4042 23.6986L15.6738 25.7676L17.8368 14.1062L30.1566 13.2598Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M45.2038 2.44531L44.1694 11.6616L31.8496 11.1914L33.0722 2.72744L45.2038 2.44531Z"
@@ -174,8 +174,8 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M45.2038 2.44531L44.1694 11.6616L31.8496 11.1914L33.0722 2.72744L45.2038 2.44531Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M53.0094 15.7046L51.0345 28.3065L43.1348 23.7924L45.2037 13.3535L53.0094 15.7046Z"
@@ -184,8 +184,8 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M53.0094 15.7046L51.0345 28.3065L43.1348 23.7924L45.2037 13.3535L53.0094 15.7046Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M41.9114 23.6996L39.9364 33.3861L29.0273 33.2921L31.0023 22.9473L41.9114 23.6996Z"
@@ -194,8 +194,8 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M41.9114 23.6996L39.9364 33.3861L29.0273 33.2921L31.0023 22.9473L41.9114 23.6996Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M15.2023 25.5797L12.9452 36.3948L6.17407 35.6424L1.0957 33.8556L3.16467 22.5703L15.2023 25.5797Z"
@@ -204,14 +204,14 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M15.2023 25.5797L12.9452 36.3948L6.17407 35.6424L1.0957 33.8556L3.16467 22.5703L15.2023 25.5797Z"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M46.8016 83.6983C46.8016 81.3472 48.8706 79.5604 51.7859 79.0902C47.8361 78.5259 44.9207 77.5855 45.0148 73.0714C45.1088 69.5918 48.7765 68.0871 52.1621 67.3347C47.7421 67.2407 44.7327 66.2062 44.2624 62.3504C43.7922 58.5886 46.7076 56.0494 50.2812 55.109C47.0838 54.5447 43.9803 52.5698 44.0744 48.9021C44.2624 45.0463 48.6825 43.5416 51.6919 43.5416L62.0367 43.3535"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
               </g>
               <defs>
@@ -308,7 +308,7 @@ exports[`renders homepage unchanged 1`] = `
                         stroke="#33EFEF"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        stroke-width="1.5"
+                        strokeWidth="1.5"
                       />
                     </svg>
                   </span>
@@ -335,7 +335,7 @@ exports[`renders homepage unchanged 1`] = `
                   stroke="#33EFEF"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                 />
               </svg>
             </span>

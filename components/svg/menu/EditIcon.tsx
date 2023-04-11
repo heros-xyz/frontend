@@ -7,7 +7,7 @@ export const EditIcon: React.FC<IconProps> = (props) => {
       width="5"
       height="5"
       viewBox="0 0 20 21"
-      fill="currentColor"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

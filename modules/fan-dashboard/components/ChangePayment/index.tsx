@@ -18,6 +18,7 @@ interface IProp {
   initialValues?: initialChangepayment;
   isError: boolean;
   setIsError: Dispatch<SetStateAction<boolean>>;
+  setErrorCode: Dispatch<SetStateAction<number>>;
 }
 
 const ChangePayment: React.FC<IProp> = ({
@@ -26,6 +27,7 @@ const ChangePayment: React.FC<IProp> = ({
   idUpdate,
   isError,
   setIsError,
+  setErrorCode,
 }) => {
   const router = useRouter();
   const { formik, isValid, submitCount, values, handleSubmit } =
@@ -75,6 +77,14 @@ const ChangePayment: React.FC<IProp> = ({
       }
       if (errorData.data.statusCode === 3000) {
         setIsError(true);
+        setErrorCode(3000);
+        setTimeout(() => {
+          setIsError(false);
+        }, 5000);
+      }
+      if (errorData.data.statusCode === 4001) {
+        setIsError(true);
+        setErrorCode(4001);
         setTimeout(() => {
           setIsError(false);
         }, 5000);

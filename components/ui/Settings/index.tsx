@@ -248,6 +248,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
         >
           Help
         </Heading>
+
         <Box borderBottom="1px" borderColor="grey.100">
           <Link
             as={NextLink}
@@ -260,6 +261,7 @@ const AthleteFanSettings: React.FC<SettingsProps> = ({
             alignItems="center"
             py="2.5"
             _hover={{ textDecoration: "none" }}
+            target="_blank"
           >
             <ChatAltIcon
               mr="2.5"

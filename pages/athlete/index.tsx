@@ -30,6 +30,9 @@ import {
   useGetMembershipListQuery,
   useGetSportProfileQuery,
   useGetTotalSubscriptionQuery,
+  getRunningQueriesThunkAthlete,
+  getTotalSubscription,
+  getGrossAmountMoney,
 } from "@/api/athlete";
 import { getRunningQueriesThunk, profile, useProfileQuery } from "@/api/user";
 import { getImageLink } from "@/utils/link";
@@ -141,7 +144,12 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     store.dispatch(profile.initiate(""));
     store.dispatch(getSportProfile.initiate(""));
-    await Promise.all(store.dispatch(getRunningQueriesThunk()));
+    store.dispatch(getTotalSubscription.initiate(""));
+    store.dispatch(getGrossAmountMoney.initiate(""));
+    await Promise.all([
+      ...store.dispatch(getRunningQueriesThunk()),
+      ...store.dispatch(getRunningQueriesThunkAthlete()),
+    ]);
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

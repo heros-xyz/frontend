@@ -20,7 +20,7 @@ export const PreviewComment: FC<IPreviewCommentProps> = ({
       {(item?.data || []).map((item) => (
         <Box key={item.id} className="preview-comment__item" py={2}>
           <CommentItem
-            showAcions={false}
+            showActions={false}
             key={item.id}
             isAuthorComment={item.isAuthorComment}
             isReply={!!item.parentComment}

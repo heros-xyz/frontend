@@ -128,6 +128,7 @@ const AthleteProfile = () => {
               pb="4"
               border={"none"}
               fontSize={{ base: "sm", lg: "lg" }}
+              fontWeight="medium"
               _selected={{ color: "secondary", fontWeight: "bold" }}
               _before={{
                 content: '""',

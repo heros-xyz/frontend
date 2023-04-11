@@ -76,10 +76,14 @@ export const useFanOnboarding = () => {
     }
   }, [step]);
 
+  const updateUser = async () => {
+    await updateSession();
+    setStep(step + 1);
+  }
+
   useUpdateEffect(() => {
     if (fanSetupAccountData) {
-      setStep(step + 1);
-      updateSession();
+      updateUser()
     }
   }, [fanSetupAccountData]);
 

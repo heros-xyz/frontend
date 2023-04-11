@@ -166,13 +166,24 @@ const Select: FC<SelectProps> = ({
     if (Array.isArray(value) || value?.label) return value;
     return null;
   }, [value]);
-
   const DropdownIndicator = () => {
-    return <ChervonDown w={5} h={5} color="grey.200" />;
+    return (
+      <ChervonDown
+        w={5}
+        h={5}
+        color={value?.length > 0 || value?.label ? "primary" : "grey.200"}
+      />
+    );
   };
 
   return (
-    <Box zIndex={zIndex || 10} w="100%" position="relative">
+    <Box
+      zIndex={zIndex || 10}
+      w="100%"
+      position="relative"
+      opacity={isDisabled ? 0.5 : 1}
+      cursor={isDisabled ? "not-allowed" : ""}
+    >
       <SelectRC
         onInputChange={(el) => {
           return el.length > 5 && isSelectDate ? el.slice(0, 5) : el;

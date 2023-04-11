@@ -74,7 +74,7 @@ const VerifyOtp = () => {
         <title>Verify OTP</title>
       </Head>
       <OtpFill
-        description="We’ve emailed an OTP to you. Please enter the code here."
+        description="An OTP code is being sent to your registered email. Please enter the code here"
         title="OTP Verification"
         textButton="verify"
         validTime={5}

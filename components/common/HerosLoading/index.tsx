@@ -16,7 +16,7 @@ const HerosLoading = () => {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          zIndex={100}
+          zIndex={999999}
         >
           <Spinner color="secondary" size="lg" thickness="3px" speed="0.3s" />
         </Box>

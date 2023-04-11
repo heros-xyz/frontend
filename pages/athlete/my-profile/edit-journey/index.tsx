@@ -1,12 +1,11 @@
 import { ReactElement, useMemo } from "react";
-import { Box, Container, Text } from "@chakra-ui/react";
+import { Box, Container } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { useGetCareerJourneyQuery } from "@/api/athlete";
 import TimeLineJourney, { ITimeLineInfo } from "@/components/ui/Timeline";
-import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
 import { athleteGuard } from "@/middleware/athleteGuard";

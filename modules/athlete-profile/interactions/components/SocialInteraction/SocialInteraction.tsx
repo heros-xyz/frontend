@@ -25,12 +25,13 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
   postId,
 }) => {
   const router = useRouter();
-  const { view, id } = router.query;
+  const { view, id, isFocus } = router.query;
   const iconActions = useRef<HTMLDivElement>(null);
   const [isLiked, setIsLiked] = useState(liked);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [totalReactions, setTotalReactions] = useState(reactionCount);
-  const [request, { data }] = useReactionInteractionMutation();
+  const [request, { data, isLoading: isReactionLoading }] =
+    useReactionInteractionMutation();
 
   const { data: listComment } = useGetListCommentInteractionQuery(
     {
@@ -53,7 +54,7 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
 
   useEffect(() => {
     setTimeout(() => {
-      if (iconActions && iconActions?.current && view) {
+      if (iconActions && iconActions?.current && view && isFocus) {
         iconActions.current.scrollIntoView({
           behavior: "smooth",
           block: "start",
@@ -63,6 +64,7 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
   }, []);
 
   const handleLike = () => {
+    if (isReactionLoading) return;
     setIsLiked((prev) => !prev);
     request({
       interactionId: postId,

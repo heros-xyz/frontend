@@ -1,6 +1,15 @@
-import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { LegacyRef } from "react";
+import {
+  Box,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { LegacyRef, useEffect } from "react";
 import { If, Then } from "react-if";
+import { useRouter } from "next/router";
 import FindHeros from "@components/ui/FindHeros";
 import { IAthleteProfileResponse } from "@/types/athlete/types";
 import { Profile } from "@/modules/athlete-profile/profile";
@@ -9,6 +18,7 @@ import BasicInfoAthlete from "@/modules/athlete-profile/banner-info";
 import MembershipSubscribe from "@/modules/athlete-profile/membership";
 import CareerJourney from "@/modules/athlete-profile/career-journey";
 import { useAthleteProfile } from "@/hooks/useAthleteProfile";
+import FanOnlyModal from "@/components/modal/FanOnlyModal";
 
 interface IFanAthleteProfileProps {
   showFindHeros?: boolean;
@@ -21,6 +31,9 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
   showFindHeros = true,
   athleteProfile,
 }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
+  const { query, pathname } = router;
   const {
     basicInfo,
     currentTab,
@@ -43,6 +56,19 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
       });
     }
   };
+
+  useEffect(() => {
+    if (query.showJoinNow) {
+      onOpen();
+      router.push({
+        pathname,
+        query: {
+          id: athleteId,
+          current: query.current,
+        },
+      });
+    }
+  }, []);
 
   return (
     <Box
@@ -75,7 +101,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
         lazyBehavior="keepMounted"
         ref={navigationBarRef as LegacyRef<HTMLDivElement> | undefined}
         index={currentTab}
-        minH="100vh"
+        minH="90vh"
       >
         <TabList
           overflowX="auto"
@@ -100,6 +126,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
               w="full"
               border={"none"}
               fontSize={{ base: "sm", lg: "lg" }}
+              fontWeight="medium"
               _selected={{ color: "secondary", fontWeight: "bold" }}
               _before={{
                 content: '""',
@@ -146,6 +173,11 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
           </TabPanel>
         </TabPanels>
       </Tabs>
+      <FanOnlyModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onClickDownButton={onClickDownButton}
+      />
     </Box>
   );
 };

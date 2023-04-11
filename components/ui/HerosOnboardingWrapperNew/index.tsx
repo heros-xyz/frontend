@@ -130,9 +130,9 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
           >
             <Box mb={{ base: 5, xl: 0 }} w={{ xl: "100%" }}>
               <Box
-                ml={{ xl: !!Icon ? "130px" : "auto" }}
-                mr={{ xl: !!Icon ? "80px" : "auto" }}
-                w={{ xl: !!Icon ? "" : "750px" }}
+                ml={{ xl: !!Icon || !!ImagePreview ? "130px" : "auto" }}
+                mr={{ xl: !!Icon || !!ImagePreview ? "80px" : "auto" }}
+                w={{ xl: !!Icon || !!ImagePreview ? "" : "750px" }}
               >
                 {children}
                 <If condition={!!ImagePreview}>

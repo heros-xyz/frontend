@@ -55,12 +55,7 @@ export default function SocialSharing({
         w={{ base: "344px", lg: "395px" }}
       >
         <Box fontWeight={700} fontSize="base" mb="10px">
-          <FacebookShareButton
-            url={postLink}
-            title={"postDetails.content"}
-            hashtag="#PostDetail"
-            onClick={onClose}
-          >
+          <FacebookShareButton url={postLink} onClick={onClose}>
             <Flex role="button" _hover={{ opacity: 0.5 }} alignItems="center">
               <FacebookIcon w="50px" h="50px" my="10px" />
               <Text color="primary" ml="16px">
@@ -69,11 +64,7 @@ export default function SocialSharing({
             </Flex>
           </FacebookShareButton>
           <Divider borderColor="#DDDDDD" />
-          <TwitterShareButton
-            url={postLink}
-            title={"ostDetails.content"}
-            onClick={onClose}
-          >
+          <TwitterShareButton url={postLink} onClick={onClose}>
             <Flex role="button" _hover={{ opacity: 0.5 }} alignItems="center">
               <TwitterIcon w="50px" h="50px" my="10px" />
               <Text color="primary" ml="16px">

@@ -109,6 +109,7 @@ const InteractionsByTag = () => {
           <Text
             fontFamily="heading"
             fontSize={{ base: "xl", lg: "2xl" }}
+            fontWeight="bold"
             color="primary"
           >
             Interactions
@@ -148,6 +149,7 @@ const InteractionsByTag = () => {
                   <Box>
                     <AthletePost
                       isNavigate
+                      isDetailPage={false}
                       interactionInfo={item}
                       onDeleted={router.reload}
                       onUpdated={router.reload}

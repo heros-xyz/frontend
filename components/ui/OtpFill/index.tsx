@@ -12,7 +12,9 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { getAuthErrorCode } from "@/utils/constants";
+import { isEmptyObject } from "@/utils/functions";
 import useCountdown from "../../../hooks/useCountdown";
+
 interface OtpProps {
   title: string;
   description: string;
@@ -69,6 +71,10 @@ const OtpFill: React.FC<OtpProps> = ({
   useEffect(() => {
     formik.setFieldValue("otp", otpValue);
   }, [otpValue]);
+
+  // useEffect(() => {
+  //   isEmptyObject(formik.errors) && formik.handleSubmit();
+  // }, [formik.errors]);
 
   useEffect(() => {
     setVerifyOtpError(errorMessage);
@@ -174,12 +180,6 @@ const OtpFill: React.FC<OtpProps> = ({
               condition={!!verifyOtpError}
               errorMessage={getAuthErrorCode(verifyOtpError)}
             />
-            <ErrorMessage
-              condition={
-                !!formik.submitCount && formik.errors.otp && !verifyOtpError
-              }
-              errorMessage={formik.errors.otp}
-            />
           </Box>
           <Box
             mb="50px"
@@ -219,8 +219,10 @@ const OtpFill: React.FC<OtpProps> = ({
               fontWeight="bold"
               lineHeight="140%"
               w={{ base: "full", lg: "fit-content" }}
+              opacity={isEmptyObject(formik.errors) ? 1 : 0.5}
               type="submit"
               isLoading={isLoading}
+              // cursor="not-allowed"
             >
               {textButton}
             </Button>

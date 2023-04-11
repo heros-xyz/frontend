@@ -8,6 +8,12 @@ import { setContext } from "@/libs/axiosInstance";
 import { getRunningQueriesThunk, profile, useProfileQuery } from "@/api/user";
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards } from "@/types/globals/types";
+import {
+  getBasicInformation,
+  getPageInformation,
+  getRunningQueriesThunkAthlete,
+  getSportProfile,
+} from "@/api/athlete";
 
 const MyProfile = () => {
   const { data: profile } = useProfileQuery("");
@@ -34,7 +40,13 @@ export const getServerSideProps = wrapper.getServerSideProps(
     setContext(context);
 
     store.dispatch(profile.initiate(""));
-    await Promise.all(store.dispatch(getRunningQueriesThunk()));
+    store.dispatch(getPageInformation.initiate(""));
+    store.dispatch(getBasicInformation.initiate(""));
+    store.dispatch(getSportProfile.initiate(""));
+    await Promise.all([
+      ...store.dispatch(getRunningQueriesThunk()),
+      ...store.dispatch(getRunningQueriesThunkAthlete()),
+    ]);
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

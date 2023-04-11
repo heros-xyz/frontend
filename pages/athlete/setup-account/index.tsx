@@ -43,10 +43,12 @@ const AthleteSetupAccount = () => {
               </Switch>
               <Box
                 position="absolute"
-                bottom={5}
-                w="100%"
-                textAlign="center"
                 className="step"
+                top={{ lg: step == 1 ? "65%" : step == 2 ? "58%" : "55%" }}
+                bottom={{ base: 5, lg: "unset" }}
+                left={{ lg: "130px" }}
+                w={{ base: "100%", lg: "unset" }}
+                textAlign="center"
               >
                 <Step
                   activeStep={step}

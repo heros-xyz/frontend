@@ -90,10 +90,14 @@ const useSetupAccountPage = () => {
     },
   });
 
+  const updateUser = async () => {
+    await updateSession();
+    setStep((step) => step + 1);
+  }
+
   useEffect(() => {
     if (setupAccountData) {
-      setStep((step) => step + 1);
-      updateSession();
+      updateUser()
     }
   }, [setupAccountData]);
 

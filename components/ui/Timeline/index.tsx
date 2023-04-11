@@ -25,6 +25,7 @@ interface IProps {
   canEdit?: boolean;
   itemCurrent?: ITimeLineInfo;
   message?: string;
+  isOnboarding?: boolean;
 }
 
 const TimeLineJourney: React.FC<IProps> = ({
@@ -35,6 +36,7 @@ const TimeLineJourney: React.FC<IProps> = ({
   handleClickEdit,
   canEdit,
   message,
+  isOnboarding,
 }) => {
   const [itemEdit, setItemEdit] = useState<ITimeLineInfo>();
 
@@ -54,7 +56,7 @@ const TimeLineJourney: React.FC<IProps> = ({
         <Flex
           key={`${"key" + index}`}
           alignItems="center"
-          gap={{ base: 3, xl: 7 }}
+          gap={{ base: 3, xl: 0 }}
         >
           <Flex alignItems="center">
             <Box minWidth={10}>
@@ -92,11 +94,18 @@ const TimeLineJourney: React.FC<IProps> = ({
                     position="absolute"
                     top={3.5}
                     w={0.5}
-                    h={
-                      item.title?.length > 25 && item.description?.length > 70
-                        ? { base: "95px", xl: "115px" }
-                        : { base: "90px", xl: "110px" }
-                    }
+                    h={{
+                      base:
+                        items[index + 1]?.description?.length > 50 ||
+                        item.description?.length > 50
+                          ? "95px"
+                          : "90px",
+                      xl:
+                        items[index + 1]?.description?.length > 50 ||
+                        item.description?.length > 50
+                          ? "150px"
+                          : "120px",
+                    }}
                     bg={bgColor === "secondary" ? "accent.2" : "accent.2"}
                   />
                 </Then>
@@ -112,7 +121,7 @@ const TimeLineJourney: React.FC<IProps> = ({
                   >
                     <Box
                       w={0.5}
-                      h="90px"
+                      h={{ base: "90", xl: "100px" }}
                       bg={bgColor === "secondary" ? "accent.2" : "accent.2"}
                     />
                     <Flex
@@ -132,6 +141,7 @@ const TimeLineJourney: React.FC<IProps> = ({
                         <AddArchiveIcon
                           w={{ base: "30px", xl: "45px" }}
                           h={{ base: "30px", xl: "45px" }}
+                          bg="white"
                         />
                       </Button>
                       <Text
@@ -155,6 +165,7 @@ const TimeLineJourney: React.FC<IProps> = ({
             canEdit={canEdit}
             setItemEdit={setItemEdit}
             isCurrent={false}
+            isOnboarding={isOnboarding}
           />
         </Flex>
       ))}

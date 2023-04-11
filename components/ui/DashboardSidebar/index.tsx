@@ -52,7 +52,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
     {
       id: "noti",
       Icon: <NotificationIcon maxW={5} />,
-      itemName: "Notification",
+      itemName: "Notifications",
       activeIcon: <NotificationActive maxW={5} />,
       show: true,
       path: role === "ATHLETE" ? "/athlete/notification" : "/fan/notification",
@@ -105,6 +105,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       w={{ base: "full", lg: "320px" }}
       minH={{ base: "59px", lg: "100%" }}
       {...props}
+      zIndex={2}
     >
       <Link href="/">
         <LogoSidebar

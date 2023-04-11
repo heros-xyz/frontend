@@ -51,6 +51,7 @@ const AthleteLegalNameStep: React.FC<IProp> = ({ onSubmit }) => {
       />
       <Box mb={{ base: 5, xl: 10 }}>
         <Input
+          autoComplete="off"
           variant="flushed"
           placeholder="First Name"
           borderColor="primary"
@@ -67,6 +68,7 @@ const AthleteLegalNameStep: React.FC<IProp> = ({ onSubmit }) => {
       </Box>
       <Box mb={{ base: 5, xl: 10 }}>
         <Input
+          autoComplete="off"
           variant="flushed"
           placeholder="Middle Name (Optional)"
           borderColor="primary"
@@ -83,6 +85,7 @@ const AthleteLegalNameStep: React.FC<IProp> = ({ onSubmit }) => {
       </Box>
       <Box mb={3}>
         <Input
+          autoComplete="off"
           variant="flushed"
           placeholder="Last Name"
           borderColor="primary"

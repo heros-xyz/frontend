@@ -12,9 +12,16 @@ export default function NotFoundPage() {
         w="full"
         overscrollY="none"
       >
-        <Flex fontSize="xl" fontWeight={700} flexDirection="column" w="full">
-          <Text>Oops!!! This interaction has been deleted!</Text>
-          <Button onClick={router.back} mt="8" bg="primary" color="white">
+        <Flex
+          fontSize={{ base: "sm", lg: "lg" }}
+          fontWeight={500}
+          flexDirection="column"
+          w="full"
+        >
+          <Text>
+            Oops!!! We can’t seem to find the interaction you’re looking for.!
+          </Text>
+          <Button onClick={router.back} mt="4" bg="primary" color="white">
             Go back
           </Button>
         </Flex>

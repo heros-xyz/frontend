@@ -42,7 +42,7 @@ const Step: React.FC<IProps> = ({ activeStep, totalStep, onChangeStep }) => {
           w={2.5}
           h={2.5}
           borderRadius="full"
-          bg={step <= maxStep ? "accent.2" : "gray.100"}
+          bg={step <= maxStep ? "accent.2" : "grey.100"}
           pointerEvents={step <= maxStep ? "auto" : "none"}
         />
       </Box>

@@ -2,7 +2,7 @@ const MAX_SIZE = 2 * 1024 * 1024;
 const ALLOWED_TYPES = ["image/jpeg", "image/png"];
 
 const LARGE_SIZE_MESSAGE =
-  "Your image size is too large, limit size is less than 2MB";
+  "Your image size is too large, limit size is less than 10MB";
 const FILE_FORMAT_MESSAGE =
   "Error image format. Please upload file in JPEG, PNG.";
 

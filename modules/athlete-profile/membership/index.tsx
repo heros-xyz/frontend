@@ -98,7 +98,8 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
           <BronzeTier
             title="Bronze"
             disbaled={!!validateIsFan}
-            checked={!!validateIsFan}
+            // checked={!!validateIsFan}
+            checked={true}
             hasRadioButton
             data={listMembershipTiers?.[0] || []}
             onChange={onSelectBronzeTier}

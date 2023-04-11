@@ -45,7 +45,7 @@ exports[`renders athlete benefits unchanged 1`] = `
                   stroke="#313F4C"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeWidth="2"
                 />
               </svg>
             </div>
@@ -89,7 +89,7 @@ exports[`renders athlete benefits unchanged 1`] = `
                   stroke="#313F4C"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeWidth="2"
                 />
               </svg>
             </div>
@@ -133,7 +133,7 @@ exports[`renders athlete benefits unchanged 1`] = `
                   stroke="currentColor"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeWidth="2"
                 />
               </svg>
             </div>
@@ -177,7 +177,7 @@ exports[`renders athlete benefits unchanged 1`] = `
                   stroke="#313F4C"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeWidth="2"
                 />
               </svg>
             </div>

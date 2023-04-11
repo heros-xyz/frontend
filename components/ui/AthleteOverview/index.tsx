@@ -42,20 +42,24 @@ const AthleteOverview: React.FC<OverviewProps> = ({
             </Box>
           </Flex>
         </Box>
-        <Box borderLeftWidth={"thin"} w="50%" pl={7} borderColor="grey.300">
+        <Box
+          borderLeftWidth={"thin"}
+          w="50%"
+          borderColor="grey.300"
+          pl={money.length > 6 ? 3 : 7}
+        >
           <Flex alignItems={"center"}>
             <WalletIcon
               w={{ base: 8, xl: "52px" }}
               h={{ base: 8, xl: "52px" }}
-              mx={"4"}
+              mr={"4"}
             />
             <Box>
-              <Skeleton isLoaded={!isLoading} w={16} h={{ base: 6, lg: 7 }}>
+              <Skeleton isLoaded={!isLoading} h={{ base: 6, lg: 7 }}>
                 <Text fontSize={{ base: "md", xl: "xl" }} fontWeight={"medium"}>
                   {money}
                 </Text>
               </Skeleton>
-
               <Text fontSize={{ base: "xs", xl: "md" }} fontWeight={"normal"}>
                 Per month
               </Text>

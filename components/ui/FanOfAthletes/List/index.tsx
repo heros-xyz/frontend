@@ -2,8 +2,10 @@ import React from "react";
 import { Flex, Text, Heading, BoxProps, Box } from "@chakra-ui/react";
 import Link from "next/link";
 import { Else, If, Then } from "react-if";
+import { Waypoint } from "react-waypoint";
 import { IFanInfo } from "@/types/athlete/types";
 import YourAthleteCard from "../Card";
+import SearchResultSkeleton from "../../SearchResult/Skeleton";
 
 interface YourAthletesProps extends BoxProps {
   athleteList: IFanInfo[];
@@ -12,6 +14,8 @@ interface YourAthletesProps extends BoxProps {
   dateFormat?: string;
   onSelectedItem?: (item: IFanInfo) => void;
   isSearching?: boolean;
+  onLoadMore: () => void;
+  hasNextPage: boolean;
 }
 const YourAthletesList: React.FC<YourAthletesProps> = ({
   athleteList,
@@ -20,6 +24,8 @@ const YourAthletesList: React.FC<YourAthletesProps> = ({
   role,
   onSelectedItem,
   isSearching,
+  onLoadMore,
+  hasNextPage,
   ...props
 }) => {
   return (
@@ -39,6 +45,8 @@ const YourAthletesList: React.FC<YourAthletesProps> = ({
                   ? `${athleteList?.length} fans`
                   : `${athleteList?.length} fan`
               }`
+            : role === "ATHLETE"
+            ? "You currently have no fan yet."
             : "No results."}
         </Heading>
       )}
@@ -68,6 +76,13 @@ const YourAthletesList: React.FC<YourAthletesProps> = ({
                   </Else>
                 </If>
               ))}
+              {hasNextPage && (
+                <Waypoint onEnter={onLoadMore}>
+                  <Box>
+                    <SearchResultSkeleton />
+                  </Box>
+                </Waypoint>
+              )}
             </Flex>
           </Flex>
         </Then>

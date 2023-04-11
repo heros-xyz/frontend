@@ -1,6 +1,6 @@
 import { Box, Container, Text } from "@chakra-ui/react";
 import Head from "next/head";
-import { ReactElement, useMemo } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import YourAthletesList from "@/components/ui/FanOfAthletes/List";
 import FindHeros from "@/components/ui/FindHeros";
 import { useGetListAthleteSubscribedQuery } from "@/api/fan";
@@ -9,16 +9,20 @@ import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
+import { IAthleteSubscribed } from "@/types/athlete/types";
 
 const AllAthletes = () => {
-  const { data: listAthleteSubscribed } = useGetListAthleteSubscribedQuery({
-    page: 1,
-    take: 50,
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentData, setCurrentData] = useState<IAthleteSubscribed[]>([]);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
+  const { data: listSubscribed } = useGetListAthleteSubscribedQuery({
+    page: currentPage,
+    take: 10,
   });
 
-  const listAthleteSubscribedFormat = useMemo(() => {
-    if (listAthleteSubscribed) {
-      return listAthleteSubscribed.data.map((item) => {
+  const listSubscribedFormat = useMemo(() => {
+    if (currentData) {
+      return currentData.map((item) => {
         return {
           avatar: item.avatar,
           fullName: item.nickName,
@@ -29,7 +33,18 @@ const AllAthletes = () => {
     }
 
     return [];
-  }, [listAthleteSubscribed]);
+  }, [currentData]);
+
+  useEffect(() => {
+    if (listSubscribed) {
+      setCurrentData((prev) => [...prev, ...listSubscribed?.data]);
+      setHasNextPage(listSubscribed.meta.hasNextPage);
+    }
+  }, [listSubscribed]);
+  const onLoadMore = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
   return (
     <Box bg="white" minH="100vh">
       <Head>
@@ -50,10 +65,12 @@ const AllAthletes = () => {
           Your Athletes
         </Text>
         <YourAthletesList
-          athleteList={listAthleteSubscribedFormat}
+          athleteList={listSubscribedFormat}
           hasFanText={false}
           role="FAN"
           dateFormat="DD/MM/YYYY"
+          onLoadMore={onLoadMore}
+          hasNextPage={hasNextPage}
         />
       </Container>
     </Box>

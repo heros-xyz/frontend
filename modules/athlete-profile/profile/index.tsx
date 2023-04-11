@@ -37,7 +37,10 @@ export const Profile: React.FC<IProfileProps> = ({
   const { NEXTAUTH_URL } = getEnvVariables();
 
   const profileLink = useMemo(() => {
-    const link = `${NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
+    const link = `${NEXTAUTH_URL}/${athleteId}/${athleteNickname.replace(
+      /\s+/g,
+      ""
+    )}`;
     setValue(link);
     return `${NEXTAUTH_URL}/${athleteId}/${athleteNickname}`;
   }, [athleteId, athleteNickname]);

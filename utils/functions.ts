@@ -22,17 +22,25 @@ export const generateOptions = (type: string) => {
       end = new Date().getFullYear();
       break;
   }
-  for (let i = start; i <= end; i++) {
-    const value = i < 10 ? `0${i}` : `${i}`;
-    const option: IOption = { value, label: `${i}` };
-    if (type === "month") {
-      const date = new Date();
-      date.setMonth(+option.label - 1);
-      option.label = date.toLocaleString("en-US", {
-        month: "short",
-      });
+  if (type === 'year') {
+    for (let i = end; i >= start; i--) {
+      const value = i < 10 ? `0${i}` : `${i}`;
+      const option: IOption = { value, label: `${i}` };
+      arr.push(option);
     }
-    arr.push(option);
+  } else {
+    for (let i = start; i <= end; i++) {
+      const value = i < 10 ? `0${i}` : `${i}`;
+      const option: IOption = { value, label: `${i}` };
+      if (type === "month") {
+        const date = new Date();
+        date.setMonth(+option.label - 1);
+        option.label = date.toLocaleString("en-US", {
+          month: "short",
+        });
+      }
+      arr.push(option);
+    }
   }
   return arr;
 };
@@ -305,7 +313,7 @@ export const getLinkByNotificationType = (notification?: INotificationInfo) => {
       return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}`;
 
     case NotificationEventType.ATHLETE_COMMENT_INTERACTION:
-      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}`;
+      return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}&commentId=${notification.comment?.id}`;
 
     case NotificationEventType.ATHLETE_LIKE_INTERACTION:
       return `/fan/athlete-profile/${notification.source.id}/interaction?view=${notification.interaction.id}`;
@@ -353,3 +361,8 @@ export const urlToObject = async (
 
   return Promise.resolve(file);
 };
+
+
+export const isEmptyObject = (obj: Object) => {
+  return JSON.stringify(obj) === '{}';
+}

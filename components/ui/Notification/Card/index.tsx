@@ -38,7 +38,7 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
           gap={2.5}
           bg={{
             base: hasBeenRead ? "accent.1" : "",
-            lg: hasBeenRead ? "accent.1" : "grey.0",
+            lg: hasBeenRead ? "accent.1" : "",
           }}
           borderRadius={["0", "10px"]}
         >

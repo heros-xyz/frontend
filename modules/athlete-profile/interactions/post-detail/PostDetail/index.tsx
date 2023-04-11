@@ -11,7 +11,8 @@ import NotFoundPage from "../../components/NotFound";
 
 const PostDetail = () => {
   const router = useRouter();
-  const { view: postId } = router.query;
+
+  const { view: postId, id: athleteId } = router.query;
   const { validateIsFan } = useAthleteProfile();
   const {
     data: interactionDetail,
@@ -19,9 +20,18 @@ const PostDetail = () => {
     isSuccess,
     isLoading,
   } = useGetAthleteInteractionDetailQuery(postId as string, {
-    refetchOnMountOrArgChange: true,
     skip: !postId,
   });
+
+  const handleNavigateToFilterTag = (value: string) => {
+    router.push({
+      pathname: `/fan/athlete-profile/${athleteId}`,
+      query: {
+        current: "1",
+        filter: value,
+      },
+    });
+  };
 
   if (isLoading) {
     return (
@@ -36,12 +46,24 @@ const PostDetail = () => {
     );
   }
 
-  if (
-    error &&
-    ((error as IHerosError).status === 404 ||
-      (error as IHerosError).status === 500)
-  ) {
-    return <NotFoundPage />;
+  if (error) {
+    if (
+      (error as IHerosError).status === 404 ||
+      (error as IHerosError).status === 500
+    ) {
+      return <NotFoundPage />;
+    }
+
+    if ((error as IHerosError).status === 400) {
+      router.push({
+        pathname: `/fan/athlete-profile/[id]`,
+        query: {
+          id: athleteId,
+          current: 1,
+          showJoinNow: true,
+        },
+      });
+    }
   }
 
   return (
@@ -57,7 +79,11 @@ const PostDetail = () => {
         size={["base", "sm", "md", "lg", "xl"]}
       >
         <Flex h="full" flexDirection={{ base: "column", lg: "row" }}>
-          <Box overflowY={{ lg: "auto" }} flex={{ lg: "1" }}>
+          <Box
+            overflowY={{ lg: "auto" }}
+            flex={{ lg: "1" }}
+            className="postComment"
+          >
             <Flex
               as="a"
               onClick={router.back}
@@ -67,7 +93,8 @@ const PostDetail = () => {
               position={{ lg: "sticky" }}
               top="0"
               pb={5}
-              zIndex={10}
+              bg="white"
+              zIndex={15}
             >
               <ArrowLeft color="primary" />
               <Text ml="20px" fontWeight="bold" fontSize="xl">
@@ -78,6 +105,7 @@ const PostDetail = () => {
             {isSuccess ? (
               <Box mb={{ lg: "30px" }}>
                 <InteractionSection
+                  navigateToPostsByTag={handleNavigateToFilterTag}
                   validateIsFan={validateIsFan}
                   isDetailView
                   {...interactionDetail}

@@ -113,6 +113,7 @@ const CareerJourney = () => {
                 items={milestones}
                 handleClickAdd={() => setStep("addingForm")}
                 itemCurrent={itemCurrent}
+                isOnboarding
               />
             </MilestoneTimeline>
           </Case>

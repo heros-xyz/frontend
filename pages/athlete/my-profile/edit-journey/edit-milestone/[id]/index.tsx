@@ -203,7 +203,7 @@ const EditMilestone = () => {
                 <Then>
                   <Box mb={7}>
                     <Box fontWeight="medium" mt={7} color="black.primary">
-                      Enter Date
+                      {formik.values.isPeriodDate ? "Start" : "Enter"} Date
                       <Text as="span" color="error.dark">
                         {" "}
                         *

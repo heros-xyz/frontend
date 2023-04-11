@@ -5,6 +5,8 @@ import { wrapper } from "@/store";
 import { setContext } from "@/libs/axiosInstance";
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
+import { getAthleteInteractionDetail, getRunningQueriesThunk } from "@/api/fan";
+import { getFocusComment, getRunningQueriesThunkAthlete } from "@/api/athlete";
 
 export default function PostDetailPage() {
   return (
@@ -18,8 +20,18 @@ export default function PostDetailPage() {
 }
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
+  (store) => async (context) => {
     setContext(context);
+
+    if (typeof context.query.view === "string") {
+      store.dispatch(getAthleteInteractionDetail.initiate(context.query.view));
+      await Promise.all(store.dispatch(getRunningQueriesThunk()));
+    }
+
+    if (typeof context.query.commentId === "string") {
+      store.dispatch(getFocusComment.initiate(context.query.commentId));
+      await Promise.all(store.dispatch(getRunningQueriesThunkAthlete()));
+    }
 
     return fanAuthGuard(context, ({ session }: IGuards) => {
       return {

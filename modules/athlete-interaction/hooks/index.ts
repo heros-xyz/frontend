@@ -13,8 +13,11 @@ import {
   MAX_SIZE_MEDIA_POST_IMAGE,
   MAX_SIZE_MEDIA_POST_VIDEO,
   ALLOWED_TYPES_POST_IMAGE,
-  ALLOWED_TYPES_POST_VIDEO,
-  ALLOWED_TYPES_VIDEO
+  ALLOWED_TYPES_VIDEO,
+  LARGE_SIZE_MEDIA_POST_IMAGE,
+  LARGE_SIZE_MEDIA_POST_VIDEO,
+  FILE_FORMAT_MEDIA_POST_IMAGE,
+  ERROR_TYPE_UPLOAD_POST_MEDIA
 } from "@/utils/inputRules";
 import { updateSession } from "@/utils/auth";
 import { IMediaExisted } from "@/types/athlete/types";
@@ -108,22 +111,29 @@ const validationSchema = yup.object().shape({
       yup.object().shape({
         file: yup
           .mixed()
-          .test("valid-media", "Invalid", (value) => {
-            if (typeof value === "string") return true;
+          .test("valid-image-size", LARGE_SIZE_MEDIA_POST_IMAGE, (value) => {
+            if (typeof value === "string" || value?.type?.split("/")[0] === "video") return true;
 
             return (
-              value?.size <=
-              (value?.type?.split("/")[0] === "image"
-                ? MAX_SIZE_MEDIA_POST_IMAGE
-                : MAX_SIZE_MEDIA_POST_VIDEO)
+              value?.size <= MAX_SIZE_MEDIA_POST_IMAGE
             );
           })
-          .test("valid-media-type", "InvalidType", (value) => {
-            if (typeof value === "string") return true;
+          .test("valid-video-size", LARGE_SIZE_MEDIA_POST_VIDEO, (value) => {
+            if (typeof value === "string" || value?.type?.split("/")[0] === "image") return true;
 
-            return value?.type?.split("/")[0] === "image"
-              ? ALLOWED_TYPES_POST_IMAGE.includes(value?.type)
-              : ALLOWED_TYPES_VIDEO.includes(getExtension(value?.name));
+            return (
+              value?.size <= MAX_SIZE_MEDIA_POST_VIDEO
+            );
+          })
+          .test("valid-image-type", FILE_FORMAT_MEDIA_POST_IMAGE, (value) => {
+            if (typeof value === "string" || value?.type?.split("/")[0] === "video") return true;
+
+            return ALLOWED_TYPES_POST_IMAGE.includes(value?.type)
+          })
+          .test("valid-video-type", ERROR_TYPE_UPLOAD_POST_MEDIA, (value) => {
+            if (typeof value === "string" || value?.type?.split("/")[0] === "image") return true;
+
+            return ALLOWED_TYPES_VIDEO.includes(getExtension(value?.name))
           }),
       })
     ),
@@ -228,12 +238,6 @@ export const useUpdateInteractionInfo = () => {
   };
 
   useEffect(() => {
-    if (editPostData) {
-      router.push("/athlete/interactions");
-    }
-  }, [editPostData]);
-
-  useEffect(() => {
     if (error) {
       toast({
         title:
@@ -249,6 +253,7 @@ export const useUpdateInteractionInfo = () => {
     initialValues,
     isLoading,
     error,
+    editPostData,
     handleSubmit,
   };
 };

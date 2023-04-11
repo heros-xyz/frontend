@@ -9,11 +9,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useUpdateEffect } from "react-use";
-import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import {
   initialWithdrawMoney,

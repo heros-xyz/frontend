@@ -12,6 +12,7 @@ const ALLOWED_TYPES_VIDEO = ["mov", "mp4", "avi", "hevc"];
 
 const LARGE_SIZE_MESSAGE =
   "Your image size is too large, limit size is less than 10MB";
+
 const ERROR_SIZE_UPLOAD_POST_MEDIA =
   "Your image file size must not exceed 30MB and video file size must not exceed 1GB.";
 
@@ -20,6 +21,7 @@ const LARGE_SIZE_MEDIA_POST_IMAGE =
 
 const FILE_FORMAT_MEDIA_POST_IMAGE =
   "Your image file is not in correct format. The allowed image formats are JPEG, PNG, and GIF.";
+
 const ERROR_TYPE_UPLOAD_POST_MEDIA =
   "Your file is not in correct format. The allowed image formats are JPEG, PNG, GIF and video formats are MOV, MP4, AVI.";
 

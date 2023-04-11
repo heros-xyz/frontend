@@ -50,7 +50,7 @@ const ShareWith: React.FC<IShareWithProps> = ({ isDisabled = false }) => {
                 color="accent.2"
                 mb={{ base: 2, lg: 6 }}
               >
-                This interaction will be post on:
+                This interaction will become public on:
               </Text>
               <Box mb={{ base: 4, lg: 8 }}>
                 <Flex
@@ -82,6 +82,7 @@ const ShareWith: React.FC<IShareWithProps> = ({ isDisabled = false }) => {
                   value={values.publicTime}
                   color="primary"
                   fontWeight={500}
+                  borderBottom="1px solid #ADADAD"
                   fontSize={{ base: "sm", lg: "lg" }}
                   onChange={(e) => setFieldValue("publicTime", e.target.value)}
                   className="clockIcon"

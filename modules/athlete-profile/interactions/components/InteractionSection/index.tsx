@@ -73,7 +73,7 @@ const InteractionSection: FC<InteractionSectionProps> = ({
             fontWeight="medium"
             fontSize={{ base: "sm", lg: "xl" }}
             color="primary"
-            lineHeight="19.6px"
+            lineHeight={{ base: "21px", lg: "28px" }}
             whiteSpace="break-spaces"
             mt={4}
           >
@@ -84,7 +84,6 @@ const InteractionSection: FC<InteractionSectionProps> = ({
               as="a"
               cursor="pointer"
               color="primary"
-              textDecoration="underline"
               onClick={navigateToPostDetail}
             >
               {isAbleToReadMore ? "Read more" : ""}

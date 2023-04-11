@@ -3,7 +3,6 @@ import {
   Image,
   Center,
   Input,
-  Link,
   Text,
   Flex,
   Tag,
@@ -25,10 +24,8 @@ import {
 import Head from "next/head";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import NextLink from "next/link";
 import { getImageLink } from "@/utils/link";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
-import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { Close } from "@/components/svg/Close";
 import {
@@ -67,7 +64,7 @@ const EditPageInfo = () => {
 
   const validationSchema = Yup.object().shape({
     nickName: Yup.string()
-      .required("This is a required field!")
+      .required("This is a required field.")
       .max(20, "Nickname cannot exceed 20 characters"),
     tagLine: Yup.string().max(100, "Tagline cannot exceed 100 characters"),
   });
@@ -96,7 +93,7 @@ const EditPageInfo = () => {
     formik.setFieldValue("avatar", session?.user?.avatar);
     formik.setFieldValue("tagLine", pageInfo?.tagLine);
     formik.setFieldValue("tags", pageInfo?.tags);
-  }, [pageInfo, session]);
+  }, [pageInfo]);
 
   const formik = useFormik({
     initialValues: initialPageValues,
@@ -208,7 +205,11 @@ const EditPageInfo = () => {
               <Input
                 variant="flushed"
                 placeholder="Nick Name"
-                borderColor="grey.100"
+                borderColor="grey.200"
+                _focusVisible={{
+                  borderColor: "grey.200",
+                  boxShadow: "none",
+                }}
                 name="nickName"
                 fontWeight="500"
                 fontSize={["sm", "lg"]}
@@ -295,8 +296,12 @@ const EditPageInfo = () => {
               </Text>
               <Input
                 variant="flushed"
-                placeholder="Nick Name"
-                borderColor="grey.100"
+                placeholder="Tagline"
+                borderColor="grey.200"
+                _focusVisible={{
+                  borderColor: "grey.200",
+                  boxShadow: "none",
+                }}
                 name="tagLine"
                 fontWeight={500}
                 fontSize={["sm", "lg"]}
@@ -305,6 +310,11 @@ const EditPageInfo = () => {
                 isInvalid={Boolean(
                   formik.errors.tagLine && formik.touched.tagLine
                 )}
+              />
+              <ErrorMessage
+                mt={0.5}
+                condition={formik.errors.tagLine && formik.touched.tagLine}
+                errorMessage={formik.errors.tagLine}
               />
             </Box>
             <Box
@@ -326,15 +336,24 @@ const EditPageInfo = () => {
               <Input
                 variant="flushed"
                 placeholder="Add Tags"
-                borderColor="grey.100"
+                borderColor="grey.200"
+                _focusVisible={{
+                  borderColor: "grey.200",
+                  boxShadow: "none",
+                }}
                 name="tags"
                 fontSize={["sm", "lg"]}
                 onKeyDown={handleKeyDown}
                 value={input}
                 onChange={handleChange}
                 fontWeight="medium"
+                isInvalid={Boolean(input?.length > 25)}
               />
-              <ErrorMessage errorMessage={undefined} condition={undefined} />
+              <ErrorMessage
+                mt={0.5}
+                condition={input?.length > 25}
+                errorMessage={"Tag cannot exceed 25 characters."}
+              />
             </Box>
             {tagsValue && (
               <Flex
@@ -350,6 +369,7 @@ const EditPageInfo = () => {
                     py={{ base: 0.5, xl: 1 }}
                     px={{ base: 2.5, xl: 4 }}
                     colorScheme="tagTheme"
+                    bg="accent.2"
                     maxHeight={{ base: "26px", xl: "33px" }}
                     key={tag}
                   >

@@ -16,7 +16,7 @@ export const validationAddTierSchema = yup.object().shape({
   monthlyPrice: yup
     .string()
     .required("This is a required field")
-    .test("valid-price", "Minimum amount is 1 USD", (value) => {
+    .test("valid-price", "Value must be greater than $1.00", (value) => {
       return value && 1.0 <= parseFloat(value) ? true : false;
     }),
   tierDescription: yup
@@ -33,7 +33,7 @@ export const useSubscriptionForm = (props?: IPaymentFormProps) => {
   const formik = useFormik({
     initialValues: props?.initialValues ?? initialAddTierValues,
     validationSchema: validationAddTierSchema,
-    onSubmit: async () => {},
+    onSubmit: async () => { },
   });
   return {
     formik,

@@ -4,18 +4,15 @@ import {
   Container,
   Input,
   Text,
-  Textarea,
   useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { ReactElement, useEffect } from "react";
 import { If, Then } from "react-if";
 import * as Yup from "yup";
 import TextareaAutoSize from "react-textarea-autosize";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
-import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import Select from "@/components/common/Select";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { useGetSportListQuery } from "@/api/global";
@@ -33,7 +30,6 @@ import BackButton from "@/components/ui/BackButton";
 
 const EditSportProfile = () => {
   const toast = useToast();
-  const router = useRouter();
   const { isDesktop } = useDevice();
   const { data: sportsList } = useGetSportListQuery("");
   const [putProfileSport, { isSuccess: successEdit, isLoading, error }] =
@@ -149,7 +145,7 @@ const EditSportProfile = () => {
                 </Text>
                 <Input
                   variant="flushed"
-                  placeholder="Tell Your Story"
+                  placeholder="Current Team/ association/ Club"
                   borderColor="grey.200"
                   name="currentTeam"
                   fontSize={{ base: "sm", xl: "lg" }}
@@ -225,6 +221,7 @@ const EditSportProfile = () => {
                 type="submit"
                 fontSize={{ base: "md", xl: "xl" }}
                 isLoading={isLoading}
+                _hover={{}}
               >
                 Save
               </Button>

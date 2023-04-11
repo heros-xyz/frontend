@@ -101,8 +101,8 @@ const DeleteSubscription: React.FC<DeleteProps> = ({
       <Center>
         <Button
           variant="primary"
-          bg={success ? "primary" : "secondary"}
-          color={success ? "secondary" : "primary"}
+          bg="secondary"
+          color="primary"
           mt={5}
           textTransform="uppercase"
           fontSize={{ base: "md", xl: "xl" }}

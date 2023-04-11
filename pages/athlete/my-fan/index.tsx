@@ -1,5 +1,5 @@
 import { Box, Container, Text, useOutsideClick } from "@chakra-ui/react";
-import { ReactElement, useMemo, useRef, useState } from "react";
+import { ReactElement, useEffect, useMemo, useRef, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useUpdateEffect } from "react-use";
@@ -24,6 +24,9 @@ const MyFan = () => {
   const [showAllValue, setShowAllValue] = useState("");
   const [focusSearch, setFocusSearch] = useState(false);
   const [selectedItem, setSelectedItem] = useState<IFanInfo>();
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentData, setCurrentData] = useState<IFanInfo[]>([]);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
   const [isOpenFanProfile, setIsOpenFanProfile] = useState(false);
   const searchValueDebounced = useDebounce(searchValue, 500);
 
@@ -40,9 +43,10 @@ const MyFan = () => {
     return Boolean(showAllValue);
   }, [showAllValue]);
 
-  const { data: athleteList } = useGetListFansQuery({
-    page: 1,
+  const { data: athleteList, isSuccess } = useGetListFansQuery({
+    page: currentPage,
     fanName: showAllValue?.toLocaleLowerCase(),
+    take: 10,
   });
 
   const { data: athleteSearchList } = useGetListFansQuery(
@@ -51,7 +55,7 @@ const MyFan = () => {
       take: 5,
       fanName: searchValueDebounced?.toLocaleLowerCase(),
     },
-    { skip: searchValue.length <= 1, refetchOnMountOrArgChange: false }
+    { skip: searchValueDebounced.length <= 1, refetchOnMountOrArgChange: false }
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +65,9 @@ const MyFan = () => {
   const onFocus = () => setFocusSearch(true);
 
   const onShowAllResult = () => {
+    setCurrentData([]);
+    setCurrentPage(1);
+    setHasNextPage(false);
     setShowAllValue(searchValue);
     setFocusSearch(false);
   };
@@ -77,6 +84,20 @@ const MyFan = () => {
     }
   }, [router.query]);
 
+  useEffect(() => {
+    if (athleteList) {
+      setCurrentData((prev) => [...prev, ...athleteList.data]);
+      setHasNextPage(athleteList.meta.hasNextPage);
+    }
+    if (currentPage % 2 === 0 && isSuccess) {
+      setCurrentPage(currentPage + 1);
+    }
+  }, [athleteList]);
+
+  const onLoadMore = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
   return (
     <Box minH={{ base: "95vh", lg: "100vh" }}>
       <Head>
@@ -86,7 +107,7 @@ const MyFan = () => {
         size={["base", "sm", "md", "lg", "500px"]}
         pt={{ base: "10px", lg: "32px" }}
       >
-        <Box position="sticky" top={0} zIndex={10}>
+        <Box top={0} zIndex={10}>
           <Text
             pt={{ base: "10px", lg: "32px" }}
             fontFamily="heading"
@@ -133,7 +154,7 @@ const MyFan = () => {
                       position="absolute"
                       buttonName={"See all results"}
                       searchKeyword={searchValue}
-                      items={athleteSearchList || []}
+                      items={athleteSearchList?.data || []}
                       onShowAllResult={onShowAllResult}
                       onSelectedItem={onShowFanProfile}
                     />
@@ -151,7 +172,7 @@ const MyFan = () => {
                 >
                   {searchValue.length > 1 &&
                     focusSearch &&
-                    !athleteSearchList?.length && (
+                    !athleteSearchList?.data?.length && (
                       <Box
                         w="full"
                         zIndex={15}
@@ -178,10 +199,12 @@ const MyFan = () => {
         </Box>
         <YourAthletesList
           w="100%"
-          athleteList={athleteList || []}
+          athleteList={currentData || []}
           role="ATHLETE"
           onSelectedItem={onShowFanProfile}
           isSearching={isSearching}
+          onLoadMore={onLoadMore}
+          hasNextPage={hasNextPage}
         />
         <FanOfAthleteProfile
           fanInfo={selectedItem}
