@@ -1,20 +1,26 @@
 import { Box, BoxProps, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import Link from "next/link";
+import { Waypoint } from "react-waypoint";
 import { FlagIcon } from "@/components/svg/Flag";
 import { IAthleteSearchProfile } from "@/types/athlete/types";
 import { getImageLink } from "@/utils/link";
 import { formatNumber } from "@/utils/functions";
+import SearchResultSkeleton from "./Skeleton";
 
 interface SearchResultProps extends BoxProps {
   data: IAthleteSearchProfile[];
   title: string;
   searchValue: string;
+  onLoadMore: () => void;
+  hasNextPage: boolean;
 }
 const SearchResult: React.FC<SearchResultProps> = ({
   data,
   title,
   searchValue,
+  onLoadMore,
+  hasNextPage,
   ...props
 }) => {
   return (
@@ -105,6 +111,13 @@ const SearchResult: React.FC<SearchResultProps> = ({
             </Flex>
           </Link>
         ))}
+        {hasNextPage && (
+          <Waypoint onEnter={onLoadMore}>
+            <Box>
+              <SearchResultSkeleton />
+            </Box>
+          </Waypoint>
+        )}
       </Box>
     </Box>
   );

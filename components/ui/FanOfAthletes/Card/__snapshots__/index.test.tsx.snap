@@ -42,7 +42,7 @@ exports[`renders homepage unchanged 1`] = `
               stroke="#1E16C1"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="1.5"
+              strokeWidth="1.5"
             />
           </svg>
           <p

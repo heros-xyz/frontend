@@ -128,6 +128,7 @@ export const athleteApi = createApi({
         url: `/dashboard/total-subscription${data ? `/${data}` : ""}`,
         method: "get",
       }),
+      keepUnusedDataFor: 10
     }),
     getMembershipList: builder.query<{ data: ListMembershipTiers[] }, string>({
       query: (userId) => ({
@@ -143,8 +144,9 @@ export const athleteApi = createApi({
         url: `/dashboard/gross-amount-money`,
         method: "get",
       }),
+      keepUnusedDataFor: 10
     }),
-    searchAthleteProfile: builder.query<IAthleteSearchProfile[], IPagination>({
+    searchAthleteProfile: builder.query<{ data: IAthleteSearchProfile[], meta: IMeta }, IPagination>({
       query: (params) => ({
         url: `/dashboard/search-athlete-profile`,
         method: "get",
@@ -178,7 +180,7 @@ export const athleteApi = createApi({
         data,
       }),
     }),
-    deleteMilestone: builder.mutation<any, any>({
+    deleteMilestone: builder.mutation<any, string>({
       query: (id: string) => ({
         url: `/onboarding/career-journey/${id}`,
         method: "DELETE",
@@ -222,21 +224,23 @@ export const athleteApi = createApi({
         data,
       }),
     }),
-    getListFans: builder.query<IFanInfo[], IPagination>({
+    getListFans: builder.query<{ data: IFanInfo[], meta: IMeta }, IPagination>({
       query: (params) => ({
         url: `/dashboard/athlete/my-fans`,
         method: "GET",
         params,
       }),
       transformResponse: (response: IListFans) => {
-        return response.data.map((item) => ({
-          id: item.id,
-          createdAt: item.createdAt,
-          fullName: item.sourceUser.firstName + " " + item.sourceUser.lastName,
-          description: item.membershipTier.name,
-          avatar: item.sourceUser.avatar,
-          email: item.sourceUser.email,
-        })) as IFanInfo[];
+        return {
+          data: response.data.map((item) => ({
+            id: item.id,
+            createdAt: item.createdAt,
+            fullName: item.sourceUser.firstName + " " + item.sourceUser.lastName,
+            description: item.membershipTier.name,
+            avatar: item.sourceUser.avatar,
+            email: item.sourceUser.email,
+          })) as IFanInfo[], meta: response.meta
+        }
       },
     }),
     getListInteractionByTag: builder.query<
@@ -438,6 +442,16 @@ export const athleteApi = createApi({
         };
       },
     }),
+    getFocusComment: builder.query<{
+      commentIndex: number;
+      totalComment: number;
+    }, string>({
+      query: (commentId) => ({
+        url: `/comment/focus/${commentId}`,
+        method: "GET",
+      }),
+      keepUnusedDataFor: 1
+    }),
   }),
 });
 
@@ -477,6 +491,8 @@ export const {
   useEditBasicInfoMutation,
   useEditPageInfoMutation,
   useGetTotalCommentsQuery,
+  useGetFocusCommentQuery,
+  util: { getRunningQueriesThunk: getRunningQueriesThunkAthlete }
 } = athleteApi;
 
 export const {
@@ -485,4 +501,7 @@ export const {
   getGrossAmountMoney,
   getSportProfile,
   getMembershipList,
+  getPageInformation,
+  getBasicInformation,
+  getFocusComment,
 } = athleteApi.endpoints;

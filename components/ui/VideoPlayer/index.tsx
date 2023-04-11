@@ -1,32 +1,47 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Waypoint } from "react-waypoint";
 import { Box } from "@chakra-ui/react";
 import { If, Then } from "react-if";
-import { isIOS } from "react-device-detect";
-import { useDevice } from "@/hooks/useDevice";
 import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
+import HerosVideo from "../HerosVideo";
 interface IVideoPlayerProps {
   url: string;
+  allowPlaying?: boolean;
 }
-export const VideoPlayer: React.FC<IVideoPlayerProps> = ({ url }) => {
-  const { isMobile } = useDevice();
+export const VideoPlayer: React.FC<IVideoPlayerProps> = ({
+  url,
+  allowPlaying = true,
+}) => {
   const vidRef = useRef<HTMLVideoElement>(null);
   const [isPlay] = useState(true);
+  const [currentPosition, setCurrentPosition] = useState("");
+
+  const onPlay = () => {
+    if (vidRef && vidRef.current) {
+      vidRef.current.muted = true;
+      vidRef.current.play();
+      vidRef.current.muted = false;
+    }
+  };
 
   const onPositionChange = (item: Waypoint.CallbackArgs) => {
-    if (item.currentPosition === "inside") {
-      if (vidRef && vidRef.current) {
-        vidRef.current.muted = true;
-        vidRef.current.play();
-      }
-    }
+    setCurrentPosition(item.currentPosition);
   };
 
   const handleExitViewport = () => {
     if (vidRef && vidRef.current) {
       vidRef.current.pause();
+      vidRef.current.muted = true;
     }
   };
+
+  useEffect(() => {
+    if (allowPlaying && currentPosition === "inside") {
+      onPlay();
+    } else {
+      handleExitViewport();
+    }
+  }, [allowPlaying, currentPosition]);
 
   return (
     <Waypoint
@@ -36,20 +51,7 @@ export const VideoPlayer: React.FC<IVideoPlayerProps> = ({ url }) => {
       onLeave={handleExitViewport}
     >
       <Box w="full">
-        <video
-          muted
-          controls
-          playsInline
-          autoPlay={isIOS}
-          ref={vidRef}
-          style={{
-            borderRadius: isMobile ? "8px" : "12px",
-            width: "100%",
-            maxHeight: isMobile ? "500px" : "650px",
-          }}
-        >
-          <source src={url} />
-        </video>
+        <HerosVideo url={url} vidRef={vidRef} />
         <If condition={!isPlay}>
           <Then>
             <PlayVideoIcon

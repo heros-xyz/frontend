@@ -29,7 +29,7 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
               xmlns="http://www.w3.org/2000/svg"
             >
               <g
-                clip-path="url(#clip0_5448_58455)"
+                clipPath="url(#clip0_5448_58455)"
               >
                 <path
                   d="M66.3644 32.7272C64.4553 28.9999 19.1826 30.3635 2.90987 37.5454C-2.99922 40.1817 0.455325 78.4544 10.4553 79.6363C18.2735 80.5454 35.0917 79.3635 42.0917 77.9999C44.9099 79.909 54.0917 76.0908 54.0008 71.5454C53.9099 68.9999 52.4553 66.909 51.0917 65.5454C52.4553 64.3635 53.4553 62.9999 53.7281 61.5454C54.1826 58.6363 52.0917 56.2726 50.3644 54.909C52.4553 53.6363 54.0917 51.8181 54.4553 49.909C54.9099 47.2726 52.6371 44.4544 50.5462 42.5454C63.6371 40.909 68.4553 36.6363 66.3644 32.7272Z"
@@ -38,14 +38,14 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                 <path
                   d="M52.0012 74.5442C52.0012 74.5442 43.4557 80.8169 41.4557 77.2715C39.0921 73.0897 43.3648 70.2715 43.3648 70.2715C43.3648 70.2715 37.3648 72.3624 36.0921 68.726C34.8193 65.0897 35.4557 62.3624 41.8193 59.6351C41.8193 59.6351 34.0012 62.3624 32.4557 58.4533C30.3648 53.0897 36.6375 48.6351 43.4557 45.2715"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M26.0004 34.5454C31.0004 31.909 34.7276 37.8181 30.4549 42.2727C26.0913 46.6363 18.7276 47.8181 18.7276 47.8181C18.7276 47.8181 30.4549 56.9999 18.6367 60.6363"
                   stroke="black"
-                  stroke-miterlimit="10"
-                  stroke-width="1.5"
+                  strokeMiterlimit="10"
+                  strokeWidth="1.5"
                 />
                 <path
                   d="M47.0921 32.2723C46.5466 32.2723 46.183 31.9086 46.0921 31.3632C46.0012 29.1814 46.4557 25.6359 46.4557 25.545C46.5466 24.9995 47.0012 24.6359 47.5466 24.7268C48.0921 24.8177 48.4557 25.2723 48.3648 25.8177C48.3648 25.8177 47.9103 29.2723 48.0012 31.2723C48.0921 31.7268 47.7285 32.1814 47.0921 32.2723Z"
@@ -175,7 +175,7 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                               stroke="currentColor"
                               stroke-linecap="round"
                               stroke-linejoin="round"
-                              stroke-width="1.5"
+                              strokeWidth="1.5"
                             />
                           </svg>
                         </div>
@@ -253,7 +253,7 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                               stroke="currentColor"
                               stroke-linecap="round"
                               stroke-linejoin="round"
-                              stroke-width="1.5"
+                              strokeWidth="1.5"
                             />
                           </svg>
                         </div>
@@ -331,7 +331,7 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                               stroke="currentColor"
                               stroke-linecap="round"
                               stroke-linejoin="round"
-                              stroke-width="1.5"
+                              strokeWidth="1.5"
                             />
                           </svg>
                         </div>
@@ -362,7 +362,7 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                         stroke="#33EFEF"
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        stroke-width="1.5"
+                        strokeWidth="1.5"
                       />
                     </svg>
                   </span>
@@ -389,7 +389,7 @@ exports[`renders Select Date Of Birth unchanged 1`] = `
                   stroke="#33EFEF"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  stroke-width="1.5"
+                  strokeWidth="1.5"
                 />
               </svg>
             </span>

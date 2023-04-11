@@ -1,8 +1,9 @@
 import { Pagination } from "swiper";
-import { AspectRatio, Box, Image, Skeleton, Spinner } from "@chakra-ui/react";
+import { AspectRatio, Box, Image, Spinner } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Case, Else, If, Switch, Then } from "react-if";
-import { getImageLink } from "@/utils/link";
+import { useState } from "react";
+import { getImageLink, getVideoLink } from "@/utils/link";
 import { IInteractionMedia } from "@/types/athlete/types";
 import { cssStyles } from "./styles";
 
@@ -21,10 +22,10 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
   height = "100%",
   slideData,
 }) => {
+  const [currentSlide, setCurrentSlide] = useState(0);
   const pagination = {
     clickable: true,
   };
-
   const styles = cssStyles(height);
 
   return (
@@ -34,8 +35,11 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
         pagination={pagination}
         modules={[Pagination]}
         lazy={true}
+        onSlideChange={(slide) => {
+          setCurrentSlide(slide.activeIndex);
+        }}
       >
-        {slideData?.map((item) => (
+        {slideData?.map((item, index) => (
           <SwiperSlide key={item.id}>
             <Switch>
               <Case condition={slideData.length > 1}>
@@ -55,7 +59,10 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
                       />
                     </Then>
                     <Else>
-                      <VideoPlayer url={getImageLink(item.url)} />
+                      <VideoPlayer
+                        allowPlaying={currentSlide === index}
+                        url={getVideoLink(item.url)}
+                      />
                     </Else>
                   </If>
                 </AspectRatio>
@@ -84,7 +91,7 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
                     />
                   </Then>
                   <Else>
-                    <VideoPlayer url={getImageLink(item.url)} />
+                    <VideoPlayer url={getVideoLink(item.url)} />
                   </Else>
                 </If>
               </Case>

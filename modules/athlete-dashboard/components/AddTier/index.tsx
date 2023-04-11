@@ -280,16 +280,15 @@ const AddTier: React.FC<IProp> = ({
               }}
               isLazy
             >
-              <MenuButton
+              <Box
                 bg="accent.2"
                 color="primary"
                 borderRadius={{ base: "6px", xl: "12px" }}
                 w="full"
                 minH="70px"
                 textAlign="left"
-                p="5"
+                py="5"
                 mt={{ base: "5", xl: "8" }}
-                type="button"
               >
                 <If
                   condition={benefitData.length > 0 && listBenefit.length > 0}
@@ -309,10 +308,11 @@ const AddTier: React.FC<IProp> = ({
                             alignItems="center"
                             pl={4}
                             mb={
-                              benefitData?.includes(listBenefit[0]?.value)
+                              benefitData?.includes(listBenefit[1]?.value)
                                 ? 2.5
                                 : 0
                             }
+                            mx={5}
                           >
                             {listBenefit[0]?.label}
                           </Text>
@@ -330,45 +330,52 @@ const AddTier: React.FC<IProp> = ({
                             display="flex"
                             alignItems="center"
                             pl={4}
+                            mx={5}
                           >
                             {listBenefit[1]?.label}
                           </Text>
                         </Then>
                       </If>
-                      <Box mt={{ base: 4 }} color="white">
-                        <EditPencilIcon
-                          w={{ base: "16px", xl: "19px" }}
-                          h={{ base: "16px", xl: "19px" }}
+                      <MenuButton mt={{ base: 4 }} color="white" type="button">
+                        <Box mx={5}>
+                          <EditPencilIcon
+                            w={{ base: "16px", xl: "19px" }}
+                            h={{ base: "16px", xl: "19px" }}
+                          />
+                          <Text
+                            as="span"
+                            ml="4"
+                            fontSize={{ base: "xs", xl: "xl" }}
+                            fontWeight="medium"
+                          >
+                            Edit benefits
+                          </Text>
+                        </Box>
+                      </MenuButton>
+                    </Box>
+                  </Then>
+                  <Else>
+                    <MenuButton type="button">
+                      <Box mx={5}>
+                        <AddArchiveIcon
+                          w={{ base: "30px" }}
+                          h={{ base: "30px" }}
+                          color="white"
                         />
                         <Text
                           as="span"
                           ml="4"
                           fontSize={{ base: "xs", xl: "xl" }}
+                          color="white"
                           fontWeight="medium"
                         >
-                          Edit benefits
+                          Select benefits
                         </Text>
                       </Box>
-                    </Box>
-                  </Then>
-                  <Else>
-                    <AddArchiveIcon
-                      w={{ base: "30px" }}
-                      h={{ base: "30px" }}
-                      color="white"
-                    />
-                    <Text
-                      as="span"
-                      ml="4"
-                      fontSize={{ base: "xs", xl: "xl" }}
-                      color="white"
-                      fontWeight="medium"
-                    >
-                      Select benefits
-                    </Text>
+                    </MenuButton>
                   </Else>
                 </If>
-              </MenuButton>
+              </Box>
               <MenuList bg="white" color="secondary" borderColor="accent.2">
                 <MenuOptionGroup
                   type="checkbox"
@@ -381,7 +388,7 @@ const AddTier: React.FC<IProp> = ({
                     value={listBenefit[0]?.value}
                     bg="white"
                     color="accent.2"
-                    w={{ base: "calc(100vw - 40px)", xl: "500px" }}
+                    w={{ base: "calc(100vw - 42px)", xl: "498px" }}
                     flexDirection="row-reverse"
                     fontWeight="medium"
                     _checked={{ color: "primary", fontWeight: "bold" }}
@@ -424,6 +431,7 @@ const AddTier: React.FC<IProp> = ({
                 handleSubmit();
               }}
               isLoading={loadingAdd || loadingUpdate}
+              _hover={{}}
             >
               {title === "Edit Tier" ? "Save" : "Add"}
             </Button>

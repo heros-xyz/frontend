@@ -1,55 +1,21 @@
-import { Box, Button, Container, Flex, Link } from "@chakra-ui/react";
+import { Box, Button, Text, Container, Link } from "@chakra-ui/react";
 import Head from "next/head";
 import NextLink from "next/link";
 
 export default function Custom404() {
   return (
-    <Box bg="primary" w="100vw" h="100vh">
+    <Box py={20}>
       <Head>
-        <title>404 Not Found.</title>
+        <title>Not Found Page</title>
       </Head>
-
       <Container size={["base", "sm", "md", "lg", "500px"]}>
-        <Flex
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-          minH="100vh"
-        >
-          <Box>
-            <Button
-              variant="secondary"
-              mb={5}
-              h="48px"
-              w="full"
-              textTransform="uppercase"
-              fontSize={{ base: "md", lg: "lg" }}
-              fontWeight={700}
-            >
-              Oops!!! 404 Page Not Found.
-            </Button>
+        <Text mb={6} fontWeight={600} fontSize={{ base: "sm", lg: "lg" }}>
+          Oops! We can’t seem to find the page you’re looking for.
+        </Text>
 
-            <Link
-              as={NextLink}
-              href="/"
-              w={{ base: "full", lg: "fit-content" }}
-              _hover={{
-                textDecoration: "none",
-              }}
-            >
-              <Button
-                variant="secondaryOutline"
-                h="48px"
-                w="full"
-                textTransform="uppercase"
-                fontSize={{ base: "md", lg: "lg" }}
-                fontWeight={700}
-              >
-                Back To Home Page
-              </Button>
-            </Link>
-          </Box>
-        </Flex>
+        <Link as={NextLink} href="/">
+          <Button variant="primary">Back to HOME PAGE</Button>
+        </Link>
       </Container>
     </Box>
   );

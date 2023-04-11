@@ -8,16 +8,17 @@ import {
   Grid,
   GridItem,
   Skeleton,
+  Spinner,
 } from "@chakra-ui/react";
 import React from "react";
 import NextLink from "next/link";
 import { Else, If, Then } from "react-if";
-import { isIOS } from "react-device-detect";
 import { IconArrowRight } from "@/components/svg/IconArrowRight";
 import { IconMessage } from "@/components/svg/IconMessage";
 import { ILatestInteraction } from "@/types/athlete/types";
 import { getImageLink } from "@/utils/link";
 import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
+import HerosVideo from "../HerosVideo";
 
 interface FanInteractionsProps {
   titleHeading: string;
@@ -123,6 +124,19 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
                               w="full"
                               h="full"
                               objectFit="cover"
+                              fallback={
+                                <Box
+                                  rounded="10px"
+                                  w="full"
+                                  h="full"
+                                  display="flex"
+                                  justifyContent="center"
+                                  alignItems="center"
+                                  bg="grey.0"
+                                >
+                                  <Spinner color="accent.2" size="sm" />
+                                </Box>
+                              }
                             />
                           </Then>
                           <Else>
@@ -132,16 +146,8 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
                               h="full"
                               rounded="8px"
                             >
-                              <video
-                                src={getImageLink(
-                                  item?.interactionMedia[0]?.url
-                                )}
-                                playsInline
-                                autoPlay={isIOS}
-                                style={{
-                                  borderRadius: "8px",
-                                  width: "100%",
-                                }}
+                              <HerosVideo
+                                url={item?.interactionMedia[0]?.url}
                               />
                               <PlayVideoIcon
                                 w={{ base: "30px", lg: "35px" }}
@@ -207,6 +213,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
                     right="50%"
                     bottom={{ base: "-16px", lg: "-28px" }}
                     transform="translate(50%, 0)"
+                    zIndex={5}
                   >
                     <Image
                       alt="avatar"

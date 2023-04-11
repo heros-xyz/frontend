@@ -70,7 +70,7 @@ exports[`renders homepage unchanged 1`] = `
                   stroke="#313F4C"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  stroke-width="0.5"
+                  strokeWidth="0.5"
                 />
               </svg>
             </div>
@@ -165,7 +165,7 @@ exports[`renders homepage unchanged 1`] = `
                   stroke="#313F4C"
                   stroke-linecap="round"
                   stroke-linejoin="round"
-                  stroke-width="0.5"
+                  strokeWidth="0.5"
                 />
               </svg>
             </div>

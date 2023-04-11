@@ -17,7 +17,8 @@ import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards } from "@/types/globals/types";
 
 function EditInteractionsPost() {
-  const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
+  const { formik, editPostData, isLoading, handleSubmit } =
+    useUpdateInteractionInfo();
   const router = useRouter();
   const { postId } = router.query;
 
@@ -40,12 +41,18 @@ function EditInteractionsPost() {
       publicType: postInfo?.publicType || "all",
       schedule: postInfo?.isSchedulePost,
       publicDate: dayjs(postInfo?.publicDate).format("YYYY-MM-DD"),
-      publicTime: dayjs(postInfo?.publicDate).format("HH:MM"),
+      publicTime: dayjs(postInfo?.publicDate).format("HH:mm"),
       isPost: false,
     };
 
     formik.setValues(initValues as IValuesTypes);
   };
+
+  useEffect(() => {
+    if (editPostData) {
+      router.push(`/athlete/interactions/${postId}`);
+    }
+  }, [editPostData]);
 
   useEffect(() => {
     if (postInfo) {
@@ -67,7 +74,7 @@ function EditInteractionsPost() {
             isEdit
             isLoading={isLoading}
             handleSubmit={handleSubmit}
-            onBack={() => router.push("/athlete/interactions")}
+            onBack={() => router.push(`/athlete/interactions`)}
           />
         </Container>
       </Box>

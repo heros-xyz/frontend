@@ -1,0 +1,35 @@
+{
+  "name": "Heros",
+  "short_name": "Heros",
+  "icons": [
+    {
+      "src": "/heros-logo/192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/heros-logo/256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/heros-logo/512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/heros-logo/1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#1E16C1",
+  "background_color": "#1E16C1",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}

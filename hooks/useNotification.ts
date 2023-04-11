@@ -18,6 +18,7 @@ dayjs.updateLocale("en", {
 
 export const useNotification = () => {
   const { start, finish } = useLoading();
+  const router = useRouter()
   const [beforeDate, setBeforeDate] = useState<string | Date | undefined>(
     undefined
   );
@@ -29,7 +30,6 @@ export const useNotification = () => {
     isFetching,
     isLoading,
     isSuccess,
-    refetch,
   } = useGetListNotificationQuery({
     beforeDate,
     take: 10,
@@ -47,16 +47,6 @@ export const useNotification = () => {
     }
   };
 
-  const onRefetchNotificationList = async () => {
-    setListNotification([]);
-    setBeforeDate(undefined);
-
-    setTimeout(async () => {
-      await refetch().unwrap();
-      finish();
-    });
-  };
-
   const onLoadMore = () => {
     if (!isFetching && notificationData?.meta?.hasNextPage) {
       const lastItem = notificationData?.data?.slice(-1)?.pop();
@@ -66,7 +56,7 @@ export const useNotification = () => {
 
   useEffect(() => {
     if (maskAllNotificationData) {
-      onRefetchNotificationList();
+      router.reload()
     }
   }, [maskAllNotificationData]);
 

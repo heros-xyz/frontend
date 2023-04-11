@@ -6,7 +6,6 @@ import {
   Flex,
   Image,
   Input,
-  Link,
   Text,
   VisuallyHiddenInput,
 } from "@chakra-ui/react";
@@ -20,11 +19,9 @@ import {
 import * as Yup from "yup";
 import Head from "next/head";
 import { useFormik } from "formik";
-import NextLink from "next/link";
 import { If, Then } from "react-if";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import { useGetSportListQuery } from "@/api/global";
-import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import DateSelect from "@/components/ui/DateSelect";
 import SelectGender from "@/components/ui/SelectGender";
@@ -220,6 +217,11 @@ const EditAccountInfo = () => {
                   isInvalid={Boolean(
                     formik.errors.firstName && formik.touched.firstName
                   )}
+                  borderColor="grey.200"
+                  _focusVisible={{
+                    borderColor: "grey.200",
+                    boxShadow: "none",
+                  }}
                 />
                 <ErrorMessage
                   mt={0.5}
@@ -249,6 +251,11 @@ const EditAccountInfo = () => {
                   isInvalid={Boolean(
                     formik.errors.lastName && formik.touched.lastName
                   )}
+                  borderColor="grey.200"
+                  _focusVisible={{
+                    borderColor: "grey.200",
+                    boxShadow: "none",
+                  }}
                 />
                 <ErrorMessage
                   mt={0.5}
@@ -368,7 +375,7 @@ const EditAccountInfo = () => {
               </Box>
               <Box mb={7}>
                 <Box fontWeight="medium" mb={2}>
-                  Interested Sport
+                  Interested Sport{" "}
                   <Text as="span" color="error.dark">
                     *
                   </Text>

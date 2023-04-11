@@ -11,7 +11,7 @@ import {
 } from "react";
 import { Else, If, Then } from "react-if";
 import { Waypoint } from "react-waypoint";
-import { useUnmount } from "react-use";
+import { useSearchParam, useUnmount } from "react-use";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { useGetAthleteListInteractionQuery } from "@/api/fan";
 import InteractionSection from "./components/InteractionSection";
@@ -33,7 +33,9 @@ const Interactions: FC<IInteractionsProps> = ({
   athleteNickname,
 }) => {
   const router = useRouter();
-  const { id } = router.query;
+
+  const { id, filter: filterdTag } = router.query;
+
   const [page, setPage] = useState(1);
   const [tag, setTag] = useState("");
   const tagSectionRef = useRef<HTMLDivElement>(null);
@@ -79,6 +81,23 @@ const Interactions: FC<IInteractionsProps> = ({
     }
   };
 
+  const handleRemoveQuery = () => {
+    router.replace(
+      {
+        pathname: `/fan/athlete-profile/${id}`,
+        query: { filter: "", current: 1 },
+      },
+      undefined,
+      {
+        shallow: true,
+      }
+    );
+  };
+
+  useEffect(() => {
+    filterdTag && setTag(filterdTag as string);
+  }, []);
+
   useEffect(() => {
     if (tag) {
       onGoToTag();
@@ -112,6 +131,7 @@ const Interactions: FC<IInteractionsProps> = ({
             </Text>
             <TagButton
               onClose={() => {
+                filterdTag && handleRemoveQuery();
                 handleFilterPostsByTag("");
               }}
             >

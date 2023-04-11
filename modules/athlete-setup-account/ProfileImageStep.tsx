@@ -77,7 +77,7 @@ const AthleteProfileImageStep: FC<OnboardingProps> = (props) => {
     <VStack
       alignItems={"center"}
       data-testid="athlete-profile-image-step"
-      w={{ xl: "340px" }}
+      w={{ base: "full", xl: "340px" }}
     >
       {imgSrc && (
         <FormControl

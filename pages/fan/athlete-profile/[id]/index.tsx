@@ -18,6 +18,7 @@ import { fanAuthGuard } from "@/middleware/fanGuard";
 
 const AthleteProfile = () => {
   const { query } = useRouter();
+
   const { data: athleteProfile } = useGetAthleteProfileQuery(
     query.id as string,
     {

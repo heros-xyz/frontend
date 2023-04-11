@@ -10,6 +10,7 @@ interface IProps {
   canEdit?: boolean;
   setItemEdit?: (item: ITimeLineInfo) => void;
   isCurrent: boolean;
+  isOnboarding?: boolean;
 }
 
 const nth = (date: string) => {
@@ -35,13 +36,16 @@ const JourneyCard: React.FC<IProps> = ({
   item,
   canEdit,
   setItemEdit,
-  isCurrent,
+  isOnboarding,
 }) => {
   return (
     <Flex
       p={{ base: 2.5, lg: 4 }}
       pr={0}
-      w={{ base: "80%", xl: "540px" }}
+      minW={{
+        base: "min(80%,330px)",
+        xl: isOnboarding ? "540px" : "330px",
+      }}
       color="primary"
       justifyContent="space-between"
       alignItems="center"
@@ -51,7 +55,11 @@ const JourneyCard: React.FC<IProps> = ({
       cursor={canEdit ? "pointer" : ""}
       onClick={() => setItemEdit && setItemEdit(item)}
     >
-      <Box pr={2} w={{ base: "170px", sm: "75%" }}>
+      <Box
+        pr={2}
+        minW={{ base: "170px", sm: "220px" }}
+        maxW={{ base: "170px", sm: "220px" }}
+      >
         <Heading fontSize={{ base: "xs", lg: "lg" }} mb={1}>
           {item.title}
         </Heading>

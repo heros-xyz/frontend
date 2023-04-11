@@ -52,7 +52,7 @@ exports[`renders homepage unchanged 1`] = `
               stroke="currentcolor"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </svg>
         </div>
@@ -83,7 +83,7 @@ exports[`renders homepage unchanged 1`] = `
               stroke="currentcolor"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </svg>
         </div>
@@ -114,7 +114,7 @@ exports[`renders homepage unchanged 1`] = `
               stroke="currentcolor"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </svg>
         </div>
@@ -145,7 +145,7 @@ exports[`renders homepage unchanged 1`] = `
               stroke="currentcolor"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </svg>
         </div>
@@ -176,7 +176,7 @@ exports[`renders homepage unchanged 1`] = `
               stroke="currentcolor"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </svg>
         </div>
@@ -207,7 +207,7 @@ exports[`renders homepage unchanged 1`] = `
               stroke="currentcolor"
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
+              strokeWidth="2"
             />
           </svg>
         </div>

@@ -9,3 +9,9 @@ export const getImageLink = (link: string | undefined) => {
   if (!link) return "";
   return `${HEROS_MEDIA_URL}/${link}`;
 };
+
+export const getVideoLink = (link: string | undefined) => {
+  if (!link) return "";
+  return `${HEROS_MEDIA_URL}/${link}#t=0.001`;
+};
+

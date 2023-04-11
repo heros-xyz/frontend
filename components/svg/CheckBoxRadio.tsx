@@ -1,5 +1,5 @@
 import { Box, Center } from "@chakra-ui/react";
-import { Else, If, Then } from "react-if";
+import { If, Then } from "react-if";
 
 const CheckBoxRadioIcon = ({ checked }: { checked: boolean }) => {
   return (
@@ -11,22 +11,13 @@ const CheckBoxRadioIcon = ({ checked }: { checked: boolean }) => {
       borderColor="primary"
       bg="white"
     >
-      <If condition={checked}>
-        <Then>
-          <Center h={4} w={4} borderRadius="full" bg="primary">
-            <Box h={1.5} w={1.5} borderRadius="full" bg="white" />
-          </Center>
-        </Then>
-        <Else>
-          <Box
-            h={4}
-            w={4}
-            borderRadius="full"
-            border="1px"
-            borderColor="grey.200"
-          />
-        </Else>
-      </If>
+      <Box h={4} w={4} borderRadius="full" border="1px" borderColor="grey.200">
+        <If condition={checked}>
+          <Then>
+            <Box h={3.5} w={3.5} borderRadius="full" bg="primary" />
+          </Then>
+        </If>
+      </Box>
     </Center>
   );
 };

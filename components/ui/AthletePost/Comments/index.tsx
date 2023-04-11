@@ -1,10 +1,11 @@
-import { Box, Hide, Show } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
+
 import React, { FC, useEffect, useMemo } from "react";
 import { Else, If, Then } from "react-if";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import CommentField from "@/modules/athlete-profile/interactions/components/CommentField";
-import { useComments } from "@/hooks/useComment";
+import { useComments } from "@/hooks/useComments";
 import { useDevice } from "@/hooks/useDevice";
 import Comments from "../../Comment/List";
 import LoadMoreSkeleton from "../LoadMoreSkeleton";
@@ -35,13 +36,14 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
     isShowLoadMore,
     totalComments,
     scrollRef,
-    take,
+    isLoadFirstComment,
+    isLoadAllComment,
     handleSendMessage,
     replyComment,
-    setOffset,
-    setTake,
     setReplyingTo,
     setIsFocusOnInput,
+    onLoadMore,
+    onLoadPrevious,
   } = useComments({
     authorId: session?.user.id ?? "",
     isPreview,
@@ -110,14 +112,10 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
     <Box className="comment-box">
       <If condition={isPreview}>
         <Then>
-          {listMergedComments.map((item, index) => (
-            <Box
-              className="comment-box__preview"
-              key={`${"key" + index}`}
-              py={2}
-            >
+          {listMergedComments.map((item) => (
+            <Box className="comment-box__preview" key={item.id} py={2}>
               <CommentItem
-                showAcions={false}
+                showActions={false}
                 commentId={item.id}
                 isReply={!!item.parentComment}
                 isAuthorComment={item.isAuthorComment}
@@ -143,55 +141,50 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
           ))}
         </Then>
         <Else>
-          <Box
-            ref={scrollRef}
-            position="relative"
-            className="comment-box__detail"
-          >
-            <Box pt={{ base: 2, lg: 5 }} pb={{ base: 4, lg: "15px" }}>
+          <Box position="relative" className="comment-box__detail">
+            <Box pt={2} pb={{ base: 4, lg: "15px" }}>
               <Comments
                 comments={formatDataComment}
                 isLoading={isLoading}
+                scrollRef={scrollRef}
                 onReply={(value) => {
                   setReplyingTo(value);
                   setIsFocusOnInput(true);
                 }}
+                ViewMoreComment={
+                  <If condition={!isLoadFirstComment}>
+                    <Then>
+                      <Text
+                        color="primary"
+                        fontSize={{ base: "sm", lg: "md" }}
+                        textDecoration="underline"
+                        onClick={onLoadPrevious}
+                        pb={1}
+                        cursor="pointer"
+                        fontWeight={500}
+                      >
+                        View more comments
+                      </Text>
+                    </Then>
+                  </If>
+                }
               >
-                <If condition={!isMobile}>
-                  <Then>
-                    <LoadMoreSkeleton
-                      pt={8}
-                      isShowLoadMore={isShowLoadMore}
-                      setOffset={() => {
-                        setTake(20);
-                        setOffset((offset) => offset + take);
-                      }}
-                    />
-                  </Then>
-                </If>
+                <LoadMoreSkeleton
+                  pt={8}
+                  isShowLoadMore={
+                    isShowLoadMore && !isLoadAllComment && !isMobile
+                  }
+                  setOffset={onLoadMore}
+                />
               </Comments>
-              <If condition={isMobile}>
-                <Then>
-                  <LoadMoreSkeleton
-                    pt={8}
-                    isShowLoadMore={isShowLoadMore}
-                    setOffset={() => {
-                      setTake(20);
-                      setOffset((offset) => offset + take);
-                    }}
-                  />
-                </Then>
-              </If>
+
+              <LoadMoreSkeleton
+                pt={8}
+                isShowLoadMore={isShowLoadMore && !isLoadAllComment && isMobile}
+                setOffset={onLoadMore}
+              />
             </Box>
-            <Box
-              position="sticky"
-              bottom={0}
-              bg="white"
-              alignItems="center"
-              gap={4}
-              py={{ base: 5, lg: 0 }}
-              zIndex={10}
-            >
+            <Box bottom={0} py={{ base: 2, lg: 0 }}>
               <CommentField
                 isReplying={replyingTo}
                 isLoading={isLoading}

@@ -33,8 +33,12 @@ const Interactions = () => {
     return {
       id: postInfo.id,
       menuList: [
-        { id: "edit", itemName: "Edit", Icon: <EditIcon /> },
-        { id: "delete", itemName: "Delete", Icon: <DeleteIcon /> },
+        { id: "edit", itemName: "Edit", Icon: <EditIcon color="primary" /> },
+        {
+          id: "delete",
+          itemName: "Delete",
+          Icon: <DeleteIcon color="primary" />,
+        },
       ],
       athleteInfo: {
         imagePath: session?.user?.avatar || "",
@@ -120,6 +124,7 @@ const Interactions = () => {
                   <Box>
                     <AthletePost
                       isNavigate
+                      isDetailPage={false}
                       interactionInfo={item}
                       onDeleted={router.reload}
                       onUpdated={router.reload}

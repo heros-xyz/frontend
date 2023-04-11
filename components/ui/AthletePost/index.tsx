@@ -50,6 +50,7 @@ interface IAthletePostProps {
   slideData: IInteractionMedia[];
   liked: boolean;
   isNavigate?: boolean;
+  isDetailPage: boolean;
   onDeleted?: () => void;
   onUpdated?: () => void;
   focusInputComment?: (value: boolean) => void;
@@ -70,19 +71,20 @@ const AthletePost: React.FC<IAthletePostProps> = ({
   slideData,
   liked,
   isNavigate,
+  isDetailPage,
   onDeleted,
   onUpdated,
   focusInputComment,
 }) => {
   const router = useRouter();
-  const { id: isDetailPage } = router.query;
   const iconActions = useRef<HTMLDivElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [reaction, setReaction] = useState<boolean>(liked);
   const [totalReaction, setTotalReaction] = useState<number>(postLikes);
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
   const [isOpenEdit, setisOpenEdit] = useState<boolean>(false);
-  const [submit, { data: reactionData }] = useReactionInteractionMutation();
+  const [onReaction, { data: reactionData, isLoading: isReactionLoading }] =
+    useReactionInteractionMutation();
   const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
 
   const handleClickMenu = (id: string) => {
@@ -123,12 +125,14 @@ const AthletePost: React.FC<IAthletePostProps> = ({
       setTotalReaction(reactionData.totalReaction);
     }
   }, [reactionData]);
+
   const handleReaction = async () => {
-    await submit({
+    if (isReactionLoading) return;
+    setReaction(!reaction);
+    onReaction({
       reactionType: 1,
       interactionId: id,
     });
-    setReaction(!reaction);
   };
 
   const ReadMore: React.FC<{ text: string }> = ({ text }) => {
@@ -148,7 +152,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
           <Box
             fontSize={{ base: "sm", lg: "xl" }}
             color="primary"
-            lineHeight="19.6px"
+            lineHeight={{ base: "21px", lg: "28px" }}
             wordBreak="break-word"
             mt={4}
           >
@@ -161,8 +165,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
               as="span"
               onClick={toggleReadMore}
               cursor="pointer"
-              color="secondary"
-              textDecoration="underline"
+              color="primary"
             >
               {text.length > MAX_CONTENT_LENGTH && isReadMore && "Read more"}
             </Text>
@@ -206,7 +209,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                 <Box
                   fontSize={{ base: "sm", lg: "xl" }}
                   color="primary"
-                  lineHeight="19.6px"
+                  lineHeight={{ base: "21px", lg: "28px" }}
                   wordBreak="break-word"
                   mt={4}
                 >

@@ -47,6 +47,7 @@ const AthleteNickNameStep: React.FC<IProp> = ({ onSubmit }) => {
       />
       <Box mb={3}>
         <Input
+          autoComplete="off"
           variant="flushed"
           placeholder="Nickname"
           borderColor="grey.200"

@@ -17,6 +17,7 @@ const PaymentInfo = () => {
   const router = useRouter();
   const { data } = useGetPaymentInfoQuery("");
   const [isError, setIsError] = useState<boolean>(false);
+  const [errorCode, setErrorCode] = useState<number>(0);
   const handleBack = () => {
     router.push({
       pathname: "/fan/athlete-profile/[id]/payment-details/",
@@ -61,9 +62,10 @@ const PaymentInfo = () => {
             setIsError={setIsError}
             idAthleteSubmit={router.query.id as string}
             idAthleteTier={router.query.membershipTierId as string}
+            setErrorCode={setErrorCode}
           />
         </Box>
-        <If condition={isError}>
+        <If condition={isError && (errorCode === 4001 || errorCode === 3000)}>
           <Then>
             <Flex
               position="absolute"
@@ -85,10 +87,12 @@ const PaymentInfo = () => {
               </Center>
               <Box ml="4">
                 <Text fontSize={{ base: "sm", xl: "md" }} fontWeight="bold">
-                  Connection failed
+                  {errorCode === 4001 ? "Payment pending" : "Connection failed"}
                 </Text>
                 <Text fontSize={{ base: "xs", xl: "md" }}>
-                  Activation of network connection failed
+                  {errorCode === 4001
+                    ? "We are now processing your payment. Almost done"
+                    : "Activation of network connection failed"}
                 </Text>
               </Box>
             </Flex>

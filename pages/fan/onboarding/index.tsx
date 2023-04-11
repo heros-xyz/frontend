@@ -70,7 +70,7 @@ const FanOnboarding = () => {
           </Box>
           <Box
             position="absolute"
-            top={{ lg: "59%" }}
+            top={{ lg: step == 1 ? "63%" : step == 4 ? "55%" : "58%" }}
             bottom={{ base: 5, lg: "unset" }}
             left={{ lg: "130px" }}
             w={{ base: "100%", lg: "unset" }}

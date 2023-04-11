@@ -41,7 +41,7 @@ const AthleteNotification = () => {
             top={0}
             py={[5, 10]}
             px={[5, 0]}
-            zIndex={9999}
+            zIndex={999}
           >
             <Heading fontSize={["xl", "2xl"]}>Notifications</Heading>
             <If condition={listNotification?.length}>

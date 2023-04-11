@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Select from "@/components/common/Select";
@@ -18,7 +18,7 @@ const EnterInterestedSport: React.FC<IProp> = ({ isLoading, onSubmit }) => {
   const { data: sportsList } = useGetSportListQuery("");
 
   const validationSchema = Yup.object().shape({
-    sports: Yup.array().required("Required at least 1 sport!"),
+    sports: Yup.array().min(1, "This is a required field"),
   });
 
   const formik = useFormik({
@@ -52,6 +52,10 @@ const EnterInterestedSport: React.FC<IProp> = ({ isLoading, onSubmit }) => {
         <Box mb={{ base: 5, lg: 8 }}>
           <Box fontSize={{ lg: "xl" }} fontWeight="bold">
             Select Your Interested Sport(s)
+            <Text as="span" color="error.dark">
+              {" "}
+              *
+            </Text>
           </Box>
         </Box>
         <Box fontSize={{ base: "sm", lg: "3xl" }}>

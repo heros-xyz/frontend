@@ -11,7 +11,6 @@ interface AddTagProps {
 const AddTag: FC<AddTagProps> = ({ onSubmit }) => {
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
-
   const [isInvalid, setIsInvalid] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -24,20 +23,14 @@ const AddTag: FC<AddTagProps> = ({ onSubmit }) => {
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if ((e.key === "Enter" || e.key === ",") && Boolean(inputValue)) {
+    if (e.key === "Enter" && !!inputValue) {
       if (inputValue.length > 25) {
         setIsInvalid(true);
         return;
       }
-      if (inputValue.length < 25 && inputValue[0] === "#") {
-        setTags((prev) => [
-          ...prev,
-          inputValue.trim().replace(/[^a-zA-Z ]/g, ""),
-        ]);
-        setInputValue("");
-        setIsInvalid(false);
-        return;
-      }
+      setTags((prev) => [...prev, inputValue.trim()]);
+      setIsInvalid(false);
+      setInputValue("");
     }
   };
 

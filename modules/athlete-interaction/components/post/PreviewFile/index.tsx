@@ -18,11 +18,12 @@ const PreviewFile: React.FC<IPreviewFile> = ({
   styleSquare,
 }) => {
   const fileFormat = useMemo(() => {
+    if (!file) return "";
     if (typeof file === "string") {
-      return file;
+      return file + "#t0.001";
     }
 
-    return file && URL.createObjectURL(file);
+    return URL.createObjectURL(file);
   }, [file]);
 
   return (
@@ -43,8 +44,9 @@ const PreviewFile: React.FC<IPreviewFile> = ({
           <video
             muted
             style={{ width: "100%" }}
-            playsInline
             autoPlay={isIOS}
+            preload="auto"
+            playsInline
             src={fileFormat}
           >
             <source src={fileFormat} type={fullType} />

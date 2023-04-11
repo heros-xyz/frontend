@@ -99,6 +99,7 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
                 formik.errors.firstName && formik.touched.firstName
               )}
               borderColor="grey.200"
+              _placeholder={{ color: "grey.200" }}
             />
             <ErrorMessage
               condition={formik.errors.firstName && formik.touched.firstName}
@@ -118,6 +119,7 @@ const EnterFullName: React.FC<IProp> = ({ initialValues, onSubmit }) => {
                 formik.errors.lastName && formik.touched.lastName
               )}
               borderColor="grey.200"
+              _placeholder={{ color: "grey.200" }}
             />
             <ErrorMessage
               condition={formik.errors.lastName && formik.touched.lastName}

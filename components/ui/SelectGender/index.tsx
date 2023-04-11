@@ -53,7 +53,7 @@ const SelectGender: React.FC<IProp> = ({
               base: isActive(item.value) ? "2px" : "1px",
               lg: "2px",
             }}
-            borderColor={isActive(item.value) ? selectColor : "grey.100"}
+            borderColor={isActive(item.value) ? selectColor : "grey.200"}
             onClick={() => setGenderValue(item.value)}
           >
             <Text
@@ -63,7 +63,7 @@ const SelectGender: React.FC<IProp> = ({
                   : { base: "sm", lg: "3xl" }
               }
               fontWeight={isActive(item.value) ? 700 : 500}
-              color={isActive(item.value) ? selectColor : "grey.100"}
+              color={isActive(item.value) ? selectColor : "grey.200"}
             >
               {item.label}
             </Text>

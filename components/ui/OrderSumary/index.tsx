@@ -83,7 +83,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         fontSize={{ base: "sm", lg: "lg" }}
         fontWeight={700}
       >
-        <Text>Today Charge</Text>
+        <Text>Due Today</Text>
         <Spacer />
         <Text fontSize={{ base: "sm", lg: "lg" }}>{price}</Text>
       </Flex>

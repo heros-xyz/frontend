@@ -232,11 +232,17 @@ const AuthTemplate: React.FC<IAuthProps> = ({
 
               <If condition={pageType !== "signin"}>
                 <Then>
-                  <Checkbox
-                    onChange={() => setAgreeSignUp(!agreeSignUp)}
-                    mt={4}
-                  >
-                    <Box fontSize={{ base: "xs", xl: "md" }}>
+                  <Flex mt={6} alignItems="flex-start">
+                    <Checkbox
+                      size={{ base: "md", xl: "lg" }}
+                      onChange={() => setAgreeSignUp(!agreeSignUp)}
+                      sx={{
+                        span: {
+                          borderRadius: 4,
+                        },
+                      }}
+                    />
+                    <Box ml={2} fontSize={{ base: "xs", xl: "md" }}>
                       <Text as="span">I agree to </Text>
                       <Link
                         href={getWebsiteLink(
@@ -267,7 +273,8 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                         </Text>
                       </Link>
                     </Box>
-                  </Checkbox>
+                  </Flex>
+
                   <ErrorMessage
                     mt={{ base: 1.5, xl: 3 }}
                     display="flex"

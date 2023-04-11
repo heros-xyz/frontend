@@ -4,7 +4,6 @@ import {
   Container,
   Flex,
   Input,
-  Link,
   Text,
   useToast,
 } from "@chakra-ui/react";
@@ -13,13 +12,11 @@ import Head from "next/head";
 import { useFormik } from "formik";
 import { ReactElement, useEffect } from "react";
 import { If, Then } from "react-if";
-import NextLink from "next/link";
 import TextareaAutoSize from "react-textarea-autosize";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import DateSelect from "@/components/ui/DateSelect";
 import Select from "@/components/common/Select";
 import ErrorMessage from "@/components/common/ErrorMessage";
-import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { useGetNationalityQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
 import SelectGender from "@/components/ui/SelectGender";
@@ -127,6 +124,8 @@ const EditBasicInfo = () => {
                   </Text>
                 </Box>
                 <Input
+                  placeholder="First name *"
+                  _placeholder={{ color: "grey.200" }}
                   variant="flushed"
                   w="full"
                   id="firstName"
@@ -157,6 +156,8 @@ const EditBasicInfo = () => {
                   Legal Middle Name (Optional)
                 </Box>
                 <Input
+                  placeholder="Middle name"
+                  _placeholder={{ color: "grey.200" }}
                   variant="flushed"
                   w="full"
                   id="middleName"
@@ -193,6 +194,8 @@ const EditBasicInfo = () => {
                   </Text>
                 </Box>
                 <Input
+                  placeholder="Last name *"
+                  _placeholder={{ color: "grey.200" }}
                   variant="flushed"
                   w="full"
                   id="lastName"
@@ -347,7 +350,7 @@ const EditBasicInfo = () => {
                     paddingTop: "10px",
                     paddingLeft: 0,
                     borderRadius: 0,
-                    fontWeight: 500,
+                    fontWeight: "medium",
                     paddingBottom: "10px",
                     fontSize: isDesktop ? "18px" : "14px",
                     lineHeight: isDesktop ? "28px" : "22px",

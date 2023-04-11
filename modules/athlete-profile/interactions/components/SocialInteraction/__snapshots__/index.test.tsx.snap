@@ -21,7 +21,7 @@ exports[`renders social interaction section unchanged 1`] = `
           stroke="currentColor"
           stroke-linecap="round"
           stroke-linejoin="round"
-          stroke-width="1.5"
+          strokeWidth="1.5"
         />
       </svg>
     </button>
@@ -41,7 +41,7 @@ exports[`renders social interaction section unchanged 1`] = `
           stroke="currentColor"
           stroke-linecap="round"
           stroke-linejoin="round"
-          stroke-width="1.5"
+          strokeWidth="1.5"
         />
       </svg>
     </button>
@@ -61,7 +61,7 @@ exports[`renders social interaction section unchanged 1`] = `
           stroke="currentColor"
           stroke-linecap="round"
           stroke-linejoin="round"
-          stroke-width="1.5"
+          strokeWidth="1.5"
         />
       </svg>
     </button>

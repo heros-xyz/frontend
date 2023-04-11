@@ -1,9 +1,9 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { FC, useEffect, useRef } from "react";
 import { If, Then } from "react-if";
 import CommentItem from "@/components/ui/Comment/Item";
-import { useComments } from "@/hooks/useComment";
+import { useComments } from "@/hooks/useComments";
 import LoadMoreSkeleton from "@/components/ui/AthletePost/LoadMoreSkeleton";
 import { useDevice } from "@/hooks/useDevice";
 import CommentField from "../../components/CommentField";
@@ -22,23 +22,23 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
   const router = useRouter();
   const { isMobile } = useDevice();
   const { view: postId, id: authorId, focus } = router.query;
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   const {
     isFocusOnInput,
     isLoading,
-    listComment,
     listMergedComments,
     replyingTo,
     isShowLoadMore,
     totalComments,
-    take,
-    setTake,
+    isLoadFirstComment,
+    isLoadAllComment,
+    scrollRef,
     handleSendMessage,
     replyComment,
-    setOffset,
     setReplyingTo,
     setIsFocusOnInput,
+    onLoadMore,
+    onLoadPrevious,
   } = useComments({
     authorId: authorId as string,
     isPreview: false,
@@ -81,12 +81,8 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
     });
   };
 
-  if (!listComment) {
-    return <></>;
-  }
-
   return (
-    <Flex flexDirection="column" position="relative" ref={scrollRef}>
+    <Flex flexDirection="column" position="relative">
       <Flex flexDirection="column">
         <SocialInteraction
           liked={liked}
@@ -99,10 +95,27 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
           py={4}
           overflowY="auto"
           flexDirection="column"
-          maxHeight={{ lg: "580px" }}
+          maxH={{ lg: "60vh", xl: "65vh" }}
+          minH={{ lg: "60vh", xl: "65vh" }}
           gap={{ base: 4, lg: 8 }}
+          ref={scrollRef}
           className="postComment"
         >
+          <If condition={!isLoadFirstComment}>
+            <Then>
+              <Text
+                color="primary"
+                fontSize={{ base: "sm", lg: "md" }}
+                textDecoration="underline"
+                onClick={onLoadPrevious}
+                pb={1}
+                cursor="pointer"
+                fontWeight={500}
+              >
+                View more comments
+              </Text>
+            </Then>
+          </If>
           {listMergedComments.map(
             ({
               id,
@@ -141,29 +154,17 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
               />
             )
           )}
-          <If condition={!isMobile}>
-            <Then>
-              <LoadMoreSkeleton
-                isShowLoadMore={isShowLoadMore}
-                setOffset={() => {
-                  setTake(20);
-                  setOffset((offset) => offset + take);
-                }}
-              />
-            </Then>
-          </If>
+
+          <LoadMoreSkeleton
+            isShowLoadMore={isShowLoadMore && !isLoadAllComment && !isMobile}
+            setOffset={onLoadMore}
+          />
         </Flex>
-        <If condition={isMobile}>
-          <Then>
-            <LoadMoreSkeleton
-              isShowLoadMore={isShowLoadMore}
-              setOffset={() => {
-                setTake(20);
-                setOffset((offset) => offset + take);
-              }}
-            />
-          </Then>
-        </If>
+
+        <LoadMoreSkeleton
+          isShowLoadMore={isShowLoadMore && !isLoadAllComment && isMobile}
+          setOffset={onLoadMore}
+        />
       </Flex>
 
       <CommentField

@@ -24,14 +24,20 @@ interface IFindHeros extends BoxProps {
   value?: string;
   onChange?: (el: React.ChangeEvent<HTMLInputElement>) => void;
   showResult?: boolean;
-  onSeeAll?: () => void;
+  onSeeAll?: (el: string) => void;
 }
 
 const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
   const [searchValue, setSearchValue] = useState("");
   const [isSearchBarFocused, setFocus] = useState(false);
   const [showSuggestList, setShowSuggestList] = useState(false);
-
+  // const [searchType, setSearchType] = useState<{
+  //   label: string;
+  //   value: string;
+  // }>({
+  //   value: "5",
+  //   label: "All",
+  // });
   const router = useRouter();
 
   const onChange = useCallback((el: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,26 +45,26 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
     setShowSuggestList(true);
   }, []);
 
-  const searchValueDebounced = useDebounce(searchValue, 0);
+  const searchValueDebounced = useDebounce(searchValue, 500);
 
-  const LIMIT = 5;
+  const TAKE = 5;
 
-  const { data } = useSearchAthleteProfileQuery(
+  const { data: searchData } = useSearchAthleteProfileQuery(
     {
       searching: searchValueDebounced?.toLocaleLowerCase(),
-      take: LIMIT,
+      take: TAKE,
     },
-    { skip: searchValue.length <= 1 }
+    { skip: searchValueDebounced.length <= 1 }
   );
 
   const onShowAllResult = () => {
     setShowSuggestList(false);
-    if (router.pathname !== "/fan/all-result") {
-      router.push({ pathname: "/fan/all-result", query: { searchValue } });
-      return;
-    }
+    router.push({
+      pathname: "/fan/all-result",
+      query: { searchValue: searchValueDebounced },
+    });
 
-    onSeeAll && onSeeAll();
+    onSeeAll && onSeeAll(searchValueDebounced);
   };
 
   const onFocus = () => setFocus(true);
@@ -103,9 +109,63 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
             }}
           />
         </InputGroup>
+        {/* <Menu offset={[-200, 0]}>
+          <MenuButton
+            h="fit-content"
+            alignItems="center"
+            onClick={() => {
+              setShowSuggestList(!showSuggestList);
+            }}
+          >
+            <FilterIcon
+              mt={3}
+              color="primary"
+              w="20px"
+              h="20px"
+              // display={{ xl: "none" }}
+            />
+            <Box
+              display={{ base: "none", xl: "flex" }}
+              fontSize="sm"
+              textAlign="center"
+              alignItems="center"
+              h="full"
+              w={{ xl: "75px" }}
+              overflow={{ xl: "hidden" }}
+            >
+              {searchType.label}
+            </Box>
+          </MenuButton>
+          <MenuList
+            borderColor="grey.200"
+            p="0"
+            overflow="hidden"
+            transform="revert"
+          >
+            <MenuOptionGroup type="radio" defaultValue={"5"}>
+              {filterSearchButton.map((el) => (
+                <MenuItemOption
+                  key={el.value}
+                  value={el.value}
+                  flexDirection="row-reverse"
+                  _focus={{}}
+                  fontSize="sm"
+                  bg="grey.0"
+                  onClick={() => {
+                    setSearchType(el);
+                    setShowSuggestList(true);
+                  }}
+                  color="primary"
+                >
+                  {el.label}
+                </MenuItemOption>
+              ))}
+            </MenuOptionGroup>
+          </MenuList>
+        </Menu> */}
       </Flex>
       <AnimatePresence>
-        {data && showSuggestList && (
+        {searchData?.data && showSuggestList && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -119,8 +179,10 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
               top={{ base: "50px", lg: "60px" }}
               position="absolute"
               searchKeyword={searchValue}
-              buttonName={data.length ? "See All Results" : "No Result Found"}
-              items={data}
+              buttonName={
+                searchData.data.length ? "See All Results" : "No Result Found"
+              }
+              items={searchData.data}
               onShowAllResult={onShowAllResult}
               onClick={() => {
                 setShowSuggestList(false);
@@ -156,7 +218,7 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
                 mr={{ lg: 2 }}
               />
               <Text fontSize={{ base: "xs", lg: "md" }} fontWeight={500}>
-                You can either search by athletes’ name or their sports and
+                You can either search by athletes&apos; name or their sports and
                 sports related terms.
               </Text>
             </HStack>

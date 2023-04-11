@@ -13,14 +13,13 @@ import { If, Then } from "react-if";
 import { createEditor } from "slate";
 import { Slate, withReact } from "slate-react";
 import { useSession } from "next-auth/react";
+import TextareaAutoSize from "react-textarea-autosize";
 import { PhotoIcon } from "@/components/svg/Photo";
 import { HashTagIcon } from "@/components/svg/HashTagIcon";
 import { Close } from "@/components/svg/Close";
 import ErrorMessage from "@/components/common/ErrorMessage";
-import {
-  ERROR_SIZE_UPLOAD_POST_MEDIA,
-  ERROR_TYPE_UPLOAD_POST_MEDIA,
-} from "@/utils/inputRules";
+import { colors } from "@/styles/themes/colors";
+import { useDevice } from "@/hooks/useDevice";
 import UploadMediaPost from "../UploadMediaPost";
 import { IValuesTypes } from "../../../hooks";
 
@@ -30,6 +29,7 @@ const EnterPost = () => {
   const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [editor] = useState(() => withReact(createEditor()));
   const [inputValueTag, setInputValueTag] = useState<string>("");
+  const { isDesktop } = useDevice();
 
   useEffect(() => {
     if (!values?.tags?.length) {
@@ -72,24 +72,18 @@ const EnterPost = () => {
     }
   };
 
-  const fomatErrorMessage = useMemo(() => {
+  const formatErrorMessage = useMemo(() => {
     if (Array.isArray(errors.listMedia)) {
-      const isErrorSize = errors.listMedia.some(
-        (item: any) => item?.file === "Invalid"
-      );
-      const isErrorType = errors.listMedia.some(
-        (item: any) => item?.file === "InvalidType"
-      );
-      if (isErrorSize) return ERROR_SIZE_UPLOAD_POST_MEDIA;
-      if (isErrorType) return ERROR_TYPE_UPLOAD_POST_MEDIA;
+      return (errors.listMedia as any)?.filter(Boolean)?.[0]?.file;
     }
-    return "";
+    return errors.listMedia;
   }, [errors.listMedia]);
 
   return (
     <Box>
       <Box
-        py={4}
+        pb={4}
+        pt={3}
         px={5}
         bg="grey.0"
         mx={{ base: -5, lg: 0 }}
@@ -100,19 +94,30 @@ const EnterPost = () => {
         </Box>
         <Box>
           <Slate editor={editor} value={[]}>
-            <Textarea
+            <TextareaAutoSize
               id="content"
-              value={values.content}
+              name="content"
+              className="postComment"
               placeholder={
                 session?.user.hasFirstInteraction
                   ? "Let your fans know what’s on your mind."
                   : "Add your first interaction."
               }
-              variant="unstyled"
-              fontSize={{ base: "xs", lg: "lg" }}
-              resize="none"
-              py={0}
-              mb={2}
+              style={{
+                resize: "none",
+                width: "100%",
+                outline: "none",
+                paddingLeft: 0,
+                borderRadius: 0,
+                fontWeight: "medium",
+                paddingBottom: "10px",
+                fontSize: isDesktop ? "18px" : "14px",
+                lineHeight: isDesktop ? "28px" : "22px",
+                background: "#F5F5F5",
+              }}
+              minRows={3}
+              maxRows={8}
+              value={values.content}
               onChange={(e) => setFieldValue("content", e.target.value)}
             />
           </Slate>
@@ -179,10 +184,9 @@ const EnterPost = () => {
       />
       <ErrorMessage
         whiteSpace="break-spaces"
+        mt={1}
         condition={Boolean(errors.listMedia?.length)}
-        errorMessage={
-          Array.isArray(errors.listMedia) ? fomatErrorMessage : errors.listMedia
-        }
+        errorMessage={formatErrorMessage}
       />
       <ErrorMessage
         whiteSpace="break-spaces"

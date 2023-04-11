@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import type { Meta, StoryObj } from "@storybook/react";
-import SelectProfileImage from "./";
+import SelectProfileImage from ".";
 
 const meta: Meta<typeof SelectProfileImage> = {
   title: "Fan/On Boarding/SelectProfileImage",

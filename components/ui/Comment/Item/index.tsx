@@ -6,10 +6,14 @@ import {
   Text,
   useOutsideClick,
   WrapItem,
+  keyframes,
+  usePrefersReducedMotion,
 } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import { Else, If, Then } from "react-if";
+import { useRouter } from "next/router";
+import { isMobileOnly } from "react-device-detect";
 import { useReactionCommentMutation } from "@/api/fan";
 import { Heart } from "@/components/svg/CommentHeart";
 import { CommentIcon } from "@/components/svg/CommentIcon";
@@ -19,12 +23,16 @@ import { getDateFromNow } from "@/utils/functions";
 import { getImageLink } from "@/utils/link";
 import { Comment } from "../List/index.stories";
 
+const spin = keyframes`
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+`;
 interface CommentProps extends BoxProps {
   item: Comment;
   commentId?: string;
   isReply: boolean;
   isAuthorComment?: boolean;
-  showAcions?: boolean;
+  showActions?: boolean;
   handleReply?: () => void;
   onClickComment?: () => void;
 }
@@ -34,16 +42,24 @@ const CommentItem: React.FC<CommentProps> = ({
   isAuthorComment,
   commentId,
   isReply,
-  showAcions = true,
+  showActions = true,
   handleReply,
   onClickComment,
   ...props
 }) => {
+  const {
+    query: { commentId: commentIdFocused },
+  } = useRouter();
+  const commentRef = useRef<HTMLDivElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [showAnimation, setAnimation] = useState(false);
   const [totalLikes, setTotalLikes] = useState<number | undefined>(0);
   const [reactToComment, { isSuccess, data }] = useReactionCommentMutation();
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  const animation = prefersReducedMotion ? undefined : `${spin} 3s ease-in-out`;
 
   const handleOpenReactions = () => {
     setIsVisible((prev) => !prev);
@@ -75,8 +91,45 @@ const CommentItem: React.FC<CommentProps> = ({
     handler: () => setIsVisible(false),
   });
 
+  useEffect(() => {
+    if (commentIdFocused && commentId && commentIdFocused === commentId) {
+      setTimeout(() => {
+        if (isMobileOnly) {
+          const commentInputBoxHeight = 75;
+          const offsetParent = commentRef.current?.offsetParent as HTMLElement;
+          const offsetTop =
+            (commentRef.current?.offsetTop ?? 0) +
+            (offsetParent?.offsetTop ?? 0);
+          const commentBoxHeight =
+            commentRef.current?.getBoundingClientRect()?.height ?? 0;
+
+          const top =
+            offsetTop -
+            window.innerHeight +
+            commentInputBoxHeight +
+            commentBoxHeight;
+
+          window.scrollTo({
+            top,
+            behavior: "smooth",
+          });
+        } else {
+          commentRef.current?.scrollIntoView({
+            behavior: "smooth",
+          });
+        }
+        setAnimation(true);
+      }, 200);
+    }
+  }, [commentId, commentIdFocused]);
+
   return (
-    <Box {...props}>
+    <Box
+      {...props}
+      className="comment-item"
+      ref={commentRef}
+      animation={showAnimation ? animation : undefined}
+    >
       <Flex
         alignItems="end"
         justifyContent={isReply ? "flex-end" : "flex-start"}
@@ -109,7 +162,7 @@ const CommentItem: React.FC<CommentProps> = ({
             order={isReply ? 2 : 1}
             mr={isReply ? 3 : 0}
             onClick={onClickComment}
-            cursor={!showAcions ? "pointer" : ""}
+            cursor={!showActions ? "pointer" : ""}
             color="primary"
           >
             {item.parentComment && (
@@ -158,7 +211,7 @@ const CommentItem: React.FC<CommentProps> = ({
                   <CommentIcon
                     width="17"
                     height="10"
-                    color={isAuthorComment ? "accent.1" : "accent.4"}
+                    color={isAuthorComment ? "accent.1" : "grey.0"}
                   />
                 </Box>
               </Then>
@@ -228,7 +281,7 @@ const CommentItem: React.FC<CommentProps> = ({
               )}
             </AnimatePresence>
           </Box>
-          <If condition={showAcions}>
+          <If condition={showActions}>
             <Then>
               <Dots
                 order={isReply ? 1 : 2}

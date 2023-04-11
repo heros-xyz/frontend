@@ -46,7 +46,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
     {
       id: "noti",
       Icon: <NotificationIcon />,
-      itemName: "Notification",
+      itemName: "Notifications",
       activeIcon: <NotificationActive />,
       show: true,
       path: role === "ATHLETE" ? "/athlete/notification" : "/fan/notification",

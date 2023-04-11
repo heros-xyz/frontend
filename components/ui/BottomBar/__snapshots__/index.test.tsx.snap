@@ -28,7 +28,7 @@ exports[`renders BottomBar unchanged 1`] = `
                 stroke="#33EFEF"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
             </svg>
           </div>
@@ -59,7 +59,7 @@ exports[`renders BottomBar unchanged 1`] = `
                 stroke="#33EFEF"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
             </svg>
           </div>
@@ -90,7 +90,7 @@ exports[`renders BottomBar unchanged 1`] = `
                 stroke="#33EFEF"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
             </svg>
           </div>
@@ -121,14 +121,14 @@ exports[`renders BottomBar unchanged 1`] = `
                 stroke="#33EFEF"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
               <path
                 d="M6.99999 10.6667C3.77833 10.6667 1.16666 13.2783 1.16666 16.5H12.8333C12.8333 13.2783 10.2217 10.6667 6.99999 10.6667Z"
                 stroke="#33EFEF"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                stroke-width="1.5"
+                strokeWidth="1.5"
               />
             </svg>
           </div>

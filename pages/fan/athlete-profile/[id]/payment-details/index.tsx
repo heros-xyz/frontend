@@ -46,6 +46,7 @@ const PaymentDetails = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isError, setIsError] = useState<boolean>(false);
+  const [errorCode, setErrorCode] = useState<number>(0);
   const [errorCard, setErrorCard] = useState<boolean>(false);
   const { data: athleteProfile } = useGetAthleteProfileQuery(
     router.query.id as string,
@@ -140,6 +141,14 @@ const PaymentDetails = () => {
       }
       if ((errorData as IHerosError).data.statusCode === 3000) {
         setIsError(true);
+        setErrorCode(3000);
+        setTimeout(() => {
+          setIsError(false);
+        }, 5000);
+      }
+      if ((errorData as IHerosError).data.statusCode === 4001) {
+        setIsError(true);
+        setErrorCode(4001);
         setTimeout(() => {
           setIsError(false);
         }, 5000);
@@ -256,7 +265,11 @@ const PaymentDetails = () => {
                   Subscribe Now
                 </Button>
               </Box>
-              <If condition={errorCard}>
+              <If
+                condition={
+                  errorCard && (errorCode === 4001 || errorCode === 3000)
+                }
+              >
                 <Then>
                   <Flex
                     flexDirection={{ base: "column", xl: "row" }}
@@ -266,9 +279,15 @@ const PaymentDetails = () => {
                     alignItems={{ base: "center", xl: "normal" }}
                     fontSize="xs"
                   >
-                    <Text>Your credit card was declined.</Text>
+                    <Text>
+                      {errorCode === 4001
+                        ? "Payment pending"
+                        : "Connection failed"}
+                    </Text>
                     <Text ml={{ xl: 1 }}>
-                      Try paying with another credit card.
+                      {errorCode === 4001
+                        ? "We are now processing your payment. Almost done"
+                        : "Activation of network connection failed"}
                     </Text>
                   </Flex>
                 </Then>

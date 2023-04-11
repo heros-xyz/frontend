@@ -7,21 +7,50 @@ import {
   Image,
   Spinner,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { Else, If, Then } from "react-if";
 import Link from "next/link";
 import { Waypoint } from "react-waypoint";
-import { isIOS } from "react-device-detect";
+import { useRouter } from "next/router";
+import { useLocation, useLockBodyScroll } from "react-use";
+import { useState } from "react";
+import { Provider as BusProvider } from "react-bus";
 import Chat from "@/components/svg/Chat";
 import { getImageLink } from "@/utils/link";
 import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
 import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
+import InteractionInModal from "@/modules/athlete-interaction/components/detail/InteractionInModal";
+import HerosVideo from "@/components/ui/HerosVideo";
 
 export const Interaction = ({}) => {
+  const router = useRouter();
+  const route = useLocation();
+  const [interactionId, setInteractionId] = useState("");
+  const {
+    isOpen: isOpenViewOnList,
+    onOpen: onOpenViewOnList,
+    onClose: closeOpenViewOnList,
+  } = useDisclosure();
+
+  useLockBodyScroll(isOpenViewOnList);
+
   const { hasNextPage, interactionsList, onLoadMore } = useAthleteInteraction({
     isGetPublic: true,
     take: 15,
   });
+
+  const onViewInteractionDetail = (id: string) => {
+    setInteractionId(id);
+
+    router
+      .push(route.pathname as string, `/athlete/interactions/${id}?current=1`, {
+        shallow: true,
+      })
+      .then(() => {
+        onOpenViewOnList();
+      });
+  };
 
   return (
     <Box marginTop={{ base: 0, xl: "50px" }} maxWidth="500px">
@@ -53,7 +82,6 @@ export const Interaction = ({}) => {
           </Button>
         </Link>
       </Box>
-
       <Grid
         templateColumns="repeat(3, 1fr)"
         gap={{ base: "3px", xl: "5px" }}
@@ -63,9 +91,10 @@ export const Interaction = ({}) => {
           ? interactionsList.map((item) => (
               <GridItem borderRadius="4px" key={item?.id} w="full">
                 <AspectRatio ratio={1} w="100%">
-                  <Link
-                    href={`/athlete/interactions/${item?.id}`}
+                  <Box
                     style={{ borderRadius: "4px" }}
+                    cursor="pointer"
+                    onClick={() => onViewInteractionDetail(item.id)}
                   >
                     <If condition={item?.interactionMedia?.length > 0}>
                       <Then>
@@ -81,7 +110,19 @@ export const Interaction = ({}) => {
                               h="full"
                               alt=""
                               objectFit="cover"
-                              loading="lazy"
+                              fallback={
+                                <Box
+                                  rounded="10px"
+                                  w="full"
+                                  h="full"
+                                  display="flex"
+                                  justifyContent="center"
+                                  alignItems="center"
+                                  bg="grey.0"
+                                >
+                                  <Spinner color="accent.2" size="sm" />
+                                </Box>
+                              }
                             />
                           </Then>
                           <Else>
@@ -91,16 +132,8 @@ export const Interaction = ({}) => {
                               h="full"
                               rounded="8px"
                             >
-                              <video
-                                src={getImageLink(
-                                  item?.interactionMedia[0]?.url
-                                )}
-                                playsInline
-                                autoPlay={isIOS}
-                                style={{
-                                  borderRadius: "8px",
-                                  width: "100%",
-                                }}
+                              <HerosVideo
+                                url={item?.interactionMedia[0]?.url}
                               />
                               <PlayVideoIcon
                                 w={{ base: "30px", lg: "35px" }}
@@ -143,7 +176,7 @@ export const Interaction = ({}) => {
                         </Box>
                       </Else>
                     </If>
-                  </Link>
+                  </Box>
                 </AspectRatio>
               </GridItem>
             ))
@@ -156,6 +189,15 @@ export const Interaction = ({}) => {
           </Box>
         </Waypoint>
       )}
+
+      <BusProvider>
+        <InteractionInModal
+          onClose={closeOpenViewOnList}
+          interactionId={interactionId}
+          href="/athlete/my-profile?current=1"
+          isOpen={isOpenViewOnList}
+        />
+      </BusProvider>
     </Box>
   );
 };

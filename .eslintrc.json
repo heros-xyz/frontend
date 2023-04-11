@@ -38,6 +38,7 @@
         "tsx": "never"
       }
     ],
+    "@typescript-eslint/no-var-requires": "off",
     "import/prefer-default-export": "off",
     "no-useless-computed-key": "off",
     "implicit-arrow-linebreak": "off",

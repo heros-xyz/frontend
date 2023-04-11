@@ -1,9 +1,7 @@
 import { Box, Container } from "@chakra-ui/react";
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import Head from "next/head";
-import { useQueryParam, StringParam, withDefault } from "use-query-params";
 import { useRouter } from "next/router";
-import useDebounce from "@/hooks/useDebounce";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import { useSearchAthleteProfileQuery } from "@/api/athlete";
 import SearchResult from "@/components/ui/SearchResult";
@@ -12,47 +10,50 @@ import { wrapper } from "@/store";
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { setContext } from "@/libs/axiosInstance";
 import { IGuards } from "@/types/globals/types";
+import { IAthleteSearchProfile } from "@/types/athlete/types";
 
 const AllResult = () => {
   const router = useRouter();
 
-  const LIMIT = 5;
-
-  const defaultValue: string = (router?.query["searchValue"] as string) || "";
-  const [showAllValue, setShowAllValue] = useState(
+  const TAKE = 10;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentData, setCurrentData] = useState<IAthleteSearchProfile[]>([]);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
+  const [defaultValue, setDefaultValue] = useState<string>(
     (router?.query["searchValue"] as string) || ""
   );
-  const [searchValue, setSearchValue] = useQueryParam(
-    "searchValue",
-    withDefault(StringParam, defaultValue)
-  );
-
-  const searchValueDebounced = useDebounce(searchValue, 500);
+  const [searchValue, setSearchValue] = useState<string>("");
   const onChange = (el: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(el.target.value);
   };
 
-  const { data } = useSearchAthleteProfileQuery(
-    {
-      searching: searchValueDebounced?.toLocaleLowerCase(),
-      limit: LIMIT,
-    },
-    { skip: searchValue.length <= 1 }
-  );
+  const { data: searchData } = useSearchAthleteProfileQuery({
+    searching: defaultValue?.toLocaleLowerCase(),
+    page: currentPage,
+    take: TAKE,
+  });
 
-  const { data: searchData } = useSearchAthleteProfileQuery(
-    {
-      searching: showAllValue?.toLocaleLowerCase(),
-      page: 1,
-      limit: 100,
-    },
-    {
-      skip: showAllValue.length <= 1,
+  useEffect(() => {
+    if (searchData) {
+      setCurrentData((prev) => [...prev, ...searchData?.data]);
+      setHasNextPage(searchData.meta.hasNextPage);
     }
-  );
+  }, [searchData]);
 
-  const onSeeAll = () => {
-    setShowAllValue(searchValue);
+  useEffect(() => {
+    setCurrentData([]);
+  }, [defaultValue]);
+  const onLoadMore = () => {
+    if (hasNextPage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const onSeeAll = (el: string) => {
+    setDefaultValue(el);
+    setHasNextPage(false);
+    setCurrentPage(1);
+    setSearchValue("");
   };
 
   return (
@@ -67,12 +68,14 @@ const AllResult = () => {
             onChange={onChange}
             onSeeAll={onSeeAll}
           />
-          {data && (
+          {currentData && (
             <SearchResult
-              searchValue={searchValueDebounced}
-              data={searchData ?? []}
+              searchValue={defaultValue}
+              data={currentData ?? []}
               mt={{ base: 4, xl: 6 }}
               title={"Search Results"}
+              onLoadMore={onLoadMore}
+              hasNextPage={hasNextPage}
             />
           )}
         </Box>

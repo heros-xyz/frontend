@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import type { Meta, StoryObj } from "@storybook/react";
-import SelectInterestedSport from "./";
+import SelectInterestedSport from ".";
 
 const meta: Meta<typeof SelectInterestedSport> = {
   title: "Fan/On Boarding/SelectInterestedSport",
