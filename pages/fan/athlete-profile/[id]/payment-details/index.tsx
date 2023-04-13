@@ -304,7 +304,9 @@ const PaymentDetails = () => {
                 mt={8}
                 avatar={athleteProfile?.avatar ?? ""}
                 userName={athleteProfile?.nickName ?? ""}
-                dateRenew={dayjs(new Date()).format("DD MMM YYYY")}
+                dateRenew={dayjs(new Date())
+                  .add(1, "month")
+                  .format("DD MMM YYYY")}
                 price={formatMoney(tierSelected?.monthlyPrice as number, true)}
                 tier={tierSelected?.name ?? ""}
               />
