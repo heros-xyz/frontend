@@ -19,6 +19,7 @@ const FinishOnboarding = () => {
       textButton="Start Discovering"
       IconButton={<ArrowRight />}
       onSubmit={async () => {
+        console.log("Submit");
         await fetch("/api/set-first-login");
         router.push("/fan");
       }}

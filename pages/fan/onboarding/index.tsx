@@ -54,13 +54,7 @@ const FanOnboarding = () => {
               <Case condition={step === 3}>
                 <EnterGender gender={gender} onSubmit={handleChangeGender} />
               </Case>
-              <Case condition={step === 4}>
-                <UploadProfileImage
-                  avatar={avatar ? avatar : null}
-                  onSubmit={handleChangeAvatar}
-                />
-              </Case>
-              <Case condition={step === 5 || step === 6}>
+              <Case condition={step === 5 || step === 6 || step === 4}>
                 <EnterInterestedSport
                   isLoading={isLoading}
                   onSubmit={handleChangeSport}
