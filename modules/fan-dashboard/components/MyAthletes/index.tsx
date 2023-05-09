@@ -7,49 +7,26 @@ import {
   SkeletonCircle,
   AspectRatio,
 } from "@chakra-ui/react";
-import { FC, useMemo } from "react";
+import { FC, useEffect, useMemo } from "react";
 import NextLink from "next/link";
 import { Else, If, Then } from "react-if";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  DocumentSnapshot,
+} from "firebase/firestore";
 import { IconArrowRight } from "@/components/svg/IconArrowRight";
 import {
   useGetListAthleteRecommendedQuery,
   useGetListAthleteSubscribedQuery,
 } from "@/api/fan";
 import AthleteAvatar from "@/components/ui/AthleteAvatar";
+import { db } from "@/libs/firebase";
 
-const MyAthletes: FC = () => {
-  const {
-    data: listAthleteSubscribed,
-    isSuccess,
-    isLoading: getListAthleteSubscribedLoading,
-  } = useGetListAthleteSubscribedQuery({
-    take: 3,
-    page: 1,
-  });
-  const {
-    data: listAthleteRecommended,
-    isLoading: getListAthleteRecommendedLoading,
-  } = useGetListAthleteRecommendedQuery(
-    {
-      take: listAthleteSubscribed?.data?.length ? 2 : 3,
-    },
-    {
-      skip: !isSuccess,
-    }
-  );
-
-  const athleteList = useMemo(() => {
-    let listAthleteRecommendedFormat = [];
-    if (listAthleteSubscribed && listAthleteRecommended) {
-      listAthleteRecommendedFormat = listAthleteRecommended?.map((item) => ({
-        ...item,
-        recommended: true,
-      }));
-      return listAthleteSubscribed?.data?.concat(listAthleteRecommendedFormat);
-    }
-
-    return [];
-  }, [listAthleteSubscribed, listAthleteRecommended]);
+const MyAthletes: FC = ({ athleteList = [], listAthleteSubscribed = [] }) => {
+  console.log({ athleteList });
 
   return (
     <Box bg="white">
@@ -90,11 +67,7 @@ const MyAthletes: FC = () => {
           </Then>
         </If>
       </Box>
-      <If
-        condition={
-          !getListAthleteSubscribedLoading && !getListAthleteRecommendedLoading
-        }
-      >
+      <If condition={true}>
         <Then>
           <Grid
             templateColumns="repeat(3, 1fr)"
@@ -105,13 +78,13 @@ const MyAthletes: FC = () => {
               <GridItem key={athlete.id + `${index}`}>
                 <NextLink
                   href={`/fan/athlete-profile/${
-                    athlete.athleteId || athlete.id
+                    athlete?.athleteId || athlete?.id
                   }`}
                 >
                   <AthleteAvatar
-                    imageUrl={athlete.avatar}
-                    name={athlete.nickName}
-                    isRecommend={athlete.recommended}
+                    imageUrl={athlete?.avatar}
+                    name={athlete?.nickname}
+                    isRecommend={athlete?.recommended}
                   />
                 </NextLink>
               </GridItem>

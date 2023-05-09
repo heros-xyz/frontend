@@ -2,6 +2,16 @@ import Head from "next/head";
 import { ReactElement, useCallback, useState } from "react";
 import { Box, Center, Text, Container } from "@chakra-ui/react";
 import { getCookie } from "cookies-next";
+import {
+  DocumentSnapshot,
+  collection,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
+import { Doc } from "prettier";
 import FindHeros from "@/components/ui/FindHeros";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import FanInteractions from "@/components/ui/FanLatestInteractions";
@@ -15,11 +25,13 @@ import {
   getRunningQueriesThunk,
   useGetLatestInteractionQuery,
 } from "@/api/fan";
+import { db } from "@/libs/firebase";
 interface IFanDashboardProps {
   isFirstLogin: boolean;
+  data: any[];
 }
 
-const FanDashboard = ({ isFirstLogin }: IFanDashboardProps) => {
+const FanDashboard = ({ isFirstLogin, data }: IFanDashboardProps) => {
   const [searchValue, setSearchValue] = useState("");
   const onChange = useCallback((el: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(el.target.value);
@@ -60,7 +72,7 @@ const FanDashboard = ({ isFirstLogin }: IFanDashboardProps) => {
       </Container>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Box py={5} mb={{ xl: 3 }}>
-          <MyAthletes />
+          <MyAthletes athleteList={data} />
         </Box>
         <FanInteractions
           isLoading={isLoading}
@@ -103,6 +115,18 @@ export const getServerSideProps = wrapper.getServerSideProps(
         take: 3,
       })
     );
+
+    // query from the users collection the doc that have field role === "ATHLETE"
+
+    const users = collection(db, "users");
+    const queryRef = query(users, where("role", "==", "ATHLETE"));
+    const docs = (await getDocs(queryRef))?.docs?.map?.(
+      (doc: DocumentSnapshot) => ({
+        ...doc.data(),
+        id: doc.id,
+      })
+    );
+
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
 
     return fanAuthGuard(context, ({ session }: IGuards) => {
@@ -110,6 +134,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         props: {
           session,
           isFirstLogin: isFirstLogin ?? false,
+          data: docs,
         },
       };
     });
