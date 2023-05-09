@@ -1,6 +1,6 @@
 import { getApps, initializeApp } from "firebase/app"
-import "firebase/auth"
-import { Firestore, getFirestore, setLogLevel } from "firebase/firestore"
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth"
+import { getFirestore, } from "firebase/firestore"
 import "firebase/storage"
 
 
@@ -19,3 +19,32 @@ const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : get
 
 
 export const db = getFirestore(firebaseApp)
+export const auth = getAuth(firebaseApp)
+
+
+// Auth
+const provider = new GoogleAuthProvider();
+
+export async function signInWithPopupGoogle() {
+
+    try {
+        const result = await signInWithPopup(auth, provider)
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential?.accessToken;
+        console.log("token", token);
+        // The signed-in user info.
+        const user = result.user;
+        console.log("user", user);
+        return user;
+    } catch (error) {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.error({ errorCode, errorMessage, email, credential })
+    }
+
+} 

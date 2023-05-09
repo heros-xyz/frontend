@@ -1,3 +1,4 @@
+import { Url } from "url";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
@@ -6,12 +7,23 @@ import Head from "next/head";
 import { Session } from "next-auth";
 import { deleteCookie } from "cookies-next";
 import { useUnmount } from "react-use";
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  signInWithRedirect,
+} from "firebase/auth";
+import {
+  useSignInWithFacebook,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { usePreSignInWithEmailMutation } from "@/api/user";
 import { wrapper } from "@/store";
 import { loggedInGuard } from "@/middleware/loggedInGuard";
 import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
+import { auth, signInWithPopupGoogle } from "@/libs/firebase";
 
 const SignIn = () => {
   const router = useRouter();
@@ -19,6 +31,10 @@ const SignIn = () => {
     usePreSignInWithEmailMutation();
   const [, setLoginError] = useState<string | undefined>("");
   const { start, finish } = useLoading();
+  const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] =
+    useSignInWithGoogle(auth);
+  const [signInWithFacebook, userFacebook, loadingFacebook, errorFacebook] =
+    useSignInWithFacebook(auth);
 
   const callbackUrl = useMemo(() => {
     return router.query.callbackUrl ?? "/";
@@ -39,13 +55,7 @@ const SignIn = () => {
   const handleSignInFacebook = async () => {
     start();
     try {
-      const res = await signIn("facebook", {
-        callbackUrl: callbackUrl as string,
-      });
-
-      if (!res?.ok) {
-        setLoginError(res?.error);
-      }
+      await signInWithFacebook();
     } catch (error) {
       finish();
       console.log("next auth google error", error);
@@ -55,12 +65,12 @@ const SignIn = () => {
   const handleSignInGoogle = async () => {
     start();
     try {
-      const res = await signIn("google", {
-        callbackUrl: callbackUrl as string,
-      });
+      console.log("signInWithGoogle()");
 
-      if (!res?.ok) {
-        setLoginError(res?.error);
+      signInWithGoogle();
+
+      if (userGoogle) {
+        router.push(callbackUrl as string);
       }
     } catch (error) {
       finish();
