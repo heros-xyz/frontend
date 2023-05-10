@@ -3,11 +3,14 @@ import Head from "next/head";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
+import { useHttpsCallable } from "react-firebase-hooks/functions";
+import { signInWithCustomToken } from "firebase/auth";
 import OtpFill from "@/components/ui/OtpFill";
 import { useResendOtpMutation, useVerifyOtpMutation } from "@/api/user";
 import { IToken } from "@/types/users/types";
 import { useLoading } from "@/hooks/useLoading";
 import { IHerosError } from "@/types/globals/types";
+import { auth, functions } from "@/libs/firebase";
 
 const VerifyOtp = () => {
   const { query, replace } = useRouter();
@@ -16,6 +19,10 @@ const VerifyOtp = () => {
   const [verifyOtp, { data: verifyOtpData, error: verifyOtpError, isLoading }] =
     useVerifyOtpMutation();
   const [resendOtp, { error: resendOtpError }] = useResendOtpMutation();
+  const [callVerifyOtp, loading, error] = useHttpsCallable(
+    functions,
+    "auth-verify"
+  );
 
   const callbackUrl = useMemo(() => {
     if (typeof query.callbackUrl === "string") return query.callbackUrl ?? "/";
@@ -23,12 +30,29 @@ const VerifyOtp = () => {
     return "/";
   }, [query]);
 
-  const handleVerify = (otp: string) => {
-    setOtp(otp);
+  const handleVerify = async (otp: string) => {
+    try {
+      setOtp(otp);
+      const params = {
+        email: query.email as string,
+        otp,
+      };
+      console.log("params", params);
+      const data = await callVerifyOtp(params);
+      console.log("data", data);
+      //const credential = signInWithCustomToken(auth, data?.data?.token);
+
+      //console.log("auth", data);
+      //console.log("credential", credential);
+    } catch (error) {
+      console.log({ error });
+    }
+    /*
     verifyOtp({
       email: query.email as string,
       otp: +otp,
     });
+    */
   };
 
   const handleSignIn = async (token: IToken) => {

@@ -39,9 +39,9 @@ const SignIn = () => {
     useSignInWithGoogle(auth);
   const [signInWithFacebook, userFacebook, loadingFacebook, errorFacebook] =
     useSignInWithFacebook(auth);
-  const [executeCallable, loading, error] = useHttpsCallable(
+  const [callSignin, loading, error] = useHttpsCallable(
     functions,
-    "auth-signup"
+    "auth-signin"
   );
 
   const callbackUrl = useMemo(() => {
@@ -52,7 +52,7 @@ const SignIn = () => {
     try {
       // TODO: call OTP function
       //await signInWithEmail({ email }).unwrap();
-      const res = await executeCallable({ email });
+      const res = await callSignin({ email });
       console.log("Function called", res);
       router.push({
         pathname: "/verify-otp",

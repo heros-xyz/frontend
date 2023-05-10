@@ -1,10 +1,9 @@
 import { getApps, initializeApp } from "firebase/app"
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth"
+import { GoogleAuthProvider, getAuth, signInWithPopup, signInWithCustomToken } from "firebase/auth"
 import { getFirestore } from "firebase/firestore"
 import { getFunctions } from "firebase/functions"
 
 import "firebase/storage"
-
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -15,10 +14,8 @@ const firebaseConfig = {
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 }
 
-
 // Initialize Firebase
 const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-
 
 export const db = getFirestore(firebaseApp)
 export const auth = getAuth(firebaseApp)
