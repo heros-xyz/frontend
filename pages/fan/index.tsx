@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { ReactElement, useCallback, useState } from "react";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 import { Box, Center, Text, Container } from "@chakra-ui/react";
 import { getCookie } from "cookies-next";
 import {
@@ -11,7 +11,7 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import { Doc } from "prettier";
+import { useRouter } from "next/router";
 import FindHeros from "@/components/ui/FindHeros";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import FanInteractions from "@/components/ui/FanLatestInteractions";
@@ -26,6 +26,7 @@ import {
   useGetLatestInteractionQuery,
 } from "@/api/fan";
 import { db } from "@/libs/firebase";
+import { useAuthContext } from "@/context/AuthContext";
 interface IFanDashboardProps {
   isFirstLogin: boolean;
   data: any[];
@@ -33,13 +34,10 @@ interface IFanDashboardProps {
 
 const FanDashboard = ({ isFirstLogin, data }: IFanDashboardProps) => {
   const [searchValue, setSearchValue] = useState("");
+  const router = useRouter();
   const onChange = useCallback((el: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(el.target.value);
   }, []);
-  const { data: latestInteraction, isLoading } = useGetLatestInteractionQuery({
-    page: 1,
-    take: 3,
-  });
 
   return (
     <Box bg="white" minH="100vh">
@@ -72,14 +70,8 @@ const FanDashboard = ({ isFirstLogin, data }: IFanDashboardProps) => {
       </Container>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Box py={5} mb={{ xl: 3 }}>
-          <MyAthletes athleteList={data} />
+          <MyAthletes />
         </Box>
-        <FanInteractions
-          isLoading={isLoading}
-          titleHeading="Latest Interactions"
-          items={latestInteraction?.data ?? []}
-          actionText="View All"
-        />
       </Container>
     </Box>
   );
@@ -91,7 +83,7 @@ FanDashboard.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
+/* export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     setContext(context);
 
@@ -139,4 +131,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
       };
     });
   }
-);
+); */

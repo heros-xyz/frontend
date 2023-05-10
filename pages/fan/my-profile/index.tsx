@@ -1,5 +1,5 @@
 import { Box, Container, Image, Text } from "@chakra-ui/react";
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -13,12 +13,20 @@ import { getImageLink } from "@/utils/link";
 import { wrapper } from "@/store";
 import { IGuards } from "@/types/globals/types";
 import { fanAuthGuard } from "@/middleware/fanGuard";
+import { useAuthContext } from "@/context/AuthContext";
 
 const MyProfile = () => {
   const { data: session } = useSession();
   const { data: profile } = useProfileQuery("");
   const { start, finish } = useLoading();
   const router = useRouter();
+
+  const { user } = useAuthContext();
+
+  useEffect(() => {
+    console.log("fan index()");
+    if (user == null) router.push("/");
+  }, [user]);
 
   const onSignOut = async () => {
     try {
@@ -102,17 +110,3 @@ export default MyProfile;
 MyProfile.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

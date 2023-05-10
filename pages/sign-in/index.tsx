@@ -24,6 +24,9 @@ import { loggedInGuard } from "@/middleware/loggedInGuard";
 import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
 import { auth, signInWithPopupGoogle } from "@/libs/firebase";
+import { RoutePath } from "@/utils/route";
+
+const provider = new GoogleAuthProvider();
 
 const SignIn = () => {
   const router = useRouter();
@@ -42,6 +45,7 @@ const SignIn = () => {
 
   const handleSignInWithEmail = async (email: string) => {
     try {
+      // TODO: call OTP function
       await signInWithEmail({ email }).unwrap();
       router.push({
         pathname: "/verify-otp",
@@ -63,18 +67,23 @@ const SignIn = () => {
   };
 
   const handleSignInGoogle = async () => {
-    start();
+    if (loadingGoogle) {
+      start();
+    }
     try {
       console.log("signInWithGoogle()");
 
-      signInWithGoogle();
+      await signInWithGoogle();
 
       if (userGoogle) {
-        router.push(callbackUrl as string);
+        // If first time should go to onboarding
+        console.log("userGoogle", userGoogle?.user);
+        router.push(RoutePath?.FAN);
+        finish();
       }
     } catch (error) {
+      console.log("ERROR", error);
       finish();
-      console.log("next auth google error", error);
     }
   };
 
