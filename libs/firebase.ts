@@ -1,6 +1,8 @@
 import { getApps, initializeApp } from "firebase/app"
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth"
-import { getFirestore, } from "firebase/firestore"
+import { getFirestore } from "firebase/firestore"
+import { getFunctions } from "firebase/functions"
+
 import "firebase/storage"
 
 
@@ -20,6 +22,7 @@ const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : get
 
 export const db = getFirestore(firebaseApp)
 export const auth = getAuth(firebaseApp)
+export const functions = getFunctions(firebaseApp)
 
 
 // Auth

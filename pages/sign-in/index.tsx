@@ -17,13 +17,14 @@ import {
   useSignInWithFacebook,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
+import { useHttpsCallable } from "react-firebase-hooks/functions";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { usePreSignInWithEmailMutation } from "@/api/user";
 import { wrapper } from "@/store";
 import { loggedInGuard } from "@/middleware/loggedInGuard";
 import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
-import { auth, signInWithPopupGoogle } from "@/libs/firebase";
+import { auth, functions, signInWithPopupGoogle } from "@/libs/firebase";
 import { RoutePath } from "@/utils/route";
 
 const provider = new GoogleAuthProvider();
@@ -38,6 +39,10 @@ const SignIn = () => {
     useSignInWithGoogle(auth);
   const [signInWithFacebook, userFacebook, loadingFacebook, errorFacebook] =
     useSignInWithFacebook(auth);
+  const [executeCallable, loading, error] = useHttpsCallable(
+    functions,
+    "auth-signup"
+  );
 
   const callbackUrl = useMemo(() => {
     return router.query.callbackUrl ?? "/";
@@ -46,7 +51,9 @@ const SignIn = () => {
   const handleSignInWithEmail = async (email: string) => {
     try {
       // TODO: call OTP function
-      await signInWithEmail({ email }).unwrap();
+      //await signInWithEmail({ email }).unwrap();
+      const res = await executeCallable({ email });
+      console.log("Function called", res);
       router.push({
         pathname: "/verify-otp",
         query: { email, callbackUrl },
@@ -146,3 +153,5 @@ export const getServerSideProps = wrapper.getServerSideProps(
     });
   }
 );
+
+
