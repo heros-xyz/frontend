@@ -24,10 +24,9 @@ import { wrapper } from "@/store";
 import { loggedInGuard } from "@/middleware/loggedInGuard";
 import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
-import { auth, functions, signInWithPopupGoogle } from "@/libs/firebase";
+import { auth, functions } from "@/libs/firebase";
 import { RoutePath } from "@/utils/route";
 
-const provider = new GoogleAuthProvider();
 
 const SignIn = () => {
   const router = useRouter();

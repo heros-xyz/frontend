@@ -38,12 +38,13 @@ const VerifyOtp = () => {
         otp,
       };
       console.log("params", params);
-      const data = await callVerifyOtp(params);
+      const data: any = await callVerifyOtp(params);
       console.log("data", data);
-      //const credential = signInWithCustomToken(auth, data?.data?.token);
-
-      //console.log("auth", data);
-      //console.log("credential", credential);
+      if (data?.data) {
+        const credential = signInWithCustomToken(auth, data?.data);
+        console.log("credential", credential);
+      }
+      
     } catch (error) {
       console.log({ error });
     }
