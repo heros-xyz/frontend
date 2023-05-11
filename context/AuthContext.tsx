@@ -16,7 +16,6 @@ const useUser = (uid: string | undefined) => {
   useEffect(() => {
     let unsubscribe: any;
     if (!!uid) {
-      console.log({ uid });
       const userRef = doc(db, "user", uid);
       unsubscribe = onSnapshot(userRef, (docSnapshot) => {
         if (docSnapshot?.exists?.()) {

@@ -9,6 +9,9 @@ import {
 import { updateSession } from "@/utils/auth";
 import { isValidDate } from "@/utils/functions";
 import { IHerosError } from "@/types/globals/types";
+import { useAuthContext } from "@/context/AuthContext";
+import { mapToBasicInformation } from "@/libs/dtl/basicInformation";
+import useUpdateDoc from "@/hooks/useUpdateDoc";
 export interface IValuesTypes {
   dateOfBirth: string;
   gender: string;
@@ -40,10 +43,9 @@ export const useBasicInfo = () => {
   const totalStep = 4;
   const toast = useToast();
   const [step, setStep] = useState(1);
-  const [submit, { isError, data: basicInfoMutation, error }] =
-    useOnboardingBasicInformationMutation();
-
-  const { data: basicInfo } = useGetBasicInformationQuery("");
+  const [error, setError] = useState(null)
+  const { userProfile } = useAuthContext()
+  const { updateDocument, isUpdating } = useUpdateDoc()
 
   const formik = useFormik({
     validationSchema,
@@ -57,30 +59,29 @@ export const useBasicInfo = () => {
       story: "",
     },
     onSubmit: async (values) => {
-      if (basicInfo) {
+      // TODO: add loading
+      try {
+        if (!!userProfile?.uid) {
+          const paramsUser = {
+            nationality: values.nationality,
+            gender: values.gender,
+            birthday: values.dateOfBirth,
+          }
+          const paramsAthleteProfile = {
+            story: values.story
+          }
+          await updateDocument(`user/${userProfile?.uid}`, paramsUser)
+          await updateDocument(`athleteProfile/${userProfile?.uid}`, paramsAthleteProfile)
+          setStep((step) => step + 1);
+        }
 
-        const body = {
-          id: basicInfo?.id,
-          nickName: basicInfo?.nickName,
-          dateOfBirth: values.dateOfBirth,
-          story: values.story,
-          gender: +values.gender,
-          nationalityId: values.nationality.value,
-        };
-
-
-        //
-        await submit(body);
+      } catch (error) {
+        setError(error)
+        console.log(error)
       }
+
     },
   });
-
-  useEffect(() => {
-    if (basicInfoMutation) {
-      setStep((step) => step + 1);
-      updateSession();
-    }
-  }, [basicInfoMutation]);
 
   useEffect(() => {
     if (error) {
@@ -95,8 +96,6 @@ export const useBasicInfo = () => {
     formik,
     step,
     totalStep,
-    isError,
-    basicInfo,
     error,
     setStep,
   };

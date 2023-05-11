@@ -3,6 +3,7 @@ export interface User {
   birthday: Date
   gender: string
   fullname: string
-  firstname: string
-  lastname: string
+  firstName: string
+  lastName: string
+  middleName: string
 }

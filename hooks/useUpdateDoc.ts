@@ -13,7 +13,6 @@ const useUpdateDoc = () => {
         setSuccess(false);
 
         try {
-            console.log({ docPath })
             const docRef = doc(db, docPath);
             await updateDoc(docRef, params);
             setSuccess(true);

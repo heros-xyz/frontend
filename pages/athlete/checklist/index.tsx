@@ -9,13 +9,18 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { FC, useMemo } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import Head from "next/head";
 import NextLink from "next/link";
+import { useDocument } from "react-firebase-hooks/firestore";
+import { doc, query } from "firebase/firestore";
 import Progress from "@/components/common/Progress";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import Checklist, { ChecklistProps } from "@/components/ui/Checklist";
 import { useAuthContext } from "@/context/AuthContext";
+import { db } from "@/libs/firebase";
+import { useGetCareerJourneyCount } from "@/libs/dtl/careerJourney";
+import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
 
 const CHECK_LIST: ChecklistProps[] = [
   {
@@ -54,11 +59,51 @@ const CHECK_LIST: ChecklistProps[] = [
   },
 ];
 
+function useOnboardingInformation() {
+  const { userProfile: user } = useAuthContext();
+  const { athleteProfile, loading } = useGetAthleteProfile();
+  // Basic Information
+  // If has User(nationality,gender,birthday | dateOfBirth) user/${uid}
+  // AthleteProfile (story) => athleteProfile/{uid}
+  const hasBasicInformation = Boolean(
+    !!user?.nationality &&
+      user?.gender &&
+      user?.birthday &&
+      athleteProfile?.story
+  );
+
+  // Page Information
+  // AthleteProfile (tagline, tags) => athleteProfile/{uid}
+  const hasPageInformation = Boolean(
+    athleteProfile?.tagline && athleteProfile?.tags
+  );
+
+  // Sport Profile
+  // AthleteProfile (sport, currentTeam, goal) => athleteProfile/{uid}
+  const hasSportProfile = Boolean(
+    athleteProfile?.sport && athleteProfile?.goal && athleteProfile?.currentTeam
+  );
+
+  // Career Journey
+  // at least one career journey careerJourneys/{_id} where carrerJourney.uid == user.uid
+  const hasCareerJourney = Boolean(useGetCareerJourneyCount());
+
+  return {
+    data: {
+      hasBasicInformation,
+      hasCareerJourney,
+      hasPageInformation,
+      hasSportProfile,
+    },
+    isLoading: loading,
+  };
+}
+
 const AthleteChecklist: FC = () => {
   const {
     data: onboardingInformation,
     isLoading: isGettingOnboardingInformation,
-  } = { data: null, isLoading: false };
+  } = useOnboardingInformation();
   const { userProfile } = useAuthContext();
 
   const PROGRESS_POINT = useMemo(() => {

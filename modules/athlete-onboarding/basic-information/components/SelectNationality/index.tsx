@@ -7,6 +7,7 @@ import { NationalityIcon } from "@/components/svg/NationalityIcon";
 import { useGetNationalityQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
+import { useGetNationalities } from "@/libs/dtl/nationalities";
 import { IValuesTypes } from "../../hooks";
 
 interface SelectNationalityProps {
@@ -18,7 +19,7 @@ const SelectNationality: React.FC<SelectNationalityProps> = ({ onSubmit }) => {
   const { values, errors, handleSubmit, setFieldValue } =
     useFormikContext<IValuesTypes>();
 
-  const { data: nationalityList } = useGetNationalityQuery("");
+  const { nationalitiesMapped: nationalityList } = useGetNationalities();
 
   const submitForm = () => {
     setSubmitted(true);
