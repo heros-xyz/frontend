@@ -1,3 +1,3 @@
 export interface FanProfile {
-  sport: string
+  sport: string[];
 }
