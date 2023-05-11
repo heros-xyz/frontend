@@ -2,13 +2,15 @@ import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yub from "yup";
-import { setDoc } from "firebase/firestore";
 import { useUploadFile } from 'react-firebase-hooks/storage';
+import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 import { useAthleteSetupAccountMutation } from "@/api/athlete";
 import { updateSession } from "@/utils/auth";
 import { isValidString } from "@/utils/functions";
 import { IHerosError } from "@/types/globals/types";
 import { storage } from "@/libs/firebase";
+import { useAuthContext } from "@/context/AuthContext";
+import useUpdateDoc from "@/hooks/useUpdateDoc";
 import { getCharacterMessage, REQUIRED_MESSAGE } from "../constants";
 
 
@@ -85,22 +87,32 @@ const useSetupAccountPage = () => {
   const [step, setStep] = useState(1);
   const [setupAccount, { isError, data: setupAccountData, error, isLoading }] =
     useAthleteSetupAccountMutation();
-  //const ref = storageRef(storage, 'avatar.jpg');
- // const [uploadFile, uploading, snapshot, errorUploadImage] = useUploadFile();
+  const { userProfile } = useAuthContext()
+  const refStorage = ref(storage, `profile/${userProfile?.uid}/avatar.jpg`);
+  const [uploadFile, uploading, snapshot, errorUploadImage] = useUploadFile();
+  const { updateDocument } = useUpdateDoc()
 
   const formik = useFormik({
     validationSchema,
     initialValues,
     onSubmit: async (values) => {
       console.log({ values });
+      const { avatar, ...params } = values
       // uploadImage
-    /*       if (values?.avatar) {
-            const result = await uploadFile(ref, values?.avatar, {
+      if (values?.avatar) {
+        const result = await uploadFile(refStorage, values?.avatar, {
               contentType: 'image/jpeg'
             });
-            console.log({ result });
-          } */
+        if (!!result?.ref) {
+          const downloadURL = await getDownloadURL(result?.ref);
+          console.log({ result, downloadURL });
+        }
+      } 
       // 1 modify user
+      await updateDocument(`user/${userProfile?.uid}`, {
+        ...params
+      })
+
       // 3 athleteProfile/{uid} nickName
       //setupAccount(values);
     },

@@ -20,7 +20,7 @@ const useUser = (uid: string | undefined) => {
       const userRef = doc(db, "user", uid);
       unsubscribe = onSnapshot(userRef, (docSnapshot) => {
         if (docSnapshot?.exists?.()) {
-          setUser(docSnapshot?.data?.());
+          setUser({ ...docSnapshot?.data?.(), uid });
         }
       });
     }

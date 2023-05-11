@@ -68,11 +68,11 @@ export const useFanOnboarding = () => {
   useUpdateEffect(() => {
     if (step === TOTAL_STEP) {
       const dateOfBirthFormater = new Date(dateOfBirth);
-      submit({
-        ...fanOnboardingParams,
-        gender: +fanOnboardingParams.gender,
-        dateOfBirth: dateOfBirthFormater.toISOString(),
-      });
+/*       submit({
+              ...fanOnboardingParams,
+              gender: +fanOnboardingParams.gender,
+              dateOfBirth: dateOfBirthFormater.toISOString(),
+            }); */
     }
   }, [step]);
 
