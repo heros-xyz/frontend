@@ -2,11 +2,16 @@ import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yub from "yup";
+import { setDoc } from "firebase/firestore";
+import { useUploadFile } from 'react-firebase-hooks/storage';
 import { useAthleteSetupAccountMutation } from "@/api/athlete";
 import { updateSession } from "@/utils/auth";
 import { isValidString } from "@/utils/functions";
 import { IHerosError } from "@/types/globals/types";
+import { storage } from "@/libs/firebase";
 import { getCharacterMessage, REQUIRED_MESSAGE } from "../constants";
+
+
 
 export type IValuesTypes = {
   firstName: string;
@@ -78,15 +83,26 @@ const useSetupAccountPage = () => {
   const totalStep = 3;
   const toast = useToast();
   const [step, setStep] = useState(1);
-
   const [setupAccount, { isError, data: setupAccountData, error, isLoading }] =
     useAthleteSetupAccountMutation();
+  //const ref = storageRef(storage, 'avatar.jpg');
+ // const [uploadFile, uploading, snapshot, errorUploadImage] = useUploadFile();
 
   const formik = useFormik({
     validationSchema,
     initialValues,
-    onSubmit: (values) => {
-      setupAccount(values);
+    onSubmit: async (values) => {
+      console.log({ values });
+      // uploadImage
+    /*       if (values?.avatar) {
+            const result = await uploadFile(ref, values?.avatar, {
+              contentType: 'image/jpeg'
+            });
+            console.log({ result });
+          } */
+      // 1 modify user
+      // 3 athleteProfile/{uid} nickName
+      //setupAccount(values);
     },
   });
 

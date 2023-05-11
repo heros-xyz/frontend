@@ -86,17 +86,3 @@ const FanOnboarding = () => {
 };
 
 export default FanOnboarding;
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
-
-    return fanSetupAccountGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

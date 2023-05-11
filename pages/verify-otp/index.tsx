@@ -11,17 +11,24 @@ import { IToken } from "@/types/users/types";
 import { useLoading } from "@/hooks/useLoading";
 import { IHerosError } from "@/types/globals/types";
 import { auth, functions } from "@/libs/firebase";
+import { useAuthContext } from "@/context/AuthContext";
+import { RoutePath } from "@/utils/route";
 
 const VerifyOtp = () => {
-  const { query, replace } = useRouter();
+  const { query, replace, push } = useRouter();
   const [otp, setOtp] = useState("");
   const { start, finish } = useLoading();
   const [verifyOtp, { data: verifyOtpData, error: verifyOtpError, isLoading }] =
     useVerifyOtpMutation();
   const [resendOtp, { error: resendOtpError }] = useResendOtpMutation();
-  const [callVerifyOtp, loading, error] = useHttpsCallable(
+  const { userProfile } = useAuthContext();
+  const [callVerifyOtp, loadingOtpVerify, error] = useHttpsCallable(
     functions,
     "auth-verify"
+  );
+  const [callSignin, loadingResendOtp, errorResendOtp] = useHttpsCallable(
+    functions,
+    "auth-signin"
   );
 
   const callbackUrl = useMemo(() => {
@@ -31,29 +38,40 @@ const VerifyOtp = () => {
   }, [query]);
 
   const handleVerify = async (otp: string) => {
+    start();
     try {
       setOtp(otp);
       const params = {
         email: query.email as string,
         otp,
       };
-      console.log("params", params);
-      const data: any = await callVerifyOtp(params);
-      console.log("data", data);
-      if (data?.data) {
-        const credential = signInWithCustomToken(auth, data?.data);
-        console.log("credential", credential);
+      const res: any = await callVerifyOtp(params);
+      if (res?.data) {
+        await signInWithCustomToken(auth, res?.data);
+        if (userProfile) {
+          console.log({ userProfile });
+          if (userProfile?.profileType === "FAN") {
+            push(
+              userProfile?.isFinishOnboarding
+                ? RoutePath.FAN
+                : RoutePath.FAN_ONBOARDING
+            );
+          }
+
+          if (userProfile?.profileType === "ATHLETE") {
+            push(
+              userProfile?.isFinishOnboarding
+                ? RoutePath.ATHLETE
+                : RoutePath.ATHLETE_SETUP_ACCOUNT
+            );
+          }
+        }
       }
-      
     } catch (error) {
       console.log({ error });
+    } finally {
+      finish();
     }
-    /*
-    verifyOtp({
-      email: query.email as string,
-      otp: +otp,
-    });
-    */
   };
 
   const handleSignIn = async (token: IToken) => {
@@ -74,8 +92,10 @@ const VerifyOtp = () => {
   };
 
   const onResendOtp = async () => {
-    start();
-    await resendOtp(query.email as string).unwrap();
+    if (loadingResendOtp) {
+      start();
+    }
+    await callSignin({ email: query?.email as string });
     setTimeout(() => {
       finish();
     }, 300);

@@ -68,17 +68,3 @@ const AthleteSetupAccount = () => {
 };
 
 export default AthleteSetupAccount;
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
-
-    return athleteSetupAccountGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

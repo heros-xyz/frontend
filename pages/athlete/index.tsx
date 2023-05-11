@@ -34,13 +34,12 @@ import {
   getTotalSubscription,
   getGrossAmountMoney,
 } from "@/api/athlete";
-import { getRunningQueriesThunk, profile, useProfileQuery } from "@/api/user";
+import { useProfileQuery } from "@/api/user";
 import { getImageLink } from "@/utils/link";
 
 const AthleteDashboard = () => {
   const router = useRouter();
   const { data: session } = useSession();
-
   const { data: totalSubData, isLoading: isGettingTotalSub } =
     useGetTotalSubscriptionQuery("");
   const { data: grossMoneyData } = useGetGrossAmountMoneyQuery("");
@@ -138,6 +137,7 @@ AthleteDashboard.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
 
+/*
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
     setContext(context);
@@ -160,3 +160,4 @@ export const getServerSideProps = wrapper.getServerSideProps(
     });
   }
 );
+*/
