@@ -40,7 +40,6 @@ export const useBasicInfo = () => {
   const totalStep = 4;
   const toast = useToast();
   const [step, setStep] = useState(1);
-
   const [submit, { isError, data: basicInfoMutation, error }] =
     useOnboardingBasicInformationMutation();
 
@@ -59,6 +58,7 @@ export const useBasicInfo = () => {
     },
     onSubmit: async (values) => {
       if (basicInfo) {
+
         const body = {
           id: basicInfo?.id,
           nickName: basicInfo?.nickName,
@@ -68,6 +68,8 @@ export const useBasicInfo = () => {
           nationalityId: values.nationality.value,
         };
 
+
+        //
         await submit(body);
       }
     },

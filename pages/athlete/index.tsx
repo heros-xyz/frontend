@@ -8,7 +8,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import Head from "next/head";
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
@@ -36,19 +36,27 @@ import {
 } from "@/api/athlete";
 import { useProfileQuery } from "@/api/user";
 import { getImageLink } from "@/utils/link";
+import { useAuthContext } from "@/context/AuthContext";
+import { RoutePath } from "@/utils/route";
 
 const AthleteDashboard = () => {
   const router = useRouter();
-  const { data: session } = useSession();
-  const { data: totalSubData, isLoading: isGettingTotalSub } =
-    useGetTotalSubscriptionQuery("");
-  const { data: grossMoneyData } = useGetGrossAmountMoneyQuery("");
-  const { data: membershipData, isLoading: isGettingMembership } =
-    useGetMembershipListQuery(session?.user?.id ?? "", {
-      skip: !session?.user?.id,
-    });
-  const { data: profile, isLoading: isGettingNetMoney } = useProfileQuery("");
-  const { data: sportProfile } = useGetSportProfileQuery("");
+  const { userProfile: user } = useAuthContext();
+  const { data: totalSubData, isLoading: isGettingTotalSub } = {
+    data: null,
+    isLoading: false,
+  };
+  const { data: grossMoneyData } = { data: null };
+  const { data: membershipData, isLoading: isGettingMembership } = {
+    data: null,
+    isLoading: false,
+  };
+
+  const { data: profile, isLoading: isGettingNetMoney } = {
+    data: null,
+    isLoading: false,
+  };
+  const { data: sportProfile } = { data: null };
 
   const onClickManage = () => {
     router.push("/athlete/membership/listing");
@@ -61,10 +69,17 @@ const AthleteDashboard = () => {
     router.push("/athlete/withdraw-money");
   };
 
+  useEffect(() => {
+    console.log({ user });
+    if (!!user && !user?.isFinishOnboarding) {
+      router.push(RoutePath.ATHLETE_CHECKLIST);
+    }
+  }, [user]);
+
   return (
     <Box bg="white" pt={6} minH="100vh">
       <Head>
-        <title>{`${session?.user.nickname} | Home Page | Heros`}</title>
+        <title>{`${user?.nickname} | Home Page | Heros`}</title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Grid gridGap={["5", "4"]}>
@@ -78,12 +93,12 @@ const AthleteDashboard = () => {
               w="64px"
               h="64px"
               rounded="full"
-              src={getImageLink(session?.user?.avatar)}
+              src={getImageLink(user?.avatar)}
               alt="user-avatar"
               objectFit="cover"
             />
             <Box flex={"1"} alignSelf={"center"} pl={"5"}>
-              <Text fontWeight={"bold"}>{profile?.nickname}</Text>
+              <Text fontWeight={"bold"}>{user?.nickname}</Text>
               <Text>
                 {sportProfile?.data?.sportProfilesItems[0]?.sportName || ""}
               </Text>

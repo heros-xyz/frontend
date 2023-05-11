@@ -9,19 +9,13 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
 import { FC, useMemo } from "react";
 import Head from "next/head";
 import NextLink from "next/link";
-import { useGetOnboardingInformationQuery } from "@/api/user";
 import Progress from "@/components/common/Progress";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import Checklist, { ChecklistProps } from "@/components/ui/Checklist";
-import { setContext } from "@/libs/axiosInstance";
-import { wrapper } from "@/store";
-import { athleteChecklistGuard } from "@/middleware/athleteChecklistGuard";
-import { IGuards } from "@/types/globals/types";
-import { getImageLink } from "@/utils/link";
+import { useAuthContext } from "@/context/AuthContext";
 
 const CHECK_LIST: ChecklistProps[] = [
   {
@@ -64,10 +58,8 @@ const AthleteChecklist: FC = () => {
   const {
     data: onboardingInformation,
     isLoading: isGettingOnboardingInformation,
-  } = useGetOnboardingInformationQuery("", {
-    refetchOnMountOrArgChange: true,
-  });
-  const { data: session } = useSession();
+  } = { data: null, isLoading: false };
+  const { userProfile } = useAuthContext();
 
   const PROGRESS_POINT = useMemo(() => {
     if (!onboardingInformation) return 0;
@@ -111,7 +103,7 @@ const AthleteChecklist: FC = () => {
               flexDirection={{ xl: "row-reverse" }}
             >
               <Image
-                src={getImageLink(session?.user?.avatar)}
+                src={userProfile?.avatar}
                 w="60px"
                 h="60px"
                 alt="avatar"
@@ -125,7 +117,7 @@ const AthleteChecklist: FC = () => {
                 fontSize="1.25rem"
                 lineHeight="1.75rem"
               >
-                {session?.user.nickname}
+                {userProfile?.nickname}
               </Text>
             </Flex>
             <Text
@@ -196,17 +188,3 @@ const AthleteChecklist: FC = () => {
 };
 
 export default AthleteChecklist;
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
-
-    return athleteChecklistGuard(context, async ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);
