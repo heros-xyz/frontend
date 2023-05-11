@@ -10,14 +10,12 @@ import {
   SuccessStep,
 } from "@/modules/athlete-setup-account";
 import useSetupAccountPage from "@/modules/athlete-setup-account/hooks/useSetupAccountPage";
-import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
-import { athleteSetupAccountGuard } from "@/middleware/athleteSetupAccount";
-import { IGuards } from "@/types/globals/types";
+
 
 const AthleteSetupAccount = () => {
   const { formik, step, totalStep, isLoading, setStep } = useSetupAccountPage();
 
+  console.log({ step });
   return (
     <FormikContext.Provider value={formik}>
       <Box minHeight="100vh" overflowY="auto">

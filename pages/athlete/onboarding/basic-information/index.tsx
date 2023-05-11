@@ -9,10 +9,6 @@ import InputYourStory from "@/modules/athlete-onboarding/basic-information/compo
 import SelectGender from "@/modules/athlete-onboarding/basic-information/components/AthleteSelectGender";
 import { useBasicInfo } from "@/modules/athlete-onboarding/basic-information/hooks";
 import AthleteUpdatedSuccessfully from "@/components/ui/AthleteUpdatedSuccessfully";
-import { wrapper } from "@/store";
-import { athleteOnboardingGuard } from "@/middleware/athleteOnboardingGuard";
-import { setContext } from "@/libs/axiosInstance";
-import { IGuards } from "@/types/globals/types";
 
 const BasicInformation = () => {
   const { formik, step, totalStep, setStep } = useBasicInfo();
@@ -65,16 +61,3 @@ const BasicInformation = () => {
 
 export default BasicInformation;
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
-
-    return athleteOnboardingGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

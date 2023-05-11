@@ -20,9 +20,11 @@ import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
 import { auth, functions } from "@/libs/firebase";
 import { RoutePath } from "@/utils/route";
+import { useAuthContext } from "@/context/AuthContext";
 
 const SignIn = () => {
   const router = useRouter();
+  const { user, userProfile } = useAuthContext();
   const [signInWithEmail, { isLoading, error: signInWithEmailError }] =
     usePreSignInWithEmailMutation();
   const [, setLoginError] = useState<string | undefined>("");
@@ -84,8 +86,15 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    fetch("/api/remove-first-login");
-  }, []);
+    if (!!userProfile?.uid) {
+      if (userProfile?.profileType === "FAN") {
+        router.push(RoutePath.FAN);
+      }
+      if (userProfile?.profileType === "ATHLETE") {
+        router.push(RoutePath.ATHLETE);
+      }
+    }
+  }, [user, userProfile]);
 
   useUnmount(() => {
     finish();

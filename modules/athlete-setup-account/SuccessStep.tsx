@@ -7,13 +7,14 @@ import OnboardingWrapper, {
 import { NextIcon } from "@/components/svg/NextIcon";
 import { FanOnboardingSuccess } from "@/components/svg/FanOnboardingSuccess";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
+import { RoutePath } from "@/utils/route";
 
 const AthleteSuccessStep: React.FC<OnboardingProps> = (props) => {
   const router = useRouter();
   return (
     <HerosOnboardingWrapperNew
       // {...props}
-      onSubmit={() => router.push("/athlete")}
+      onSubmit={() => router.push(RoutePath.ATHLETE_CHECKLIST)}
       Icon={
         <FanOnboardingSuccess
           w={{ base: "90px", xl: "144px" }}
