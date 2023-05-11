@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
 import { useUpdateEffect } from "react-use";
 import { doc, setDoc } from "firebase/firestore";
-import { useSetUpAccountMutation } from "@/api/fan";
-import { updateSession } from "@/utils/auth";
+import { getDownloadURL, ref } from 'firebase/storage';
+import { useUploadFile } from 'react-firebase-hooks/storage';
 import { FanProfile, User } from "@/libs/dtl";
 import { useAuthContext } from "@/context/AuthContext";
-import { db } from "@/libs/firebase";
+import { db, storage } from "@/libs/firebase";
 
 interface IFullName {
   firstName: string;
@@ -13,11 +13,13 @@ interface IFullName {
 }
 
 export const useFanOnboarding = () => {
-  const {user} = useAuthContext()
+  const { user } = useAuthContext()
+  const [uploadFile, uploading, snapshot, errorUploadImage] = useUploadFile();
+  const [isLoading, setIsLoading] = useState(false);
   const TOTAL_STEP = 6;
   const [step, setStep] = useState(1);
-  const [submit, { data: fanSetupAccountData, error, isLoading }] =
-    useSetUpAccountMutation();
+  // const [submit, { data: fanSetupAccountData, error }] =
+  //   useSetUpAccountMutation();
   const [fullNameState, setFullName] = useState({
     firstName: "",
     lastName: "",
@@ -71,41 +73,52 @@ export const useFanOnboarding = () => {
   }, [sportIds, avatar, dateOfBirth, gender, fullNameState]);
 
   useUpdateEffect(() => {
-    if(!user) return;
+
+    if (!user) return;
+
+
     if (step === TOTAL_STEP) {
-      const userData:User = {
+
+      const userData: User = {
         fullname: `${fullNameState.firstName} ${fullNameState.lastName}`,
-        firstname: fullNameState.firstName,
-        lastname: fullNameState.lastName,
+        firstName: fullNameState.firstName,
+        lastName: fullNameState.lastName,
+        isFinishOnboarding: true,
         birthday: new Date(dateOfBirth),
-        gender: gender
+        gender: +gender
       }
       const fanProfileData: FanProfile = {
-        sport: sportIds
+        sport: sportIds.split(',')
       };
-      debugger
+
       (async () => {
-        await setDoc(doc(db,`user/${user.uid}`), userData, {merge: true})
-        await setDoc(doc(db,`fanProfile/${user.uid}`), fanProfileData, {merge: true})
+        try {
+          setIsLoading(true);
+          const refStorage = ref(storage, `profile/${user?.uid}/avatar.${avatar?.type.split('/')[1]}`);
+          let downloadURL = '';
+          if (avatar) {
+            const result = await uploadFile(refStorage, avatar, {
+              contentType: avatar.type
+            });
+            if (!!result?.ref) {
+              downloadURL = await getDownloadURL(result?.ref);
+            }
+          }
+
+          await setDoc(doc(db, `user/${user.uid}`), { ...userData, avatar: downloadURL }, { merge: true })
+          await setDoc(doc(db, `fanProfile/${user.uid}`), fanProfileData, { merge: true })
+          setStep(currentStep => currentStep + 1)
+        } catch (err) {
+          throw new Error(err.message);
+        } finally {
+          setIsLoading(false);
+        }
+
+
       })()
-/*       submit({
-              ...fanOnboardingParams,
-              gender: +fanOnboardingParams.gender,
-              dateOfBirth: dateOfBirthFormater.toISOString(),
-            }); */
-    }
-  }, [step,user,avatar]);
 
-  const updateUser = async () => {
-    await updateSession();
-    setStep(step + 1);
-  }
-
-  useUpdateEffect(() => {
-    if (fanSetupAccountData) {
-      updateUser()
     }
-  }, [fanSetupAccountData]);
+  }, [step, user, avatar]);
 
   return {
     dateOfBirth,
