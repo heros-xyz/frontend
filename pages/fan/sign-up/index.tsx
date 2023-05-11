@@ -4,6 +4,8 @@ import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { Session } from "next-auth";
 import AuthTemplate from "@/components/ui/AuthTemplate";
+import { useHttpsCallable } from "react-firebase-hooks/functions";
+import { functions } from "@/libs/firebase";
 import { usePreSignInWithEmailMutation } from "@/api/user";
 import { wrapper } from "@/store";
 import { loggedInGuard } from "@/middleware/loggedInGuard";
@@ -11,6 +13,10 @@ import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
 
 const FanSignUp = () => {
+  const [callSignup, loading, error] = useHttpsCallable(
+    functions,
+    "auth-signup"
+  );
   const router = useRouter();
   const [signUpWithEmail, { isLoading, error: signUpWithEmailError }] =
     usePreSignInWithEmailMutation();
@@ -18,10 +24,12 @@ const FanSignUp = () => {
 
   const handleSignUpWithEmail = async (email: string) => {
     try {
-      await signUpWithEmail({
-        email,
-        role: "FAN",
-      }).unwrap();
+      const params = {
+        email: email as string,
+        profileType: "FAN",
+      };
+      const res = await callSignup(params);
+      console.log("Respuesta", res);
 
       router.push({
         pathname: "/verify-otp",

@@ -1,5 +1,4 @@
 import { Url } from "url";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { Box } from "@chakra-ui/react";
@@ -7,12 +6,7 @@ import Head from "next/head";
 import { Session } from "next-auth";
 import { deleteCookie } from "cookies-next";
 import { useUnmount } from "react-use";
-import {
-  GoogleAuthProvider,
-  getAuth,
-  signInWithPopup,
-  signInWithRedirect,
-} from "firebase/auth";
+
 import {
   useSignInWithFacebook,
   useSignInWithGoogle,
@@ -26,7 +20,6 @@ import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
 import { auth, functions } from "@/libs/firebase";
 import { RoutePath } from "@/utils/route";
-
 
 const SignIn = () => {
   const router = useRouter();
@@ -49,10 +42,7 @@ const SignIn = () => {
 
   const handleSignInWithEmail = async (email: string) => {
     try {
-      // TODO: call OTP function
-      //await signInWithEmail({ email }).unwrap();
-      const res = await callSignin({ email });
-      console.log("Function called", res);
+      await callSignin({ email });
       router.push({
         pathname: "/verify-otp",
         query: { email, callbackUrl },
@@ -152,5 +142,3 @@ export const getServerSideProps = wrapper.getServerSideProps(
     });
   }
 );
-
-

@@ -38,22 +38,14 @@ const VerifyOtp = () => {
         otp,
       };
       console.log("params", params);
-      const data: any = await callVerifyOtp(params);
-      console.log("data", data);
-      if (data?.data) {
-        const credential = signInWithCustomToken(auth, data?.data);
-        console.log("credential", credential);
+      const res: any = await callVerifyOtp(params);
+
+      if (res?.data) {
+        await signInWithCustomToken(auth, res?.data);
       }
-      
     } catch (error) {
       console.log({ error });
     }
-    /*
-    verifyOtp({
-      email: query.email as string,
-      otp: +otp,
-    });
-    */
   };
 
   const handleSignIn = async (token: IToken) => {
