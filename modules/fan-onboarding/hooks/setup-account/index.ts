@@ -1,7 +1,11 @@
 import { useMemo, useState } from "react";
 import { useUpdateEffect } from "react-use";
+import { doc, setDoc } from "firebase/firestore";
 import { useSetUpAccountMutation } from "@/api/fan";
 import { updateSession } from "@/utils/auth";
+import { FanProfile, User } from "@/libs/dtl";
+import { useAuthContext } from "@/context/AuthContext";
+import { db } from "@/libs/firebase";
 
 interface IFullName {
   firstName: string;
@@ -9,6 +13,7 @@ interface IFullName {
 }
 
 export const useFanOnboarding = () => {
+  const {user} = useAuthContext()
   const TOTAL_STEP = 6;
   const [step, setStep] = useState(1);
   const [submit, { data: fanSetupAccountData, error, isLoading }] =
@@ -66,15 +71,30 @@ export const useFanOnboarding = () => {
   }, [sportIds, avatar, dateOfBirth, gender, fullNameState]);
 
   useUpdateEffect(() => {
+    if(!user) return;
     if (step === TOTAL_STEP) {
-      const dateOfBirthFormater = new Date(dateOfBirth);
+      const userData:User = {
+        fullname: `${fullNameState.firstName} ${fullNameState.lastName}`,
+        firstname: fullNameState.firstName,
+        lastname: fullNameState.lastName,
+        birthday: new Date(dateOfBirth),
+        gender: gender
+      }
+      const fanProfileData: FanProfile = {
+        sport: sportIds
+      };
+      debugger
+      (async () => {
+        await setDoc(doc(db,`user/${user.uid}`), userData, {merge: true})
+        await setDoc(doc(db,`fanProfile/${user.uid}`), fanProfileData, {merge: true})
+      })()
 /*       submit({
               ...fanOnboardingParams,
               gender: +fanOnboardingParams.gender,
               dateOfBirth: dateOfBirthFormater.toISOString(),
             }); */
     }
-  }, [step]);
+  }, [step,user,avatar]);
 
   const updateUser = async () => {
     await updateSession();

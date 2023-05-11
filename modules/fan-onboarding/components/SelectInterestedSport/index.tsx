@@ -6,6 +6,7 @@ import { useGetSportListQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 import { InterestedSport } from "@/components/svg/InterestedSportFanOnBoarding";
+import { useSports } from "@/libs/dtl";
 interface IProp {
   isLoading: boolean;
   onSubmit: (values: string) => void;
@@ -15,8 +16,7 @@ interface IItemSelect {
   value: string;
 }
 const EnterInterestedSport: React.FC<IProp> = ({ isLoading, onSubmit }) => {
-  const { data: sportsList } = useGetSportListQuery("");
-
+  const { sportsMapped: sportsList } = useSports();
   const validationSchema = Yup.object().shape({
     sports: Yup.array().min(1, "This is a required field"),
   });
