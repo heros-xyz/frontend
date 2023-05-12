@@ -1,8 +1,29 @@
 import { Box, Button, Center, Text } from "@chakra-ui/react";
 import Link from "next/link";
+import { useState } from "react";
 import { Logo } from "@/components/svg/Logo";
+import useUpdateDoc from "@/hooks/useUpdateDoc";
+import { useAuthContext } from "@/context/AuthContext";
 
 const JoinPage = () => {
+  const { user } = useAuthContext();
+  const { isUpdating, updateDocument } = useUpdateDoc();
+  const [whoLoading, setWhoLoading] = useState({
+    FAN: false,
+    ATHLETE: false,
+  });
+
+  const handleUpdateDocument = async (profileType: "FAN" | "ATHLETE") => {
+    try {
+      setWhoLoading((c) => ({ ...c, [profileType]: true }));
+      await updateDocument(`user/${user?.uid}`, {
+        profileType,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Box display="flex" justifyContent="center" bg="primary" height="100vh">
       <Center w={{ base: "full", xl: "500px" }}>
@@ -11,7 +32,6 @@ const JoinPage = () => {
             w={{ base: "161px", xl: "323px" }}
             height={{ base: "32px", xl: "64px" }}
           />
-
           <Box mt={{ base: "12", xl: "20" }}>
             <Text
               fontSize={{ base: "md", xl: "xl" }}
@@ -21,7 +41,7 @@ const JoinPage = () => {
               Are you joining as a fan or an athlete?
             </Text>
             <Box color="secondary" mt={4}>
-              <Link href="/fan/sign-up">
+              {!!user?.uid ? (
                 <Button
                   w="100%"
                   h="inherit"
@@ -30,10 +50,26 @@ const JoinPage = () => {
                   px="5"
                   py={{ base: "2", xl: "5" }}
                   fontSize={{ base: "sm", xl: "32px" }}
+                  onClick={() => handleUpdateDocument("FAN")}
+                  isLoading={isUpdating && whoLoading.FAN}
                 >
                   Fan
                 </Button>
-              </Link>
+              ) : (
+                <Link href="/fan/sign-up">
+                  <Button
+                    w="100%"
+                    h="inherit"
+                    variant="secondaryOutline"
+                    justifyContent="flex-start"
+                    px="5"
+                    py={{ base: "2", xl: "5" }}
+                    fontSize={{ base: "sm", xl: "32px" }}
+                  >
+                    Fan
+                  </Button>
+                </Link>
+              )}
               <Text
                 fontSize={{ base: "xs", xl: "md" }}
                 pt={{ base: "1", xl: "3.5" }}
@@ -42,7 +78,7 @@ const JoinPage = () => {
                 As a fan you can follow & support your favorite athlete(s)
                 directly.
               </Text>
-              <Link href="/athlete/sign-up">
+              {!!user?.uid ? (
                 <Button
                   width="100%"
                   h="inherit"
@@ -51,10 +87,26 @@ const JoinPage = () => {
                   px="5"
                   py={{ base: "2", xl: "5" }}
                   fontSize={{ base: "sm", xl: "32px" }}
+                  isLoading={isUpdating && whoLoading.ATHLETE}
+                  onClick={() => handleUpdateDocument("ATHLETE")}
                 >
                   Athlete
                 </Button>
-              </Link>
+              ) : (
+                <Link href="/athlete/sign-up">
+                  <Button
+                    width="100%"
+                    h="inherit"
+                    variant="secondaryOutline"
+                    justifyContent="flex-start"
+                    px="5"
+                    py={{ base: "2", xl: "5" }}
+                    fontSize={{ base: "sm", xl: "32px" }}
+                  >
+                    Athlete
+                  </Button>
+                </Link>
+              )}
               <Text
                 fontSize={{ base: "xs", xl: "md" }}
                 pt={{ base: "1", xl: "3.5" }}

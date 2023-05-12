@@ -1,10 +1,7 @@
-import { Url } from "url";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import Head from "next/head";
-import { Session } from "next-auth";
-import { deleteCookie } from "cookies-next";
 import { useUnmount } from "react-use";
 
 import {
@@ -12,13 +9,16 @@ import {
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
 import { useHttpsCallable } from "react-firebase-hooks/functions";
+import {
+  signInWithRedirect,
+  GoogleAuthProvider,
+  getRedirectResult,
+} from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 import AuthTemplate from "@/components/ui/AuthTemplate";
-import { usePreSignInWithEmailMutation } from "@/api/user";
-import { wrapper } from "@/store";
-import { loggedInGuard } from "@/middleware/loggedInGuard";
 import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
-import { auth, functions } from "@/libs/firebase";
+import { auth, db, functions } from "@/libs/firebase";
 import { RoutePath } from "@/utils/route";
 import { useAuthContext } from "@/context/AuthContext";
 
@@ -30,7 +30,9 @@ const SignIn = () => {
     useSignInWithGoogle(auth);
   const [signInWithFacebook, userFacebook, loadingFacebook, errorFacebook] =
     useSignInWithFacebook(auth);
-  const [callSignin, isLoading, signInWithEmailError] = useHttpsCallable(
+  const [signInWithEmailError, setSignInWithEmailError] =
+    useState<IHerosError>();
+  const [callSignin, isLoading, error] = useHttpsCallable(
     functions,
     "auth-signin"
   );
@@ -44,6 +46,9 @@ const SignIn = () => {
         router.push(RoutePath.ATHLETE);
       }
     }
+    if (!!user) {
+      router.push(RoutePath.JOINING_AS);
+    }
   }, [user, userProfile]);
 
   const callbackUrl = useMemo(() => {
@@ -52,13 +57,17 @@ const SignIn = () => {
 
   const handleSignInWithEmail = async (email: string) => {
     try {
-      await callSignin({ email });
+      const result = await callSignin({ email });
+      console.log({ error, result });
       router.push({
         pathname: "/verify-otp",
         query: { email, callbackUrl },
       });
     } catch (error) {
       console.log(error);
+      setSignInWithEmailError({
+        data: error?.message,
+      });
     }
   };
 
@@ -76,12 +85,28 @@ const SignIn = () => {
     }
     try {
       console.log("signInWithGoogle()");
-      await signInWithGoogle();
+      await signInWithRedirect(auth, new GoogleAuthProvider());
+      console.log({ signInWithEmailError });
     } catch (error) {
       console.log("ERROR", error);
       finish();
     }
   };
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(async (credential) => {
+        console.log("credential", credential);
+        if (credential?.user.uid) {
+          const user = (
+            await getDoc(doc(db, `user/${credential?.user.uid}`))
+          ).data();
+          if (!user || !user?.profileType) {
+            router.push(RoutePath.JOINING_AS);
+          }
+        }
+      })
+      .catch(console.error);
+  }, [auth]);
 
   useEffect(() => {
     if (authContextLoading === true) {
@@ -96,7 +121,6 @@ const SignIn = () => {
   useUnmount(() => {
     finish();
   });
-
 
   return (
     <Box>
@@ -124,7 +148,7 @@ const SignIn = () => {
         pageType="signin"
         isLoading={isLoading}
         authErrorMessage={
-          (signInWithEmailError as IHerosError)?.data?.message ?? ""
+          (signInWithEmailError as IHerosError)?.data.message ?? ""
         }
         authErrorCode={(signInWithEmailError as IHerosError)?.data?.statusCode}
         onSubmitForm={handleSignInWithEmail}
@@ -136,16 +160,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    deleteCookie("role", { req: context.req, res: context.res, path: "/" });
-    return loggedInGuard(context, (session: Session | null) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);
