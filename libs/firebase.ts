@@ -1,6 +1,6 @@
 import { getApps, initializeApp } from "firebase/app"
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth"
-import { getFirestore } from "firebase/firestore"
+import { getFirestore, initializeFirestore } from "firebase/firestore"
 import { getFunctions } from "firebase/functions"
 
 import { getStorage } from "firebase/storage"
@@ -16,6 +16,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+
+initializeFirestore(firebaseApp, { ignoreUndefinedProperties: true })
 
 export const db = getFirestore(firebaseApp)
 export const auth = getAuth(firebaseApp)
