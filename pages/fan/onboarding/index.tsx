@@ -94,5 +94,5 @@ const FanOnboarding = () => {
     </Box>
   );
 };
-// test
+
 export default FanOnboarding;
