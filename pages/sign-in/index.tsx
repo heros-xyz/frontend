@@ -8,13 +8,13 @@ import {
   useSignInWithFacebook,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
-import { useHttpsCallable } from "react-firebase-hooks/functions";
 import {
   signInWithRedirect,
   GoogleAuthProvider,
   getRedirectResult,
 } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import { httpsCallable } from "@firebase/functions";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
@@ -32,10 +32,7 @@ const SignIn = () => {
     useSignInWithFacebook(auth);
   const [signInWithEmailError, setSignInWithEmailError] =
     useState<IHerosError>();
-  const [callSignin, isLoading, error] = useHttpsCallable(
-    functions,
-    "auth-signin"
-  );
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!!userProfile?.uid && !!user?.uid) {
@@ -56,20 +53,23 @@ const SignIn = () => {
   }, [router.query]);
 
   const handleSignInWithEmail = async (email: string) => {
-    try {
-      const result = await callSignin({ email });
-      console.log({ error, result });
-      router.push({
-        pathname: "/verify-otp",
-        query: { email, callbackUrl },
-      });
-    } catch (error) {
-      console.log(error);
-      setSignInWithEmailError({
-        data: error?.message,
-      });
-    }
-  };
+    setLoading(true)
+    httpsCallable(functions, 'auth-signin')({ email })
+      .then(() =>
+        router.push({
+          pathname: "/verify-otp",
+          query: { email, callbackUrl },
+        })
+      )
+      .catch((error) => {
+        const data = {
+          data: error,
+        }
+        setSignInWithEmailError(data)
+      }).finally(()=>{
+        setLoading(false)
+      })
+  }
 
   const handleSignInFacebook = async () => {
     try {
@@ -146,7 +146,7 @@ const SignIn = () => {
       </Head>
       <AuthTemplate
         pageType="signin"
-        isLoading={isLoading}
+        isLoading={loading}
         authErrorMessage={
           (signInWithEmailError as IHerosError)?.data.message ?? ""
         }

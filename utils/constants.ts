@@ -1,10 +1,10 @@
 import { HttpErrorCode } from "./enums";
 
 export const AUTH_ERROR_CODE = {
-  [HttpErrorCode.MUST_SIGN_UP_FIRST]: `This email hasn't been registered. Please sign up.`,
-  [HttpErrorCode.USER_ALREADY_REGISTERED]: `This email has been registered. Please sign in.`,
-  [HttpErrorCode.INVALID_OTP]: "Invalid OTP, please recheck!",
-  [HttpErrorCode.EXPIRED_OTP]: "Expired OTP, please recheck!",
+  MUST_SIGN_UP_FIRST: `This email hasn't been registered. Please sign up.`,
+  USER_ALREADY_REGISTERED: `This email has been registered. Please sign in.`,
+  INVALID_OTP: "Invalid OTP, please recheck!",
+  EXPIRED_OTP: "Expired OTP, please recheck!",
 };
 
 export const getAuthErrorCode = (code: string | number | undefined) => {

@@ -11,12 +11,12 @@ import { IValuesTypes } from "../../hooks";
 
 interface InputYourStoryProps {
   onSubmit?: () => void;
-  submitLoading: boolean;
+  submitLoading?: boolean;
 }
 
 const InputYourStory: React.FC<InputYourStoryProps> = ({
   onSubmit,
-  submitLoading,
+  submitLoading = false,
 }) => {
   const [submitted, setSubmitted] = useState(false);
   const { isDesktop } = useDevice();

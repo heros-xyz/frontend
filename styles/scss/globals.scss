@@ -8,8 +8,8 @@ body {
 }
 
 a {
-  color: "inherit";
-  text-decoration: "none";
+  color: inherit;
+  text-decoration: none;
 }
 
 .menuSizeList {
@@ -77,4 +77,8 @@ input.clockIcon::-webkit-calendar-picker-indicator {
 video {
   height: 100% !important;
   object-fit: cover !important;
+}
+
+.firebase-emulator-warning{
+  position: initial!important;
 }
