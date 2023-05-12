@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useHttpsCallable } from "react-firebase-hooks/functions";
 import { signInWithCustomToken } from "firebase/auth";
+import { httpsCallable } from "@firebase/functions";
 import OtpFill from "@/components/ui/OtpFill";
 import { useLoading } from "@/hooks/useLoading";
 import { IHerosError } from "@/types/globals/types";
@@ -16,43 +17,23 @@ const VerifyOtp = () => {
   const [otp, setOtp] = useState("");
   const { start, finish } = useLoading();
   const { userProfile } = useAuthContext();
-  const [callVerifyOtp, isLoading, verifyOtpError] = useHttpsCallable(
-    functions,
-    "auth-verify"
-  );
-  const [resendOtp, loadingResendOtp, resendOtpError] = useHttpsCallable(
-    functions,
-    "auth-signin"
-  );
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string|undefined>(undefined)
 
   const handleVerify = async (otp: string) => {
-    start();
-    try {
-      setOtp(otp);
-      const params = {
-        email: query.email as string,
-        otp,
-      };
-      const res: any = await callVerifyOtp(params);
-      if (res?.data) {
-        await signInWithCustomToken(auth, res?.data);
-      }
-    } catch (error) {
-      console.log({ error });
-    } finally {
-      finish();
-    }
+    setLoading(true)
+    console.log(query)
+    debugger
+    httpsCallable(functions, 'auth-verify')({otp, email: query.email})
+      .then(({data}) => signInWithCustomToken(auth, data as string))
+      .catch((error) => setError(error.message))
+      .finally(()=>setLoading(false))
   };
 
-  const onResendOtp = async () => {
-    if (loadingResendOtp) {
-      start();
-    }
-    await resendOtp({ email: query?.email as string });
-    setTimeout(() => {
-      finish();
-    }, 300);
-  };
+  const resendOtp = () => httpsCallable(functions, 'auth-signin')({email: query.email})
+    .then(({data}) => signInWithCustomToken(auth, data as string))
+    .catch((error) => setError(error.message))
+    .finally(()=>setLoading(false))
 
   useEffect(() => {
     if (userProfile) {
@@ -74,12 +55,6 @@ const VerifyOtp = () => {
     }
   }, [userProfile]);
 
-  useEffect(() => {
-    if (verifyOtpError) {
-      setOtp("");
-    }
-  }, [verifyOtpError]);
-
   return (
     <Box>
       <Head>
@@ -90,15 +65,11 @@ const VerifyOtp = () => {
         title="OTP Verification"
         textButton="verify"
         validTime={5}
-        isLoading={isLoading}
+        isLoading={loading}
         otpValue={otp}
-        errorMessage={
-          ((verifyOtpError as unknown as IHerosError)?.data?.statusCode ||
-            (resendOtpError as unknown as IHerosError)?.data?.statusCode) ??
-          ""
-        }
+        errorMessage={error}
         onSubmit={handleVerify}
-        resendOtp={onResendOtp}
+        resendOtp={resendOtp}
       />
     </Box>
   );

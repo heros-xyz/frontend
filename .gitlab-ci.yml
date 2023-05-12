@@ -1,26 +1,53 @@
-# You can override the included template(s) by including variable overrides
-# SAST customization: https://docs.gitlab.com/ee/user/application_security/sast/#customizing-the-sast-settings
-# Secret Detection customization: https://docs.gitlab.com/ee/user/application_security/secret_detection/#customizing-settings
-# Dependency Scanning customization: https://docs.gitlab.com/ee/user/application_security/dependency_scanning/#customizing-the-dependency-scanning-settings
-# Container Scanning customization: https://docs.gitlab.com/ee/user/application_security/container_scanning/#customizing-the-container-scanning-settings
-# Note that environment variables can be set in several places
-# See https://docs.gitlab.com/ee/ci/variables/#cicd-variable-precedence
+cache:
+  paths:
+    - node_modules/
+
+install_deps:
+  stage: prepare
+  script:
+    - yarn
+  only:
+    refs:
+      - merge_requests
+      - develop
+      - main
+
+build:
+  stage: build
+  script:
+    - npm run build
+  artifacts:
+    paths:
+      - d
+    reports:
+      dotenv: .env
+  only:
+    refs:
+      - merge_requests
+      - develop
+      - main
+
+deploy:
+  stage: deploy
+  script:
+    - firebase deploy --only hosting ---project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN"
+  dependencies:
+    - build
+  only:
+    refs:
+      - develop
+      - main
+
+deploy_mr:
+  stage: deploy
+  script:
+    - firebase hosting:channel:deploy $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME --expires 7d --project "$FIREBASE_PROJECT" --token "$FIREBASE_TOKEN"
+  dependencies:
+    - build
+  only:
+    - merge_requests
+
 stages:
-- build
-- test
-- deploy
-- review
-- dast
-- staging
-- canary
-- production
-- incremental rollout 10%
-- incremental rollout 25%
-- incremental rollout 50%
-- incremental rollout 100%
-- performance
-- cleanup
-sast:
-  stage: test
-include:
-- template: Auto-DevOps.gitlab-ci.yml
+  - prepare
+  - build
+  - deploy
