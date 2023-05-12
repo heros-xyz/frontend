@@ -95,6 +95,4 @@ const FanOnboarding = () => {
   );
 };
 
-// Checking GitHub Config
-
 export default FanOnboarding;
