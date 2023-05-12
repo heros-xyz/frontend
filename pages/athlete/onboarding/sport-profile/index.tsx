@@ -14,31 +14,49 @@ import { athleteOnboardingGuard } from "@/middleware/athleteOnboardingGuard";
 import { setContext } from "@/libs/axiosInstance";
 import { IGuards, IHerosError } from "@/types/globals/types";
 import { updateSession } from "@/utils/auth";
+import useUpdateDoc from "@/hooks/useUpdateDoc";
+import { useAuthContext } from "@/context/AuthContext";
 
 const SportProfile = () => {
   const totalStep = 3;
   const toast = useToast();
   const [step, setStep] = useState(1);
+  const { user } = useAuthContext();
   const [finalValue, setFinalValue] = useState<IOnboardingSportProfileParams>({
     sportId: "",
     currentTeam: "",
     goal: "",
   });
-  const [submitSportProfile, { data: sportProfileData, error }] =
-    useOnboardingSportProfileMutation();
+  const { updateDocument, isUpdating: submitLoading } = useUpdateDoc();
+  const [error, setError] = useState(null);
 
   const handleChangeStep = (step: number) => {
     setStep(step);
   };
-  const setValueByStep = (value: object) => {
-    if (step === 3) {
-      submitSportProfile({
+
+  const submitSportProfile = async (value: object) => {
+    if (!user?.uid) return;
+    try {
+      const { currentTeam, goal, sports } = {
         ...finalValue,
         ...value,
-      });
+      };
+      const params = {
+        currentTeam,
+        goal,
+        sport: { label: sports?.label, key: sports?.value },
+      };
+      await updateDocument(`athleteProfile/${user.uid}`, params);
       return;
+    } catch (error) {
+      setError(error);
     }
+  };
 
+  const setValueByStep = async (value: object) => {
+    if (step === totalStep) {
+      await submitSportProfile(value);
+    }
     setFinalValue({
       ...finalValue,
       ...value,
@@ -52,13 +70,6 @@ const SportProfile = () => {
       ...value,
     });
   };
-
-  useEffect(() => {
-    if (sportProfileData) {
-      setStep((step) => step + 1);
-      updateSession();
-    }
-  }, [sportProfileData]);
 
   useEffect(() => {
     if (error) {
@@ -97,6 +108,7 @@ const SportProfile = () => {
                 goal={finalValue.goal}
                 setStepValue={setStepValue}
                 onSubmit={setValueByStep}
+                submitLoading={submitLoading}
               />
             </Case>
           </Switch>
@@ -124,17 +136,3 @@ const SportProfile = () => {
 };
 
 export default SportProfile;
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
-
-    return athleteOnboardingGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

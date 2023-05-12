@@ -9,22 +9,19 @@ import MilestoneTimeline from "@/modules/athlete-onboarding/career-journey/compo
 import TimeLineJourney, { ITimeLineInfo } from "@/components/ui/Timeline";
 import { IMilestone } from "@/modules/athlete-onboarding/career-journey/constants";
 import AthleteUpdatedSuccessfully from "@/components/ui/AthleteUpdatedSuccessfully";
-import { wrapper } from "@/store";
-import { athleteOnboardingGuard } from "@/middleware/athleteOnboardingGuard";
-import { setContext } from "@/libs/axiosInstance";
-import { IGuards, IHerosError } from "@/types/globals/types";
-import { useOnboardingCareerJourneyMutation } from "@/api/athlete";
-import { updateSession } from "@/utils/auth";
+import { IHerosError } from "@/types/globals/types";
+import { useAddCareerJourneys } from "@/libs/dtl/careerJourney";
+import { useAuthContext } from "@/context/AuthContext";
 
 const CareerJourney = () => {
   const toast = useToast();
+  const { user } = useAuthContext();
   const [step, setStep] = useState<
     "firstAdd" | "addingForm" | "showTimeline" | "successfully"
   >("firstAdd");
   const [milestones, setMilestone] = useState<ITimeLineInfo[]>([]);
   const [itemCurrent, setItemCurrent] = useState<ITimeLineInfo>();
-  const [submitMilestones, { data: milestonesData, error, isLoading }] =
-    useOnboardingCareerJourneyMutation();
+  const { addJourneys, loading: isLoading, error } = useAddCareerJourneys();
 
   const handleSaveMilestone = (values: IMilestone) => {
     setStep("showTimeline");
@@ -51,7 +48,7 @@ const CareerJourney = () => {
     );
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const payload = milestones.map((item) => {
       if (item.icon === "") {
         return {
@@ -60,6 +57,7 @@ const CareerJourney = () => {
           title: item.title,
           description: item.description,
           isPeriodDate: item.isPeriodDate,
+          uid: user?.uid,
         };
       } else {
         return {
@@ -69,18 +67,19 @@ const CareerJourney = () => {
           description: item.description,
           icon: item.icon as string,
           isPeriodDate: item.isPeriodDate,
+          uid: user?.uid,
         };
       }
     });
-    submitMilestones({ items: payload });
-  };
-
-  useEffect(() => {
-    if (milestonesData) {
-      setStep("successfully");
-      updateSession();
+    try {
+      if (user?.uid) {
+        await addJourneys(payload);
+        setStep("successfully");
+      }
+    } catch (error) {
+      console.error(error);
     }
-  }, [milestonesData]);
+  };
 
   useEffect(() => {
     if (error) {
@@ -134,17 +133,3 @@ const CareerJourney = () => {
 };
 
 export default CareerJourney;
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
-
-    return athleteOnboardingGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

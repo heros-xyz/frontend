@@ -9,18 +9,16 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo } from "react";
 import Head from "next/head";
 import NextLink from "next/link";
-import { useDocument } from "react-firebase-hooks/firestore";
-import { doc, query } from "firebase/firestore";
 import Progress from "@/components/common/Progress";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import Checklist, { ChecklistProps } from "@/components/ui/Checklist";
 import { useAuthContext } from "@/context/AuthContext";
-import { db } from "@/libs/firebase";
 import { useGetCareerJourneyCount } from "@/libs/dtl/careerJourney";
 import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import useUpdateDoc from "@/hooks/useUpdateDoc";
 
 const CHECK_LIST: ChecklistProps[] = [
   {
@@ -105,6 +103,7 @@ const AthleteChecklist: FC = () => {
     isLoading: isGettingOnboardingInformation,
   } = useOnboardingInformation();
   const { userProfile } = useAuthContext();
+  const { updateDocument } = useUpdateDoc();
 
   const PROGRESS_POINT = useMemo(() => {
     if (!onboardingInformation) return 0;
@@ -128,6 +127,18 @@ const AthleteChecklist: FC = () => {
         return;
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (Object.values(onboardingInformation).every(Boolean)) {
+          await updateDocument(`user/${userProfile?.uid}`, {
+            isFinishOnboarding: true,
+          });
+        }
+      } catch (error) {}
+    })();
+  }, [onboardingInformation]);
 
   return (
     <Box as="section" bg="white" minH="100vh">

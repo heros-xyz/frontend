@@ -9,23 +9,19 @@ import TagLine from "@/modules/athlete-onboarding/page-information/components/Ta
 import { useOnboardingPageInformationMutation } from "@/api/athlete";
 import { IOnboardingPageInfoParams } from "@/types/users/types";
 import AthleteUpdatedSuccessfully from "@/components/ui/AthleteUpdatedSuccessfully";
-import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
-import { athleteOnboardingGuard } from "@/middleware/athleteOnboardingGuard";
-import { IGuards } from "@/types/globals/types";
-import { updateSession } from "@/utils/auth";
+import { useAuthContext } from "@/context/AuthContext";
+import useUpdateDoc from "@/hooks/useUpdateDoc";
 
 const PageInformation = () => {
   const TOTAL_STEP = 2;
   const toast = useToast();
-
+  const { userProfile } = useAuthContext();
+  const { updateDocument, isUpdating: isLoading } = useUpdateDoc();
   const [step, setStep] = useState(1);
-  const { data: session } = useSession();
-  const [request, { data: pageInfo, isError }] =
-    useOnboardingPageInformationMutation();
+  const [isError, setIsError] = useState(false);
 
   const [formValues, setFormValues] = useState<IOnboardingPageInfoParams>({
-    id: session?.user.id || "",
+    id: userProfile?.uid || "",
     tagLine: "",
     tags: [],
   });
@@ -40,15 +36,21 @@ const PageInformation = () => {
     }
   }, [isError]);
 
-  useUpdateEffect(() => {
-    if (pageInfo) {
-      setStep(TOTAL_STEP + 1);
-      updateSession();
-    }
-  }, [pageInfo]);
-
   const handleChangeStep = (step: number) => {
     setStep(step);
+  };
+
+  const handleSubmit = async (tags: string[]) => {
+    try {
+      const params = {
+        tagline: formValues.tagLine,
+        tags,
+      };
+      await updateDocument(`athleteProfile/${userProfile?.uid}`, params);
+      setStep((prev) => prev + 1);
+    } catch (error) {
+      setIsError(true);
+    }
   };
 
   return (
@@ -69,14 +71,7 @@ const PageInformation = () => {
               />
             </Case>
             <Case condition={step === 2}>
-              <AddTag
-                onSubmit={(tags) => {
-                  request({
-                    ...formValues,
-                    tags,
-                  });
-                }}
-              />
+              <AddTag isLoading={isLoading} onSubmit={handleSubmit} />
             </Case>
           </Switch>
           <Box
@@ -103,17 +98,3 @@ const PageInformation = () => {
 };
 
 export default PageInformation;
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
-
-    return athleteOnboardingGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

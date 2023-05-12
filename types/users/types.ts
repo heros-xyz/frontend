@@ -54,6 +54,7 @@ export interface IOnboardingSportProfileParams {
   sportId: string;
   currentTeam: string;
   goal: string;
+  sports?: { value: string, label: string }
 }
 
 export interface IOnboardingCareerJourneyParams {

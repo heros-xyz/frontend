@@ -6,9 +6,10 @@ import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew
 
 interface AddTagProps {
   onSubmit: (value: string[]) => void;
+  isLoading: boolean;
 }
 
-const AddTag: FC<AddTagProps> = ({ onSubmit }) => {
+const AddTag: FC<AddTagProps> = ({ onSubmit, isLoading }) => {
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isInvalid, setIsInvalid] = useState(false);
@@ -39,6 +40,7 @@ const AddTag: FC<AddTagProps> = ({ onSubmit }) => {
       onSubmit={() => onSubmit(tags)}
       textButton="SUBMIT"
       title="Page information"
+      submitLoading={isLoading}
     >
       <Box minW={{ xl: "750px" }}>
         <Text

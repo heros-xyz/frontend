@@ -11,9 +11,15 @@ interface IProps {
   goal: string;
   onSubmit: (value: object) => void;
   setStepValue: (value: object) => void;
+  submitLoading: boolean;
 }
 
-const InputYourGoal: React.FC<IProps> = ({ goal, onSubmit, setStepValue }) => {
+const InputYourGoal: React.FC<IProps> = ({
+  goal,
+  onSubmit,
+  setStepValue,
+  submitLoading,
+}) => {
   const { isDesktop } = useDevice();
   const validationSchema = Yup.object().shape({
     goal: Yup.string()
@@ -43,6 +49,7 @@ const InputYourGoal: React.FC<IProps> = ({ goal, onSubmit, setStepValue }) => {
       title="Sport profile"
       onSubmit={formik.handleSubmit}
       bgIconColor="accent.6"
+      submitLoading={submitLoading}
     >
       <Box mb={4}>
         <Box mb={{ base: 5, xl: 7 }}>

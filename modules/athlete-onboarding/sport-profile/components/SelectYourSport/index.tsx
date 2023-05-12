@@ -4,10 +4,10 @@ import { useFormik } from "formik";
 import { useEffect } from "react";
 import Select from "@/components/common/Select";
 import { IconArrowRight } from "@/components/svg/IconArrowRight";
-import { useGetSportListQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 import { InterestedSport } from "@/components/svg/InterestedSportFanOnBoarding";
+import { useSports } from "@/libs/dtl";
 interface IProps {
   sportId?: string;
   setStepValue?: (value: object) => void;
@@ -19,7 +19,7 @@ const SelectYourSport: React.FC<IProps> = ({
   onSubmit,
   setStepValue,
 }) => {
-  const { data: sportsList } = useGetSportListQuery("");
+  const { sportsMapped: sportsList } = useSports();
 
   const validationSchema = Yup.object().shape({
     sports: Yup.object().shape({
@@ -36,13 +36,15 @@ const SelectYourSport: React.FC<IProps> = ({
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      onSubmit({ sportId: values.sports.value });
+      onSubmit({ ...values, sportId: values.sports.value });
     },
   });
 
   useEffect(() => {
     if (sportId && sportId) {
-      const sport = sportsList?.find((sport) => sport.value === sportId);
+      const sport = sportsList?.find(
+        (sport: { value: string; label: string }) => sport.value === sportId
+      );
       formik.setFieldValue("sports", sport);
     }
   }, [sportsList]);
