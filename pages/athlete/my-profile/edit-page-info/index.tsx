@@ -11,7 +11,6 @@ import {
   VisuallyHiddenInput,
   useToast,
 } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
 import {
   ChangeEvent,
   ReactElement,
@@ -24,14 +23,9 @@ import {
 import Head from "next/head";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getImageLink } from "@/utils/link";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { Close } from "@/components/svg/Close";
-import {
-  useEditPageInfoMutation,
-  useGetPageInformationQuery,
-} from "@/api/athlete";
 import { IconEdit } from "@/components/svg/IconEdit";
 import {
   MAX_SIZE,
@@ -39,28 +33,34 @@ import {
   ALLOWED_TYPES,
   FILE_FORMAT_MESSAGE,
 } from "@/utils/inputRules";
-import { updateSession } from "@/utils/auth";
-import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards, IHerosError } from "@/types/globals/types";
+import { IHerosError } from "@/types/globals/types";
 import BackButton from "@/components/ui/BackButton";
+import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useAuthContext } from "@/context/AuthContext";
+import { useUploadAvatarToUser } from "@/libs/dtl";
+import useUpdateDoc from "@/hooks/useUpdateDoc";
+import { useLoading } from "@/hooks/useLoading";
 
 const EditPageInfo = () => {
   const toast = useToast();
-  const { data: session } = useSession();
-  const { data: pageInfo } = useGetPageInformationQuery("");
-  const [
-    editPageInfo,
-    { data: editPageInfoData, isLoading, isSuccess, error },
-  ] = useEditPageInfoMutation();
+  const { athleteProfile } = useGetAthleteProfile();
+  const { userProfile } = useAuthContext();
+  const pageInfo = {
+    tagLine: athleteProfile?.tagline ?? "",
+    tags: athleteProfile?.tags,
+  };
+  const { start, finish } = useLoading();
+  const error = null;
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const [input, setInput] = useState("");
-  const [tagsValue, setTags] = useState<string[]>([]);
   const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [image, setImage] = useState("");
   const [fileSubmit, setFileSubmit] = useState<File>();
-
+  const [tagsValue, setTags] = useState([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { uploadAvatar } = useUploadAvatarToUser();
+  const { updateDocument } = useUpdateDoc();
 
   const validationSchema = Yup.object().shape({
     nickName: Yup.string()
@@ -69,45 +69,50 @@ const EditPageInfo = () => {
     tagLine: Yup.string().max(100, "Tagline cannot exceed 100 characters"),
   });
   const initialPageValues = {
-    nickName: "",
-    tagLine: "",
-    tags: [],
+    nickName: athleteProfile?.nickName ?? "",
+    tagLine: athleteProfile?.tagline ?? "",
+    tags: athleteProfile?.tags ?? [],
     avatar: "",
   };
 
   useEffect(() => {
-    if (pageInfo) {
-      const oldTags = pageInfo?.tags.map((item) => item?.name);
-      setTags(oldTags);
-    }
-  }, [pageInfo]);
-
-  useEffect(() => {
-    if (editPageInfoData) {
-      updateSession();
-    }
-  }, [editPageInfoData]);
-
-  useEffect(() => {
-    formik.setFieldValue("nickName", session?.user?.nickname);
-    formik.setFieldValue("avatar", session?.user?.avatar);
-    formik.setFieldValue("tagLine", pageInfo?.tagLine);
-    formik.setFieldValue("tags", pageInfo?.tags);
-  }, [pageInfo]);
+    formik.setFieldValue("nickName", athleteProfile?.nickName);
+    formik.setFieldValue("avatar", userProfile?.avatar);
+    formik.setFieldValue("tagLine", athleteProfile?.tagline);
+    formik.setFieldValue("tags", athleteProfile?.tags);
+    setTags(athleteProfile?.tags ?? []);
+  }, [userProfile?.avatar, athleteProfile?.nickName]);
 
   const formik = useFormik({
     initialValues: initialPageValues,
     validationSchema,
-    onSubmit: (values) => {
-      const { nickName, tagLine, ...newValues } = values;
-      const editData = {
-        ...newValues,
-        nickName: nickName,
-        avatar: fileSubmit,
-        tagLine: tagLine,
-        tags: tagsValue,
-      };
-      editPageInfo(editData);
+    onSubmit: async (values) => {
+      setIsLoading(true);
+      try {
+        const { nickName, tagLine, avatar, ...newValues } = values;
+
+        if (!!fileSubmit) {
+          const avatarUrl = await uploadAvatar(fileSubmit as unknown as File);
+          await updateDocument(`user/${userProfile?.uid}`, {
+            avatar: avatarUrl,
+          });
+        }
+        const athleteProfileParams = {
+          nickName: nickName,
+          tagline: tagLine,
+          tags: tagsValue,
+        };
+
+        await updateDocument(
+          `athleteProfile/${userProfile?.uid}`,
+          athleteProfileParams
+        );
+        setIsSuccess(true);
+      } catch (error) {
+        setIsSuccess(false);
+      } finally {
+        setIsLoading(false);
+      }
     },
   });
 
@@ -169,6 +174,10 @@ const EditPageInfo = () => {
       });
     }
   }, [error]);
+
+  if (!userProfile?.uid) {
+    return <></>;
+  }
 
   return (
     <Box pt={5} minH="100vh" color="primary">
@@ -243,7 +252,7 @@ const EditPageInfo = () => {
                   <Image
                     w={{ base: "120px", xl: "200px" }}
                     h={{ base: "160px", xl: "250px" }}
-                    src={image || getImageLink(formik.values.avatar)}
+                    src={image || formik.values.avatar}
                     alt="user-avatar"
                     objectFit="cover"
                     borderRadius={{ base: "none", xl: "md" }}
@@ -428,17 +437,3 @@ export default EditPageInfo;
 EditPageInfo.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);
