@@ -1,3 +1,5 @@
+import { Nationality } from "./nationalities"
+
 export interface User {
   avatar?: string
   birthday?: Date
@@ -7,4 +9,6 @@ export interface User {
   lastName: string
   middleName?: string
   isFinishOnboarding: boolean
+  uid?: string
+  nationality: Nationality
 }

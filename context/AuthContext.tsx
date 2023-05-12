@@ -1,12 +1,21 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useDocument } from "react-firebase-hooks/firestore";
 import { useRouter } from "next/router";
 import { doc, onSnapshot } from "firebase/firestore";
+import { User } from "firebase/auth";
 import { auth, db } from "@/libs/firebase";
+import { User as UserProfile } from "@/libs/dtl/user";
 import { RoutePath } from "@/utils/route";
 
-export const AuthContext = React.createContext({});
+interface AuthContextType {
+  user: User | undefined | null;
+  userProfile: UserProfile | undefined | null;
+}
+
+export const AuthContext = React.createContext<AuthContextType>({
+  user: undefined,
+  userProfile: undefined,
+});
 
 export const useAuthContext = () => React.useContext(AuthContext);
 
