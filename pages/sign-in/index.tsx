@@ -24,19 +24,27 @@ import { useAuthContext } from "@/context/AuthContext";
 
 const SignIn = () => {
   const router = useRouter();
-  const { user, userProfile } = useAuthContext();
-  const [signInWithEmail, { isLoading, error: signInWithEmailError }] =
-    usePreSignInWithEmailMutation();
-  const [, setLoginError] = useState<string | undefined>("");
-  const { start, finish } = useLoading();
+  const { start, finish, finishLoading, startLoading } = useLoading();
+  const { user, userProfile, loading: authContextLoading } = useAuthContext();
   const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] =
     useSignInWithGoogle(auth);
   const [signInWithFacebook, userFacebook, loadingFacebook, errorFacebook] =
     useSignInWithFacebook(auth);
-  const [callSignin, loading, error] = useHttpsCallable(
+  const [callSignin, isLoading, signInWithEmailError] = useHttpsCallable(
     functions,
     "auth-signin"
   );
+
+  useEffect(() => {
+    if (!!userProfile?.uid && !!user?.uid) {
+      if (userProfile?.profileType === "FAN") {
+        router.push(RoutePath.FAN);
+      }
+      if (userProfile?.profileType === "ATHLETE") {
+        router.push(RoutePath.ATHLETE);
+      }
+    }
+  }, [user, userProfile]);
 
   const callbackUrl = useMemo(() => {
     return router.query.callbackUrl ?? "/";
@@ -55,11 +63,9 @@ const SignIn = () => {
   };
 
   const handleSignInFacebook = async () => {
-    start();
     try {
       await signInWithFacebook();
     } catch (error) {
-      finish();
       console.log("next auth google error", error);
     }
   };
@@ -70,15 +76,7 @@ const SignIn = () => {
     }
     try {
       console.log("signInWithGoogle()");
-
       await signInWithGoogle();
-
-      if (userGoogle) {
-        // If first time should go to onboarding
-        console.log("userGoogle", userGoogle?.user);
-        router.push(RoutePath?.FAN);
-        finish();
-      }
     } catch (error) {
       console.log("ERROR", error);
       finish();
@@ -86,19 +84,19 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    if (!!userProfile?.uid) {
-      if (userProfile?.profileType === "FAN") {
-        router.push(RoutePath.FAN);
-      }
-      if (userProfile?.profileType === "ATHLETE") {
-        router.push(RoutePath.ATHLETE);
-      }
+    if (authContextLoading === true) {
+      console.log("empezar loading");
+      start();
+    } else {
+      console.log("cortar loading");
+      finish();
     }
-  }, [user, userProfile]);
+  }, [authContextLoading]);
 
   useUnmount(() => {
     finish();
   });
+
 
   return (
     <Box>

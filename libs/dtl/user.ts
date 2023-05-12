@@ -12,4 +12,5 @@ export interface User {
   uid?: string
   nationality: Nationality
   isFinishSetupAccount?: boolean
+  profileType: "FAN" | "ATHLETE"
 }

@@ -10,11 +10,13 @@ import { RoutePath } from "@/utils/route";
 interface AuthContextType {
   user: User | undefined | null;
   userProfile: UserProfile | undefined | null;
+  loading: boolean | null;
 }
 
 export const AuthContext = React.createContext<AuthContextType>({
   user: undefined,
   userProfile: undefined,
+  loading: null,
 });
 
 export const useAuthContext = () => React.useContext(AuthContext);
@@ -49,7 +51,6 @@ export const AuthContextProvider = ({
 }) => {
   const [user, loading, error] = useAuthState(auth);
   const userProfile = useUser(user?.uid);
-
   const router = useRouter();
 
   useEffect(() => {
@@ -59,14 +60,13 @@ export const AuthContextProvider = ({
     if (!user) {
       console.log("NO ESTAS REGISTRADOOOOOO");
       router.push(RoutePath.SIGN_IN);
-      // TODO: redirect to login page
     } else {
       console.log("Estas Registradooooo");
     }
   }, [user, loading, userProfile]);
 
   return (
-    <AuthContext.Provider value={{ user, userProfile }}>
+    <AuthContext.Provider value={{ user, userProfile, loading }}>
       {children}
     </AuthContext.Provider>
   );
