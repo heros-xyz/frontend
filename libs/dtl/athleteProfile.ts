@@ -13,7 +13,10 @@ export interface AthleteProfile {
     firstName: string;
     nickName: string;
     story: string;
-    sport: string;
+    sport: {
+        label: string
+        key: string
+    };
     tagline: string;
     tags: string[];
     uid: string;

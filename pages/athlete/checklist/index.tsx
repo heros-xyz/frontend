@@ -83,7 +83,7 @@ function useOnboardingInformation() {
   );
 
   // Career Journey
-  // at least one career journey careerJourneys/{_id} where carrerJourney.uid == user.uid
+  // at least one career journey careerJourneys/{_id} where careerJourney.uid == user.uid
   const hasCareerJourney = Boolean(useGetCareerJourneyCount());
 
   return {
@@ -159,7 +159,7 @@ const AthleteChecklist: FC = () => {
               flexDirection={{ xl: "row-reverse" }}
             >
               <Image
-                src={userProfile?.avatar}
+                src={userProfile?.avatar ?? ""}
                 w="60px"
                 h="60px"
                 alt="avatar"
@@ -173,7 +173,7 @@ const AthleteChecklist: FC = () => {
                 fontSize="1.25rem"
                 lineHeight="1.75rem"
               >
-                {userProfile?.nickname}
+                {userProfile?.nickname ?? ""}
               </Text>
             </Flex>
             <Text

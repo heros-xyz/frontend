@@ -15,7 +15,6 @@ import useSetupAccountPage from "@/modules/athlete-setup-account/hooks/useSetupA
 const AthleteSetupAccount = () => {
   const { formik, step, totalStep, isLoading, setStep } = useSetupAccountPage();
 
-  console.log({ step });
   return (
     <FormikContext.Provider value={formik}>
       <Box minHeight="100vh" overflowY="auto">

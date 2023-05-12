@@ -11,7 +11,7 @@ import { useBasicInfo } from "@/modules/athlete-onboarding/basic-information/hoo
 import AthleteUpdatedSuccessfully from "@/components/ui/AthleteUpdatedSuccessfully";
 
 const BasicInformation = () => {
-  const { formik, step, totalStep, setStep } = useBasicInfo();
+  const { formik, step, totalStep, setStep, submitLoading } = useBasicInfo();
 
   return (
     <FormikContext.Provider value={formik}>
@@ -32,7 +32,7 @@ const BasicInformation = () => {
                 <SelectNationality onSubmit={() => setStep(step + 1)} />
               </Case>
               <Case condition={step === 4}>
-                <InputYourStory />
+                <InputYourStory submitLoading={submitLoading} />
               </Case>
             </Switch>
             <Box

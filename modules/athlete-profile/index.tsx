@@ -28,6 +28,10 @@ import BronzeTier from "@/components/ui/Bronze";
 import { IMembershipTier } from "@/types/membership/types";
 import { ITimeLineInfo } from "@/components/ui/Timeline";
 import { getImageLink } from "@/utils/link";
+import { useAuthContext } from "@/context/AuthContext";
+import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { IBasicInfo, IPageInfo, ISportProfile } from "@/types/athlete/types";
+import { useCareerJourneys } from "@/libs/dtl/careerJourney";
 import CareerJourney from "./career-journey";
 
 import { Interaction } from "./interactions/Interaction";
@@ -36,38 +40,39 @@ import { Profile } from "./profile";
 const TABS = ["Profile", "Interactions", "Career Journey", "Memberships"];
 
 const AthleteProfile = () => {
-  const { data: session } = useSession();
-  const [journeyData, setJourneyData] = useState<ITimeLineInfo[]>([]);
-  const { data: pageInfo } = useGetPageInformationQuery("");
-  const { data: basicInfo } = useGetBasicInformationQuery("");
-  const { data: sportProfile } = useGetSportProfileQuery("");
-  const { data: careerJourneyData } = useGetCareerJourneyQuery(
-    session?.user?.id as string,
-    { skip: typeof session?.user?.id !== "string" }
-  );
-  const { data: tierMembershipList } = useGetAthleteTierMembershipQuery(
-    {
-      userId: session?.user?.id as string,
-    },
-    { skip: typeof session?.user?.id !== "string" }
-  );
-
+  const { userProfile } = useAuthContext();
+  const { athleteProfile } = useGetAthleteProfile();
+  const pageInfo = {
+    tagLine: athleteProfile?.tagline,
+    tags: athleteProfile?.tags,
+  };
+  const basicInfo = {
+    nickName: athleteProfile?.nickName,
+    dateOfBirth: userProfile?.birthday,
+    firstName: userProfile?.firstName,
+    gender: userProfile?.gender,
+    lastName: userProfile?.lastName,
+    middleName: userProfile?.middleName,
+    nationality: userProfile?.nationality,
+    story: athleteProfile?.story,
+  };
+  const sportProfile = {
+    currentTeam: athleteProfile?.currentTeam,
+    goal: athleteProfile?.goal,
+    sport: athleteProfile?.sport,
+  };
+  const { journeys: journeyData } = useCareerJourneys();
+  const { data: tierMembershipList } = { data: null };
   const [currentTab, setCurrentTab] = useQueryParam(
     "current",
     withDefault(NumberParam, 0)
   );
 
-  useEffect(() => {
-    if (careerJourneyData) {
-      setJourneyData(careerJourneyData);
-    }
-  }, [careerJourneyData]);
-
   return (
     <Box as="section" bg="white" minH="100vh">
       <Flex as="header" alignItems="center" gap="5" position="relative" p={5}>
         <Image
-          src={getImageLink(session?.user?.avatar)}
+          src={userProfile?.avatar}
           w="60px"
           h="60px"
           alt="user-avatar"
@@ -89,7 +94,7 @@ const AthleteProfile = () => {
                 lineHeight="3xl"
                 mr={2}
               >
-                {basicInfo?.nickName}
+                {athleteProfile?.nickName}
               </Text>
               {currentTab === 0 && (
                 <Link href={"/athlete/my-profile/edit-page-info"}>
@@ -102,7 +107,7 @@ const AthleteProfile = () => {
             </Link>
           </Flex>
           <Text color="primary" wordBreak="break-word">
-            {pageInfo?.tagLine}
+            {athleteProfile?.tagline}
           </Text>
         </Box>
       </Flex>
@@ -151,15 +156,15 @@ const AthleteProfile = () => {
               isEdit
               basicInfo={basicInfo}
               sportProfile={sportProfile}
-              athleteId={session?.user.id ?? ""}
-              athleteNickname={session?.user.nickname ?? ""}
+              athleteId={userProfile?.uid ?? ""}
+              athleteNickname={athleteProfile?.nickName ?? ""}
             />
           </TabPanel>
           <TabPanel p={{ base: "4px", xl: "0" }}>
             <Interaction />
           </TabPanel>
           <TabPanel p={{ base: 5, lg: 0 }}>
-            <CareerJourney data={journeyData} />
+            <CareerJourney data={journeyData ?? []} />
           </TabPanel>
           <TabPanel px={{ base: 5, lg: 0 }} py={{ base: 0, lg: 2 }}>
             <If condition={tierMembershipList?.data?.length}>

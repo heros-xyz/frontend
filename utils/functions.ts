@@ -136,7 +136,7 @@ export const filterSelectOptions = (
 };
 
 export const getGender = (genderValue: number | undefined) => {
-  switch (genderValue) {
+  switch (Number(genderValue)) {
     case 0:
       return "Male";
     case 1:

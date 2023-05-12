@@ -18,7 +18,16 @@ import { getEnvVariables } from "@/utils/env";
 
 interface IProfileProps {
   basicInfo: IBasicInfo | undefined;
-  sportProfile: ISportProfile | undefined;
+  sportProfile:
+    | {
+        currentTeam: string;
+        goal: string;
+        sport: {
+          label: string;
+          key: string;
+        };
+      }
+    | undefined;
   isEdit?: boolean;
   athleteId: string;
   athleteNickname: string;
@@ -95,10 +104,10 @@ export const Profile: React.FC<IProfileProps> = ({
         </Flex>
         <Box mb="7" color="accent.2" bg="accent.1" px="6" py="4" rounded="lg">
           <Text fontWeight="bold" fontSize={{ base: "base", lg: "xl" }}>
-            {sportProfile?.data?.sportProfilesItems[0]?.sportName || ""}
+            {sportProfile?.sport?.label || ""}
           </Text>
           <Text fontWeight="normal" fontSize={{ base: "xs", lg: "base" }}>
-            {sportProfile?.data.currentTeam || ""}
+            {sportProfile?.currentTeam || ""}
           </Text>
         </Box>
         <Box>
@@ -106,7 +115,7 @@ export const Profile: React.FC<IProfileProps> = ({
             My Goal
           </Text>
           <Text fontSize={{ base: "xs", lg: "md" }} whiteSpace="break-spaces">
-            {sportProfile?.data.goal || ""}
+            {sportProfile?.goal || ""}
           </Text>
         </Box>
 

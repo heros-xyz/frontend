@@ -98,5 +98,6 @@ export const useBasicInfo = () => {
     totalStep,
     error,
     setStep,
+    submitLoading: isUpdating
   };
 };

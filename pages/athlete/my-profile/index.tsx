@@ -3,24 +3,14 @@ import { Box, Container } from "@chakra-ui/react";
 import Head from "next/head";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import AthleteProfile from "@/modules/athlete-profile";
-import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
-import { getRunningQueriesThunk, profile, useProfileQuery } from "@/api/user";
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards } from "@/types/globals/types";
-import {
-  getBasicInformation,
-  getPageInformation,
-  getRunningQueriesThunkAthlete,
-  getSportProfile,
-} from "@/api/athlete";
+import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
 
 const MyProfile = () => {
-  const { data: profile } = useProfileQuery("");
+  const { athleteProfile } = useGetAthleteProfile();
   return (
     <Box bg="white">
       <Head>
-        <title>{`${profile?.nickname ?? ""} | Profile | Heros`}</title>
+        <title>{`${athleteProfile?.nickName ?? ""} | Profile | Heros`}</title>
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <AthleteProfile />
@@ -35,25 +25,3 @@ MyProfile.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setContext(context);
-
-    store.dispatch(profile.initiate(""));
-    store.dispatch(getPageInformation.initiate(""));
-    store.dispatch(getBasicInformation.initiate(""));
-    store.dispatch(getSportProfile.initiate(""));
-    await Promise.all([
-      ...store.dispatch(getRunningQueriesThunk()),
-      ...store.dispatch(getRunningQueriesThunkAthlete()),
-    ]);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

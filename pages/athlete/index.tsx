@@ -9,35 +9,19 @@ import {
 } from "@chakra-ui/react";
 import Head from "next/head";
 import { ReactElement, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
-import { setContext } from "@/libs/axiosInstance";
-import { wrapper } from "@/store";
 import Membership from "@/components/ui/Membership";
 import Wallet from "@/components/ui/Wallet";
 import JustForYou from "@/components/ui/JustForYou";
 import AthleteOverview from "@/components/ui/AthleteOverview";
 import { Setting } from "@/components/svg/Setting";
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards } from "@/types/globals/types";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { formatMoney, formatNumber } from "@/utils/functions";
 
-import {
-  getSportProfile,
-  useGetGrossAmountMoneyQuery,
-  useGetMembershipListQuery,
-  useGetSportProfileQuery,
-  useGetTotalSubscriptionQuery,
-  getRunningQueriesThunkAthlete,
-  getTotalSubscription,
-  getGrossAmountMoney,
-} from "@/api/athlete";
-import { useProfileQuery } from "@/api/user";
-import { getImageLink } from "@/utils/link";
 import { useAuthContext } from "@/context/AuthContext";
 import { RoutePath } from "@/utils/route";
+import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
 
 const AthleteDashboard = () => {
   const router = useRouter();
@@ -56,7 +40,7 @@ const AthleteDashboard = () => {
     data: null,
     isLoading: false,
   };
-  const { data: sportProfile } = { data: null };
+  const { athleteProfile: sportProfile } = useGetAthleteProfile();
 
   const onClickManage = () => {
     router.push("/athlete/membership/listing");
@@ -70,7 +54,6 @@ const AthleteDashboard = () => {
   };
 
   useEffect(() => {
-    console.log({ user });
     if (!!user && !user?.isFinishOnboarding) {
       router.push(RoutePath.ATHLETE_CHECKLIST);
     }
@@ -79,7 +62,7 @@ const AthleteDashboard = () => {
   return (
     <Box bg="white" pt={6} minH="100vh">
       <Head>
-        <title>{`${user?.nickname} | Home Page | Heros`}</title>
+        <title>{`${sportProfile?.nickName} | Home Page | Heros`}</title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Grid gridGap={["5", "4"]}>
@@ -93,15 +76,13 @@ const AthleteDashboard = () => {
               w="64px"
               h="64px"
               rounded="full"
-              src={getImageLink(user?.avatar)}
+              src={user?.avatar}
               alt="user-avatar"
               objectFit="cover"
             />
             <Box flex={"1"} alignSelf={"center"} pl={"5"}>
-              <Text fontWeight={"bold"}>{user?.nickname}</Text>
-              <Text>
-                {sportProfile?.data?.sportProfilesItems[0]?.sportName || ""}
-              </Text>
+              <Text fontWeight={"bold"}>{sportProfile?.nickName}</Text>
+              <Text>{sportProfile?.sport?.label || ""}</Text>
             </Box>
             <Link
               as={NextLink}

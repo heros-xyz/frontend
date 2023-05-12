@@ -11,4 +11,5 @@ export interface User {
   isFinishOnboarding: boolean
   uid?: string
   nationality: Nationality
+  isFinishSetupAccount?: boolean
 }

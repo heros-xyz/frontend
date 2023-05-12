@@ -4,13 +4,15 @@ import { useFormik } from "formik";
 import * as yub from "yup";
 import { useUploadFile } from 'react-firebase-hooks/storage';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { useAthleteSetupAccountMutation } from "@/api/athlete";
+import { set } from "immer/dist/internal";
+import { useRouter } from "next/router";
 import { isValidString } from "@/utils/functions";
 import { IHerosError } from "@/types/globals/types";
 import { storage } from "@/libs/firebase";
 import { useAuthContext } from "@/context/AuthContext";
 import useUpdateDoc from "@/hooks/useUpdateDoc";
 import { useLoading } from "@/hooks/useLoading";
+import { RoutePath } from "@/utils/route";
 import { getCharacterMessage, REQUIRED_MESSAGE } from "../constants";
 
 
@@ -85,9 +87,10 @@ const useSetupAccountPage = () => {
   const totalStep = 3;
   const toast = useToast();
   const { start, finish } = useLoading()
+  const router = useRouter()
   const [step, setStep] = useState(1);
-  const [setupAccount, { isError, data: setupAccountData, error, isLoading }] =
-    useAthleteSetupAccountMutation();
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
   const { userProfile } = useAuthContext()
   const [uploadFile] = useUploadFile();
   const { updateDocument } = useUpdateDoc()
@@ -102,6 +105,7 @@ const useSetupAccountPage = () => {
         // upload avatar
         let avatarUrl = ""
         if (avatar) {
+          setIsLoading(true)
           const refStorage = ref(storage, `profile/${userProfile?.uid}/${avatar.name}`);
           const result = await uploadFile(refStorage, avatar, {
             contentType: avatar.type
@@ -127,21 +131,22 @@ const useSetupAccountPage = () => {
 
       } catch (error) {
         console.error("useSetupAccountPage()", { error })
+        setError(error)
       } finally {
+        setIsLoading(false)
         finish()
       }
     },
   });
 
-  const updateUser = async () => {
-    setStep((step) => step + 1);
-  }
-
   useEffect(() => {
-    if (setupAccountData) {
-      updateUser()
+    if (userProfile?.isFinishSetupAccount && userProfile?.isFinishOnboarding) {
+      router.push(RoutePath.ATHLETE)
     }
-  }, [setupAccountData]);
+    if (userProfile?.isFinishSetupAccount) {
+      router.push(RoutePath.ATHLETE_CHECKLIST)
+    }
+  }, [userProfile]);
 
   useEffect(() => {
     if (error) {
@@ -151,7 +156,7 @@ const useSetupAccountPage = () => {
       });
     }
   }, [error]);
-  return { formik, step, totalStep, toast, isError, error, isLoading, setStep };
+  return { formik, step, totalStep, toast, isLoading, setStep };
 };
 
 export default useSetupAccountPage;

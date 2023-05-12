@@ -11,9 +11,13 @@ import { IValuesTypes } from "../../hooks";
 
 interface InputYourStoryProps {
   onSubmit?: () => void;
+  submitLoading: boolean;
 }
 
-const InputYourStory: React.FC<InputYourStoryProps> = ({ onSubmit }) => {
+const InputYourStory: React.FC<InputYourStoryProps> = ({
+  onSubmit,
+  submitLoading,
+}) => {
   const [submitted, setSubmitted] = useState(false);
   const { isDesktop } = useDevice();
   const { values, errors, handleSubmit, handleChange } =
@@ -39,6 +43,7 @@ const InputYourStory: React.FC<InputYourStoryProps> = ({ onSubmit }) => {
       }
       textButton="SUBMIT"
       onSubmit={submitForm}
+      submitLoading={submitLoading}
       title="Basic information"
       bgIconColor="accent.6"
     >

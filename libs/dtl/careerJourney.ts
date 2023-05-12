@@ -1,5 +1,6 @@
-import { query, collection, where, getCountFromServer, Timestamp, addDoc } from "firebase/firestore";
+import { query, collection, where, getCountFromServer, addDoc, QueryDocumentSnapshot } from "firebase/firestore";
 import { useState, useEffect } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthContext } from "@/context/AuthContext";
 import { IHerosError } from "@/types/globals/types";
 import { db } from "../firebase";
@@ -14,15 +15,15 @@ interface CareerJourney {
     uid: string;
 }
 
-
 export function useGetCareerJourneyCount() {
     const { user } = useAuthContext()
     const [count, setCount] = useState(0);
 
     useEffect(() => {
+        if (!user) return
         const q = query(
             collection(db, "careerJourneys"),
-            where("uid", "==", user.uid)
+            where("uid", "==", user?.uid)
         );
         getCountFromServer(q)
             .then((snapshot) => setCount(snapshot?.data().count))
@@ -31,6 +32,32 @@ export function useGetCareerJourneyCount() {
     }, [user]);
 
     return count
+}
+
+const converter = {
+    toFirestore: (data: any) => data,
+    fromFirestore: (snap: QueryDocumentSnapshot) =>
+    ({
+        id: snap?.id,
+        ...snap?.data()
+    })
+}
+
+export function useCareerJourneys() {
+    const { user } = useAuthContext()
+    const [journeys, loading, error] = useCollectionData(
+        user?.uid ?
+            query(
+                collection(db, "careerJourneys").withConverter(converter),
+                where("uid", "==", user?.uid))
+            : null,
+    );
+
+    return {
+        journeys,
+        loading,
+        error
+    }
 }
 
 interface AddCareerJourneyResult {

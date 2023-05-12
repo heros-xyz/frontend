@@ -61,14 +61,13 @@ export const AuthContextProvider = ({
       router.push(RoutePath.SIGN_IN);
       // TODO: redirect to login page
     } else {
-      // redirect to his page
       console.log("Estas Registradooooo");
     }
   }, [user, loading, userProfile]);
 
   return (
     <AuthContext.Provider value={{ user, userProfile }}>
-      {loading ? <div>Loading...</div> : children}
+      {children}
     </AuthContext.Provider>
   );
 };
