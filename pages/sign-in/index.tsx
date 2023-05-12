@@ -38,6 +38,7 @@ const SignIn = () => {
   );
 
   useEffect(() => {
+    if (authContextLoading) return;
     if (!!userProfile?.uid && !!user?.uid) {
       if (userProfile?.profileType === "FAN") {
         router.push(RoutePath.FAN);
@@ -46,10 +47,10 @@ const SignIn = () => {
         router.push(RoutePath.ATHLETE);
       }
     }
-    if (!!user) {
+    if (!!user && !userProfile) {
       router.push(RoutePath.JOINING_AS);
     }
-  }, [user, userProfile]);
+  }, [user, userProfile, authContextLoading]);
 
   const callbackUrl = useMemo(() => {
     return router.query.callbackUrl ?? "/";
