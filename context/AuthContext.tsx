@@ -22,7 +22,7 @@ export const AuthContext = React.createContext<AuthContextType>({
 export const useAuthContext = () => React.useContext(AuthContext);
 
 const useUser = (uid: string | undefined) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     let unsubscribe: any;
@@ -30,7 +30,7 @@ const useUser = (uid: string | undefined) => {
       const userRef = doc(db, "user", uid);
       unsubscribe = onSnapshot(userRef, (docSnapshot) => {
         if (docSnapshot?.exists?.()) {
-          setUser({ ...docSnapshot?.data?.(), uid });
+          setUser({ ...docSnapshot?.data?.(), uid: docSnapshot.id });
         }
       });
     }

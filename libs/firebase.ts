@@ -1,29 +1,30 @@
 import { getApps, initializeApp } from "firebase/app"
-import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth"
-import { getFirestore, initializeFirestore } from "firebase/firestore"
-import { getFunctions } from "firebase/functions"
+import { GoogleAuthProvider, getAuth, signInWithPopup, connectAuthEmulator } from "firebase/auth";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 
-import { getStorage } from "firebase/storage"
+import { connectStorageEmulator, getStorage } from "firebase/storage";
 
-const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-}
+const firebaseConfig = JSON.parse(
+  process.env.NEXT_PUBLIC_FIREBASE_CREDENTIALS as string
+)
 
 // Initialize Firebase
 const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-initializeFirestore(firebaseApp, { ignoreUndefinedProperties: true })
 
 export const db = getFirestore(firebaseApp)
 export const auth = getAuth(firebaseApp)
 export const functions = getFunctions(firebaseApp)
 export const storage = getStorage(firebaseApp)
 
+if (process.env.NEXT_PUBLIC_FIREBASE_EMULATOR_HOST) {
+    const host = process.env.NEXT_PUBLIC_FIREBASE_EMULATOR_HOST;
+    connectAuthEmulator(auth, `http://${host}:9099`);
+    connectFirestoreEmulator(db, host, 8080)
+    connectStorageEmulator(storage, host, 9199);
+    connectFunctionsEmulator(functions, host, 5001);
+}
 
 // Auth
 const provider = new GoogleAuthProvider();
@@ -50,4 +51,4 @@ export async function signInWithPopupGoogle() {
         console.error({ errorCode, errorMessage, email, credential })
     }
 
-} 
+}

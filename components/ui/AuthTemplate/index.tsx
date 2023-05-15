@@ -67,10 +67,10 @@ const AuthTemplate: React.FC<IAuthProps> = ({
 
   const isAlreadyRegister = useMemo(() => {
     return (
-      errorCode === HttpErrorCode.USER_ALREADY_REGISTERED_OTHER_ROLE ||
-      errorCode === HttpErrorCode.USER_ALREADY_REGISTERED
+      authErrorMessage === "USER_ALREADY_REGISTERED_OTHER_ROLE" ||
+      authErrorMessage === "USER_ALREADY_REGISTERED"
     );
-  }, [errorCode]);
+  }, [authErrorMessage]);
 
   useEffect(() => {
     setErrorMessage(authErrorMessage);
@@ -225,7 +225,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                   <ErrorMessage
                     mt={{ base: 1.5, lg: 3 }}
                     condition={errorMessage && formik.isValid}
-                    errorMessage={getAuthErrorCode(errorCode)}
+                    errorMessage={getAuthErrorCode(errorMessage)}
                   />
                 </Then>
               </If>
