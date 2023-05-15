@@ -42,7 +42,7 @@ const SelectNationality: React.FC<SelectNationalityProps> = ({ onSubmit }) => {
       textButton="Proceed"
       IconButton={<ArrowRight />}
       onSubmit={submitForm}
-      title="Basic information"
+      title="Personal Information"
       bgIconColor="accent.1"
     >
       <Box mb={{ base: 4, lg: 20 }} color="primary">

@@ -18,9 +18,10 @@ import { IReplyingTo } from "../../post-detail/CommentSection";
 interface IReplyingCommentProps {
   isFocused?: boolean;
   isLoading?: boolean;
-  isUnfocused?: () => void;
+  disabled?: boolean;
   isReplying?: IReplyingTo;
   onCancelReply?: () => void;
+  isUnfocused?: () => void;
   onSubmitComment?: (value: string) => void;
 }
 
@@ -30,6 +31,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
   isFocused,
   isLoading,
   isReplying,
+  disabled,
   isUnfocused,
   onCancelReply,
   onSubmitComment,
@@ -133,6 +135,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
             alt="avatar"
             rounded="full"
             objectFit="cover"
+            fallbackSrc="/images/DefaultAvaCircle.png"
           />
           <Input
             flex={1}
@@ -145,6 +148,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
             _focus={{ borderColor: "primary" }}
             borderColor="primary"
             variant="flushed"
+            isDisabled={disabled}
             fontSize={{ base: "16px", lg: "xl" }}
             onBlur={isUnfocused}
             maxLength={MAX_COMMENT_LENGTH}
@@ -160,6 +164,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
             fontSize={{ base: "sm", lg: "xl" }}
             textDecoration="unset"
             textTransform="unset"
+            isDisabled={disabled}
             onClick={() => {
               if (!inputValue) return;
               handleSubmitComment();

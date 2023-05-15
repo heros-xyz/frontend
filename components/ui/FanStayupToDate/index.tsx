@@ -1,14 +1,24 @@
-import { Box, Heading, Text, Image, Grid, AspectRatio } from "@chakra-ui/react";
+import { Box, Heading, Text, Grid, AspectRatio } from "@chakra-ui/react";
 import React from "react";
+import { Waypoint } from "react-waypoint";
 import { IAthleteUpToDate } from "@/types/athlete/types";
 import { getImageLink } from "@/utils/link";
+import HerosImage from "@/components/common/HerosImage";
+import UpToDateSkeleton from "./Skeleton";
 
 interface FanStayUpToDate {
   data: IAthleteUpToDate[];
   onClick: (id: string) => void;
+  hasNextPage: boolean;
+  onLoadMore: () => void;
 }
 
-const FanStayUpToDate: React.FC<FanStayUpToDate> = ({ data, onClick }) => {
+const FanStayUpToDate: React.FC<FanStayUpToDate> = ({
+  data,
+  onClick,
+  hasNextPage,
+  onLoadMore,
+}) => {
   return (
     <Box bg="accent.1" borderRadius={{ lg: "12px" }}>
       <Box p={{ base: "20px", lg: "30px" }}>
@@ -36,12 +46,13 @@ const FanStayUpToDate: React.FC<FanStayUpToDate> = ({ data, onClick }) => {
               onClick={() => onClick(item?.targetUser?.id)}
             >
               <AspectRatio maxW="400px" ratio={210 / 265}>
-                <Image
+                <HerosImage
                   src={getImageLink(item?.targetUser?.avatar)}
-                  alt=""
-                  borderRadius="xl"
-                  objectFit="cover"
-                  w="100%"
+                  widthSize={250}
+                  heightSize={250}
+                  width={"100%"}
+                  height={"100%"}
+                  borderRadius="10px"
                 />
               </AspectRatio>
 
@@ -87,6 +98,13 @@ const FanStayUpToDate: React.FC<FanStayUpToDate> = ({ data, onClick }) => {
               </Box>
             </Box>
           ))}
+          {hasNextPage && (
+            <Waypoint onEnter={onLoadMore}>
+              <Box>
+                <UpToDateSkeleton />
+              </Box>
+            </Waypoint>
+          )}
         </Grid>
       </Box>
     </Box>

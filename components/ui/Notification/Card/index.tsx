@@ -1,14 +1,15 @@
 import React, { useMemo } from "react";
-import { Box, Flex, Heading, Image, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { INotificationInfo } from "@/types/notifications/types";
 import {
-  convertDateFromNow,
   getLinkByNotificationType,
   notificationContent,
 } from "@/utils/functions";
 import { useMaskNotificationMutation } from "@/api/global";
 import { getImageLink } from "@/utils/link";
+import HerosImage from "@/components/common/HerosImage";
+import { convertDateFromNow } from "@/utils/time";
 interface IProps {
   item?: INotificationInfo;
 }
@@ -42,13 +43,10 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
           }}
           borderRadius={["0", "10px"]}
         >
-          <Image
+          <HerosImage
             src={getImageLink(item?.source?.avatar)}
-            width={["50px", "60px"]}
-            height={["50px", "60px"]}
-            alt="avatar"
-            rounded="full"
-            objectFit="cover"
+            width={{ base: "50px", lg: "60px" }}
+            height={{ base: "50px", lg: "60px" }}
           />
           <Box
             fontSize={["xs", "md"]}

@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 
-export default function useCountdown(mins: number) {
-  const [secs, decrement] = useState(mins * 60);
+export default function useCountdown(dfSecs: number) {
+  const [secs, decrement] = useState(dfSecs);
   const [progress, increment] = useState(0);
 
   useEffect(() => {
     if (secs > 0) {
       const progressLevel = setInterval(() => {
-        increment(progress + 100 / (mins * 60));
+        increment(progress + 100 / dfSecs);
         decrement(secs - 1);
       }, 1000);
       return () => clearInterval(progressLevel);
     }
-  }, [progress, secs, mins]);
+  }, [progress, secs, dfSecs]);
 
   const min = Math.trunc(secs / 60);
   const sec = secs % 60;
@@ -20,7 +20,7 @@ export default function useCountdown(mins: number) {
   const seconds = sec < 10 ? "0" + sec : sec;
 
   const reset = () => {
-    decrement(mins * 60);
+    decrement(5 * 60);
     increment(0);
   };
 

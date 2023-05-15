@@ -38,6 +38,8 @@ export const nextAuthOptions = (
           if (credentials?.accessToken) {
             setAccessTokenToCookie(credentials, request, response);
             const user = await fetchUser(credentials.accessToken);
+            console.log(user);
+
             return user;
           }
         } catch (error) {
@@ -82,7 +84,7 @@ export const nextAuthOptions = (
           await signInSocial(
             {
               token: account.access_token,
-              role: role as "FAN" | "ATHLETE",
+              role: role as "FAN" | "ATHLETE" | "ADMIN",
               provider: account.provider,
             },
             request,

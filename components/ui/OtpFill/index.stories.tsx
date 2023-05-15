@@ -17,7 +17,7 @@ export const OtpFillComponent: Story = {
   args: {
     title: "OTP Verification",
     description: "We've emailed an OTP to you. Please enter the code here.",
-    validTime: 5,
+    diffCount: 5,
     textButton: "VERIFY",
   },
 };

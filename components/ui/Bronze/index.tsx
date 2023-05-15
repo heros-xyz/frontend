@@ -11,7 +11,7 @@ interface SearchResultProps {
   totalFan?: number;
   data: IMembershipTier;
   hasRadioButton?: boolean;
-  disbaled?: boolean;
+  disabled?: boolean;
   onChange?: (checked: boolean, value: string) => void;
 }
 const BronzeTier: React.FC<SearchResultProps> = ({
@@ -19,7 +19,7 @@ const BronzeTier: React.FC<SearchResultProps> = ({
   checked,
   data,
   hasRadioButton,
-  disbaled,
+  disabled,
   onChange,
 }) => {
   const [check, setCheck] = useState<boolean>(false);
@@ -31,7 +31,7 @@ const BronzeTier: React.FC<SearchResultProps> = ({
   }, [check]);
 
   const handleCheck = () => {
-    if (!disbaled) setCheck(!check);
+    if (!disabled) setCheck(!check);
   };
 
   return (

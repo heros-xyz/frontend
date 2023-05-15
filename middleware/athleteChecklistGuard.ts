@@ -8,6 +8,7 @@ import {
 import { getServerSession } from "next-auth/next";
 import { nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 import { RoutePath } from "@/utils/route";
+import { FAN_ROLE } from "@/utils/constants";
 
 export const athleteChecklistGuard = async (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
@@ -39,7 +40,7 @@ export const athleteChecklistGuard = async (
     };
   }
 
-  if (session.user.role === "FAN") {
+  if (session.user.role === FAN_ROLE) {
     return {
       redirect: {
         destination: RoutePath.HOME,

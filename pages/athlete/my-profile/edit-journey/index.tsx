@@ -7,10 +7,11 @@ import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { useGetCareerJourneyQuery } from "@/api/athlete";
 import TimeLineJourney, { ITimeLineInfo } from "@/components/ui/Timeline";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards } from "@/types/globals/types";
 import BackButton from "@/components/ui/BackButton";
+import { setTokenToStore } from "@/utils/auth";
 
 const EditJourney = () => {
   const router = useRouter();
@@ -84,8 +85,8 @@ EditJourney.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
+  (store) => async (context) => {
+    setTokenToStore(store, context);
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

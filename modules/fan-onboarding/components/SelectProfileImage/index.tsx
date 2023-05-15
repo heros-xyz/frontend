@@ -12,7 +12,7 @@ import {
 } from "@/utils/inputRules";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 interface IProp {
-  onSubmit: (image: File) => void;
+  onSubmit: (image?: File) => void;
   avatar: File | null;
 }
 const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
@@ -89,6 +89,10 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
     );
   }, [image]);
 
+  const onSkipForNow = () => {
+    onSubmit();
+  };
+
   return (
     <HerosOnboardingWrapperNew
       Icon={Icon}
@@ -98,6 +102,7 @@ const UploadProfileImage: React.FC<IProp> = ({ avatar, onSubmit }) => {
       bgIconColor={"accent.1"}
       display="flex"
       alignItems="center"
+      onSkipForNow={onSkipForNow}
     >
       <Box color="primary">
         <Box mb={{ base: 5, lg: 8 }}>

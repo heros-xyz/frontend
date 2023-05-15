@@ -1,16 +1,17 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { If, Then } from "react-if";
+import { useRouter } from "next/router";
 import HerosSwiper from "@/components/ui/Swiper";
 import AthleteInfo from "@/components/ui/AthleteInfo";
+import { LockIcon } from "@/components/svg/LockIcon";
 import { IAthleteInteraction } from "../../constants";
-import FanOnlySection from "../FanOnlySection";
 
 interface InteractionSectionProps extends IAthleteInteraction {
   isDetailView?: boolean;
   validateIsFan: boolean;
   navigateToPostDetail?: () => void;
-  navigateToPostsByTag?: (value: string) => void;
+  navigateToPostsByTag: (value: string) => void;
 }
 
 const MAX_CONTENT_LENGTH = 200;
@@ -26,13 +27,18 @@ const InteractionSection: FC<InteractionSectionProps> = ({
   isDetailView,
   tags,
 }) => {
+  const { query } = useRouter();
+  const router = useRouter();
+  const onClick = () => {
+    router.push(`/fan/athlete-profile/${query.athleteId}?current=3`);
+  };
   const { avatar, nickName } = user;
   const isAbleToReadMore = isDetailView
     ? false
     : content.length > MAX_CONTENT_LENGTH;
 
   const handleNavigateToPostsByTag = (value: string) => {
-    navigateToPostsByTag && navigateToPostsByTag(value);
+    navigateToPostsByTag(value);
   };
 
   if (!isAccessRight) {
@@ -45,7 +51,19 @@ const InteractionSection: FC<InteractionSectionProps> = ({
             imagePath={avatar}
           />
         </Flex>
-        <FanOnlySection />
+        <Button
+          size="lg"
+          onClick={onClick}
+          bg="accent.1"
+          gap="10px"
+          color="accent.2"
+          w="full"
+        >
+          <Flex>
+            <Text pr={3}>Subscribe</Text>
+            <LockIcon />
+          </Flex>
+        </Button>
       </Box>
     );
   }

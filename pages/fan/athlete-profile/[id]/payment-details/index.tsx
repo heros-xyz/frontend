@@ -36,11 +36,12 @@ import { usePaymentForm } from "@/hooks/usePaymentForm";
 import OrderSummary from "@/components/ui/OrderSumary";
 import { formatMoney } from "@/utils/functions";
 import { AlertIcon } from "@/components/svg";
-import DeleteSubscription from "@/components/ui/DeleteSubscription";
+import DeleteSubscription from "@/components/modal/DeleteSubscription";
 import { IGuards, IHerosError } from "@/types/globals/types";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { fanAuthGuard } from "@/middleware/fanGuard";
+import { setTokenToStore } from "@/utils/auth";
 
 const PaymentDetails = () => {
   const router = useRouter();
@@ -373,7 +374,7 @@ export default PaymentDetails;
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    setContext(context);
+    setTokenToStore(store, context);
     store.dispatch(getPaymentInfo.initiate(""));
     if (typeof context.query.id === "string") {
       store.dispatch(getAthleteProfile.initiate(context.query.id));

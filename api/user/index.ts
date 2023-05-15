@@ -60,7 +60,9 @@ export const userApi = createApi({
         data,
       }),
     }),
-    signOut: builder.mutation<any, any>({
+    signOut: builder.mutation<unknown, {
+      refreshToken: string
+    }>({
       query: (data) => ({
         url: `/auth/sign-out`,
         method: "POST",
@@ -80,4 +82,4 @@ export const {
   util: { getRunningQueriesThunk },
 } = userApi;
 
-export const { profile, getOnboardingInformation } = userApi.endpoints;
+export const { profile, getOnboardingInformation, signOut } = userApi.endpoints;

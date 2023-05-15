@@ -24,9 +24,10 @@ import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { Close } from "@/components/svg/Close";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards } from "@/types/globals/types";
+import { setTokenToStore } from "@/utils/auth";
 
 const InteractionsByTag = () => {
   const { data: session, status } = useSession();
@@ -205,8 +206,8 @@ InteractionsByTag.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
+  (store) => async (context) => {
+    setTokenToStore(store, context);
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

@@ -14,11 +14,12 @@ import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import { IInteractionItem } from "@/types/athlete/types";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
-import { setContext } from "@/libs/axiosInstance";
+
 import { wrapper } from "@/store";
 import { IGuards } from "@/types/globals/types";
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
+import { setTokenToStore } from "@/utils/auth";
 
 const Interactions = () => {
   const { data: session, status } = useSession();
@@ -175,8 +176,8 @@ Interactions.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
+  (store) => async (context) => {
+    setTokenToStore(store, context);
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

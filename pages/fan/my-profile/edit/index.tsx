@@ -26,11 +26,7 @@ import ErrorMessage from "@/components/common/ErrorMessage";
 import DateSelect from "@/components/ui/DateSelect";
 import SelectGender from "@/components/ui/SelectGender";
 import Select from "@/components/common/Select";
-import {
-  filterSelectOptions,
-  isValidDate,
-  isValidString,
-} from "@/utils/functions";
+import { isValidDate } from "@/utils/time";
 import { getImageLink } from "@/utils/link";
 import { IconEdit } from "@/components/svg/IconEdit";
 import {
@@ -40,12 +36,14 @@ import {
   MAX_SIZE,
 } from "@/utils/inputRules";
 import { useEditFanInfoMutation, useGetFanSettingQuery } from "@/api/fan";
-import { updateSession } from "@/utils/auth";
+import { setTokenToStore, updateSession } from "@/utils/auth";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
 import BackButton from "@/components/ui/BackButton";
+import { useUser } from "@/hooks/useUser";
+import { filterSelectOptions, isValidString } from "@/utils/functions";
 
 const initialValues = {
   firstName: "",
@@ -54,6 +52,7 @@ const initialValues = {
   gender: "",
   sports: [],
   avatar: "",
+  isAdmin: false,
 };
 
 const validationSchema = Yup.object().shape({
@@ -89,11 +88,16 @@ const validationSchema = Yup.object().shape({
       return isValidDate(value);
     }),
   gender: Yup.string().required("This is a required field"),
-  sports: Yup.array().min(1, "This is a required field"),
+  sports: Yup.array().when("isAdmin", {
+    is: false,
+    then: Yup.array().min(1, "This is a required field"),
+  }),
+  isAdmin: Yup.boolean(),
 });
 
 const EditAccountInfo = () => {
   const { data: sportsList } = useGetSportListQuery("");
+  const { isAdmin, isFan } = useUser();
   const { data: fanProfile, refetch } = useGetFanSettingQuery("", {
     refetchOnMountOrArgChange: true,
   });
@@ -104,8 +108,8 @@ const EditAccountInfo = () => {
 
   const [editFanInfo, { isLoading, isSuccess }] = useEditFanInfoMutation();
   const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: validationSchema,
+    initialValues,
+    validationSchema,
     onSubmit: (values) => {
       const { dateOfBirth, gender, sports, ...newValues } = values;
       const sportSubmit = sports
@@ -132,8 +136,9 @@ const EditAccountInfo = () => {
       formik.setFieldValue("firstName", fanProfile.firstName);
       formik.setFieldValue("lastName", fanProfile.lastName);
       formik.setFieldValue("dateOfBirth", fanProfile.dateOfBirth);
-      formik.setFieldValue("gender", fanProfile.gender.toString());
+      formik.setFieldValue("gender", fanProfile.gender);
       formik.setFieldValue("avatar", fanProfile.avatar);
+      formik.setFieldValue("isAdmin", isAdmin);
       const userSport = fanProfile?.fanInformation?.fanSports.map((el) => {
         return {
           label: el?.sport?.name,
@@ -143,8 +148,10 @@ const EditAccountInfo = () => {
       if (userSport) {
         formik.setFieldValue("sports", userSport);
       }
+
+      console.log(formik.values);
     }
-  }, [fanProfile]);
+  }, [fanProfile, isAdmin]);
 
   const onClickUploadImage = () => {
     upload?.current?.click();
@@ -170,9 +177,11 @@ const EditAccountInfo = () => {
   };
 
   return (
-    <Box bg="white" color="white" pt={5} minH="100vh">
+    <Box bg="white" color="white" pt={{ base: 5, lg: 0 }} minH="100vh">
       <Head>
-        <title>Fan | Edit Account Information</title>
+        <title>
+          {`${isAdmin ? "Admin" : "Fan"} | Edit Account Information`}
+        </title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Box
@@ -212,6 +221,7 @@ const EditAccountInfo = () => {
                   w="full"
                   id="firstName"
                   name="firstName"
+                  fontWeight={500}
                   onChange={formik.handleChange}
                   value={formik.values.firstName}
                   isInvalid={Boolean(
@@ -246,6 +256,7 @@ const EditAccountInfo = () => {
                   w="full"
                   id="lastName"
                   name="lastName"
+                  fontWeight={500}
                   onChange={formik.handleChange}
                   value={formik.values.lastName}
                   isInvalid={Boolean(
@@ -297,31 +308,29 @@ const EditAccountInfo = () => {
                   </Box>
                 </Then>
               </If>
-              <If condition={formik.values?.gender}>
-                <Then>
-                  <Box mb={{ base: 5, lg: 7 }}>
-                    <Box fontWeight="medium" mb={2}>
-                      Gender
-                      <Text as="span" color="error.dark">
-                        *
-                      </Text>
-                    </Box>
-                    <SelectGender
-                      value={`${formik.values.gender}`}
-                      flexRow
-                      bgColor="primary"
-                      onChange={(value) => {
-                        formik.setFieldValue("gender", value);
-                      }}
-                      errorMessage={
-                        formik.errors.gender && formik.touched.gender
-                          ? "This is a required field"
-                          : ""
-                      }
-                    />
-                  </Box>
-                </Then>
-              </If>
+
+              <Box mb={{ base: 5, lg: 7 }}>
+                <Box fontWeight="medium" mb={2}>
+                  Gender
+                  <Text as="span" color="error.dark">
+                    *
+                  </Text>
+                </Box>
+                <SelectGender
+                  value={`${formik.values.gender}`}
+                  flexRow
+                  bgColor="primary"
+                  onChange={(value) => {
+                    formik.setFieldValue("gender", value);
+                  }}
+                  errorMessage={
+                    formik.errors.gender && formik.touched.gender
+                      ? "This is a required field"
+                      : ""
+                  }
+                />
+              </Box>
+
               <Box mb={{ base: 5, lg: 7 }}>
                 <Box fontWeight="medium" mb={2}>
                   Your profile pic
@@ -340,6 +349,7 @@ const EditAccountInfo = () => {
                       alt="user-avatar"
                       objectFit="cover"
                       rounded="full"
+                      fallbackSrc="/images/DefaultAvaCircle.png"
                     />
                     <Center
                       position="absolute"
@@ -373,28 +383,34 @@ const EditAccountInfo = () => {
                   onChange={onChangeAvatar}
                 />
               </Box>
-              <Box mb={7}>
-                <Box fontWeight="medium" mb={2}>
-                  Interested Sport{" "}
-                  <Text as="span" color="error.dark">
-                    *
-                  </Text>
-                </Box>
-                <Box fontSize={{ base: "sm", xl: "lg" }}>
-                  <Select
-                    isDarkTheme
-                    isMulti
-                    options={sportsList}
-                    placeHolder="Sport(s)"
-                    optionCount={5}
-                    value={formik.values.sports}
-                    onChange={(value) => formik.setFieldValue("sports", value)}
-                    errorMessage={formik.errors.sports}
-                    isInvalid={Boolean(formik.errors.sports)}
-                    filterSelectOptions={filterSelectOptions}
-                  />
-                </Box>
-              </Box>
+              <If condition={isFan}>
+                <Then>
+                  <Box mb={7}>
+                    <Box fontWeight="medium" mb={2}>
+                      Interested Sport{" "}
+                      <Text as="span" color="error.dark">
+                        *
+                      </Text>
+                    </Box>
+                    <Box fontSize={{ base: "sm", xl: "lg" }}>
+                      <Select
+                        isDarkTheme
+                        isMulti
+                        options={sportsList}
+                        placeHolder="Sport(s)"
+                        optionCount={5}
+                        value={formik.values.sports}
+                        onChange={(value) =>
+                          formik.setFieldValue("sports", value)
+                        }
+                        errorMessage={formik.errors.sports}
+                        isInvalid={Boolean(formik.errors.sports)}
+                        filterSelectOptions={filterSelectOptions}
+                      />
+                    </Box>
+                  </Box>
+                </Then>
+              </If>
               <Box
                 display="flex"
                 alignItems={{ base: "center", xl: "end" }}
@@ -433,8 +449,8 @@ EditAccountInfo.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
+  (store) => (context) => {
+    setTokenToStore(store, context);
 
     return fanAuthGuard(context, ({ session }: IGuards) => {
       return {

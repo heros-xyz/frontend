@@ -132,28 +132,4 @@ export default AthleteDashboard;
 AthleteDashboard.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-/*
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setContext(context);
-
-    store.dispatch(profile.initiate(""));
-    store.dispatch(getSportProfile.initiate(""));
-    store.dispatch(getTotalSubscription.initiate(""));
-    store.dispatch(getGrossAmountMoney.initiate(""));
-    await Promise.all([
-      ...store.dispatch(getRunningQueriesThunk()),
-      ...store.dispatch(getRunningQueriesThunkAthlete()),
-    ]);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);
 */

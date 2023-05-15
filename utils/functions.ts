@@ -1,110 +1,5 @@
-import dayjs, { UnitType } from "dayjs";
-import customParseFormat from "dayjs/plugin/customParseFormat";
-import { IOption } from "@/types/globals/types";
 import { INotificationInfo } from "@/types/notifications/types";
 import { NotificationEventType } from "./enums";
-
-export const generateOptions = (type: string) => {
-  const arr: Array<IOption> = [];
-  let start = 0;
-  let end = 0;
-  switch (type) {
-    case "day":
-      start = 1;
-      end = 31;
-      break;
-    case "month":
-      start = 1;
-      end = 12;
-      break;
-    case "year":
-      start = 1900;
-      end = new Date().getFullYear();
-      break;
-  }
-  if (type === 'year') {
-    for (let i = end; i >= start; i--) {
-      const value = i < 10 ? `0${i}` : `${i}`;
-      const option: IOption = { value, label: `${i}` };
-      arr.push(option);
-    }
-  } else {
-    for (let i = start; i <= end; i++) {
-      const value = i < 10 ? `0${i}` : `${i}`;
-      const option: IOption = { value, label: `${i}` };
-      if (type === "month") {
-        const date = new Date();
-        date.setMonth(+option.label - 1);
-        option.label = date.toLocaleString("en-US", {
-          month: "short",
-        });
-      }
-      arr.push(option);
-    }
-  }
-  return arr;
-};
-
-export const monthOptions = [
-  {
-    label: "Jan",
-    value: "01",
-  },
-  {
-    label: "Feb",
-    value: "02",
-  },
-  {
-    label: "Mar",
-    value: "03",
-  },
-  {
-    label: "Apr",
-    value: "04",
-  },
-  {
-    label: "May",
-    value: "05",
-  },
-  {
-    label: "Jun",
-    value: "06",
-  },
-  {
-    label: "Jul",
-    value: "07",
-  },
-  {
-    label: "Aug",
-    value: "08",
-  },
-  {
-    label: "Sep",
-    value: "09",
-  },
-  {
-    label: "Oct",
-    value: "10",
-  },
-  {
-    label: "Nov",
-    value: "11",
-  },
-  {
-    label: "Dec",
-    value: "12",
-  },
-];
-
-export const isValidDate = (
-  date: string | Date | undefined,
-  format?: string
-) => {
-  const dateFormat = format ? format : "YYYY-MM-DD";
-  dayjs.extend(customParseFormat);
-
-  return dayjs(date, dateFormat, true).isValid();
-};
 
 export const isValidString = (string: string) => {
   if (string) {
@@ -112,16 +7,6 @@ export const isValidString = (string: string) => {
     return regex.test(string.replace(/\s+/g, "").toLowerCase());
   }
   return false;
-};
-
-export const isBeforeEndDate = (
-  startDate: string,
-  endDate: string,
-  format?: string
-) => {
-  const formatDate = format ?? "YYYY-MM-DD";
-  const end = dayjs(endDate, formatDate);
-  return dayjs(startDate, formatDate).isBefore(end);
 };
 
 export const filterSelectOptions = (
@@ -136,7 +21,7 @@ export const filterSelectOptions = (
 };
 
 export const getGender = (genderValue: number | undefined) => {
-  switch (Number(genderValue)) {
+  switch (genderValue) {
     case 0:
       return "Male";
     case 1:
@@ -163,55 +48,6 @@ export const formatMoney = (money: number, showPrefix = true) => {
 
 export const formatNumber = (number: number) => {
   return new Intl.NumberFormat().format(number);
-};
-
-export const getDateFromNow = (prevDate?: Date | string) => {
-  if (!prevDate) return "";
-  const formatPrevDate = new Date(prevDate).getTime();
-  const diff = Number(new Date()) - formatPrevDate;
-  const minute = 60 * 1000;
-  const hour = minute * 60;
-  const day = hour * 24;
-  const month = day * 30;
-  const year = day * 365;
-  switch (true) {
-    case diff < minute:
-      const seconds = Math.round(diff / 1000);
-      return `${seconds} ${seconds > 1 ? "seconds" : "second"} ago`;
-    case diff < hour:
-      return Math.round(diff / minute) + "m ago";
-    case diff < day:
-      return Math.round(diff / hour) + "h ago";
-    case diff < month:
-      return Math.round(diff / day) + "d ago";
-    case diff < year:
-      return Math.round(diff / month) + "m ago";
-    case diff > year:
-      return Math.round(diff / year) + "y ago";
-    default:
-      return "";
-  }
-};
-
-export const convertDateFromNow = (prevDate?: Date | string) => {
-  if (!prevDate) return "";
-  const diffMin = dayjs(new Date()).diff(prevDate, "minute");
-  const diffHour = dayjs(new Date()).diff(prevDate, "hour");
-  const diffDay = dayjs(new Date()).diff(prevDate, "day");
-  const diffWeek = dayjs(new Date()).diff(prevDate, "week");
-
-  switch (true) {
-    case diffMin < 60:
-      return `${diffMin === 0 ? 1 : diffMin}m ago`;
-    case diffMin >= 60 && diffHour < 24:
-      return `${diffHour}h ago`;
-    case diffHour >= 24 && diffDay < 7:
-      return `${diffDay}d ago`;
-    case diffDay >= 7:
-      return `${diffWeek}w ago`;
-    default:
-      break;
-  }
 };
 
 function getWordStr(str: string | undefined, numberWord: number) {
@@ -341,14 +177,6 @@ export const getLinkByNotificationType = (notification?: INotificationInfo) => {
   }
 };
 
-export const getTime = (type: UnitType) => {
-  const time = dayjs().get(type);
-  if (+time < 10) {
-    return `0${time}`;
-  }
-  return time;
-};
-
 export const urlToObject = async (
   image: string,
   name: string,
@@ -366,3 +194,4 @@ export const urlToObject = async (
 export const isEmptyObject = (obj: Object) => {
   return JSON.stringify(obj) === '{}';
 }
+

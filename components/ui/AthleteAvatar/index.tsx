@@ -1,6 +1,7 @@
-import { Image, Box, Text, Center, AspectRatio } from "@chakra-ui/react";
+import { Box, Text, Center, AspectRatio } from "@chakra-ui/react";
 import { FC } from "react";
 import { getImageLink } from "@/utils/link";
+import HerosImage from "@/components/common/HerosImage";
 
 interface AthleteAvatarProps {
   imageUrl: string;
@@ -16,33 +17,33 @@ const AthleteAvatar: FC<AthleteAvatarProps> = ({
     <Box textAlign="center">
       <Box position="relative" marginBottom={2}>
         <AspectRatio ratio={1}>
-          <Image
-            width="100%"
+          <HerosImage
             src={getImageLink(imageUrl)}
-            alt={name}
-            borderRadius="full"
-            objectFit="cover"
+            widthSize={400}
+            heightSize={400}
+            width={"100%"}
+            height={"100%"}
           />
         </AspectRatio>
         {isRecommend && (
           <Center
-            bg="accent.1"
+            bg="secondary"
             position="absolute"
             bottom={0}
             left="50%"
             css={{ transform: "translate(-50%)" }}
             borderRadius={28}
             w="fit-content"
-            h={{ base: "15px", lg: "30px" }}
-            fontSize={{ base: "2xs", lg: "md" }}
+            h={{ base: "20px", lg: "30px" }}
+            fontSize={{ base: "sm", lg: "md" }}
             fontFamily="heading"
-            color="accent.2"
+            color="primary"
             fontWeight={700}
-            px={{ base: 1.5, lg: 2 }}
+            px={{ base: 3, lg: 6 }}
             pt={{ base: 0.5, lg: 0 }}
             textTransform="uppercase"
           >
-            recommended
+            Subscribe
           </Center>
         )}
       </Box>

@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { isValidDate } from "@/utils/functions";
+import { isValidDate } from "@/utils/time";
 
 export const validationSchema = yup.object().shape({
   name: yup

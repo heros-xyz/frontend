@@ -5,9 +5,9 @@ import Head from "next/head";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import ViewAthleteProfile from "@/modules/fan-dashboard/components/ViewAthleteProfile";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
 import { IGuards } from "@/types/globals/types";
 import {
+  getAthleteBasicInfo,
   getAthleteProfile,
   getPaymentInfo,
   getRunningQueriesThunk,
@@ -15,6 +15,7 @@ import {
 } from "@/api/fan";
 import { getValidateIsFan } from "@/api/athlete";
 import { fanAuthGuard } from "@/middleware/fanGuard";
+import { setTokenToStore } from "@/utils/auth";
 
 const AthleteProfile = () => {
   const { query } = useRouter();
@@ -46,13 +47,14 @@ AthleteProfile.getLayout = function getLayout(page: ReactElement) {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    setContext(context);
+    setTokenToStore(store, context);
     const athleteId = context.params?.id;
 
     if (typeof athleteId === "string") {
       store.dispatch(getAthleteProfile.initiate(athleteId));
       store.dispatch(getValidateIsFan.initiate(athleteId));
       store.dispatch(getPaymentInfo.initiate(""));
+      store.dispatch(getAthleteBasicInfo.initiate(athleteId));
     }
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
 

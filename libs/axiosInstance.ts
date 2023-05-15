@@ -1,37 +1,22 @@
-import { getCookie, setCookie } from "cookies-next";
 import axios, { AxiosResponse, AxiosError, AxiosRequestConfig } from "axios";
-import { GetServerSidePropsContext } from "next";
 import { IAuthResponse } from "@/types/users/types";
 import { onSignOut } from "@/utils/auth";
+import { store } from "@/store";
+import { setAccessToken } from "@/store/globalSlice";
 import { $http } from "./http";
-
-let context = <GetServerSidePropsContext>{};
-
-export const setContext = (_context: GetServerSidePropsContext) => {
-  context = _context;
-};
 
 export const setToken = (token: string | undefined) => {
   if (!token) return;
   axios.defaults.headers.common["authorization"] = `Bearer ${token}`;
 };
 
-const setTokenToCookie = (token: string | undefined) => {
-  setCookie("_Auth.access-token", token, {
-    res: context.res,
-    req: context.req,
-    path: "/",
-  });
+const setTokenToCookie = async (token: string | undefined) => {
+  await fetch(`/api/set-access-token?access_token=${token}`)
 };
 
 axios.interceptors.request.use(
   async (config) => {
-    const access_token = getCookie("_Auth.access-token", {
-      res: context.res,
-      req: context.req,
-      path: "/",
-    }) as string;
-
+    const access_token = store.getState().appState.accessToken
     const headers = (config.headers as any) || {};
 
     if (access_token && headers) {
@@ -47,6 +32,7 @@ axios.interceptors.request.use(
 );
 
 let fetchingToken = false;
+let signingOut = false;
 
 axios.interceptors.response.use(
   (response: AxiosResponse) => response,
@@ -64,12 +50,7 @@ const refreshToken = async (originalConfig: AxiosRequestConfig<any>) => {
   try {
     if (!fetchingToken) {
       fetchingToken = true;
-      const refreshToken = getCookie("_Auth.refresh-token", {
-        res: context.res,
-        req: context.req,
-        path: "/",
-      }) as string;
-
+      const refreshToken = store.getState().appState.refreshToken
       if (!refreshToken) {
         await onSignOut();
         return;
@@ -90,15 +71,21 @@ const refreshToken = async (originalConfig: AxiosRequestConfig<any>) => {
           headers["authorization"] = `Bearer ${access_token}`;
           setToken(access_token as string);
           setTokenToCookie(access_token);
+          store.dispatch(setAccessToken(access_token))
         }
       }
     }
 
     return axios(originalConfig);
   } catch (error) {
-    await onSignOut();
+    if (!signingOut) {
+      signingOut = true
+      await onSignOut();
+    }
+
     return Promise.reject(error);
   } finally {
+    signingOut = false
     fetchingToken = false;
   }
 };

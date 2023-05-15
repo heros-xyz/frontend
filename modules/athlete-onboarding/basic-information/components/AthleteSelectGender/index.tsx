@@ -35,7 +35,7 @@ const AthleteSelectGender: React.FC<IProp> = ({ onSubmit }) => {
       textButton="Proceed"
       IconButton={<ArrowRight />}
       onSubmit={submitForm}
-      title="Basic information"
+      title="Personal Information"
       bgIconColor="accent.2"
     >
       <Box mb={{ base: 2, lg: 4 }} color="primary">

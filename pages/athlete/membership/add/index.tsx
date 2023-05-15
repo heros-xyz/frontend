@@ -7,8 +7,9 @@ import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { useGetListBenefitQuery } from "@/api/athlete";
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards } from "@/types/globals/types";
-import { setContext } from "@/libs/axiosInstance";
+
 import { wrapper } from "@/store";
+import { setTokenToStore } from "@/utils/auth";
 
 const AddMembership = () => {
   const router = useRouter();
@@ -37,8 +38,8 @@ AddMembership.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
+  (store) => async (context) => {
+    setTokenToStore(store, context);
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

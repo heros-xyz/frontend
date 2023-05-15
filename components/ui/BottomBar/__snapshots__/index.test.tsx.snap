@@ -26,8 +26,8 @@ exports[`renders BottomBar unchanged 1`] = `
               <path
                 d="M1.5 9L3.16667 7.33333M3.16667 7.33333L9 1.5L14.8333 7.33333M3.16667 7.33333V15.6667C3.16667 16.1269 3.53976 16.5 4 16.5H6.5M14.8333 7.33333L16.5 9M14.8333 7.33333V15.6667C14.8333 16.1269 14.4602 16.5 14 16.5H11.5M6.5 16.5C6.96024 16.5 7.33333 16.1269 7.33333 15.6667V12.3333C7.33333 11.8731 7.70643 11.5 8.16667 11.5H9.83333C10.2936 11.5 10.6667 11.8731 10.6667 12.3333V15.6667C10.6667 16.1269 11.0398 16.5 11.5 16.5M6.5 16.5H11.5"
                 stroke="#33EFEF"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 strokeWidth="1.5"
               />
             </svg>
@@ -57,8 +57,8 @@ exports[`renders BottomBar unchanged 1`] = `
               <path
                 d="M10.5 13.1667H14.6666L13.4959 11.9959C13.1784 11.6784 13 11.2477 13 10.7987V8.16667C13 5.98964 11.6086 4.13757 9.66665 3.45118V3.16667C9.66665 2.24619 8.92045 1.5 7.99998 1.5C7.0795 1.5 6.33331 2.24619 6.33331 3.16667V3.45118C4.39133 4.13757 2.99998 5.98964 2.99998 8.16667V10.7987C2.99998 11.2477 2.8216 11.6784 2.50409 11.9959L1.33331 13.1667H5.49998M10.5 13.1667V14C10.5 15.3807 9.38069 16.5 7.99998 16.5C6.61927 16.5 5.49998 15.3807 5.49998 14V13.1667M10.5 13.1667H5.49998"
                 stroke="#33EFEF"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 strokeWidth="1.5"
               />
             </svg>
@@ -88,8 +88,8 @@ exports[`renders BottomBar unchanged 1`] = `
               <path
                 d="M5.66667 6.33325H5.675M9 6.33325H9.00833M12.3333 6.33325H12.3417M6.5 11.3333H3.16667C2.24619 11.3333 1.5 10.5871 1.5 9.66659V2.99992C1.5 2.07944 2.24619 1.33325 3.16667 1.33325H14.8333C15.7538 1.33325 16.5 2.07944 16.5 2.99992V9.66659C16.5 10.5871 15.7538 11.3333 14.8333 11.3333H10.6667L6.5 15.4999V11.3333Z"
                 stroke="#33EFEF"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 strokeWidth="1.5"
               />
             </svg>
@@ -119,15 +119,15 @@ exports[`renders BottomBar unchanged 1`] = `
               <path
                 d="M10.3333 4.83333C10.3333 6.67428 8.84094 8.16667 6.99999 8.16667C5.15904 8.16667 3.66666 6.67428 3.66666 4.83333C3.66666 2.99238 5.15904 1.5 6.99999 1.5C8.84094 1.5 10.3333 2.99238 10.3333 4.83333Z"
                 stroke="#33EFEF"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 strokeWidth="1.5"
               />
               <path
                 d="M6.99999 10.6667C3.77833 10.6667 1.16666 13.2783 1.16666 16.5H12.8333C12.8333 13.2783 10.2217 10.6667 6.99999 10.6667Z"
                 stroke="#33EFEF"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 strokeWidth="1.5"
               />
             </svg>

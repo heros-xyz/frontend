@@ -19,7 +19,7 @@ const PageInformation = () => {
   const { updateDocument, isUpdating: isLoading } = useUpdateDoc();
   const [step, setStep] = useState(1);
   const [isError, setIsError] = useState(false);
-
+  const [value, setValue] = useState<number>(0);
   const [formValues, setFormValues] = useState<IOnboardingPageInfoParams>({
     id: userProfile?.uid || "",
     tagLine: "",
@@ -71,14 +71,14 @@ const PageInformation = () => {
               />
             </Case>
             <Case condition={step === 2}>
-              <AddTag isLoading={isLoading} onSubmit={handleSubmit} />
+              <AddTag isLoading={isLoading} onSubmit={handleSubmit} setValue={setValue} />
             </Case>
           </Switch>
           <Box
             position="absolute"
-            top={{ lg: "59%" }}
+            top={{ lg: step === 2 ? "64%" : "59%" }}
             bottom={{ base: 5, lg: "unset" }}
-            left={{ lg: "130px" }}
+            left={{ lg: step === 2 && value ? value : "130px" }}
             w={{ base: "100%", lg: "unset" }}
             textAlign="center"
           >

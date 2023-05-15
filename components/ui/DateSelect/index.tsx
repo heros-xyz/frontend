@@ -2,7 +2,7 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import { useUpdateEffect } from "react-use";
 import Select from "@/components/common/Select";
-import { generateOptions, monthOptions } from "@/utils/functions";
+import { generateOptions, monthOptions } from "@/utils/time";
 
 interface DateSelectProps {
   submitted: boolean;

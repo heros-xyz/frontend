@@ -4,14 +4,16 @@ import Head from "next/head";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import FanAthleteInteraction from "@/modules/fan-dashboard/components/ViewAthleteInteraction";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
+import { setTokenToStore } from "@/utils/auth";
+import { useUser } from "@/hooks/useUser";
 const Interactions = () => {
+  const { isFan } = useUser();
   return (
     <Box bg="white">
       <Head>
-        <title>Fan | Interactions</title>
+        <title>{`${isFan ? "Fan" : "Admin"} | Interactions`}</title>
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <FanAthleteInteraction />
@@ -27,8 +29,8 @@ Interactions.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
+  (store) => (context) => {
+    setTokenToStore(store, context);
 
     return fanAuthGuard(context, ({ session }: IGuards) => {
       return {

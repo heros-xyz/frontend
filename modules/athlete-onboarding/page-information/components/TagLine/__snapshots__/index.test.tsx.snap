@@ -219,8 +219,8 @@ exports[`renders tag line unchanged 1`] = `
                       <path
                         d="M1 5.5L11 5.5M11 5.5L6.5 1M11 5.5L6.5 10"
                         stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                     </svg>
                   </span>
@@ -245,8 +245,8 @@ exports[`renders tag line unchanged 1`] = `
                 <path
                   d="M1 5.5L11 5.5M11 5.5L6.5 1M11 5.5L6.5 10"
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </span>

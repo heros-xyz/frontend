@@ -19,8 +19,8 @@ exports[`renders social interaction section unchanged 1`] = `
         <path
           d="M2.75736 3.42533C0.414213 5.76847 0.414213 9.56746 2.75736 11.9106L13.0001 22.1533L23.2426 11.9106C25.5858 9.56746 25.5858 5.76847 23.2426 3.42533C20.8995 1.08218 17.1005 1.08218 14.7574 3.42533L13.0001 5.18276L11.2426 3.42533C8.8995 1.08218 5.10051 1.08218 2.75736 3.42533Z"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           strokeWidth="1.5"
         />
       </svg>
@@ -39,8 +39,8 @@ exports[`renders social interaction section unchanged 1`] = `
         <path
           d="M10.6667 13.332H10.68M16 13.332H16.0133M21.3333 13.332H21.3467M12 21.332H6.66667C5.19391 21.332 4 20.1381 4 18.6654V7.9987C4 6.52594 5.19391 5.33203 6.66667 5.33203H25.3333C26.8061 5.33203 28 6.52594 28 7.9987V18.6654C28 20.1381 26.8061 21.332 25.3333 21.332H18.6667L12 27.9987V21.332Z"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           strokeWidth="1.5"
         />
       </svg>
@@ -59,8 +59,8 @@ exports[`renders social interaction section unchanged 1`] = `
         <path
           d="M11.5785 17.7892C11.8482 17.2509 12 16.6432 12 16C12 15.3568 11.8482 14.7491 11.5785 14.2108M11.5785 17.7892C10.9218 19.1001 9.56598 20 8 20C5.79086 20 4 18.2091 4 16C4 13.7909 5.79086 12 8 12C9.56598 12 10.9218 12.8999 11.5785 14.2108M11.5785 17.7892L20.4215 22.2108M11.5785 14.2108L20.4215 9.78925M20.4215 9.78925C21.0782 11.1001 22.434 12 24 12C26.2091 12 28 10.2091 28 8C28 5.79086 26.2091 4 24 4C21.7909 4 20 5.79086 20 8C20 8.64316 20.1518 9.25086 20.4215 9.78925ZM20.4215 22.2108C20.1518 22.7491 20 23.3568 20 24C20 26.2091 21.7909 28 24 28C26.2091 28 28 26.2091 28 24C28 21.7909 26.2091 20 24 20C22.434 20 21.0782 20.8999 20.4215 22.2108Z"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           strokeWidth="1.5"
         />
       </svg>

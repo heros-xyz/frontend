@@ -128,7 +128,7 @@ const EditBasicInfo = () => {
   return (
     <Box pt={{ base: 5, lg: 0 }} minH="100vh">
       <Head>
-        <title>Athlete | Edit Basic Information</title>
+        <title>Athlete | Edit Personal Information</title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Box
@@ -146,7 +146,7 @@ const EditBasicInfo = () => {
           >
             <BackButton
               href="/athlete/my-profile"
-              title="Edit Basic Information"
+              title="Edit Personal Information"
             />
           </Box>
           <Box fontSize={{ base: "sm", lg: "xl" }}>
@@ -342,7 +342,7 @@ const EditBasicInfo = () => {
                     value={formik.values.nationality}
                     options={nationalityList}
                     filterSelectOptions={filterSelectOptions}
-                    onChange={(el) => {
+                    onChange={(el: { value: string; label: string }) => {
                       formik.setFieldValue("nationality", el);
                     }}
                     errorMessage={"This is a required field"}
@@ -388,7 +388,7 @@ const EditBasicInfo = () => {
                     paddingTop: "10px",
                     paddingLeft: 0,
                     borderRadius: 0,
-                    fontWeight: "medium",
+                    fontWeight: 500,
                     paddingBottom: "10px",
                     fontSize: isDesktop ? "18px" : "14px",
                     lineHeight: isDesktop ? "28px" : "22px",

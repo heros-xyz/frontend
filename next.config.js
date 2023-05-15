@@ -43,7 +43,10 @@ const nextConfig = {
     domains: [
       "icon-library.com",
       "heros-media-dev.s3-website-ap-southeast-1.amazonaws.com",
-      process.env.HEROS_MEDIA_URL,
+      "cdn-dev.heros.xyz",
+      "cdn-uat.heros.xyz",
+      "cdn-prod.heros.xyz",
+      process.env.HEROS_MEDIA_URL?.replace("https://", ""),
     ],
   },
 };

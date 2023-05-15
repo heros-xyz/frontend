@@ -31,6 +31,11 @@ const SelectGender: React.FC<IProp> = ({
   useEffect(() => {
     onChange(genderValue);
   }, [genderValue]);
+
+  useEffect(() => {
+    setGenderValue(value);
+  }, [value]);
+
   const selectColor = bgColor === "primary" ? "accent.2" : "accent.2";
   return (
     <>

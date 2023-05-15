@@ -10,9 +10,10 @@ import {
 } from "@/api/fan";
 import PaymentWallet from "@/modules/athlete-dashboard/components/PaymentWallet";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
+import { setTokenToStore } from "@/utils/auth";
 
 const PaymentInfo = () => {
   const router = useRouter();
@@ -56,7 +57,7 @@ PaymentInfo.getLayout = function getLayout(page: ReactElement) {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    setContext(context);
+    setTokenToStore(store, context);
     store.dispatch(getPaymentInfo.initiate(""));
     await Promise.all(store.dispatch(getRunningQueriesThunk()));
 

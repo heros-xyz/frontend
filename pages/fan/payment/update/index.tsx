@@ -9,9 +9,10 @@ import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { useGetPaymentInfoQuery } from "@/api/fan";
 import { AlertIcon } from "@/components/svg";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
+import { setTokenToStore } from "@/utils/auth";
 
 const PaymentInfo = () => {
   const router = useRouter();
@@ -101,8 +102,8 @@ PaymentInfo.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
+  (store) => (context) => {
+    setTokenToStore(store, context);
 
     return fanAuthGuard(context, ({ session }: IGuards) => {
       return {

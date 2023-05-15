@@ -2,11 +2,11 @@ import { Box, Text } from "@chakra-ui/react";
 
 import React, { FC, useEffect, useMemo } from "react";
 import { Else, If, Then } from "react-if";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import CommentField from "@/modules/athlete-profile/interactions/components/CommentField";
 import { useComments } from "@/hooks/useComments";
 import { useDevice } from "@/hooks/useDevice";
+import { useUser } from "@/hooks/useUser";
 import Comments from "../../Comment/List";
 import LoadMoreSkeleton from "../LoadMoreSkeleton";
 import CommentItem from "../../Comment/Item";
@@ -25,7 +25,7 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
   onUnFocusComment,
   setTotalComments,
 }) => {
-  const { data: session } = useSession();
+  const { user, isAdmin } = useUser();
   const { isMobile } = useDevice();
   const router = useRouter();
   const {
@@ -45,7 +45,7 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
     onLoadMore,
     onLoadPrevious,
   } = useComments({
-    authorId: session?.user.id ?? "",
+    authorId: user.id ?? "",
     isPreview,
     interactionId: id,
     isAthlete: true,
@@ -187,6 +187,7 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
             <Box bottom={0} py={{ base: 2, lg: 0 }}>
               <CommentField
                 isReplying={replyingTo}
+                disabled={isAdmin}
                 isLoading={isLoading}
                 onSubmitComment={onSendMessage}
                 isUnfocused={() => {

@@ -73,10 +73,7 @@ export const useFanOnboarding = () => {
   }, [sportIds, avatar, dateOfBirth, gender, fullNameState]);
 
   useUpdateEffect(() => {
-
     if (!user) return;
-
-
     if (step === TOTAL_STEP) {
 
       const userData: User = {
@@ -87,8 +84,8 @@ export const useFanOnboarding = () => {
         birthday: new Date(dateOfBirth),
         gender: +gender
       }
-      const fanProfileData: FanProfile = {
-        sport: sportIds.split(',')
+      const fanProfileData: Partial<FanProfile> = {
+        sports: sportIds.split(',')
       };
 
       (async () => {

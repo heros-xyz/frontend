@@ -1,6 +1,7 @@
 import { Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { FC, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { If, Then } from "react-if";
 import { useGetListCommentInteractionQuery } from "@/api/athlete";
 import { useReactionInteractionMutation } from "@/api/fan";
 import { CommentIcon } from "@/components/svg/social/CommentIcon";
@@ -13,16 +14,20 @@ interface ISocialInteractionProps {
   reactionCount: number;
   commentsCount?: number;
   liked: boolean;
+  isAdmin?: boolean;
   postId?: string | string[];
-  handleComment?: () => void;
+  isInDetailPage?: boolean;
+  handleComment?: (isFocus?: boolean) => void;
 }
 
 export const SocialInteraction: FC<ISocialInteractionProps> = ({
   handleComment,
   commentsCount,
   reactionCount = 0,
+  isInDetailPage,
   liked,
   postId,
+  isAdmin,
 }) => {
   const router = useRouter();
   const { view, id, isFocus } = router.query;
@@ -80,41 +85,70 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
         isOpen={isOpen}
         onClose={onClose}
       />
+
       <Flex
-        gap={5}
-        my={{ base: "15px", lg: "20px" }}
+        columnGap={{ base: 3, lg: 5 }}
+        mt={{ base: "15px", lg: "20px" }}
+        mb={{ base: "5px", lg: "10px" }}
         alignItems="center"
         ref={iconActions}
       >
-        <Button
-          onClick={handleLike}
-          style={{ all: "unset", cursor: "pointer" }}
-        >
-          <LoveIcon
-            width={{ base: "24px", lg: "32px" }}
-            height={{ base: "24px", lg: "32px" }}
-            fill={isLiked ? "currentcolor" : "none"}
-            color={isLiked ? "accent.5" : "primary"}
-          />
-        </Button>
-        <Button
-          onClick={handleComment}
-          style={{ all: "unset", cursor: "pointer" }}
-        >
-          <CommentIcon
-            width={{ base: "24px", lg: "32px" }}
-            height={{ base: "24px", lg: "32px" }}
-            color="primary"
-          />
-        </Button>
-        <Button onClick={onOpen} style={{ all: "unset", cursor: "pointer" }}>
-          <ShareIcon
-            width={{ base: "24px", lg: "32px" }}
-            height={{ base: "24px", lg: "32px" }}
-            color="primary"
-          />
-        </Button>
+        <If condition={!isAdmin}>
+          <Then>
+            <Button
+              onClick={handleLike}
+              isDisabled={isAdmin}
+              variant="unstyled"
+              cursor={isAdmin ? "not-allowed" : "pointer"}
+              minW="auto"
+            >
+              <LoveIcon
+                width={{ base: "24px", lg: "32px" }}
+                height={{ base: "24px", lg: "32px" }}
+                fill={isLiked ? "currentcolor" : "none"}
+                color={isLiked ? "accent.5" : "primary"}
+              />
+            </Button>
+          </Then>
+        </If>
+
+        <If condition={!isInDetailPage || !isAdmin}>
+          <Then>
+            <Button
+              onClick={() => handleComment && handleComment(true)}
+              isDisabled={isAdmin && isInDetailPage}
+              variant="unstyled"
+              cursor={isAdmin && isInDetailPage ? "not-allowed" : "pointer"}
+              minW="auto"
+            >
+              <CommentIcon
+                width={{ base: "24px", lg: "32px" }}
+                height={{ base: "24px", lg: "32px" }}
+                color="primary"
+              />
+            </Button>
+          </Then>
+        </If>
+
+        <If condition={!isAdmin}>
+          <Then>
+            <Button
+              onClick={onOpen}
+              variant="unstyled"
+              isDisabled={isAdmin}
+              cursor={isAdmin ? "not-allowed" : "pointer"}
+              minW="auto"
+            >
+              <ShareIcon
+                width={{ base: "24px", lg: "32px" }}
+                height={{ base: "24px", lg: "32px" }}
+                color="primary"
+              />
+            </Button>
+          </Then>
+        </If>
       </Flex>
+
       <Text
         fontWeight="medium"
         mb={{ base: "5px", lg: "20px" }}
@@ -127,7 +161,7 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
       {!view && (
         <PreviewComment
           item={listComment}
-          navigateToPostDetail={handleComment}
+          navigateToPostDetail={() => handleComment && handleComment(false)}
         />
       )}
     </>

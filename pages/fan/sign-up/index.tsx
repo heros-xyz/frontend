@@ -8,6 +8,8 @@ import AuthTemplate from "@/components/ui/AuthTemplate";
 import { functions } from "@/libs/firebase";
 import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
+import { FAN_ROLE } from "@/utils/constants";
+import { convertTimeUnit } from "@/utils/time";
 
 const FanSignUp = () => {
   const [loading, setLoading] = useState(false)
@@ -21,14 +23,14 @@ const FanSignUp = () => {
         email: email as string,
         profileType: "FAN",
       };
-      debugger
       httpsCallable(functions, 'auth-signup')(params)
-        .then(() =>
-          router.push({
+        .then(() => {
+          const time = convertTimeUnit("5min");
+          return router.push({
             pathname: "/verify-otp",
-            query: { email },
+            query: { email, time },
           })
-        )
+        })
         .catch((error) => {
           setError(error.message)
         }).finally(()=>{

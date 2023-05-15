@@ -134,7 +134,7 @@ export const fanApi = createApi({
         method: "PUT",
       }),
     }),
-    getListAthleteUpToDate: builder.query<{ data: IAthleteUpToDate[] }, string>(
+    getListAthleteUpToDate: builder.query<{ data: IAthleteUpToDate[], meta: IMeta }, IParams>(
       {
         query: (params) => ({
           url: `/interaction/get-newest-interactions`,
@@ -155,7 +155,7 @@ export const fanApi = createApi({
       keepUnusedDataFor: 10,
     }),
 
-    getListAthleteRecommended: builder.query<IAthleteSubscribed[], IPagination>(
+    getListAthleteRecommended: builder.query<{ data: IAthleteSubscribed[], meta: IMeta }, IPagination>(
       {
         query: (params) => ({
           url: `/dashboard/recommended-athletes`,
@@ -195,13 +195,13 @@ export const fanApi = createApi({
     }),
     // Active Subscriptions
     getActiveSubscriptions: builder.query<
-      { data: GetActiveSubscription[] },
-      string
+      { data: GetActiveSubscription[], meta: IMeta },
+      IParams
     >({
-      query: (data) => ({
+      query: (params) => ({
         url: `/dashboard/subscribed-athletes`,
         method: "GET",
-        data,
+        params,
       }),
     }),
     deleteSubscriptions: builder.mutation<UpdatedPaymentInfo, string>({

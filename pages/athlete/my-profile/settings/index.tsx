@@ -1,4 +1,5 @@
 import { Box, Container, Text } from "@chakra-ui/react";
+import { useSession, signOut } from "next-auth/react";
 import { ReactElement } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";

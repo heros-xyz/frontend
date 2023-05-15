@@ -8,6 +8,7 @@ import {
 import { getServerSession } from "next-auth/next";
 import { nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 import { RoutePath } from "@/utils/route";
+import { ATHLETE_ROLE } from "@/utils/constants";
 
 export const fanSetupAccountGuard = async (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
@@ -30,7 +31,7 @@ export const fanSetupAccountGuard = async (
     };
   }
 
-  if (session.user.role === "ATHLETE") {
+  if (session.user.role === ATHLETE_ROLE) {
     return {
       redirect: {
         destination: RoutePath.HOME,

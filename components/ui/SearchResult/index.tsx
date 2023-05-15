@@ -1,4 +1,4 @@
-import { Box, BoxProps, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import Link from "next/link";
 import { Waypoint } from "react-waypoint";
@@ -6,6 +6,7 @@ import { FlagIcon } from "@/components/svg/Flag";
 import { IAthleteSearchProfile } from "@/types/athlete/types";
 import { getImageLink } from "@/utils/link";
 import { formatNumber } from "@/utils/functions";
+import HerosImage from "@/components/common/HerosImage";
 import SearchResultSkeleton from "./Skeleton";
 
 interface SearchResultProps extends BoxProps {
@@ -39,8 +40,9 @@ const SearchResult: React.FC<SearchResultProps> = ({
               No athletes found matching {`"${searchValue}"`}
             </Text>
             <Text fontSize={{ base: "sm", lg: "md" }}>
-              Try searching for something else. Use athlete’s name, sports name,
-              or sports-related terms.
+              Try searching for something else. Use athlete&apos;s first names,
+              last names and nicknames, their clubs, their sports, their profile
+              tags and their countries
             </Text>
           </Box>
         )}
@@ -54,13 +56,10 @@ const SearchResult: React.FC<SearchResultProps> = ({
               borderColor="grey.100"
               alignItems="center"
             >
-              <Image
+              <HerosImage
                 src={getImageLink(el?.avatar)}
-                borderRadius="full"
-                alt=""
-                w={{ base: "50px", xl: "80px" }}
-                h={{ base: "50px", xl: "80px" }}
-                objectFit="cover"
+                width={{ base: "50px", lg: "80px" }}
+                height={{ base: "50px", lg: "80px" }}
               />
               <Box
                 ml={4}

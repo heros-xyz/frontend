@@ -8,13 +8,14 @@ import SearchResult from "@/components/ui/SearchResult";
 import FindHeros from "@/components/ui/FindHeros";
 import { wrapper } from "@/store";
 import { fanAuthGuard } from "@/middleware/fanGuard";
-import { setContext } from "@/libs/axiosInstance";
 import { IGuards } from "@/types/globals/types";
 import { IAthleteSearchProfile } from "@/types/athlete/types";
+import { setTokenToStore } from "@/utils/auth";
+import { useUser } from "@/hooks/useUser";
 
 const AllResult = () => {
   const router = useRouter();
-
+  const { isFan } = useUser();
   const TAKE = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<IAthleteSearchProfile[]>([]);
@@ -33,16 +34,6 @@ const AllResult = () => {
     take: TAKE,
   });
 
-  useEffect(() => {
-    if (searchData) {
-      setCurrentData((prev) => [...prev, ...searchData?.data]);
-      setHasNextPage(searchData.meta.hasNextPage);
-    }
-  }, [searchData]);
-
-  useEffect(() => {
-    setCurrentData([]);
-  }, [defaultValue]);
   const onLoadMore = () => {
     if (hasNextPage) {
       setCurrentPage(currentPage + 1);
@@ -56,10 +47,21 @@ const AllResult = () => {
     setSearchValue("");
   };
 
+  useEffect(() => {
+    if (searchData) {
+      setCurrentData((prev) => [...prev, ...searchData?.data]);
+      setHasNextPage(searchData.meta.hasNextPage);
+    }
+  }, [searchData]);
+
+  useEffect(() => {
+    setCurrentData([]);
+  }, [defaultValue]);
+
   return (
     <Container>
       <Head>
-        <title>Fan | All Results</title>
+        <title>{`${isFan ? "Fan" : "Admin"} | All Results`}</title>
       </Head>
       <Box m="0 auto" minH="100vh" maxW="500px">
         <Box position="relative">
@@ -91,8 +93,8 @@ AllResult.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
+  (store) => (context) => {
+    setTokenToStore(store, context);
 
     return fanAuthGuard(context, ({ session }: IGuards) => {
       return {

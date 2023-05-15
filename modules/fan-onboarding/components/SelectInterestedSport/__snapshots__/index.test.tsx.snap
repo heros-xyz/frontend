@@ -238,8 +238,8 @@ exports[`renders homepage unchanged 1`] = `
                             <path
                               d="M16.25 6.875L10 13.125L3.75 6.875"
                               stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                               strokeWidth="1.5"
                             />
                           </svg>

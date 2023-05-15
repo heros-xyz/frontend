@@ -1,6 +1,7 @@
 import { Box, Input, Text } from "@chakra-ui/react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { Dispatch, SetStateAction } from "react";
 import { IconArrowRight } from "@/components/svg/IconArrowRight";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
@@ -8,12 +9,14 @@ interface IProps {
   currentTeam: string;
   setStepValue: (value: object) => void;
   onSubmit: (value: object) => void;
+  setValue: Dispatch<SetStateAction<number>>;
 }
 
 const InputCurrentTeam: React.FC<IProps> = ({
   currentTeam,
   onSubmit,
   setStepValue,
+  setValue,
 }) => {
   const validationSchema = Yup.object().shape({
     currentTeam: Yup.string().max(
@@ -31,6 +34,13 @@ const InputCurrentTeam: React.FC<IProps> = ({
       onSubmit(values);
     },
   });
+
+  const elem = document.getElementById("children");
+  const rect = elem?.getBoundingClientRect();
+  if (rect) {
+    setValue(rect.x);
+  }
+
   return (
     <HerosOnboardingWrapperNew
       textButton="Proceed"

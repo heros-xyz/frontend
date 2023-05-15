@@ -31,7 +31,7 @@ export const OnboardingWrapperComponent: Story = {
     </OnboardingWrapper>
   ),
   args: {
-    title: "Basic Information",
+    title: "Personal Information",
     Icon: <IconProfileImage />,
     IconButton: <UploadIcon />,
     textButton: "Upload image",

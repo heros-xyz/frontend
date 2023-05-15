@@ -205,8 +205,8 @@ exports[`renders Select Nationality unchanged 1`] = `
                             <path
                               d="M16.25 6.875L10 13.125L3.75 6.875"
                               stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
                               strokeWidth="1.5"
                             />
                           </svg>
@@ -236,8 +236,8 @@ exports[`renders Select Nationality unchanged 1`] = `
                       <path
                         d="M1.25 7L13.75 7M13.75 7L8.125 1.375M13.75 7L8.125 12.625"
                         stroke="#33EFEF"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         strokeWidth="1.5"
                       />
                     </svg>
@@ -263,8 +263,8 @@ exports[`renders Select Nationality unchanged 1`] = `
                 <path
                   d="M1.25 7L13.75 7M13.75 7L8.125 1.375M13.75 7L8.125 12.625"
                   stroke="#33EFEF"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   strokeWidth="1.5"
                 />
               </svg>

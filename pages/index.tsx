@@ -4,7 +4,7 @@ import Head from "next/head";
 import { Session } from "next-auth";
 import DefaultLayout from "@/layouts/default";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import HomePageBanner from "@/components/ui/HomePage/HomePageBanner";
 import { checkUserRoles } from "@/middleware/checkUserRoles";
 export default function Home() {
@@ -25,8 +25,6 @@ Home.getLayout = function getLayout(page: ReactElement) {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   () => (context) => {
-    setContext(context);
-
     return checkUserRoles(context, (session: Session | null) => {
       return {
         props: {

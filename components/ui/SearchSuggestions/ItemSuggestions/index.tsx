@@ -52,6 +52,7 @@ const ItemSuggestions: React.FC<IProps> = ({
             width={{ base: "40px", xl: "50px" }}
             height={{ base: "40px", xl: "50px" }}
             objectFit="cover"
+            fallbackSrc="/images/DefaultAvaCircle.png"
           />
         </Box>
         <Box display="flex" justifyContent="center" flexDirection="column">

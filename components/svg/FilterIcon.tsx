@@ -12,8 +12,8 @@ export const FilterIcon: React.FC<IconProps> = (props) => {
         d="M16.6667 5H3.33332M16.6667 10H3.33332M16.6667 15H10.8333"
         stroke="currentColor"
         strokeWidth="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </Icon>
   );

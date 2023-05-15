@@ -17,7 +17,7 @@ const BasicInformation = () => {
     <FormikContext.Provider value={formik}>
       <Box minHeight="100vh" overflowY="auto" bg="white">
         <Head>
-          <title>Athlete | Basic Information</title>
+          <title>Athlete | Personal Information</title>
         </Head>
         <If condition={step <= totalStep}>
           <Then>
@@ -51,7 +51,7 @@ const BasicInformation = () => {
             </Box>
           </Then>
           <Else>
-            <AthleteUpdatedSuccessfully title="Basic information" />
+            <AthleteUpdatedSuccessfully title="Personal Information" />
           </Else>
         </If>
       </Box>

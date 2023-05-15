@@ -49,6 +49,7 @@ const FanOfAthleteProfile: FC<IFanOfAthleteProfileProps> = ({
               src={getImageLink(fanInfo?.avatar)}
               alt={fanInfo?.fullName}
               objectFit="cover"
+              fallbackSrc="/images/DefaultAvaCircle.png"
             />
             <Text as="b" fontSize={{ lg: "xl" }}>
               {fanInfo?.fullName}

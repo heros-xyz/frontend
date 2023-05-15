@@ -21,6 +21,7 @@ const SportProfile = () => {
   const totalStep = 3;
   const toast = useToast();
   const [step, setStep] = useState(1);
+  const [value, setValue] = useState<number>(0);
   const { user } = useAuthContext();
   const [finalValue, setFinalValue] = useState<IOnboardingSportProfileParams>({
     sportId: "",
@@ -101,6 +102,7 @@ const SportProfile = () => {
                 currentTeam={finalValue.currentTeam}
                 onSubmit={setValueByStep}
                 setStepValue={setStepValue}
+                setValue={setValue}
               />
             </Case>
             <Case condition={step === 3}>
@@ -116,7 +118,7 @@ const SportProfile = () => {
             position="absolute"
             top={{ lg: "59%" }}
             bottom={{ base: 5, lg: "unset" }}
-            left={{ lg: "130px" }}
+            left={{ lg: step === 2 && value ? value : "130px" }}
             w={{ base: "100%", lg: "unset" }}
             textAlign="center"
           >

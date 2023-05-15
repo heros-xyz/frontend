@@ -210,6 +210,8 @@ export interface IAthleteSubscribed {
   autoRenew: boolean;
   recommended?: boolean;
   createdAt: string | Date;
+  sportName: string;
+  joinedDate?: string | Date
 }
 
 export interface ISourceUser {
@@ -265,6 +267,11 @@ export interface IFanInfo {
   createdAt: string | Date;
   id?: string;
   email?: string;
+  nickName: string;
+  athleteId: string;
+  expiredDate?: string | Date;
+  joinedDate?: string | Date;
+  sportName?: string;
 }
 export interface IUploadFileInteraction {
   type: string;

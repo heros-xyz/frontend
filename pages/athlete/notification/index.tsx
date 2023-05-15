@@ -8,9 +8,10 @@ import NotificationList from "@/components/ui/Notification/List";
 import { useNotification } from "@/hooks/useNotification";
 import NotiSkeleton from "@/components/ui/Notification/Skeleton";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards } from "@/types/globals/types";
+import { setTokenToStore } from "@/utils/auth";
 
 const AthleteNotification = () => {
   const {
@@ -135,8 +136,8 @@ AthleteNotification.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
+  (store) => async (context) => {
+    setTokenToStore(store, context);
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

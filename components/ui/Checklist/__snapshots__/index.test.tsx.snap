@@ -20,8 +20,8 @@ exports[`renders homepage unchanged 1`] = `
           <path
             d="M8.5 23.5V20.1667M8.5 20.1667V10.1667C8.5 9.24619 9.24619 8.5 10.1667 8.5H15.5833L16.4167 9.33333H23.5L21 14.3333L23.5 19.3333H16.4167L15.5833 18.5H10.1667C9.24619 18.5 8.5 19.2462 8.5 20.1667ZM16 8.91667V13.5"
             stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             strokeWidth="1.5"
           />
           <rect
@@ -67,8 +67,8 @@ exports[`renders homepage unchanged 1`] = `
           <path
             d="M10 17.5L14 21.5L24 11.5"
             stroke="white"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             strokeWidth="2"
           />
         </svg>

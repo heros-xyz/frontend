@@ -10,7 +10,13 @@ it("renders social interaction section unchanged", () => {
   mockRouter.push("/");
   const { container } = render(
     <Provider store={store}>
-      <SocialInteraction liked reactionCount={10} commentsCount={10} />
+      <SocialInteraction
+        liked
+        reactionCount={10}
+        commentsCount={10}
+        isAdmin
+        isInDetailPage
+      />
     </Provider>
   );
   expect(container).toMatchSnapshot();

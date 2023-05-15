@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import * as yup from "yup";
-import { isBeforeEndDate, isValidDate, isValidString } from "@/utils/functions";
+import { isBeforeEndDate, isValidDate } from "@/utils/time";
+import { isValidString } from "@/utils/functions";
 
 export const validationSchema = yup.object().shape({
   firstName: yup

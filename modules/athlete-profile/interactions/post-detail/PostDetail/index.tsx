@@ -96,8 +96,16 @@ const PostDetail = () => {
               bg="white"
               zIndex={15}
             >
-              <ArrowLeft color="primary" />
-              <Text ml="20px" fontWeight="bold" fontSize="xl">
+              <ArrowLeft
+                color="primary"
+                w={{ base: 6, lg: 6 }}
+                h={{ base: 6, lg: 6 }}
+              />
+              <Text
+                ml="20px"
+                fontWeight="bold"
+                fontSize={{ base: "xl", lg: "2xl" }}
+              >
                 Interaction
               </Text>
             </Flex>

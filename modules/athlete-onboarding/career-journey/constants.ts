@@ -1,5 +1,5 @@
 import * as yup from "yup";
-import { isBeforeEndDate, isValidDate } from "@/utils/functions";
+import { isBeforeEndDate, isValidDate } from "@/utils/time";
 
 const endDateValidation = (
   isPeriodDate: boolean,

@@ -31,6 +31,8 @@ export const FanYourAthletes: Story = {
         fullName: "Matt Prior",
         description: " Bronze Tier Subscribed",
         createdAt: "22/12/2022",
+        nickName: "a",
+        athleteId: "1",
       },
       {
         avatar:
@@ -38,6 +40,8 @@ export const FanYourAthletes: Story = {
         fullName: "Matt Prior",
         description: " Bronze Tier Subscribed",
         createdAt: "22/12/2022",
+        nickName: "a",
+        athleteId: "1",
       },
       {
         avatar:
@@ -45,6 +49,8 @@ export const FanYourAthletes: Story = {
         fullName: "Matt Prior",
         description: " Bronze Tier Subscribed",
         createdAt: "22/12/2022",
+        nickName: "a",
+        athleteId: "1",
       },
       {
         avatar:
@@ -52,6 +58,8 @@ export const FanYourAthletes: Story = {
         fullName: "Matt Prior",
         description: " Bronze Tier Subscribed",
         createdAt: "22/12/2022",
+        nickName: "a",
+        athleteId: "1",
       },
     ],
   },

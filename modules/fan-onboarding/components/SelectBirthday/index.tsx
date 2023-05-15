@@ -5,7 +5,7 @@ import { ArrowRight } from "@/components/svg/ArrowRight";
 import { BirthdateFanOnBoarding } from "@/components/svg/BirthdateFanOnBoarding";
 import DateSelect from "@/components/ui/DateSelect";
 import ErrorMessage from "@/components/common/ErrorMessage";
-import { isValidDate } from "@/utils/functions";
+import { isValidDate } from "@/utils/time";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 
 interface initialValues {

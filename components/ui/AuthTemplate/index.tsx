@@ -27,6 +27,7 @@ interface IAuthProps {
   onSubmitForm: (email: string) => void;
   handleSignInFacebook?: () => void;
   handleSignInGoogle?: () => void;
+  defaultEmail?: string;
 }
 
 const AuthTemplate: React.FC<IAuthProps> = ({
@@ -37,6 +38,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
   onSubmitForm,
   handleSignInFacebook,
   handleSignInGoogle,
+  defaultEmail,
 }) => {
   const AuthSchema = Yup.object().shape({
     email: Yup.string()
@@ -53,7 +55,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      email: defaultEmail ?? "",
     },
     validationSchema: AuthSchema,
     onSubmit: (values) => {

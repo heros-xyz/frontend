@@ -44,7 +44,7 @@ const InputYourStory: React.FC<InputYourStoryProps> = ({
       textButton="SUBMIT"
       onSubmit={submitForm}
       submitLoading={submitLoading}
-      title="Basic information"
+      title="Personal Information"
       bgIconColor="accent.6"
     >
       <Box mb={{ base: 4, lg: 10 }} color="primary">

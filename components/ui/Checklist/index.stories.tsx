@@ -14,7 +14,7 @@ const meta: Meta<typeof Checklist> = {
         "Page Information",
         "Sport Profile",
         "Career Journey",
-        "Basic Information",
+        "Personal Information",
       ],
       control: { type: "select" },
     },
@@ -49,7 +49,7 @@ export const BasicInformation: Story = {
   render: (args) => <Checklist {...args}>Join with us</Checklist>,
   args: {
     type: "basic",
-    title: "Basic Information",
+    title: "Personal Information",
     description: "Help your fan & followers know you better personally.",
     checked: true,
     link: "basic-information",

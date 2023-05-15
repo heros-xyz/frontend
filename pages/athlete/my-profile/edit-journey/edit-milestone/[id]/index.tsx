@@ -32,16 +32,17 @@ import DateSelect from "@/components/ui/DateSelect";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { SPORT_ICONS_MOCK } from "@/utils/mock-icon";
 import { TrashIcon } from "@/components/svg/TrashIcon";
-import DeleteSubscription from "@/components/ui/DeleteSubscription";
+import DeleteSubscription from "@/components/modal/DeleteSubscription";
 import { styles } from "@/modules/athlete-dashboard/components/AddPayment/styles";
 import {
   initialValues,
   validationSchema,
 } from "@/modules/athlete-onboarding/career-journey/constants";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards, IHerosError } from "@/types/globals/types";
+import { setTokenToStore } from "@/utils/auth";
 
 const EditMilestone = () => {
   const router = useRouter();
@@ -435,8 +436,8 @@ EditMilestone.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
+  (store) => async (context) => {
+    setTokenToStore(store, context);
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

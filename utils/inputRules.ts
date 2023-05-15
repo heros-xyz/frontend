@@ -22,9 +22,6 @@ const LARGE_SIZE_MEDIA_POST_IMAGE =
 const FILE_FORMAT_MEDIA_POST_IMAGE =
   "Your image file is not in correct format. The allowed image formats are JPEG, PNG, and GIF.";
 
-const ERROR_TYPE_UPLOAD_POST_MEDIA =
-  "Your file is not in correct format. The allowed image formats are JPEG, PNG, GIF and video formats are MOV, MP4, AVI.";
-
 const LARGE_SIZE_MEDIA_POST_VIDEO = "Your video file size must not exceed 1GB.";
 
 const FILE_FORMAT_MEDIA_POST_VIDEO =
@@ -52,7 +49,6 @@ export {
   FILE_FORMAT_MESSAGE,
   REQUIRED_MESSAGE,
   ERROR_SIZE_UPLOAD_POST_MEDIA,
-  ERROR_TYPE_UPLOAD_POST_MEDIA,
   ALLOWED_TYPES_VIDEO,
   getCharacterMessage,
 };
