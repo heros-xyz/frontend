@@ -17,6 +17,7 @@ import {
 } from "@/components/svg/Navigate";
 import LogoSidebar from "@/components/svg/LogoSidebar";
 import { ACTIVE_PATHS, ADMIN_ROLE, ATHLETE_ROLE } from "@/utils/constants";
+import { useAuthContext } from "@/context/AuthContext";
 import MenuItem from "../MenuItem";
 
 interface DashboardSidebarProps extends BoxProps {
@@ -40,7 +41,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   ...props
 }) => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { userProfile } = useAuthContext();
   const [tab, setTab] = useState<string>(router.pathname ?? "");
 
   const menuList: INavItem[] = [
@@ -59,7 +60,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       itemName: "Notifications",
       activeIcon: <NotificationActive w={6} h={6} />,
       show: true,
-      disabled: session?.user.role === ADMIN_ROLE,
+      disabled: userProfile?.profileType === ADMIN_ROLE,
       path:
         role === ATHLETE_ROLE ? "/athlete/notification" : "/fan/notification",
     },

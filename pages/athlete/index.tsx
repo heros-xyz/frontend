@@ -132,4 +132,3 @@ export default AthleteDashboard;
 AthleteDashboard.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-*/

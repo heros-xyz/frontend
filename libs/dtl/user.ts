@@ -7,7 +7,7 @@ import { Nationality } from "./nationalities"
 
 export interface User {
   avatar?: string
-  birthday?: Date
+  dateOfBirth?: Date
   gender?: number
   fullname: string
   firstName: string
@@ -17,7 +17,7 @@ export interface User {
   uid?: string
   nationality: Nationality
   isFinishSetupAccount?: boolean
-  profileType: "FAN" | "ATHLETE"
+  profileType: "FAN" | "ATHLETE" | "ADMIN"
 }
 
 export function useUploadAvatarToUser() {

@@ -15,7 +15,6 @@ import "@/styles/scss/globals.scss";
 import HerosLoading from "@/components/common/HerosLoading";
 import { gaMeasurementId } from "@/utils/constants";
 import { useEnv } from "@/hooks/useEnv";
-import initAuth from "@/utils/initAuth";
 import { AuthContextProvider } from "@/context/AuthContext";
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
@@ -26,7 +25,6 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
-initAuth();
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);

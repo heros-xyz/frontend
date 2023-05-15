@@ -38,11 +38,8 @@ import {
   initialValues,
   validationSchema,
 } from "@/modules/athlete-onboarding/career-journey/constants";
-import { wrapper } from "@/store";
 
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards, IHerosError } from "@/types/globals/types";
-import { setTokenToStore } from "@/utils/auth";
+import { IHerosError } from "@/types/globals/types";
 
 const EditMilestone = () => {
   const router = useRouter();
@@ -82,6 +79,7 @@ const EditMilestone = () => {
       }
     },
   });
+
   useUpdateEffect(() => {
     if (router.query.id === "0" && successEdit) {
       router.push("/athlete/my-profile/edit-journey");
@@ -434,17 +432,3 @@ export default EditMilestone;
 EditMilestone.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

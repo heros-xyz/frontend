@@ -68,6 +68,8 @@ const AthleteProfile = () => {
     withDefault(NumberParam, 0)
   );
 
+  console.log({ basicInfo });
+
   return (
     <Box as="section" bg="white" minH="100vh">
       <Flex as="header" alignItems="center" gap="5" position="relative" p={5}>
@@ -168,7 +170,7 @@ const AthleteProfile = () => {
             <CareerJourney data={journeyData ?? []} />
           </TabPanel>
           <TabPanel px={{ base: 5, lg: 0 }} py={{ base: 0, lg: 2 }}>
-            <If condition={tierMembershipList?.data?.length}>
+            <If condition={tierMembershipList?.length}>
               <Then>
                 <Text
                   fontSize={{ base: "xs", lg: "md" }}

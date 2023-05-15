@@ -1,7 +1,6 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
 import {
   HomeIcon,
   HomeActive,
@@ -15,6 +14,7 @@ import {
   ProfileActive,
 } from "@/components/svg/Navigate";
 import { ACTIVE_PATHS, ADMIN_ROLE, ATHLETE_ROLE } from "@/utils/constants";
+import { useAuthContext } from "@/context/AuthContext";
 import MenuItem from "../MenuItem";
 
 interface BottomBarProps {
@@ -34,7 +34,7 @@ interface INavItem {
 
 const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { userProfile } = useAuthContext();
   const [tab, setTab] = useState<string>(router.pathname ?? "");
 
   const menuList: INavItem[] = [
@@ -53,7 +53,7 @@ const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
       itemName: "Notifications",
       activeIcon: <NotificationActive />,
       show: true,
-      disabled: session?.user.role === ADMIN_ROLE,
+      disabled: userProfile?.profileType === ADMIN_ROLE,
       path:
         role === ATHLETE_ROLE ? "/athlete/notification" : "/fan/notification",
     },

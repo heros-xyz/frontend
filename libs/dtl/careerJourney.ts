@@ -39,7 +39,7 @@ const converter = {
     fromFirestore: (snap: QueryDocumentSnapshot) =>
     ({
         id: snap?.id,
-        ...snap?.data()
+        ...snap?.data() as CareerJourney
     })
 }
 
@@ -91,4 +91,12 @@ export function useAddCareerJourneys(): AddCareerJourneyResult {
         error,
         addJourneys
     };
+}
+
+
+export function useGetCareerJourney(id: string) {
+
+
+
+
 }
