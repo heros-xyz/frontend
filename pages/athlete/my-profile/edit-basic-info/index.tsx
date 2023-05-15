@@ -10,55 +10,81 @@ import {
 import Head from "next/head";
 
 import { useFormik } from "formik";
-import { ReactElement, useEffect } from "react";
+import { ReactElement, useEffect, useMemo } from "react";
 import { If, Then } from "react-if";
 import TextareaAutoSize from "react-textarea-autosize";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import DateSelect from "@/components/ui/DateSelect";
 import Select from "@/components/common/Select";
 import ErrorMessage from "@/components/common/ErrorMessage";
-import { useGetNationalityQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
 import SelectGender from "@/components/ui/SelectGender";
-import {
-  useEditBasicInfoMutation,
-  useGetBasicInformationQuery,
-} from "@/api/athlete";
 import {
   initialBasicValues,
   validationSchema,
 } from "@/modules/athlete-profile/EditBasicInfo/constants";
-import { wrapper } from "@/store";
-import { IGuards, IHerosError } from "@/types/globals/types";
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { setContext } from "@/libs/axiosInstance";
 import { colors } from "@/styles/themes/colors";
 import { useDevice } from "@/hooks/useDevice";
 import BackButton from "@/components/ui/BackButton";
+import { Nationality, useGetNationalities } from "@/libs/dtl/nationalities";
+import { useAuthContext } from "@/context/AuthContext";
+import {
+  AthleteProfile,
+  useGetAthleteProfile,
+} from "@/libs/dtl/athleteProfile";
+import useUpdateDoc from "@/hooks/useUpdateDoc";
+import { User } from "@/libs/dtl";
+import { IHerosError } from "@/types/globals/types";
 
 const EditBasicInfo = () => {
   const toast = useToast();
   const { isDesktop } = useDevice();
-  const { data: basicInfo } = useGetBasicInformationQuery("");
-  const { data: nationalityList } = useGetNationalityQuery("");
-  const [editBasicInfo, { isLoading, isSuccess, error }] =
-    useEditBasicInfoMutation();
+  const { userProfile } = useAuthContext();
+  const { athleteProfile } = useGetAthleteProfile();
+  const basicInfo = useMemo(
+    () => ({
+      ...userProfile,
+      story: athleteProfile?.story,
+      nationality: userProfile?.nationality,
+    }),
+    [athleteProfile?.story, userProfile?.nationality]
+  );
+  const { nationalitiesMapped: nationalityList } = useGetNationalities();
+  const {
+    updateDocument,
+    success: isSuccess,
+    isUpdating: isLoading,
+    error,
+  } = useUpdateDoc();
 
   const formik = useFormik({
     initialValues: initialBasicValues,
     validationSchema,
-    onSubmit: (values) => {
-      const editData = {
-        id: basicInfo?.id ?? "",
-        firstName: values.firstName,
-        middleName: values.middleName,
-        lastName: values.lastName,
-        dateOfBirth: values.dateOfBirth,
-        gender: values.gender,
-        nationalityId: values.nationality.value,
-        story: values.story,
+    onSubmit: async (values) => {
+      const updateUserParams: Partial<User> = {
+        birthday: values?.dateOfBirth,
+        firstName: values?.firstName,
+        middleName: values?.middleName,
+        gender: Number(values.gender),
+        nationality:
+          values?.nationality.label !== userProfile?.nationality?.name
+            ? (values?.nationality as unknown as Nationality)
+            : undefined,
       };
-      editBasicInfo(editData);
+
+      const updateAthleteProfileParams: Partial<AthleteProfile> = {
+        story: values?.story,
+      };
+
+      try {
+        await updateDocument(`user/${userProfile?.uid}`, updateUserParams);
+        await updateDocument(
+          `athleteProfile/${userProfile?.uid}`,
+          updateAthleteProfileParams
+        );
+      } catch (error) {
+        console.warn(error);
+      }
     },
   });
 
@@ -67,15 +93,23 @@ const EditBasicInfo = () => {
       formik.setFieldValue("firstName", basicInfo?.firstName);
       formik.setFieldValue("lastName", basicInfo?.lastName);
       formik.setFieldValue("middleName", basicInfo?.middleName || "");
-      formik.setFieldValue("dateOfBirth", basicInfo?.dateOfBirth);
-      formik.setFieldValue("gender", basicInfo?.gender.toString());
+      formik.setFieldValue("dateOfBirth", basicInfo?.birthday);
+      formik.setFieldValue("gender", basicInfo?.gender?.toString?.());
       formik.setFieldValue("nationality", {
-        value: basicInfo?.nationality.twoLetterCode,
-        label: basicInfo?.nationality.name,
+        value: basicInfo?.nationality?.twoLetterCode,
+        label: basicInfo?.nationality?.name,
       });
       formik.setFieldValue("story", basicInfo?.story);
     }
-  }, [basicInfo]);
+  }, [
+    basicInfo.firstName,
+    basicInfo.lastName,
+    basicInfo.middleName,
+    basicInfo.birthday,
+    basicInfo.gender,
+    basicInfo.nationality,
+    basicInfo.story,
+  ]);
 
   useEffect(() => {
     if (error) {
@@ -86,6 +120,10 @@ const EditBasicInfo = () => {
       });
     }
   }, [error]);
+
+  if (!athleteProfile && !userProfile) {
+    return <></>;
+  }
 
   return (
     <Box pt={{ base: 5, lg: 0 }} minH="100vh">
@@ -304,7 +342,7 @@ const EditBasicInfo = () => {
                     value={formik.values.nationality}
                     options={nationalityList}
                     filterSelectOptions={filterSelectOptions}
-                    onChange={(el: { value: string; label: string }) => {
+                    onChange={(el) => {
                       formik.setFieldValue("nationality", el);
                     }}
                     errorMessage={"This is a required field"}
@@ -405,17 +443,3 @@ export default EditBasicInfo;
 EditBasicInfo.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

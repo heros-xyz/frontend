@@ -15,37 +15,41 @@ import TextareaAutoSize from "react-textarea-autosize";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import Select from "@/components/common/Select";
 import ErrorMessage from "@/components/common/ErrorMessage";
-import { useGetSportListQuery } from "@/api/global";
-import {
-  useGetSportProfileQuery,
-  usePutSportProfileMutation,
-} from "@/api/athlete";
-import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
-import { IGuards, IHerosError } from "@/types/globals/types";
-import { athleteGuard } from "@/middleware/athleteGuard";
+import { IHerosError } from "@/types/globals/types";
 import { colors } from "@/styles/themes/colors";
 import { useDevice } from "@/hooks/useDevice";
 import BackButton from "@/components/ui/BackButton";
+import { useSports } from "@/libs/dtl";
+import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import useUpdateDoc from "@/hooks/useUpdateDoc";
 
 const EditSportProfile = () => {
   const toast = useToast();
   const { isDesktop } = useDevice();
-  const { data: sportsList } = useGetSportListQuery("");
-  const [putProfileSport, { isSuccess: successEdit, isLoading, error }] =
-    usePutSportProfileMutation();
+  const { sportsMapped: sportsList } = useSports();
+  const {
+    updateDocument: updateSportProfile,
+    success: successEdit,
+    isUpdating: isLoading,
+    error,
+  } = useUpdateDoc();
 
-  const { data: sportProfile } = useGetSportProfileQuery("");
+  const { athleteProfile: sportProfile } = useGetAthleteProfile();
   useEffect(() => {
     if (sportProfile) {
       formik.setFieldValue("sports", {
-        value: sportProfile?.data.sportProfilesItems[0].sportId,
-        label: sportProfile?.data.sportProfilesItems[0].sportName,
+        value: sportProfile?.sport?.key,
+        label: sportProfile?.sport?.label,
       });
-      formik.setFieldValue("currentTeam", sportProfile.data.currentTeam);
-      formik.setFieldValue("goal", sportProfile.data.goal);
+      formik.setFieldValue("currentTeam", sportProfile?.currentTeam);
+      formik.setFieldValue("goal", sportProfile?.goal);
     }
-  }, [sportProfile]);
+  }, [
+    sportProfile?.currentTeam,
+    sportProfile?.goal,
+    sportProfile?.sport?.key,
+    sportProfile?.sport?.label,
+  ]);
 
   const validationSchema = Yup.object().shape({
     sports: Yup.object().shape({
@@ -71,13 +75,21 @@ const EditSportProfile = () => {
       goal: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const newValues = {
-        sportId: values.sports.value,
+        sport: {
+          label: values.sports.label,
+          key: values.sports.value,
+        },
         currentTeam: values.currentTeam,
         goal: values.goal,
       };
-      putProfileSport({ data: newValues, id: sportProfile?.data?.id ?? "" });
+
+      try {
+        updateSportProfile(`athleteProfile/${sportProfile?.id}`, newValues);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
@@ -90,6 +102,10 @@ const EditSportProfile = () => {
       });
     }
   }, [error]);
+
+  if (!sportProfile) {
+    return <></>;
+  }
 
   return (
     <Box px={{ base: 5, lg: 0 }} minH="100vh" pb={{ base: 16, xl: 8 }}>
@@ -249,17 +265,3 @@ export default EditSportProfile;
 EditSportProfile.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);
