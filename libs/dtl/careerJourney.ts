@@ -5,7 +5,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import { IHerosError } from "@/types/globals/types";
 import { db } from "../firebase";
 
-interface CareerJourney {
+export interface CareerJourney {
     startDate: string;
     endDate?: string;
     title: string;
