@@ -9,8 +9,8 @@ export interface MembershipTier {
   type: "GOLD"|"BRONCE" //Gold, Bronce...
   tierDescription: string
   monthlyPrice: number
-  stripePriceTierId: string
-  stripeProductId: string
+  stripePrice: string
+  stripeProduct: string
   benefits: string[]
   totalFan?: number
   uid: string
