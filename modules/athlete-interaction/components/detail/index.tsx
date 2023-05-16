@@ -10,6 +10,9 @@ import { EditIcon } from "@/components/svg/menu/EditIcon";
 import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/detail/SkeletonInteractionDetail";
 import BackButton from "@/components/ui/BackButton";
+import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { usePostAsMaker } from "@/libs/dtl/post";
+import { useAuthContext } from "@/context/AuthContext";
 
 interface InteractionDetailProps {
   id: string;
@@ -26,9 +29,12 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
 }) => {
   const router = useRouter();
   const { focus } = router.query;
-  const { data: session } = useSession();
+  const { userProfile } = useAuthContext();
+  const { athleteProfile, loading: loadingAthleteProfile } =
+    useGetAthleteProfile();
   const [totalComments, setTotalComments] = useState(0);
   const [isFocusComment, setIsFocusComment] = useState(false);
+  /*
   const {
     data: postInfo,
     isLoading,
@@ -36,6 +42,10 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
   } = useGetInteractionDetailQuery(id as string, {
     skip: typeof id !== "string" || !Boolean(id),
   });
+  */
+  console.log({ id });
+  const { data: postInfo, loading: isLoading } = usePostAsMaker(id);
+  console.log({ postInfo });
 
   const formatPropAthletePost = useMemo(
     () => ({
@@ -49,12 +59,16 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
         },
       ],
       athleteInfo: {
-        imagePath: postInfo?.user?.avatar || "",
-        athleteName: session?.user?.nickname ?? "",
+        imagePath: userProfile?.avatar || "",
+        athleteName: athleteProfile?.nickName ?? "",
         publishDate: postInfo?.publicDate || postInfo?.createdAt,
-        id: postInfo?.user?.id,
+        id: userProfile?.uid,
       },
-      slideData: postInfo?.interactionMedia ?? [],
+      slideData: postInfo?.media?.map?.((item, index) => ({
+        url: item?.url,
+        type: item?.type,
+        sortOrder: index,
+      })),
       socialOrder: true,
       hashtag: postInfo?.tags || [],
       postLikes: postInfo?.reactionCount || 0,
@@ -62,7 +76,7 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
       postContent: postInfo?.content || "",
       liked: postInfo?.liked || false,
     }),
-    [postInfo, totalComments]
+    [postInfo, totalComments, id]
   );
 
   useEffect(() => {
@@ -73,7 +87,7 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
 
   useEffect(() => {
     if (postInfo) {
-      setTotalComments(postInfo.commentCount);
+      setTotalComments(postInfo?.commentCount);
     }
   }, [postInfo]);
 
@@ -88,6 +102,10 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
       shallow: true,
     });
   };
+
+  if (!loadingAthleteProfile || isLoading) {
+    return <></>;
+  }
 
   return (
     <Container size={["base", "sm", "md", "lg", "xl"]}>
@@ -108,7 +126,7 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
           <Then>
             <AthletePost
               interactionInfo={postInfo}
-              onUpdated={refetch}
+              onUpdated={() => {}}
               isDetailPage
               focusInputComment={setIsFocusComment}
               {...formatPropAthletePost}

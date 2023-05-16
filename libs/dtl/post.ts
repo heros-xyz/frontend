@@ -21,6 +21,7 @@ export interface Post {
   reactionCount?: number
   commentCount?: number
   totalCommentCount: number
+  totalReactionsCount: number
   liked?: boolean
   uid?: string
 }
@@ -101,9 +102,13 @@ export const usePostsAsMaker = (loadData = true) => {
 
         for (const post of posts) {
           const queryComments = query(collection(db, "comments"), where("post", "==", post.id)).withConverter(converter)
-          //const queryReactions = query(collection(db, "comments"), where("post", "==", )).withConverter(converter)
+          const queryReactions = query(collection(db, "reactions"), where("to", "==", post.id)).withConverter(converter)
+
           const totalCommentsCount = (await getCountFromServer(queryComments)).data().count
-          post.totalCommentCount = totalCommentsCount
+          const totalReactionsCount = (await getCountFromServer(queryReactions)).data().count
+
+          post.reactionCount = totalReactionsCount
+          post.commentCount = totalCommentsCount
         }
 
         serData(posts)
@@ -119,12 +124,12 @@ export const usePostsAsMaker = (loadData = true) => {
 
 export const usePostAsMaker = (postId?: string) => {
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<Post | undefined>();
   const dataRef = useMemo(() =>{
     if (postId) {
       return doc(db, `post/${postId}`).withConverter(converter)
     }
   }, [postId])
-  const [data, setData] = useState<Post|undefined>();
 
   useEffect(() => {
     if (!dataRef) return

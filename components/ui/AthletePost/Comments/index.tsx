@@ -45,11 +45,13 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
     onLoadMore,
     onLoadPrevious,
   } = useComments({
-    authorId: user.id ?? "",
+    authorId: user?.uid ?? "",
     isPreview,
     interactionId: id,
     isAthlete: true,
   });
+
+  console.log({ id });
 
   useEffect(() => {
     setIsFocusOnInput(focusComment);

@@ -2,7 +2,6 @@ import React, { ReactElement } from "react";
 import { Box, Container, Divider, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { Waypoint } from "react-waypoint";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
@@ -14,7 +13,6 @@ import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import { IInteractionItem } from "@/types/athlete/types";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
-import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
 import { useAuthContext } from "@/context/AuthContext";
 import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { usePostsAsMaker } from "@/libs/dtl/post";
@@ -139,9 +137,10 @@ const Interactions = () => {
                       onUpdated={router.reload}
                       {...formatPropAthletePost({
                         ...item,
-                        interactionMedia: item?.media.map((media) => ({
+                        interactionMedia: item?.media.map((media, index) => ({
                           type: media.type,
                           url: media.url,
+                          sortOrder: index,
                         })),
                       })}
                     >
@@ -168,7 +167,7 @@ const Interactions = () => {
                 </Waypoint>
               )}
             </Flex>
-            <If condition={!interactionsList.length}>
+            <If condition={!interactionsList?.length}>
               <Then>
                 <Text color="grey.300" fontSize={{ base: "xs", lg: "md" }}>
                   You have not had any interactions. Start interacting with your

@@ -44,25 +44,16 @@ export const useComments = ({
   const [listMergedComments, setListComments] = useState<IResponseComment[]>(
     []
   );
-  const { data: commentFocused } = useGetFocusCommentQuery(
-    commentId as string,
-    {
-      skip: typeof commentId !== "string",
-    }
-  );
-
+  const { data: commentFocused } = { data: null };
   const [handleSendMessage, { data: sendMessageResponse }] =
     useAddCommentInteractionMutation();
   const [replyComment, { data: replyCommentResponse }] =
     useReplyCommentMutation();
 
-  const { data: totalComments, refetch: refetchTotalComment } =
-    useGetTotalCommentsQuery(
-      { interactionId, pageInfo: { take: 1 } },
-      {
-        skip: typeof interactionId !== "string",
-      }
-    );
+  const { data: totalComments, refetch: refetchTotalComment } = {
+    data: null,
+    refetch: null,
+  };
 
   const commentFocusedIndex = useMemo(() => {
     if (commentFocused) {
@@ -70,26 +61,13 @@ export const useComments = ({
     }
   }, [commentFocused]);
 
+  // TODO: if is preview show only 3
   const {
     data: listComment,
     isLoading,
     isFetching,
-  } = useGetListCommentInteractionQuery(
-    {
-      interactionId,
-      authorId,
-      pageInfo: {
-        take: isPreview ? 3 : take,
-        order: "ASC",
-        offset,
-        getReply: !isPreview,
-        ...(isPreview && { take: 3 }),
-      },
-    },
-    {
-      skip: typeof interactionId !== "string" || !authorId,
-    }
-  );
+  } = { isLoading: false, data: null, isFetching: false };
+  
 
   const onLoadMore = () => {
     setTake(10);
