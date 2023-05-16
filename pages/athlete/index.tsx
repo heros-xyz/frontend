@@ -22,6 +22,7 @@ import { formatMoney, formatNumber } from "@/utils/functions";
 import { useAuthContext } from "@/context/AuthContext";
 import { RoutePath } from "@/utils/route";
 import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
 
 const AthleteDashboard = () => {
   const router = useRouter();
@@ -31,11 +32,8 @@ const AthleteDashboard = () => {
     isLoading: false,
   };
   const { data: grossMoneyData } = { data: null };
-  const { data: membershipData, isLoading: isGettingMembership } = {
-    data: null,
-    isLoading: false,
-  };
-
+  const { data: membershipData, loading: isGettingMembership } =
+    useMembershipTiersAsMaker();
   const { data: profile, isLoading: isGettingNetMoney } = {
     data: null,
     isLoading: false,
@@ -99,9 +97,9 @@ const AthleteDashboard = () => {
           />
           <Membership
             title={"Membership"}
-            isMembership={membershipData?.data?.length ? true : false}
+            isMembership={membershipData?.length ? true : false}
             buttonContent={"add tier"}
-            tier={membershipData?.data?.length ? 1 : 0}
+            tier={membershipData?.length ? 1 : 0}
             onClickManage={onClickManage}
             onAddTier={onAddTier}
             isLoading={isGettingMembership}
@@ -132,4 +130,3 @@ export default AthleteDashboard;
 AthleteDashboard.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-*/

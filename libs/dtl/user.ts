@@ -7,17 +7,19 @@ import { Nationality } from "./nationalities"
 
 export interface User {
   avatar?: string
-  birthday?: Date
+  dateOfBirth?: Date | string
   gender?: number
   fullname: string
   firstName: string
+  email: string
   lastName: string
   middleName?: string
   isFinishOnboarding: boolean
+  isFirstLogin: boolean
   uid?: string
   nationality: Nationality
   isFinishSetupAccount?: boolean
-  profileType: "FAN" | "ATHLETE"
+  profileType: "FAN" | "ATHLETE" | "ADMIN"
   stripeCustomer?: string
 }
 
@@ -39,6 +41,8 @@ export function useUploadAvatarToUser() {
       }
     } catch (error) {
       console.log({ error })
+    } finally {
+      setIsLoading(false)
     }
   }
 

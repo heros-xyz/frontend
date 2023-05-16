@@ -2,36 +2,28 @@ import { ReactElement, useMemo } from "react";
 import { Box, Container } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
-import { useGetCareerJourneyQuery } from "@/api/athlete";
 import TimeLineJourney, { ITimeLineInfo } from "@/components/ui/Timeline";
-import { wrapper } from "@/store";
 
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards } from "@/types/globals/types";
 import BackButton from "@/components/ui/BackButton";
-import { setTokenToStore } from "@/utils/auth";
+import { useCareerJourneys } from "@/libs/dtl/careerJourney";
 
 const EditJourney = () => {
   const router = useRouter();
-  const { data: session } = useSession();
-  const { data: careerJourneyData } = useGetCareerJourneyQuery(
-    session?.user.id as string,
-    { skip: typeof session?.user.id !== "string" }
-  );
+  const { journeys: careerJourneyData } = useCareerJourneys();
 
   const sortData = useMemo(() => {
     if (careerJourneyData) {
       const newArr = [...careerJourneyData];
       return newArr?.sort(function (a, b) {
         return (
-          new Date(b.startDate).getTime() - new Date(a.startDate).getTime()
+          new Date(b?.startDate).getTime() - new Date(a?.startDate).getTime()
         );
       });
     }
     return [];
   }, [careerJourneyData]);
+
   const handleClickAdd = () => {
     router.push("edit-journey/edit-milestone/0");
   };
@@ -83,17 +75,3 @@ export default EditJourney;
 EditJourney.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

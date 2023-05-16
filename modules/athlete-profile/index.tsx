@@ -10,28 +10,16 @@ import {
   Tabs,
   Text,
 } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Else, If, Then } from "react-if";
-import { useEffect, useState } from "react";
 import { useQueryParam, withDefault, NumberParam } from "use-query-params";
-import {
-  useGetBasicInformationQuery,
-  useGetCareerJourneyQuery,
-  useGetPageInformationQuery,
-  useGetSportProfileQuery,
-} from "@/api/athlete";
-import { useGetAthleteTierMembershipQuery } from "@/api/fan";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 import { Setting } from "@/components/svg/Setting";
 import BronzeTier from "@/components/ui/Bronze";
-import { IMembershipTier } from "@/types/membership/types";
-import { ITimeLineInfo } from "@/components/ui/Timeline";
-import { getImageLink } from "@/utils/link";
 import { useAuthContext } from "@/context/AuthContext";
 import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
-import { IBasicInfo, IPageInfo, ISportProfile } from "@/types/athlete/types";
 import { useCareerJourneys } from "@/libs/dtl/careerJourney";
+import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
 import CareerJourney from "./career-journey";
 
 import { Interaction } from "./interactions/Interaction";
@@ -42,13 +30,9 @@ const TABS = ["Profile", "Interactions", "Career Journey", "Subscribe"];
 const AthleteProfile = () => {
   const { userProfile } = useAuthContext();
   const { athleteProfile } = useGetAthleteProfile();
-  const pageInfo = {
-    tagLine: athleteProfile?.tagline,
-    tags: athleteProfile?.tags,
-  };
   const basicInfo = {
     nickName: athleteProfile?.nickName,
-    dateOfBirth: userProfile?.birthday,
+    dateOfBirth: userProfile?.dateOfBirth,
     firstName: userProfile?.firstName,
     gender: userProfile?.gender,
     lastName: userProfile?.lastName,
@@ -62,11 +46,16 @@ const AthleteProfile = () => {
     sport: athleteProfile?.sport,
   };
   const { journeys: journeyData } = useCareerJourneys();
-  const { data: tierMembershipList } = { data: null };
+  const { data: tierMembershipList, loading: loadingMemberships } =
+    useMembershipTiersAsMaker();
   const [currentTab, setCurrentTab] = useQueryParam(
     "current",
     withDefault(NumberParam, 0)
   );
+
+  if (loadingMemberships) {
+    return <></>;
+  }
 
   return (
     <Box as="section" bg="white" minH="100vh">
@@ -168,7 +157,7 @@ const AthleteProfile = () => {
             <CareerJourney data={journeyData ?? []} />
           </TabPanel>
           <TabPanel px={{ base: 5, lg: 0 }} py={{ base: 0, lg: 2 }}>
-            <If condition={tierMembershipList?.data?.length}>
+            <If condition={tierMembershipList?.length}>
               <Then>
                 <Text
                   fontSize={{ base: "xs", lg: "md" }}
@@ -189,12 +178,13 @@ const AthleteProfile = () => {
                     Edit Tiers
                   </Text>
                 </Link>
-
-                <BronzeTier
-                  title="Bronze"
-                  checked={false}
-                  data={tierMembershipList?.data?.[0] as IMembershipTier}
-                />
+                {!!tierMembershipList && (
+                  <BronzeTier
+                    title="Bronze"
+                    checked={false}
+                    data={tierMembershipList?.[0]}
+                  />
+                )}
               </Then>
               <Else>
                 <Box textAlign={{ base: "left", lg: "center" }}>

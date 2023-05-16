@@ -1,9 +1,9 @@
-import React from "react";
-import { Box, Text } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import { FanOnboardingSuccess } from "@/components/svg/FanOnboardingSuccess";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
+import { RoutePath } from "@/utils/route";
+import { Box, Text } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 const FinishOnboarding = () => {
   const router = useRouter();
@@ -18,10 +18,8 @@ const FinishOnboarding = () => {
       }
       textButton="Start Discovering"
       IconButton={<ArrowRight />}
-      onSubmit={async () => {
-        console.log("Submit");
-        await fetch("/api/set-first-login");
-        router.push("/fan");
+      onSubmit={() => {
+        router.push(RoutePath.FAN);
       }}
       bgIconColor="secondary"
       isSuccessPage

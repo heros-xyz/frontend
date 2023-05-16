@@ -341,17 +341,3 @@ export default PaymentInfo;
 PaymentInfo.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => (context) => {
-    setTokenToStore(store, context);
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

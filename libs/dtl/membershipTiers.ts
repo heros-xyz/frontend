@@ -1,17 +1,38 @@
 import { useCallback, useEffect, useState } from "react";
-import { collection, getDocs, onSnapshot, query, QueryDocumentSnapshot, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, onSnapshot, query, QueryDocumentSnapshot, updateDoc, where } from "firebase/firestore";
 import { db } from "@/libs/firebase";
 import { useAuthContext } from "@/context/AuthContext";
+import { MutationState } from "./careerJourney";
+
+const MembershipTierCollectionName = "membershipTiers"
+
+export type MembershipTierType = "GOLD" | "BRONZE"
 
 export interface MembershipTier {
   id?: string
   name: string
-  type: "GOLD"|"BRONCE" //Gold, Bronce...
+  type: MembershipTierType
   tierDescription: string
   monthlyPrice: number
   stripePrice: string
   stripeProduct: string
-  benefits: string[]
+  benefits: {
+    label: string
+    key: string
+  }[]
+  totalFan?: number
+  uid: string
+}
+
+export interface MembershipTierParams {
+  name: string
+  type: MembershipTierType
+  tierDescription: string
+  monthlyPrice: number
+  benefits: {
+    label: string
+    key: string
+  }[]
   totalFan?: number
   uid: string
 }
@@ -29,6 +50,11 @@ export function useMembershipTiersAsMaker() {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<MembershipTier[]|undefined>();
   const [error, setError] = useState<Error | null>(null);
+  const [mutationStates, setMutationStates] = useState<MutationState>({
+    loading: false,
+    success: false,
+    error: null
+  })
 
   useEffect(() => {
     setError(null)
@@ -48,24 +74,49 @@ export function useMembershipTiersAsMaker() {
     )
   }, [user?.uid]);
 
-  const update = useCallback(async (membershipTier: Partial<MembershipTier>) => {
+  const update = useCallback(async (id: string, membershipTierParams: Partial<MembershipTier>) => {
     if (!user || !user.uid) return
-    //Llama a la fucnion de update
-    console.log('update', membershipTier)
+    try {
+      setMutationStates(c => ({ ...c, loading: true }))
+      const docRef = doc(db, MembershipTierCollectionName, id);
+      await updateDoc(docRef, membershipTierParams);
+      setMutationStates(c => ({ ...c, success: true }))
+    } catch (error) {
+      setMutationStates(c => ({ ...c, error: { data: error } }))
+      console.info(`ERROR [@/hooks/membershipTiers.ts#update]`, error)
+    } finally {
+      setMutationStates(c => ({ ...c, loading: false }))
+    }
   },[user?.uid])
 
-  const create = useCallback(async (membershipTier: Partial<MembershipTier>) => {
+  const create = useCallback(async (membershipTierParams: Partial<MembershipTier>) => {
     if (!user || !user.uid) return
-    //Llama a la fucnion de create
-    console.log('create', membershipTier)
+    // Path => membershipTiers/{_id}
+    try {
+      setMutationStates(c => ({ ...c, loading: true }))
+      const collectionRef = collection(db, MembershipTierCollectionName);
+      await addDoc(collectionRef, { ...membershipTierParams, uid: user?.uid });
+      setMutationStates(c => ({ ...c, success: true }))
+    } catch (error) {
+      setMutationStates(c => ({ ...c, error: { data: error } }))
+      console.info(`ERROR [@/hooks/membershipTiers.ts#create]`, error)
+    } finally {
+      setMutationStates(c => ({ ...c, loading: false }))
+    }
   },[user?.uid])
 
   return {
     loading,
     error,
     data,
-    update,
-    create
+    update: {
+      ...mutationStates,
+      update,
+    },
+    create: {
+      ...mutationStates,
+      create,
+    }
   }
 }
 
@@ -78,7 +129,7 @@ export function useMembershipTiersAsTaker(uid: string) {
   useEffect(() => {
     setError(null)
     if (!user || !user.uid) return
-    const q = query(collection(db, "membershipTiers"), where("uid", "==", uid)).withConverter(converter)
+    const q = query(collection(db, MembershipTierCollectionName), where("uid", "==", uid)).withConverter(converter)
     onSnapshot(q, (snapshot) =>{
       setData(
         snapshot.docs.map(d => d.data())

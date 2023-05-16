@@ -12,13 +12,33 @@ import { useEffect, useMemo } from "react";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 import MyStory from "@/components/ui/Athlete/Profile/MyStory";
 import { getGender } from "@/utils/functions";
-import { IBasicInfo, ISportProfile } from "@/types/athlete/types";
-import { useDevice } from "@/hooks/useDevice";
 import { getEnvVariables } from "@/utils/env";
+import { Nationality } from "@/libs/dtl/nationalities";
 
 interface IProfileProps {
-  basicInfo: IBasicInfo | undefined;
-  sportProfile: ISportProfile | undefined;
+  basicInfo:
+    | {
+        nickName: string | undefined;
+        dateOfBirth: string | Date | number | undefined;
+        firstName: string | undefined;
+        gender: string | number | undefined;
+        middleName: string | undefined;
+        nationality: Nationality | undefined;
+        story: string | undefined;
+      }
+    | undefined;
+  sportProfile:
+    | {
+        currentTeam: string | undefined;
+        goal: string | undefined;
+        sport:
+          | {
+              label: string;
+              key: string;
+            }
+          | undefined;
+      }
+    | undefined;
   isEdit?: boolean;
   athleteId: string;
   athleteNickname: string;
@@ -42,14 +62,6 @@ export const Profile: React.FC<IProfileProps> = ({
   }, [athleteId, athleteNickname]);
 
   const onClickCopy = () => {
-    // if (isMobile) {
-    //   const shareData = {
-    //     title: `${athleteNickname}'s Profile Link`,
-    //     url: profileLink,
-    //   };
-
-    //   navigator.share(shareData);
-    // }
     toast({
       title: "Profile Link Copied",
       status: "success",
@@ -94,10 +106,10 @@ export const Profile: React.FC<IProfileProps> = ({
         </Flex>
         <Box mb="7" color="accent.2" bg="accent.1" px="6" py="4" rounded="lg">
           <Text fontWeight="bold" fontSize={{ base: "base", lg: "xl" }}>
-            {sportProfile?.data?.sportProfilesItems[0]?.sportName || ""}
+            {sportProfile?.sport?.label || ""}
           </Text>
           <Text fontWeight="normal" fontSize={{ base: "xs", lg: "base" }}>
-            {sportProfile?.data.currentTeam || ""}
+            {sportProfile?.currentTeam || ""}
           </Text>
         </Box>
         <Box>
@@ -105,7 +117,7 @@ export const Profile: React.FC<IProfileProps> = ({
             My Goal
           </Text>
           <Text fontSize={{ base: "xs", lg: "md" }} whiteSpace="break-spaces">
-            {sportProfile?.data.goal || ""}
+            {sportProfile?.goal || ""}
           </Text>
         </Box>
 

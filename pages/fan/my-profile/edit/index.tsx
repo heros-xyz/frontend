@@ -1,3 +1,9 @@
+import ErrorMessage from "@/components/common/ErrorMessage";
+import Select from "@/components/common/Select";
+import DateSelect from "@/components/ui/DateSelect";
+import SelectGender from "@/components/ui/SelectGender";
+import FanDashboardLayout from "@/layouts/FanDashboard";
+import { isValidDate } from "@/utils/time";
 import {
   Box,
   Button,
@@ -9,6 +15,8 @@ import {
   Text,
   VisuallyHiddenInput,
 } from "@chakra-ui/react";
+import { useFormik } from "formik";
+import Head from "next/head";
 import {
   MutableRefObject,
   ReactElement,
@@ -16,18 +24,8 @@ import {
   useRef,
   useState,
 } from "react";
-import * as Yup from "yup";
-import Head from "next/head";
-import { useFormik } from "formik";
 import { If, Then } from "react-if";
-import FanDashboardLayout from "@/layouts/FanDashboard";
-import { useGetSportListQuery } from "@/api/global";
-import ErrorMessage from "@/components/common/ErrorMessage";
-import DateSelect from "@/components/ui/DateSelect";
-import SelectGender from "@/components/ui/SelectGender";
-import Select from "@/components/common/Select";
-import { isValidDate } from "@/utils/time";
-import { getImageLink } from "@/utils/link";
+import * as Yup from "yup";
 import { IconEdit } from "@/components/svg/IconEdit";
 import {
   ALLOWED_TYPES,
@@ -35,14 +33,12 @@ import {
   LARGE_SIZE_MESSAGE,
   MAX_SIZE,
 } from "@/utils/inputRules";
-import { useEditFanInfoMutation, useGetFanSettingQuery } from "@/api/fan";
-import { setTokenToStore, updateSession } from "@/utils/auth";
-import { wrapper } from "@/store";
-
-import { fanAuthGuard } from "@/middleware/fanGuard";
-import { IGuards } from "@/types/globals/types";
 import BackButton from "@/components/ui/BackButton";
+import { useAuthContext } from "@/context/AuthContext";
+import useUpdateDoc from "@/hooks/useUpdateDoc";
 import { useUser } from "@/hooks/useUser";
+import { useSports, useUploadAvatarToUser } from "@/libs/dtl";
+import { useFanProfile } from "@/libs/dtl/fanProfile";
 import { filterSelectOptions, isValidString } from "@/utils/functions";
 
 const initialValues = {
@@ -96,62 +92,80 @@ const validationSchema = Yup.object().shape({
 });
 
 const EditAccountInfo = () => {
-  const { data: sportsList } = useGetSportListQuery("");
+  const { sportsMapped: sportsList } = useSports();
   const { isAdmin, isFan } = useUser();
-  const { data: fanProfile, refetch } = useGetFanSettingQuery("", {
-    refetchOnMountOrArgChange: true,
-  });
+  const { userProfile } = useAuthContext();
+  const { data: fanData } = useFanProfile();
+  const { updateDocument, isUpdating, success } = useUpdateDoc();
   const upload = useRef() as MutableRefObject<HTMLInputElement>;
-  const [image, setImage] = useState("");
   const [fileSubmit, setFileSubmit] = useState<File>();
+  const { uploadAvatar } = useUploadAvatarToUser();
+
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const [editFanInfo, { isLoading, isSuccess }] = useEditFanInfoMutation();
+  const handleSubmit = async (values: any) => {
+    try {
+      if (!!userProfile?.uid) {
+        const paramsUser = {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          dateOfBirth: values.dateOfBirth,
+          gender: +values.gender,
+        };
+
+        const sports = await values.sports.map((entry: any) => ({
+          key: entry?.value,
+          label: entry?.label,
+        }));
+
+        const paramsFanProfile = {
+          sports: sports,
+        };
+
+        if (!!fileSubmit) {
+          const avatarUrl = await uploadAvatar(fileSubmit);
+          console.log(avatarUrl, "avatarUrl");
+          await updateDocument(`user/${userProfile?.uid}`, {
+            avatar: avatarUrl,
+          });
+        }
+
+        await updateDocument(`user/${userProfile?.uid}`, paramsUser);
+        await updateDocument(
+          `fanProfile/${userProfile?.uid}`,
+          paramsFanProfile
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      const { dateOfBirth, gender, sports, ...newValues } = values;
-      const sportSubmit = sports
-        .map((el: { value: string }) => el?.value)
-        .join();
-      editFanInfo({
-        ...newValues,
-        dateOfBirth: dateOfBirth + "T00:00:00Z",
-        gender: parseInt(gender),
-        avatar: fileSubmit,
-        sportIds: sportSubmit,
-      });
-    },
+    onSubmit: handleSubmit,
   });
-  useEffect(() => {
-    if (isSuccess) {
-      refetch();
-      updateSession();
-    }
-  }, [isSuccess]);
 
   useEffect(() => {
-    if (fanProfile) {
-      formik.setFieldValue("firstName", fanProfile.firstName);
-      formik.setFieldValue("lastName", fanProfile.lastName);
-      formik.setFieldValue("dateOfBirth", fanProfile.dateOfBirth);
-      formik.setFieldValue("gender", fanProfile.gender);
-      formik.setFieldValue("avatar", fanProfile.avatar);
+    if (userProfile) {
+      formik.setFieldValue("firstName", userProfile.firstName);
+      formik.setFieldValue("lastName", userProfile.lastName);
+      formik.setFieldValue("dateOfBirth", userProfile.dateOfBirth);
+      formik.setFieldValue("gender", userProfile.gender);
+      formik.setFieldValue("avatar", userProfile.avatar);
       formik.setFieldValue("isAdmin", isAdmin);
-      const userSport = fanProfile?.fanInformation?.fanSports.map((el) => {
-        return {
-          label: el?.sport?.name,
-          value: el?.sport?.id,
-        };
-      });
-      if (userSport) {
+
+      // Hay que convertir el array de deportes en un array que entienda el componente Select
+      if (fanData && fanData.sports) {
+        const userSport = fanData?.sports.map((sport) => ({
+          value: sport.key,
+          label: sport.label,
+        }));
         formik.setFieldValue("sports", userSport);
       }
-
-      console.log(formik.values);
     }
-  }, [fanProfile, isAdmin]);
+  }, [userProfile, fanData, isAdmin]);
 
   const onClickUploadImage = () => {
     upload?.current?.click();
@@ -159,19 +173,22 @@ const EditAccountInfo = () => {
 
   const onChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
+
     if (!selectedFile) {
       return;
     }
+
     if (selectedFile.size > MAX_SIZE) {
       setErrorMessage(LARGE_SIZE_MESSAGE);
       return;
     }
+
     if (!ALLOWED_TYPES.includes(selectedFile.type)) {
       setErrorMessage(FILE_FORMAT_MESSAGE);
       return;
     }
+
     formik.setFieldValue("avatar", URL.createObjectURL(selectedFile));
-    setImage(URL.createObjectURL(selectedFile));
     setFileSubmit(selectedFile);
     setErrorMessage(null);
   };
@@ -345,7 +362,7 @@ const EditAccountInfo = () => {
                     <Image
                       w={{ base: "120px", xl: "160px" }}
                       h={{ base: "120px", xl: "160px" }}
-                      src={image || getImageLink(formik.values.avatar)}
+                      src={formik.values.avatar}
                       alt="user-avatar"
                       objectFit="cover"
                       rounded="full"
@@ -423,12 +440,12 @@ const EditAccountInfo = () => {
                   mb={2}
                   type="submit"
                   isDisabled={!!errorMessage}
-                  isLoading={isLoading}
+                  isLoading={isUpdating}
                   fontSize={{ base: "md", xl: "xl" }}
                 >
                   SAVE
                 </Button>
-                {isSuccess && (
+                {success && (
                   <Text color={"#65D169"} fontSize={["xs", "md"]}>
                     Changes Saved
                   </Text>
@@ -447,17 +464,3 @@ export default EditAccountInfo;
 EditAccountInfo.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => (context) => {
-    setTokenToStore(store, context);
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

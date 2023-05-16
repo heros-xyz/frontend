@@ -1,6 +1,6 @@
-import { query, collection, where, getCountFromServer, addDoc, QueryDocumentSnapshot } from "firebase/firestore";
-import { useState, useEffect } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { query, collection, where, getCountFromServer, addDoc, QueryDocumentSnapshot, doc, updateDoc, serverTimestamp, FieldValue, deleteDoc } from "firebase/firestore";
+import { useState, useEffect, useCallback } from "react";
+import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import { useAuthContext } from "@/context/AuthContext";
 import { IHerosError } from "@/types/globals/types";
 import { db } from "../firebase";
@@ -39,7 +39,7 @@ const converter = {
     fromFirestore: (snap: QueryDocumentSnapshot) =>
     ({
         id: snap?.id,
-        ...snap?.data()
+        ...snap?.data() as CareerJourney
     })
 }
 
@@ -91,4 +91,98 @@ export function useAddCareerJourneys(): AddCareerJourneyResult {
         error,
         addJourneys
     };
+}
+
+export interface MutationState {
+    success: boolean,
+    error: null | IHerosError,
+    loading: boolean
+}
+
+export function useGetCareerJourney(id: string) {
+    const [mutationStatus, setMutationStatus] = useState<MutationState>({
+        success: false,
+        error: null,
+        loading: false
+    })
+    const [journey, loading, error] = useDocumentData(
+        id ? doc(db, 'careerJourneys', id).withConverter(converter) : null
+    )
+
+    const editJourney = useCallback(async (params: Partial<CareerJourney>) => {
+        try {
+            const docRef = doc(db, "careerJourneys", id);
+            setMutationStatus(c => ({ ...c, loading: true }))
+            await updateDoc(docRef, params);
+            setMutationStatus(c => ({ ...c, success: true }))
+            return null
+        } catch (error) {
+            setMutationStatus(c => ({ ...c, error: { data: error } }))
+            console.log({ error })
+        } finally {
+            setMutationStatus(c => ({ ...c, loading: false }))
+        }
+    }, [id])
+
+    const deleteJourney = useCallback(async () => {
+        try {
+            const docRef = doc(db, "careerJourneys", id);
+            setMutationStatus(c => ({ ...c, loading: true }))
+            //await updateDoc(docRef, { deletedAt: serverTimestamp() });
+            await deleteDoc(docRef)
+            setMutationStatus(c => ({ ...c, success: true }))
+        } catch (error) {
+            setMutationStatus(c => ({ ...c, error: { data: error } }))
+            console.log("Delete Journey", { error })
+        } finally {
+            setMutationStatus(c => ({ ...c, loading: false }))
+        }
+
+    }, [id])
+
+    return {
+        edit: {
+            ...mutationStatus,
+            editJourney,
+        },
+        get: {
+            loading,
+            journey,
+            error,
+        },
+        delete: {
+            ...mutationStatus,
+            deleteJourney,
+        }
+    }
+}
+
+export function useAddCareerJourney() {
+    const { user } = useAuthContext()
+    const [add, setAdd] = useState<MutationState>({
+        success: false,
+        error: null,
+        loading: false
+    })
+
+    const addJourney = useCallback(async (params: CareerJourney) => {
+        if (!user) return
+        try {
+            setAdd(c => ({ ...c, loading: true }))
+            const collectionRef = collection(db, "careerJourneys");
+            await addDoc(collectionRef, { ...params, uid: user?.uid });
+            setAdd(c => ({ ...c, success: true }))
+        } catch (error) {
+            setAdd(c => ({ ...c, error: { data: error } }))
+            console.log(error)
+        } finally {
+            setAdd(c => ({ ...c, loading: false }))
+        }
+
+    }, [user])
+
+    return {
+        ...add,
+        addJourney,
+    }
 }

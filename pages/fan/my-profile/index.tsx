@@ -1,46 +1,28 @@
+import AthleteFanSettings from "@/components/ui/Settings";
+import { useAuthContext } from "@/context/AuthContext";
+import { useLoading } from "@/hooks/useLoading";
+import { useUser } from "@/hooks/useUser";
+import FanDashboardLayout from "@/layouts/FanDashboard";
+import { auth } from "@/libs/firebase";
 import { Box, Container, Image, Text } from "@chakra-ui/react";
-import { ReactElement } from "react";
-import { signOut } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import FanDashboardLayout from "@/layouts/FanDashboard";
-import { setToken } from "@/libs/axiosInstance";
-import AthleteFanSettings from "@/components/ui/Settings";
-import { profile, useProfileQuery, useSignOutMutation } from "@/api/user";
-import { useLoading } from "@/hooks/useLoading";
-import { $http } from "@/libs/http";
-import { getImageLink } from "@/utils/link";
-import { useAppSelector, wrapper } from "@/store";
-import { IGuards } from "@/types/globals/types";
-import { fanAuthGuard } from "@/middleware/fanGuard";
-import { setTokenToStore } from "@/utils/auth";
-import { useUser } from "@/hooks/useUser";
+import { ReactElement } from "react";
+import { useSignOut } from "react-firebase-hooks/auth";
 
 const MyProfile = () => {
   const { isFan } = useUser();
-  const { data: user } = useProfileQuery("");
+  const { user, userProfile } = useAuthContext();
   const { start, finish } = useLoading();
-  const [userSignOut] = useSignOutMutation();
-  const refreshToken = useAppSelector((state) => state.appState.refreshToken);
+  const [signOut] = useSignOut(auth);
   const router = useRouter();
 
   const onSignOut = async () => {
     try {
       start();
-
-      await Promise.all([
-        userSignOut({ refreshToken }).unwrap(),
-        signOut({
-          redirect: false,
-        }),
-        $http({
-          baseURL: "",
-          url: `/api/remove-authorization`,
-        }),
-      ]);
-
-      router.push("/").then(finish);
-      setToken(undefined);
+      await signOut();
+      router.push("/");
+      finish();
     } catch (error) {
       finish();
     }
@@ -72,7 +54,7 @@ const MyProfile = () => {
             <Image
               w={{ base: "60px", lg: "80px" }}
               h={{ base: "60px", lg: "80px" }}
-              src={getImageLink(user?.avatar)}
+              src={userProfile?.avatar}
               alt="user-avatar"
               objectFit="cover"
               rounded="full"
@@ -80,7 +62,7 @@ const MyProfile = () => {
               fallbackSrc="/images/DefaultAvaCircle.png"
             />
             <Text fontWeight={700} flex={1} color="grey.0">
-              {user?.firstName} {user?.lastName}
+              {userProfile?.firstName} {userProfile?.lastName}
             </Text>
           </Box>
         </Container>
@@ -88,11 +70,11 @@ const MyProfile = () => {
 
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <AthleteFanSettings
-          email={user?.email ?? ""}
-          isLoginWithFacebook={user?.signInMethod === "FACEBOOK"}
-          isLoginWithGoogle={user?.signInMethod === "GOOGLE"}
-          name={`${user?.firstName} ${user?.lastName}`}
-          type={user?.role ?? undefined}
+          email={userProfile?.email ?? ""}
+          isLoginWithFacebook={user?.providerId === "facebook.com"}
+          isLoginWithGoogle={user?.providerId === "google.com"}
+          name={`${userProfile?.firstName} ${userProfile?.lastName}`}
+          type={userProfile?.profileType ?? undefined}
           onSignOut={onSignOut}
         />
       </Container>
@@ -104,18 +86,3 @@ export default MyProfile;
 MyProfile.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => (context) => {
-    setTokenToStore(store, context);
-    store.dispatch(profile.initiate(""));
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

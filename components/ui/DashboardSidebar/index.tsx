@@ -2,7 +2,7 @@ import { Box, BoxProps, useUpdateEffect } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useAuthContext } from "@/context/AuthContext";
 import {
   HomeIcon,
   HomeActive,
@@ -40,7 +40,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   ...props
 }) => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { userProfile } = useAuthContext();
   const [tab, setTab] = useState<string>(router.pathname ?? "");
 
   const menuList: INavItem[] = [
@@ -59,7 +59,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       itemName: "Notifications",
       activeIcon: <NotificationActive w={6} h={6} />,
       show: true,
-      disabled: session?.user.role === ADMIN_ROLE,
+      disabled: userProfile?.profileType === ADMIN_ROLE,
       path:
         role === ATHLETE_ROLE ? "/athlete/notification" : "/fan/notification",
     },
