@@ -24,6 +24,19 @@ export interface MembershipTier {
   uid: string
 }
 
+export interface MembershipTierParams {
+  name: string
+  type: MembershipTierType
+  tierDescription: string
+  monthlyPrice: number
+  benefits: {
+    label: string
+    key: string
+  }[]
+  totalFan?: number
+  uid: string
+}
+
 const converter = {
   toFirestore: (data: any) => data,
   fromFirestore: (snap: QueryDocumentSnapshot) =>{

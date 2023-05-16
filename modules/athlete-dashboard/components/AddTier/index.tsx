@@ -28,6 +28,7 @@ import {
 } from "@/hooks/useSubscriptionForm";
 import {
   MembershipTier,
+  MembershipTierParams,
   MembershipTierType,
   useMembershipTiersAsMaker,
 } from "@/libs/dtl/membershipTiers";
@@ -103,17 +104,15 @@ const AddTier: React.FC<IProp> = ({
       };
 
       if (title === "Edit Tier" && typeof idEdit === "string" && idEdit) {
-        const updateParams: Partial<MembershipTier> = {
+        const updateParams = {
           ...data,
-        };
+        } as Partial<MembershipTierParams>;
         await updateSubscription(idEdit, updateParams);
       } else {
-        const addParams: MembershipTier = {
+        const addParams: Partial<MembershipTier> = {
           ...data,
           uid: user?.uid,
-          stripePriceTierId: "", // TODO: add stripe price tier id
-          stripeProductId: "", // TODO: add stripe product id
-        };
+        } as MembershipTierParams;
         await addSubscription(addParams);
       }
     },

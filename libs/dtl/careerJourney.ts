@@ -1,7 +1,6 @@
-import { query, collection, where, getCountFromServer, addDoc, QueryDocumentSnapshot, doc, updateDoc, serverTimestamp, FieldValue } from "firebase/firestore";
+import { query, collection, where, getCountFromServer, addDoc, QueryDocumentSnapshot, doc, updateDoc, serverTimestamp, FieldValue, deleteDoc } from "firebase/firestore";
 import { useState, useEffect, useCallback } from "react";
-import { useCollectionData, useDocument, useDocumentData } from "react-firebase-hooks/firestore";
-import { set } from "immer/dist/internal";
+import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import { useAuthContext } from "@/context/AuthContext";
 import { IHerosError } from "@/types/globals/types";
 import { db } from "../firebase";
@@ -129,7 +128,8 @@ export function useGetCareerJourney(id: string) {
         try {
             const docRef = doc(db, "careerJourneys", id);
             setMutationStatus(c => ({ ...c, loading: true }))
-            await updateDoc(docRef, { deletedAt: serverTimestamp() });
+            //await updateDoc(docRef, { deletedAt: serverTimestamp() });
+            await deleteDoc(docRef)
             setMutationStatus(c => ({ ...c, success: true }))
         } catch (error) {
             setMutationStatus(c => ({ ...c, error: { data: error } }))

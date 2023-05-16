@@ -7,13 +7,15 @@ import { Nationality } from "./nationalities"
 
 export interface User {
   avatar?: string
-  dateOfBirth?: Date
+  dateOfBirth?: Date | string
   gender?: number
   fullname: string
   firstName: string
+  email: string
   lastName: string
   middleName?: string
   isFinishOnboarding: boolean
+  isFirstLogin: boolean
   uid?: string
   nationality: Nationality
   isFinishSetupAccount?: boolean
@@ -38,6 +40,8 @@ export function useUploadAvatarToUser() {
       }
     } catch (error) {
       console.log({ error })
+    } finally {
+      setIsLoading(false)
     }
   }
 

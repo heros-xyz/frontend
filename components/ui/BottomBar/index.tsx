@@ -1,6 +1,8 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useAuthContext } from "@/context/AuthContext";
+
 import {
   HomeIcon,
   HomeActive,
@@ -14,7 +16,6 @@ import {
   ProfileActive,
 } from "@/components/svg/Navigate";
 import { ACTIVE_PATHS, ADMIN_ROLE, ATHLETE_ROLE } from "@/utils/constants";
-import { useAuthContext } from "@/context/AuthContext";
 import MenuItem from "../MenuItem";
 
 interface BottomBarProps {

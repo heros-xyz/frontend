@@ -34,7 +34,7 @@ export const colors = {
     500: "#5B30F9",
   },
   gradient: {
-    dark: "linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(avatar-angela-beaver.jpg)",
+    dark: "linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))",
     primary:
       "linear-gradient(137.89deg, #1E16C1 15.14%, #298ADA 49.2%, #33EFEF 88.63%)",
   },
