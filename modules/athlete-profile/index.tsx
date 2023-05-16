@@ -68,8 +68,6 @@ const AthleteProfile = () => {
     withDefault(NumberParam, 0)
   );
 
-  console.log({ basicInfo });
-
   return (
     <Box as="section" bg="white" minH="100vh">
       <Flex as="header" alignItems="center" gap="5" position="relative" p={5}>
