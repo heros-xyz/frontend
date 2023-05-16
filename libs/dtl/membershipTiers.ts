@@ -6,7 +6,7 @@ import { MutationState } from "./careerJourney";
 
 const MembershipTierCollectionName = "membershipTiers"
 
-export type MembershipTierType = "GOLD" | "BRONCE"
+export type MembershipTierType = "GOLD" | "BRONZE"
 
 export interface MembershipTier {
   id?: string

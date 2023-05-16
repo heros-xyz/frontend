@@ -84,17 +84,15 @@ const AddTier: React.FC<IProp> = ({
         return;
       }
 
-      // TODO: check benefits interface save on firestore
       const {
         monthlyPrice,
         listBenefitsId: benefits,
         tierDescription,
-        ...newValues
       } = values;
 
       const data = {
         name: "Bronze Tier",
-        type: "BRONCE" as MembershipTierType,
+        type: "BRONZE" as MembershipTierType,
         monthlyPrice: parseFloat(monthlyPrice),
         benefits: benefits?.map((key) => ({
           key,
@@ -125,31 +123,6 @@ const AddTier: React.FC<IProp> = ({
     setBenefitData(dataEdit?.listBenefitsId || []);
     setBenefit(dataEdit?.listBenefitsId || []);
   }, [dataEdit]);
-
-  /*
-  useUpdateEffect(() => {
-    if (submitCount % 2 === 0 && isValid && benefitData?.length > 0) {
-      const { monthlyPrice, ...newValue } = values;
-      console.log("MUTATION");
-      if (title === "Edit Tier" && idEdit) {
-        return;
-        updateSubscription(idEdit, {
-          id: idEdit,
-          name: "Bronze Tier",
-          monthlyPrice: parseFloat(monthlyPrice),
-          ...newValue,
-        });
-      } else {
-        return;
-        addSubscription({
-          name: "Bronze Tier",
-          monthlyPrice: parseFloat(monthlyPrice),
-          ...newValue,
-        });
-      }
-    }
-  }, [submitCount]);
-  */
 
   useUpdateEffect(() => {
     if (successAdd) {
