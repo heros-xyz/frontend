@@ -48,7 +48,7 @@ const AthleteProfile = () => {
   };
   const basicInfo = {
     nickName: athleteProfile?.nickName,
-    dateOfBirth: userProfile?.birthday,
+    dateOfBirth: userProfile?.dateOfBirth,
     firstName: userProfile?.firstName,
     gender: userProfile?.gender,
     lastName: userProfile?.lastName,

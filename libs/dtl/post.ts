@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { collection, doc, getDocs, getDoc, onSnapshot, query, QueryDocumentSnapshot, where, addDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDocs, getDoc, onSnapshot, query, QueryDocumentSnapshot, where, addDoc, updateDoc, getCountFromServer } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useUploadFile } from "react-firebase-hooks/storage";
 import { useAuthContext } from "@/context/AuthContext";
@@ -20,6 +20,7 @@ export interface Post {
   media: PostMedia[]
   reactionCount?: number
   commentCount?: number
+  totalCommentCount: number
   liked?: boolean
   uid?: string
 }
@@ -73,12 +74,10 @@ export const usePostsAsMaker = (loadData = true) => {
           type: media.type,
           url: ""
         };
-
         const uploadTask = await uploadFile(storageRef, media.file)
         if (uploadTask) {
           result.url = await getDownloadURL(uploadTask?.ref)
         }
-
         return result
       }))
 
@@ -96,8 +95,18 @@ export const usePostsAsMaker = (loadData = true) => {
     if (!user || !user.uid || !loadData) return
     const q = query(collection(db, "post"), where("uid", "==", user?.uid)).withConverter(converter)
     getDocs(q)
-      .then((snapshot) => {
-        serData(snapshot.docs.map(d => d.data()))
+      .then(async (snapshot) => {
+        // contar likes y reactions para cada post
+        const posts = snapshot.docs.map(d => d.data())
+
+        for (const post of posts) {
+          const queryComments = query(collection(db, "comments"), where("post", "==", post.id)).withConverter(converter)
+          //const queryReactions = query(collection(db, "comments"), where("post", "==", )).withConverter(converter)
+          const totalCommentsCount = (await getCountFromServer(queryComments)).data().count
+          post.totalCommentCount = totalCommentsCount
+        }
+
+        serData(posts)
       })
       .finally(() => setLoading(false))
     return onSnapshot(q, (snapshot) => {
