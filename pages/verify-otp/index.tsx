@@ -18,30 +18,38 @@ const VerifyOtp = () => {
   const [otp, setOtp] = useState("");
   const [today] = useState(new Date());
   const { userProfile } = useAuthContext();
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string|undefined>(undefined)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
 
   const diffCount = useMemo(() => {
     if (typeof query.time !== "string") return 0;
 
     const diff = (+query.time - new Date().getTime()) / 1000;
+    console.log("Query Time", query.time);
+    console.log("Today", today);
     return diff <= 0 ? 0 : +diff.toFixed();
   }, [query.time, today]);
 
   const handleVerify = async (otp: string) => {
-    setLoading(true)
-    console.log(query)
-    debugger
-    httpsCallable(functions, 'auth-verify')({otp, email: query.email})
-      .then(({data}) => signInWithCustomToken(auth, data as string))
+    setLoading(true);
+    console.log(query);
+    httpsCallable(
+      functions,
+      "auth-verify"
+    )({ otp, email: query.email })
+      .then(({ data }) => signInWithCustomToken(auth, data as string))
       .catch((error) => setError(error.message))
-      .finally(()=>setLoading(false))
+      .finally(() => setLoading(false));
   };
 
-  const resendOtp = () => httpsCallable(functions, 'auth-signin')({email: query.email})
-    .then(({data}) => signInWithCustomToken(auth, data as string))
-    .catch((error) => setError(error.message))
-    .finally(()=>setLoading(false))
+  const resendOtp = () =>
+    httpsCallable(
+      functions,
+      "auth-signin"
+    )({ email: query.email })
+      .then(({ data }) => signInWithCustomToken(auth, data as string))
+      .catch((error) => setError(error.message))
+      .finally(() => setLoading(false));
 
   useEffect(() => {
     if (userProfile) {
