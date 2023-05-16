@@ -17,15 +17,22 @@ import { Else, If, Then } from "react-if";
 import { useState } from "react";
 import { useUpdateEffect } from "react-use";
 import { useRouter } from "next/router";
+import { useFormik } from "formik";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import AddArchiveIcon from "@/components/svg/AddArchiveIcon";
 import EditPencilIcon from "@/components/svg/EditPencilIcon";
 import {
-  useAddSubscriptionInfoMutation,
-  useUpdateSubscriptionInfoMutation,
-} from "@/api/athlete";
-import { useSubscriptionForm } from "@/hooks/useSubscriptionForm";
+  initialAddTierValues,
+  validationAddTierSchema,
+} from "@/hooks/useSubscriptionForm";
+import {
+  MembershipTier,
+  MembershipTierParams,
+  MembershipTierType,
+  useMembershipTiersAsMaker,
+} from "@/libs/dtl/membershipTiers";
+import { useAuthContext } from "@/context/AuthContext";
 
 interface IProp {
   title: string;
@@ -48,20 +55,66 @@ const AddTier: React.FC<IProp> = ({
   listBenefit,
 }) => {
   const router = useRouter();
+  const { user } = useAuthContext();
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [benefit, setBenefit] = useState<string | string[]>([]);
   const [benefitData, setBenefitData] = useState<string | string[]>([]);
   const [edited, setEdited] = useState<boolean>(false);
+  const {
+    create: {
+      create: addSubscription,
+      success: successAdd,
+      loading: loadingAdd,
+    },
+    update: {
+      update: updateSubscription,
+      loading: loadingUpdate,
+      success: successUpdate,
+    },
+    loading,
+  } = useMembershipTiersAsMaker();
 
-  const [addSubscription, { isLoading: loadingAdd, isSuccess: successAdd }] =
-    useAddSubscriptionInfoMutation();
-  const [
-    updateSubscription,
-    { isLoading: loadingUpdate, isSuccess: successUpdate },
-  ] = useUpdateSubscriptionInfoMutation();
+  const formik = useFormik({
+    initialValues: initialAddTierValues,
+    validationSchema: validationAddTierSchema,
+    onSubmit: async (values) => {
+      if (!user?.uid) return;
+      if (benefitData?.length <= 0) {
+        setSubmitted(true);
+        return;
+      }
 
-  const { formik, isValid, submitCount, values, handleSubmit } =
-    useSubscriptionForm();
+      const {
+        monthlyPrice,
+        listBenefitsId: benefits,
+        tierDescription,
+      } = values;
+
+      const data = {
+        name: "Bronze Tier",
+        type: "BRONZE" as MembershipTierType,
+        monthlyPrice: parseFloat(monthlyPrice),
+        benefits: benefits?.map((key) => ({
+          key,
+          label: listBenefit.find((benefit) => benefit.value === key)?.label,
+        })),
+        tierDescription,
+      };
+
+      if (title === "Edit Tier" && typeof idEdit === "string" && idEdit) {
+        const updateParams = {
+          ...data,
+        } as Partial<MembershipTierParams>;
+        await updateSubscription(idEdit, updateParams);
+      } else {
+        const addParams: Partial<MembershipTier> = {
+          ...data,
+          uid: user?.uid,
+        } as MembershipTierParams;
+        await addSubscription(addParams);
+      }
+    },
+  });
 
   useUpdateEffect(() => {
     formik.setFieldValue("monthlyPrice", dataEdit?.monthlyPrice);
@@ -70,26 +123,6 @@ const AddTier: React.FC<IProp> = ({
     setBenefitData(dataEdit?.listBenefitsId || []);
     setBenefit(dataEdit?.listBenefitsId || []);
   }, [dataEdit]);
-
-  useUpdateEffect(() => {
-    if (submitCount % 2 === 0 && isValid && benefitData?.length > 0) {
-      const { monthlyPrice, ...newValue } = values;
-      if (title === "Edit Tier" && idEdit) {
-        updateSubscription({
-          id: idEdit,
-          name: "Bronze Tier",
-          monthlyPrice: parseFloat(monthlyPrice),
-          ...newValue,
-        });
-      } else {
-        addSubscription({
-          name: "Bronze Tier",
-          monthlyPrice: parseFloat(monthlyPrice),
-          ...newValue,
-        });
-      }
-    }
-  }, [submitCount]);
 
   useUpdateEffect(() => {
     if (successAdd) {
@@ -381,6 +414,7 @@ const AddTier: React.FC<IProp> = ({
                   type="checkbox"
                   defaultValue={benefitData}
                   onChange={(value) => {
+                    console.log({ value });
                     setBenefit(value);
                   }}
                 >
@@ -426,10 +460,6 @@ const AddTier: React.FC<IProp> = ({
               fontWeight={"bold"}
               type="submit"
               fontSize={{ base: "md", xl: "xl" }}
-              onClick={() => {
-                setSubmitted(true);
-                handleSubmit();
-              }}
               isLoading={loadingAdd || loadingUpdate}
               _hover={{}}
             >

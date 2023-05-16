@@ -12,19 +12,31 @@ import { useEffect, useMemo } from "react";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 import MyStory from "@/components/ui/Athlete/Profile/MyStory";
 import { getGender } from "@/utils/functions";
-import { IBasicInfo, ISportProfile } from "@/types/athlete/types";
 import { getEnvVariables } from "@/utils/env";
+import { Nationality } from "@/libs/dtl/nationalities";
 
 interface IProfileProps {
-  basicInfo: IBasicInfo | undefined;
+  basicInfo:
+    | {
+        nickName: string | undefined;
+        dateOfBirth: string | Date | number | undefined;
+        firstName: string | undefined;
+        gender: string | number | undefined;
+        middleName: string | undefined;
+        nationality: Nationality | undefined;
+        story: string | undefined;
+      }
+    | undefined;
   sportProfile:
     | {
-        currentTeam: string;
-        goal: string;
-        sport: {
-          label: string;
-          key: string;
-        };
+        currentTeam: string | undefined;
+        goal: string | undefined;
+        sport:
+          | {
+              label: string;
+              key: string;
+            }
+          | undefined;
       }
     | undefined;
   isEdit?: boolean;
