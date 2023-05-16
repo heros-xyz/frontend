@@ -2,7 +2,7 @@ import { Box, BoxProps, useUpdateEffect } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { useAuthContext } from "@/context/AuthContext";
 import {
   HomeIcon,
   HomeActive,

@@ -7,14 +7,22 @@ import { filterSelectOptions } from "@/utils/functions";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 import { InterestedSport } from "@/components/svg/InterestedSportFanOnBoarding";
 import { useSports } from "@/libs/dtl";
+
 interface IProp {
   isLoading: boolean;
-  onSubmit: (values: string) => void;
+  onSubmit: (
+    values: {
+      key: string;
+      label: string;
+    }[]
+  ) => void;
 }
+
 interface IItemSelect {
   label: string;
   value: string;
 }
+
 const EnterInterestedSport: React.FC<IProp> = ({ isLoading, onSubmit }) => {
   const { sportsMapped: sportsList } = useSports();
   const validationSchema = Yup.object().shape({
@@ -25,13 +33,18 @@ const EnterInterestedSport: React.FC<IProp> = ({ isLoading, onSubmit }) => {
     initialValues: {
       sports: [],
     },
+
     validationSchema: validationSchema,
+
     onSubmit: (values) => {
-      const mapValues = values.sports.map((item: IItemSelect) => item.value);
-      onSubmit(mapValues.toString());
+      const mapValues = values.sports.map((item: IItemSelect) => ({
+        key: item.value,
+        label: item.label,
+      }));
+
+      onSubmit(mapValues);
     },
   });
-
 
   return (
     <HerosOnboardingWrapperNew

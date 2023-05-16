@@ -21,12 +21,15 @@ const VerifyOtp = () => {
   const diffCount = useMemo(() => {
     if (typeof query?.time !== "string") return 0;
 
-    const diff = (+query?.time - new Date().getTime()) / 1000;
+    const diff = (+query.time - new Date().getTime()) / 1000;
+    console.log("Query Time", query.time);
+    console.log("Today", today);
     return diff <= 0 ? 0 : +diff.toFixed();
   }, [query.time, today]);
 
   const handleVerify = async (otp: string) => {
     setLoading(true);
+    console.log(query);
     httpsCallable(
       functions,
       "auth-verify"

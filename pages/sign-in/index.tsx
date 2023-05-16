@@ -22,6 +22,7 @@ import { useLoading } from "@/hooks/useLoading";
 import { auth, db, functions } from "@/libs/firebase";
 import { RoutePath } from "@/utils/route";
 import { useAuthContext } from "@/context/AuthContext";
+import { convertTimeUnit } from "@/utils/time";
 
 const SignIn = () => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const SignIn = () => {
     useSignInWithFacebook(auth);
   const [signInWithEmailError, setSignInWithEmailError] =
     useState<IHerosError>();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (authContextLoading) return;
@@ -55,23 +56,28 @@ const SignIn = () => {
   }, [router.query]);
 
   const handleSignInWithEmail = async (email: string) => {
-    setLoading(true)
-    httpsCallable(functions, 'auth-signin')({ email })
+    setLoading(true);
+    const time = convertTimeUnit("5min");
+    httpsCallable(
+      functions,
+      "auth-signin"
+    )({ email })
       .then(() =>
         router.push({
           pathname: "/verify-otp",
-          query: { email, callbackUrl },
+          query: { email, time },
         })
       )
       .catch((error) => {
         const data = {
           data: error,
-        }
-        setSignInWithEmailError(data)
-      }).finally(()=>{
-        setLoading(false)
+        };
+        setSignInWithEmailError(data);
       })
-  }
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   const handleSignInFacebook = async () => {
     try {
