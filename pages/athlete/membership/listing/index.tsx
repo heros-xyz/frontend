@@ -1,31 +1,17 @@
 import { Box, Button, Center, List, ListItem, Text } from "@chakra-ui/react";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement } from "react";
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
 import Head from "next/head";
-import { useSession } from "next-auth/react";
 import EditPencilIcon from "@/components/svg/EditPencilIcon";
-import { useGetSubscriptionInfoQuery } from "@/api/athlete";
-import { ListMembershipTiers } from "@/types/athlete/types";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
-import { useLoading } from "@/hooks/useLoading";
-import { wrapper } from "@/store";
 
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards } from "@/types/globals/types";
-import { setTokenToStore } from "@/utils/auth";
+import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
 
 const ListingMembership = () => {
   const router = useRouter();
-  const { data: session } = useSession();
-  const { start, finish } = useLoading();
-  const { data: dataTier } = useGetSubscriptionInfoQuery(
-    session?.user.id ?? "",
-    {
-      skip: !session?.user.id,
-    }
-  );
-  const [dataRender, setDataRender] = useState<ListMembershipTiers>();
+  const { data } = useMembershipTiersAsMaker();
+  const dataRender = data?.[0];
 
   const handleAdd = () => {
     router.push("/athlete/membership/add");
@@ -33,14 +19,6 @@ const ListingMembership = () => {
   const handleEdit = () => {
     router.push("/athlete/membership/edit");
   };
-
-  useEffect(() => {
-    start();
-    if (dataTier?.data) {
-      setDataRender(dataTier?.data[0]);
-      finish();
-    }
-  }, [dataTier]);
 
   return (
     <Box bg="white" minH="100vh">
@@ -123,8 +101,9 @@ const ListingMembership = () => {
                   listStyleType="disc"
                   ml="6"
                 >
-                  {dataRender?.benefits.map((el) => (
-                    <ListItem key={el?.id}>{el?.name}</ListItem>
+                  {dataRender?.benefits?.map?.((el, idx) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <ListItem key={`${el?.label}-${idx}`}>{el?.label}</ListItem>
                   ))}
                 </List>
               </Box>
@@ -208,17 +187,3 @@ export default ListingMembership;
 ListingMembership.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

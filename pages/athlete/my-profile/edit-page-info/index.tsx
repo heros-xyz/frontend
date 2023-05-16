@@ -3,7 +3,6 @@ import {
   Image,
   Center,
   Input,
-  Link,
   Text,
   Flex,
   Tag,
@@ -24,7 +23,6 @@ import {
 import Head from "next/head";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { getImageLink } from "@/utils/link";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { Close } from "@/components/svg/Close";
@@ -41,18 +39,12 @@ import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { useAuthContext } from "@/context/AuthContext";
 import { useUploadAvatarToUser } from "@/libs/dtl";
 import useUpdateDoc from "@/hooks/useUpdateDoc";
-import { useLoading } from "@/hooks/useLoading";
 
 const EditPageInfo = () => {
   const toast = useToast();
   const { athleteProfile } = useGetAthleteProfile();
   const { userProfile } = useAuthContext();
-  const pageInfo = {
-    tagLine: athleteProfile?.tagline ?? "",
-    tags: athleteProfile?.tags,
-  };
-  const { start, finish } = useLoading();
-  const error = null;
+  const [error, setError] = useState<IHerosError | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [input, setInput] = useState("");
@@ -92,7 +84,7 @@ const EditPageInfo = () => {
     onSubmit: async (values) => {
       setIsLoading(true);
       try {
-        const { nickName, tagLine, avatar, ...newValues } = values;
+        const { nickName, tagLine } = values;
 
         if (!!fileSubmit) {
           const avatarUrl = await uploadAvatar(fileSubmit as unknown as File);
@@ -112,12 +104,20 @@ const EditPageInfo = () => {
         );
         setIsSuccess(true);
       } catch (error) {
+        setError({ data: error } as IHerosError);
         setIsSuccess(false);
       } finally {
         setIsLoading(false);
       }
     },
   });
+
+  useEffect(() => {
+    console.log("cambios", formik.dirty);
+    if (isSuccess) {
+      setIsSuccess(false);
+    }
+  }, [formik.dirty]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value.replaceAll(/[^a-zA-Z0-9]/g, ""));
@@ -229,6 +229,7 @@ const EditPageInfo = () => {
                 fontWeight="500"
                 fontSize={["sm", "lg"]}
                 onChange={formik.handleChange}
+                con
                 value={formik?.values?.nickName}
                 isInvalid={Boolean(
                   formik.errors.nickName && formik.touched.nickName
@@ -322,6 +323,7 @@ const EditPageInfo = () => {
                 fontWeight={500}
                 fontSize={["sm", "lg"]}
                 onChange={formik.handleChange}
+                con
                 value={formik?.values?.tagLine}
                 isInvalid={Boolean(
                   formik.errors.tagLine && formik.touched.tagLine
