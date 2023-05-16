@@ -17,7 +17,6 @@ import {
 } from "@/components/svg/Navigate";
 import LogoSidebar from "@/components/svg/LogoSidebar";
 import { ACTIVE_PATHS, ADMIN_ROLE, ATHLETE_ROLE } from "@/utils/constants";
-import { useAuthContext } from "@/context/AuthContext";
 import MenuItem from "../MenuItem";
 
 interface DashboardSidebarProps extends BoxProps {

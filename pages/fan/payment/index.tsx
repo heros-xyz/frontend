@@ -17,7 +17,7 @@ import { setTokenToStore } from "@/utils/auth";
 
 const PaymentInfo = () => {
   const router = useRouter();
-  const { data: paymentInfoList } = useGetPaymentInfoQuery("");
+  // const { data: paymentInfoList } = useGetPaymentInfoQuery("");
 
   const handleAdd = () => {
     router.push("/fan/payment/update");
@@ -25,6 +25,19 @@ const PaymentInfo = () => {
 
   const handleBack = () => {
     router.push("/fan/my-profile");
+  };
+
+  const fakePaymentMethod = {
+    id: "1",
+    createdAt: "2021-09-01",
+    updatedAt: "2021-09-01",
+    nameOnCard: "yoadsofij",
+    cardNumber: "1234567891234567",
+    expiredDate: "09/21",
+    cvv: "123",
+    country: "afghanistan",
+    postCode: "123456",
+    cardType: "visa",
   };
 
   return (
@@ -39,11 +52,7 @@ const PaymentInfo = () => {
         <PaymentWallet
           onSubmit={handleAdd}
           onBack={handleBack}
-          paymentData={
-            paymentInfoList && paymentInfoList.length
-              ? paymentInfoList[0]
-              : undefined
-          }
+          paymentData={undefined}
         />
       </Container>
     </Box>
@@ -54,19 +63,3 @@ export default PaymentInfo;
 PaymentInfo.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-    store.dispatch(getPaymentInfo.initiate(""));
-    await Promise.all(store.dispatch(getRunningQueriesThunk()));
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

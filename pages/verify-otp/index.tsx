@@ -14,7 +14,7 @@ const VerifyOtp = () => {
   const { query, push } = useRouter();
   const [otp] = useState("");
   const [today] = useState(new Date());
-  const { userProfile } = useAuthContext();
+  const { userProfile, user } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
@@ -49,7 +49,7 @@ const VerifyOtp = () => {
       .finally(() => setLoading(false));
 
   useEffect(() => {
-    if (userProfile) {
+    if (userProfile && !!user?.uid) {
       if (userProfile?.profileType === "FAN") {
         push(
           userProfile?.isFinishOnboarding
@@ -66,7 +66,7 @@ const VerifyOtp = () => {
         );
       }
     }
-  }, [userProfile]);
+  }, [userProfile, user]);
 
   return (
     <Box>
