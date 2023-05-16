@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { collection, getDocs, onSnapshot, query, QueryDocumentSnapshot, where } from "firebase/firestore";
+import { current } from "@reduxjs/toolkit";
 import { useAuthContext } from "@/context/AuthContext";
 import { db } from "@/libs/firebase";
+import { MutationState } from "./careerJourney";
 export interface Payment {
   id?: string
   paymentMethodId: string
@@ -23,12 +25,30 @@ const converter = {
 
 export const usePaymentMethod = () => {
   const { user } = useAuthContext()
-  const create = useCallback(async (post: Payment) => {
-    if (!user || !user.uid) return
-    //Llama a la fucnion de withdrawal
-  }, [user?.uid])
   const [loading, setLoading] = useState(true);
   const [data, serData] = useState<Payment[]>([]);
+  const [mutationCreate, setMutationCreate] = useState<MutationState>({
+    success: false,
+    loading: false,
+    error: null
+  })
+
+
+  const create = useCallback(async (post: Payment) => {
+    if (!user || !user.uid) return
+    try {
+      setMutationCreate(current => ({ ...current, loading: true }))
+      // crear doc en firestore
+      setMutationCreate(current => ({ ...current, success: true }))
+    } catch (error) {
+      setMutationCreate(current => ({ ...current, success: false, error: { data: error } }))
+    } finally {
+      setMutationCreate(current => ({ ...current, loading: false }))
+    }
+
+    //Llama a la fucnion de create pago
+  }, [user?.uid])
+
 
   useEffect(() => {
     if (!user || !user.uid) return
@@ -43,5 +63,5 @@ export const usePaymentMethod = () => {
     });
   }, [user?.uid]);
 
-  return { create, loading, data }
+  return { create: { create, ...mutationCreate }, loading, data }
 }

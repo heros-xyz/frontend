@@ -1,15 +1,20 @@
 import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { FormikContext } from "formik";
+import { FormikContext, useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useUpdateEffect } from "react-use";
 import { If, Then } from "react-if";
 import PaymentForm from "@/components/payment/PaymentForm";
-import { usePaymentForm } from "@/hooks/usePaymentForm";
+import {
+  defaultValue,
+  usePaymentForm,
+  validationSchema,
+} from "@/hooks/usePaymentForm";
 import {
   useAddPaymentInfoMutation,
   useUpdatePaymentInfoMutation,
 } from "@/api/fan";
+import { usePaymentMethod } from "@/libs/dtl/payment";
 import { initialChangepayment } from "../../constants";
 interface IProp {
   idAthleteTier?: string;
@@ -30,8 +35,35 @@ const ChangePayment: React.FC<IProp> = ({
   setErrorCode,
 }) => {
   const router = useRouter();
+  const {
+    create: {
+      success: addSuccess,
+      loading: loadingAdd,
+      error: errorAdd,
+      create: addPayment,
+    },
+  } = usePaymentMethod();
+
+  /*
   const { formik, isValid, submitCount, values, handleSubmit } =
     usePaymentForm();
+    */
+  const formik = useFormik({
+    initialValues: defaultValue,
+    validationSchema,
+    onSubmit: async (values) => {
+      console.log("submit", values);
+      if (idUpdate) {
+        console.log("update");
+        //updatePayment({ id: idUpdate, ...values });
+      } else {
+        console.log("add");
+        //addPayment(values);
+      }
+    },
+    validateOnMount: true,
+  });
+
   const [errorCard, setErrorCard] = useState<boolean>(false);
   const [errorData, setErrorData] = useState<
     | {
@@ -40,15 +72,19 @@ const ChangePayment: React.FC<IProp> = ({
       }
     | {}
   >();
+  /*
   const [
     addPayment,
     { isSuccess: addSuccess, isLoading: loadingAdd, error: errorAdd },
-  ] = useAddPaymentInfoMutation();
+  ] = usePaymentMethod();
+  */
+
   const [
     updatePayment,
     { isSuccess: updateSuccess, isLoading: loadingUpdate, error: errorUpdate },
   ] = useUpdatePaymentInfoMutation();
 
+  /*
   useEffect(() => {
     if (submitCount && isValid) {
       if (idUpdate) {
@@ -58,6 +94,7 @@ const ChangePayment: React.FC<IProp> = ({
       }
     }
   }, [submitCount]);
+  */
 
   useUpdateEffect(() => {
     if (!!errorAdd) {
@@ -124,7 +161,7 @@ const ChangePayment: React.FC<IProp> = ({
               if (loadingAdd || loadingUpdate || isError) {
                 return;
               } else {
-                handleSubmit();
+                formik.handleSubmit();
               }
             }}
           >
