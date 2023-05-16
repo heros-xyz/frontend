@@ -22,11 +22,6 @@ import { useFormik } from "formik";
 import { If, Then } from "react-if";
 import { useUpdateEffect } from "react-use";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
-import {
-  useDeleteMilestoneMutation,
-  useEditMilestoneMutation,
-  useGetMilestoneQuery,
-} from "@/api/athlete";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import DateSelect from "@/components/ui/DateSelect";
 import ErrorMessage from "@/components/common/ErrorMessage";
@@ -38,55 +33,63 @@ import {
   initialValues,
   validationSchema,
 } from "@/modules/athlete-onboarding/career-journey/constants";
-import { wrapper } from "@/store";
 
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards, IHerosError } from "@/types/globals/types";
-import { setTokenToStore } from "@/utils/auth";
+import { IHerosError } from "@/types/globals/types";
+import {
+  useAddCareerJourney,
+  useGetCareerJourney,
+} from "@/libs/dtl/careerJourney";
+import { useAuthContext } from "@/context/AuthContext";
 
 const EditMilestone = () => {
   const router = useRouter();
+  const { user } = useAuthContext();
   const toast = useToast();
   const [iconCheck, setIconCheck] = useState<string | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data: milestoneData } = useGetMilestoneQuery(
-    router.query.id as string,
-    { skip: typeof router.query.id !== "string" || router.query.id === "0" }
-  );
-  const [
-    editMilestone,
-    { isLoading: loadingEdit, isSuccess: successEdit, error },
-  ] = useEditMilestoneMutation();
-  const [
-    deleteMilestone,
-    { isLoading: loadingDelete, isSuccess: successDelete },
-  ] = useDeleteMilestoneMutation();
+  const {
+    get: { loading: loadingJourney, journey: milestoneData },
+    edit: { editJourney, error, loading: loadingEdit, success: successEdit },
+    delete: {
+      loading: loadingDelete,
+      success: successDelete,
+      deleteJourney: deleteMilestone,
+    },
+  } = useGetCareerJourney(router?.query?.id as string);
+  const {
+    addJourney,
+    loading: loadingAdd,
+    success: successAdd,
+  } = useAddCareerJourney();
+
   const formik = useFormik({
     initialValues: milestoneData ?? initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      if (!loadingEdit && !successEdit) {
+    onSubmit: async (values) => {
+      if (!loadingEdit && !successEdit && user?.uid) {
         const editData = {
-          isPeriodDate: values.isPeriodDate,
-          startDate: values.startDate,
+          isPeriodDate: values?.isPeriodDate,
+          startDate: values?.startDate,
           endDate: values.isPeriodDate ? values.endDate : "",
           icon: values.icon,
           title: values.title,
           description: values.description ?? "",
+          uid: user?.uid,
         };
         if (router.query.id === "0") {
-          editMilestone(editData);
+          await addJourney(editData);
         } else {
-          editMilestone({ id: router.query.id as string, ...editData });
+          await editJourney(editData);
         }
       }
     },
   });
+
   useUpdateEffect(() => {
-    if (router.query.id === "0" && successEdit) {
+    if (router.query.id === "0" && (successEdit || successAdd)) {
       router.push("/athlete/my-profile/edit-journey");
     }
-  }, [successEdit]);
+  }, [successEdit, successAdd]);
 
   useEffect(() => {
     setIconCheck(milestoneData?.icon ?? null);
@@ -94,7 +97,7 @@ const EditMilestone = () => {
     formik.setFieldValue("title", milestoneData?.title);
     formik.setFieldValue("endDate", milestoneData?.endDate ?? "");
     formik.setFieldValue("description", milestoneData?.description ?? "");
-    formik.setFieldValue("startDate", milestoneData?.startDate);
+    formik.setFieldValue("startDate", milestoneData?.startDate ?? "");
     formik.setFieldValue("isPeriodDate", milestoneData?.endDate ? true : false);
   }, [milestoneData]);
 
@@ -105,9 +108,10 @@ const EditMilestone = () => {
 
   const handleDelete = () => {
     if (!loadingDelete) {
-      deleteMilestone(router.query.id as string);
+      deleteMilestone();
     }
   };
+
   useUpdateEffect(() => {
     if (successDelete) {
       router.push("/athlete/my-profile/edit-journey");
@@ -123,6 +127,10 @@ const EditMilestone = () => {
       });
     }
   }, [error]);
+
+  if (loadingJourney) {
+    return null;
+  }
 
   return (
     <Box px={{ base: 5, lg: 0 }} bg="white" minH="100vh" position="relative">
@@ -388,6 +396,7 @@ const EditMilestone = () => {
                   mt={2}
                   type="submit"
                   fontSize={{ base: "md", xl: "xl" }}
+                  isLoading={loadingEdit || loadingAdd}
                 >
                   SAVE
                 </Button>
@@ -422,6 +431,7 @@ const EditMilestone = () => {
             cancel="Cancel"
             onCancel={onClose}
             onSubmit={handleDelete}
+            isLoading={loadingDelete}
           />
         </ModalContent>
       </Modal>
@@ -434,17 +444,3 @@ export default EditMilestone;
 EditMilestone.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

@@ -62,7 +62,7 @@ const EditBasicInfo = () => {
     validationSchema,
     onSubmit: async (values) => {
       const updateUserParams: Partial<User> = {
-        birthday: values?.dateOfBirth,
+        dateOfBirth: values?.dateOfBirth,
         firstName: values?.firstName,
         middleName: values?.middleName,
         gender: Number(values.gender),
