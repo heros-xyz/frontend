@@ -58,10 +58,10 @@ export const AuthContextProvider = ({
       return;
     }
     if (!user) {
-      console.log("NO ESTAS REGISTRADOOOOOO");
+      console.log("User NOT authenticated");
       router.push(RoutePath.SIGN_IN);
     } else {
-      console.log("Estas Registradooooo");
+      console.log("user authenticated");
     }
   }, [user, loading, userProfile]);
 
