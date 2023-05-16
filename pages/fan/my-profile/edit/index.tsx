@@ -455,7 +455,7 @@ const EditAccountInfo = () => {
                 >
                   SAVE
                 </Button>
-                {success && false && (
+                {success && (
                   <Text color={"#65D169"} fontSize={["xs", "md"]}>
                     Changes Saved
                   </Text>
