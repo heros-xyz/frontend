@@ -18,6 +18,7 @@ export interface User {
   nationality: Nationality
   isFinishSetupAccount?: boolean
   profileType: "FAN" | "ATHLETE"
+  stripeCustomer?: string
 }
 
 export function useUploadAvatarToUser() {
