@@ -24,6 +24,7 @@ interface OnboardingProps extends BoxProps {
   submitLoading?: boolean;
   isSuccessPage?: boolean;
   isDisabled?: boolean;
+  onSkipForNow?: () => void;
 }
 const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
   title,
@@ -38,6 +39,7 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
   bgIconColor,
   isSuccessPage,
   isDisabled,
+  onSkipForNow,
   ...props
 }) => {
   const [bgIcon, setBgIcon] = useState<string>();
@@ -60,13 +62,17 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
     >
       <Box
         position={{ xl: "fixed" }}
-        textAlign={{ base: "center", xl: "left" }}
+        textAlign={{
+          base: "center",
+          xl: !!Icon || !!ImagePreview ? "left" : "center",
+        }}
         fontWeight="extrabold"
         fontSize={{ base: "xs", xl: "xl" }}
         height="10%"
         pt={{ base: 5, lg: 16 }}
-        pl={{ xl: "130px" }}
+        pl={{ xl: !!Icon || !!ImagePreview ? "130px" : 0 }}
         color="primary"
+        w="full"
       >
         {title}
       </Box>
@@ -133,6 +139,7 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
                 ml={{ xl: !!Icon || !!ImagePreview ? "130px" : "auto" }}
                 mr={{ xl: !!Icon || !!ImagePreview ? "80px" : "auto" }}
                 w={{ xl: !!Icon || !!ImagePreview ? "" : "750px" }}
+                id="children"
               >
                 {children}
                 <If condition={!!ImagePreview}>
@@ -166,6 +173,21 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
                         </Box>
                       </Button>
                     </Box>
+                    {onSkipForNow && (
+                      <Flex justifyContent="flex-end" mt={5}>
+                        <Button
+                          variant="link"
+                          color="grey.300"
+                          textDecoration="underline"
+                          display={{ base: "none", xl: "flex" }}
+                          fontSize="xl"
+                          onClick={onSkipForNow}
+                          mr={5}
+                        >
+                          Skip for now
+                        </Button>
+                      </Flex>
+                    )}
                   </Then>
                   <Else>
                     <Box justifyContent={"flex-end"} mt={"5"} display={"flex"}>
@@ -175,23 +197,38 @@ const HerosOnboardingWrapperNew: React.FC<OnboardingProps> = ({
                 </If>
               </Box>
             </Box>
-            {textButton && (
-              <Button
-                variant="primary"
-                w="100%"
-                h="48px"
-                display={{ base: "flex", xl: "none" }}
-                onClick={onSubmit}
-                fontSize={{ base: "md", xl: "xl" }}
-                isLoading={submitLoading}
-                isDisabled={isDisabled}
-              >
-                {textButton}
-                <Box as="span" ml={3}>
-                  {IconButton}
-                </Box>
-              </Button>
-            )}
+            <Box>
+              {textButton && (
+                <Button
+                  variant="primary"
+                  w="100%"
+                  h="48px"
+                  display={{ base: "flex", xl: "none" }}
+                  onClick={onSubmit}
+                  fontSize={{ base: "md", xl: "xl" }}
+                  isLoading={submitLoading}
+                  isDisabled={isDisabled}
+                >
+                  {textButton}
+                  <Box as="span" ml={3}>
+                    {IconButton}
+                  </Box>
+                </Button>
+              )}
+              {onSkipForNow && (
+                <Center w="full" mt={5}>
+                  <Button
+                    variant="link"
+                    color="grey.300"
+                    textDecoration="underline"
+                    display={{ base: "block", xl: "none" }}
+                    onClick={onSkipForNow}
+                  >
+                    Skip for now
+                  </Button>
+                </Center>
+              )}
+            </Box>
           </Box>
         </Flex>
       </Container>

@@ -46,8 +46,7 @@ const AddTags = () => {
       >
         <Text mb={{ base: 1.5 }}>
           Help people find you easier by adding keywords related to you and your
-          content. Tags will not be visible to fans on your profile page.
-          Separate tags by comma.
+          content.
         </Text>
         <Text as="b">Ideas for you: #sport, #athlete,...</Text>
       </Box>

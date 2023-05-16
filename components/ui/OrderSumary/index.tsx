@@ -38,6 +38,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           alt="image"
           rounded="full"
           objectFit="cover"
+          fallbackSrc="/images/DefaultAvaCircle.png"
         />
         <Box px={2.5}>
           <Heading as="span" fontSize="md" fontWeight={500}>
@@ -88,7 +89,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         <Text fontSize={{ base: "sm", lg: "lg" }}>{price}</Text>
       </Flex>
       <Text py={2.5} gap={2.5} fontSize="sm" fontWeight={500}>
-        Renews automatically on {dateRenew}
+        Next payment due on {dateRenew}
       </Text>
       <Box
         mb={8}

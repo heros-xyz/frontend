@@ -220,13 +220,7 @@ const AddMilestone: React.FC<IProp> = ({ values, onSubmit }) => {
             >
               Make your milestone even more interesting!
             </Box>
-            <Grid
-              templateColumns={{
-                base: "repeat(2, 1fr)",
-                xl: "repeat(4, 1fr)",
-              }}
-              gap={{ base: 2, xl: 7 }}
-            >
+            <Grid templateColumns="repeat(2, 1fr)" gap={{ base: 2, xl: 7 }}>
               {SPORT_ICONS_MOCK.map((el) => {
                 return (
                   <GridItem

@@ -7,7 +7,7 @@ import {
   useOnboardingBasicInformationMutation,
 } from "@/api/athlete";
 import { updateSession } from "@/utils/auth";
-import { isValidDate } from "@/utils/functions";
+import { isValidDate } from "@/utils/time";
 import { IHerosError } from "@/types/globals/types";
 import { useAuthContext } from "@/context/AuthContext";
 import { mapToBasicInformation } from "@/libs/dtl/basicInformation";

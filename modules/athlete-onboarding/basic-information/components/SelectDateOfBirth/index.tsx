@@ -37,7 +37,7 @@ const SelectDateOfBirth: React.FC<IProp> = ({ onSubmit }) => {
       textButton="Proceed"
       IconButton={<ArrowRight />}
       onSubmit={submitForm}
-      title="Basic Information"
+      title="Personal Information"
       bgIconColor="accent.4"
     >
       <Box mb={{ base: 4, lg: 20 }} color="primary">

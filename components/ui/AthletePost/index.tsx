@@ -82,7 +82,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
   const [reaction, setReaction] = useState<boolean>(liked);
   const [totalReaction, setTotalReaction] = useState<number>(postLikes);
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
-  const [isOpenEdit, setisOpenEdit] = useState<boolean>(false);
+  const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
   const [onReaction, { data: reactionData, isLoading: isReactionLoading }] =
     useReactionInteractionMutation();
   const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
@@ -99,7 +99,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
 
   useUpdateEffect(() => {
     if (!isLoading) {
-      setisOpenEdit(false);
+      setIsOpenEdit(false);
       onUpdated && onUpdated();
     }
   }, [isLoading]);
@@ -324,7 +324,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
       <Drawer
         isOpen={isOpenEdit}
         placement="top"
-        onClose={() => setisOpenEdit(false)}
+        onClose={() => setIsOpenEdit(false)}
       >
         <DrawerContent>
           <FormikContext.Provider value={formik}>
@@ -337,7 +337,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                   isEdit
                   isLoading={isLoading}
                   handleSubmit={handleSubmitUpdate}
-                  onBack={() => setisOpenEdit(false)}
+                  onBack={() => setIsOpenEdit(false)}
                 />
               </Container>
             </Box>

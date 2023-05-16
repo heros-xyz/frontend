@@ -2,11 +2,12 @@ import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 import PostDetail from "@/modules/athlete-profile/interactions/post-detail/PostDetail";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
 import { getAthleteInteractionDetail, getRunningQueriesThunk } from "@/api/fan";
 import { getFocusComment, getRunningQueriesThunkAthlete } from "@/api/athlete";
+import { setTokenToStore } from "@/utils/auth";
 
 export default function PostDetailPage() {
   return (
@@ -21,7 +22,7 @@ export default function PostDetailPage() {
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    setContext(context);
+    setTokenToStore(store, context);
 
     if (typeof context.query.view === "string") {
       store.dispatch(getAthleteInteractionDetail.initiate(context.query.view));

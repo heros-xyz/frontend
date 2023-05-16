@@ -2,6 +2,7 @@ import { getCookie } from "cookies-next";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { $http } from "@/libs/http";
 import { getEnvVariables } from "@/utils/env";
+import { REFRESH_TOKEN_KEY } from "@/utils/constants";
 
 const { HEROS_BASE_URL } = getEnvVariables();
 export default async function handler(
@@ -13,10 +14,13 @@ export default async function handler(
     return;
   }
 
-  const refreshToken = getCookie("_Auth.refresh-token", {
+  const refreshToken = getCookie(REFRESH_TOKEN_KEY, {
     req,
     res,
     path: "/",
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    sameSite: "lax",
   });
 
   if (!refreshToken) return;

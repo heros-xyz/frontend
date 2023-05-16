@@ -8,6 +8,7 @@ import {
 import { getServerSession } from "next-auth/next";
 import { nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 import { RoutePath } from "@/utils/route";
+import { ATHLETE_ROLE, FAN_ROLE } from "@/utils/constants";
 
 export const guestGuard = async (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
@@ -21,7 +22,7 @@ export const guestGuard = async (
     nextAuthOptions(req as NextApiRequest, res as NextApiResponse)
   );
 
-  if (session && session.user.role === "ATHLETE" && !session.user.isActive) {
+  if (session && session.user.role === ATHLETE_ROLE && !session.user.isActive) {
     return {
       redirect: {
         destination: RoutePath.ATHLETE_SETUP_ACCOUNT,
@@ -30,7 +31,7 @@ export const guestGuard = async (
     };
   }
 
-  if (session && session.user.role === "ATHLETE" && !session.user.isFinishOnboarding) {
+  if (session && session.user.role === ATHLETE_ROLE && !session.user.isFinishOnboarding) {
     return {
       redirect: {
         destination: RoutePath.ATHLETE_CHECKLIST,
@@ -39,7 +40,7 @@ export const guestGuard = async (
     };
   }
 
-  if (session && session.user.role === "ATHLETE") {
+  if (session && session.user.role === ATHLETE_ROLE) {
     return {
       redirect: {
         destination: RoutePath.ATHLETE_PROFILE,
@@ -48,7 +49,7 @@ export const guestGuard = async (
     };
   }
 
-  if (session && session.user.role === "FAN" && !session.user.isActive) {
+  if (session && session.user.role === FAN_ROLE && !session.user.isActive) {
     return {
       redirect: {
         destination: RoutePath.FAN_ONBOARDING,
@@ -57,7 +58,7 @@ export const guestGuard = async (
     };
   }
 
-  if (session && session.user.role === "FAN") {
+  if (session && session.user.role === FAN_ROLE) {
     return {
       redirect: {
         destination: RoutePath.FAN_VIEW_ATHLETE_PROFILE(query.id as string),

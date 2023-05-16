@@ -50,8 +50,8 @@ exports[`renders homepage unchanged 1`] = `
             <path
               d="M1 7L5 11L15 1"
               stroke="currentcolor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               strokeWidth="2"
             />
           </svg>
@@ -81,8 +81,8 @@ exports[`renders homepage unchanged 1`] = `
             <path
               d="M1 7L5 11L15 1"
               stroke="currentcolor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               strokeWidth="2"
             />
           </svg>
@@ -112,8 +112,8 @@ exports[`renders homepage unchanged 1`] = `
             <path
               d="M1 7L5 11L15 1"
               stroke="currentcolor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               strokeWidth="2"
             />
           </svg>
@@ -143,8 +143,8 @@ exports[`renders homepage unchanged 1`] = `
             <path
               d="M1 7L5 11L15 1"
               stroke="currentcolor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               strokeWidth="2"
             />
           </svg>
@@ -174,8 +174,8 @@ exports[`renders homepage unchanged 1`] = `
             <path
               d="M1 7L5 11L15 1"
               stroke="currentcolor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               strokeWidth="2"
             />
           </svg>
@@ -205,8 +205,8 @@ exports[`renders homepage unchanged 1`] = `
             <path
               d="M1 7L5 11L15 1"
               stroke="currentcolor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               strokeWidth="2"
             />
           </svg>

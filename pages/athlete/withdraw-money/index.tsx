@@ -4,9 +4,10 @@ import Head from "next/head";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import WithdrawMoney from "@/components/payment/WithdrawMoney";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards } from "@/types/globals/types";
+import { setTokenToStore } from "@/utils/auth";
 
 const WalletWithdrawMoney = () => {
   const onsubmit = () => {};
@@ -26,8 +27,8 @@ WalletWithdrawMoney.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
+  (store) => async (context) => {
+    setTokenToStore(store, context);
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { useUpdateEffect } from "react-use";
 import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref } from 'firebase/storage';
@@ -31,7 +31,7 @@ export const useFanOnboarding = () => {
 
   const [dateOfBirth, setDateOfBirth] = useState("");
 
-  const [sportIds, setSportIds] = useState<string>("");
+  const [sportIds, setSportIds] = useState<any>([]);
 
   const handleChangeStep = (step: number) => {
     setStep(step);
@@ -57,38 +57,29 @@ export const useFanOnboarding = () => {
     setAvatar(values);
   };
 
-  const handleChangeSport = (values: string) => {
+  const handleChangeSport = (values: {
+    key: string;
+    label: string;
+  }[]) => {
     handleChangeStep(TOTAL_STEP);
     setSportIds(values);
   };
 
-  const fanOnboardingParams = useMemo(() => {
-    return {
-      ...fullNameState,
-      avatar,
-      gender,
-      sportIds,
-      dateOfBirth,
-    };
-  }, [sportIds, avatar, dateOfBirth, gender, fullNameState]);
-
   useUpdateEffect(() => {
-
     if (!user) return;
-
-
     if (step === TOTAL_STEP) {
 
-      const userData: User = {
+      const userData: Partial<User> = {
         fullname: `${fullNameState.firstName} ${fullNameState.lastName}`,
         firstName: fullNameState.firstName,
         lastName: fullNameState.lastName,
         isFinishOnboarding: true,
-        birthday: new Date(dateOfBirth),
+        dateOfBirth: dateOfBirth,
+        isFirstLogin: true,
         gender: +gender
       }
-      const fanProfileData: FanProfile = {
-        sport: sportIds.split(',')
+      const fanProfileData: Partial<FanProfile> = {
+        sports: sportIds
       };
 
       (async () => {

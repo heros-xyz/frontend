@@ -9,7 +9,7 @@ import UploadProfileImage from "@/modules/fan-onboarding/components/SelectProfil
 import EnterInterestedSport from "@/modules/fan-onboarding/components/SelectInterestedSport";
 import FinishOnboarding from "@/modules/fan-onboarding/components/FinishOnboarding";
 import { useFanOnboarding } from "@/modules/fan-onboarding/hooks/setup-account";
-import { setContext } from "@/libs/axiosInstance";
+
 import { wrapper } from "@/store";
 import { fanSetupAccountGuard } from "@/middleware/fanSetupAccount";
 import { IGuards } from "@/types/globals/types";
@@ -76,15 +76,11 @@ const FanOnboarding = () => {
             w={{ base: "100%", lg: "unset" }}
             textAlign="center"
           >
-            <If condition={step < 6}>
-              <Then>
-                <Step
-                  activeStep={step}
-                  totalStep={5}
-                  onChangeStep={handleChangeStep}
-                />
-              </Then>
-            </If>
+            {step < 6 && <Step
+              activeStep={step}
+              totalStep={5}
+              onChangeStep={handleChangeStep}
+            />}
           </Box>
         </Then>
         <Else>

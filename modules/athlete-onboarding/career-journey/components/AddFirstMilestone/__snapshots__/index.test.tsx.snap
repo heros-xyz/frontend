@@ -230,8 +230,8 @@ exports[`renders homepage unchanged 1`] = `
                       <path
                         d="M16 11V16M16 16V21M16 16H21M16 16H11M31 16C31 24.2843 24.2843 31 16 31C7.71573 31 1 24.2843 1 16C1 7.71573 7.71573 1 16 1C24.2843 1 31 7.71573 31 16Z"
                         stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         strokeWidth="1.5"
                       />
                     </svg>
@@ -263,8 +263,8 @@ exports[`renders homepage unchanged 1`] = `
                       <path
                         d="M1 5.5L11 5.5M11 5.5L6.5 1M11 5.5L6.5 10"
                         stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                       />
                     </svg>
                   </span>
@@ -290,8 +290,8 @@ exports[`renders homepage unchanged 1`] = `
                 <path
                   d="M1 5.5L11 5.5M11 5.5L6.5 1M11 5.5L6.5 10"
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </span>

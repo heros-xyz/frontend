@@ -6,6 +6,7 @@ import { userApi } from "@/api/user";
 import { athleteApi } from "@/api/athlete";
 import { fanApi } from "@/api/fan";
 import { globalApi } from "@/api/global";
+import { adminApi } from "@/api/admin";
 import globalSlice from "./globalSlice";
 
 export const store = configureStore({
@@ -15,6 +16,7 @@ export const store = configureStore({
     [athleteApi.reducerPath]: athleteApi.reducer,
     [fanApi.reducerPath]: fanApi.reducer,
     [globalApi.reducerPath]: globalApi.reducer,
+    [adminApi.reducerPath]: adminApi.reducer,
   },
   devTools: true,
   middleware: (gDM) => {
@@ -22,7 +24,8 @@ export const store = configureStore({
       userApi.middleware,
       athleteApi.middleware,
       fanApi.middleware,
-      globalApi.middleware
+      globalApi.middleware,
+      adminApi.middleware
     );
   },
 });

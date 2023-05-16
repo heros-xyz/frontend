@@ -37,7 +37,7 @@ import CareerJourney from "./career-journey";
 import { Interaction } from "./interactions/Interaction";
 import { Profile } from "./profile";
 
-const TABS = ["Profile", "Interactions", "Career Journey", "Memberships"];
+const TABS = ["Profile", "Interactions", "Career Journey", "Subscribe"];
 
 const AthleteProfile = () => {
   const { userProfile } = useAuthContext();
@@ -78,6 +78,7 @@ const AthleteProfile = () => {
           alt="user-avatar"
           rounded="full"
           objectFit="cover"
+          fallbackSrc="/images/DefaultAvaCircle.png"
         />
         <Box w="full" flex={1}>
           <Flex w="full" justifyContent="space-between" alignItems="center">

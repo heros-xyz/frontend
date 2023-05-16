@@ -2,25 +2,30 @@ import {
   Box,
   BoxProps,
   Flex,
-  Image,
   Text,
   useOutsideClick,
   WrapItem,
   keyframes,
   usePrefersReducedMotion,
+  useDisclosure,
+  CloseButton,
 } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import { Else, If, Then } from "react-if";
 import { useRouter } from "next/router";
-import { isMobileOnly } from "react-device-detect";
 import { useReactionCommentMutation } from "@/api/fan";
 import { Heart } from "@/components/svg/CommentHeart";
 import { CommentIcon } from "@/components/svg/CommentIcon";
 import { Dots } from "@/components/svg/Dots";
 import { ReplyIcon } from "@/components/svg/Reply";
-import { getDateFromNow } from "@/utils/functions";
+import { getDateFromNow } from "@/utils/time";
 import { getImageLink } from "@/utils/link";
+import { useDevice } from "@/hooks/useDevice";
+import { ATHLETE_ROLE } from "@/utils/constants";
+import { useDeleteCommentMutation } from "@/api/admin";
+import DeleteCommentModal from "@/components/modal/DeleteCommentModal";
+import HerosImage from "@/components/common/HerosImage";
 import { Comment } from "../List/index.stories";
 
 const spin = keyframes`
@@ -33,8 +38,10 @@ interface CommentProps extends BoxProps {
   isReply: boolean;
   isAuthorComment?: boolean;
   showActions?: boolean;
+  isAdmin?: boolean;
   handleReply?: () => void;
   onClickComment?: () => void;
+  refetchTotalComment?: () => void;
 }
 
 const CommentItem: React.FC<CommentProps> = ({
@@ -43,21 +50,33 @@ const CommentItem: React.FC<CommentProps> = ({
   commentId,
   isReply,
   showActions = true,
+  isAdmin,
   handleReply,
   onClickComment,
   ...props
 }) => {
   const {
     query: { commentId: commentIdFocused },
+    reload,
   } = useRouter();
+  const { isMobile } = useDevice();
+  const {
+    isOpen: isOpenDeleteCommentModal,
+    onOpen: onOpenDeleteCommentModal,
+    onClose: onCloseDeleteCommentModal,
+  } = useDisclosure();
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [showComment] = useState(true);
   const commentRef = useRef<HTMLDivElement>(null);
   const itemRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
   const [showAnimation, setAnimation] = useState(false);
   const [totalLikes, setTotalLikes] = useState<number | undefined>(0);
+
   const [reactToComment, { isSuccess, data }] = useReactionCommentMutation();
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const [deleteComment, { data: deleteCommentData }] =
+    useDeleteCommentMutation();
 
   const animation = prefersReducedMotion ? undefined : `${spin} 3s ease-in-out`;
 
@@ -74,10 +93,20 @@ const CommentItem: React.FC<CommentProps> = ({
     });
   };
 
+  const handleDeleteComment = () => {
+    deleteComment(commentId as string);
+  };
+
   useEffect(() => {
     setIsLiked(!!item.isLiked);
     setTotalLikes(item.likeCount || 0);
   }, [item]);
+
+  useEffect(() => {
+    if (deleteCommentData) {
+      reload();
+    }
+  }, [deleteCommentData]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -94,7 +123,7 @@ const CommentItem: React.FC<CommentProps> = ({
   useEffect(() => {
     if (commentIdFocused && commentId && commentIdFocused === commentId) {
       setTimeout(() => {
-        if (isMobileOnly) {
+        if (isMobile) {
           const commentInputBoxHeight = 75;
           const offsetParent = commentRef.current?.offsetParent as HTMLElement;
           const offsetTop =
@@ -121,7 +150,11 @@ const CommentItem: React.FC<CommentProps> = ({
         setAnimation(true);
       }, 200);
     }
-  }, [commentId, commentIdFocused]);
+  }, [commentId, commentIdFocused, isMobile]);
+
+  if (!showComment) {
+    return <></>;
+  }
 
   return (
     <Box
@@ -135,13 +168,10 @@ const CommentItem: React.FC<CommentProps> = ({
         justifyContent={isReply ? "flex-end" : "flex-start"}
       >
         <WrapItem pr="2" order={isReply ? 2 : 1}>
-          <Image
-            w={{ base: "32px", lg: "48px" }}
-            h={{ base: "32px", lg: "48px" }}
-            src={getImageLink(item.avatar)}
-            alt="avatar"
-            rounded="full"
-            objectFit="cover"
+          <HerosImage
+            src={getImageLink(item?.avatar)}
+            width={{ base: "32px", lg: "48px" }}
+            height={{ base: "32px", lg: "48px" }}
           />
         </WrapItem>
         <Box
@@ -174,7 +204,7 @@ const CommentItem: React.FC<CommentProps> = ({
                 my="1.5"
               >
                 <Text color="accent.2" fontWeight="extrabold" className="name">
-                  {item?.parentComment?.user?.role === "ATHLETE"
+                  {item?.parentComment?.user?.role === ATHLETE_ROLE
                     ? item.parentComment?.user?.nickName
                     : `${item?.parentComment?.user?.firstName} ${item?.parentComment?.user?.lastName}`}{" "}
                 </Text>
@@ -251,7 +281,7 @@ const CommentItem: React.FC<CommentProps> = ({
                     right={isReply ? "initial" : "-8"}
                     left={isReply ? "-8" : "initial"}
                     top="-2.5"
-                    className="reactions"
+                    className="comment-reactions"
                   >
                     <Flex px="3.5" py="2.5" justifyContent="center">
                       <ReplyIcon
@@ -270,7 +300,7 @@ const CommentItem: React.FC<CommentProps> = ({
                       />
                       <Heart
                         role="button"
-                        ml="1.5"
+                        mx="1.5"
                         onClick={handleReactToComment}
                         color="white"
                         fill={isLiked ? "white" : "none"}
@@ -281,7 +311,7 @@ const CommentItem: React.FC<CommentProps> = ({
               )}
             </AnimatePresence>
           </Box>
-          <If condition={showActions}>
+          <If condition={showActions && !isAdmin}>
             <Then>
               <Dots
                 order={isReply ? 1 : 2}
@@ -294,8 +324,33 @@ const CommentItem: React.FC<CommentProps> = ({
               />
             </Then>
           </If>
+          <If condition={isAdmin}>
+            <Then>
+              <CloseButton
+                order={isReply ? 1 : 2}
+                role="button"
+                alignSelf="center"
+                ml="2"
+                mr={isReply ? 2 : 0}
+                color="grey.100"
+                size="sm"
+                fontWeight="bold"
+                bg="accent.2"
+                onClick={onOpenDeleteCommentModal}
+              />
+            </Then>
+          </If>
         </Box>
       </Flex>
+
+      <DeleteCommentModal
+        isOpen={isOpenDeleteCommentModal}
+        onClose={onCloseDeleteCommentModal}
+        handleDeleteComment={() => {
+          handleDeleteComment();
+          onCloseDeleteCommentModal();
+        }}
+      />
     </Box>
   );
 };

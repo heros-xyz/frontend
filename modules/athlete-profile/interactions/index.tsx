@@ -11,9 +11,10 @@ import {
 } from "react";
 import { Else, If, Then } from "react-if";
 import { Waypoint } from "react-waypoint";
-import { useSearchParam, useUnmount } from "react-use";
+import { useUnmount } from "react-use";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { useGetAthleteListInteractionQuery } from "@/api/fan";
+import { useUser } from "@/hooks/useUser";
 import InteractionSection from "./components/InteractionSection";
 import { SocialInteraction } from "./components/SocialInteraction/SocialInteraction";
 import SubscribeContent from "./components/SubscribeContent";
@@ -33,9 +34,8 @@ const Interactions: FC<IInteractionsProps> = ({
   athleteNickname,
 }) => {
   const router = useRouter();
-
-  const { id, filter: filterdTag } = router.query;
-
+  const { isAdmin } = useUser();
+  const { id, filter: filteredTag } = router.query;
   const [page, setPage] = useState(1);
   const [tag, setTag] = useState("");
   const tagSectionRef = useRef<HTMLDivElement>(null);
@@ -63,15 +63,16 @@ const Interactions: FC<IInteractionsProps> = ({
       setPage(1);
       setInteractionList([]);
       setTag(tagName);
+      setTimeout(onGoToTag, 100);
     } else {
       onGoToTag();
     }
   };
 
-  const navigateToPostDetail = useCallback((view: string) => {
+  const navigateToPostDetail = useCallback((view: string, focus?: boolean) => {
     router.push({
       pathname: "[id]/interaction",
-      query: { id, view, focus: true },
+      query: { id, view, ...(focus && { focus }) },
     });
   }, []);
 
@@ -95,7 +96,7 @@ const Interactions: FC<IInteractionsProps> = ({
   };
 
   useEffect(() => {
-    filterdTag && setTag(filterdTag as string);
+    filteredTag && setTag(filteredTag as string);
   }, []);
 
   useEffect(() => {
@@ -131,7 +132,7 @@ const Interactions: FC<IInteractionsProps> = ({
             </Text>
             <TagButton
               onClose={() => {
-                filterdTag && handleRemoveQuery();
+                filteredTag && handleRemoveQuery();
                 handleFilterPostsByTag("");
               }}
             >
@@ -142,9 +143,15 @@ const Interactions: FC<IInteractionsProps> = ({
         </Then>
       </If>
 
-      {!validateIsFan && (
-        <SubscribeContent athleteName={athleteNickname} onClick={onSubscribe} />
-      )}
+      <If condition={!validateIsFan && !isAdmin}>
+        <Then>
+          <SubscribeContent
+            athleteName={athleteNickname}
+            onClick={onSubscribe}
+          />
+        </Then>
+      </If>
+
       <If condition={interactionsList.length}>
         <Then>
           {interactionsList?.map(
@@ -155,18 +162,19 @@ const Interactions: FC<IInteractionsProps> = ({
                   <InteractionSection
                     validateIsFan={validateIsFan}
                     navigateToPostsByTag={handleFilterPostsByTag}
-                    navigateToPostDetail={() =>
-                      navigateToPostDetail(interactionPost.id)
-                    }
+                    navigateToPostDetail={() => {
+                      navigateToPostDetail(interactionPost.id);
+                    }}
                     {...interactionPost}
                   />
                   <If condition={interactionPost.isAccessRight}>
                     <Then>
                       <SocialInteraction
                         postId={interactionPost.id}
-                        handleComment={() =>
-                          navigateToPostDetail(interactionPost.id)
-                        }
+                        isAdmin={isAdmin}
+                        handleComment={(focus) => {
+                          navigateToPostDetail(interactionPost.id, focus);
+                        }}
                         reactionCount={interactionPost.reactionCount}
                         liked={interactionPost.liked}
                       />

@@ -1,6 +1,8 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useAuthContext } from "@/context/AuthContext";
+
 import {
   HomeIcon,
   HomeActive,
@@ -13,12 +15,12 @@ import {
   ProfileIcon,
   ProfileActive,
 } from "@/components/svg/Navigate";
-import { ACTIVE_PATHS } from "@/utils/constants";
+import { ACTIVE_PATHS, ADMIN_ROLE, ATHLETE_ROLE } from "@/utils/constants";
 import MenuItem from "../MenuItem";
 
 interface BottomBarProps {
   tabValue?: string;
-  role: "FAN" | "ATHLETE";
+  role: "FAN" | "ATHLETE" | "ADMIN";
 }
 
 interface INavItem {
@@ -27,11 +29,13 @@ interface INavItem {
   itemName: string;
   activeIcon: ReactNode;
   show: boolean;
+  disabled: boolean;
   path: string;
 }
 
 const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
   const router = useRouter();
+  const { userProfile } = useAuthContext();
   const [tab, setTab] = useState<string>(router.pathname ?? "");
 
   const menuList: INavItem[] = [
@@ -41,7 +45,8 @@ const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
       itemName: "Home",
       activeIcon: <HomeActive />,
       show: true,
-      path: role === "ATHLETE" ? "/athlete" : "/fan",
+      disabled: false,
+      path: role === ATHLETE_ROLE ? "/athlete" : "/fan",
     },
     {
       id: "noti",
@@ -49,7 +54,9 @@ const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
       itemName: "Notifications",
       activeIcon: <NotificationActive />,
       show: true,
-      path: role === "ATHLETE" ? "/athlete/notification" : "/fan/notification",
+      disabled: userProfile?.profileType === ADMIN_ROLE,
+      path:
+        role === ATHLETE_ROLE ? "/athlete/notification" : "/fan/notification",
     },
     {
       id: "interaction",
@@ -57,14 +64,17 @@ const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
       itemName: "Interactions",
       activeIcon: <InteractionsActive />,
       show: true,
-      path: role === "ATHLETE" ? "/athlete/interactions" : "/fan/interactions",
+      disabled: false,
+      path:
+        role === ATHLETE_ROLE ? "/athlete/interactions" : "/fan/interactions",
     },
     {
       id: "fan",
       Icon: <MyfanIcon />,
       itemName: "My Fans",
       activeIcon: <MyfansActive />,
-      show: role === "ATHLETE",
+      show: role === ATHLETE_ROLE,
+      disabled: false,
       path: "/athlete/my-fan",
     },
     {
@@ -73,7 +83,8 @@ const BottomBar: React.FC<BottomBarProps> = ({ role }) => {
       itemName: "My Profile",
       activeIcon: <ProfileActive />,
       show: true,
-      path: role === "ATHLETE" ? "/athlete/my-profile" : "/fan/my-profile",
+      disabled: false,
+      path: role === ATHLETE_ROLE ? "/athlete/my-profile" : "/fan/my-profile",
     },
   ];
 

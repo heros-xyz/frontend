@@ -11,11 +11,11 @@ import React, { FC, useState } from "react";
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 import BronzeTier from "@/components/ui/Bronze";
 import { IMembershipTier } from "@/types/membership/types";
-import DeleteSubscription from "@/components/ui/DeleteSubscription";
 import SubscribeAthlete from "@/components/ui/SubscribeAthlete";
+import { ADMIN_ROLE } from "@/utils/constants";
+import { useUser } from "@/hooks/useUser";
 interface IMembershipSubscribeProps {
   listMembershipTiers: IMembershipTier[];
   validateIsFan?: boolean;
@@ -27,12 +27,12 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
   athleteNickname,
 }) => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { user, isAdmin } = useUser();
   const [membershipTierId, setMembershipTierId] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onSubscribe = () => {
-    if (!session) {
+    if (!user) {
       onOpen();
       return;
     }
@@ -97,25 +97,33 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
         <Then>
           <BronzeTier
             title="Bronze"
-            disbaled={!!validateIsFan}
+            disabled={!!validateIsFan || user?.role === ADMIN_ROLE}
             // checked={!!validateIsFan}
             checked={true}
-            hasRadioButton
+            hasRadioButton={!isAdmin}
             data={listMembershipTiers?.[0] || []}
             onChange={onSelectBronzeTier}
           />
 
-          <Box textAlign={{ lg: "right" }}>
-            <Button
-              isDisabled={!membershipTierId || validateIsFan}
-              variant="secondary"
-              mt={6}
-              w={{ base: "100%", xl: "fit-content" }}
-              onClick={() => onSubscribe()}
-            >
-              {validateIsFan ? "change tier" : "Subscribe"}
-            </Button>
-          </Box>
+          <If condition={!isAdmin}>
+            <Then>
+              <Box textAlign={{ lg: "right" }}>
+                <Button
+                  isDisabled={
+                    !membershipTierId ||
+                    validateIsFan ||
+                    user?.role === ADMIN_ROLE
+                  }
+                  variant="secondary"
+                  mt={6}
+                  w={{ base: "100%", xl: "fit-content" }}
+                  onClick={() => onSubscribe()}
+                >
+                  {validateIsFan ? "change tier" : "Subscribe"}
+                </Button>
+              </Box>
+            </Then>
+          </If>
         </Then>
         <Else>
           <Box

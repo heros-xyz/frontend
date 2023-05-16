@@ -37,7 +37,7 @@ export const useComments = ({
   const [nextOffset, setNextOffset] = useState(offset);
   const [isLoadAllComment, setIsLoadAllComment] = useState(false);
   const [isLoadFirstComment, setIsLoadFirstComment] = useState(false);
-  const [commenttedIdList, setCommenttedIdList] = useState<string[]>([]);
+  const [commentedIdList, setCommentedIdList] = useState<string[]>([]);
   const [replyingTo, setReplyingTo] = useState<IReplyingTo | undefined>(
     undefined
   );
@@ -56,12 +56,13 @@ export const useComments = ({
   const [replyComment, { data: replyCommentResponse }] =
     useReplyCommentMutation();
 
-  const { data: totalComments, refetch } = useGetTotalCommentsQuery(
-    { interactionId, pageInfo: { take: 1 } },
-    {
-      skip: typeof interactionId !== "string",
-    }
-  );
+  const { data: totalComments, refetch: refetchTotalComment } =
+    useGetTotalCommentsQuery(
+      { interactionId, pageInfo: { take: 1 } },
+      {
+        skip: typeof interactionId !== "string",
+      }
+    );
 
   const commentFocusedIndex = useMemo(() => {
     if (commentFocused) {
@@ -102,6 +103,11 @@ export const useComments = ({
     setOffset(prevOffset - take <= 0 ? 0 : prevOffset - take);
   };
 
+  const handleRefetchTotalComment = async () => {
+    await refetchTotalComment().unwrap();
+    setNextOffset((offset) => offset - 1);
+  };
+
   const onScrollAfterComment = () => {
     setTimeout(() => {
       if (isDesktop) {
@@ -139,11 +145,11 @@ export const useComments = ({
   }, [commentFocused, commentFocusedIndex]);
 
   useEffect(() => {
-    if (listComment) {
+    if (listComment && !isFetching) {
       // Case load more at bottom
       if (listComment.meta.offset > currentOffset) {
         const listCommentFilter = listComment.data.filter(
-          (comment) => !commenttedIdList.includes(comment.id)
+          (comment) => !commentedIdList.includes(comment.id)
         );
         setListComments((prevComments) => [
           ...prevComments,
@@ -176,7 +182,7 @@ export const useComments = ({
       setReplyingTo(undefined);
       setIsFocusOnInput(false);
       const comment = sendMessageResponse || replyCommentResponse;
-      setCommenttedIdList((prev) => [...prev, comment?.id ?? ""]);
+      setCommentedIdList((prev) => [...prev, comment?.id ?? ""]);
       onScrollAfterComment();
       bus && bus.emit("onSubmittedComment");
     }
@@ -185,7 +191,7 @@ export const useComments = ({
   useEffect(() => {
     if (sendMessageResponse) {
       setListComments((prevComments) => [...prevComments, sendMessageResponse]);
-      refetch();
+      refetchTotalComment();
     }
   }, [sendMessageResponse]);
 
@@ -195,7 +201,7 @@ export const useComments = ({
         ...prevComments,
         replyCommentResponse,
       ]);
-      refetch();
+      refetchTotalComment();
     }
   }, [replyCommentResponse]);
 
@@ -213,6 +219,7 @@ export const useComments = ({
     isLoadAllComment,
     isLoadFirstComment,
     offset,
+    handleRefetchTotalComment,
     setOffset,
     setTake,
     setListComments,

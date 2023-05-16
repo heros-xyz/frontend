@@ -7,6 +7,7 @@ import AuthTemplate from "@/components/ui/AuthTemplate";
 import { functions } from "@/libs/firebase";
 import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
+import { convertTimeUnit } from "@/utils/time";
 
 const AthleteSignUp = () => {
   const [callSignup, isLoading, signUpWithEmailError] = useHttpsCallable(
@@ -24,10 +25,10 @@ const AthleteSignUp = () => {
       };
       const res = await callSignup(params);
       console.log("Respuesta", res);
-
+      const time = convertTimeUnit("5min");
       router.push({
         pathname: "/verify-otp",
-        query: { email },
+        query: { email, time },
       });
     } catch (error) {
       console.log(error);

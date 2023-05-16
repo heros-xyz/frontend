@@ -1,5 +1,7 @@
 import {
   Box,
+  Button,
+  Center,
   Tab,
   TabList,
   TabPanel,
@@ -19,13 +21,14 @@ import MembershipSubscribe from "@/modules/athlete-profile/membership";
 import CareerJourney from "@/modules/athlete-profile/career-journey";
 import { useAthleteProfile } from "@/hooks/useAthleteProfile";
 import FanOnlyModal from "@/components/modal/FanOnlyModal";
+import { useUser } from "@/hooks/useUser";
 
 interface IFanAthleteProfileProps {
   showFindHeros?: boolean;
   athleteProfile: IAthleteProfileResponse | undefined;
 }
 
-const TABS = ["Profile", "Interactions", "Career Journey", "Memberships"];
+const TABS = ["Profile", "Interactions", "Career Journey", "Subscribe"];
 
 const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
   showFindHeros = true,
@@ -33,6 +36,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
+  const { isAdmin, user } = useUser();
   const { query, pathname } = router;
   const {
     basicInfo,
@@ -56,7 +60,6 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
       });
     }
   };
-
   useEffect(() => {
     if (query.showJoinNow) {
       onOpen();
@@ -69,6 +72,17 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
       });
     }
   }, []);
+
+  const onSubscribe = () => {
+    handleSubscribe();
+    onClickDownButton();
+  };
+
+  useEffect(() => {
+    if (currentTab === 3 && !isAdmin) {
+      onClickDownButton();
+    }
+  }, [query, isAdmin]);
 
   return (
     <Box
@@ -94,6 +108,8 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
         countryCode={basicInfo?.nationality?.twoLetterCode ?? ""}
         sport={athleteProfile?.sport ?? ""}
         onClickDownButton={onClickDownButton}
+        onSubscribe={!validateIsFan ? onSubscribe : undefined}
+        role={user?.role}
       />
       <Tabs
         onChange={setCurrentTab}
@@ -163,6 +179,22 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
           </TabPanel>
           <TabPanel p="unset" px={{ base: 5, xl: "unset" }}>
             <CareerJourney data={journeyData} isEdit={false} />
+            <If condition={!validateIsFan && !isAdmin}>
+              <Then>
+                <Center w="full" justifyContent={{ xl: "right" }}>
+                  <Button
+                    bg="secondary"
+                    color="primary"
+                    w={{ base: "full", xl: "auto" }}
+                    onClick={onSubscribe}
+                    _hover={{}}
+                    fontSize={{ xl: "xl" }}
+                  >
+                    Subscribe
+                  </Button>
+                </Center>
+              </Then>
+            </If>
           </TabPanel>
           <TabPanel p={{ xl: "unset" }} px={{ base: 5, xl: "unset" }}>
             <MembershipSubscribe

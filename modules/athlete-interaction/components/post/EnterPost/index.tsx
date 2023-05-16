@@ -57,11 +57,7 @@ const EnterPost = () => {
   };
 
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (
-      (e.key === "Enter" || e.key === ",") &&
-      !!inputValueTag &&
-      inputValueTag.length <= 25
-    ) {
+    if (e.key === "Enter" && !!inputValueTag && inputValueTag.length <= 25) {
       const newArrTag = [...values.tags, inputValueTag.trim()];
       if (values.tags.includes(inputValueTag)) {
         setInputValueTag("");
@@ -139,7 +135,7 @@ const EnterPost = () => {
             <Input
               variant="flushed"
               fontSize="sm"
-              placeholder="Add tags, use comma to separate"
+              placeholder="Add tags"
               borderColor="primary"
               onKeyDown={handleKeyDown}
               disabled={values?.tags?.length >= 50}

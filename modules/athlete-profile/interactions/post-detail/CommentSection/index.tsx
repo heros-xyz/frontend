@@ -1,11 +1,12 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect } from "react";
 import { If, Then } from "react-if";
 import CommentItem from "@/components/ui/Comment/Item";
 import { useComments } from "@/hooks/useComments";
 import LoadMoreSkeleton from "@/components/ui/AthletePost/LoadMoreSkeleton";
 import { useDevice } from "@/hooks/useDevice";
+import { useUser } from "@/hooks/useUser";
 import CommentField from "../../components/CommentField";
 import { SocialInteraction } from "../../components/SocialInteraction/SocialInteraction";
 import { IAthleteInteraction } from "../../constants";
@@ -21,6 +22,7 @@ export interface IReplyingTo {
 const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
   const router = useRouter();
   const { isMobile } = useDevice();
+  const { isAdmin } = useUser();
   const { view: postId, id: authorId, focus } = router.query;
 
   const {
@@ -33,6 +35,7 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
     isLoadFirstComment,
     isLoadAllComment,
     scrollRef,
+    handleRefetchTotalComment,
     handleSendMessage,
     replyComment,
     setReplyingTo,
@@ -87,6 +90,8 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
         <SocialInteraction
           liked={liked}
           postId={postId}
+          isAdmin={isAdmin}
+          isInDetailPage
           reactionCount={reactionCount}
           commentsCount={totalComments ?? 0}
           handleComment={() => handleFocusOnInput(true)}
@@ -151,6 +156,8 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
                   createdAt,
                   nickName,
                 }}
+                refetchTotalComment={handleRefetchTotalComment}
+                isAdmin={isAdmin}
               />
             )
           )}
@@ -167,14 +174,19 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
         />
       </Flex>
 
-      <CommentField
-        isLoading={isLoading}
-        isReplying={replyingTo}
-        isFocused={isFocusOnInput}
-        onCancelReply={handleCancelReply}
-        onSubmitComment={handleSubmitComment}
-        isUnfocused={() => handleFocusOnInput(false)}
-      />
+      <If condition={!isAdmin}>
+        <Then>
+          <CommentField
+            isLoading={isLoading}
+            isReplying={replyingTo}
+            disabled={isAdmin}
+            isFocused={isFocusOnInput}
+            onCancelReply={handleCancelReply}
+            onSubmitComment={handleSubmitComment}
+            isUnfocused={() => handleFocusOnInput(false)}
+          />
+        </Then>
+      </If>
     </Flex>
   );
 };

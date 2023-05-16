@@ -6,18 +6,20 @@ import { getVideoLink } from "@/utils/link";
 import { useDevice } from "@/hooks/useDevice";
 interface HerosVideoProps extends BoxProps {
   url: string;
-  spinerSize?: string;
+  spinnerSize?: string;
+  showLoading?: boolean;
   vidRef?: LegacyRef<HTMLVideoElement>;
 }
 
 const HerosVideo: React.FC<HerosVideoProps> = ({
   url,
-  spinerSize = "sm",
+  spinnerSize = "sm",
   vidRef,
   ...props
 }) => {
   const { isMobile } = useDevice();
   const [loading, setLoading] = useState(true);
+
   return (
     <Box {...props} position="relative" w="full" h="full">
       <If condition={loading}>
@@ -37,7 +39,7 @@ const HerosVideo: React.FC<HerosVideoProps> = ({
             right={0}
             zIndex={2}
           >
-            <Spinner color="accent.2" size={spinerSize} />
+            <Spinner color="accent.2" size={spinnerSize} />
           </Box>
         </Then>
       </If>
@@ -57,7 +59,8 @@ const HerosVideo: React.FC<HerosVideoProps> = ({
             }}
             onLoadedData={() => setLoading(false)}
           >
-            <source src={url} />
+            <source src={url} type="video/mp4" />
+            Your browser does not support the video tag.
           </video>
         </Then>
         <Else>

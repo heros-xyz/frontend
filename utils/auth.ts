@@ -1,12 +1,24 @@
 import { getCookie, setCookie } from "cookies-next";
-import { NextApiRequest, NextApiResponse } from "next";
+import {
+  GetServerSidePropsContext,
+  NextApiRequest,
+  NextApiResponse,
+} from "next";
 import { signOut } from "next-auth/react";
 import { IAuthResponse, IToken } from "@/types/users/types";
 import { $http } from "@/libs/http";
 import { store } from "@/store";
-import { finishLoading, startLoading } from "@/store/globalSlice";
+import {
+  finishLoading,
+  setAccessToken,
+  setRefreshToken,
+  startLoading,
+} from "@/store/globalSlice";
 import { getEnvVariables } from "./env";
-const { HEROS_BASE_URL } = getEnvVariables()
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from "./constants";
+import { convertTimeUnit } from "./time";
+
+const { HEROS_BASE_URL } = getEnvVariables();
 
 export const updateSession = async () => {
   await fetch("/api/auth/session?update");
@@ -18,7 +30,7 @@ export const getAccessTokenFromCookie = (
   req: NextApiRequest,
   res: NextApiResponse
 ) => {
-  const accessToken = getCookie("_Auth.access-token", {
+  const accessToken = getCookie(ACCESS_TOKEN_KEY, {
     req,
     res,
     path: "/",
@@ -46,22 +58,25 @@ export const setAccessTokenToCookie = (
   res: NextApiResponse
 ) => {
   const { accessToken, refreshToken, refreshExpiresIn } = credentials;
-  const expire = new Date().getTime() + 1000 * 24 * 60 * 60;
   const refreshExpire = new Date().getTime() + +refreshExpiresIn * 1000;
 
-  setCookie("_Auth.access-token", accessToken, {
+  setCookie(ACCESS_TOKEN_KEY, accessToken, {
     req,
     res,
     path: "/",
-    // httpOnly: true,
-    // secure: NODE_ENV !== 'development',
-    expires: new Date(expire),
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== 'development',
+    expires: new Date(convertTimeUnit('1d')),
+    sameSite: 'lax'
   });
 
-  setCookie("_Auth.refresh-token", refreshToken, {
+  setCookie(REFRESH_TOKEN_KEY, refreshToken, {
     req,
     res,
     path: "/",
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    sameSite: "lax",
     expires: new Date(refreshExpire),
   });
 };
@@ -89,7 +104,7 @@ export const fetchUser = async (accessToken: string) => {
 export const signInSocial = async (
   data: {
     token: string | undefined;
-    role: "FAN" | "ATHLETE";
+    role: "FAN" | "ATHLETE" | "ADMIN";
     provider: string;
   },
   req: NextApiRequest,
@@ -141,4 +156,30 @@ export const onSignOut = async () => {
       store.dispatch(finishLoading());
     }, 200);
   }
+};
+
+export const setTokenToStore = (
+  storeSSR: typeof store,
+  { req, res }: GetServerSidePropsContext
+) => {
+  const accessToken = getCookie(ACCESS_TOKEN_KEY, {
+    res,
+    req,
+    path: "/",
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    sameSite: "lax",
+  }) as string ?? "";
+
+  const refreshToken = getCookie(REFRESH_TOKEN_KEY, {
+    res,
+    req,
+    path: "/",
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    sameSite: "lax",
+  }) as string ?? "";
+
+  storeSSR.dispatch(setAccessToken(accessToken));
+  storeSSR.dispatch(setRefreshToken(refreshToken));
 };

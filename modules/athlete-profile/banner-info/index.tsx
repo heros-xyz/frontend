@@ -1,8 +1,10 @@
 import React from "react";
-import { Box, Text, Flex, Image } from "@chakra-ui/react";
+import { Box, Text, Flex, Image, Button, Center } from "@chakra-ui/react";
 import { findFlagUrlByIso2Code } from "country-flags-svg";
+import { If, Then } from "react-if";
 import { VectorIcon } from "@components/svg/VectorProfile";
 import { getImageLink } from "@/utils/link";
+import { ADMIN_ROLE, FAN_ROLE } from "@/utils/constants";
 interface BasicInfoProps {
   image: string;
   nickname: string;
@@ -10,7 +12,9 @@ interface BasicInfoProps {
   tagline: string;
   countryCode: string;
   sport: string;
+  role: "FAN" | "ATHLETE" | "ADMIN" | undefined;
   onClickDownButton: () => void;
+  onSubscribe?: () => void;
 }
 
 const BasicInfoAthlete: React.FC<BasicInfoProps> = ({
@@ -20,7 +24,9 @@ const BasicInfoAthlete: React.FC<BasicInfoProps> = ({
   tagline,
   countryCode,
   sport,
+  role,
   onClickDownButton,
+  onSubscribe,
 }) => {
   return (
     <Box position="relative">
@@ -31,7 +37,43 @@ const BasicInfoAthlete: React.FC<BasicInfoProps> = ({
         h={{ base: "667px", lg: "750px" }}
         objectFit="cover"
         borderRadius={{ lg: "12px" }}
+        fallback={
+          <Box>
+            <Image
+              src="/images/DefaultAvaCircle.png"
+              alt=""
+              borderRadius="xl"
+              objectFit="contain"
+              w="100%"
+              h={{ base: "667px", lg: "750px" }}
+            />
+          </Box>
+        }
       />
+      <If condition={!!onSubscribe && role === FAN_ROLE}>
+        <Then>
+          <Center
+            position="absolute"
+            w="full"
+            top={4}
+            px={5}
+            justifyContent={{ xl: "right" }}
+          >
+            <Button
+              bg="primary"
+              color="secondary"
+              w={{ base: "full", xl: "auto" }}
+              isDisabled={role == ADMIN_ROLE}
+              _disabled={{ bg: "grey.100", color: "grey.300" }}
+              onClick={onSubscribe}
+              _hover={{}}
+            >
+              Subscribe
+            </Button>
+          </Center>
+        </Then>
+      </If>
+
       <Box
         position="absolute"
         left={0}

@@ -3,6 +3,7 @@ import {
   Image,
   Center,
   Input,
+  Link,
   Text,
   Flex,
   Tag,
@@ -23,6 +24,7 @@ import {
 import Head from "next/head";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { getImageLink } from "@/utils/link";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { Close } from "@/components/svg/Close";
@@ -54,11 +56,12 @@ const EditPageInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [input, setInput] = useState("");
+  const [tagsValue, setTags] = useState<string[]>([]);
   const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [image, setImage] = useState("");
   const [fileSubmit, setFileSubmit] = useState<File>();
-  const [tagsValue, setTags] = useState([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isMaxTag, setIsMaxTag] = useState<boolean>(false);
   const { uploadAvatar } = useUploadAvatarToUser();
   const { updateDocument } = useUpdateDoc();
 
@@ -117,21 +120,24 @@ const EditPageInfo = () => {
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === ",") return;
-    setInput(e.target.value);
+    setInput(e.target.value.replaceAll(/[^a-zA-Z0-9]/g, ""));
   };
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (
-      (e.key === "Enter" || e.key === ",") &&
-      Boolean(input) &&
-      input.length < 26
-    ) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+    if (e.key === "Enter" && Boolean(input) && input.length < 26) {
       if (tagsValue.includes(input)) {
         setInput("");
         return;
       }
-      setTags((prev) => [...prev, input.trim()]);
-      setInput("");
+      if (tagsValue.length < 5) {
+        setTags((prev) => [...prev, input]);
+        setIsMaxTag(false);
+        setInput("");
+      } else {
+        setIsMaxTag(true);
+      }
     }
   };
   const onHandleRemoveTag = (index: number) => {
@@ -256,6 +262,7 @@ const EditPageInfo = () => {
                     alt="user-avatar"
                     objectFit="cover"
                     borderRadius={{ base: "none", xl: "md" }}
+                    fallbackSrc="/images/DefaultAvaCircle.png"
                   />
                   <Center
                     position="absolute"
@@ -357,11 +364,16 @@ const EditPageInfo = () => {
                 onChange={handleChange}
                 fontWeight="medium"
                 isInvalid={Boolean(input?.length > 25)}
+                autoComplete="off"
               />
               <ErrorMessage
                 mt={0.5}
                 condition={input?.length > 25}
                 errorMessage={"Tag cannot exceed 25 characters."}
+              />
+              <ErrorMessage
+                condition={isMaxTag && tagsValue.length === 5}
+                errorMessage="The maximum number of tags are 5."
               />
             </Box>
             {tagsValue && (

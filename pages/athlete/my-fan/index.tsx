@@ -4,6 +4,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useUpdateEffect } from "react-use";
 import { AnimatePresence, motion } from "framer-motion";
+import { If, Then } from "react-if";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import SearchFan from "@components/ui/SearchFan/index";
 import YourAthletesList from "@/components/ui/FanOfAthletes/List/index";
@@ -12,10 +13,11 @@ import SearchFanSuggestionsList from "@/components/ui/SearchFanSuggestions/List"
 import FanOfAthleteProfile from "@/components/ui/FanOfAthletes/Profile";
 import { useGetListFansQuery } from "@/api/athlete";
 import { IFanInfo } from "@/types/athlete/types";
-import { setContext } from "@/libs/axiosInstance";
+
 import { wrapper } from "@/store";
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards } from "@/types/globals/types";
+import { setTokenToStore } from "@/utils/auth";
 
 const MyFan = () => {
   const router = useRouter();
@@ -119,83 +121,87 @@ const MyFan = () => {
           >
             My Fans
           </Text>
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            ref={refSearch}
-          >
-            <SearchFan
-              w="full"
-              placeholder="Search Fans"
-              handleChange={handleChange}
-              onFocus={onFocus}
-              onKeyUp={(e) => {
-                if (e.key === "Enter" && searchValue.length > 1) {
-                  onShowAllResult();
-                  return;
-                }
-                onFocus();
-              }}
-            />
-            <Box w="full" position="relative">
-              <AnimatePresence>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  {searchValue.length > 1 && focusSearch && (
-                    <SearchFanSuggestionsList
-                      w="full"
-                      zIndex={15}
-                      top={{ base: 5, lg: 8 }}
-                      position="absolute"
-                      buttonName={"See all results"}
-                      searchKeyword={searchValue}
-                      items={athleteSearchList?.data || []}
-                      onShowAllResult={onShowAllResult}
-                      onSelectedItem={onShowFanProfile}
-                    />
-                  )}
-                </motion.div>
-              </AnimatePresence>
-            </Box>
-            <Box w="full" position="relative">
-              <AnimatePresence>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.1 }}
-                  exit={{ opacity: 0 }}
-                >
-                  {searchValue.length > 1 &&
-                    focusSearch &&
-                    !athleteSearchList?.data?.length && (
-                      <Box
-                        w="full"
-                        zIndex={15}
-                        top={{ base: 5, lg: 8 }}
-                        position="absolute"
-                        bg="acccent.4"
-                        p="3"
-                        borderRadius="base"
-                        textAlign={"center"}
-                        fontWeight="bold"
-                        cursor="pointer"
-                        fontSize={{ base: "sm", lg: "md" }}
-                        onClick={onShowAllResult}
-                        shadow="0px 0px 10px rgba(0, 0, 0, 0.25)"
-                        background="white"
-                      >
-                        No Result Found
-                      </Box>
-                    )}
-                </motion.div>
-              </AnimatePresence>
-            </Box>
-          </Box>
+          <If condition={currentData.length !== 0}>
+            <Then>
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                ref={refSearch}
+              >
+                <SearchFan
+                  w="full"
+                  placeholder="Search Fans"
+                  handleChange={handleChange}
+                  onFocus={onFocus}
+                  onKeyUp={(e) => {
+                    if (e.key === "Enter" && searchValue.length > 1) {
+                      onShowAllResult();
+                      return;
+                    }
+                    onFocus();
+                  }}
+                />
+                <Box w="full" position="relative">
+                  <AnimatePresence>
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      {searchValue.length > 1 && focusSearch && (
+                        <SearchFanSuggestionsList
+                          w="full"
+                          zIndex={15}
+                          top={{ base: 5, lg: 8 }}
+                          position="absolute"
+                          buttonName={"See all results"}
+                          searchKeyword={searchValue}
+                          items={athleteSearchList?.data || []}
+                          onShowAllResult={onShowAllResult}
+                          onSelectedItem={onShowFanProfile}
+                        />
+                      )}
+                    </motion.div>
+                  </AnimatePresence>
+                </Box>
+                <Box w="full" position="relative">
+                  <AnimatePresence>
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      {searchValue.length > 1 &&
+                        focusSearch &&
+                        !athleteSearchList?.data?.length && (
+                          <Box
+                            w="full"
+                            zIndex={15}
+                            top={{ base: 5, lg: 8 }}
+                            position="absolute"
+                            bg="acccent.4"
+                            p="3"
+                            borderRadius="base"
+                            textAlign={"center"}
+                            fontWeight="bold"
+                            cursor="pointer"
+                            fontSize={{ base: "sm", lg: "md" }}
+                            onClick={onShowAllResult}
+                            shadow="0px 0px 10px rgba(0, 0, 0, 0.25)"
+                            background="white"
+                          >
+                            No Result Found
+                          </Box>
+                        )}
+                    </motion.div>
+                  </AnimatePresence>
+                </Box>
+              </Box>
+            </Then>
+          </If>
         </Box>
         <YourAthletesList
           w="100%"
@@ -205,6 +211,7 @@ const MyFan = () => {
           isSearching={isSearching}
           onLoadMore={onLoadMore}
           hasNextPage={hasNextPage}
+          total={athleteList?.meta.itemCount ?? 0}
         />
         <FanOfAthleteProfile
           fanInfo={selectedItem}
@@ -226,8 +233,8 @@ MyFan.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
+  (store) => async (context) => {
+    setTokenToStore(store, context);
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

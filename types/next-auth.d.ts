@@ -28,7 +28,7 @@ export interface IUser {
   firstName: string;
   lastName: string;
   username: string;
-  role: "FAN" | "ATHLETE";
+  role: "FAN" | "ATHLETE" | "ADMIN";
   email: string;
   avatar: string;
   phone: string;

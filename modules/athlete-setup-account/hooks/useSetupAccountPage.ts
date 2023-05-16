@@ -15,8 +15,6 @@ import { useLoading } from "@/hooks/useLoading";
 import { RoutePath } from "@/utils/route";
 import { getCharacterMessage, REQUIRED_MESSAGE } from "../constants";
 
-
-
 export type IValuesTypes = {
   firstName: string;
   middleName: string;
@@ -115,7 +113,7 @@ const useSetupAccountPage = () => {
             avatarUrl = downloadURL
           }
         }
-        // update athleteProfile/{uid} 
+        // update athleteProfile/{uid}
         await updateDocument(`athleteProfile/${userProfile?.uid}`, {
           firstName: params?.firstName,
           nickName,

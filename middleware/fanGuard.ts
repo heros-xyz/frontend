@@ -8,6 +8,7 @@ import {
 import { getServerSession } from "next-auth/next";
 import { nextAuthOptions } from "@/pages/api/auth/[...nextauth]";
 import { RoutePath } from "@/utils/route";
+import { ATHLETE_ROLE, FAN_ROLE } from "@/utils/constants";
 
 export const fanAuthGuard = async (
   context: GetServerSidePropsContext<ParsedUrlQuery, PreviewData>,
@@ -30,7 +31,7 @@ export const fanAuthGuard = async (
     };
   }
 
-  if (session.user.role === "ATHLETE") {
+  if (session.user.role === ATHLETE_ROLE) {
     return {
       redirect: {
         destination: RoutePath.HOME,
@@ -39,7 +40,7 @@ export const fanAuthGuard = async (
     };
   }
 
-  if (!session.user.isActive) {
+  if (session.user.role === FAN_ROLE && !session.user.isActive) {
     return {
       redirect: {
         destination: RoutePath.FAN_ONBOARDING,

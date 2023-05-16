@@ -1,19 +1,13 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Text,
-  WrapItem,
-  BoxProps,
-  Image,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, WrapItem, BoxProps } from "@chakra-ui/react";
 import React from "react";
 import dayjs from "dayjs";
 import { Clock } from "@/components/svg/Clock";
 import { IFanInfo } from "@/types/athlete/types";
 import { getImageLink } from "@/utils/link";
+import HerosImage from "@/components/common/HerosImage";
 interface YourAthleteCardProps extends BoxProps {
   item?: IFanInfo;
+  isAdmin?: boolean;
   dateFormat: string;
   onClickItem?: (item: IFanInfo) => void;
 }
@@ -21,10 +15,13 @@ interface YourAthleteCardProps extends BoxProps {
 const YourAthleteCard: React.FC<YourAthleteCardProps> = ({
   item,
   dateFormat = "MMM YYYY",
+  isAdmin,
   onClickItem,
   ...props
 }) => {
-  const joinedDate = dayjs(item?.createdAt).format(dateFormat);
+  const joinedDate = dayjs(item?.joinedDate ?? item?.createdAt).format(
+    dateFormat
+  );
   return (
     <Box
       borderBottomWidth="thin"
@@ -32,26 +29,20 @@ const YourAthleteCard: React.FC<YourAthleteCardProps> = ({
       bg="white"
       py="4"
       cursor="pointer"
-      _hover={{
-        bg: "grey.dark",
-      }}
       onClick={() => onClickItem && item && onClickItem(item)}
       {...props}
     >
       <Flex alignItems="center">
         <WrapItem>
-          <Image
-            w={{ base: "50px", lg: "80px" }}
-            h={{ base: "50px", lg: "80px" }}
+          <HerosImage
             src={getImageLink(item?.avatar)}
-            alt="user-avatar"
-            rounded="full"
-            objectFit="cover"
+            width={{ base: "50px", lg: "80px" }}
+            height={{ base: "50px", lg: "80px" }}
           />
         </WrapItem>
         <Box pl={4}>
           <Heading fontSize={{ base: "12px", lg: "18px" }} color="primary">
-            {item?.fullName}
+            {item?.nickName ?? item?.fullName}
           </Heading>
           <Text
             as="span"
@@ -59,7 +50,7 @@ const YourAthleteCard: React.FC<YourAthleteCardProps> = ({
             fontSize={["xs", "md"]}
             fontWeight={["medium", "normal"]}
           >
-            {"Bronze Tier"}
+            {isAdmin ? item?.sportName : "Bronze Tier"}
           </Text>
           <Flex
             fontSize={["xs", "md"]}
@@ -73,20 +64,11 @@ const YourAthleteCard: React.FC<YourAthleteCardProps> = ({
               height={["15px", "18px"]}
             />
             <Text color="primary" fontWeight="medium" pl={["2", "2.5"]}>
-              Joined: {joinedDate}
+              Joined Date: {joinedDate}
             </Text>
           </Flex>
         </Box>
       </Flex>
-      {/* <If condition={enableClickItem}>
-        <Then>
-          <FanOfAthleteProfile
-            fanInfo={item}
-            isOpen={isOpenFanProfile}
-            onClose={() => setIsOpenFanProfile(false)}
-          />
-        </Then>
-      </If> */}
     </Box>
   );
 };

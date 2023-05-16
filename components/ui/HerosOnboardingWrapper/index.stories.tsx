@@ -30,7 +30,7 @@ export const HerosOnboardingWrapperComponent: Story = {
     </HerosOnboardingWrapper>
   ),
   args: {
-    title: "Basic Information",
+    title: "Personal Information",
     Icon: <IconOnboarding w="full" h="full" />,
     IconButton: <UploadIcon />,
     textButton: "Upload image",

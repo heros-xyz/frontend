@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
-import { isBeforeEndDate, isValidDate } from "@/utils/functions";
+import { isBeforeEndDate, isValidDate } from "@/utils/time";
 import {
   useAddPostInteractionMutation,
   useUpdatePostInteractionMutation,
@@ -17,7 +17,7 @@ import {
   LARGE_SIZE_MEDIA_POST_IMAGE,
   LARGE_SIZE_MEDIA_POST_VIDEO,
   FILE_FORMAT_MEDIA_POST_IMAGE,
-  ERROR_TYPE_UPLOAD_POST_MEDIA
+  FILE_FORMAT_MEDIA_POST_VIDEO
 } from "@/utils/inputRules";
 import { updateSession } from "@/utils/auth";
 import { IMediaExisted } from "@/types/athlete/types";
@@ -130,7 +130,7 @@ const validationSchema = yup.object().shape({
 
             return ALLOWED_TYPES_POST_IMAGE.includes(value?.type)
           })
-          .test("valid-video-type", ERROR_TYPE_UPLOAD_POST_MEDIA, (value) => {
+          .test("valid-video-type", FILE_FORMAT_MEDIA_POST_VIDEO, (value) => {
             if (typeof value === "string" || value?.type?.split("/")[0] === "image") return true;
 
             return ALLOWED_TYPES_VIDEO.includes(getExtension(value?.name))

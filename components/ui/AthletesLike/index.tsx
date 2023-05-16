@@ -1,6 +1,7 @@
-import { Box, Grid, Image, Text } from "@chakra-ui/react";
+import { AspectRatio, Box, Grid, Text } from "@chakra-ui/react";
 import { IAthleteInfo } from "@/types/athlete/types";
 import { getImageLink } from "@/utils/link";
+import HerosImage from "@/components/common/HerosImage";
 
 interface AthletesLikeProp {
   data: IAthleteInfo[];
@@ -40,14 +41,17 @@ const AthletesLike: React.FC<AthletesLikeProp> = ({ data, title, onClick }) => {
             cursor="pointer"
             onClick={() => onClick(el?.id)}
           >
-            <Image
-              src={getImageLink(el?.avatar)}
-              alt=""
-              borderRadius="xl"
-              objectFit="cover"
-              h={{ base: "200px", lg: "265px" }}
-              w="100%"
-            />
+            <AspectRatio maxW="400px" ratio={210 / 265}>
+              <HerosImage
+                src={getImageLink(el?.avatar)}
+                widthSize={500}
+                heightSize={500}
+                width={"100%"}
+                height={"100%"}
+                borderRadius="10px"
+              />
+            </AspectRatio>
+
             <Box
               position="absolute"
               bottom="0"

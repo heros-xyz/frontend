@@ -21,7 +21,7 @@ const AthleteUpdatedSuccessfully: React.FC<OnboardingProps> = (props) => {
       textButton="GO TO CHECKLIST"
       IconButton={<NextIcon />}
       bgIconColor="secondary"
-      title={props.title ?? "Basic information"}
+      title={props.title ?? "Personal Information"}
       isSuccessPage
     >
       <Box textAlign={{ base: "center", xl: "left" }} w={"100%"}>

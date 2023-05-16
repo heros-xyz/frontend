@@ -128,8 +128,8 @@ exports[`renders add Add Sport Profile Successfully unchanged 1`] = `
                       <path
                         d="M1.25 7L13.75 7M13.75 7L8.125 1.375M13.75 7L8.125 12.625"
                         stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         strokeWidth="1.5"
                       />
                     </svg>
@@ -156,8 +156,8 @@ exports[`renders add Add Sport Profile Successfully unchanged 1`] = `
                 <path
                   d="M1.25 7L13.75 7M13.75 7L8.125 1.375M13.75 7L8.125 12.625"
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   strokeWidth="1.5"
                 />
               </svg>

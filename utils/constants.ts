@@ -1,10 +1,10 @@
 import { HttpErrorCode } from "./enums";
 
 export const AUTH_ERROR_CODE = {
-  MUST_SIGN_UP_FIRST: `This email hasn't been registered. Please sign up.`,
-  USER_ALREADY_REGISTERED: `This email has been registered. Please sign in.`,
-  INVALID_OTP: "Invalid OTP, please recheck!",
-  EXPIRED_OTP: "Expired OTP, please recheck!",
+  [HttpErrorCode.MUST_SIGN_UP_FIRST]: `This email hasn't been registered. Please sign up.`,
+  [HttpErrorCode.USER_ALREADY_REGISTERED]: `This email has been registered. Please sign in.`,
+  [HttpErrorCode.INVALID_OTP]: "Invalid OTP, please recheck!",
+  [HttpErrorCode.EXPIRED_OTP]: "Expired OTP, please recheck!",
 };
 
 export const getAuthErrorCode = (code: string | number | undefined) => {
@@ -24,3 +24,9 @@ export const ACTIVE_PATHS = [
 ];
 
 export const gaMeasurementId = "G-W55H90J71S"
+
+export const ADMIN_ROLE = 'ADMIN'
+export const ATHLETE_ROLE = 'ATHLETE'
+export const FAN_ROLE = 'FAN'
+export const REFRESH_TOKEN_KEY = '_Auth.refresh-token'
+export const ACCESS_TOKEN_KEY = '_Auth.access-token'

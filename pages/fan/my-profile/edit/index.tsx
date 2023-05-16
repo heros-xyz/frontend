@@ -26,11 +26,7 @@ import ErrorMessage from "@/components/common/ErrorMessage";
 import DateSelect from "@/components/ui/DateSelect";
 import SelectGender from "@/components/ui/SelectGender";
 import Select from "@/components/common/Select";
-import {
-  filterSelectOptions,
-  isValidDate,
-  isValidString,
-} from "@/utils/functions";
+import { isValidDate } from "@/utils/time";
 import { getImageLink } from "@/utils/link";
 import { IconEdit } from "@/components/svg/IconEdit";
 import {
@@ -40,12 +36,20 @@ import {
   MAX_SIZE,
 } from "@/utils/inputRules";
 import { useEditFanInfoMutation, useGetFanSettingQuery } from "@/api/fan";
-import { updateSession } from "@/utils/auth";
+import { setTokenToStore, updateSession } from "@/utils/auth";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
 import BackButton from "@/components/ui/BackButton";
+import { useUser } from "@/hooks/useUser";
+import { filterSelectOptions, isValidString } from "@/utils/functions";
+import useUpdateDoc from "@/hooks/useUpdateDoc";
+import { User, useUploadAvatarToUser } from "@/libs/dtl";
+import { useSports } from "@/libs/dtl";
+import { useAuthContext } from "@/context/AuthContext";
+import { useFanProfile } from "@/libs/dtl/fanProfile";
+import { useUploadFile } from "react-firebase-hooks/storage";
 
 const initialValues = {
   firstName: "",
@@ -54,6 +58,7 @@ const initialValues = {
   gender: "",
   sports: [],
   avatar: "",
+  isAdmin: false,
 };
 
 const validationSchema = Yup.object().shape({
@@ -89,62 +94,88 @@ const validationSchema = Yup.object().shape({
       return isValidDate(value);
     }),
   gender: Yup.string().required("This is a required field"),
-  sports: Yup.array().min(1, "This is a required field"),
+  sports: Yup.array().when("isAdmin", {
+    is: false,
+    then: Yup.array().min(1, "This is a required field"),
+  }),
+  isAdmin: Yup.boolean(),
 });
 
 const EditAccountInfo = () => {
-  const { data: sportsList } = useGetSportListQuery("");
-  const { data: fanProfile, refetch } = useGetFanSettingQuery("", {
-    refetchOnMountOrArgChange: true,
-  });
+  const { sportsMapped: sportsList } = useSports();
+  const { isAdmin, isFan } = useUser();
+  const { userProfile } = useAuthContext();
+  const { data: fanData } = useFanProfile();
+  const { updateDocument, isUpdating, success } = useUpdateDoc();
   const upload = useRef() as MutableRefObject<HTMLInputElement>;
-  const [image, setImage] = useState("");
   const [fileSubmit, setFileSubmit] = useState<File>();
+  const { uploadAvatar } = useUploadAvatarToUser();
+
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const [editFanInfo, { isLoading, isSuccess }] = useEditFanInfoMutation();
-  const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      const { dateOfBirth, gender, sports, ...newValues } = values;
-      const sportSubmit = sports
-        .map((el: { value: string }) => el?.value)
-        .join();
-      editFanInfo({
-        ...newValues,
-        dateOfBirth: dateOfBirth + "T00:00:00Z",
-        gender: parseInt(gender),
-        avatar: fileSubmit,
-        sportIds: sportSubmit,
-      });
-    },
-  });
-  useEffect(() => {
-    if (isSuccess) {
-      refetch();
-      updateSession();
+  const handleSubmit = async (values: any) => {
+    try {
+      if (!!userProfile?.uid) {
+        const paramsUser = {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          dateOfBirth: values.dateOfBirth,
+          gender: +values.gender,
+        };
+
+        const sports = await values.sports.map((entry: any) => ({
+          key: entry?.value,
+          label: entry?.label,
+        }));
+
+        const paramsFanProfile = {
+          sports: sports,
+        };
+
+        if (!!fileSubmit) {
+          const avatarUrl = await uploadAvatar(fileSubmit);
+          console.log(avatarUrl, "avatarUrl");
+          await updateDocument(`user/${userProfile?.uid}`, {
+            avatar: avatarUrl,
+          });
+        }
+
+        await updateDocument(`user/${userProfile?.uid}`, paramsUser);
+        await updateDocument(
+          `fanProfile/${userProfile?.uid}`,
+          paramsFanProfile
+        );
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }, [isSuccess]);
+  };
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: handleSubmit,
+  });
 
   useEffect(() => {
-    if (fanProfile) {
-      formik.setFieldValue("firstName", fanProfile.firstName);
-      formik.setFieldValue("lastName", fanProfile.lastName);
-      formik.setFieldValue("dateOfBirth", fanProfile.dateOfBirth);
-      formik.setFieldValue("gender", fanProfile.gender.toString());
-      formik.setFieldValue("avatar", fanProfile.avatar);
-      const userSport = fanProfile?.fanInformation?.fanSports.map((el) => {
-        return {
-          label: el?.sport?.name,
-          value: el?.sport?.id,
-        };
-      });
-      if (userSport) {
+    if (userProfile) {
+      formik.setFieldValue("firstName", userProfile.firstName);
+      formik.setFieldValue("lastName", userProfile.lastName);
+      formik.setFieldValue("dateOfBirth", userProfile.dateOfBirth);
+      formik.setFieldValue("gender", userProfile.gender);
+      formik.setFieldValue("avatar", userProfile.avatar);
+      formik.setFieldValue("isAdmin", isAdmin);
+
+      // Hay que convertir el array de deportes en un array que entienda el componente Select
+      if (fanData && fanData.sports) {
+        const userSport = fanData?.sports.map((sport) => ({
+          value: sport.key,
+          label: sport.label,
+        }));
         formik.setFieldValue("sports", userSport);
       }
     }
-  }, [fanProfile]);
+  }, [userProfile, fanData, isAdmin]);
 
   const onClickUploadImage = () => {
     upload?.current?.click();
@@ -152,27 +183,32 @@ const EditAccountInfo = () => {
 
   const onChangeAvatar = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
+
     if (!selectedFile) {
       return;
     }
+
     if (selectedFile.size > MAX_SIZE) {
       setErrorMessage(LARGE_SIZE_MESSAGE);
       return;
     }
+
     if (!ALLOWED_TYPES.includes(selectedFile.type)) {
       setErrorMessage(FILE_FORMAT_MESSAGE);
       return;
     }
+
     formik.setFieldValue("avatar", URL.createObjectURL(selectedFile));
-    setImage(URL.createObjectURL(selectedFile));
     setFileSubmit(selectedFile);
     setErrorMessage(null);
   };
 
   return (
-    <Box bg="white" color="white" pt={5} minH="100vh">
+    <Box bg="white" color="white" pt={{ base: 5, lg: 0 }} minH="100vh">
       <Head>
-        <title>Fan | Edit Account Information</title>
+        <title>
+          {`${isAdmin ? "Admin" : "Fan"} | Edit Account Information`}
+        </title>
       </Head>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Box
@@ -212,6 +248,7 @@ const EditAccountInfo = () => {
                   w="full"
                   id="firstName"
                   name="firstName"
+                  fontWeight={500}
                   onChange={formik.handleChange}
                   value={formik.values.firstName}
                   isInvalid={Boolean(
@@ -246,6 +283,7 @@ const EditAccountInfo = () => {
                   w="full"
                   id="lastName"
                   name="lastName"
+                  fontWeight={500}
                   onChange={formik.handleChange}
                   value={formik.values.lastName}
                   isInvalid={Boolean(
@@ -297,31 +335,29 @@ const EditAccountInfo = () => {
                   </Box>
                 </Then>
               </If>
-              <If condition={formik.values?.gender}>
-                <Then>
-                  <Box mb={{ base: 5, lg: 7 }}>
-                    <Box fontWeight="medium" mb={2}>
-                      Gender
-                      <Text as="span" color="error.dark">
-                        *
-                      </Text>
-                    </Box>
-                    <SelectGender
-                      value={`${formik.values.gender}`}
-                      flexRow
-                      bgColor="primary"
-                      onChange={(value) => {
-                        formik.setFieldValue("gender", value);
-                      }}
-                      errorMessage={
-                        formik.errors.gender && formik.touched.gender
-                          ? "This is a required field"
-                          : ""
-                      }
-                    />
-                  </Box>
-                </Then>
-              </If>
+
+              <Box mb={{ base: 5, lg: 7 }}>
+                <Box fontWeight="medium" mb={2}>
+                  Gender
+                  <Text as="span" color="error.dark">
+                    *
+                  </Text>
+                </Box>
+                <SelectGender
+                  value={`${formik.values.gender}`}
+                  flexRow
+                  bgColor="primary"
+                  onChange={(value) => {
+                    formik.setFieldValue("gender", value);
+                  }}
+                  errorMessage={
+                    formik.errors.gender && formik.touched.gender
+                      ? "This is a required field"
+                      : ""
+                  }
+                />
+              </Box>
+
               <Box mb={{ base: 5, lg: 7 }}>
                 <Box fontWeight="medium" mb={2}>
                   Your profile pic
@@ -336,10 +372,11 @@ const EditAccountInfo = () => {
                     <Image
                       w={{ base: "120px", xl: "160px" }}
                       h={{ base: "120px", xl: "160px" }}
-                      src={image || getImageLink(formik.values.avatar)}
+                      src={formik.values.avatar}
                       alt="user-avatar"
                       objectFit="cover"
                       rounded="full"
+                      fallbackSrc="/images/DefaultAvaCircle.png"
                     />
                     <Center
                       position="absolute"
@@ -373,28 +410,34 @@ const EditAccountInfo = () => {
                   onChange={onChangeAvatar}
                 />
               </Box>
-              <Box mb={7}>
-                <Box fontWeight="medium" mb={2}>
-                  Interested Sport{" "}
-                  <Text as="span" color="error.dark">
-                    *
-                  </Text>
-                </Box>
-                <Box fontSize={{ base: "sm", xl: "lg" }}>
-                  <Select
-                    isDarkTheme
-                    isMulti
-                    options={sportsList}
-                    placeHolder="Sport(s)"
-                    optionCount={5}
-                    value={formik.values.sports}
-                    onChange={(value) => formik.setFieldValue("sports", value)}
-                    errorMessage={formik.errors.sports}
-                    isInvalid={Boolean(formik.errors.sports)}
-                    filterSelectOptions={filterSelectOptions}
-                  />
-                </Box>
-              </Box>
+              <If condition={isFan}>
+                <Then>
+                  <Box mb={7}>
+                    <Box fontWeight="medium" mb={2}>
+                      Interested Sport{" "}
+                      <Text as="span" color="error.dark">
+                        *
+                      </Text>
+                    </Box>
+                    <Box fontSize={{ base: "sm", xl: "lg" }}>
+                      <Select
+                        isDarkTheme
+                        isMulti
+                        options={sportsList}
+                        placeHolder="Sport(s)"
+                        optionCount={5}
+                        value={formik.values.sports}
+                        onChange={(value) =>
+                          formik.setFieldValue("sports", value)
+                        }
+                        errorMessage={formik.errors.sports}
+                        isInvalid={Boolean(formik.errors.sports)}
+                        filterSelectOptions={filterSelectOptions}
+                      />
+                    </Box>
+                  </Box>
+                </Then>
+              </If>
               <Box
                 display="flex"
                 alignItems={{ base: "center", xl: "end" }}
@@ -407,12 +450,12 @@ const EditAccountInfo = () => {
                   mb={2}
                   type="submit"
                   isDisabled={!!errorMessage}
-                  isLoading={isLoading}
+                  isLoading={isUpdating}
                   fontSize={{ base: "md", xl: "xl" }}
                 >
                   SAVE
                 </Button>
-                {isSuccess && (
+                {success && false && (
                   <Text color={"#65D169"} fontSize={["xs", "md"]}>
                     Changes Saved
                   </Text>
@@ -431,17 +474,3 @@ export default EditAccountInfo;
 EditAccountInfo.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

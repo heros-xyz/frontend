@@ -2,6 +2,7 @@ import { Box, BoxProps, useUpdateEffect } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useAuthContext } from "@/context/AuthContext";
 import {
   HomeIcon,
   HomeActive,
@@ -15,12 +16,12 @@ import {
   ProfileActive,
 } from "@/components/svg/Navigate";
 import LogoSidebar from "@/components/svg/LogoSidebar";
-import { ACTIVE_PATHS } from "@/utils/constants";
+import { ACTIVE_PATHS, ADMIN_ROLE, ATHLETE_ROLE } from "@/utils/constants";
 import MenuItem from "../MenuItem";
 
 interface DashboardSidebarProps extends BoxProps {
   tabValue: string;
-  role: "ATHLETE" | "FAN";
+  role: "ATHLETE" | "FAN" | "ADMIN";
 }
 
 interface INavItem {
@@ -29,6 +30,7 @@ interface INavItem {
   itemName: string;
   activeIcon: ReactNode;
   show: boolean;
+  disabled: boolean;
   path: string;
 }
 
@@ -38,49 +40,57 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
   ...props
 }) => {
   const router = useRouter();
+  const { userProfile } = useAuthContext();
   const [tab, setTab] = useState<string>(router.pathname ?? "");
 
   const menuList: INavItem[] = [
     {
       id: "home",
-      Icon: <HomeIcon maxW={5} />,
+      Icon: <HomeIcon w={6} h={6} />,
       itemName: "Home",
-      activeIcon: <HomeActive maxW={5} />,
+      activeIcon: <HomeActive w={6} h={6} />,
       show: true,
-      path: role === "ATHLETE" ? "/athlete" : "/fan",
+      disabled: false,
+      path: role === ATHLETE_ROLE ? "/athlete" : "/fan",
     },
     {
       id: "noti",
-      Icon: <NotificationIcon maxW={5} />,
+      Icon: <NotificationIcon w={6} h={6} />,
       itemName: "Notifications",
-      activeIcon: <NotificationActive maxW={5} />,
+      activeIcon: <NotificationActive w={6} h={6} />,
       show: true,
-      path: role === "ATHLETE" ? "/athlete/notification" : "/fan/notification",
+      disabled: userProfile?.profileType === ADMIN_ROLE,
+      path:
+        role === ATHLETE_ROLE ? "/athlete/notification" : "/fan/notification",
     },
     {
       id: "interaction",
-      Icon: <InteractionsIcon maxW={5} />,
+      Icon: <InteractionsIcon w={6} h={6} />,
       itemName: "Interactions",
-      activeIcon: <InteractionsActive maxW={5} />,
+      activeIcon: <InteractionsActive w={6} h={6} />,
       show: true,
-      path: role === "ATHLETE" ? "/athlete/interactions" : "/fan/interactions",
+      disabled: false,
+      path:
+        role === ATHLETE_ROLE ? "/athlete/interactions" : "/fan/interactions",
     },
 
     {
       id: "fan",
-      Icon: <MyfanIcon maxW={5} />,
+      Icon: <MyfanIcon w={6} h={6} />,
       itemName: "My Fans",
-      activeIcon: <MyfansActive maxW={5} />,
-      show: role === "ATHLETE",
+      activeIcon: <MyfansActive w={6} h={6} />,
+      show: role === ATHLETE_ROLE,
+      disabled: false,
       path: "/athlete/my-fan",
     },
     {
       id: "profile",
-      Icon: <ProfileIcon maxW={5} />,
+      Icon: <ProfileIcon w={6} h={6} />,
       itemName: "My Profile",
-      activeIcon: <ProfileActive maxW={5} />,
+      activeIcon: <ProfileActive w={6} h={6} />,
       show: true,
-      path: role === "ATHLETE" ? "/athlete/my-profile" : "/fan/my-profile",
+      disabled: false,
+      path: role === ATHLETE_ROLE ? "/athlete/my-profile" : "/fan/my-profile",
     },
   ];
 
@@ -112,7 +122,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
           display={{ base: "none", lg: "block" }}
           maxW={28}
           maxH={10}
-          onClick={() => setTab(role === "ATHLETE" ? "/athlete" : "/fan")}
+          onClick={() => setTab(role === ATHLETE_ROLE ? "/athlete" : "/fan")}
         />
       </Link>
 

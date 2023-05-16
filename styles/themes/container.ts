@@ -19,7 +19,7 @@ export const Container = defineStyleConfig({
       px: 5,
     },
     lg: {
-      maxW: "960px",
+      maxW: "760px",
       px: 5,
     },
     xl: {

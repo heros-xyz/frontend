@@ -5,7 +5,7 @@ import TimeLineJourney, { ITimeLineInfo } from "@/components/ui/Timeline";
 
 interface ICareerJourneyProps {
   isEdit?: boolean;
-  role?: "ATHLETE" | "FAN";
+  role?: "ATHLETE" | "FAN" | "ADMIN";
   data: ITimeLineInfo[] | undefined;
 }
 
@@ -26,7 +26,7 @@ const CareerJourney: React.FC<ICareerJourneyProps> = ({
     return [];
   }, [data]);
   return (
-    <Box pb={{ base: 16, xl: 8 }}>
+    <Box pb={8}>
       {isEdit && (
         <Link
           as={NextLink}

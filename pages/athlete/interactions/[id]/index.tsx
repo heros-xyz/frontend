@@ -4,10 +4,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { getFocusComment, getRunningQueriesThunkAthlete } from "@/api/athlete";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards } from "@/types/globals/types";
 import InteractionDetail from "@/modules/athlete-interaction/components/detail";
+import { setTokenToStore } from "@/utils/auth";
 
 const InteractionDetailPage = () => {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default InteractionDetailPage;
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    setContext(context);
+    setTokenToStore(store, context);
 
     if (typeof context.query.commentId === "string") {
       store.dispatch(getFocusComment.initiate(context.query.commentId));

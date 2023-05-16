@@ -10,19 +10,21 @@ import {
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { useRouter } from "next/router";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { getAuthErrorCode } from "@/utils/constants";
 import { isEmptyObject } from "@/utils/functions";
+import { convertTimeUnit } from "@/utils/time";
 import useCountdown from "../../../hooks/useCountdown";
 
 interface OtpProps {
   title: string;
   description: string;
-  validTime: number;
   textButton: string;
   errorMessage?: string | number;
   isLoading?: boolean;
   otpValue: string;
+  diffCount: number;
   onSubmit: (otp: string) => void;
   resendOtp?: () => void;
 }
@@ -30,18 +32,23 @@ interface OtpProps {
 const OtpFill: React.FC<OtpProps> = ({
   title,
   description,
-  validTime,
   textButton,
   errorMessage,
   isLoading,
   otpValue,
+  diffCount,
   onSubmit,
   resendOtp,
 }) => {
   const [verifyOtpError, setVerifyOtpError] = useState<
     string | undefined | number
   >("");
-  const { minutes, seconds, reset } = useCountdown(validTime);
+  const {
+    query: { email },
+    replace,
+  } = useRouter();
+
+  const { minutes, seconds, reset } = useCountdown(diffCount);
 
   const formik = useFormik({
     initialValues: {
@@ -65,6 +72,12 @@ const OtpFill: React.FC<OtpProps> = ({
 
   const onResend = () => {
     reset();
+    replace({
+      query: {
+        email,
+        time: convertTimeUnit("5min"),
+      },
+    });
     resendOtp && resendOtp();
   };
 
@@ -132,6 +145,9 @@ const OtpFill: React.FC<OtpProps> = ({
               onChange={(value) => {
                 setVerifyOtpError("");
                 formik.setFieldValue("otp", value);
+                if (value.length === 6) {
+                  onSubmit(value);
+                }
               }}
               autoFocus
             >
@@ -194,7 +210,7 @@ const OtpFill: React.FC<OtpProps> = ({
               lineHeight="140%"
               mb={3}
             >
-              <Text>Valid for: &nbsp;</Text>
+              <Text>Valid for&nbsp;</Text>
               <Box color="secondary" lineHeight="140%">
                 <Text> {`${minutes}:${seconds}`}</Text>
               </Box>
@@ -223,6 +239,7 @@ const OtpFill: React.FC<OtpProps> = ({
               type="submit"
               isLoading={isLoading}
               // cursor="not-allowed"
+              isDisabled={formik.values.otp.length !== 6}
             >
               {textButton}
             </Button>

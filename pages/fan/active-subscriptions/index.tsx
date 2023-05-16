@@ -3,7 +3,6 @@ import {
   Button,
   Center,
   Flex,
-  Image,
   Text,
   Modal,
   useDisclosure,
@@ -16,23 +15,30 @@ import dayjs from "dayjs";
 import { Else, If, Then } from "react-if";
 import { useUpdateEffect } from "react-use";
 import Head from "next/head";
+import { Waypoint } from "react-waypoint";
 import FanDashboardLayout from "@/layouts/FanDashboard";
-import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import {
   useDeleteSubscriptionsMutation,
   useGetActiveSubscriptionsQuery,
 } from "@/api/fan";
 import ClockMiniIcon from "@/components/svg/ClockMiniIcon";
 import { GetActiveSubscription } from "@/types/fan/types";
-import DeleteSubscription from "@/components/ui/DeleteSubscription";
+import DeleteSubscription from "@/components/modal/DeleteSubscription";
 import { getImageLink } from "@/utils/link";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
+import { setTokenToStore } from "@/utils/auth";
+import NotiSkeleton from "@/components/ui/Notification/Skeleton";
+import { useUser } from "@/hooks/useUser";
+import { AlertIcon } from "@/components/svg";
+import BackButton from "@/components/ui/BackButton";
+import HerosImage from "@/components/common/HerosImage";
 
 const PaymentInfo = () => {
   const router = useRouter();
+  const { isAdmin, isFan } = useUser();
   const {
     isOpen: isOpenConfirm,
     onOpen: onOpenConfirm,
@@ -45,14 +51,22 @@ const PaymentInfo = () => {
   } = useDisclosure();
 
   const [dataCancel, setDataCancel] = useState<GetActiveSubscription>();
-  const [dataRender, setDataRender] = useState<GetActiveSubscription[]>();
-  const { data: dataSub, refetch } = useGetActiveSubscriptionsQuery("");
-  const [deleteSub, { isSuccess: successDeleted, isLoading }] =
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentData, setCurrentData] = useState<GetActiveSubscription[]>([]);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
+  const [isShowError, setIsShowError] = useState<boolean>(false);
+
+  const {
+    data: dataSub,
+    isFetching,
+    isLoading,
+  } = useGetActiveSubscriptionsQuery({
+    page: currentPage,
+    take: 10,
+  });
+  const [deleteSub, { isSuccess: successDeleted, isError }] =
     useDeleteSubscriptionsMutation();
 
-  const handleBack = () => {
-    router.push("/fan/my-profile");
-  };
   const handleConfirm = (id: string | undefined) => {
     if (id !== undefined) {
       deleteSub(id);
@@ -60,28 +74,91 @@ const PaymentInfo = () => {
   };
 
   useEffect(() => {
-    if (dataSub) {
-      setDataRender(dataSub?.data?.filter((el) => el?.status === "ACTIVE"));
+    if (dataSub && !(isFetching || isLoading)) {
+      const nextSub = dataSub?.data?.reduce((acc, cur) => {
+        if (isAdmin) {
+          acc.push({
+            ...cur,
+            autoRenew: true,
+          });
+        } else if (cur?.status === "ACTIVE") {
+          acc.push(cur);
+        }
+
+        return acc;
+      }, [] as GetActiveSubscription[]);
+      setCurrentData((prev) => [...prev, ...nextSub]);
+      setHasNextPage(dataSub.meta.hasNextPage);
     }
-  }, [dataSub]);
+  }, [dataSub, isAdmin]);
 
   useUpdateEffect(() => {
     onCloseConfirm();
     onOpenSuccess();
-    refetch();
   }, [successDeleted]);
 
   useEffect(() => {
     onCloseConfirm();
     onCloseSuccess();
+    setCurrentData([]);
+    setCurrentPage(1);
   }, []);
+
+  const onLoadMore = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  useEffect(() => {
+    if (isError) {
+      setIsShowError(true);
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (!isOpenConfirm && isShowError) {
+      setIsShowError(false);
+    }
+  }, [isOpenConfirm]);
 
   return (
     <Box bg="white" minH="100vh" position="relative">
       <Head>
-        <title>Fan | Active Subscriptions</title>
+        <title>{`${isAdmin ? "Admin" : "Fan"} | Active Subscriptions`}</title>
       </Head>
-      <Center>
+      <Center position="relative">
+        <If condition={isShowError && isOpenConfirm}>
+          <Then>
+            <Flex
+              position="absolute"
+              bg="white"
+              top="6"
+              w={{ base: "355px", xl: "395px" }}
+              px="4"
+              py="6"
+              borderRadius="8px"
+              boxShadow="0px 0px 15px rgba(0, 0, 0, 0.2)"
+              zIndex={1401}
+            >
+              <Center
+                bg="#FEE2E2"
+                w={{ base: "40px", xl: "50px" }}
+                h={{ base: "40px", xl: "50px" }}
+                borderRadius="full"
+              >
+                <AlertIcon w="16px" h="16px" />
+              </Center>
+              <Box ml="4">
+                <Text fontSize={{ base: "sm", xl: "md" }} fontWeight="bold">
+                  Error
+                </Text>
+                <Text fontSize={{ base: "xs", xl: "md" }}>
+                  Something went wrong
+                </Text>
+              </Box>
+            </Flex>
+          </Then>
+        </If>
+
         <Box
           w={{ base: "full", xl: "500px" }}
           fontSize={{ base: "xs", xl: "md" }}
@@ -94,46 +171,32 @@ const PaymentInfo = () => {
             pt={{ base: 5, xl: "3.75rem" }}
             mb={{ base: 5, xl: "30px" }}
           >
-            <ArrowLeft
-              verticalAlign=""
-              w={{ base: "14px", xl: "18px" }}
-              h={{ base: "14px", xl: "18px" }}
-              cursor="pointer"
-              onClick={handleBack}
-            />
-            <Text
-              as="span"
-              ml="6"
-              color="primary"
-              fontSize={{ base: "xl", xl: "2xl" }}
-            >
-              Active Subscriptions
-            </Text>
+            <BackButton href="/fan/my-profile" title="Active Subscriptions" />
           </Box>
-          {dataRender?.map((el) => (
+          {currentData?.map((el) => (
             <Box
-              key={el?.id}
+              key={el.athleteId}
+              py={isAdmin ? 3 : 0}
               w="full"
               color="primary"
               borderTop="1px"
               borderBottom={
-                el == dataRender[dataRender.length - 1] ? "1px" : ""
+                el == currentData[currentData.length - 1] ? "1px" : ""
               }
               borderColor="grey.100"
             >
               <Flex px={{ base: "5", xl: 0 }}>
-                <Center w={{ base: "15%", xl: "16%" }}>
-                  <Image
+                <Center
+                  w={{ base: "15%", xl: "16%" }}
+                  onClick={() =>
+                    router.push(`/fan/athlete-profile/${el?.athleteId}`)
+                  }
+                  cursor="pointer"
+                >
+                  <HerosImage
                     src={getImageLink(el?.avatar)}
-                    alt=""
-                    borderRadius="50%"
-                    boxSize={{ base: "50px", xl: "80px" }}
-                    loading="lazy"
-                    zIndex={1}
-                    cursor="pointer"
-                    onClick={() =>
-                      router.push(`/fan/athlete-profile/${el?.athleteId}`)
-                    }
+                    width={{ base: "50px", lg: "80px" }}
+                    height={{ base: "50px", lg: "80px" }}
                   />
                 </Center>
                 <Box
@@ -153,34 +216,42 @@ const PaymentInfo = () => {
                   <Text fontWeight="bold" fontSize={{ xl: "xl" }}>
                     {el?.nickName ?? el?.fullName}
                   </Text>
-                  <Text color="secondary">
-                    Monthly price: ${el?.monthlyPrice} per month
-                  </Text>
+                  <If condition={el?.monthlyPrice}>
+                    <Then>
+                      <Text color="secondary">
+                        Monthly price: {`$${el?.monthlyPrice} per month`}
+                      </Text>
+                    </Then>
+                  </If>
                   <Flex mt={1}>
-                    <ClockMiniIcon
-                      w={{ base: "14px", xl: "18px" }}
-                      h={{ base: "14px", xl: "18px" }}
-                      mt={0.5}
-                    />
-                    <Box ml={{ base: 2, xl: 3 }}>
-                      <If condition={el?.autoRenew}>
-                        <Then>
-                          <Text>Next Payment Due:</Text>
-                          <Text>
-                            {dayjs(el?.expiredDate).format("DD MMMM YYYY")}
-                          </Text>
-                        </Then>
-                        <Else>
-                          <Text>Your Access Will Cease After:</Text>
-                          <Text>
-                            {dayjs(el?.expiredDate).format("DD MMMM YYYY")}
-                          </Text>
-                        </Else>
-                      </If>
-                    </Box>
+                    <If condition={isFan}>
+                      <Then>
+                        <ClockMiniIcon
+                          w={{ base: "14px", xl: "18px" }}
+                          h={{ base: "14px", xl: "18px" }}
+                          mt={0.5}
+                        />
+                        <Box ml={{ base: 2, xl: 3 }}>
+                          <If condition={el?.autoRenew}>
+                            <Then>
+                              <Text>Next Payment Due:</Text>
+                              <Text>
+                                {dayjs(el?.expiredDate).format("DD MMMM YYYY")}
+                              </Text>
+                            </Then>
+                            <Else>
+                              <Text>Your Access Will Cease After:</Text>
+                              <Text>
+                                {dayjs(el?.expiredDate).format("DD MMMM YYYY")}
+                              </Text>
+                            </Else>
+                          </If>
+                        </Box>
+                      </Then>
+                    </If>
                   </Flex>
                 </Box>
-                <If condition={el?.autoRenew}>
+                <If condition={el?.autoRenew && !isAdmin}>
                   <Then>
                     <Center w={{ base: "30%", xl: "20%" }} color="grey.200">
                       <Button
@@ -191,6 +262,7 @@ const PaymentInfo = () => {
                         border="2px"
                         borderColor="grey.200"
                         borderRadius="10px"
+                        isDisabled={isAdmin}
                         onClick={() => {
                           onOpenConfirm();
                           setDataCancel(el);
@@ -205,6 +277,13 @@ const PaymentInfo = () => {
               </Flex>
             </Box>
           ))}
+          {hasNextPage && (
+            <Waypoint onEnter={onLoadMore}>
+              <Box>
+                <NotiSkeleton />
+              </Box>
+            </Waypoint>
+          )}
         </Box>
       </Center>
       <Modal isCentered isOpen={isOpenConfirm} onClose={onCloseConfirm}>
@@ -248,7 +327,7 @@ const PaymentInfo = () => {
             confirm="back to active subscriptions"
             onSubmit={() => {
               onCloseSuccess();
-              router.push("/fan/active-subscriptions");
+              router.reload();
             }}
             success
           />
@@ -264,8 +343,8 @@ PaymentInfo.getLayout = function getLayout(page: ReactElement) {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    setContext(context);
+  (store) => (context) => {
+    setTokenToStore(store, context);
 
     return fanAuthGuard(context, ({ session }: IGuards) => {
       return {

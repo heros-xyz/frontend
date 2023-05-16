@@ -1,4 +1,4 @@
-import { Pagination } from "swiper";
+import { Navigation, Pagination } from "swiper";
 import { AspectRatio, Box, Image, Spinner } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Case, Else, If, Switch, Then } from "react-if";
@@ -19,25 +19,27 @@ interface IHerosSwiper {
 }
 
 const HerosSwiper: React.FC<IHerosSwiper> = ({
-  height = "100%",
+  width = "100%",
+  height = "calc(100% + 40px)",
   slideData,
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const pagination = {
-    clickable: true,
+    clickable: false,
   };
-  const styles = cssStyles(height);
+  const styles = cssStyles(width, height);
 
   return (
     <Box css={styles} maxW="500px">
       <Swiper
         spaceBetween={40}
         pagination={pagination}
-        modules={[Pagination]}
+        modules={[Navigation, Pagination]}
         lazy={true}
         onSlideChange={(slide) => {
           setCurrentSlide(slide.activeIndex);
         }}
+        navigation={slideData.length > 1}
       >
         {slideData?.map((item, index) => (
           <SwiperSlide key={item.id}>

@@ -12,7 +12,6 @@ import {
 import React, { useCallback, useState } from "react";
 import { useRouter } from "next/router";
 import { AnimatePresence, motion } from "framer-motion";
-import { skipToken } from "@reduxjs/toolkit/query";
 import { LogoMiniIcon } from "@/components/svg/LogoMini";
 import { FindIcon } from "@/components/svg/Find";
 import { useSearchAthleteProfileQuery } from "@/api/athlete";
@@ -31,13 +30,6 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
   const [searchValue, setSearchValue] = useState("");
   const [isSearchBarFocused, setFocus] = useState(false);
   const [showSuggestList, setShowSuggestList] = useState(false);
-  // const [searchType, setSearchType] = useState<{
-  //   label: string;
-  //   value: string;
-  // }>({
-  //   value: "5",
-  //   label: "All",
-  // });
   const router = useRouter();
 
   const onChange = useCallback((el: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,60 +101,6 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
             }}
           />
         </InputGroup>
-        {/* <Menu offset={[-200, 0]}>
-          <MenuButton
-            h="fit-content"
-            alignItems="center"
-            onClick={() => {
-              setShowSuggestList(!showSuggestList);
-            }}
-          >
-            <FilterIcon
-              mt={3}
-              color="primary"
-              w="20px"
-              h="20px"
-              // display={{ xl: "none" }}
-            />
-            <Box
-              display={{ base: "none", xl: "flex" }}
-              fontSize="sm"
-              textAlign="center"
-              alignItems="center"
-              h="full"
-              w={{ xl: "75px" }}
-              overflow={{ xl: "hidden" }}
-            >
-              {searchType.label}
-            </Box>
-          </MenuButton>
-          <MenuList
-            borderColor="grey.200"
-            p="0"
-            overflow="hidden"
-            transform="revert"
-          >
-            <MenuOptionGroup type="radio" defaultValue={"5"}>
-              {filterSearchButton.map((el) => (
-                <MenuItemOption
-                  key={el.value}
-                  value={el.value}
-                  flexDirection="row-reverse"
-                  _focus={{}}
-                  fontSize="sm"
-                  bg="grey.0"
-                  onClick={() => {
-                    setSearchType(el);
-                    setShowSuggestList(true);
-                  }}
-                  color="primary"
-                >
-                  {el.label}
-                </MenuItemOption>
-              ))}
-            </MenuOptionGroup>
-          </MenuList>
-        </Menu> */}
       </Flex>
       <AnimatePresence>
         {searchData?.data && showSuggestList && (
@@ -218,8 +156,9 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
                 mr={{ lg: 2 }}
               />
               <Text fontSize={{ base: "xs", lg: "md" }} fontWeight={500}>
-                You can either search by athletes&apos; name or their sports and
-                sports related terms.
+                You can search by athlete&apos;s first names, last names and
+                nicknames, their clubs, their sports, their profile tags and
+                their countries
               </Text>
             </HStack>
           </motion.div>

@@ -4,3 +4,4 @@ export * from "./LockCloseIcon";
 export * from "./EmailIcon";
 export * from "./CreditCardIcon";
 export * from "./ChatAltIcon";
+export * from "./LikeIcon";

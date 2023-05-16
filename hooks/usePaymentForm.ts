@@ -1,7 +1,7 @@
 import * as yup from "yup";
 import { useFormik } from "formik";
 import dayjs from "dayjs";
-import { isValidDate } from "@/utils/functions";
+import { isValidDate } from "@/utils/time";
 
 export const validationSchema = yup.object().shape({
   nameOnCard: yup
@@ -55,7 +55,7 @@ export const usePaymentForm = (props?: IPaymentFormProps) => {
   const formik = useFormik({
     initialValues: props?.initialValues ?? defaultValue,
     validationSchema,
-    onSubmit: async () => {},
+    onSubmit: async () => { },
     validateOnMount: true,
   });
 

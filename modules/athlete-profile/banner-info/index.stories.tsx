@@ -26,6 +26,7 @@ export const InfoComponent: Story = {
         sport={"Cricket"}
         countryCode="VN"
         onClickDownButton={() => {}}
+        role="ADMIN"
       />
     </Provider>
   ),

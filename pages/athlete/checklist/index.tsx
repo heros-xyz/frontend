@@ -9,7 +9,8 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { FC, useEffect, useMemo } from "react";
+import { useSession } from "next-auth/react";
+import { FC,useEffect, useMemo } from "react";
 import Head from "next/head";
 import NextLink from "next/link";
 import Progress from "@/components/common/Progress";
@@ -22,7 +23,7 @@ import useUpdateDoc from "@/hooks/useUpdateDoc";
 
 const CHECK_LIST: ChecklistProps[] = [
   {
-    title: "Basic Information",
+    title: "Personal Information",
     description: "Help your fan & followers know you better personally.",
     type: "basic",
     checked: false,
@@ -165,6 +166,7 @@ const AthleteChecklist: FC = () => {
                 alt="avatar"
                 rounded="full"
                 objectFit="cover"
+                fallbackSrc="/images/DefaultAvaCircle.png"
               />
               <Text
                 as="p"

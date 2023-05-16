@@ -6,7 +6,10 @@ import { useAuthContext } from "@/context/AuthContext";
 export interface FanProfile {
   avatar?: string
   uid?: string
-  sports?: string[]
+  sports?: {
+    key: string
+    label: string
+  }[]
   nickName?: string
 }
 
@@ -22,7 +25,7 @@ export const useFanProfile = (uid?: string) => {
   const { user } = useAuthContext()
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<FanProfile>();
-  const docRef = useMemo(() => doc(db, `fanProfile/${uid || user?.uid}`).withConverter(converter), [uid,user?.uid])
+  const docRef = useMemo(() => doc(db, `fanProfile/${uid || user?.uid}`).withConverter(converter), [uid, user?.uid])
 
   useEffect(() => {
     if (!docRef) return
@@ -38,7 +41,7 @@ export const useFanProfile = (uid?: string) => {
 
   const update = useCallback(async (data: FanProfile) => {
     if (!docRef) return
-    await updateDoc(docRef,data)
+    await updateDoc(docRef, data)
   }, [docRef])
 
   return { loading, data, update }

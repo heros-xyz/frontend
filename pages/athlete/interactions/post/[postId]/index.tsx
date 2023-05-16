@@ -12,9 +12,10 @@ import {
 import { useGetInteractionDetailQuery } from "@/api/athlete";
 import { getImageLink } from "@/utils/link";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import { athleteGuard } from "@/middleware/athleteGuard";
 import { IGuards } from "@/types/globals/types";
+import { setTokenToStore } from "@/utils/auth";
 
 function EditInteractionsPost() {
   const { formik, editPostData, isLoading, handleSubmit } =
@@ -85,8 +86,8 @@ function EditInteractionsPost() {
 export default EditInteractionsPost;
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  () => async (context) => {
-    setContext(context);
+  (store) => async (context) => {
+    setTokenToStore(store, context);
 
     return athleteGuard(context, ({ session }: IGuards) => {
       return {

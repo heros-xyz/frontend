@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import ViewAthleteProfile from "@/modules/fan-dashboard/components/ViewAthleteProfile";
 import { wrapper } from "@/store";
-import { setContext } from "@/libs/axiosInstance";
+
 import {
   getAthleteProfile,
   getPaymentInfo,
@@ -15,6 +15,7 @@ import { getValidateIsFan } from "@/api/athlete";
 import { getImageLink } from "@/utils/link";
 import { guestGuard } from "@/middleware/guestGuard";
 import { getEnvVariables } from "@/utils/env";
+import { setTokenToStore } from "@/utils/auth";
 
 const GuestViewAthleteProfile = () => {
   const { query, push } = useRouter();
@@ -85,7 +86,7 @@ export default GuestViewAthleteProfile;
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    setContext(context);
+    setTokenToStore(store, context);
     const athleteId = context.params?.id;
 
     if (typeof athleteId === "string") {

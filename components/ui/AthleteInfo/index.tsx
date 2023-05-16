@@ -14,7 +14,6 @@ const AthleteInfo: React.FC<AthleteInfoProps> = ({
   imagePath,
   athleteName,
   publishDate,
-  isSchedule,
 }) => {
   const showScheduleIcon = useMemo(() => {
     return publishDate && dayjs(new Date().toJSON()).isBefore(publishDate);
@@ -29,6 +28,7 @@ const AthleteInfo: React.FC<AthleteInfoProps> = ({
         alt="user-avatar"
         rounded="full"
         objectFit="cover"
+        fallbackSrc="/images/DefaultAvaCircle.png"
       />
       <Box ml={3} flex={1}>
         <Text
