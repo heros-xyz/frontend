@@ -1,3 +1,9 @@
+import ErrorMessage from "@/components/common/ErrorMessage";
+import Select from "@/components/common/Select";
+import DateSelect from "@/components/ui/DateSelect";
+import SelectGender from "@/components/ui/SelectGender";
+import FanDashboardLayout from "@/layouts/FanDashboard";
+import { isValidDate } from "@/utils/time";
 import {
   Box,
   Button,
@@ -9,6 +15,8 @@ import {
   Text,
   VisuallyHiddenInput,
 } from "@chakra-ui/react";
+import { useFormik } from "formik";
+import Head from "next/head";
 import {
   MutableRefObject,
   ReactElement,
@@ -16,18 +24,8 @@ import {
   useRef,
   useState,
 } from "react";
-import * as Yup from "yup";
-import Head from "next/head";
-import { useFormik } from "formik";
 import { If, Then } from "react-if";
-import FanDashboardLayout from "@/layouts/FanDashboard";
-import { useGetSportListQuery } from "@/api/global";
-import ErrorMessage from "@/components/common/ErrorMessage";
-import DateSelect from "@/components/ui/DateSelect";
-import SelectGender from "@/components/ui/SelectGender";
-import Select from "@/components/common/Select";
-import { isValidDate } from "@/utils/time";
-import { getImageLink } from "@/utils/link";
+import * as Yup from "yup";
 import { IconEdit } from "@/components/svg/IconEdit";
 import {
   ALLOWED_TYPES,
@@ -35,21 +33,13 @@ import {
   LARGE_SIZE_MESSAGE,
   MAX_SIZE,
 } from "@/utils/inputRules";
-import { useEditFanInfoMutation, useGetFanSettingQuery } from "@/api/fan";
-import { setTokenToStore, updateSession } from "@/utils/auth";
-import { wrapper } from "@/store";
-
-import { fanAuthGuard } from "@/middleware/fanGuard";
-import { IGuards } from "@/types/globals/types";
 import BackButton from "@/components/ui/BackButton";
-import { useUser } from "@/hooks/useUser";
-import { filterSelectOptions, isValidString } from "@/utils/functions";
-import useUpdateDoc from "@/hooks/useUpdateDoc";
-import { User, useUploadAvatarToUser } from "@/libs/dtl";
-import { useSports } from "@/libs/dtl";
 import { useAuthContext } from "@/context/AuthContext";
+import useUpdateDoc from "@/hooks/useUpdateDoc";
+import { useUser } from "@/hooks/useUser";
+import { useSports, useUploadAvatarToUser } from "@/libs/dtl";
 import { useFanProfile } from "@/libs/dtl/fanProfile";
-import { useUploadFile } from "react-firebase-hooks/storage";
+import { filterSelectOptions, isValidString } from "@/utils/functions";
 
 const initialValues = {
   firstName: "",
