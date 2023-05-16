@@ -230,7 +230,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                 {hashtag &&
                   hashtag.map((item) => (
                     <Tag
-                      key={item.id}
+                      key={item}
                       size={{ base: "sm", lg: "lg" }}
                       borderRadius="full"
                       variant="solid"
@@ -243,11 +243,11 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                         cursor="pointer"
                         onClick={() =>
                           router.push(
-                            `/athlete/interactions/filter?tag=${item.name}`
+                            `/athlete/interactions/filter?tag=${item}`
                           )
                         }
                       >
-                        #{item.name}
+                        #{item}
                       </TagLabel>
                     </Tag>
                   ))}

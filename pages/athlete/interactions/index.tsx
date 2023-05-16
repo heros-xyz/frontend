@@ -14,21 +14,25 @@ import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import { IInteractionItem } from "@/types/athlete/types";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
-
-import { wrapper } from "@/store";
-import { IGuards } from "@/types/globals/types";
-import { athleteGuard } from "@/middleware/athleteGuard";
 import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
-import { setTokenToStore } from "@/utils/auth";
+import { useAuthContext } from "@/context/AuthContext";
+import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { usePostsAsMaker } from "@/libs/dtl/post";
 
 const Interactions = () => {
-  const { data: session, status } = useSession();
+  const { userProfile } = useAuthContext();
+  const { athleteProfile, loading } = useGetAthleteProfile();
   const router = useRouter();
+  /*
   const { hasNextPage, interactionsList, isLoading, onLoadMore } =
     useAthleteInteraction({
       isGetPublic: false,
       take: 10,
     });
+    */
+  const hasNextPage = false;
+  const onLoadMore = () => {};
+  const { data: interactionsList, loading: isLoading } = usePostsAsMaker();
 
   const formatPropAthletePost = (postInfo: IInteractionItem) => {
     return {
@@ -42,10 +46,10 @@ const Interactions = () => {
         },
       ],
       athleteInfo: {
-        imagePath: session?.user?.avatar || "",
-        athleteName: session?.user.nickname ?? "",
+        imagePath: userProfile?.avatar || "",
+        athleteName: athleteProfile?.nickName ?? "",
         publishDate: postInfo.publicDate,
-        id: session?.user?.id ?? "",
+        id: userProfile?.uid ?? "",
       },
       slideData: postInfo.interactionMedia ?? [],
       hashtag: postInfo.tags,
@@ -56,6 +60,10 @@ const Interactions = () => {
       liked: postInfo.liked,
     };
   };
+
+  if (loading || !userProfile || !athleteProfile || isLoading) {
+    return <></>;
+  }
 
   return (
     <Box minHeight="100vh">
@@ -129,10 +137,16 @@ const Interactions = () => {
                       interactionInfo={item}
                       onDeleted={router.reload}
                       onUpdated={router.reload}
-                      {...formatPropAthletePost(item)}
+                      {...formatPropAthletePost({
+                        ...item,
+                        interactionMedia: item?.media.map((media) => ({
+                          type: media.type,
+                          url: media.url,
+                        })),
+                      })}
                     >
                       <Box mt={{ base: 1, lg: 3 }}>
-                        <AthleteInteractionComments id={item.id} isPreview />
+                        <AthleteInteractionComments id={item?.id} isPreview />
                       </Box>
                     </AthletePost>
                     <Divider display={{ lg: "none" }} my={{ base: 6, lg: 8 }} />
@@ -174,17 +188,3 @@ export default Interactions;
 Interactions.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

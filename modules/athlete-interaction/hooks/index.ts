@@ -22,6 +22,8 @@ import {
 import { updateSession } from "@/utils/auth";
 import { IMediaExisted } from "@/types/athlete/types";
 import { IHerosError } from "@/types/globals/types";
+import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
+import { usePostsAsMaker } from "@/libs/dtl/post";
 export interface IUploadFile {
   type: string;
   file: File | string;
@@ -141,6 +143,7 @@ const validationSchema = yup.object().shape({
 
 export const useInteractionInfo = () => {
   const toast = useToast();
+  const { create } = usePostsAsMaker(false)
   const [submit, { data: postInfo, isLoading, error }] =
     useAddPostInteractionMutation();
   const router = useRouter();
@@ -154,7 +157,7 @@ export const useInteractionInfo = () => {
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: ({
+    onSubmit: async ({
       content,
       tags,
       listMedia,
@@ -171,7 +174,10 @@ export const useInteractionInfo = () => {
         publicDate: dayjs(formatDate).format(),
       };
 
-      submit(mapPayload);
+      console.log(mapPayload)
+      await create(mapPayload)
+
+      //submit(mapPayload);
     },
   });
 
@@ -203,7 +209,6 @@ export const useUpdateInteractionInfo = () => {
   const toast = useToast();
   const [submit, { data: editPostData, isLoading, error }] =
     useUpdatePostInteractionMutation();
-  const router = useRouter();
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -215,6 +220,7 @@ export const useUpdateInteractionInfo = () => {
       schedule,
       publicDate,
       publicTime,
+      ...rest
     }) => {
       const formatDate = new Date(`${publicDate} ${publicTime}`).toUTCString();
       const listMediaExisted = listMedia.filter(
@@ -224,12 +230,14 @@ export const useUpdateInteractionInfo = () => {
       const mapPayload = {
         content,
         tags,
-        listMedia,
-        listMediaExisted,
+        listMedia, // lo nuevo
+        listMediaExisted, // lo viejo no hace falta subirlo
         schedule,
         publicDate: dayjs(formatDate).format(),
       };
-      submit({ interactionId, data: mapPayload });
+
+      console.log("update", { mapPayload })
+      //submit({ interactionId, data: mapPayload });
     },
   });
 

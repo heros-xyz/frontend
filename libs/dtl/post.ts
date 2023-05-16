@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { collection, doc, getDocs, getDoc, onSnapshot, query, QueryDocumentSnapshot, where } from "firebase/firestore";
+import { collection, doc, getDocs, getDoc, onSnapshot, query, QueryDocumentSnapshot, where, addDoc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { useUploadFile } from "react-firebase-hooks/storage";
 import { useAuthContext } from "@/context/AuthContext";
-import { db } from "@/libs/firebase";
+import { db, storage } from "@/libs/firebase";
+import { MutationState } from "./careerJourney";
 
 export interface PostMedia {
   type: string
@@ -30,17 +33,86 @@ const converter = {
   }
 }
 
-export const usePostsAsMaker = () => {
+export interface PostParams {
+  content: string;
+  tags: string[];
+  listMedia: ListMedia[];
+  schedule: boolean;
+  publicDate: Date;
+}
+
+export interface ListMedia {
+  type: "video" | "image";
+  file: File;
+}
+
+export const usePostsAsMaker = (loadData = true) => {
   const { user } = useAuthContext()
-  const create = useCallback(async (post: Post) => {
-    if (!user || !user.uid) return
-    //Llama a la fucnion de withdrawal
-  }, [user?.uid])
   const [loading, setLoading] = useState(true);
   const [data, serData] = useState<Post[]>([]);
+  const [uploadFile, uploading, snapshot, error] = useUploadFile();
+  const { } = useState<MutationState>()
+
+  const create = useCallback(async (params: PostParams) => {
+    if (!user || !user.uid) return
+    try {
+      // subir images y videos
+      const { listMedia, ...rest } = params
+      const collectionRef = collection(db, "post");
+
+      const post: Partial<Post> = {
+        ...rest,
+        uid: user?.uid
+      }
+      const newPost = await addDoc(collectionRef, post)
+
+      const media = await Promise.all(listMedia.map(async (media) => {
+        // media/{uid}/{post-id}
+        const storageRef = ref(storage, `media/${user.uid}/${newPost.id}/${media.file.name}`)
+        const result: PostMedia = {
+          type: media.type,
+          url: ""
+        };
+
+        const uploadTask = await uploadFile(storageRef, media.file)
+        if (uploadTask) {
+          result.url = await getDownloadURL(uploadTask?.ref)
+        }
+
+        return result
+
+        /*
+        if (media.type === "image") {
+          const uploadTask = await uploadFile(storageRef, media.file)
+          if (uploadTask) {
+            result.url = await getDownloadURL(uploadTask?.ref)
+          }
+        }
+
+        if (media.type === "video") {
+          const uploadTask = await uploadFile(storageRef, media.file)
+          const url = await getDownloadURL(uploadTask.snapshot.ref)
+          return {
+            type: media.type,
+            url
+          }
+        }
+        */
+
+      }))
+
+      await updateDoc(doc(db, "post", newPost.id), {
+        media
+      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+
+    }
+  }, [user?.uid])
 
   useEffect(() => {
-    if (!user || !user.uid) return
+    if (!user || !user.uid || !loadData) return
     const q = query(collection(db, "post"), where("uid", "==", user?.uid)).withConverter(converter)
     getDocs(q)
       .then((snapshot) => {
@@ -50,18 +122,18 @@ export const usePostsAsMaker = () => {
     return onSnapshot(q, (snapshot) => {
       serData(snapshot.docs.map(d => d.data()))
     });
-  }, [user?.uid]);
+  }, [user?.uid, loadData]);
 
   return { create, loading, data }
 }
 
-export const usePostAsMaker = (post?: string) => {
+export const usePostAsMaker = (postId?: string) => {
   const [loading, setLoading] = useState(true);
   const dataRef = useMemo(() =>{
-    if (post){
-      return doc(db, `post/${post}`).withConverter(converter)
+    if (postId) {
+      return doc(db, `post/${postId}`).withConverter(converter)
     }
-  }, [post])
+  }, [postId])
   const [data, setData] = useState<Post|undefined>();
 
   useEffect(() => {
