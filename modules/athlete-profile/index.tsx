@@ -30,10 +30,6 @@ const TABS = ["Profile", "Interactions", "Career Journey", "Subscribe"];
 const AthleteProfile = () => {
   const { userProfile } = useAuthContext();
   const { athleteProfile } = useGetAthleteProfile();
-  const pageInfo = {
-    tagLine: athleteProfile?.tagline,
-    tags: athleteProfile?.tags,
-  };
   const basicInfo = {
     nickName: athleteProfile?.nickName,
     dateOfBirth: userProfile?.dateOfBirth,
@@ -50,11 +46,16 @@ const AthleteProfile = () => {
     sport: athleteProfile?.sport,
   };
   const { journeys: journeyData } = useCareerJourneys();
-  const { data: tierMembershipList } = useMembershipTiersAsMaker();
+  const { data: tierMembershipList, loading: loadingMemberships } =
+    useMembershipTiersAsMaker();
   const [currentTab, setCurrentTab] = useQueryParam(
     "current",
     withDefault(NumberParam, 0)
   );
+
+  if (loadingMemberships) {
+    return <></>;
+  }
 
   return (
     <Box as="section" bg="white" minH="100vh">
@@ -177,12 +178,13 @@ const AthleteProfile = () => {
                     Edit Tiers
                   </Text>
                 </Link>
-
-                <BronzeTier
-                  title="Bronze"
-                  checked={false}
-                  data={tierMembershipList?.[0]}
-                />
+                {!!tierMembershipList && (
+                  <BronzeTier
+                    title="Bronze"
+                    checked={false}
+                    data={tierMembershipList?.[0]}
+                  />
+                )}
               </Then>
               <Else>
                 <Box textAlign={{ base: "left", lg: "center" }}>

@@ -11,14 +11,14 @@ export interface Nationality {
 }
 
 export interface IBasicInfo {
-  id: string;
-  createdAt: string | Date;
-  updatedAt: string | Date;
+  id?: string;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
   deletedAt?: Date | string | null;
-  nickName: string;
+  nickName?: string;
   story?: string;
-  nationality: Nationality;
-  dateOfBirth: string;
+  nationality?: Nationality;
+  dateOfBirth?: string;
   gender: number;
   firstName: string;
   lastName: string;
