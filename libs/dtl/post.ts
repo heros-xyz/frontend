@@ -80,25 +80,6 @@ export const usePostsAsMaker = (loadData = true) => {
         }
 
         return result
-
-        /*
-        if (media.type === "image") {
-          const uploadTask = await uploadFile(storageRef, media.file)
-          if (uploadTask) {
-            result.url = await getDownloadURL(uploadTask?.ref)
-          }
-        }
-
-        if (media.type === "video") {
-          const uploadTask = await uploadFile(storageRef, media.file)
-          const url = await getDownloadURL(uploadTask.snapshot.ref)
-          return {
-            type: media.type,
-            url
-          }
-        }
-        */
-
       }))
 
       await updateDoc(doc(db, "post", newPost.id), {
