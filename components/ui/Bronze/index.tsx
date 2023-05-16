@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import { useEffectOnce } from "react-use";
 import { If, Then } from "react-if";
 import CheckBoxRadioIcon from "@/components/svg/CheckBoxRadio";
-import { IMembershipTier } from "@/types/membership/types";
+import { MembershipTier } from "@/libs/dtl/membershipTiers";
 
 interface SearchResultProps {
   checked: boolean;
   title: string;
   totalFan?: number;
-  data: IMembershipTier;
+  data: MembershipTier;
   hasRadioButton?: boolean;
   disabled?: boolean;
   onChange?: (checked: boolean, value: string) => void;
@@ -89,14 +89,15 @@ const BronzeTier: React.FC<SearchResultProps> = ({
         <Text fontWeight="500" mb={1} fontSize={{ base: "xs", xl: "md" }}>
           Benefit
         </Text>
-        {data?.benefits?.map((el) => (
+        {data?.benefits?.map((el, idx) => (
           <Text
-            key={el?.id}
+            // eslint-disable-next-line react/no-array-index-key
+            key={`${el?.label}-${idx}`}
             fontSize={{ base: "xxs", xl: "md" }}
             fontWeight="300"
             ml={{ base: 1, xl: 2 }}
           >
-            ·&ensp; {el?.name}
+            ·&ensp; {el?.label}
           </Text>
         ))}
       </Box>

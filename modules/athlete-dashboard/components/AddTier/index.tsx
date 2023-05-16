@@ -17,15 +17,21 @@ import { Else, If, Then } from "react-if";
 import { useState } from "react";
 import { useUpdateEffect } from "react-use";
 import { useRouter } from "next/router";
+import { useFormik } from "formik";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import AddArchiveIcon from "@/components/svg/AddArchiveIcon";
 import EditPencilIcon from "@/components/svg/EditPencilIcon";
 import {
-  useAddSubscriptionInfoMutation,
-  useUpdateSubscriptionInfoMutation,
-} from "@/api/athlete";
-import { useSubscriptionForm } from "@/hooks/useSubscriptionForm";
+  initialAddTierValues,
+  validationAddTierSchema,
+} from "@/hooks/useSubscriptionForm";
+import {
+  MembershipTier,
+  MembershipTierType,
+  useMembershipTiersAsMaker,
+} from "@/libs/dtl/membershipTiers";
+import { useAuthContext } from "@/context/AuthContext";
 
 interface IProp {
   title: string;
@@ -48,20 +54,70 @@ const AddTier: React.FC<IProp> = ({
   listBenefit,
 }) => {
   const router = useRouter();
+  const { user } = useAuthContext();
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [benefit, setBenefit] = useState<string | string[]>([]);
   const [benefitData, setBenefitData] = useState<string | string[]>([]);
   const [edited, setEdited] = useState<boolean>(false);
+  const {
+    create: {
+      create: addSubscription,
+      success: successAdd,
+      loading: loadingAdd,
+    },
+    update: {
+      update: updateSubscription,
+      loading: loadingUpdate,
+      success: successUpdate,
+    },
+    loading,
+  } = useMembershipTiersAsMaker();
 
-  const [addSubscription, { isLoading: loadingAdd, isSuccess: successAdd }] =
-    useAddSubscriptionInfoMutation();
-  const [
-    updateSubscription,
-    { isLoading: loadingUpdate, isSuccess: successUpdate },
-  ] = useUpdateSubscriptionInfoMutation();
+  const formik = useFormik({
+    initialValues: initialAddTierValues,
+    validationSchema: validationAddTierSchema,
+    onSubmit: async (values) => {
+      if (!user?.uid) return;
+      if (benefitData?.length <= 0) {
+        setSubmitted(true);
+        return;
+      }
 
-  const { formik, isValid, submitCount, values, handleSubmit } =
-    useSubscriptionForm();
+      // TODO: check benefits interface save on firestore
+      const {
+        monthlyPrice,
+        listBenefitsId: benefits,
+        tierDescription,
+        ...newValues
+      } = values;
+
+      const data = {
+        name: "Bronze Tier",
+        type: "BRONCE" as MembershipTierType,
+        monthlyPrice: parseFloat(monthlyPrice),
+        benefits: benefits?.map((key) => ({
+          key,
+          label: listBenefit.find((benefit) => benefit.value === key)?.label,
+        })),
+        tierDescription,
+      };
+
+      if (title === "Edit Tier" && typeof idEdit === "string" && idEdit) {
+        const updateParams: Partial<MembershipTier> = {
+          ...data,
+        };
+        await updateSubscription(idEdit, updateParams);
+      } else {
+        const addParams: MembershipTier = {
+          ...data,
+          uid: user?.uid,
+          stripePriceTierId: "", // TODO: add stripe price tier id
+          stripeProductId: "", // TODO: add stripe product id
+        };
+        await addSubscription(addParams);
+      }
+    },
+  });
 
   useUpdateEffect(() => {
     formik.setFieldValue("monthlyPrice", dataEdit?.monthlyPrice);
@@ -71,17 +127,21 @@ const AddTier: React.FC<IProp> = ({
     setBenefit(dataEdit?.listBenefitsId || []);
   }, [dataEdit]);
 
+  /*
   useUpdateEffect(() => {
     if (submitCount % 2 === 0 && isValid && benefitData?.length > 0) {
       const { monthlyPrice, ...newValue } = values;
+      console.log("MUTATION");
       if (title === "Edit Tier" && idEdit) {
-        updateSubscription({
+        return;
+        updateSubscription(idEdit, {
           id: idEdit,
           name: "Bronze Tier",
           monthlyPrice: parseFloat(monthlyPrice),
           ...newValue,
         });
       } else {
+        return;
         addSubscription({
           name: "Bronze Tier",
           monthlyPrice: parseFloat(monthlyPrice),
@@ -90,6 +150,7 @@ const AddTier: React.FC<IProp> = ({
       }
     }
   }, [submitCount]);
+  */
 
   useUpdateEffect(() => {
     if (successAdd) {
@@ -381,6 +442,7 @@ const AddTier: React.FC<IProp> = ({
                   type="checkbox"
                   defaultValue={benefitData}
                   onChange={(value) => {
+                    console.log({ value });
                     setBenefit(value);
                   }}
                 >
@@ -426,10 +488,6 @@ const AddTier: React.FC<IProp> = ({
               fontWeight={"bold"}
               type="submit"
               fontSize={{ base: "md", xl: "xl" }}
-              onClick={() => {
-                setSubmitted(true);
-                handleSubmit();
-              }}
               isLoading={loadingAdd || loadingUpdate}
               _hover={{}}
             >

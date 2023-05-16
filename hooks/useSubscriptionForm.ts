@@ -33,7 +33,9 @@ export const useSubscriptionForm = (props?: IPaymentFormProps) => {
   const formik = useFormik({
     initialValues: props?.initialValues ?? initialAddTierValues,
     validationSchema: validationAddTierSchema,
-    onSubmit: async () => { },
+    onSubmit: async () => {
+      console.log("submit");
+    },
   });
   return {
     formik,

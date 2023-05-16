@@ -94,7 +94,7 @@ export function useAddCareerJourneys(): AddCareerJourneyResult {
     };
 }
 
-interface MutationState {
+export interface MutationState {
     success: boolean,
     error: null | IHerosError,
     loading: boolean
