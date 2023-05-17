@@ -28,6 +28,7 @@ export interface Post {
   totalReactionsCount: number
   liked?: boolean
   uid?: string
+  createdAt: Date
 }
 
 const converter = {

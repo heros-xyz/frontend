@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
+import { serverTimestamp } from "firebase/firestore";
 import { isBeforeEndDate, isValidDate } from "@/utils/time";
 import {
   useAddPostInteractionMutation,
@@ -170,11 +171,11 @@ export const useInteractionInfo = () => {
         listMedia,
         schedule,
         publicDate: dayjs(formatDate).format(),
+        createdAt: serverTimestamp()
       };
 
       console.log("onsubmit create")
       await create(mapPayload as any)
-      //await create(mapPayload as any)
     },
   });
 

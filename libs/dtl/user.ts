@@ -21,6 +21,9 @@ export interface User {
   nationality: Nationality
   isFinishSetupAccount?: boolean
   profileType: "FAN" | "ATHLETE" | "ADMIN"
+  // Only for athlete
+  hasFirstInteraction?: boolean
+  hasCreateInteractionRecent?: boolean
 }
 
 export function useUploadAvatarToUser() {
@@ -55,32 +58,33 @@ export function useUploadAvatarToUser() {
 export const REMIND_CREATE_INTERACTION_TIME = 3600 * 24 * 3 * 1000; // 3 days in millisecond unit
 
 export async function getHasRecentPosts(userId: string) {
-  /**
-   * 
-   * 
-   * const current = new Date();
-    const remindInteractionDate = new Date();
-    remindInteractionDate.setTime(
-      current.getTime() - REMIND_CREATE_INTERACTION_TIME,
-    );
-   * 
-   * 
-   * Busca las ultimas iteraccion del usuario
-   * const recentInteraction = await getDocs(query(collection(db, "post", user.uid))(user.uid);
-   *  let hasCreateInteractionRecent = true;(user.uid);
-   *  let hasCreateInteractionRecent = true;
+  const current = new Date();
+  const remindInteractionDate = new Date();
+  remindInteractionDate.setTime(
+    current.getTime() - REMIND_CREATE_INTERACTION_TIME,
+  );
+  const postsRef = collection(db, 'post')
+  const q = query(
+    postsRef,
+    where('uid', '==', userId),
+    orderBy('publicDate', 'desc'),
+    limit(1)
+  );
+  const recentInteraction = (await getDocs(q)).docs.map(doc => doc.data());
 
-    if (
-      !recentInteraction ||
-      recentInteraction.createdAt < remindInteractionDate
-    ) {
-      hasCreateInteractionRecent = false;
-    }
-   * 
-   * 
-   */
-  const postsRef = collection(db, 'posts');
-  const q = query(postsRef, where('uid', '==', userId), orderBy('publishedDate', 'desc'), limit(1));
-  const dosc = (await getDocs(q)).docs.map(doc => doc.data());
+  let hasCreateInteractionRecent = true;
 
+  const createdAt = recentInteraction?.[0]?.createdAt?.toDate()
+
+  if (
+    !recentInteraction?.length ||
+    createdAt < remindInteractionDate
+  ) {
+    hasCreateInteractionRecent = false;
+  }
+
+  return ({
+    hasFirstInteraction: Boolean(recentInteraction?.length),
+    hasCreateInteractionRecent,
+  })
 }
