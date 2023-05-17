@@ -61,13 +61,9 @@ const AddTier: React.FC<IProp> = ({
   const [benefitData, setBenefitData] = useState<string | string[]>([]);
   const [edited, setEdited] = useState<boolean>(false);
   const {
-    create: {
-      create: addSubscription,
-      success: successAdd,
-      loading: loadingAdd,
-    },
+    create: { addMembership, success: successAdd, loading: loadingAdd },
     update: {
-      update: updateSubscription,
+      updateMembership,
       loading: loadingUpdate,
       success: successUpdate,
     },
@@ -105,13 +101,14 @@ const AddTier: React.FC<IProp> = ({
         const updateParams = {
           ...data,
         } as Partial<MembershipTierParams>;
-        await updateSubscription(idEdit, updateParams);
+        await updateMembership(idEdit, updateParams);
       } else {
+        debugger;
         const addParams: Partial<MembershipTier> = {
           ...data,
           uid: user?.uid,
         } as MembershipTierParams;
-        await addSubscription(addParams);
+        await addMembership(addParams);
       }
     },
   });
