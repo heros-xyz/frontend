@@ -30,6 +30,7 @@ import { useReactionInteractionMutation } from "@/api/fan";
 import InteractionsPost from "@/modules/athlete-interaction/components/post";
 import { useUpdateInteractionInfo } from "@/modules/athlete-interaction/hooks";
 import SocialSharing from "@/modules/athlete-profile/interactions/components/SocialSharing";
+import { useReactions } from "@/libs/dtl/reaction";
 import AthleteInfo, { AthleteInfoProps } from "../AthleteInfo";
 import type { MenuItem } from "../AthleteMenu";
 import AthleteMenu from "../AthleteMenu";
@@ -39,7 +40,7 @@ import DeletePostModal from "./Modal/Delete";
 interface IAthletePostProps {
   children?: React.ReactNode;
   interactionInfo?: IInteractionItem;
-  id: string | string[] | undefined;
+  id: string;
   menuList?: MenuItem[];
   athleteInfo: AthleteInfoProps;
   postLikes: number;
@@ -80,11 +81,15 @@ const AthletePost: React.FC<IAthletePostProps> = ({
   const iconActions = useRef<HTMLDivElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [reaction, setReaction] = useState<boolean>(liked);
+  /*
   const [totalReaction, setTotalReaction] = useState<number>(postLikes);
+  */
+  const totalReaction = postLikes;
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
   const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
   const [onReaction, { data: reactionData, isLoading: isReactionLoading }] =
     useReactionInteractionMutation();
+  const { create } = useReactions(false);
   const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
 
   const handleClickMenu = (id: string) => {
@@ -117,22 +122,24 @@ const AthletePost: React.FC<IAthletePostProps> = ({
 
   useUpdateEffect(() => {
     setReaction(liked);
-    setTotalReaction(postLikes);
   }, [liked, postLikes]);
 
-  useUpdateEffect(() => {
-    if (reactionData) {
-      setTotalReaction(reactionData.totalReaction);
-    }
-  }, [reactionData]);
-
+  console.log({ id });
   const handleReaction = async () => {
     if (isReactionLoading) return;
+    console.log("reaction", reaction);
+    await create({
+      to: id,
+      toType: "POST",
+      type_: "LIKE",
+    });
+    /*
     setReaction(!reaction);
-    onReaction({
+    //onReaction({
       reactionType: 1,
       interactionId: id,
     });
+    */
   };
 
   const ReadMore: React.FC<{ text: string }> = ({ text }) => {
@@ -175,6 +182,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
     );
   };
 
+  console.log({ slideData });
   return (
     <Box h="100%">
       <Grid
@@ -192,7 +200,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
             <AthleteMenu onClickItem={handleClickMenu} menuList={menuList} />
           </Flex>
 
-          <If condition={slideData && slideData.length}>
+          <If condition={slideData && slideData?.length}>
             <Then>
               <Box maxW="calc(100vw - 40px)">
                 <HerosSwiper slideData={slideData} />
@@ -220,7 +228,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
               </Else>
             </If>
           </Box>
-          <If condition={hashtag && hashtag.length}>
+          <If condition={hashtag && hashtag?.length}>
             <Then>
               <Flex
                 flexWrap="wrap"
@@ -230,7 +238,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                 {hashtag &&
                   hashtag.map((item) => (
                     <Tag
-                      key={item.id}
+                      key={item}
                       size={{ base: "sm", lg: "lg" }}
                       borderRadius="full"
                       variant="solid"
@@ -243,11 +251,11 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                         cursor="pointer"
                         onClick={() =>
                           router.push(
-                            `/athlete/interactions/filter?tag=${item.name}`
+                            `/athlete/interactions/filter?tag=${item}`
                           )
                         }
                       >
-                        #{item.name}
+                        #{item}
                       </TagLabel>
                     </Tag>
                   ))}

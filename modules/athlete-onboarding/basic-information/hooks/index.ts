@@ -65,7 +65,7 @@ export const useBasicInfo = () => {
           const paramsUser = {
             nationality: values.nationality,
             gender: values.gender,
-            birthday: values.dateOfBirth,
+            dateOfBirth: values.dateOfBirth,
           }
           const paramsAthleteProfile = {
             story: values.story
