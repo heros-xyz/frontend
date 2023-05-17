@@ -10,12 +10,11 @@ import {
   usePaymentForm,
   validationSchema,
 } from "@/hooks/usePaymentForm";
-import {
-  useAddPaymentInfoMutation,
-  useUpdatePaymentInfoMutation,
-} from "@/api/fan";
+
 import { usePaymentMethod } from "@/libs/dtl/payment";
 import { initialChangepayment } from "../../constants";
+import { useAuthContext } from "@/context/AuthContext";
+
 interface IProp {
   idAthleteTier?: string;
   idAthleteSubmit?: string;
@@ -35,30 +34,42 @@ const ChangePayment: React.FC<IProp> = ({
   setErrorCode,
 }) => {
   const router = useRouter();
+  const { userProfile } = useAuthContext();
   const {
-    create: {
+    createAndUpdatePaymentMethod: {
       success: addSuccess,
       loading: loadingAdd,
       error: errorAdd,
-      create: addPayment,
+      createAndUpdatePaymentMethod: addPayment,
+    },
+    updatePaymentMethod: {
+      updatePaymentMethod: updatePayment,
+      success: updateSuccess,
+      loading: loadingUpdate,
+      error: errorUpdate,
     },
   } = usePaymentMethod();
 
-  /*
-  const { formik, isValid, submitCount, values, handleSubmit } =
-    usePaymentForm();
-    */
   const formik = useFormik({
     initialValues: defaultValue,
     validationSchema,
     onSubmit: async (values) => {
+      if (!userProfile?.uid) return;
+      const post = {
+        uid: userProfile?.uid,
+        cardName: values.nameOnCard,
+        cardNumber: values.cardNumber,
+        cardExpMonth: +values.expiredDate.split("/")[0],
+        cardExpYear: +values.expiredDate.split("/")[1],
+        cardCvc: values.cvv,
+      };
       console.log("submit", values);
       if (idUpdate) {
         console.log("update");
-        //updatePayment({ id: idUpdate, ...values });
+        // updatePayment({ id: idUpdate, ...post });
       } else {
         console.log("add");
-        //addPayment(values);
+        addPayment(post);
       }
     },
     validateOnMount: true,
@@ -72,29 +83,6 @@ const ChangePayment: React.FC<IProp> = ({
       }
     | {}
   >();
-  /*
-  const [
-    addPayment,
-    { isSuccess: addSuccess, isLoading: loadingAdd, error: errorAdd },
-  ] = usePaymentMethod();
-  */
-
-  const [
-    updatePayment,
-    { isSuccess: updateSuccess, isLoading: loadingUpdate, error: errorUpdate },
-  ] = useUpdatePaymentInfoMutation();
-
-  /*
-  useEffect(() => {
-    if (submitCount && isValid) {
-      if (idUpdate) {
-        updatePayment({ id: idUpdate, ...values });
-      } else {
-        addPayment(values);
-      }
-    }
-  }, [submitCount]);
-  */
 
   useUpdateEffect(() => {
     if (!!errorAdd) {
@@ -168,21 +156,19 @@ const ChangePayment: React.FC<IProp> = ({
             update
           </Button>
         </Flex>
-        <If condition={errorCard}>
-          <Then>
-            <Flex
-              flexDirection={{ base: "column", xl: "row" }}
-              color="error.dark"
-              mt={{ base: 4, xl: 5 }}
-              justifyContent={{ xl: "end" }}
-              alignItems={{ base: "center", xl: "normal" }}
-              fontSize="xs"
-            >
-              <Text>Your credit card was declined.</Text>
-              <Text ml={{ xl: 1 }}>Try paying with another credit card.</Text>
-            </Flex>
-          </Then>
-        </If>
+        {errorCard && (
+          <Flex
+            flexDirection={{ base: "column", xl: "row" }}
+            color="error.dark"
+            mt={{ base: 4, xl: 5 }}
+            justifyContent={{ xl: "end" }}
+            alignItems={{ base: "center", xl: "normal" }}
+            fontSize="xs"
+          >
+            <Text>Your credit card was declined.</Text>
+            <Text ml={{ xl: 1 }}>Try paying with another credit card.</Text>
+          </Flex>
+        )}
       </FormikContext.Provider>
     </Box>
   );

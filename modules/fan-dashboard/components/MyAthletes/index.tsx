@@ -17,32 +17,36 @@ import {
 } from "@/api/fan";
 import AthleteAvatar from "@/components/ui/AthleteAvatar";
 import { useUser } from "@/hooks/useUser";
+import useGetRecommendedAthlete from "@/libs/dtl/recommendedAthletes";
 
 const MyAthletes: FC = () => {
   const { isAdmin, isFan } = useUser();
-  const {
-    data: listAthleteSubscribed,
-    isSuccess,
-    isLoading: getListAthleteSubscribedLoading,
-  } = useGetListAthleteSubscribedQuery({
-    take: isFan ? 3 : 6,
-    page: 1,
-  });
+  const athletesList = useGetRecommendedAthlete();
+  console.log("athletesList", athletesList);
 
-  const {
-    data: listAthleteRecommended,
-    isLoading: getListAthleteRecommendedLoading,
-  } = useGetListAthleteRecommendedQuery(
-    {
-      take:
-        listAthleteSubscribed?.data && listAthleteSubscribed?.data?.length <= 3
-          ? 6 - listAthleteSubscribed?.data?.length
-          : 3,
-    },
-    {
-      skip: !isSuccess || isAdmin,
-    }
-  );
+  // const {
+  //   data: listAthleteSubscribed,
+  //   isSuccess,
+  //   isLoading: getListAthleteSubscribedLoading,
+  // } = useGetListAthleteSubscribedQuery({
+  //   take: isFan ? 3 : 6,
+  //   page: 1,
+  // });
+
+  // const {
+  //   data: listAthleteRecommended,
+  //   isLoading: getListAthleteRecommendedLoading,
+  // } = useGetListAthleteRecommendedQuery(
+  //   {
+  //     take:
+  //       listAthleteSubscribed?.data && listAthleteSubscribed?.data?.length <= 3
+  //         ? 6 - listAthleteSubscribed?.data?.length
+  //         : 3,
+  //   },
+  //   {
+  //     skip: !isSuccess || isAdmin,
+  //   }
+  // );
 
   const athleteList = useMemo(() => {
     let listAthleteRecommendedFormat = [];
