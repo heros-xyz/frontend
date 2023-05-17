@@ -7,11 +7,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { FC } from "react";
-import { useUpdateEffect } from "react-use";
 import { useRouter } from "next/router";
+import { deleteDoc, doc } from "firebase/firestore";
 import { DeletePostIcon } from "@/components/svg/DeletePost";
-import { useDeletePostInteractionMutation } from "@/api/athlete";
 import { DeletePostMobileIcon } from "@/components/svg/DeletePostMobile";
+import { db } from "@/libs/firebase";
 interface IDeletePostModalProps {
   postId: string;
   isOpen: boolean;
@@ -25,20 +25,17 @@ const DeletePostModal: FC<IDeletePostModalProps> = ({
   onClose,
   onDeleted,
 }) => {
-  const [submit, data] = useDeletePostInteractionMutation();
   const router = useRouter();
 
-  useUpdateEffect(() => {
-    if (data.isSuccess) {
+  const handleDeletePost = async () => {
+    try {
+      await deleteDoc(doc(db, "post", postId));
       onDeleted();
       onClose();
       router.push("/athlete/interactions");
-    }
-  }, [data]);
-
-  const handleDeletePost = () => {
-    submit(postId as string);
+    } catch (error) {}
   };
+
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

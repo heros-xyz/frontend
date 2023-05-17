@@ -143,16 +143,14 @@ const validationSchema = yup.object().shape({
 
 export const useInteractionInfo = () => {
   const toast = useToast();
-  const { create } = usePostsAsMaker(false)
-  const [submit, { data: postInfo, isLoading, error }] =
-    useAddPostInteractionMutation();
+  const { create: { create, error, success: successCreate, loading: isLoading } } = usePostsAsMaker(false)
   const router = useRouter();
+
   useEffect(() => {
-    if (postInfo) {
+    if (successCreate) {
       router.push("/athlete/interactions");
-      updateSession();
     }
-  }, [postInfo]);
+  }, [successCreate]);
 
   const formik = useFormik({
     initialValues,
@@ -174,7 +172,9 @@ export const useInteractionInfo = () => {
         publicDate: dayjs(formatDate).format(),
       };
 
-      await create(mapPayload)
+      console.log("onsubmit create")
+      await create(mapPayload as any)
+      //await create(mapPayload as any)
     },
   });
 

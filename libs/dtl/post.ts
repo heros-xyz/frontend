@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { collection, doc, getDocs, getDoc, onSnapshot, query, QueryDocumentSnapshot, where, addDoc, updateDoc, getCountFromServer } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 import { useUploadFile } from "react-firebase-hooks/storage";
+import { current } from "@reduxjs/toolkit";
 import { useAuthContext } from "@/context/AuthContext";
 import { db, storage } from "@/libs/firebase";
 import { IMediaExisted } from "@/types/athlete/types";
@@ -84,10 +85,16 @@ export const usePostsAsMaker = (loadData = true) => {
   const [loading, setLoading] = useState(true);
   const [data, serData] = useState<Post[]>([]);
   const [uploadFile] = useUploadFile();
+  const [mutationStates, setMutationStates] = useState<MutationState>({
+    error: null,
+    success: false,
+    loading: false
+  })
 
   const create = useCallback(async (params: PostParams) => {
     if (!user || !user.uid) return
     try {
+      setMutationStates(current => ({ ...current, loading: true }))
       const { listMedia, ...rest } = params
       const collectionRef = collection(db, "post");
       const post: Partial<Post> = {
@@ -106,10 +113,12 @@ export const usePostsAsMaker = (loadData = true) => {
       await updateDoc(doc(db, "post", newPost.id), {
         media
       })
+      setMutationStates(current => ({ ...current, success: true }))
     } catch (error) {
       console.log(error)
+      setMutationStates(current => ({ ...current, error: { data: error } }))
     } finally {
-
+      setMutationStates(current => ({ ...current, loading: false }))
     }
   }, [user?.uid])
 
@@ -140,7 +149,12 @@ export const usePostsAsMaker = (loadData = true) => {
     });
   }, [user?.uid, loadData]);
 
-  return { create, loading, data }
+  return {
+    create: {
+      ...mutationStates,
+      create,
+    }, loading, data
+  }
 }
 
 export const usePostAsMaker = (postId?: string) => {
@@ -214,6 +228,7 @@ export const useEditPost = () => {
     edit
   }
 }
+
 
 export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
   const [loading, setLoading] = useState(true);
