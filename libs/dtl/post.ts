@@ -1,19 +1,22 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { collection, doc, getDocs, getDoc, onSnapshot, query, QueryDocumentSnapshot, where, addDoc, updateDoc, getCountFromServer } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref } from "firebase/storage";
 import { useUploadFile } from "react-firebase-hooks/storage";
 import { useAuthContext } from "@/context/AuthContext";
 import { db, storage } from "@/libs/firebase";
+import { IMediaExisted } from "@/types/athlete/types";
 import { MutationState } from "./careerJourney";
 
 export interface PostMedia {
   type: string
   url: string
+  extension?: string
+  sortOrder?: number
 }
 export interface Post {
   id?: string
   content: string
-  publicDate: Date
+  publicDate: Date | string
   schedule?: boolean
   publicType: string
   tags: string[]
@@ -28,7 +31,7 @@ export interface Post {
 
 const converter = {
   toFirestore: (data: any) => data,
-  fromFirestore: (snap: QueryDocumentSnapshot) =>{
+  fromFirestore: (snap: QueryDocumentSnapshot) => {
     const data = snap.data() as Post
     data.id = snap.id;
     return data
@@ -44,43 +47,61 @@ export interface PostParams {
 }
 
 export interface ListMedia {
-  type: "video" | "image";
+  type: string 
   file: File;
+}
+
+interface UploadBulkMedia {
+  listMedia: ListMedia[],
+  postId: string,
+  userId: string,
+  uploadFile: (...args: any[]) => any
+}
+
+async function uploadBulkMedia({
+  listMedia, postId, userId, uploadFile
+}: UploadBulkMedia) {
+  return await Promise.all(listMedia.map(async (media, index) => {
+    // media/{uid}/{post-id}
+    const storageRef = ref(storage, `media/${userId}/${postId}/${media.file.name}`)
+    const result: PostMedia = {
+      type: media.type,
+      sortOrder: index ?? 0,
+      extension: media.file.name.split(".").pop() || "",
+      url: ""
+    };
+    const uploadTask = await uploadFile(storageRef, media.file)
+    if (uploadTask) {
+      result.url = await getDownloadURL(uploadTask?.ref)
+    }
+
+    return result
+  }))
 }
 
 export const usePostsAsMaker = (loadData = true) => {
   const { user } = useAuthContext()
   const [loading, setLoading] = useState(true);
   const [data, serData] = useState<Post[]>([]);
-  const [uploadFile, uploading, snapshot, error] = useUploadFile();
-  const { } = useState<MutationState>()
+  const [uploadFile] = useUploadFile();
 
   const create = useCallback(async (params: PostParams) => {
     if (!user || !user.uid) return
     try {
-      // subir images y videos
       const { listMedia, ...rest } = params
       const collectionRef = collection(db, "post");
-
       const post: Partial<Post> = {
         ...rest,
         uid: user?.uid
       }
       const newPost = await addDoc(collectionRef, post)
 
-      const media = await Promise.all(listMedia.map(async (media) => {
-        // media/{uid}/{post-id}
-        const storageRef = ref(storage, `media/${user.uid}/${newPost.id}/${media.file.name}`)
-        const result: PostMedia = {
-          type: media.type,
-          url: ""
-        };
-        const uploadTask = await uploadFile(storageRef, media.file)
-        if (uploadTask) {
-          result.url = await getDownloadURL(uploadTask?.ref)
-        }
-        return result
-      }))
+      const media = await uploadBulkMedia({
+        listMedia,
+        postId: newPost.id,
+        uploadFile,
+        userId: user?.uid
+      })
 
       await updateDoc(doc(db, "post", newPost.id), {
         media
@@ -125,7 +146,7 @@ export const usePostsAsMaker = (loadData = true) => {
 export const usePostAsMaker = (postId?: string) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<Post | undefined>();
-  const dataRef = useMemo(() =>{
+  const dataRef = useMemo(() => {
     if (postId) {
       return doc(db, `post/${postId}`).withConverter(converter)
     }
@@ -146,16 +167,64 @@ export const usePostAsMaker = (postId?: string) => {
   return { loading, data }
 }
 
-export const usePostsAsTaker = (params: {maker?: string, tag?: string}) => {
+export const useEditPost = () => {
+  const { user } = useAuthContext()
+  const [uploadFile] = useUploadFile();
+  const [mutationStates, setMutationStates] = useState<MutationState>({
+    success: false,
+    loading: false,
+    error: null
+  })
+
+  const edit = useCallback(async (postId: string, params: Partial<Post & { newMedia: ListMedia[], listMediaExisted: IMediaExisted[] }>) => {
+    if (!user?.uid) return
+    try {
+      const { newMedia, listMediaExisted, ...rest } = params
+      setMutationStates(current => ({ ...current, loading: true }))
+      let mediaUploaded: PostMedia[] = []
+
+      if (!!newMedia?.length) {
+        mediaUploaded = await uploadBulkMedia({
+          listMedia: newMedia,
+          postId: postId,
+          uploadFile,
+          userId: user?.uid
+        })
+      }
+
+      const media = [...listMediaExisted?.map?.(items => ({
+        url: items.file,
+        type: items.type,
+        extension: items.extension
+      })) ?? [],
+      ...mediaUploaded]?.map((item, index) => ({ ...item, sortOrder: index }))
+
+      await updateDoc(doc(db, "post", postId), { ...rest, media, uid: user?.uid })
+      setMutationStates(current => ({ ...current, success: true }))
+    } catch (error) {
+      console.info('ERROR useEditPost#edit', error)
+      setMutationStates(current => ({ ...current, error: { data: error } }))
+    } finally {
+      setMutationStates(current => ({ ...current, loading: false }))
+    }
+  }, [user?.uid])
+
+  return {
+    ...mutationStates,
+    edit
+  }
+}
+
+export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
   const [loading, setLoading] = useState(true);
-  const dataRef = useMemo(() =>{
-    if (params.maker){
+  const dataRef = useMemo(() => {
+    if (params.maker) {
       return query(
         collection(db, `suscriptions`),
         where("maker", "==", params.maker)
       ).withConverter(converter)
     }
-    if (params.tag){
+    if (params.tag) {
       return query(
         collection(db, `suscriptions`),
         where("tags", "array-contains", params.tag)
@@ -181,12 +250,12 @@ export const usePostsAsTaker = (params: {maker?: string, tag?: string}) => {
 
 export const usePostAsTaker = (post?: string) => {
   const [loading, setLoading] = useState(true);
-  const dataRef = useMemo(() =>{
-    if (post){
+  const dataRef = useMemo(() => {
+    if (post) {
       return doc(db, `post/${post}`).withConverter(converter)
     }
   }, [post])
-  const [data, setData] = useState<Post|undefined>();
+  const [data, setData] = useState<Post | undefined>();
 
   useEffect(() => {
     if (!dataRef) return

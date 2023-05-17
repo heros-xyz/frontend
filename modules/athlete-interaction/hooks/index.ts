@@ -23,7 +23,7 @@ import { updateSession } from "@/utils/auth";
 import { IMediaExisted } from "@/types/athlete/types";
 import { IHerosError } from "@/types/globals/types";
 import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
-import { usePostsAsMaker } from "@/libs/dtl/post";
+import { ListMedia, useEditPost, usePostAsMaker, usePostsAsMaker } from "@/libs/dtl/post";
 export interface IUploadFile {
   type: string;
   file: File | string;
@@ -174,10 +174,7 @@ export const useInteractionInfo = () => {
         publicDate: dayjs(formatDate).format(),
       };
 
-      console.log(mapPayload)
       await create(mapPayload)
-
-      //submit(mapPayload);
     },
   });
 
@@ -207,12 +204,11 @@ export const useInteractionInfo = () => {
 
 export const useUpdateInteractionInfo = () => {
   const toast = useToast();
-  const [submit, { data: editPostData, isLoading, error }] =
-    useUpdatePostInteractionMutation();
+  const { edit, loading: isLoading, error, success: successEdit } = useEditPost()
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: ({
+    onSubmit: async ({
       interactionId,
       content,
       tags,
@@ -226,18 +222,20 @@ export const useUpdateInteractionInfo = () => {
       const listMediaExisted = listMedia.filter(
         (item) => typeof item.file === "string"
       ) as IMediaExisted[];
+
       listMedia = listMedia.filter((item) => typeof item.file !== "string");
+
       const mapPayload = {
         content,
         tags,
-        listMedia, // lo nuevo
-        listMediaExisted, // lo viejo no hace falta subirlo
+        newMedia: listMedia,
+        listMediaExisted, // old data
         schedule,
-        publicDate: dayjs(formatDate).format(),
+        publicDate: dayjs(formatDate).format() as string,
       };
 
-      console.log("update", { mapPayload })
-      //submit({ interactionId, data: mapPayload });
+      console.log("onsubmit")
+      await edit(interactionId, mapPayload as any)
     },
   });
 
@@ -261,7 +259,7 @@ export const useUpdateInteractionInfo = () => {
     initialValues,
     isLoading,
     error,
-    editPostData,
     handleSubmit,
+    successEdit
   };
 };

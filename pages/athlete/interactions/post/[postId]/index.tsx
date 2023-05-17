@@ -9,29 +9,27 @@ import {
   IValuesTypes,
   useUpdateInteractionInfo,
 } from "@/modules/athlete-interaction/hooks";
-import { useGetInteractionDetailQuery } from "@/api/athlete";
-import { getImageLink } from "@/utils/link";
 import { usePostAsMaker } from "@/libs/dtl/post";
 
 function EditInteractionsPost() {
-  const { formik, editPostData, isLoading, handleSubmit } =
+  const { formik, successEdit, isLoading, handleSubmit } =
     useUpdateInteractionInfo();
   const router = useRouter();
   const { postId } = router.query;
-
   const { data: postInfo, loading } = usePostAsMaker(postId as string);
 
   const setInitialValue = () => {
     const initValues = {
       interactionId: postInfo?.id,
       content: postInfo?.content || "",
-      listMedia: postInfo?.media?.map((item) => ({
-        id: item?.url,
-        fileName: item.url,
-        type: item.type,
-        extension: item?.extension ?? "",
-        file: item.url,
-      })),
+      listMedia:
+        postInfo?.media?.map?.((item) => ({
+          id: item?.url,
+          fileName: item.url,
+          type: item.type,
+          extension: item?.extension ?? "",
+          file: item.url,
+        })) ?? [],
       tags: postInfo?.tags,
       publicType: postInfo?.publicType || "all",
       schedule: postInfo?.isSchedulePost,
@@ -44,10 +42,10 @@ function EditInteractionsPost() {
   };
 
   useEffect(() => {
-    if (editPostData) {
+    if (successEdit) {
       router.push(`/athlete/interactions/${postId}`);
     }
-  }, [editPostData]);
+  }, [successEdit]);
 
   useEffect(() => {
     if (postInfo) {
@@ -56,8 +54,6 @@ function EditInteractionsPost() {
   }, [postInfo]);
 
   if (loading) return null;
-
-  console.log(postInfo, "postInfo");
 
   return (
     <FormikContext.Provider value={formik}>

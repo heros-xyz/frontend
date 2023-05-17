@@ -228,7 +228,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
               </Else>
             </If>
           </Box>
-          <If condition={hashtag && hashtag.length}>
+          <If condition={hashtag && hashtag?.length}>
             <Then>
               <Flex
                 flexWrap="wrap"

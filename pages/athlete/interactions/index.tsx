@@ -132,7 +132,16 @@ const Interactions = () => {
                     <AthletePost
                       isNavigate
                       isDetailPage={false}
-                      interactionInfo={item}
+                      interactionInfo={{
+                        ...item,
+                        isCurrentUserReacted: userProfile?.uid === item?.uid,
+                        interactionMedia: item?.media.map((media, index) => ({
+                          id: media.url,
+                          url: media.url,
+                          type: media.type,
+                          sortOrder: index,
+                        })),
+                      }}
                       onDeleted={router.reload}
                       onUpdated={router.reload}
                       {...formatPropAthletePost({
