@@ -1,19 +1,38 @@
 import { useCallback, useState } from "react";
+import { addDoc, collection } from "firebase/firestore";
 import { useAuthContext } from "@/context/AuthContext";
+import { db } from "../firebase";
 
 export interface Withdraw {
   status: string
   netAmount: number
-  paymentInformation: string
+  paymentInformation: WithdrawParamsInformation
   uid: string
 }
 
+export interface WithdrawParamsInformation {
+  bankName: string
+  cardNumber: string
+  swiftCode: string
+}
+
 export function useWithdrawal() {
+  const { user } = useAuthContext()
   const [loading, setLoading] = useState(false)
-  const {user} = useAuthContext()
-  const create = useCallback(async (withdraw: Withdraw) => {
+  const [isSuccess, setIsSuccess] = useState(false)
+
+  const create = useCallback(async (withdraw: WithdrawParamsInformation) => {
     if (!user?.uid) return
-    //Llama a la fucnion de withdrawal
+    try {
+      setLoading(true)
+      await addDoc(collection(db, "withdrawalRequests"), { ...withdraw, uid: user?.uid })
+      setIsSuccess(true)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
   }, [user])
-  return { create, loading }
+
+  return { create, loading, isSuccess }
 }

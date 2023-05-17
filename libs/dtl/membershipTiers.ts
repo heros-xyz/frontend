@@ -74,7 +74,7 @@ export function useMembershipTiersAsMaker() {
     )
   }, [user?.uid]);
 
-  const update = useCallback(async (id: string, membershipTierParams: Partial<MembershipTier>) => {
+  const updateMembership = useCallback(async (id: string, membershipTierParams: Partial<MembershipTier>) => {
     if (!user || !user.uid) return
     try {
       setMutationStates(c => ({ ...c, loading: true }))
@@ -89,7 +89,7 @@ export function useMembershipTiersAsMaker() {
     }
   },[user?.uid])
 
-  const create = useCallback(async (membershipTierParams: Partial<MembershipTier>) => {
+  const addMembership = useCallback(async (membershipTierParams: Partial<MembershipTier>) => {
     if (!user || !user.uid) return
     // Path => membershipTiers/{_id}
     try {
@@ -111,11 +111,11 @@ export function useMembershipTiersAsMaker() {
     data,
     update: {
       ...mutationStates,
-      update,
+      updateMembership,
     },
     create: {
       ...mutationStates,
-      create,
+      addMembership,
     }
   }
 }
