@@ -74,6 +74,11 @@ const AuthTemplate: React.FC<IAuthProps> = ({
     );
   }, [authErrorMessage]);
 
+  const isNotRegister = useMemo(()=> {
+    debugger
+    return authErrorMessage === "MUST_SIGN_UP_FIRST"
+  }, [authErrorMessage]);
+
   useEffect(() => {
     setErrorMessage(authErrorMessage);
   }, [authErrorMessage]);
@@ -285,6 +290,16 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                     linkText="sign in here!"
                     errorMessage={
                       "You've already registered with this email. Please"
+                    }
+                  />
+                  <ErrorMessage
+                    mt={{ base: 1.5, xl: 3 }}
+                    display="flex"
+                    condition={isNotRegister}
+                    link="/sign-up"
+                    linkText="sign up here!"
+                    errorMessage={
+                      "You've not registered with this email. Please"
                     }
                   />
                 </Then>
