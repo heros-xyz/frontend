@@ -3,17 +3,8 @@ import { ReactElement } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import FanDashboardLayout from "@/layouts/FanDashboard";
-import {
-  getPaymentInfo,
-  getRunningQueriesThunk,
-  useGetPaymentInfoQuery,
-} from "@/api/fan";
-import PaymentWallet from "@/modules/athlete-dashboard/components/PaymentWallet";
-import { wrapper } from "@/store";
 
-import { fanAuthGuard } from "@/middleware/fanGuard";
-import { IGuards } from "@/types/globals/types";
-import { setTokenToStore } from "@/utils/auth";
+import PaymentWallet from "@/modules/athlete-dashboard/components/PaymentWallet";
 
 const PaymentInfo = () => {
   const router = useRouter();
