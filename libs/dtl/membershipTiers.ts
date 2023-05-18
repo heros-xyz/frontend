@@ -3,7 +3,7 @@ import { addDoc, collection, doc, getDocs, onSnapshot, query, QueryDocumentSnaps
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "@/libs/firebase";
 import { useAuthContext } from "@/context/AuthContext";
-import { MutationState } from "./careerJourney";
+import { MutationState } from "@/libs/dtl/common";
 
 const MembershipTierCollectionName = "membershipTiers"
 
