@@ -21,6 +21,7 @@ export interface User {
   nationality: Nationality
   isFinishSetupAccount?: boolean
   profileType: "FAN" | "ATHLETE" | "ADMIN"
+  stripeCustomer?: string
   // Only for athlete
   hasFirstInteraction?: boolean
   hasCreateInteractionRecent?: boolean

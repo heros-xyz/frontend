@@ -15,8 +15,8 @@ export interface MembershipTier {
   type: MembershipTierType
   tierDescription: string
   monthlyPrice: number
-  stripePriceTierId: string
-  stripeProductId: string
+  stripePrice: string
+  stripeProduct: string
   benefits: {
     label: string
     key: string
