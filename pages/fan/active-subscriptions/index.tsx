@@ -53,7 +53,7 @@ const PaymentInfo = () => {
 
   const [dataCancel, setDataCancel] = useState<GetActiveSubscription>();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentData, setCurrentData] = useState<GetActiveSubscription[]>([]);
+  //const [currentData, setCurrentData] = useState<GetActiveSubscription[]>([]);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
   const [isShowError, setIsShowError] = useState<boolean>(false);
   const { data: dataSub, loading: isLoading } = useGetMySubscriptions();
@@ -64,25 +64,24 @@ const PaymentInfo = () => {
       deleteSub(id);
     }
   };
+  const isFetching = false;
+  const currentData = dataSub?.map(
+    (e) =>
+      ({
+        ...e?.takerData,
+        status: e?.status,
+        monthlyPrice: e?.monthlyPrice, // TODO: add monthly price
+      } as GetActiveSubscription)
+  ) as GetActiveSubscription[];
 
+  /*
   useEffect(() => {
     if (dataSub && !(isFetching || isLoading)) {
-      const nextSub = dataSub?.data?.reduce((acc, cur) => {
-        if (isAdmin) {
-          acc.push({
-            ...cur,
-            autoRenew: true,
-          });
-        } else if (cur?.status === "ACTIVE") {
-          acc.push(cur);
-        }
-
-        return acc;
-      }, [] as GetActiveSubscription[]);
-      setCurrentData((prev) => [...prev, ...nextSub]);
-      setHasNextPage(dataSub.meta.hasNextPage);
+      setCurrentData(c);
+      setHasNextPage(false); // TODO 
     }
   }, [dataSub, isAdmin]);
+  */
 
   useUpdateEffect(() => {
     onCloseConfirm();
@@ -92,7 +91,6 @@ const PaymentInfo = () => {
   useEffect(() => {
     onCloseConfirm();
     onCloseSuccess();
-    setCurrentData([]);
     setCurrentPage(1);
   }, []);
 
@@ -186,7 +184,7 @@ const PaymentInfo = () => {
                   cursor="pointer"
                 >
                   <HerosImage
-                    src={getImageLink(el?.avatar)}
+                    src={el?.avatar}
                     width={{ base: "50px", lg: "80px" }}
                     height={{ base: "50px", lg: "80px" }}
                   />
