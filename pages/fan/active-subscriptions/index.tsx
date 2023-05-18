@@ -68,8 +68,10 @@ const PaymentInfo = () => {
   const currentData = dataSub?.map(
     (e) =>
       ({
-        ...e?.takerData,
+        ...e?.makerData,
+        athleteId: e?.maker,
         status: e?.status,
+        expiredDate: new Date(e?.expiredDate * 1000),
         monthlyPrice: e?.monthlyPrice, // TODO: add monthly price
       } as GetActiveSubscription)
   ) as GetActiveSubscription[];
