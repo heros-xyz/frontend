@@ -8,7 +8,7 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: "export",//TODO: Re-eneable ssr
+  output: "export", //TODO: Re-eneable ssr
   env: {
     HEROS_BASE_URL: process.env.HEROS_BASE_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
@@ -46,6 +46,7 @@ const nextConfig = {
       "cdn-dev.heros.xyz",
       "cdn-uat.heros.xyz",
       "cdn-prod.heros.xyz",
+      "localhost",
       process.env.HEROS_MEDIA_URL?.replace("https://", ""),
     ],
   },

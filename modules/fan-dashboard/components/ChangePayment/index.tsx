@@ -1,16 +1,20 @@
 import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { FormikContext } from "formik";
+import { FormikContext, useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useUpdateEffect } from "react-use";
 import { If, Then } from "react-if";
 import PaymentForm from "@/components/payment/PaymentForm";
-import { usePaymentForm } from "@/hooks/usePaymentForm";
 import {
-  useAddPaymentInfoMutation,
-  useUpdatePaymentInfoMutation,
-} from "@/api/fan";
+  defaultValue,
+  usePaymentForm,
+  validationSchema,
+} from "@/hooks/usePaymentForm";
+
+import { usePaymentMethod } from "@/libs/dtl/payment";
 import { initialChangepayment } from "../../constants";
+import { useAuthContext } from "@/context/AuthContext";
+
 interface IProp {
   idAthleteTier?: string;
   idAthleteSubmit?: string;
@@ -30,8 +34,47 @@ const ChangePayment: React.FC<IProp> = ({
   setErrorCode,
 }) => {
   const router = useRouter();
-  const { formik, isValid, submitCount, values, handleSubmit } =
-    usePaymentForm();
+  const { userProfile } = useAuthContext();
+  const {
+    createAndUpdatePaymentMethod: {
+      success: addSuccess,
+      loading: loadingAdd,
+      error: errorAdd,
+      createAndUpdatePaymentMethod: addPayment,
+    },
+    updatePaymentMethod: {
+      updatePaymentMethod: updatePayment,
+      success: updateSuccess,
+      loading: loadingUpdate,
+      error: errorUpdate,
+    },
+  } = usePaymentMethod();
+
+  const formik = useFormik({
+    initialValues: defaultValue,
+    validationSchema,
+    onSubmit: async (values) => {
+      if (!userProfile?.uid) return;
+      const post = {
+        uid: userProfile?.uid,
+        cardName: values.nameOnCard,
+        cardNumber: values.cardNumber,
+        cardExpMonth: +values.expiredDate.split("/")[0],
+        cardExpYear: +values.expiredDate.split("/")[1],
+        cardCvc: values.cvv,
+      };
+      console.log("submit", values);
+      if (idUpdate) {
+        console.log("update");
+        // updatePayment({ id: idUpdate, ...post });
+      } else {
+        console.log("add");
+        addPayment(post);
+      }
+    },
+    validateOnMount: true,
+  });
+
   const [errorCard, setErrorCard] = useState<boolean>(false);
   const [errorData, setErrorData] = useState<
     | {
@@ -40,24 +83,6 @@ const ChangePayment: React.FC<IProp> = ({
       }
     | {}
   >();
-  const [
-    addPayment,
-    { isSuccess: addSuccess, isLoading: loadingAdd, error: errorAdd },
-  ] = useAddPaymentInfoMutation();
-  const [
-    updatePayment,
-    { isSuccess: updateSuccess, isLoading: loadingUpdate, error: errorUpdate },
-  ] = useUpdatePaymentInfoMutation();
-
-  useEffect(() => {
-    if (submitCount && isValid) {
-      if (idUpdate) {
-        updatePayment({ id: idUpdate, ...values });
-      } else {
-        addPayment(values);
-      }
-    }
-  }, [submitCount]);
 
   useUpdateEffect(() => {
     if (!!errorAdd) {
@@ -124,28 +149,26 @@ const ChangePayment: React.FC<IProp> = ({
               if (loadingAdd || loadingUpdate || isError) {
                 return;
               } else {
-                handleSubmit();
+                formik.handleSubmit();
               }
             }}
           >
             update
           </Button>
         </Flex>
-        <If condition={errorCard}>
-          <Then>
-            <Flex
-              flexDirection={{ base: "column", xl: "row" }}
-              color="error.dark"
-              mt={{ base: 4, xl: 5 }}
-              justifyContent={{ xl: "end" }}
-              alignItems={{ base: "center", xl: "normal" }}
-              fontSize="xs"
-            >
-              <Text>Your credit card was declined.</Text>
-              <Text ml={{ xl: 1 }}>Try paying with another credit card.</Text>
-            </Flex>
-          </Then>
-        </If>
+        {errorCard && (
+          <Flex
+            flexDirection={{ base: "column", xl: "row" }}
+            color="error.dark"
+            mt={{ base: 4, xl: 5 }}
+            justifyContent={{ xl: "end" }}
+            alignItems={{ base: "center", xl: "normal" }}
+            fontSize="xs"
+          >
+            <Text>Your credit card was declined.</Text>
+            <Text ml={{ xl: 1 }}>Try paying with another credit card.</Text>
+          </Flex>
+        )}
       </FormikContext.Provider>
     </Box>
   );

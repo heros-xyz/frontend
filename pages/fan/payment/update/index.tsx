@@ -8,11 +8,6 @@ import ChangePayment from "@/modules/fan-dashboard/components/ChangePayment";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { useGetPaymentInfoQuery } from "@/api/fan";
 import { AlertIcon } from "@/components/svg";
-import { wrapper } from "@/store";
-
-import { fanAuthGuard } from "@/middleware/fanGuard";
-import { IGuards } from "@/types/globals/types";
-import { setTokenToStore } from "@/utils/auth";
 
 const PaymentInfo = () => {
   const router = useRouter();

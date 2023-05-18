@@ -1,16 +1,21 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { collection, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { collection, getCountFromServer, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { httpsCallable } from "firebase/functions";
+import { params } from "firebase-functions/v1";
 import { MembershipTier } from "@/libs/dtl/membershipTiers";
 import { useAuthContext } from "@/context/AuthContext";
-import { db } from "@/libs/firebase";
-import { PublicProfile } from "@/libs/dtl/publicProfile";
+import { db, functions } from "@/libs/firebase";
 import { AthleteProfile } from "@/libs/dtl/athleteProfile";
+import { PublicProfile } from "@/libs/dtl/publicProfile";
+import { MutationState } from "./careerJourney";
+
+const SUBSCRIPTION_COLLECTION_NAME = "subscriptions"
 
 export interface Suscription {
   id?: string
   startDate: Date
   expiredDate: Date
-  status: string
+  status: SubscriptionStatus
   currentJobId: string
   stripeSubscription: string
   paymentInformation: string
@@ -19,6 +24,13 @@ export interface Suscription {
   taker: PublicProfile
   maker: AthleteProfile
   membershipTier: MembershipTier
+}
+
+export enum SubscriptionStatus {
+  DRAFT = 0,
+  ACTIVE = 1,
+  EXPIRED = 2,
+  CANCEL = 3,
 }
 
 const converter = {
@@ -46,7 +58,7 @@ export const useSuscriptionAsMaker = () => {
   const [data, setData] = useState<Suscription[]>([]);
   const dataRef = useMemo(() =>
       user?.uid ?
-        query(collection(db, `suscriptions`), where("maker", "==", user.uid)).withConverter(converter)
+      query(collection(db, SUBSCRIPTION_COLLECTION_NAME), where("maker", "==", user.uid)).withConverter(converter)
         : undefined
     , [user?.uid])
 
@@ -71,7 +83,7 @@ export const useSuscriptionAsTaker = () => {
   const [data, setData] = useState<Suscription[]>();
   const dataRef = useMemo(() =>
     user?.uid ?
-      query(collection(db, `suscriptions`), where("taker", "==", user.uid)).withConverter(converter)
+      query(collection(db, SUBSCRIPTION_COLLECTION_NAME), where("taker", "==", user.uid)).withConverter(converter)
       : undefined
     , [user?.uid])
 
@@ -103,4 +115,96 @@ export const useSuscriptionAsTaker = () => {
   }, [dataRef])
 
   return { loading, data, update, create, remove }
+}
+
+export function useValidateIsFan(athleteId: string) {
+  const { user: taker } = useAuthContext()
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!athleteId || taker?.uid) return
+    const q = query(collection(db, SUBSCRIPTION_COLLECTION_NAME),
+      where("maker", "==", athleteId),
+      where("taker", "==", taker?.uid),
+      where("status", "==", SubscriptionStatus.ACTIVE)
+    );
+
+    getCountFromServer(q)
+      .then((snapshot) => setCount(snapshot?.data().count))
+      .catch(console.error);
+
+  }, [athleteId, taker?.uid]);
+
+
+  return Boolean(count);
+}
+
+interface SubscriptionCreateParams {
+  paymentMethod: string
+  membershipTier: string
+}
+
+export function useSubscribeToAthlete() {
+  const [status, setStatus] = useState<MutationState>({
+    success: false,
+    loading: false,
+    error: undefined
+  })
+
+  const create = useCallback(async (params: SubscriptionCreateParams) => {
+    try {
+      if (!params?.membershipTier || !params?.paymentMethod) return
+      setStatus(current => ({ ...current, loading: true }))
+      const addSubscription = httpsCallable(
+        functions,
+        "subscriptions-create"
+      )
+      await addSubscription(params)
+      setStatus(current => ({ ...current, success: true }))
+    } catch (error) {
+      console.info(error)
+      setStatus(current => ({ ...current, error: error?.message }))
+    } finally {
+      setStatus(current => ({ ...current, loading: false }))
+    }
+
+  }, [])
+
+  return {
+    ...status,
+    create,
+  }
+}
+
+export function useGetMySubscriptions() {
+  const { user: fan } = useAuthContext()
+  const [data, setData] = useState<Suscription[]>();
+  const [status, setStatus] = useState<MutationState & { fetching: boolean }>({
+    error: null,
+    loading: true,
+    success: false,
+    fetching: false
+  })
+
+  const dataRef = useMemo(() =>
+    query(collection(db, SUBSCRIPTION_COLLECTION_NAME), where("taker", "==", fan?.uid)).withConverter(converter)
+    , [fan?.uid])
+
+  useEffect(() => {
+    if (!dataRef) return
+    getDocs(dataRef)
+      .then((snapshot) => {
+        setData(snapshot.docs.map((doc) => doc.data()))
+      })
+      .finally(() => setStatus(current => ({ ...current, loading: false })))
+    return onSnapshot(dataRef, (snapshot) => {
+      setData(snapshot.docs.map((doc) => doc.data()))
+    });
+  }, [dataRef]);
+
+
+  return {
+    ...status,
+    data
+  }
 }

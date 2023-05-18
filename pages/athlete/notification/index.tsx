@@ -7,11 +7,6 @@ import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import NotificationList from "@/components/ui/Notification/List";
 import { useNotification } from "@/hooks/useNotification";
 import NotiSkeleton from "@/components/ui/Notification/Skeleton";
-import { wrapper } from "@/store";
-
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards } from "@/types/globals/types";
-import { setTokenToStore } from "@/utils/auth";
 
 const AthleteNotification = () => {
   const {
@@ -134,17 +129,3 @@ export default AthleteNotification;
 AthleteNotification.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

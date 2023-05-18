@@ -74,6 +74,10 @@ const EditBasicInfo = () => {
 
       const updateAthleteProfileParams: Partial<AthleteProfile> = {
         story: values?.story,
+        nationality: updateUserParams.nationality,
+        gender: updateUserParams?.gender,
+        firstName: updateUserParams?.firstName,
+        dateOfBirth: updateUserParams.dateOfBirth,
       };
 
       try {

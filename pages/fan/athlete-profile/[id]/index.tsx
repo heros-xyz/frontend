@@ -4,28 +4,17 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import ViewAthleteProfile from "@/modules/fan-dashboard/components/ViewAthleteProfile";
-import { wrapper } from "@/store";
-import { IGuards } from "@/types/globals/types";
-import {
-  getAthleteBasicInfo,
-  getAthleteProfile,
-  getPaymentInfo,
-  getRunningQueriesThunk,
-  useGetAthleteProfileQuery,
-} from "@/api/fan";
-import { getValidateIsFan } from "@/api/athlete";
-import { fanAuthGuard } from "@/middleware/fanGuard";
-import { setTokenToStore } from "@/utils/auth";
+import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 
 const AthleteProfile = () => {
   const { query } = useRouter();
-
-  const { data: athleteProfile } = useGetAthleteProfileQuery(
-    query.id as string,
-    {
-      skip: typeof query.id !== "string",
-    }
+  const { data: athleteProfile, loading } = useGetAthleteProfileByUid(
+    query.id as string
   );
+
+  if (loading || !athleteProfile) {
+    return <></>;
+  }
 
   return (
     <Box bg="white" pb={6}>
@@ -45,25 +34,3 @@ AthleteProfile.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-    const athleteId = context.params?.id;
-
-    if (typeof athleteId === "string") {
-      store.dispatch(getAthleteProfile.initiate(athleteId));
-      store.dispatch(getValidateIsFan.initiate(athleteId));
-      store.dispatch(getPaymentInfo.initiate(""));
-      store.dispatch(getAthleteBasicInfo.initiate(athleteId));
-    }
-    await Promise.all(store.dispatch(getRunningQueriesThunk()));
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);
