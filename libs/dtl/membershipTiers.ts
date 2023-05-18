@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { addDoc, collection, doc, getDocs, onSnapshot, query, QueryDocumentSnapshot, updateDoc, where } from "firebase/firestore";
 import { db } from "@/libs/firebase";
 import { useAuthContext } from "@/context/AuthContext";
-import { MutationState } from "./careerJourney";
+import { MutationState } from "@/libs/dtl/common";
 
 const MembershipTierCollectionName = "membershipTiers"
 

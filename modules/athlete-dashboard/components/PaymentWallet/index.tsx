@@ -1,14 +1,13 @@
 import { Box, Button, Center, Text } from "@chakra-ui/react";
-import { If, Then } from "react-if";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
-import { PaymentInfo } from "@/types/fan/types";
+import { usePaymentMethods } from "@/libs/dtl/payment";
 
 interface IProp {
   onSubmit: () => void;
   onBack: () => void;
-  paymentData?: PaymentInfo;
 }
-const PaymentWallet: React.FC<IProp> = ({ onBack, onSubmit, paymentData }) => {
+const PaymentWallet: React.FC<IProp> = ({ onBack, onSubmit }) => {
+  const {data} = usePaymentMethods()
   const handleSubmit = () => {
     onSubmit();
   };
@@ -30,21 +29,19 @@ const PaymentWallet: React.FC<IProp> = ({ onBack, onSubmit, paymentData }) => {
       <Text mt="8" fontWeight="bold" w="full" fontSize={{ xl: "xl" }}>
         Payment Method
       </Text>
-      <If condition={paymentData?.cardNumber}>
-        <Then>
+      {data?.docs.map((paymentData) =>
           <Text mt="5" w="full">
             <Text as="span" textTransform="capitalize">
-              {paymentData?.cardType?.toLocaleLowerCase() ?? ""}
+              {paymentData?.data().stripePayment?.paymentMethod?.type.toLocaleLowerCase() ?? ""}
             </Text>{" "}
             ****
-            {paymentData?.cardNumber?.split(" ").join("").slice(-4)},{" "}
+            {paymentData?.data().stripePayment}
             {paymentData?.expiredDate.slice(0, -2)}20
             {paymentData?.expiredDate.slice(-2)}
             <br /> Subscription payment will be automatically collected from
             this card.
           </Text>
-        </Then>
-      </If>
+      )}
       <Box w="full">
         <Button
           w={{ base: "full", xl: "auto" }}

@@ -24,7 +24,7 @@ export interface Payment {
   cardCvc: string
   stripePayment?: Stripe.PaymentMethodResult
   error?: string
-  uid: string
+  uid?: string
 }
 
 const converter = {

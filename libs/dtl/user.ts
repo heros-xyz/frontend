@@ -7,7 +7,7 @@ import { Nationality } from "./nationalities"
 
 export interface User {
   avatar?: string
-  dateOfBirth?: Date | string
+  dateOfBirth?: Date
   gender?: number
   fullname: string
   firstName: string
