@@ -13,7 +13,7 @@ const firebaseConfig = JSON?.parse?.(
 const firebaseApp = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
 if (!process?.env?.NEXT_PUBLIC_FIREBASE_EMULATOR_HOST) {
-    // initializeFirestore(firebaseApp, { ignoreUndefinedProperties: true })
+    initializeFirestore(firebaseApp, { ignoreUndefinedProperties: true })
 }
 
 export const db = getFirestore(firebaseApp)
