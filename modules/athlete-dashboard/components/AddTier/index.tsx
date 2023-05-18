@@ -103,7 +103,6 @@ const AddTier: React.FC<IProp> = ({
         } as Partial<MembershipTierParams>;
         await updateMembership(idEdit, updateParams);
       } else {
-        debugger;
         const addParams: Partial<MembershipTier> = {
           ...data,
           uid: user?.uid,
