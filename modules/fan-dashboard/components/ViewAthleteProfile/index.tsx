@@ -42,7 +42,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
     basicInfo,
     currentTab,
     tierMembershipList,
-    totalSubData,
+    totalSubCount,
     validateIsFan,
     journeyData,
     navigationBarRef,
@@ -63,6 +63,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
       });
     }
   };
+
   useEffect(() => {
     if (query.showJoinNow) {
       onOpen();
@@ -91,13 +92,6 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
     return <></>;
   }
 
-  console.log({
-    basicInfo,
-    tierMembershipList,
-    journeyData,
-    sportProfile,
-  });
-
   return (
     <Box
       as="section"
@@ -116,7 +110,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
       <BasicInfoAthlete
         image={athleteProfile?.avatar ?? ""}
         nickname={basicInfo?.nickName ?? ""}
-        fans={totalSubData?.total ?? 0}
+        fans={totalSubCount ?? 0}
         tagline={athleteProfile?.tagline ?? ""}
         countryCode={basicInfo?.nationality?.twoLetterCode ?? ""}
         sport={athleteProfile?.sport.label ?? ""}

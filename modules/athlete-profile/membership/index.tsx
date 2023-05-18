@@ -40,6 +40,7 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
 
     console.log({ membershipTierId });
     if (membershipTierId) {
+      debugger;
       router.push({
         pathname: `/fan/athlete-profile/${router.query.id}/payment-details`,
         query: {

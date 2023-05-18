@@ -24,7 +24,7 @@ const FanDashboard = () => {
     take: 3,
   });
 
-  console.log("First Login", isFirstLogin);
+  console.log("HOLA MUNDO", isFirstLogin);
 
   return (
     <Box bg="white" minH="100vh">
@@ -57,7 +57,7 @@ const FanDashboard = () => {
       </Container>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Box py={5} mb={{ xl: 3 }}>
-          {/* <MyAthletes /> */}
+          <MyAthletes />
         </Box>
         <FanInteractions
           isLoading={isLoading}

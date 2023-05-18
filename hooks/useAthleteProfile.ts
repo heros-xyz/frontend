@@ -5,7 +5,7 @@ import { useCareerJourneysFromAthlete } from "@/libs/dtl/careerJourney";
 import { useMembershipsFromAthlete } from "@/libs/dtl/membershipTiers";
 import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 import { IBasicInfo } from "@/types/athlete/types";
-import { useGetTotalSubscriptionsFromAthlete, useValidateIsFan } from "@/libs/dtl/suscription";
+import { useValidateIsFan } from "@/libs/dtl/suscription";
 
 export const useAthleteProfile = () => {
   const { query } = useRouter();
@@ -35,7 +35,7 @@ export const useAthleteProfile = () => {
 
   const { data: tierMembershipList, loading: loadingMemberships } = useMembershipsFromAthlete(query.id as string)
   const validateIsFan = useValidateIsFan(query.id as string)
-  const totalSubData = useGetTotalSubscriptionsFromAthlete(query.id as string)
+  const totalSubCount = athleteProfile?.totalSubCount ?? 0;
 
 
   const handleSubscribe = () => {
@@ -45,7 +45,7 @@ export const useAthleteProfile = () => {
   return {
     navigationBarRef,
     validateIsFan,
-    totalSubData,
+    totalSubCount,
     tierMembershipList: tierMembershipList?.map(tier => ({ ...tier, benefits: tier.benefits.map(i => ({ value: i.key, label: i.label })) })),
     sportProfile,
     basicInfo,

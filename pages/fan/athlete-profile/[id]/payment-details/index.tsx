@@ -20,15 +20,9 @@ import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { useUpdateEffect } from "react-use";
 import Head from "next/head";
+import { httpsCallable } from "firebase/functions";
 import {
-  getAthleteProfile,
-  getAthleteTierMembership,
-  getPaymentInfo,
-  getRunningQueriesThunk,
   useAddPaymentInfoMutation,
-  useGetAthleteProfileQuery,
-  useGetAthleteTierMembershipQuery,
-  useGetPaymentInfoQuery,
   useSubscribeAthleteMutation,
 } from "@/api/fan";
 import PaymentForm from "@/components/payment/PaymentForm";
@@ -37,13 +31,12 @@ import OrderSummary from "@/components/ui/OrderSumary";
 import { formatMoney } from "@/utils/functions";
 import { AlertIcon } from "@/components/svg";
 import DeleteSubscription from "@/components/modal/DeleteSubscription";
-import { IGuards, IHerosError } from "@/types/globals/types";
-import { wrapper } from "@/store";
-
-import { fanAuthGuard } from "@/middleware/fanGuard";
-import { setTokenToStore } from "@/utils/auth";
+import { IHerosError } from "@/types/globals/types";
 import { useMembershipsFromAthlete } from "@/libs/dtl/membershipTiers";
 import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
+import { usePaymentMethods } from "@/libs/dtl/payment";
+import { functions } from "@/libs/firebase";
+import { useSubscribeToAthlete } from "@/libs/dtl/suscription";
 
 const PaymentDetails = () => {
   const router = useRouter();
@@ -52,26 +45,27 @@ const PaymentDetails = () => {
   const [errorCode, setErrorCode] = useState<number>(0);
   const [errorCard, setErrorCard] = useState<boolean>(false);
   const { data: athleteProfile, loading: loadingAthleteProfile } =
-    useGetAthleteProfileByUid(router.query.id as string);
-  const { data: paymentInfoList } = useGetPaymentInfoQuery();
+    useGetAthleteProfileByUid(router?.query?.id as string);
+  const {
+    data: paymentInfoList,
+    dataStatus: { loading: loadingPaymentMethods },
+  } = usePaymentMethods();
   const { data: tierMembershipList } = useMembershipsFromAthlete(
-    athleteProfile?.id as string
+    router.query.id as string
   );
 
-  const [
-    submitSubscribe,
-    {
-      isLoading: loadingSubscribe,
-      isSuccess: successSubscribe,
-      isError: errorSubscribe,
-    },
-  ] = useSubscribeAthleteMutation();
+  const {
+    create: submitSubscribe,
+    loading: loadingSubscribe,
+    success: successSubscribe,
+    error: errorSubscribe,
+  } = useSubscribeToAthlete();
+
   const [
     addPayment,
     { data: dataSuccess, isLoading: loadingAdd, error: errorData },
   ] = useAddPaymentInfoMutation();
-  const { formik, isValid, submitCount, handleSubmit, values } =
-    usePaymentForm();
+  const { formik, isValid, submitCount, handleSubmit } = usePaymentForm();
 
   const onSubmit = () => {
     if (
@@ -79,20 +73,23 @@ const PaymentDetails = () => {
       paymentInfoList?.length &&
       tierMembershipList?.length
     ) {
+      console.log("submit");
       submitSubscribe({
-        targetUserId: router.query.id as string,
-        membershipTierId: router.query.membershipTierId as string,
-        paymentInformationId: paymentInfoList[0]?.id ?? "",
+        membershipTier: router.query.membershipTierId as string,
+        paymentMethod: paymentInfoList?.[0]?.id ?? "",
       });
+      return;
     }
     if (!paymentInfoList?.length) {
-      addPayment(values);
+      // addPayment(values);
     }
   };
 
   //Handle Add Card Success
   useUpdateEffect(() => {
     if (dataSuccess) {
+      console.log("submit");
+      return;
       submitSubscribe({
         targetUserId: router.query.id as string,
         membershipTierId: router.query.membershipTierId as string,
@@ -104,7 +101,7 @@ const PaymentDetails = () => {
   const tierSelected = useMemo(() => {
     if (tierMembershipList?.length) {
       return tierMembershipList?.find(
-        (item) => item.id === router.query.membershipTierId
+        (item) => item?.id === router?.query?.membershipTierId
       );
     }
   }, [tierMembershipList]);
@@ -155,7 +152,7 @@ const PaymentDetails = () => {
     }
   }, [errorSubscribe]);
 
-  if (loadingAthleteProfile) {
+  if (loadingAthleteProfile || loadingPaymentMethods) {
     return <></>;
   }
 
@@ -211,16 +208,16 @@ const PaymentDetails = () => {
                     >
                       <Text>
                         <Text as="span" textTransform="capitalize">
-                          {paymentInfoList?.[0]?.cardType?.toLocaleLowerCase() ??
+                          {paymentInfoList?.[0]?.stripePayment.card?.brand?.toLocaleLowerCase() ??
                             ""}
                         </Text>{" "}
                         ****
                         {paymentInfoList
-                          ? paymentInfoList[0]?.cardNumber.slice(-4)
+                          ? paymentInfoList[0]?.stripePayment?.card?.last4
                           : ""}
                         ,{" "}
                         {paymentInfoList
-                          ? paymentInfoList[0]?.expiredDate?.replace("/", "/20")
+                          ? `${paymentInfoList[0]?.stripePayment?.card?.exp_month}/${paymentInfoList[0]?.stripePayment?.card?.exp_year}`
                           : ""}
                       </Text>
                       <Text

@@ -11,6 +11,7 @@ export interface AthleteProfile {
     deletedAt?: Timestamp
     goal: string;
     currentTeam: string;
+    totalSubCount: number
     firstName: string;
     avatar: string;
     gender: string

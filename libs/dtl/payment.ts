@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { addDoc, collection, getDoc, getDocs, onSnapshot, query, QueryDocumentSnapshot, where } from "firebase/firestore";
+import { addDoc, collection, getDoc, getDocs, onSnapshot, query, QueryDocumentSnapshot, QuerySnapshot, where } from "firebase/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthContext } from "@/context/AuthContext";
 import { db } from "@/libs/firebase";
 import { MutationState } from "./careerJourney";
@@ -14,14 +15,14 @@ export interface Payment {
   uid: string
 }
 
-// const converter = {
-//   toFirestore: (data: any) => data,
-//   fromFirestore: (snap: QueryDocumentSnapshot) => {
-//     const data = snap.data() as Payment
-//     data.id = snap.id;
-//     return data
-//   }
-// }
+const converter = {
+  toFirestore: (data: any) => data,
+  fromFirestore: (snap: QueryDocumentSnapshot) => {
+    const data = snap.data()
+    data.id = snap.id;
+    return data as Payment & { id: string }
+  }
+}
 
 export const usePaymentMethod = () => {
   const { user } = useAuthContext()
@@ -34,7 +35,7 @@ export const usePaymentMethod = () => {
   })
 
 
-  const createAndUpdatePaymentMethod = useCallback(async (post: Payment) => {
+  const createAndUpdatePaymentMethod = useCallback(async (payment: Payment) => {
     if (!user || !user.uid) return
     const collectionRef = collection(db, "paymentMethods");
     try {
@@ -44,10 +45,9 @@ export const usePaymentMethod = () => {
       if (!querySnapshot.empty) {
         // 1. crea el nuevo
         await addDoc(collectionRef, {
-          ...post,
+          ...payment,
         });
         //2. Se fija que no haya devuelto error
-        useEffect(() => { }, [])
         const q2 = query(collectionRef, where("uid", "==", user.uid));
         const querySnapshot2 = await getDocs(q2);
         if (!querySnapshot2.empty) {
@@ -67,15 +67,14 @@ export const usePaymentMethod = () => {
       } else {
         console.log("No document found with the specified key.");
         console.log("Creating...")
-        // await addDoc(collectionRef, {
-        //   ...post,
-        // });
+        await addDoc(collectionRef, {
+          ...payment,
+        });
         // No document with the specified key found
       }
       setMutationCreate(current => ({ ...current, success: true }))
     } catch (error) {
       console.log("Acá está el error", error)
-
       setMutationCreate(current => ({ ...current, success: false, error: { data: error } }))
     } finally {
       setMutationCreate(current => ({ ...current, loading: false }))
@@ -129,4 +128,49 @@ export const usePaymentMethod = () => {
   // }, [user?.uid]);
 
   return { createAndUpdatePaymentMethod: { createAndUpdatePaymentMethod, ...mutationCreate }, updatePaymentMethod: { updatePaymentMethod, ...mutationCreate }, deletePaymentMethod: { deletePaymentMethod, ...mutationCreate }, loading, data }
+}
+
+export const usePaymentMethods = () => {
+  const { user } = useAuthContext()
+  const [data, setData] = useState<QuerySnapshot<Payment> | null>();
+  const [dataStatus, setDataStatus] = useState<any>({
+    initiated: false,
+    loading: false
+  })
+  useEffect(() => {
+    if (!user || !user.uid) return
+    setDataStatus({
+      initiated: true,
+      loading: true
+    })
+    const q = query(collection(db, "paymentMethods"), where("uid", "==", user.uid)).withConverter(converter);
+    getDocs(q).then(
+      (docs) => setData(docs.docs.map(d => d.data()) as QuerySnapshot<Payment>)
+    ).catch((e: Error) => setDataStatus({
+      ...dataStatus,
+      error: e.message
+    }))
+      .finally(() => setDataStatus({
+        ...dataStatus,
+        loading: false,
+        lastUpdate: new Date()
+      }))
+    return onSnapshot(q, (docs) => {
+      setData(docs.docs.map(d => d.data()) as QuerySnapshot<Payment>)
+    })
+  }, [user])
+
+  const create = useCallback(async (paymentData: Payment) => {
+    if (!user || !user.uid || !paymentData) return
+    return addDoc(collection(db, "paymentMethods"), {
+      ...paymentData,
+      uid: user.uid
+    });
+  }, [user])
+
+  return {
+    create,
+    data,
+    dataStatus,
+  }
 }
