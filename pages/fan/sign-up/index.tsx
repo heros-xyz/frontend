@@ -12,56 +12,60 @@ import { FAN_ROLE } from "@/utils/constants";
 import { convertTimeUnit } from "@/utils/time";
 
 const FanSignUp = () => {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string|undefined>(undefined)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
   const router = useRouter();
   const { start, finish } = useLoading();
 
   const handleSignUpWithEmail = async (email: string) => {
-      setLoading(true)
-      const params = {
-        email: email as string,
-        profileType: "FAN",
-      };
-      httpsCallable(functions, 'auth-signup')(params)
-        .then(() => {
-          const time = convertTimeUnit("5min");
-          return router.push({
-            pathname: "/verify-otp",
-            query: { email, time },
-          })
-        })
-        .catch((error) => {
-          setError(error.message)
-        }).finally(()=>{
-          setLoading(false)
-        })
+    setLoading(true);
+    const params = {
+      email: email as string,
+      profileType: "FAN",
+    };
+    httpsCallable(
+      functions,
+      "auth-signup"
+    )(params)
+      .then(() => {
+        const time = convertTimeUnit("5min");
+        return router.push({
+          pathname: "/verify-otp",
+          query: { email, time },
+        });
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleSignUpFacebook = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       await fetch("/api/set-role?role=FAN");
       await signIn("facebook", {
         callbackUrl: "/",
       });
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       console.log("next facebook google error", error);
     }
   };
 
   const handleSignUpGoogle = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       await fetch("/api/set-role?role=FAN");
       await signIn("google", {
         callbackUrl: "/",
       });
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       console.log("next auth google error", error);
     }
   };
