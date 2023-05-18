@@ -18,7 +18,7 @@ const AthleteAvatar: FC<AthleteAvatarProps> = ({
       <Box position="relative" marginBottom={2}>
         <AspectRatio ratio={1}>
           <HerosImage
-            src={getImageLink(imageUrl)}
+            src={imageUrl}
             widthSize={400}
             heightSize={400}
             width={"100%"}

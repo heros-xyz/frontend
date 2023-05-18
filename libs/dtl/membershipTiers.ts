@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { addDoc, collection, doc, getDocs, onSnapshot, query, QueryDocumentSnapshot, updateDoc, where } from "firebase/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "@/libs/firebase";
 import { useAuthContext } from "@/context/AuthContext";
 import { MutationState } from "./careerJourney";
@@ -150,3 +151,17 @@ export function useMembershipTiersAsTaker(uid: string) {
     data
   }
 }
+
+export function useMembershipsFromAthlete(athleteId: string) {
+  const q = query(
+    collection(db, "membershipTiers"),
+    where("uid", "==", athleteId))
+    .withConverter(converter)
+  const [data, loading, error] = useCollectionData(athleteId ? q : null)
+
+
+  return {
+    data, loading, error
+  }
+}
+

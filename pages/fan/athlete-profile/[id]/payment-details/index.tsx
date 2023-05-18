@@ -42,6 +42,8 @@ import { wrapper } from "@/store";
 
 import { fanAuthGuard } from "@/middleware/fanGuard";
 import { setTokenToStore } from "@/utils/auth";
+import { useMembershipsFromAthlete } from "@/libs/dtl/membershipTiers";
+import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 
 const PaymentDetails = () => {
   const router = useRouter();
@@ -49,22 +51,11 @@ const PaymentDetails = () => {
   const [isError, setIsError] = useState<boolean>(false);
   const [errorCode, setErrorCode] = useState<number>(0);
   const [errorCard, setErrorCard] = useState<boolean>(false);
-  const { data: athleteProfile } = useGetAthleteProfileQuery(
-    router.query.id as string,
-    {
-      skip: typeof router.query.id !== "string",
-    }
-  );
-  const { data: paymentInfoList } = useGetPaymentInfoQuery("");
-  const { data: tierMembershipList } = useGetAthleteTierMembershipQuery(
-    {
-      page: 1,
-      take: 10,
-      userId: router.query.id as string,
-    },
-    {
-      skip: typeof router.query.id !== "string",
-    }
+  const { data: athleteProfile, loading: loadingAthleteProfile } =
+    useGetAthleteProfileByUid(router.query.id as string);
+  const { data: paymentInfoList } = useGetPaymentInfoQuery();
+  const { data: tierMembershipList } = useMembershipsFromAthlete(
+    athleteProfile?.id as string
   );
 
   const [
@@ -86,7 +77,7 @@ const PaymentDetails = () => {
     if (
       router.query.membershipTierId &&
       paymentInfoList?.length &&
-      tierMembershipList?.data?.length
+      tierMembershipList?.length
     ) {
       submitSubscribe({
         targetUserId: router.query.id as string,
@@ -111,8 +102,8 @@ const PaymentDetails = () => {
   }, [dataSuccess]);
 
   const tierSelected = useMemo(() => {
-    if (tierMembershipList?.data?.length) {
-      return tierMembershipList.data.find(
+    if (tierMembershipList?.length) {
+      return tierMembershipList?.find(
         (item) => item.id === router.query.membershipTierId
       );
     }
@@ -163,6 +154,10 @@ const PaymentDetails = () => {
       onOpen();
     }
   }, [errorSubscribe]);
+
+  if (loadingAthleteProfile) {
+    return <></>;
+  }
 
   return (
     <Box
@@ -371,30 +366,3 @@ const PaymentDetails = () => {
 };
 
 export default PaymentDetails;
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-    store.dispatch(getPaymentInfo.initiate(""));
-    if (typeof context.query.id === "string") {
-      store.dispatch(getAthleteProfile.initiate(context.query.id));
-      store.dispatch(getAthleteProfile.initiate(context.query.id));
-      store.dispatch(
-        getAthleteTierMembership.initiate({
-          page: 1,
-          take: 10,
-          userId: context.query.id,
-        })
-      );
-    }
-    await Promise.all(store.dispatch(getRunningQueriesThunk()));
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

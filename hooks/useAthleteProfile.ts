@@ -1,67 +1,42 @@
 import { useRouter } from "next/router";
-import { useRef, useState, useEffect } from "react";
+import { useRef } from "react";
 import { withDefault, NumberParam, useQueryParam } from "use-query-params";
-import {
-  useGetCareerJourneyQuery,
-  useGetTotalSubscriptionQuery,
-  useGetValidateIsFanQuery,
-} from "@/api/athlete";
-import {
-  useGetAthleteBasicInfoQuery,
-  useGetAthleteSportProfileQuery,
-  useGetAthleteTierMembershipQuery,
-} from "@/api/fan";
-import { ITimeLineInfo } from "@/components/ui/Timeline";
+import { useCareerJourneysFromAthlete } from "@/libs/dtl/careerJourney";
+import { useMembershipsFromAthlete } from "@/libs/dtl/membershipTiers";
+import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
+import { IBasicInfo } from "@/types/athlete/types";
+import { useGetTotalSubscriptionsFromAthlete, useValidateIsFan } from "@/libs/dtl/suscription";
 
 export const useAthleteProfile = () => {
   const { query } = useRouter();
   const navigationBarRef = useRef<null | HTMLElement>(null);
-  const [journeyData, setJourneyData] = useState<ITimeLineInfo[]>([]);
   const [currentTab, setCurrentTab] = useQueryParam(
     "current",
     withDefault(NumberParam, 0)
   );
 
-  const { data: careerJourneyData } = useGetCareerJourneyQuery(
-    query.id as string,
-    { skip: typeof query.id !== "string" }
-  );
-  const { data: basicInfo } = useGetAthleteBasicInfoQuery(query.id as string, {
-    skip: typeof query.id !== "string",
-  });
-  const { data: sportProfile } = useGetAthleteSportProfileQuery(
-    query.id as string,
-    {
-      skip: typeof query.id !== "string",
-    }
-  );
-  const { data: tierMembershipList } = useGetAthleteTierMembershipQuery(
-    {
-      page: 1,
-      take: 10,
-      userId: query.id as string,
-    },
-    {
-      skip: typeof query.id !== "string",
-    }
-  );
+  const { data: journeyData, loading: loadingJourneys } = useCareerJourneysFromAthlete(query.id as string)
+  const { data: athleteProfile, loading } = useGetAthleteProfileByUid(query.id as string)
 
-  const { data: totalSubData } = useGetTotalSubscriptionQuery(
-    query.id as string,
-    {
-      skip: typeof query.id !== "string",
-    }
-  );
-  const { data: validateIsFan } = useGetValidateIsFanQuery(query.id as string, {
-    skip: typeof query.id !== "string",
-    refetchOnMountOrArgChange: true,
-  });
+  const basicInfo: IBasicInfo = {
+    firstName: athleteProfile?.firstName ?? "",
+    gender: athleteProfile?.gender ?? 0,
+    lastName: athleteProfile?.lastName ?? "",
+    middleName: athleteProfile?.middleName ?? "",
+    nickName: athleteProfile?.nickName ?? "",
+    story: athleteProfile?.story,
+  }
 
-  useEffect(() => {
-    if (careerJourneyData) {
-      setJourneyData(careerJourneyData);
-    }
-  }, [careerJourneyData]);
+  const sportProfile = {
+    currentTeam: athleteProfile?.currentTeam ?? "",
+    goal: athleteProfile?.goal,
+    sport: athleteProfile?.sport,
+  }
+
+  const { data: tierMembershipList, loading: loadingMemberships } = useMembershipsFromAthlete(query.id as string)
+  const validateIsFan = useValidateIsFan(query.id as string)
+  const totalSubData = useGetTotalSubscriptionsFromAthlete(query.id as string)
+
 
   const handleSubscribe = () => {
     setCurrentTab(3);
@@ -71,7 +46,7 @@ export const useAthleteProfile = () => {
     navigationBarRef,
     validateIsFan,
     totalSubData,
-    tierMembershipList,
+    tierMembershipList: tierMembershipList?.map(tier => ({ ...tier, benefits: tier.benefits.map(i => ({ value: i.key, label: i.label })) })),
     sportProfile,
     basicInfo,
     journeyData,
@@ -79,5 +54,8 @@ export const useAthleteProfile = () => {
     athleteId: query.id as string,
     handleSubscribe,
     setCurrentTab,
+    loadingJourneys,
+    loadingAthleteProfile: loading,
+    loadingMemberships
   };
 };

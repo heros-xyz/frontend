@@ -5,8 +5,8 @@ import { connectFunctionsEmulator, getFunctions } from "firebase/functions";
 
 import { connectStorageEmulator, getStorage } from "firebase/storage";
 
-const firebaseConfig = JSON.parse(
-  process.env.NEXT_PUBLIC_FIREBASE_CREDENTIALS as string
+const firebaseConfig = JSON?.parse?.(
+    process?.env?.NEXT_PUBLIC_FIREBASE_CREDENTIALS as string || "{}"
 )
 
 // Initialize Firebase

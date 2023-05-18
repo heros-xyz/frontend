@@ -14,11 +14,6 @@ import FanOfAthleteProfile from "@/components/ui/FanOfAthletes/Profile";
 import { useGetListFansQuery } from "@/api/athlete";
 import { IFanInfo } from "@/types/athlete/types";
 
-import { wrapper } from "@/store";
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards } from "@/types/globals/types";
-import { setTokenToStore } from "@/utils/auth";
-
 const MyFan = () => {
   const router = useRouter();
   const refSearch = useRef(null);
@@ -232,16 +227,3 @@ MyFan.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

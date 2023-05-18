@@ -11,15 +11,13 @@ import { FC, useMemo } from "react";
 import NextLink from "next/link";
 import { Else, If, Then } from "react-if";
 import { IconArrowRight } from "@/components/svg/IconArrowRight";
-import {
-  useGetListAthleteRecommendedQuery,
-  useGetListAthleteSubscribedQuery,
-} from "@/api/fan";
 import AthleteAvatar from "@/components/ui/AthleteAvatar";
 import { useUser } from "@/hooks/useUser";
+import { useAllAthletes } from "@/libs/dtl/athleteProfile";
 
 const MyAthletes: FC = () => {
   const { isAdmin, isFan } = useUser();
+  /*
   const {
     data: listAthleteSubscribed,
     isSuccess,
@@ -28,7 +26,14 @@ const MyAthletes: FC = () => {
     take: isFan ? 3 : 6,
     page: 1,
   });
+  */
+  const {
+    data: listAthleteSubscribed,
+    loading: getListAthleteSubscribedLoading,
+  } = useAllAthletes();
 
+  console.log({ listAthleteSubscribed });
+  /*
   const {
     data: listAthleteRecommended,
     isLoading: getListAthleteRecommendedLoading,
@@ -43,7 +48,13 @@ const MyAthletes: FC = () => {
       skip: !isSuccess || isAdmin,
     }
   );
+  */
 
+  const listAthleteRecommended: unknown = []; // TODO:  get list recommended
+  const getListAthleteRecommendedLoading = false; // TODO: get loading recommended
+
+  const athleteList = listAthleteSubscribed;
+  /*
   const athleteList = useMemo(() => {
     let listAthleteRecommendedFormat = [];
 
@@ -63,6 +74,7 @@ const MyAthletes: FC = () => {
 
     return [];
   }, [listAthleteSubscribed, listAthleteRecommended]);
+  */
 
   return (
     <Box bg="white">

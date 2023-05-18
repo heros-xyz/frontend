@@ -31,7 +31,7 @@ const BasicInfoAthlete: React.FC<BasicInfoProps> = ({
   return (
     <Box position="relative">
       <Image
-        src={getImageLink(image)}
+        src={image}
         alt={nickname}
         w="100%"
         h={{ base: "667px", lg: "750px" }}
@@ -97,7 +97,7 @@ const BasicInfoAthlete: React.FC<BasicInfoProps> = ({
             fontWeight="extrabold"
             letterSpacing="3%"
           >
-            {nickname.toUpperCase()}
+            {nickname?.toUpperCase()}
           </Text>
           <Flex mb={{ base: "10px", lg: "5px" }}>
             <Text
@@ -139,7 +139,7 @@ const BasicInfoAthlete: React.FC<BasicInfoProps> = ({
               lineHeight={{ base: "22px", lg: "25px" }}
               ml="10px"
             >
-              {sport}
+              {String(sport)}
             </Text>
           </Flex>
         </Box>
