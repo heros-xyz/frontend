@@ -34,7 +34,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         <Image
           w={{ base: "40px", lg: "60px" }}
           h={{ base: "40px", lg: "60px" }}
-          src={getImageLink(avatar)}
+          src={avatar}
           alt="image"
           rounded="full"
           objectFit="cover"

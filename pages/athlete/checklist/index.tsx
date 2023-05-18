@@ -67,7 +67,7 @@ function useOnboardingInformation() {
   const hasBasicInformation = Boolean(
     !!user?.nationality &&
       user?.gender &&
-      user?.birthday &&
+      user?.dateOfBirth &&
       athleteProfile?.story
   );
 

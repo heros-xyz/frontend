@@ -10,6 +10,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { NumberParam, useQueryParam, withDefault } from "use-query-params";
 import ExclamationIcon from "@/components/svg/Exclamation";
+import { useAuthContext } from "@/context/AuthContext";
 
 interface FanOnlyModalProps {
   isOpen: boolean;
@@ -21,11 +22,11 @@ const FanOnlyModal: React.FC<FanOnlyModalProps> = ({
   onClose,
   onClickDownButton,
 }) => {
+  const { user } = useAuthContext();
   const [, setCurrentTab] = useQueryParam(
     "current",
     withDefault(NumberParam, 0)
   );
-  const { data: session } = useSession();
   const router = useRouter();
 
   return (
@@ -70,7 +71,7 @@ const FanOnlyModal: React.FC<FanOnlyModalProps> = ({
             mb={{ base: "15px", lg: "25px" }}
             onClick={() => {
               onClose();
-              if (session) {
+              if (user?.uid) {
                 setCurrentTab(3);
                 onClickDownButton && onClickDownButton();
                 return;

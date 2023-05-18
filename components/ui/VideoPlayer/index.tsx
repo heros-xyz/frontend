@@ -18,8 +18,17 @@ export const VideoPlayer: React.FC<IVideoPlayerProps> = ({
 
   const onPlay = () => {
     if (vidRef && vidRef.current) {
+      const isPlaying =
+        vidRef.current.currentTime > 0 &&
+        !vidRef.current.paused &&
+        !vidRef.current.ended &&
+        vidRef.current.readyState > vidRef.current.HAVE_CURRENT_DATA;
       vidRef.current.muted = true;
-      vidRef.current.play();
+
+      if (!isPlaying) {
+        vidRef.current?.play?.();
+      }
+      //vidRef.current?.play?.();
       vidRef.current.muted = false;
     }
   };

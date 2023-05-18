@@ -35,6 +35,7 @@ import { useUser } from "@/hooks/useUser";
 import { AlertIcon } from "@/components/svg";
 import BackButton from "@/components/ui/BackButton";
 import HerosImage from "@/components/common/HerosImage";
+import { useGetMySubscriptions } from "@/libs/dtl/suscription";
 
 const PaymentInfo = () => {
   const router = useRouter();
@@ -55,18 +56,9 @@ const PaymentInfo = () => {
   const [currentData, setCurrentData] = useState<GetActiveSubscription[]>([]);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
   const [isShowError, setIsShowError] = useState<boolean>(false);
-
-  const {
-    data: dataSub,
-    isFetching,
-    isLoading,
-  } = useGetActiveSubscriptionsQuery({
-    page: currentPage,
-    take: 10,
-  });
+  const { data: dataSub, loading: isLoading } = useGetMySubscriptions();
   const [deleteSub, { isSuccess: successDeleted, isError }] =
     useDeleteSubscriptionsMutation();
-
   const handleConfirm = (id: string | undefined) => {
     if (id !== undefined) {
       deleteSub(id);

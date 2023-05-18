@@ -1,12 +1,12 @@
+import { Box, Center, Container, Text } from "@chakra-ui/react";
+import Head from "next/head";
+import { ReactElement, useCallback, useState } from "react";
 import { useGetLatestInteractionQuery } from "@/api/fan";
 import FanInteractions from "@/components/ui/FanLatestInteractions";
 import FindHeros from "@/components/ui/FindHeros";
 import { useUser } from "@/hooks/useUser";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import MyAthletes from "@/modules/fan-dashboard/components/MyAthletes";
-import { Box, Center, Container, Text } from "@chakra-ui/react";
-import Head from "next/head";
-import { ReactElement, useCallback, useState } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 
 const FanDashboard = () => {
@@ -24,7 +24,6 @@ const FanDashboard = () => {
     take: 3,
   });
 
-  console.log("First Login", isFirstLogin);
 
   return (
     <Box bg="white" minH="100vh">
@@ -57,7 +56,7 @@ const FanDashboard = () => {
       </Container>
       <Container size={["base", "sm", "md", "lg", "500px"]}>
         <Box py={5} mb={{ xl: 3 }}>
-          {/* <MyAthletes /> */}
+          <MyAthletes />
         </Box>
         <FanInteractions
           isLoading={isLoading}

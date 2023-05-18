@@ -6,8 +6,8 @@ import {
   getDocs
 } from "firebase/firestore";
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { PublicProfile } from "@/libs/dtl/publicProfile";
 import { useAuthContext } from "@/context/AuthContext";
+import { PublicProfile } from "@/libs/dtl/publicProfile";
 
 import { db } from "../firebase";
 
@@ -15,7 +15,7 @@ export interface Notification {
   createdAt: Date
   deletedAt: Date
   readAt: Date
-  type: "comment" | "like" | "suscription" | "post"
+  type: "comment" | "like" | "suscription" | "post" 
   message: string
   params: { }
   uid: string

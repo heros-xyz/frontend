@@ -186,3 +186,19 @@ export function useAddCareerJourney() {
         addJourney,
     }
 }
+
+export function useCareerJourneysFromAthlete(athleteId: string) {
+    const [data, loading, error] = useCollectionData(
+        athleteId ?
+            query(
+                collection(db, "careerJourneys"),
+                where("uid", "==", athleteId))
+            : null,
+    );
+
+    return {
+        data,
+        loading,
+        error
+    }
+}

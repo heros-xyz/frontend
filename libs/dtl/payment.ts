@@ -84,3 +84,48 @@ export const usePaymentMethods = () => {
     dataStatus,
   }
 }
+
+export const usePaymentMethods = () => {
+  const { user } = useAuthContext()
+  const [data, setData] = useState<QuerySnapshot<Payment> | null>();
+  const [dataStatus, setDataStatus] = useState<any>({
+    initiated: false,
+    loading: false
+  })
+  useEffect(() => {
+    if (!user || !user.uid) return
+    setDataStatus({
+      initiated: true,
+      loading: true
+    })
+    const q = query(collection(db, "paymentMethods"), where("uid", "==", user.uid)).withConverter(converter);
+    getDocs(q).then(
+      (docs) => setData(docs.docs.map(d => d.data()) as QuerySnapshot<Payment>)
+    ).catch((e: Error) => setDataStatus({
+      ...dataStatus,
+      error: e.message
+    }))
+      .finally(() => setDataStatus({
+        ...dataStatus,
+        loading: false,
+        lastUpdate: new Date()
+      }))
+    return onSnapshot(q, (docs) => {
+      setData(docs.docs.map(d => d.data()) as QuerySnapshot<Payment>)
+    })
+  }, [user])
+
+  const create = useCallback(async (paymentData: Payment) => {
+    if (!user || !user.uid || !paymentData) return
+    return addDoc(collection(db, "paymentMethods"), {
+      ...paymentData,
+      uid: user.uid
+    });
+  }, [user])
+
+  return {
+    create,
+    data,
+    dataStatus,
+  }
+}

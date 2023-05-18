@@ -8,7 +8,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import Head from "next/head";
-import { ReactElement, useEffect } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import NextLink from "next/link";
 import Membership from "@/components/ui/Membership";
@@ -23,10 +23,16 @@ import { useAuthContext } from "@/context/AuthContext";
 import { RoutePath } from "@/utils/route";
 import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
+import { getHasRecentPosts } from "@/libs/dtl";
 
 const AthleteDashboard = () => {
   const router = useRouter();
   const { userProfile: user } = useAuthContext();
+  const [recentActivity, setRecentActivity] = useState({
+    hasFirstInteraction: false,
+    hasCreateInteractionRecent: false,
+    loadingRecentActivity: true,
+  });
   const { data: totalSubData, isLoading: isGettingTotalSub } = {
     data: null,
     isLoading: false,
@@ -56,6 +62,18 @@ const AthleteDashboard = () => {
       router.push(RoutePath.ATHLETE_CHECKLIST);
     }
   }, [user]);
+
+  useEffect(() => {
+    (async () => {
+      if (user?.profileType === "ATHLETE" && !!user?.uid) {
+        const recentPosts = await getHasRecentPosts(user?.uid);
+        setRecentActivity({
+          ...recentPosts,
+          loadingRecentActivity: false,
+        });
+      }
+    })();
+  }, [user, setRecentActivity]);
 
   return (
     <Box bg="white" pt={6} minH="100vh">
@@ -106,7 +124,7 @@ const AthleteDashboard = () => {
           />
           <Wallet
             title={"Wallet"}
-            currentMoney={profile?.netAmount ?? 0}
+            currentMoney={user?.netAmount ?? 0}
             feePrice={5}
             timeReceive={""}
             havePaymentMethod={true}
@@ -115,11 +133,15 @@ const AthleteDashboard = () => {
             isLoading={isGettingNetMoney}
           />
         </Grid>
-        <JustForYou
-          href="/athlete/interactions"
-          showCreateFirstInteraction={!profile?.hasFirstInteraction}
-          showCreateInteractionRecent={!profile?.hasCreateInteractionRecent}
-        />
+        {!recentActivity?.loadingRecentActivity && (
+          <JustForYou
+            href="/athlete/interactions"
+            showCreateFirstInteraction={!recentActivity?.hasFirstInteraction}
+            showCreateInteractionRecent={
+              !recentActivity?.hasCreateInteractionRecent
+            }
+          />
+        )}
       </Container>
     </Box>
   );

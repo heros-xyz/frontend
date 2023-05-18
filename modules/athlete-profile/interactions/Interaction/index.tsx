@@ -22,6 +22,7 @@ import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
 import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
 import InteractionInModal from "@/modules/athlete-interaction/components/detail/InteractionInModal";
 import HerosVideo from "@/components/ui/HerosVideo";
+import { usePostsAsMaker } from "@/libs/dtl/post";
 
 export const Interaction = ({}) => {
   const router = useRouter();
@@ -35,10 +36,18 @@ export const Interaction = ({}) => {
 
   useLockBodyScroll(isOpenViewOnList);
 
+  /*
   const { hasNextPage, interactionsList, onLoadMore } = useAthleteInteraction({
     isGetPublic: true,
     take: 15,
   });
+  */
+  // TODO: has next and onLoadMore
+  const { hasNextPage, onLoadMore } = {
+    hasNextPage: false,
+    onLoadMore: () => {},
+  };
+  const { data: interactionsList, loading } = usePostsAsMaker();
 
   const onViewInteractionDetail = (id: string) => {
     setInteractionId(id);
@@ -51,6 +60,8 @@ export const Interaction = ({}) => {
         onOpenViewOnList();
       });
   };
+
+  if (loading) return null;
 
   return (
     <Box marginTop={{ base: 0, xl: "50px" }} maxWidth="500px">
@@ -87,7 +98,7 @@ export const Interaction = ({}) => {
         gap={{ base: "3px", xl: "5px" }}
         justifyItems="center"
       >
-        {interactionsList.length
+        {interactionsList?.length
           ? interactionsList.map((item) => (
               <GridItem borderRadius="4px" key={item?.id} w="full">
                 <AspectRatio ratio={1} w="100%">
@@ -105,7 +116,7 @@ export const Interaction = ({}) => {
                         >
                           <Then>
                             <Image
-                              src={getImageLink(item?.interactionMedia[0]?.url)}
+                              src={item?.interactionMedia?.[0]?.url}
                               w="full"
                               h="full"
                               alt=""
@@ -133,7 +144,7 @@ export const Interaction = ({}) => {
                               rounded="8px"
                             >
                               <HerosVideo
-                                url={item?.interactionMedia[0]?.url}
+                                url={item?.interactionMedia?.[0]?.url}
                               />
                               <PlayVideoIcon
                                 w={{ base: "30px", lg: "35px" }}

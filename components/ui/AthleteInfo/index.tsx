@@ -24,7 +24,7 @@ const AthleteInfo: React.FC<AthleteInfoProps> = ({
       <Image
         w={10}
         h={10}
-        src={getImageLink(imagePath)}
+        src={imagePath}
         alt="user-avatar"
         rounded="full"
         objectFit="cover"

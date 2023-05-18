@@ -91,6 +91,9 @@ const EditPageInfo = () => {
           await updateDocument(`user/${userProfile?.uid}`, {
             avatar: avatarUrl,
           });
+          await updateDocument(`athleteProfile/${userProfile?.uid}`, {
+            avatar: avatarUrl,
+          });
         }
         const athleteProfileParams = {
           nickName: nickName,

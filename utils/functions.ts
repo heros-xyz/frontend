@@ -195,3 +195,14 @@ export const isEmptyObject = (obj: Object) => {
   return JSON.stringify(obj) === '{}';
 }
 
+export const getFullName = (firstName: string, lastName: string, middleName?: string,) => {
+  let fullName = firstName;
+
+  if (middleName) {
+    fullName += ' ' + middleName;
+  }
+
+  fullName += ' ' + lastName;
+
+  return fullName.trim();
+};

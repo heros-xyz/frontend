@@ -1,4 +1,4 @@
-import { Box, Flex, Input, Text, Textarea } from "@chakra-ui/react";
+import { Box, Flex, Input, Text } from "@chakra-ui/react";
 import React, {
   ChangeEvent,
   KeyboardEvent,
@@ -12,19 +12,18 @@ import { useFormikContext } from "formik";
 import { If, Then } from "react-if";
 import { createEditor } from "slate";
 import { Slate, withReact } from "slate-react";
-import { useSession } from "next-auth/react";
 import TextareaAutoSize from "react-textarea-autosize";
 import { PhotoIcon } from "@/components/svg/Photo";
 import { HashTagIcon } from "@/components/svg/HashTagIcon";
 import { Close } from "@/components/svg/Close";
 import ErrorMessage from "@/components/common/ErrorMessage";
-import { colors } from "@/styles/themes/colors";
 import { useDevice } from "@/hooks/useDevice";
+import { useAuthContext } from "@/context/AuthContext";
 import UploadMediaPost from "../UploadMediaPost";
 import { IValuesTypes } from "../../../hooks";
 
 const EnterPost = () => {
-  const { data: session } = useSession();
+  const { userProfile } = useAuthContext();
   const { values, errors, setFieldValue } = useFormikContext<IValuesTypes>();
   const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [editor] = useState(() => withReact(createEditor()));
@@ -95,7 +94,7 @@ const EnterPost = () => {
               name="content"
               className="postComment"
               placeholder={
-                session?.user.hasFirstInteraction
+                userProfile?.hasFirstInteraction
                   ? "Let your fans know what’s on your mind."
                   : "Add your first interaction."
               }

@@ -2,37 +2,44 @@ import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
-import { useHttpsCallable } from "react-firebase-hooks/functions";
+import { httpsCallable } from "@firebase/functions";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { functions } from "@/libs/firebase";
 import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
 import { convertTimeUnit } from "@/utils/time";
+import { useState } from "react";
 
 const AthleteSignUp = () => {
-  const [callSignup, isLoading, signUpWithEmailError] = useHttpsCallable(
-    functions,
-    "auth-signup"
-  );
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
+
   const router = useRouter();
   const { start, finish } = useLoading();
 
   const handleSignUpWithEmail = async (email: string) => {
-    try {
-      const params = {
-        email: email as string,
-        profileType: "ATHLETE",
-      };
-      const res = await callSignup(params);
-      console.log("Respuesta", res);
-      const time = convertTimeUnit("5min");
-      router.push({
-        pathname: "/verify-otp",
-        query: { email, time },
+    setLoading(true);
+    const params = {
+      email: email as string,
+      profileType: "ATHLETE",
+    };
+    httpsCallable(
+      functions,
+      "auth-signup"
+    )(params)
+      .then(() => {
+        const time = convertTimeUnit("5min");
+        return router.push({
+          pathname: "/verify-otp",
+          query: { email, time },
+        });
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   const handleSignUpFacebook = async () => {
@@ -70,13 +77,9 @@ const AthleteSignUp = () => {
       </Head>
       <AuthTemplate
         pageType="athlete"
-        isLoading={isLoading}
-        authErrorMessage={
-          (signUpWithEmailError as unknown as IHerosError)?.data?.message ?? ""
-        }
-        authErrorCode={
-          (signUpWithEmailError as unknown as IHerosError)?.data?.statusCode
-        }
+        isLoading={loading}
+        authErrorMessage={error}
+        authErrorCode={0}
         onSubmitForm={handleSignUpWithEmail}
         handleSignInFacebook={handleSignUpFacebook}
         handleSignInGoogle={handleSignUpGoogle}
@@ -86,4 +89,3 @@ const AthleteSignUp = () => {
 };
 
 export default AthleteSignUp;
-

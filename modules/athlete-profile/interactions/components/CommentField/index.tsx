@@ -7,12 +7,11 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
 import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ReplyIconLg } from "@/components/svg/ReplyIconLg";
 import { useDevice } from "@/hooks/useDevice";
-import { getImageLink } from "@/utils/link";
+import { useAuthContext } from "@/context/AuthContext";
 import { IReplyingTo } from "../../post-detail/CommentSection";
 
 interface IReplyingCommentProps {
@@ -36,7 +35,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
   onCancelReply,
   onSubmitComment,
 }) => {
-  const { data: userSession } = useSession();
+  const { userProfile } = useAuthContext();
 
   const { isMobile } = useDevice();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -131,7 +130,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
           <Image
             w={{ base: "30px", lg: "50px" }}
             h={{ base: "30px", lg: "50px" }}
-            src={getImageLink(userSession?.user?.avatar)}
+            src={userProfile?.avatar}
             alt="avatar"
             rounded="full"
             objectFit="cover"

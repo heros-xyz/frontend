@@ -65,7 +65,7 @@ const HerosVideo: React.FC<HerosVideoProps> = ({
         </Then>
         <Else>
           <video
-            src={getVideoLink(url)}
+            src={url}
             playsInline
             style={{
               borderRadius: "8px",
