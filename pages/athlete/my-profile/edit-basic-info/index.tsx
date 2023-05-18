@@ -74,6 +74,10 @@ const EditBasicInfo = () => {
 
       const updateAthleteProfileParams: Partial<AthleteProfile> = {
         story: values?.story,
+        nationality: updateUserParams.nationality,
+        gender: updateUserParams?.gender,
+        firstName: updateUserParams?.firstName,
+        dateOfBirth: updateUserParams.dateOfBirth,
       };
 
       try {
@@ -93,7 +97,7 @@ const EditBasicInfo = () => {
       formik.setFieldValue("firstName", basicInfo?.firstName);
       formik.setFieldValue("lastName", basicInfo?.lastName);
       formik.setFieldValue("middleName", basicInfo?.middleName || "");
-      formik.setFieldValue("dateOfBirth", basicInfo?.birthday);
+      formik.setFieldValue("dateOfBirth", basicInfo?.dateOfBirth);
       formik.setFieldValue("gender", basicInfo?.gender?.toString?.());
       formik.setFieldValue("nationality", {
         value: basicInfo?.nationality?.twoLetterCode,
@@ -105,7 +109,7 @@ const EditBasicInfo = () => {
     basicInfo.firstName,
     basicInfo.lastName,
     basicInfo.middleName,
-    basicInfo.birthday,
+    basicInfo.dateOfBirth,
     basicInfo.gender,
     basicInfo.nationality,
     basicInfo.story,

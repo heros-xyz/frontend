@@ -55,7 +55,9 @@ export const usePaymentForm = (props?: IPaymentFormProps) => {
   const formik = useFormik({
     initialValues: props?.initialValues ?? defaultValue,
     validationSchema,
-    onSubmit: async () => { },
+    onSubmit: async () => {
+      console.log("submit");
+    },
     validateOnMount: true,
   });
 

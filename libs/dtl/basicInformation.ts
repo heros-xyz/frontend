@@ -2,7 +2,7 @@ import { User } from "./user";
 
 export function mapToBasicInformation(userData: User) {
     return {
-        dateOfBirth: (userData?.birthday || new Date())
+        dateOfBirth: (userData?.dateOfBirth || new Date())
             .toISOString()
             .split('T')[0],
         gender: userData?.gender || 0,

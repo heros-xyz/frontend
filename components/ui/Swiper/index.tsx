@@ -49,7 +49,7 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
                   <If condition={item.type === "image"}>
                     <Then>
                       <Image
-                        src={getImageLink(item.url)}
+                        src={item.url}
                         alt={item.url}
                         rounded={{ base: "8px", lg: "12px" }}
                         objectFit="cover"
@@ -63,7 +63,7 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
                     <Else>
                       <VideoPlayer
                         allowPlaying={currentSlide === index}
-                        url={getVideoLink(item.url)}
+                        url={item.url}
                       />
                     </Else>
                   </If>
@@ -73,7 +73,7 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
                 <If condition={item.type === "image"}>
                   <Then>
                     <Image
-                      src={getImageLink(item.url)}
+                      src={item.url}
                       alt={item.url}
                       rounded={{ base: "8px", lg: "12px" }}
                       objectFit="cover"
@@ -93,7 +93,7 @@ const HerosSwiper: React.FC<IHerosSwiper> = ({
                     />
                   </Then>
                   <Else>
-                    <VideoPlayer url={getVideoLink(item.url)} />
+                    <VideoPlayer url={item.url} />
                   </Else>
                 </If>
               </Case>

@@ -9,36 +9,28 @@ import {
   IValuesTypes,
   useUpdateInteractionInfo,
 } from "@/modules/athlete-interaction/hooks";
-import { useGetInteractionDetailQuery } from "@/api/athlete";
-import { getImageLink } from "@/utils/link";
-import { wrapper } from "@/store";
-
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards } from "@/types/globals/types";
-import { setTokenToStore } from "@/utils/auth";
+import { usePostAsMaker } from "@/libs/dtl/post";
 
 function EditInteractionsPost() {
-  const { formik, editPostData, isLoading, handleSubmit } =
+  const { formik, successEdit, isLoading, handleSubmit } =
     useUpdateInteractionInfo();
   const router = useRouter();
   const { postId } = router.query;
-
-  const { data: postInfo } = useGetInteractionDetailQuery(postId as string, {
-    skip: typeof postId !== "string" || !Boolean(postId),
-  });
+  const { data: postInfo, loading } = usePostAsMaker(postId as string);
 
   const setInitialValue = () => {
     const initValues = {
       interactionId: postInfo?.id,
       content: postInfo?.content || "",
-      listMedia: postInfo?.interactionMedia?.map((item) => ({
-        id: item.id,
-        fileName: item.url,
-        type: item.type,
-        extension: item.extension,
-        file: getImageLink(item.url),
-      })),
-      tags: postInfo?.tags?.map((item) => item.name),
+      listMedia:
+        postInfo?.media?.map?.((item) => ({
+          id: item?.url,
+          fileName: item.url,
+          type: item.type,
+          extension: item?.extension ?? "",
+          file: item.url,
+        })) ?? [],
+      tags: postInfo?.tags,
       publicType: postInfo?.publicType || "all",
       schedule: postInfo?.isSchedulePost,
       publicDate: dayjs(postInfo?.publicDate).format("YYYY-MM-DD"),
@@ -50,16 +42,18 @@ function EditInteractionsPost() {
   };
 
   useEffect(() => {
-    if (editPostData) {
+    if (successEdit) {
       router.push(`/athlete/interactions/${postId}`);
     }
-  }, [editPostData]);
+  }, [successEdit]);
 
   useEffect(() => {
     if (postInfo) {
       setInitialValue();
     }
   }, [postInfo]);
+
+  if (loading) return null;
 
   return (
     <FormikContext.Provider value={formik}>
@@ -84,17 +78,3 @@ function EditInteractionsPost() {
 }
 
 export default EditInteractionsPost;
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

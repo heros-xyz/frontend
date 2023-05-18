@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
+import { serverTimestamp } from "firebase/firestore";
 import { isBeforeEndDate, isValidDate } from "@/utils/time";
 import {
   useAddPostInteractionMutation,
@@ -22,6 +23,8 @@ import {
 import { updateSession } from "@/utils/auth";
 import { IMediaExisted } from "@/types/athlete/types";
 import { IHerosError } from "@/types/globals/types";
+import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
+import { ListMedia, useEditPost, usePostAsMaker, usePostsAsMaker } from "@/libs/dtl/post";
 export interface IUploadFile {
   type: string;
   file: File | string;
@@ -141,20 +144,19 @@ const validationSchema = yup.object().shape({
 
 export const useInteractionInfo = () => {
   const toast = useToast();
-  const [submit, { data: postInfo, isLoading, error }] =
-    useAddPostInteractionMutation();
+  const { create: { create, error, success: successCreate, loading: isLoading } } = usePostsAsMaker(false)
   const router = useRouter();
+
   useEffect(() => {
-    if (postInfo) {
+    if (successCreate) {
       router.push("/athlete/interactions");
-      updateSession();
     }
-  }, [postInfo]);
+  }, [successCreate]);
 
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: ({
+    onSubmit: async ({
       content,
       tags,
       listMedia,
@@ -169,9 +171,11 @@ export const useInteractionInfo = () => {
         listMedia,
         schedule,
         publicDate: dayjs(formatDate).format(),
+        createdAt: serverTimestamp()
       };
 
-      submit(mapPayload);
+      console.log("onsubmit create")
+      await create(mapPayload as any)
     },
   });
 
@@ -201,13 +205,11 @@ export const useInteractionInfo = () => {
 
 export const useUpdateInteractionInfo = () => {
   const toast = useToast();
-  const [submit, { data: editPostData, isLoading, error }] =
-    useUpdatePostInteractionMutation();
-  const router = useRouter();
+  const { edit, loading: isLoading, error, success: successEdit } = useEditPost()
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: ({
+    onSubmit: async ({
       interactionId,
       content,
       tags,
@@ -215,21 +217,26 @@ export const useUpdateInteractionInfo = () => {
       schedule,
       publicDate,
       publicTime,
+      ...rest
     }) => {
       const formatDate = new Date(`${publicDate} ${publicTime}`).toUTCString();
       const listMediaExisted = listMedia.filter(
         (item) => typeof item.file === "string"
       ) as IMediaExisted[];
+
       listMedia = listMedia.filter((item) => typeof item.file !== "string");
+
       const mapPayload = {
         content,
         tags,
-        listMedia,
-        listMediaExisted,
+        newMedia: listMedia,
+        listMediaExisted, // old data
         schedule,
-        publicDate: dayjs(formatDate).format(),
+        publicDate: dayjs(formatDate).format() as string,
       };
-      submit({ interactionId, data: mapPayload });
+
+      console.log("onsubmit")
+      await edit(interactionId, mapPayload as any)
     },
   });
 
@@ -253,7 +260,7 @@ export const useUpdateInteractionInfo = () => {
     initialValues,
     isLoading,
     error,
-    editPostData,
     handleSubmit,
+    successEdit
   };
 };

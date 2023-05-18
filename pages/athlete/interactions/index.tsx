@@ -2,7 +2,6 @@ import React, { ReactElement } from "react";
 import { Box, Container, Divider, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { Waypoint } from "react-waypoint";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
@@ -14,21 +13,24 @@ import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import { IInteractionItem } from "@/types/athlete/types";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
-
-import { wrapper } from "@/store";
-import { IGuards } from "@/types/globals/types";
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
-import { setTokenToStore } from "@/utils/auth";
+import { useAuthContext } from "@/context/AuthContext";
+import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { usePostsAsMaker } from "@/libs/dtl/post";
 
 const Interactions = () => {
-  const { data: session, status } = useSession();
+  const { userProfile } = useAuthContext();
+  const { athleteProfile, loading } = useGetAthleteProfile();
   const router = useRouter();
+  /*
   const { hasNextPage, interactionsList, isLoading, onLoadMore } =
     useAthleteInteraction({
       isGetPublic: false,
       take: 10,
     });
+    */
+  const hasNextPage = false;
+  const onLoadMore = () => {};
+  const { data: interactionsList, loading: isLoading } = usePostsAsMaker();
 
   const formatPropAthletePost = (postInfo: IInteractionItem) => {
     return {
@@ -42,10 +44,10 @@ const Interactions = () => {
         },
       ],
       athleteInfo: {
-        imagePath: session?.user?.avatar || "",
-        athleteName: session?.user.nickname ?? "",
+        imagePath: userProfile?.avatar || "",
+        athleteName: athleteProfile?.nickName ?? "",
         publishDate: postInfo.publicDate,
-        id: session?.user?.id ?? "",
+        id: userProfile?.uid ?? "",
       },
       slideData: postInfo.interactionMedia ?? [],
       hashtag: postInfo.tags,
@@ -56,6 +58,10 @@ const Interactions = () => {
       liked: postInfo.liked,
     };
   };
+
+  if (loading || !userProfile || !athleteProfile || isLoading) {
+    return <></>;
+  }
 
   return (
     <Box minHeight="100vh">
@@ -126,13 +132,29 @@ const Interactions = () => {
                     <AthletePost
                       isNavigate
                       isDetailPage={false}
-                      interactionInfo={item}
+                      interactionInfo={{
+                        ...item,
+                        isCurrentUserReacted: userProfile?.uid === item?.uid,
+                        interactionMedia: item?.media.map((media, index) => ({
+                          id: media.url,
+                          url: media.url,
+                          type: media.type,
+                          sortOrder: index,
+                        })),
+                      }}
                       onDeleted={router.reload}
                       onUpdated={router.reload}
-                      {...formatPropAthletePost(item)}
+                      {...formatPropAthletePost({
+                        ...item,
+                        interactionMedia: item?.media.map((media, index) => ({
+                          type: media.type,
+                          url: media.url,
+                          sortOrder: index,
+                        })),
+                      })}
                     >
                       <Box mt={{ base: 1, lg: 3 }}>
-                        <AthleteInteractionComments id={item.id} isPreview />
+                        <AthleteInteractionComments id={item?.id} isPreview />
                       </Box>
                     </AthletePost>
                     <Divider display={{ lg: "none" }} my={{ base: 6, lg: 8 }} />
@@ -154,7 +176,7 @@ const Interactions = () => {
                 </Waypoint>
               )}
             </Flex>
-            <If condition={!interactionsList.length}>
+            <If condition={!interactionsList?.length}>
               <Then>
                 <Text color="grey.300" fontSize={{ base: "xs", lg: "md" }}>
                   You have not had any interactions. Start interacting with your
@@ -174,17 +196,3 @@ export default Interactions;
 Interactions.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

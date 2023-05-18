@@ -20,25 +20,28 @@ import {
 } from "@/hooks/useWithdrawMoney";
 import { WarningIcon } from "@/components/svg/WarningIcon";
 import { CheckIcon } from "@/components/svg/CheckIcon";
-import { useUpdateWithdrawMoneyMutation } from "@/api/athlete";
 import BackButton from "@/components/ui/BackButton";
+import { useWithdrawal, WithdrawParamsInformation } from "@/libs/dtl/withdraw";
 interface IProp {
   onSubmit: (values: initialWithdrawMoney) => void;
   initialValues?: initialWithdrawMoney;
 }
 
-const WithdrawMoney: React.FC<IProp> = ({ onSubmit }) => {
+const WithdrawMoney: React.FC<IProp> = () => {
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [updateWithdraw, { isSuccess: successUpdated, isLoading }] =
-    useUpdateWithdrawMoneyMutation();
+  const {
+    create: createWithdrawalRequest,
+    isSuccess: successUpdated,
+    loading: isLoading,
+  } = useWithdrawal();
 
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: validationWithdrawMoney,
-    onSubmit: (values) => {
-      updateWithdraw(values);
-      onSubmit(values);
+    onSubmit: async (values) => {
+      const params: WithdrawParamsInformation = values;
+      await createWithdrawalRequest(params);
     },
   });
 

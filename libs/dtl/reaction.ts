@@ -1,8 +1,22 @@
 import { useCallback, useEffect, useState } from "react";
-import { collection, getDocs, onSnapshot, query, QueryDocumentSnapshot, where } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, onSnapshot, query, QueryDocumentSnapshot, setDoc, where } from "firebase/firestore";
 import { db } from "@/libs/firebase";
+import { useAuthContext } from "@/context/AuthContext";
 export type ReactionType = "LIKE"
-export type ToType = "POST"|"COMMENT"
+export type ToType = "POST" | "COMMENT"
+
+/**
+ * /
+ * createdAt: Timestamp
+deletedAt: Timestamp
+type: String
+toType: Post|Comment
+to: oid
+uid: uid
+ * 
+ * 
+ */
+
 export interface Reaction {
   id?: string
   type_: ReactionType
@@ -20,17 +34,37 @@ const converter = {
   }
 }
 
-export function useReactions(to?: string) {
-  const create = useCallback(async (to: string, toType: ToType, type_: ReactionType) => {
-    if (!toType || !to || !type_) return
-    //Llama a la fucnion de withdrawal
-  }, [to])
+interface AddReactionParams {
+  to: string,
+  toType: ToType,
+  type_: ReactionType
+}
+
+export function useReactions(loadData = true, to?: string) {
+  const { user } = useAuthContext()
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
   const [data, setData] = useState<Reaction[]>([]);
 
+  const create = useCallback(async ({ to, toType, type_ }: AddReactionParams) => {
+    if (!toType || !to || !type_ || !user?.uid) return
+    try {
+      const params: Reaction = {
+        to,
+        toType,
+        type_,
+        uid: user?.uid
+      }
+      await setDoc(doc(db, "reactions", `${user?.uid}_${to}`), params)
+    } catch (error) {
+      console.log(error)
+    } finally {
+
+    }
+  }, [to, user?.uid])
+
   useEffect(() => {
-    if (!to) return
+    if (!to || !loadData) return
     const q = query(collection(db, "reactions"), where("to", "==", to)).withConverter(converter)
     getDocs(q)
       .then((snapshot) => {
@@ -42,7 +76,7 @@ export function useReactions(to?: string) {
       setCount(snapshot.size)
       setData(snapshot.docs.map(d => d.data()))
     });
-  }, [to]);
+  }, [to, loadData]);
 
   return { create, loading, count, data }
 }

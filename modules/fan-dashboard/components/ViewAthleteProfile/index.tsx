@@ -13,7 +13,6 @@ import { LegacyRef, useEffect } from "react";
 import { If, Then } from "react-if";
 import { useRouter } from "next/router";
 import FindHeros from "@components/ui/FindHeros";
-import { IAthleteProfileResponse } from "@/types/athlete/types";
 import { Profile } from "@/modules/athlete-profile/profile";
 import Interactions from "@/modules/athlete-profile/interactions";
 import BasicInfoAthlete from "@/modules/athlete-profile/banner-info";
@@ -22,10 +21,11 @@ import CareerJourney from "@/modules/athlete-profile/career-journey";
 import { useAthleteProfile } from "@/hooks/useAthleteProfile";
 import FanOnlyModal from "@/components/modal/FanOnlyModal";
 import { useUser } from "@/hooks/useUser";
+import { AthleteProfile } from "@/libs/dtl/athleteProfile";
 
 interface IFanAthleteProfileProps {
   showFindHeros?: boolean;
-  athleteProfile: IAthleteProfileResponse | undefined;
+  athleteProfile: AthleteProfile | undefined;
 }
 
 const TABS = ["Profile", "Interactions", "Career Journey", "Subscribe"];
@@ -42,7 +42,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
     basicInfo,
     currentTab,
     tierMembershipList,
-    totalSubData,
+    totalSubCount,
     validateIsFan,
     journeyData,
     navigationBarRef,
@@ -50,6 +50,9 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
     athleteId,
     handleSubscribe,
     setCurrentTab,
+    loadingJourneys,
+    loadingAthleteProfile,
+    loadingMemberships,
   } = useAthleteProfile();
 
   const onClickDownButton = () => {
@@ -60,6 +63,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
       });
     }
   };
+
   useEffect(() => {
     if (query.showJoinNow) {
       onOpen();
@@ -84,6 +88,10 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
     }
   }, [query, isAdmin]);
 
+  if (loadingJourneys || loadingAthleteProfile || loadingMemberships) {
+    return <></>;
+  }
+
   return (
     <Box
       as="section"
@@ -99,17 +107,16 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
           </Box>
         </Then>
       </If>
-
       <BasicInfoAthlete
         image={athleteProfile?.avatar ?? ""}
         nickname={basicInfo?.nickName ?? ""}
-        fans={totalSubData?.total ?? 0}
-        tagline={athleteProfile?.tagLine ?? ""}
+        fans={totalSubCount ?? 0}
+        tagline={athleteProfile?.tagline ?? ""}
         countryCode={basicInfo?.nationality?.twoLetterCode ?? ""}
-        sport={athleteProfile?.sport ?? ""}
+        sport={athleteProfile?.sport.label ?? ""}
         onClickDownButton={onClickDownButton}
         onSubscribe={!validateIsFan ? onSubscribe : undefined}
-        role={user?.role}
+        role={user?.profileType}
       />
       <Tabs
         onChange={setCurrentTab}
@@ -164,7 +171,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
             <Profile
               isEdit={false}
               basicInfo={basicInfo}
-              sportProfile={sportProfile}
+              sportProfile={sportProfile ?? null}
               athleteId={athleteId ?? ""}
               athleteNickname={basicInfo?.nickName ?? ""}
             />
@@ -198,7 +205,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
           </TabPanel>
           <TabPanel p={{ xl: "unset" }} px={{ base: 5, xl: "unset" }}>
             <MembershipSubscribe
-              listMembershipTiers={tierMembershipList?.data || []}
+              listMembershipTiers={tierMembershipList || []}
               validateIsFan={validateIsFan ?? false}
               athleteNickname={basicInfo?.nickName ?? ""}
             />

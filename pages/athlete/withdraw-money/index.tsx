@@ -3,11 +3,6 @@ import { ReactElement } from "react";
 import Head from "next/head";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import WithdrawMoney from "@/components/payment/WithdrawMoney";
-import { wrapper } from "@/store";
-
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards } from "@/types/globals/types";
-import { setTokenToStore } from "@/utils/auth";
 
 const WalletWithdrawMoney = () => {
   const onsubmit = () => {};
@@ -20,22 +15,9 @@ const WalletWithdrawMoney = () => {
     </Box>
   );
 };
+
 export default WalletWithdrawMoney;
 
 WalletWithdrawMoney.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);
