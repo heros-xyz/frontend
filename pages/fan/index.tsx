@@ -24,7 +24,6 @@ const FanDashboard = () => {
     take: 3,
   });
 
-  console.log("HOLA MUNDO", isFirstLogin);
 
   return (
     <Box bg="white" minH="100vh">
