@@ -74,9 +74,8 @@ const AuthTemplate: React.FC<IAuthProps> = ({
     );
   }, [authErrorMessage]);
 
-  const isNotRegister = useMemo(()=> {
-    debugger
-    return authErrorMessage === "MUST_SIGN_UP_FIRST"
+  const isNotRegister = useMemo(() => {
+    return authErrorMessage === "MUST_SIGN_UP_FIRST";
   }, [authErrorMessage]);
 
   useEffect(() => {
@@ -227,15 +226,16 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                 errorMessage={formik.errors.email}
               />
 
-              <If condition={pageType === "signin"}>
-                <Then>
-                  <ErrorMessage
-                    mt={{ base: 1.5, lg: 3 }}
-                    condition={errorMessage && formik.isValid}
-                    errorMessage={getAuthErrorCode(errorMessage)}
-                  />
-                </Then>
-              </If>
+              {pageType === "signin" && (
+                <ErrorMessage
+                  mt={{ base: 1.5, xl: 3 }}
+                  display="flex"
+                  condition={isNotRegister}
+                  link="/sign-up"
+                  linkText="sign up here!"
+                  errorMessage={"You've not registered with this email. Please"}
+                />
+              )}
 
               <If condition={pageType !== "signin"}>
                 <Then>
