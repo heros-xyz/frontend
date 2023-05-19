@@ -200,13 +200,11 @@ export function useGetMySubscriptions() {
     !!fan?.uid ? query(collection(db, SUBSCRIPTION_COLLECTION_NAME),
       where("taker", "==", fan?.uid))
       .withConverter(converter) : null
-    , [fan, db])
+    , [fan?.uid, db])
 
-  console.log({ fan })
 
   useEffect(() => {
     if (!dataRef || !fan?.uid) return
-    console.log({ fan })
     getDocs(dataRef)
       .then((snapshot) => {
         setData(snapshot.docs.map((doc) => doc.data()))
@@ -280,6 +278,7 @@ export function useDeleteSubscription() {
       setStatus(current => ({ ...current, success: true }))
     } catch (error) {
       console.info(error)
+      console.log({ error })
       setStatus(current => ({ ...current, error: error?.message }))
     } finally {
       setStatus(current => ({ ...current, loading: false }))

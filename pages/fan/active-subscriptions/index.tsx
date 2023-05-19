@@ -53,6 +53,7 @@ const PaymentInfo = () => {
     deleteSub,
     success: successDeleted,
     error: isError,
+    loading: loadingDelete,
   } = useDeleteSubscription();
 
   const handleConfirm = async (id: string | undefined) => {
@@ -308,7 +309,7 @@ const PaymentInfo = () => {
             cancel="back"
             onCancel={onCloseConfirm}
             onSubmit={() => handleConfirm(dataCancel?.id)}
-            isLoading={isLoading}
+            isLoading={loadingDelete}
           />
         </ModalContent>
       </Modal>
