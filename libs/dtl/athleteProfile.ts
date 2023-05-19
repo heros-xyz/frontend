@@ -34,7 +34,7 @@ const converter = {
     fromFirestore: (snap: QueryDocumentSnapshot) =>
     ({
         id: snap?.id,
-            ...snap?.data() 
+            ...snap?.data()
         }) as AthleteProfile
 }
 

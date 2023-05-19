@@ -253,7 +253,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                           )
                         }
                       >
-                        #{item}
+                        <>#{item}</>
                       </TagLabel>
                     </Tag>
                   ))}

@@ -1,9 +1,8 @@
-import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FormikContext, useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useUpdateEffect } from "react-use";
-import { If, Then } from "react-if";
 import PaymentForm from "@/components/payment/PaymentForm";
 import {
   defaultValue,
@@ -11,9 +10,9 @@ import {
   validationSchema,
 } from "@/hooks/usePaymentForm";
 
-import { usePaymentMethod } from "@/libs/dtl/payment";
-import { initialChangepayment } from "../../constants";
+import { usePaymentMethods } from "@/libs/dtl/payment";
 import { useAuthContext } from "@/context/AuthContext";
+import { initialChangepayment } from "../../constants";
 
 interface IProp {
   idAthleteTier?: string;
@@ -33,44 +32,42 @@ const ChangePayment: React.FC<IProp> = ({
   setIsError,
   setErrorCode,
 }) => {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(false)
   const router = useRouter();
   const { userProfile } = useAuthContext();
   const {
-    createAndUpdatePaymentMethod: {
-      success: addSuccess,
-      loading: loadingAdd,
-      error: errorAdd,
-      createAndUpdatePaymentMethod: addPayment,
-    },
-    updatePaymentMethod: {
-      updatePaymentMethod: updatePayment,
-      success: updateSuccess,
-      loading: loadingUpdate,
-      error: errorUpdate,
-    },
-  } = usePaymentMethod();
+    create: addPayment
+  } = usePaymentMethods();
 
   const formik = useFormik({
     initialValues: defaultValue,
     validationSchema,
     onSubmit: async (values) => {
-      if (!userProfile?.uid) return;
-      const post = {
-        uid: userProfile?.uid,
-        cardName: values.nameOnCard,
-        cardNumber: values.cardNumber,
-        cardExpMonth: +values.expiredDate.split("/")[0],
-        cardExpYear: +values.expiredDate.split("/")[1],
-        cardCvc: values.cvv,
-      };
-      console.log("submit", values);
-      if (idUpdate) {
-        console.log("update");
-        // updatePayment({ id: idUpdate, ...post });
-      } else {
-        console.log("add");
-        addPayment(post);
+      setLoading(true)
+      try{
+        await addPayment({
+          cardName: values.nameOnCard,
+          cardNumber: values.cardNumber,
+          cardExpMonth: +values.expiredDate.split("/")[0],
+          cardExpYear: +values.expiredDate.split("/")[1],
+          cardCvc: values.cvv
+        });
+        if (idAthleteSubmit && idAthleteTier) {
+          await router.push({
+            pathname: "/fan/athlete-profile/[id]/payment-details",
+            query: {
+              id: idAthleteSubmit,
+              membershipTierId: idAthleteTier,
+            },
+          });
+        } else {
+          await router.push("/fan/payment");
+        }
+      } catch (e) {
+        setError(e)
       }
+      setLoading(false)
     },
     validateOnMount: true,
   });
@@ -83,14 +80,6 @@ const ChangePayment: React.FC<IProp> = ({
       }
     | {}
   >();
-
-  useUpdateEffect(() => {
-    if (!!errorAdd) {
-      setErrorData(errorAdd);
-    } else if (!!errorUpdate) {
-      setErrorData(errorUpdate);
-    }
-  }, [errorAdd, errorUpdate]);
 
   useUpdateEffect(() => {
     if (errorData && "data" in errorData) {
@@ -117,20 +106,6 @@ const ChangePayment: React.FC<IProp> = ({
     }
   }, [errorData]);
 
-  useUpdateEffect(() => {
-    if (idAthleteSubmit && idAthleteTier) {
-      router.push({
-        pathname: "/fan/athlete-profile/[id]/payment-details",
-        query: {
-          id: idAthleteSubmit,
-          membershipTierId: idAthleteTier,
-        },
-      });
-    } else {
-      router.push("/fan/payment");
-    }
-  }, [addSuccess, updateSuccess]);
-
   return (
     <Box className="fdfdf">
       <FormikContext.Provider value={formik}>
@@ -144,14 +119,8 @@ const ChangePayment: React.FC<IProp> = ({
             fontWeight={"bold"}
             type="submit"
             fontSize={{ xl: "xl" }}
-            isLoading={loadingAdd || loadingUpdate}
-            onClick={() => {
-              if (loadingAdd || loadingUpdate || isError) {
-                return;
-              } else {
-                formik.handleSubmit();
-              }
-            }}
+            isLoading={loading}
+            onClick={()=>formik.handleSubmit()}
           >
             update
           </Button>

@@ -9,7 +9,7 @@ interface ImageResponsive {
 }
 
 interface HerosImageProps {
-  src: string;
+  src?: string;
   widthSize?: number;
   heightSize?: number;
   borderRadius?: string;
@@ -22,7 +22,7 @@ interface HerosImageProps {
 }
 
 const HerosImage: React.FC<HerosImageProps> = ({
-  src,
+  src = "/images/DefaultAvaCircle.png",
   widthSize = 400,
   heightSize = 400,
   borderRadius = "100%",
@@ -54,7 +54,7 @@ const HerosImage: React.FC<HerosImageProps> = ({
 
   return (
     <Image
-      src={imgSrc ? imgSrc : "/images/DefaultAvaCircle.png"}
+      src={imgSrc}
       alt={alt}
       width={widthSize}
       height={heightSize}

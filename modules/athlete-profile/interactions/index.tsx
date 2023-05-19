@@ -155,7 +155,7 @@ const Interactions: FC<IInteractionsProps> = ({
       <If condition={interactionsList.length}>
         <Then>
           {interactionsList?.map(
-            (interactionPost: IAthleteInteraction, idx: number) => (
+            (interactionPost, idx: number) => (
               <Fragment key={interactionPost.id}>
                 {idx !== 0 && <Divider borderColor="#ADADAD" />}
                 <Box py={{ base: 6, lg: 8 }}>
@@ -163,7 +163,7 @@ const Interactions: FC<IInteractionsProps> = ({
                     validateIsFan={validateIsFan}
                     navigateToPostsByTag={handleFilterPostsByTag}
                     navigateToPostDetail={() => {
-                      navigateToPostDetail(interactionPost.id);
+                      navigateToPostDetail();
                     }}
                     {...interactionPost}
                   />

@@ -5,10 +5,11 @@ import Head from "next/head";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 
 import PaymentWallet from "@/modules/athlete-dashboard/components/PaymentWallet";
+import { usePaymentMethods } from "@/libs/dtl/payment";
 
 const PaymentInfo = () => {
   const router = useRouter();
-  // const { data: paymentInfoList } = useGetPaymentInfoQuery("");
+  const { data: paymentInfoList } = usePaymentMethods();
 
   const handleAdd = () => {
     router.push("/fan/payment/update");
@@ -43,7 +44,6 @@ const PaymentInfo = () => {
         <PaymentWallet
           onSubmit={handleAdd}
           onBack={handleBack}
-          paymentData={undefined}
         />
       </Container>
     </Box>

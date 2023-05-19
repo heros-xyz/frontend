@@ -37,19 +37,17 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (authContextLoading) return;
-    if (!!userProfile?.uid && !!user?.uid) {
-      if (userProfile?.profileType === "FAN") {
+    if (!userProfile) return;
+    if (userProfile.uid) {
+      if (userProfile.profileType === "FAN") {
         router.push(RoutePath.FAN);
-      }
-      if (userProfile?.profileType === "ATHLETE") {
+      }else if (userProfile.profileType === "ATHLETE") {
         router.push(RoutePath.ATHLETE);
+      } else {
+        router.push(RoutePath.JOINING_AS);
       }
     }
-    if (!!user && !userProfile) {
-      router.push(RoutePath.JOINING_AS);
-    }
-  }, [user, userProfile, authContextLoading]);
+  }, [userProfile]);
 
   const callbackUrl = useMemo(() => {
     return router.query.callbackUrl ?? "/";
@@ -100,21 +98,6 @@ const SignIn = () => {
       finish();
     }
   };
-  useEffect(() => {
-    getRedirectResult(auth)
-      .then(async (credential) => {
-        console.log("credential", credential);
-        if (credential?.user.uid) {
-          const user = (
-            await getDoc(doc(db, `user/${credential?.user.uid}`))
-          ).data();
-          if (!user || !user?.profileType) {
-            router.push(RoutePath.JOINING_AS);
-          }
-        }
-      })
-      .catch(console.error);
-  }, [auth]);
 
   useEffect(() => {
     if (authContextLoading === true) {

@@ -8,7 +8,7 @@ import { Nationality } from "./nationalities"
 
 export interface User {
   avatar?: string
-  dateOfBirth?: Date | string
+  dateOfBirth?: Date
   gender?: number
   fullname: string
   firstName: string
@@ -21,6 +21,7 @@ export interface User {
   nationality: Nationality
   isFinishSetupAccount?: boolean
   profileType: "FAN" | "ATHLETE" | "ADMIN"
+  stripeCustomer?: string
   // Only for athlete
   hasFirstInteraction?: boolean
   hasCreateInteractionRecent?: boolean
