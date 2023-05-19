@@ -19,6 +19,8 @@ const nextConfig = {
     FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
     WEBSITE_URL: process.env.WEBSITE_URL,
     HEROS_MEDIA_URL: process.env.HEROS_MEDIA_URL,
+    NEXT_PUBLIC_FIREBASE_CREDENTIALS:
+      process.env.NEXT_PUBLIC_FIREBASE_CREDENTIALS,
   },
   publicRuntimeConfig: {
     HEROS_BASE_URL: process.env.HEROS_BASE_URL,
