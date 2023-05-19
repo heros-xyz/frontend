@@ -14,14 +14,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import { Else, If, Then } from "react-if";
 import { useRouter } from "next/router";
-import { useReactionCommentMutation } from "@/api/fan";
 import { Heart } from "@/components/svg/CommentHeart";
 import { CommentIcon } from "@/components/svg/CommentIcon";
 import { Dots } from "@/components/svg/Dots";
 import { ReplyIcon } from "@/components/svg/Reply";
 import { getDateFromNow } from "@/utils/time";
 import { useDevice } from "@/hooks/useDevice";
-import { useDeleteCommentMutation } from "@/api/admin";
 import DeleteCommentModal from "@/components/modal/DeleteCommentModal";
 import HerosImage from "@/components/common/HerosImage";
 import { Comment, useComment } from "@/libs/dtl/comment";
@@ -72,9 +70,14 @@ const CommentItem: React.FC<CommentProps> = ({
   const [showAnimation, setAnimation] = useState(false);
   const [totalLikes, setTotalLikes] = useState<number | undefined>(0);
 
-  const [reactToComment, { isSuccess, data }] = useReactionCommentMutation();
-  const [deleteComment, { data: deleteCommentData }] =
-    useDeleteCommentMutation();
+  const [reactToComment, { isSuccess, data }] = [
+    (t: any) => {},
+    { isSuccess: false, data: { totalReaction: 0, type: "like" } },
+  ]; // MOCK
+  const [deleteComment, { data: deleteCommentData }] = [
+    (t: any) => {},
+    { data: { totalLikes: 0, type: "like" } },
+  ]; // mock
 
   const animation = prefersReducedMotion ? undefined : `${spin} 3s ease-in-out`;
 

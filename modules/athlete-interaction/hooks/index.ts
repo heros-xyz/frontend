@@ -7,10 +7,6 @@ import { useToast } from "@chakra-ui/react";
 import { serverTimestamp } from "firebase/firestore";
 import { isBeforeEndDate, isValidDate } from "@/utils/time";
 import {
-  useAddPostInteractionMutation,
-  useUpdatePostInteractionMutation,
-} from "@/api/athlete";
-import {
   MAX_SIZE_MEDIA_POST_IMAGE,
   MAX_SIZE_MEDIA_POST_VIDEO,
   ALLOWED_TYPES_POST_IMAGE,

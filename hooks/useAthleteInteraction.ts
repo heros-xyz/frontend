@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useGetMyListInteractionsQuery } from "@/api/athlete";
 import { IInteractionItem } from "@/types/athlete/types";
 
 interface IUseAthleteInteractionProps {
@@ -14,12 +13,16 @@ export const useAthleteInteraction = ({
   const [page, setPage] = useState(1);
   const [isLoading, setLoading] = useState(true);
   const [interactionsList, setInteractions] = useState<IInteractionItem[]>([]);
+  /*
   const { data: interactionData, isFetching } = useGetMyListInteractionsQuery({
     page,
     take,
     order: "DESC",
     isGetPublic,
   });
+  */
+
+  const { data: interactionData, isFetching } = { data: { meta: { hasNextPage: true }, data: [] }, isFetching: false } // MOCK
 
   const onLoadMore = () => {
     if (interactionData?.meta?.hasNextPage && !isFetching) {

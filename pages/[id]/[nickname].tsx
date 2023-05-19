@@ -3,26 +3,14 @@ import { Box, Container } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import ViewAthleteProfile from "@/modules/fan-dashboard/components/ViewAthleteProfile";
-import { wrapper } from "@/store";
-
-import {
-  getAthleteProfile,
-  getPaymentInfo,
-  getRunningQueriesThunk,
-  useGetAthleteProfileQuery,
-} from "@/api/fan";
-import { getValidateIsFan } from "@/api/athlete";
 import { getImageLink } from "@/utils/link";
 import { getEnvVariables } from "@/utils/env";
-import { setTokenToStore } from "@/utils/auth";
+import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 
 const GuestViewAthleteProfile = () => {
   const { query, push } = useRouter();
-  const { data: athleteProfile, error } = useGetAthleteProfileQuery(
-    query.id as string,
-    {
-      skip: typeof query.id !== "string",
-    }
+  const { data: athleteProfile, error } = useGetAthleteProfileByUid(
+    query.id as string
   );
 
   const { NEXTAUTH_URL } = getEnvVariables();

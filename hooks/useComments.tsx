@@ -1,9 +1,7 @@
 import { useRouter } from "next/router";
 import { useMemo, useEffect, useRef, useState } from "react";
 import { useBus } from "react-bus";
-import { useAddCommentInteractionMutation } from "@/api/athlete";
 import { IResponseComment } from "@/types/athlete/types";
-import { useReplyCommentMutation } from "@/api/fan";
 import { IReplyingTo } from "@/modules/athlete-profile/interactions/post-detail/CommentSection";
 import { Comment } from "@/libs/dtl/comment";
 import { useDevice } from "./useDevice";
@@ -43,10 +41,15 @@ export const useComments = ({
   const { data: commentFocused } = {
     data: { totalComment: 0, commentIndex: 0 },
   }; // MOCK
-  const [handleSendMessage, { data: sendMessageResponse }] =
-    useAddCommentInteractionMutation();
-  const [replyComment, { data: replyCommentResponse }] =
-    useReplyCommentMutation();
+  const [handleSendMessage, { data: sendMessageResponse }] = [
+    (params: any) => {},
+    { data: { id: "" } as any },
+  ]; // MOCK
+
+  const [replyComment, { data: replyCommentResponse }] = [
+    (params: any) => {},
+    { data: null },
+  ]; // MOCK
 
   const { data: totalComments, refetch: refetchTotalComment } = {
     data: null,
@@ -163,6 +166,7 @@ export const useComments = ({
       setReplyingTo(undefined);
       setIsFocusOnInput(false);
       const comment = sendMessageResponse || replyCommentResponse;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       setCommentedIdList((prev) => [...prev, comment?.id ?? ""]);
       onScrollAfterComment();
       bus && bus.emit("onSubmittedComment");

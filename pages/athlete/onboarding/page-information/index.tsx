@@ -1,12 +1,10 @@
 import { Box, useToast, useUpdateEffect } from "@chakra-ui/react";
 import { useState } from "react";
 import { Case, Else, If, Switch, Then } from "react-if";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Step from "@/components/ui/Step";
 import AddTag from "@/modules/athlete-onboarding/page-information/components/AddTag";
 import TagLine from "@/modules/athlete-onboarding/page-information/components/TagLine";
-import { useOnboardingPageInformationMutation } from "@/api/athlete";
 import { IOnboardingPageInfoParams } from "@/types/users/types";
 import AthleteUpdatedSuccessfully from "@/components/ui/AthleteUpdatedSuccessfully";
 import { useAuthContext } from "@/context/AuthContext";

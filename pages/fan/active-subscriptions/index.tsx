@@ -17,7 +17,6 @@ import { useUpdateEffect } from "react-use";
 import Head from "next/head";
 import { Waypoint } from "react-waypoint";
 import FanDashboardLayout from "@/layouts/FanDashboard";
-import { useDeleteSubscriptionsMutation } from "@/api/fan";
 import ClockMiniIcon from "@/components/svg/ClockMiniIcon";
 import { GetActiveSubscription } from "@/types/fan/types";
 import DeleteSubscription from "@/components/modal/DeleteSubscription";

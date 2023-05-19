@@ -2,16 +2,14 @@ import { Button, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { FC, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { If, Then } from "react-if";
-import { useGetListCommentInteractionQuery } from "@/api/athlete";
-import { useReactionInteractionMutation } from "@/api/fan";
 import { CommentIcon } from "@/components/svg/social/CommentIcon";
 import { LoveIcon } from "@/components/svg/social/LoveIcon";
 import { ShareIcon } from "@/components/svg/social/ShareIcon";
-import { PreviewComment } from "../PreviewComment";
-import SocialSharingModal from "../SocialSharing";
 import { useReactions } from "@/libs/dtl/reaction";
 import { usePostsAsTaker } from "@/libs/dtl/post";
 import { useComments } from "@/libs/dtl/comment";
+import SocialSharingModal from "../SocialSharing";
+import { PreviewComment } from "../PreviewComment";
 
 interface ISocialInteractionProps {
   reactionCount: number;

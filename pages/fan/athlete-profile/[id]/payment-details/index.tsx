@@ -20,11 +20,6 @@ import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { useUpdateEffect } from "react-use";
 import Head from "next/head";
-import { httpsCallable } from "firebase/functions";
-import {
-  useAddPaymentInfoMutation,
-  useSubscribeAthleteMutation,
-} from "@/api/fan";
 import PaymentForm from "@/components/payment/PaymentForm";
 import { usePaymentForm } from "@/hooks/usePaymentForm";
 import OrderSummary from "@/components/ui/OrderSumary";
@@ -61,10 +56,16 @@ const PaymentDetails = () => {
     error: errorSubscribe,
   } = useSubscribeToAthlete();
 
-  const [
-    addPayment,
-    { data: dataSuccess, isLoading: loadingAdd, error: errorData },
-  ] = useAddPaymentInfoMutation();
+  /*     create,
+    data: dataSuccess,
+    : loadingAdd,
+    error: errorData, */
+  const {
+    create: addPayment,
+    data: dataSuccess,
+    dataStatus: { loading: loadingAdd, error: errorData },
+  } = usePaymentMethods();
+
   const { formik, isValid, submitCount, handleSubmit } = usePaymentForm();
 
   const onSubmit = () => {
@@ -117,20 +118,20 @@ const PaymentDetails = () => {
 
   useUpdateEffect(() => {
     if (errorData) {
-      if ((errorData as IHerosError).data.statusCode === 3002) {
+      if ((errorData as unknown as IHerosError).data.statusCode === 3002) {
         setErrorCard(true);
         setTimeout(() => {
           setErrorCard(false);
         }, 5000);
       }
-      if ((errorData as IHerosError).data.statusCode === 3000) {
+      if ((errorData as unknown as IHerosError).data.statusCode === 3000) {
         setIsError(true);
         setErrorCode(3000);
         setTimeout(() => {
           setIsError(false);
         }, 5000);
       }
-      if ((errorData as IHerosError).data.statusCode === 4001) {
+      if ((errorData as unknown as IHerosError).data.statusCode === 4001) {
         setIsError(true);
         setErrorCode(4001);
         setTimeout(() => {

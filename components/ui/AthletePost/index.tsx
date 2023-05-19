@@ -26,7 +26,6 @@ import {
 import { LoveIcon } from "@/components/svg/social/LoveIcon";
 import { CommentIcon } from "@/components/svg/social/CommentIcon";
 import { ShareIcon } from "@/components/svg/social/ShareIcon";
-import { useReactionInteractionMutation } from "@/api/fan";
 import InteractionsPost from "@/modules/athlete-interaction/components/post";
 import { useUpdateInteractionInfo } from "@/modules/athlete-interaction/hooks";
 import SocialSharing from "@/modules/athlete-profile/interactions/components/SocialSharing";
@@ -87,8 +86,10 @@ const AthletePost: React.FC<IAthletePostProps> = ({
   const totalReaction = postLikes;
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
   const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
-  const [onReaction, { data: reactionData, isLoading: isReactionLoading }] =
-    useReactionInteractionMutation();
+  const [onReaction, { data: reactionData, isLoading: isReactionLoading }] = [
+    () => {},
+    { data: null, isLoading: false },
+  ];
   const { create } = useReactions();
   const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
 

@@ -1,12 +1,6 @@
 import { useRouter } from "next/router";
 import { useMemo, useEffect, useRef, useState } from "react";
-import {
-  useAddCommentInteractionMutation,
-  useGetListCommentInteractionQuery,
-  useGetTotalCommentsQuery,
-} from "@/api/athlete";
 import { IResponseComment } from "@/types/athlete/types";
-import { useReplyCommentMutation } from "@/api/fan";
 import { IReplyingTo } from "@/modules/athlete-profile/interactions/post-detail/CommentSection";
 
 interface IAthleteCommentProps {
@@ -33,18 +27,45 @@ export const useComments = ({
   const [listMergedComments, setListComments] = useState<IResponseComment[]>(
     []
   );
+
+  const [handleSendMessage, { data: sendMessageResponse }] = [() => { }, { data: undefined }];
+  const [replyComment, { data: replyCommentResponse }] = [() => { }, { data: undefined }];
+  /*
   const [handleSendMessage, { data: sendMessageResponse }] =
     useAddCommentInteractionMutation();
   const [replyComment, { data: replyCommentResponse }] =
     useReplyCommentMutation();
+    */
 
+
+  /*
   const { data: totalComments, refetch } = useGetTotalCommentsQuery(
     { interactionId, pageInfo: { take: 1 } },
     {
       skip: typeof interactionId !== "string",
     }
   );
+  */
 
+  const { data: totalComments, refetch } = { data: {}, refetch: () => { } }; // mock
+
+
+  /*
+  const {
+    data: listComment,
+    isLoading,
+    isFetching,
+  } = useGetListCommentInteractionQuery(
+    */
+
+  const {
+    data: listComment,
+    isLoading,
+    isFetching,
+  } = { data: { data: [], meta: { itemCount: 0, offset: 0 } }, isLoading: false, isFetching: false }; // mock
+
+
+  /*
   const {
     data: listComment,
     isLoading,
@@ -66,6 +87,7 @@ export const useComments = ({
       skip: typeof interactionId !== "string" || !authorId,
     }
   );
+  */
 
   const isShowLoadMore = useMemo(() => {
     if (!listComment) return false;
