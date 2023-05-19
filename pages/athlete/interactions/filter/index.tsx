@@ -14,7 +14,6 @@ import Head from "next/head";
 import { Waypoint } from "react-waypoint";
 import { useUpdateEffect } from "react-use";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
-import { useGetListInteractionByTagQuery } from "@/api/athlete";
 import AthletePost from "@/components/ui/AthletePost";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
@@ -22,7 +21,6 @@ import { IInteractionItem } from "@/types/athlete/types";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { Close } from "@/components/svg/Close";
-import { useAuthContext } from "@/context/AuthContext";
 import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
 
 const InteractionsByTag = () => {
@@ -39,18 +37,11 @@ const InteractionsByTag = () => {
     data: interactionData,
     isLoading,
     isFetching,
-  } = useGetListInteractionByTagQuery(
-    {
-      page,
-      take,
-      tag: tag as string,
-      order: "DESC",
-    },
-    {
-      refetchOnMountOrArgChange: true,
-      skip: !tag || typeof tag !== "string",
-    }
-  );
+  } = {
+    data: { data: [], meta: { hasNextPage: false, totalCount: 0 } },
+    isFetching: false,
+    isLoading: false,
+  };
 
   const onLoadMore = () => {
     if (interactionData?.meta?.hasNextPage && !isFetching) {

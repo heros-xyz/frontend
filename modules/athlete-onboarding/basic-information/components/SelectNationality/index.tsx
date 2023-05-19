@@ -4,7 +4,6 @@ import { useFormikContext } from "formik";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import Select from "@/components/common/Select";
 import { NationalityIcon } from "@/components/svg/NationalityIcon";
-import { useGetNationalityQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 import { useGetNationalities } from "@/libs/dtl/nationalities";

@@ -6,11 +6,6 @@ import { useUpdateEffect } from "react-use";
 import FindHeros from "@components/ui/FindHeros";
 import AthletesLike from "@components/ui/AthletesLike";
 import FanStayUpToDate from "@components/ui/FanStayupToDate";
-import {
-  useGetListAthleteMightLikeQuery,
-  useGetListAthleteUpToDateQuery,
-  useUpdateAthleteUpToDateMutation,
-} from "@/api/fan";
 import { IAthleteUpToDate } from "@/types/athlete/types";
 import { useUser } from "@/hooks/useUser";
 
@@ -22,16 +17,28 @@ const FanAthleteInteraction = () => {
   const [currentData, setCurrentData] = useState<IAthleteUpToDate[]>([]);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
 
+  /*
   const { data: dataRecommended } = useGetListAthleteMightLikeQuery("", {
     skip: !isFan,
   });
-  const { data: dataUpToDate } = useGetListAthleteUpToDateQuery({
+  */
+
+  const { data: dataRecommended } = { data: null };
+
+  const { data: dataUpToDate } = {
+    data: { data: [], meta: { hasNextPage: true } },
+  };
+  /*   const { data: dataUpToDate } = useGetListAthleteUpToDateQuery({
     page: currentPage,
     take: 10,
-  });
+  }); */
 
-  const [updateUpToDate, { isSuccess: successUpToDate }] =
-    useUpdateAthleteUpToDateMutation();
+  const [updateUpToDate, { isSuccess: successUpToDate }] = [
+    (id: string) => {},
+    { isSuccess: false },
+  ];
+  /*   const [updateUpToDate, { isSuccess: successUpToDate }] =
+    useUpdateAthleteUpToDateMutation(); */
 
   const handleSeeAthleteUptoDate = (id: string) => {
     updateUpToDate(id);

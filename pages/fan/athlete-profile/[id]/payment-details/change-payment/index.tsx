@@ -6,7 +6,6 @@ import { If, Then } from "react-if";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import ChangePayment from "@/modules/fan-dashboard/components/ChangePayment";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
-import { useGetPaymentInfoQuery } from "@/api/fan";
 import { AlertIcon } from "@/components/svg";
 import { wrapper } from "@/store";
 
@@ -15,7 +14,7 @@ import { setTokenToStore } from "@/utils/auth";
 
 const PaymentInfo = () => {
   const router = useRouter();
-  const { data } = useGetPaymentInfoQuery("");
+  const { data } = { data: {} };
   const [isError, setIsError] = useState<boolean>(false);
   const [errorCode, setErrorCode] = useState<number>(0);
   const handleBack = () => {

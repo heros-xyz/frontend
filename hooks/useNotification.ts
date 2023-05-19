@@ -5,10 +5,6 @@ import updateLocale from "dayjs/plugin/updateLocale";
 import isToday from "dayjs/plugin/isToday";
 import { useUnmount } from "react-use";
 import { INotificationInfo } from "@/types/notifications/types";
-import {
-  useGetListNotificationQuery,
-  useMaskAllNotificationMutation,
-} from "@/api/global";
 import { useLoading } from "./useLoading";
 
 dayjs.extend(updateLocale);
@@ -25,6 +21,7 @@ export const useNotification = () => {
   const [listNotification, setListNotification] = useState<INotificationInfo[]>(
     []
   );
+  /*
   const {
     data: notificationData,
     isFetching,
@@ -34,14 +31,27 @@ export const useNotification = () => {
     beforeDate,
     take: 10,
   });
+  */
 
+  const {
+    data: notificationData,
+    isFetching,
+    isLoading,
+    isSuccess,
+  } = { data: { data: [] as any, meta: { hasNextPage: true } }, isFetching: false, isLoading: false, isSuccess: false }
+
+  /*
   const [onMaskAll, { data: maskAllNotificationData }] =
     useMaskAllNotificationMutation();
+    */
+
+  const [onMaskAll, { data: maskAllNotificationData }] = [(param: string) => { unwrap: () => { } }, { data: { meta: { hasNextPage: true } } }]
 
   const onMaskAllNotification = async () => {
     start();
     try {
-      await onMaskAll("").unwrap();
+      //await onMaskAll("").unwrap?.() as unknown as any;
+      finish();
     } catch (error) {
       finish();
     }

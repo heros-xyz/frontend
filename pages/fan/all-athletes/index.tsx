@@ -3,17 +3,10 @@ import Head from "next/head";
 import { ReactElement, useEffect, useState } from "react";
 import YourAthletesList from "@/components/ui/FanOfAthletes/List";
 import FindHeros from "@/components/ui/FindHeros";
-import {
-  useGetListAthleteRecommendedQuery,
-  useGetListAthleteSubscribedQuery,
-} from "@/api/fan";
 import FanDashboardLayout from "@/layouts/FanDashboard";
-import { wrapper } from "@/store";
 
-import { IGuards } from "@/types/globals/types";
-import { IAthleteSubscribed } from "@/types/athlete/types";
 import { FAN_ROLE } from "@/utils/constants";
-import { setTokenToStore } from "@/utils/auth";
+import { IAthleteSubscribed } from "@/types/athlete/types";
 import { useUser } from "@/hooks/useUser";
 
 const AllAthletes = () => {
@@ -28,19 +21,14 @@ const AllAthletes = () => {
   >([]);
   const [hasNextRecommendPage, setHasNextRecommendPage] =
     useState<boolean>(false);
-  const { data: listSubscribed, isSuccess } = useGetListAthleteSubscribedQuery({
-    page: currentPage,
-    take: 10,
-  });
-  const { data: listAthleteRecommended } = useGetListAthleteRecommendedQuery(
-    {
-      page: currentRecommendPage,
-      take: 10,
-    },
-    {
-      skip: !isSuccess || hasNextPage || isAdmin,
-    }
-  );
+  const { data: listSubscribed, isSuccess } = {
+    data: { data: [], meta: { hasNextPage: true, itemCount: 0 } },
+    isSuccess: false,
+  };
+
+  const { data: listAthleteRecommended } = {
+    data: { data: [], meta: { hasNextPage: true } },
+  };
 
   useEffect(() => {
     setCurrentData([]);

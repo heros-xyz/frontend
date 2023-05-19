@@ -1,6 +1,5 @@
 import { Box, Container, Divider, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useGetAthleteInteractionDetailQuery } from "@/api/fan";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { useAthleteProfile } from "@/hooks/useAthleteProfile";
 import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/detail/SkeletonInteractionDetail";
@@ -19,9 +18,7 @@ const PostDetail = () => {
     error,
     isSuccess,
     isLoading,
-  } = useGetAthleteInteractionDetailQuery(postId as string, {
-    skip: !postId,
-  });
+  } = { data: {} as any, error: null, isSuccess: false, isLoading: false }; // mock
 
   const handleNavigateToFilterTag = (value: string) => {
     router.push({

@@ -1,7 +1,6 @@
 import { Box, Center, Container, Text } from "@chakra-ui/react";
 import Head from "next/head";
 import { ReactElement, useCallback, useState } from "react";
-import { useGetLatestInteractionQuery } from "@/api/fan";
 import FanInteractions from "@/components/ui/FanLatestInteractions";
 import FindHeros from "@/components/ui/FindHeros";
 import { useUser } from "@/hooks/useUser";
@@ -19,11 +18,10 @@ const FanDashboard = () => {
     setSearchValue(el.target.value);
   }, []);
 
-  const { data: latestInteraction, isLoading } = useGetLatestInteractionQuery({
-    page: 1,
-    take: 3,
-  });
-
+  const { data: latestInteraction, isLoading } = {
+    data: { data: [] },
+    isLoading: false,
+  };
 
   return (
     <Box bg="white" minH="100vh">

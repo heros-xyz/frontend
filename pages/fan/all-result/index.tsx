@@ -3,7 +3,6 @@ import { ReactElement, useEffect, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import FanDashboardLayout from "@/layouts/FanDashboard";
-import { useSearchAthleteProfileQuery } from "@/api/athlete";
 import SearchResult from "@/components/ui/SearchResult";
 import FindHeros from "@/components/ui/FindHeros";
 import { wrapper } from "@/store";
@@ -27,11 +26,9 @@ const AllResult = () => {
     setSearchValue(el.target.value);
   };
 
-  const { data: searchData } = useSearchAthleteProfileQuery({
-    searching: defaultValue?.toLocaleLowerCase(),
-    page: currentPage,
-    take: TAKE,
-  });
+  const { data: searchData } = {
+    data: { data: [], meta: { hasNextPage: false } },
+  };
 
   const onLoadMore = () => {
     if (hasNextPage) {

@@ -14,7 +14,6 @@ import { useRouter } from "next/router";
 import { AnimatePresence, motion } from "framer-motion";
 import { LogoMiniIcon } from "@/components/svg/LogoMini";
 import { FindIcon } from "@/components/svg/Find";
-import { useSearchAthleteProfileQuery } from "@/api/athlete";
 import useDebounce from "@/hooks/useDebounce";
 import { IconInfo } from "@/components/svg/IconInfo";
 import SearchSuggestionsList from "../SearchSuggestions/List";
@@ -41,6 +40,7 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
 
   const TAKE = 5;
 
+  /*
   const { data: searchData } = useSearchAthleteProfileQuery(
     {
       searching: searchValueDebounced?.toLocaleLowerCase(),
@@ -48,6 +48,8 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
     },
     { skip: searchValueDebounced.length <= 1 }
   );
+  */
+  const searchData = { data: [] };
 
   const onShowAllResult = () => {
     setShowSuggestList(false);

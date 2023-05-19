@@ -2,8 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Box, Container } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
-import { useSession } from "next-auth/react";
-import { useGetInteractionDetailQuery } from "@/api/athlete";
 import AthletePost from "@/components/ui/AthletePost";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import { EditIcon } from "@/components/svg/menu/EditIcon";

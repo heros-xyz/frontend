@@ -14,8 +14,8 @@ import DateSelect from "@/components/ui/DateSelect";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import SelectGender from "@/components/ui/SelectGender";
 import Select from "@/components/common/Select";
-import { useGetNationalityQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
+import { useGetNationalities } from "@/libs/dtl/nationalities";
 import { styles } from "./styles";
 import {
   initialAddpayment,
@@ -41,7 +41,8 @@ const AddPayment: React.FC<IProp> = ({ onSubmit }) => {
     },
   });
 
-  const { data: nationalityList } = useGetNationalityQuery("");
+  const { nationalitiesMapped: nationalityList } = useGetNationalities();
+
   return (
     <Center
       color="white"

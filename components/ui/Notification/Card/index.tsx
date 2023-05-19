@@ -6,7 +6,6 @@ import {
   getLinkByNotificationType,
   notificationContent,
 } from "@/utils/functions";
-import { useMaskNotificationMutation } from "@/api/global";
 import { getImageLink } from "@/utils/link";
 import HerosImage from "@/components/common/HerosImage";
 import { convertDateFromNow } from "@/utils/time";
@@ -15,8 +14,11 @@ interface IProps {
 }
 
 const NotificationCard: React.FC<IProps> = ({ item }) => {
+  /*
   const [onMaskNotification] = useMaskNotificationMutation();
+  */
 
+  const onMaskNotification = (id: string) => {}; // MOCK
   const onClickNotification = () => {
     if (item?.id) {
       onMaskNotification(item?.id);

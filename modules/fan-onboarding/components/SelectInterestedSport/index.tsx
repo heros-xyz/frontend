@@ -2,7 +2,6 @@ import { Box, Text } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Select from "@/components/common/Select";
-import { useGetSportListQuery } from "@/api/global";
 import { filterSelectOptions } from "@/utils/functions";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 import { InterestedSport } from "@/components/svg/InterestedSportFanOnBoarding";
