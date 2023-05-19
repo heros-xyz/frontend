@@ -13,8 +13,9 @@ import { Else, If, Then } from "react-if";
 import { Waypoint } from "react-waypoint";
 import { useUnmount } from "react-use";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
-import { useGetAthleteListInteractionQuery } from "@/api/fan";
 import { useUser } from "@/hooks/useUser";
+import { usePostsAsTaker } from "@/libs/dtl/post";
+import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 import InteractionSection from "./components/InteractionSection";
 import { SocialInteraction } from "./components/SocialInteraction/SocialInteraction";
 import SubscribeContent from "./components/SubscribeContent";
@@ -39,29 +40,24 @@ const Interactions: FC<IInteractionsProps> = ({
   const [page, setPage] = useState(1);
   const [tag, setTag] = useState("");
   const tagSectionRef = useRef<HTMLDivElement>(null);
+  console.log("isFan", validateIsFan);
 
-  const [interactionsList, setInteractionList] = useState<
-    IAthleteInteraction[]
-  >([]);
-
-  const {
-    data: interactionData,
-    isFetching,
-    isLoading,
-  } = useGetAthleteListInteractionQuery({
-    athleteId: id,
-    params: {
-      page,
-      take: 10,
-      order: "DESC",
-      tag,
-    },
+  const { data: athleteProfile, loading: loadingAthleteProfile } =
+    useGetAthleteProfileByUid(id as string);
+  const { data: interactionData, loading: isLoading } = usePostsAsTaker({
+    maker: id as string,
   });
+
+  const interactionsList = interactionData.map((post) => ({
+    ...post,
+    user: { ...athleteProfile },
+    isAccessRight: validateIsFan, // TODO: check this
+  }));
 
   const handleFilterPostsByTag = (tagName: string) => {
     if (tag !== tagName) {
       setPage(1);
-      setInteractionList([]);
+      //setInteractionList([]);
       setTag(tagName);
       setTimeout(onGoToTag, 100);
     } else {
@@ -76,11 +72,13 @@ const Interactions: FC<IInteractionsProps> = ({
     });
   }, []);
 
+  /*
   const onLoadMore = () => {
-    if (interactionData?.meta?.hasNextPage && !isFetching) {
+    if (interactionData?.hasNextPage && !isFetching) {
       setPage((p) => p + 1);
     }
   };
+   */
 
   const handleRemoveQuery = () => {
     router.replace(
@@ -105,18 +103,20 @@ const Interactions: FC<IInteractionsProps> = ({
     }
   }, [tag]);
 
+  /*
   useEffect(() => {
-    if (interactionData?.data) {
+    if (interactionData) {
       setInteractionList((prevArray) => [
         ...prevArray,
-        ...interactionData?.data,
+        ...interactionData
       ]);
     }
-  }, [interactionData?.data]);
+  }, [interactionData]);
+   */
 
-  useUnmount(() => {
-    setInteractionList([]);
-  });
+  if (isLoading || loadingAthleteProfile) {
+    return <PostSkeleton />;
+  }
 
   return (
     <Box ref={tagSectionRef} className="view-athlete-interactions">

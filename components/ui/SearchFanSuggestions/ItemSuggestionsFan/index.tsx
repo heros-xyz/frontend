@@ -29,7 +29,7 @@ const ItemSuggestionsFan: React.FC<IProps> = ({
           overflow="hidden"
         >
           <Image
-            src={getImageLink(item.avatar)}
+            src={item?.avatar ?? ""}
             alt="heros item"
             width={{ base: "40px", xl: "50px" }}
             height={{ base: "40px", xl: "50px" }}

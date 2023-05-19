@@ -88,9 +88,9 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
     }
   }, [query, isAdmin]);
 
-  if (loadingJourneys || loadingAthleteProfile || loadingMemberships) {
-    return <></>;
-  }
+    if (loadingJourneys || loadingAthleteProfile || loadingMemberships) {
+      return <></>;
+    }
 
   return (
     <Box

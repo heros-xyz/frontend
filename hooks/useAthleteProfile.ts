@@ -5,7 +5,7 @@ import { useCareerJourneysFromAthlete } from "@/libs/dtl/careerJourney";
 import { useMembershipsFromAthlete } from "@/libs/dtl/membershipTiers";
 import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 import { IBasicInfo } from "@/types/athlete/types";
-import { useValidateIsFan } from "@/libs/dtl/suscription";
+import { useValidateIsFan } from "@/libs/dtl/subscription";
 
 export const useAthleteProfile = () => {
   const { query } = useRouter();
