@@ -3,12 +3,12 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { httpsCallable } from "@firebase/functions";
+import { useState } from "react";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { functions } from "@/libs/firebase";
 import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
 import { convertTimeUnit } from "@/utils/time";
-import { useState } from "react";
 
 const AthleteSignUp = () => {
   const [loading, setLoading] = useState(false);

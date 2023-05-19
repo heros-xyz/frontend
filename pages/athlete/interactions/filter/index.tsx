@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
-import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { Waypoint } from "react-waypoint";
 import { useUpdateEffect } from "react-use";
@@ -23,14 +22,13 @@ import { IInteractionItem } from "@/types/athlete/types";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { Close } from "@/components/svg/Close";
-import { wrapper } from "@/store";
-
-import { athleteGuard } from "@/middleware/athleteGuard";
-import { IGuards } from "@/types/globals/types";
-import { setTokenToStore } from "@/utils/auth";
+import { useAuthContext } from "@/context/AuthContext";
+import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
 
 const InteractionsByTag = () => {
-  const { data: session, status } = useSession();
+  const { athleteProfile, loading } = useGetAthleteProfile();
+  const status = loading ? "loading" : "";
+  const session = { user: athleteProfile };
   const router = useRouter();
   const { tag } = router.query;
   const [take] = useState(10);
@@ -82,7 +80,7 @@ const InteractionsByTag = () => {
       ],
       athleteInfo: {
         imagePath: session?.user?.avatar || "",
-        athleteName: session?.user.nickname ?? "",
+        athleteName: session?.user?.nickName ?? "",
         publishDate: postInfo.publicDate,
         id: session?.user?.id ?? "",
       },
@@ -204,17 +202,3 @@ export default InteractionsByTag;
 InteractionsByTag.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => async (context) => {
-    setTokenToStore(store, context);
-
-    return athleteGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

@@ -6,7 +6,6 @@ import NotificationFan from "@/components/ui/Fan/Notification";
 import FindHeros from "@/components/ui/FindHeros";
 import { wrapper } from "@/store";
 
-import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
 import { ADMIN_ROLE } from "@/utils/constants";
 import { RoutePath } from "@/utils/route";
@@ -35,26 +34,3 @@ export default FanNotification;
 FanNotification.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => (context) => {
-    setTokenToStore(store, context);
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      if (session?.user.role === ADMIN_ROLE) {
-        return {
-          redirect: {
-            destination: RoutePath.HOME,
-            permanent: false,
-          },
-        };
-      }
-
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

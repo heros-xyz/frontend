@@ -24,7 +24,9 @@ export const storage = getStorage(firebaseApp)
 const EMULATORS_STARTED = 'EMULATORS_STARTED';
 
 function startEmulators() {
+    // @ts-ignore
     if (!global[EMULATORS_STARTED]) {
+    // @ts-ignore
         global[EMULATORS_STARTED] = true;
         const host = process?.env?.NEXT_PUBLIC_FIREBASE_EMULATOR_HOST || "";
         connectAuthEmulator(auth, `http://${host}:9099`);

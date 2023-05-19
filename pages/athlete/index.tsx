@@ -27,23 +27,21 @@ import { getHasRecentPosts } from "@/libs/dtl";
 
 const AthleteDashboard = () => {
   const router = useRouter();
-  const { userProfile: user } = useAuthContext();
+  const { userProfile: user, loading } = useAuthContext();
   const [recentActivity, setRecentActivity] = useState({
     hasFirstInteraction: false,
     hasCreateInteractionRecent: false,
     loadingRecentActivity: true,
   });
   const { data: totalSubData, isLoading: isGettingTotalSub } = {
-    data: null,
+    data: {
+      total: 0, /// MOCK
+    },
     isLoading: false,
   };
-  const { data: grossMoneyData } = { data: null };
+  const { data: grossMoneyData } = { data: { total: 0 } };
   const { data: membershipData, loading: isGettingMembership } =
     useMembershipTiersAsMaker();
-  const { data: profile, isLoading: isGettingNetMoney } = {
-    data: null,
-    isLoading: false,
-  };
   const { athleteProfile: sportProfile } = useGetAthleteProfile();
 
   const onClickManage = () => {
@@ -130,7 +128,7 @@ const AthleteDashboard = () => {
             havePaymentMethod={true}
             buttonContent={"withdraw money"}
             onWithDrawMoney={onWithDrawMoney}
-            isLoading={isGettingNetMoney}
+            isLoading={loading ?? false}
           />
         </Grid>
         {!recentActivity?.loadingRecentActivity && (

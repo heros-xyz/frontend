@@ -11,7 +11,6 @@ import FinishOnboarding from "@/modules/fan-onboarding/components/FinishOnboardi
 import { useFanOnboarding } from "@/modules/fan-onboarding/hooks/setup-account";
 
 import { wrapper } from "@/store";
-import { fanSetupAccountGuard } from "@/middleware/fanSetupAccount";
 import { IGuards } from "@/types/globals/types";
 
 const FanOnboarding = () => {
@@ -57,7 +56,7 @@ const FanOnboarding = () => {
               <Case condition={step === 4}>
                 <UploadProfileImage
                   avatar={avatar ? avatar : null}
-                  onSubmit={handleChangeAvatar}
+                  onSubmit={handleChangeAvatar as any}
                 />
               </Case>
               <Case condition={step === 5 || step === 6}>
@@ -76,11 +75,13 @@ const FanOnboarding = () => {
             w={{ base: "100%", lg: "unset" }}
             textAlign="center"
           >
-            {step < 6 && <Step
-              activeStep={step}
-              totalStep={5}
-              onChangeStep={handleChangeStep}
-            />}
+            {step < 6 && (
+              <Step
+                activeStep={step}
+                totalStep={5}
+                onChangeStep={handleChangeStep}
+              />
+            )}
           </Box>
         </Then>
         <Else>

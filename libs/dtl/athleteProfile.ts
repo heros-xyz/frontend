@@ -2,7 +2,7 @@ import { useCollectionData, useDocument, useDocumentData } from "react-firebase-
 import { FirestoreError, Timestamp, doc, QueryDocumentSnapshot, collection, limit, query } from "firebase/firestore";
 import { useAuthContext } from "@/context/AuthContext";
 import { db } from "../firebase";
-
+import { Nationality } from "./nationalities";
 
 export interface AthleteProfile {
     id: string,
@@ -13,11 +13,14 @@ export interface AthleteProfile {
     currentTeam: string;
     totalSubCount: number
     firstName: string;
+    lastName: string;
+    middleName: string;
     avatar: string;
     gender: string
     fullName: string
     nickName: string;
     story: string;
+    dateOfBirth: string
     sport: {
         label: string
         key: string
@@ -25,6 +28,7 @@ export interface AthleteProfile {
     tagline: string;
     tags: string[];
     uid: string;
+    nationality: Nationality
 }
 
 
@@ -33,7 +37,7 @@ const converter = {
     fromFirestore: (snap: QueryDocumentSnapshot) =>
     ({
         id: snap?.id,
-            ...snap?.data() 
+            ...snap?.data()
         }) as AthleteProfile
 }
 

@@ -73,7 +73,7 @@ const CareerJourney = () => {
     });
     try {
       if (user?.uid) {
-        await addJourneys(payload);
+        await addJourneys(payload as any);
         setStep("successfully");
       }
     } catch (error) {

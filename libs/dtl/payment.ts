@@ -6,14 +6,12 @@ import {
   query,
   QueryDocumentSnapshot,
   where,
-  QuerySnapshot,
   addDoc
 } from "firebase/firestore";
 import Stripe from '@stripe/stripe-js';
 import { useAuthContext } from "@/context/AuthContext";
 import { db } from "@/libs/firebase";
 
-import { SuscriptionState } from "@/libs/dtl/common";
 
 export interface Payment {
   id?: string
@@ -22,9 +20,10 @@ export interface Payment {
   cardExpMonth: number
   cardExpYear: number
   cardCvc: string
-  stripePayment?: Stripe.PaymentMethodResult
+  stripePayment?: any
   error?: string
   uid?: string
+  expiredDate: any // TODO: check this MOCK
 }
 
 const converter = {
@@ -35,17 +34,20 @@ const converter = {
    fromFirestore: (snap: QueryDocumentSnapshot) => {
      const data = snap.data() as Payment
      data.id = snap.id;
-     return data
+     return data as Payment
    }
 }
 
 export const usePaymentMethods = () => {
   const { user } = useAuthContext()
-
-  const [data, setData] = useState<QuerySnapshot<Payment>|null>();
-  const [dataStatus, setDataStatus] = useState<SuscriptionState>({
+  const [data, setData] = useState<Payment[] | null>();
+  const [dataStatus, setDataStatus] = useState<Partial<{
+    initiated: boolean, loading: boolean
+    lastUpdate: Date | undefined,
+    error: string | undefined
+  }>>({
     initiated: false,
-    loading: false
+    loading: false,
   })
   useEffect(() => {
     if (!user || !user.uid) return
@@ -55,63 +57,18 @@ export const usePaymentMethods = () => {
     })
     const q = query(collection(db, "paymentMethods"), where("uid", "==", user.uid)).withConverter(converter);
     getDocs(q).then(
-      (docs) => setData(docs as QuerySnapshot<Payment>)
+      (docs) => setData(docs.docs.map(d => d.data()) as Payment[])
     ).catch((e: Error) => setDataStatus({
       ...dataStatus,
       error: e.message
     }))
-    .finally(()=>setDataStatus({
+    .finally(() => setDataStatus({
       ...dataStatus,
       loading: false,
       lastUpdate: new Date()
     }))
-    return onSnapshot(q,(docs) => {
-      setData(docs as QuerySnapshot<Payment>)
-    })
-  }, [user])
-
-  const create = useCallback(async (paymentData: Payment) => {
-    if (!user || !user.uid || !paymentData) return
-    return addDoc(collection(db,"paymentMethods"), {
-      ...paymentData,
-      uid: user.uid
-    });
-  }, [user])
-
-  return {
-    create,
-    data,
-    dataStatus,
-  }
-}
-
-export const usePaymentMethods = () => {
-  const { user } = useAuthContext()
-  const [data, setData] = useState<QuerySnapshot<Payment> | null>();
-  const [dataStatus, setDataStatus] = useState<any>({
-    initiated: false,
-    loading: false
-  })
-  useEffect(() => {
-    if (!user || !user.uid) return
-    setDataStatus({
-      initiated: true,
-      loading: true
-    })
-    const q = query(collection(db, "paymentMethods"), where("uid", "==", user.uid)).withConverter(converter);
-    getDocs(q).then(
-      (docs) => setData(docs.docs.map(d => d.data()) as QuerySnapshot<Payment>)
-    ).catch((e: Error) => setDataStatus({
-      ...dataStatus,
-      error: e.message
-    }))
-      .finally(() => setDataStatus({
-        ...dataStatus,
-        loading: false,
-        lastUpdate: new Date()
-      }))
     return onSnapshot(q, (docs) => {
-      setData(docs.docs.map(d => d.data()) as QuerySnapshot<Payment>)
+      setData(docs.docs.map(d => d.data()) as Payment[])
     })
   }, [user])
 

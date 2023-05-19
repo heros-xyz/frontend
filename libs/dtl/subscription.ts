@@ -13,7 +13,7 @@ export interface Subscription {
   startDate: Date
   status: SubscriptionStatus
   currentJobId: string
-  stripeSubscription: string
+  stripeSubscription: any
   paymentInformation: string
   autoRenew: boolean
   lastVisitedInteraction: Date
@@ -25,11 +25,15 @@ export interface Subscription {
   makerData: { // ATHLETE
     avatar: string
     nickName: string,
+    email: string
+    name: string
     fullName: string,
   }
   takerData: { // FAN
     avatar: string
+    email: string
     nickName: string,
+    name: string
     fullName: string,
   }
 }

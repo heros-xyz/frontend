@@ -232,7 +232,6 @@ const EditPageInfo = () => {
                 fontWeight="500"
                 fontSize={["sm", "lg"]}
                 onChange={formik.handleChange}
-                con
                 value={formik?.values?.nickName}
                 isInvalid={Boolean(
                   formik.errors.nickName && formik.touched.nickName
@@ -326,7 +325,6 @@ const EditPageInfo = () => {
                 fontWeight={500}
                 fontSize={["sm", "lg"]}
                 onChange={formik.handleChange}
-                con
                 value={formik?.values?.tagLine}
                 isInvalid={Boolean(
                   formik.errors.tagLine && formik.touched.tagLine

@@ -9,7 +9,6 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
 import { FC,useEffect, useMemo } from "react";
 import Head from "next/head";
 import NextLink from "next/link";
@@ -104,6 +103,7 @@ const AthleteChecklist: FC = () => {
     isLoading: isGettingOnboardingInformation,
   } = useOnboardingInformation();
   const { userProfile } = useAuthContext();
+  const { athleteProfile } = useGetAthleteProfile();
   const { updateDocument } = useUpdateDoc();
 
   const PROGRESS_POINT = useMemo(() => {
@@ -175,7 +175,7 @@ const AthleteChecklist: FC = () => {
                 fontSize="1.25rem"
                 lineHeight="1.75rem"
               >
-                {userProfile?.nickname ?? ""}
+                {athleteProfile?.nickName ?? ""}
               </Text>
             </Flex>
             <Text

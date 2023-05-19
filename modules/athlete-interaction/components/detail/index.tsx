@@ -11,8 +11,9 @@ import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/detail/SkeletonInteractionDetail";
 import BackButton from "@/components/ui/BackButton";
 import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
-import { usePostAsMaker } from "@/libs/dtl/post";
+import { PostMedia, usePostAsMaker } from "@/libs/dtl/post";
 import { useAuthContext } from "@/context/AuthContext";
+import { IInteractionItem } from "@/types/athlete/types";
 
 interface InteractionDetailProps {
   id: string;
@@ -44,9 +45,17 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
   });
   */
   console.log({ id });
-  const { data: postInfo, loading: isLoading } = usePostAsMaker(id);
-  console.log({ postInfo });
+  const { data, loading: isLoading } = usePostAsMaker(id);
+  const postInfo = {
+    ...data,
+    isSchedulePost: Boolean(data?.schedule),
+    isCurrentUserReacted: false, // TODO CHECK THIS
+    interactionMedia: data?.media,
+    isAccessRight: true, // TODO check this
+    tags: data?.tags.map((tag) => ({ id: tag, name: tag })),
+  } as IInteractionItem & { media: PostMedia[] };
 
+  console.log({ postInfo });
   const formatPropAthletePost = useMemo(
     () => ({
       id: postInfo?.id,
@@ -87,7 +96,7 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
 
   useEffect(() => {
     if (postInfo) {
-      setTotalComments(postInfo?.commentCount);
+      setTotalComments(postInfo?.commentCount ?? 0);
     }
   }, [postInfo]);
 

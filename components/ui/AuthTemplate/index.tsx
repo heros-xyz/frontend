@@ -231,7 +231,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                   mt={{ base: 1.5, xl: 3 }}
                   display="flex"
                   condition={isNotRegister}
-                  link="/sign-up"
+                  link="/joining-as"
                   linkText="sign up here!"
                   errorMessage={"You've not registered with this email. Please"}
                 />
@@ -296,7 +296,7 @@ const AuthTemplate: React.FC<IAuthProps> = ({
                     mt={{ base: 1.5, xl: 3 }}
                     display="flex"
                     condition={isNotRegister}
-                    link="/sign-up"
+                    link="/joining-as"
                     linkText="sign up here!"
                     errorMessage={
                       "You've not registered with this email. Please"

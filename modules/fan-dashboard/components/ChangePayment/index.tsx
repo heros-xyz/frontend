@@ -51,7 +51,8 @@ const ChangePayment: React.FC<IProp> = ({
           cardNumber: values.cardNumber,
           cardExpMonth: +values.expiredDate.split("/")[0],
           cardExpYear: +values.expiredDate.split("/")[1],
-          cardCvc: values.cvv
+          cardCvc: values.cvv,
+          expiredDate: values?.expiredDate,
         });
         if (idAthleteSubmit && idAthleteTier) {
           await router.push({
@@ -120,13 +121,7 @@ const ChangePayment: React.FC<IProp> = ({
             type="submit"
             fontSize={{ xl: "xl" }}
             isLoading={loading}
-            onClick={() => {
-              if (loading || error) {
-                return;
-              } else {
-                formik.handleSubmit();
-              }
-            }}
+            onClick={()=>formik.handleSubmit()}
           >
             update
           </Button>

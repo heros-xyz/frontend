@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
-import { collection, getDocs, onSnapshot, query, QueryDocumentSnapshot, where } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, query, QueryDocumentSnapshot, where, getDoc, doc } from "firebase/firestore";
 import { useAuthContext } from "@/context/AuthContext";
 import { db } from "@/libs/firebase";
-import { PublicProfile } from "@/libs/dtl/publicProfile";
+import { FanProfile } from "@/libs/dtl/fanProfile";
 export interface Comment {
   id?: string
-  createdAt: Date
+  createdAt: Date | string
   deletedAt: Date
-  content: String
+  content: string
   post: string
   uid: string
   parent?: string
@@ -16,7 +16,8 @@ export interface Comment {
   likeCount?: number
   commentsCount?: number
   isAuthorComment?: boolean
-  author: PublicProfile
+  author: FanProfile
+  name: string
 }
 
 const converter = {
@@ -28,7 +29,7 @@ const converter = {
   }
 }
 
-export const useComment = (to: string) => {
+export const useComments = (to?: string) => {
   const { user } = useAuthContext()
   const create = useCallback(async (comment: Partial<Comment>) => {
     if (!user || !user.uid) return
@@ -38,7 +39,7 @@ export const useComment = (to: string) => {
   const [data, serData] = useState<Comment[]>([]);
 
   useEffect(() => {
-    if (!user || !user.uid) return
+    if (!user || !user.uid || !to) return
     const q = query(collection(db, "comments"), where("content", "==", to)).withConverter(converter)
     getDocs(q)
       .then((snapshot) => {
@@ -48,7 +49,34 @@ export const useComment = (to: string) => {
     return onSnapshot(q, (snapshot) => {
       serData(snapshot.docs.map(d => d.data()))
     });
-  }, [user?.uid]);
+  }, [user?.uid, to]);
 
   return { create, loading, data }
+}
+
+export const useComment = (id?: string) => {
+  const { user } = useAuthContext()
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<Comment|undefined>();
+
+  useEffect(() => {
+    if (!user || !user.uid) return
+    const q = doc(db,`comments/${id}`).withConverter(converter)
+    getDoc(q)
+      .then((snapshot) => {
+        setData(snapshot.data())
+      })
+      .finally(() => setLoading(false))
+    return onSnapshot(q, (snapshot) => {
+      setData(snapshot.data())
+    });
+  }, [user?.uid]);
+
+  if (!id)
+    return {
+      loading: false,
+      data: null
+    }
+
+  return { loading, data }
 }

@@ -5,7 +5,7 @@ import { DocumentData, Query, startAfter, query, getDocs } from "firebase/firest
 export const usePaginateQuery = (queryFn: () => Query) => {
     const [data, setData] = useState<null | DocumentData[]>(null)
     const isMountedRef = useRef(false);
-    const lastItemRef = useRef(null);
+    const lastItemRef = useRef<any>(null);
     const [isLoading, setIsLoading] = useState<boolean>();
     const [errorMsg, setErrorMsg] = useState();
 
@@ -25,7 +25,9 @@ export const usePaginateQuery = (queryFn: () => Query) => {
                 const q = query(queryFn());
                 const querySnapshot = await getDocs(q);
                 setData([...querySnapshot.docs]);
-                lastItemRef?.current = querySnapshot.docs[querySnapshot.docs.length - 1];
+                if (lastItemRef) {
+                    lastItemRef.current = querySnapshot.docs[querySnapshot.docs.length - 1];
+                }
                 setIsLoading(false);
             } catch (error) {
                 resetStates();
@@ -40,7 +42,7 @@ export const usePaginateQuery = (queryFn: () => Query) => {
             setIsLoading(true);
             const next = query(queryFn(), startAfter(lastItemRef.current));
             const querySnapshot = await getDocs(next);
-            setData([...data, ...querySnapshot.docs]);
+            setData([...data ?? [], ...querySnapshot.docs]);
             lastItemRef.current = querySnapshot.docs[querySnapshot.docs.length - 1];
             setIsLoading(false);
         } catch (error) {

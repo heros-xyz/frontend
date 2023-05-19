@@ -4,7 +4,6 @@ import { withDefault, NumberParam, useQueryParam } from "use-query-params";
 import { useCareerJourneysFromAthlete } from "@/libs/dtl/careerJourney";
 import { useMembershipsFromAthlete } from "@/libs/dtl/membershipTiers";
 import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
-import { IBasicInfo } from "@/types/athlete/types";
 import { useValidateIsFan } from "@/libs/dtl/subscription";
 
 export const useAthleteProfile = () => {
@@ -18,13 +17,15 @@ export const useAthleteProfile = () => {
   const { data: journeyData, loading: loadingJourneys } = useCareerJourneysFromAthlete(query.id as string)
   const { data: athleteProfile, loading } = useGetAthleteProfileByUid(query.id as string)
 
-  const basicInfo: IBasicInfo = {
+  const basicInfo = {
     firstName: athleteProfile?.firstName ?? "",
-    gender: athleteProfile?.gender ?? 0,
+    gender: athleteProfile?.gender || '0',
     lastName: athleteProfile?.lastName ?? "",
     middleName: athleteProfile?.middleName ?? "",
     nickName: athleteProfile?.nickName ?? "",
-    story: athleteProfile?.story,
+    story: athleteProfile?.story ?? "",
+    nationality: athleteProfile?.nationality,
+    dateOfBirth: athleteProfile?.dateOfBirth ?? ""
   }
 
   const sportProfile = {
@@ -33,7 +34,7 @@ export const useAthleteProfile = () => {
     sport: athleteProfile?.sport,
   }
 
-  const { data: tierMembershipList, loading: loadingMemberships } = useMembershipsFromAthlete(query.id as string)
+  const { data: tierMembershipList, status: { loading: loadingMemberships } } = useMembershipsFromAthlete(query.id as string)
   const validateIsFan = useValidateIsFan(query.id as string)
   const totalSubCount = athleteProfile?.totalSubCount ?? 0;
 

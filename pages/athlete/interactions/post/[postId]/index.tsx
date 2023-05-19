@@ -32,7 +32,7 @@ function EditInteractionsPost() {
         })) ?? [],
       tags: postInfo?.tags,
       publicType: postInfo?.publicType || "all",
-      schedule: postInfo?.isSchedulePost,
+      schedule: postInfo?.schedule,
       publicDate: dayjs(postInfo?.publicDate).format("YYYY-MM-DD"),
       publicTime: dayjs(postInfo?.publicDate).format("HH:mm"),
       isPost: false,

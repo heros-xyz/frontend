@@ -47,8 +47,11 @@ export const Interaction = ({}) => {
     hasNextPage: false,
     onLoadMore: () => {},
   };
-  const { data: interactionsList, loading } = usePostsAsMaker();
-
+  const { data, loading } = usePostsAsMaker();
+  const interactionsList = data?.map((post) => ({
+    ...post,
+    interactionMedia: post?.media,
+  }));
   const onViewInteractionDetail = (id: string) => {
     setInteractionId(id);
 

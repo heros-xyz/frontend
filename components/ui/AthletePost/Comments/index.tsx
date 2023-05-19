@@ -7,6 +7,7 @@ import CommentField from "@/modules/athlete-profile/interactions/components/Comm
 import { useComments } from "@/hooks/useComments";
 import { useDevice } from "@/hooks/useDevice";
 import { useUser } from "@/hooks/useUser";
+import { Comment } from "@/libs/dtl/comment";
 import Comments from "../../Comment/List";
 import LoadMoreSkeleton from "../LoadMoreSkeleton";
 import CommentItem from "../../Comment/Item";
@@ -50,8 +51,6 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
     interactionId: id,
     isAthlete: true,
   });
-
-  console.log({ id });
 
   useEffect(() => {
     setIsFocusOnInput(focusComment);
@@ -121,20 +120,22 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
                 commentId={item.id}
                 isReply={!!item.parentComment}
                 isAuthorComment={item.isAuthorComment}
-                item={{
-                  id,
-                  name: `${item.user.firstName} ${item.user.lastName}`,
-                  firstName: item.user.firstName,
-                  lastName: item.user.lastName,
-                  text: item.content,
-                  avatar: item.user.avatar,
-                  likeCount: item.reactedCommentsCount,
-                  isLiked: item.liked,
-                  parentComment: item.parentComment,
-                  createdAt: item.createdAt,
-                  isAuthorComment: item.isAuthorComment,
-                  nickName: item.user.nickName,
-                }}
+                item={
+                  {
+                    id,
+                    name: `${item?.user?.firstName} ${item?.user?.lastName}`,
+                    firstName: item.user.firstName,
+                    lastName: item.user.lastName,
+                    text: item.content,
+                    avatar: item.user.avatar,
+                    likeCount: item.reactedCommentsCount,
+                    isLiked: item.liked,
+                    parentComment: item.parentComment,
+                    createdAt: item.createdAt,
+                    isAuthorComment: item.isAuthorComment,
+                    nickName: item.user.nickName,
+                  } as unknown as Comment
+                }
                 onClickComment={() => {
                   router.push(`/athlete/interactions/${id}?focus=true`);
                 }}
@@ -173,16 +174,18 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
               >
                 <LoadMoreSkeleton
                   pt={8}
-                  isShowLoadMore={
+                  isShowLoadMore={Boolean(
                     isShowLoadMore && !isLoadAllComment && !isMobile
-                  }
+                  )}
                   setOffset={onLoadMore}
                 />
               </Comments>
 
               <LoadMoreSkeleton
                 pt={8}
-                isShowLoadMore={isShowLoadMore && !isLoadAllComment && isMobile}
+                isShowLoadMore={Boolean(
+                  isShowLoadMore && !isLoadAllComment && isMobile
+                )}
                 setOffset={onLoadMore}
               />
             </Box>

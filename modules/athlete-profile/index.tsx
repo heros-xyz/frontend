@@ -154,7 +154,17 @@ const AthleteProfile = () => {
             <Interaction />
           </TabPanel>
           <TabPanel p={{ base: 5, lg: 0 }}>
-            <CareerJourney data={journeyData ?? []} />
+            {!!journeyData && (
+              <CareerJourney
+                data={
+                  journeyData?.map((e) => ({
+                    ...e,
+                    isPeriodDate: !!e?.isPeriodDate,
+                    icon: e?.icon ?? null,
+                  })) ?? []
+                }
+              />
+            )}
           </TabPanel>
           <TabPanel px={{ base: 5, lg: 0 }} py={{ base: 0, lg: 2 }}>
             <If condition={tierMembershipList?.length}>

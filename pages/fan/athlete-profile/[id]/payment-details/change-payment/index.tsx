@@ -9,7 +9,6 @@ import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { useGetPaymentInfoQuery } from "@/api/fan";
 import { AlertIcon } from "@/components/svg";
 import { wrapper } from "@/store";
-import { fanAuthGuard } from "@/middleware/fanGuard";
 
 import { IGuards } from "@/types/globals/types";
 import { setTokenToStore } from "@/utils/auth";
@@ -108,17 +107,3 @@ export default PaymentInfo;
 PaymentInfo.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => (context) => {
-    setTokenToStore(store, context);
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

@@ -25,6 +25,7 @@ export interface User {
   // Only for athlete
   hasFirstInteraction?: boolean
   hasCreateInteractionRecent?: boolean
+  netAmount: number
 }
 
 export function useUploadAvatarToUser() {

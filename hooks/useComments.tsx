@@ -1,15 +1,11 @@
 import { useRouter } from "next/router";
 import { useMemo, useEffect, useRef, useState } from "react";
 import { useBus } from "react-bus";
-import {
-  useAddCommentInteractionMutation,
-  useGetListCommentInteractionQuery,
-  useGetTotalCommentsQuery,
-  useGetFocusCommentQuery,
-} from "@/api/athlete";
+import { useAddCommentInteractionMutation } from "@/api/athlete";
 import { IResponseComment } from "@/types/athlete/types";
 import { useReplyCommentMutation } from "@/api/fan";
 import { IReplyingTo } from "@/modules/athlete-profile/interactions/post-detail/CommentSection";
+import { Comment } from "@/libs/dtl/comment";
 import { useDevice } from "./useDevice";
 
 interface IAthleteCommentProps {
@@ -44,7 +40,9 @@ export const useComments = ({
   const [listMergedComments, setListComments] = useState<IResponseComment[]>(
     []
   );
-  const { data: commentFocused } = { data: null };
+  const { data: commentFocused } = {
+    data: { totalComment: 0, commentIndex: 0 },
+  }; // MOCK
   const [handleSendMessage, { data: sendMessageResponse }] =
     useAddCommentInteractionMutation();
   const [replyComment, { data: replyCommentResponse }] =
@@ -52,12 +50,12 @@ export const useComments = ({
 
   const { data: totalComments, refetch: refetchTotalComment } = {
     data: null,
-    refetch: null,
+    refetch: () => {}, // MOCK
   };
 
   const commentFocusedIndex = useMemo(() => {
     if (commentFocused) {
-      return commentFocused.totalComment - commentFocused.commentIndex;
+      return commentFocused?.totalComment - commentFocused?.commentIndex;
     }
   }, [commentFocused]);
 
@@ -66,8 +64,11 @@ export const useComments = ({
     data: listComment,
     isLoading,
     isFetching,
-  } = { isLoading: false, data: null, isFetching: false };
-  
+  } = {
+    isLoading: false,
+    data: { data: [], meta: { offset: 0, limit: 0, itemCount: 10 } }, // MOCK
+    isFetching: false,
+  };
 
   const onLoadMore = () => {
     setTake(10);
@@ -82,7 +83,7 @@ export const useComments = ({
   };
 
   const handleRefetchTotalComment = async () => {
-    await refetchTotalComment().unwrap();
+    //await refetchTotalComment?.()?.unwrap?.();  MOCK
     setNextOffset((offset) => offset - 1);
   };
 
@@ -105,7 +106,9 @@ export const useComments = ({
   const isShowLoadMore = useMemo(() => {
     if (!listComment) return false;
 
-    return listComment.meta.offset + 10 < listComment.meta.itemCount;
+    return (
+      listComment?.meta?.offset ?? 0 + 10 < listComment?.meta?.itemCount ?? 0
+    );
   }, [listComment]);
 
   useEffect(() => {
@@ -125,20 +128,20 @@ export const useComments = ({
   useEffect(() => {
     if (listComment && !isFetching) {
       // Case load more at bottom
-      if (listComment.meta.offset > currentOffset) {
-        const listCommentFilter = listComment.data.filter(
-          (comment) => !commentedIdList.includes(comment.id)
+      if (listComment?.meta?.offset ?? 0 > currentOffset) {
+        const listCommentFilter = listComment?.data?.filter?.(
+          (comment: Comment) => !commentedIdList.includes(comment?.id ?? "")
         );
         setListComments((prevComments) => [
           ...prevComments,
           ...listCommentFilter,
         ]);
-        setCurrentOffset(listComment.meta.offset);
-        setNextOffset(listComment.meta.offset);
+        setCurrentOffset(listComment?.meta?.offset ?? 0);
+        setNextOffset(listComment?.meta?.offset ?? 0);
       } else {
         // Case load prev at top
         setListComments((prevComments) => [
-          ...listComment.data,
+          ...listComment?.data,
           ...prevComments,
         ]);
         setCurrentOffset(listComment.meta.offset);
