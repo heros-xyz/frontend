@@ -26,7 +26,7 @@ import { ATHLETE_ROLE } from "@/utils/constants";
 import { useDeleteCommentMutation } from "@/api/admin";
 import DeleteCommentModal from "@/components/modal/DeleteCommentModal";
 import HerosImage from "@/components/common/HerosImage";
-import { Comment } from "../List/index.stories";
+import { Comment, useComment } from "@/libs/dtl/comment";
 
 const spin = keyframes`
   from { opacity: 0.5; }
@@ -115,6 +115,8 @@ const CommentItem: React.FC<CommentProps> = ({
     }
   }, [data]);
 
+  const {data: parentComment, loading: parentCommentLoading} = useComment(item.parent)
+
   useOutsideClick({
     ref: itemRef,
     handler: () => setIsVisible(false),
@@ -169,7 +171,7 @@ const CommentItem: React.FC<CommentProps> = ({
       >
         <WrapItem pr="2" order={isReply ? 2 : 1}>
           <HerosImage
-            src={getImageLink(item?.avatar)}
+            src={item?.author.avatar}
             width={{ base: "32px", lg: "48px" }}
             height={{ base: "32px", lg: "48px" }}
           />
@@ -195,7 +197,7 @@ const CommentItem: React.FC<CommentProps> = ({
             cursor={!showActions ? "pointer" : ""}
             color="primary"
           >
-            {item.parentComment && (
+            {parentComment && !parentCommentLoading && (
               <Box
                 fontSize={["xs", "md"]}
                 borderLeft="2px"
@@ -204,21 +206,19 @@ const CommentItem: React.FC<CommentProps> = ({
                 my="1.5"
               >
                 <Text color="accent.2" fontWeight="extrabold" className="name">
-                  {item?.parentComment?.user?.role === ATHLETE_ROLE
-                    ? item.parentComment?.user?.nickName
-                    : `${item?.parentComment?.user?.firstName} ${item?.parentComment?.user?.lastName}`}{" "}
+                  {parentComment.author?.nickName}
                 </Text>
                 <Text color="grey.300" wordBreak="break-word">
-                  {item.parentComment.content}
+                  {parentComment.content}
                 </Text>
               </Box>
             )}
             <Flex justifyContent="space-between" alignItems="end">
               <Box color="primary" fontSize={["xs", "md"]} pr="3">
                 <Text fontWeight="extrabold">
-                  {item.nickName ?? `${item?.name}`}
+                  {item.author.nickName}
                 </Text>
-                <Text wordBreak="break-word">{item.text}</Text>
+                <Text wordBreak="break-word">{item.content}</Text>
               </Box>
               <Text
                 as="span"

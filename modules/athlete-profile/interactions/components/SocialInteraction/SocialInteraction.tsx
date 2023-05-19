@@ -9,13 +9,16 @@ import { LoveIcon } from "@/components/svg/social/LoveIcon";
 import { ShareIcon } from "@/components/svg/social/ShareIcon";
 import { PreviewComment } from "../PreviewComment";
 import SocialSharingModal from "../SocialSharing";
+import { useReactions } from "@/libs/dtl/reaction";
+import { usePostsAsTaker } from "@/libs/dtl/post";
+import { useComments } from "@/libs/dtl/comment";
 
 interface ISocialInteractionProps {
   reactionCount: number;
   commentsCount?: number;
   liked: boolean;
   isAdmin?: boolean;
-  postId?: string | string[];
+  postId?: string;
   isInDetailPage?: boolean;
   handleComment?: (isFocus?: boolean) => void;
 }
@@ -34,28 +37,8 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
   const iconActions = useRef<HTMLDivElement>(null);
   const [isLiked, setIsLiked] = useState(liked);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [totalReactions, setTotalReactions] = useState(reactionCount);
-  const [request, { data, isLoading: isReactionLoading }] =
-    useReactionInteractionMutation();
-
-  const { data: listComment } = useGetListCommentInteractionQuery(
-    {
-      interactionId: postId,
-      pageInfo: {
-        take: 3,
-        order: "ASC",
-        getReply: false,
-        authorId: id as string,
-      },
-    },
-    {
-      skip: typeof id !== "string",
-    }
-  );
-
-  useEffect(() => {
-    !!data && setTotalReactions(data?.totalReaction);
-  }, [data]);
+  const {data: post, loading: postLoading} = useComments(postId)
+  const {data, loading, count} = useReactions(postId);
 
   useEffect(() => {
     setTimeout(() => {
@@ -69,12 +52,7 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
   }, []);
 
   const handleLike = () => {
-    if (isReactionLoading) return;
-    setIsLiked((prev) => !prev);
-    request({
-      interactionId: postId,
-      reactionType: 1,
-    });
+
   };
 
   return (
@@ -155,15 +133,15 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
         fontSize={{ base: "xs", lg: "lg" }}
         color="secondary"
       >
-        {totalReactions} like(s), {commentsCount ?? listComment?.meta.itemCount}{" "}
+        {count}
         comment(s)
       </Text>
-      {!view && (
+      {/*!view && (
         <PreviewComment
-          item={listComment}
+          item={data}
           navigateToPostDetail={() => handleComment && handleComment(false)}
         />
-      )}
+      )*/}
     </>
   );
 };

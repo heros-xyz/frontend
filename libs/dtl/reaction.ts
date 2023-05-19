@@ -13,8 +13,8 @@ type: String
 toType: Post|Comment
 to: oid
 uid: uid
- * 
- * 
+ *
+ *
  */
 
 export interface Reaction {
@@ -40,9 +40,9 @@ interface AddReactionParams {
   type_: ReactionType
 }
 
-export function useReactions(loadData = true, to?: string) {
+export function useReactions(to?: string, params: { initialize: boolean } = {initialize: true}) {
   const { user } = useAuthContext()
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(params.initialize);
   const [count, setCount] = useState(0);
   const [data, setData] = useState<Reaction[]>([]);
 
@@ -64,7 +64,7 @@ export function useReactions(loadData = true, to?: string) {
   }, [to, user?.uid])
 
   useEffect(() => {
-    if (!to || !loadData) return
+    if (!to || !params.initialize) return
     const q = query(collection(db, "reactions"), where("to", "==", to)).withConverter(converter)
     getDocs(q)
       .then((snapshot) => {
@@ -76,7 +76,7 @@ export function useReactions(loadData = true, to?: string) {
       setCount(snapshot.size)
       setData(snapshot.docs.map(d => d.data()))
     });
-  }, [to, loadData]);
+  }, [to, params.initialize]);
 
   return { create, loading, count, data }
 }
