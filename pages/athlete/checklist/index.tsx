@@ -9,7 +9,6 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
 import { FC,useEffect, useMemo } from "react";
 import Head from "next/head";
 import NextLink from "next/link";

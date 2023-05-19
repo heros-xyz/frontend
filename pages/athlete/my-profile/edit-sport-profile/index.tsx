@@ -13,7 +13,6 @@ import { If, Then } from "react-if";
 import * as Yup from "yup";
 import TextareaAutoSize from "react-textarea-autosize";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
-import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import Select from "@/components/common/Select";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import { IHerosError } from "@/types/globals/types";

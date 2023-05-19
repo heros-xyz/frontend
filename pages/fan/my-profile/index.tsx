@@ -1,14 +1,14 @@
+import { Box, Container, Image, Text } from "@chakra-ui/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { ReactElement } from "react";
+import { useSignOut } from "react-firebase-hooks/auth";
 import AthleteFanSettings from "@/components/ui/Settings";
 import { useAuthContext } from "@/context/AuthContext";
 import { useLoading } from "@/hooks/useLoading";
 import { useUser } from "@/hooks/useUser";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import { auth } from "@/libs/firebase";
-import { Box, Container, Image, Text } from "@chakra-ui/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { ReactElement } from "react";
-import { useSignOut } from "react-firebase-hooks/auth";
 
 const MyProfile = () => {
   const { isFan } = useUser();

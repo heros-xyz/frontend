@@ -3,7 +3,6 @@ import { FirestoreError, Timestamp, doc, QueryDocumentSnapshot, collection, limi
 import { useAuthContext } from "@/context/AuthContext";
 import { db } from "../firebase";
 
-
 export interface AthleteProfile {
     id: string,
     createdAt?: Timestamp
@@ -13,6 +12,8 @@ export interface AthleteProfile {
     currentTeam: string;
     totalSubCount: number
     firstName: string;
+    lastName: string;
+    middleName: string;
     avatar: string;
     gender: string
     fullName: string

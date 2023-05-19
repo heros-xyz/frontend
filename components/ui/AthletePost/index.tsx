@@ -45,7 +45,7 @@ interface IAthletePostProps {
   athleteInfo: AthleteInfoProps;
   postLikes: number;
   postComments: number;
-  hashtag?: ITags[];
+  hashtag?: string[];
   postContent: string;
   socialOrder: boolean;
   slideData: IInteractionMedia[];
@@ -124,7 +124,6 @@ const AthletePost: React.FC<IAthletePostProps> = ({
     setReaction(liked);
   }, [liked, postLikes]);
 
-  console.log({ id });
   const handleReaction = async () => {
     if (isReactionLoading) return;
     console.log("reaction", reaction);
@@ -182,7 +181,6 @@ const AthletePost: React.FC<IAthletePostProps> = ({
     );
   };
 
-  console.log({ slideData });
   return (
     <Box h="100%">
       <Grid
@@ -238,7 +236,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                 {hashtag &&
                   hashtag.map((item) => (
                     <Tag
-                      key={item}
+                      key={String(item)}
                       size={{ base: "sm", lg: "lg" }}
                       borderRadius="full"
                       variant="solid"
