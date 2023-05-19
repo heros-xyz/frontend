@@ -4,7 +4,6 @@ import Head from "next/head";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import FanAthleteInteraction from "@/modules/fan-dashboard/components/ViewAthleteInteraction";
 import { wrapper } from "@/store";
-import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
 import { setTokenToStore } from "@/utils/auth";
 import { useUser } from "@/hooks/useUser";
@@ -27,17 +26,3 @@ export default Interactions;
 Interactions.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => (context) => {
-    setTokenToStore(store, context);
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

@@ -11,7 +11,6 @@ import FinishOnboarding from "@/modules/fan-onboarding/components/FinishOnboardi
 import { useFanOnboarding } from "@/modules/fan-onboarding/hooks/setup-account";
 
 import { wrapper } from "@/store";
-import { fanSetupAccountGuard } from "@/middleware/fanSetupAccount";
 import { IGuards } from "@/types/globals/types";
 
 const FanOnboarding = () => {

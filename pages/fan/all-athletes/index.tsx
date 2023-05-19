@@ -10,7 +10,6 @@ import {
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import { wrapper } from "@/store";
 
-import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
 import { IAthleteSubscribed } from "@/types/athlete/types";
 import { FAN_ROLE } from "@/utils/constants";
@@ -113,17 +112,3 @@ export default AllAthletes;
 AllAthletes.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => (context) => {
-    setTokenToStore(store, context);
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

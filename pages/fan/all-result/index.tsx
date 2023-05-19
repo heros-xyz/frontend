@@ -7,7 +7,6 @@ import { useSearchAthleteProfileQuery } from "@/api/athlete";
 import SearchResult from "@/components/ui/SearchResult";
 import FindHeros from "@/components/ui/FindHeros";
 import { wrapper } from "@/store";
-import { fanAuthGuard } from "@/middleware/fanGuard";
 import { IGuards } from "@/types/globals/types";
 import { IAthleteSearchProfile } from "@/types/athlete/types";
 import { setTokenToStore } from "@/utils/auth";
@@ -91,17 +90,3 @@ export default AllResult;
 AllResult.getLayout = function getLayout(page: ReactElement) {
   return <FanDashboardLayout>{page}</FanDashboardLayout>;
 };
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) => (context) => {
-    setTokenToStore(store, context);
-
-    return fanAuthGuard(context, ({ session }: IGuards) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);
