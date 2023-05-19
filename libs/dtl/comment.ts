@@ -5,7 +5,7 @@ import { db } from "@/libs/firebase";
 import { FanProfile } from "@/libs/dtl/fanProfile";
 export interface Comment {
   id?: string
-  createdAt: Date
+  createdAt: Date | string
   deletedAt: Date
   content: string
   post: string
@@ -17,6 +17,7 @@ export interface Comment {
   commentsCount?: number
   isAuthorComment?: boolean
   author: FanProfile
+  name: string
 }
 
 const converter = {

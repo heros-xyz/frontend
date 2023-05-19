@@ -67,7 +67,7 @@ const PaymentInfo = () => {
   };
 
   const isFetching = false;
-  const currentData = dataSub?.map((e) => ({
+  const currentData = dataSub?.map((e: any) => ({
     id: e.id,
     nickName: e?.makerData.nickName,
     athleteId: e?.maker,
@@ -77,7 +77,7 @@ const PaymentInfo = () => {
     avatar: e.makerData.avatar,
     fullName: e.makerData.fullName,
     autoRenew: e?.autoRenew,
-    totalAccessibleInteraction: e?.totalAccessibleInteraction, // TODO,
+    totalAccessibleInteraction: e?.totalAccessibleInteraction as unknown as any, // TODO,
   })) as unknown as GetActiveSubscription[];
 
   /*

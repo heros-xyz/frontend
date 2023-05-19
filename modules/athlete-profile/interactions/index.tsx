@@ -19,7 +19,7 @@ import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 import InteractionSection from "./components/InteractionSection";
 import { SocialInteraction } from "./components/SocialInteraction/SocialInteraction";
 import SubscribeContent from "./components/SubscribeContent";
-import { IAthleteInteraction } from "./constants";
+import { IAthleteInteraction, IInteractionMedia } from "./constants";
 
 interface IInteractionsProps {
   onSubscribe: () => void;
@@ -40,7 +40,6 @@ const Interactions: FC<IInteractionsProps> = ({
   const [page, setPage] = useState(1);
   const [tag, setTag] = useState("");
   const tagSectionRef = useRef<HTMLDivElement>(null);
-  console.log("isFan", validateIsFan);
 
   const { data: athleteProfile, loading: loadingAthleteProfile } =
     useGetAthleteProfileByUid(id as string);
@@ -50,7 +49,29 @@ const Interactions: FC<IInteractionsProps> = ({
 
   const interactionsList = interactionData.map((post) => ({
     ...post,
-    user: { ...athleteProfile },
+    user: {
+      ...athleteProfile,
+      id: athleteProfile?.id ?? "",
+      goal: athleteProfile?.goal ?? "",
+      currentTeam: athleteProfile?.currentTeam ?? "",
+      totalSubCount: athleteProfile?.totalSubCount ?? 0,
+      firstName: athleteProfile?.firstName ?? "",
+      lastName: athleteProfile?.lastName ?? "",
+      middleName: athleteProfile?.middleName ?? "",
+      fullName: athleteProfile?.fullName ?? "",
+      nickName: athleteProfile?.nickName ?? "",
+      avatar: athleteProfile?.avatar ?? "",
+      story: athleteProfile?.story ?? "",
+      gender: athleteProfile?.gender ?? "0",
+      sport: athleteProfile?.sport ?? { label: "", key: "" },
+      tagline: athleteProfile?.tagline ?? "",
+      tags: athleteProfile?.tags ?? [],
+    },
+    liked: post?.liked ?? false,
+    publicDate: post?.publicDate ?? null,
+    reactionCount: post?.reactionCount ?? 0,
+    commentCount: post?.commentCount ?? 0,
+    tags: post?.tags.map((tag) => ({ id: tag, name: tag })),
     isAccessRight: validateIsFan, // TODO: check this
   }));
 
@@ -154,36 +175,38 @@ const Interactions: FC<IInteractionsProps> = ({
 
       <If condition={interactionsList.length}>
         <Then>
-          {interactionsList?.map(
-            (interactionPost, idx: number) => (
-              <Fragment key={interactionPost.id}>
-                {idx !== 0 && <Divider borderColor="#ADADAD" />}
-                <Box py={{ base: 6, lg: 8 }}>
-                  <InteractionSection
-                    validateIsFan={validateIsFan}
-                    navigateToPostsByTag={handleFilterPostsByTag}
-                    navigateToPostDetail={() => {
-                      navigateToPostDetail();
-                    }}
-                    {...interactionPost}
-                  />
-                  <If condition={interactionPost.isAccessRight}>
-                    <Then>
-                      <SocialInteraction
-                        postId={interactionPost.id}
-                        isAdmin={isAdmin}
-                        handleComment={(focus) => {
-                          navigateToPostDetail(interactionPost.id, focus);
-                        }}
-                        reactionCount={interactionPost.reactionCount}
-                        liked={interactionPost.liked}
-                      />
-                    </Then>
-                  </If>
-                </Box>
-              </Fragment>
-            )
-          )}
+          {interactionsList?.map((interactionPost, idx: number) => (
+            <Fragment key={interactionPost?.id}>
+              {idx !== 0 && <Divider borderColor="#ADADAD" />}
+              <Box py={{ base: 6, lg: 8 }}>
+                <InteractionSection
+                  validateIsFan={validateIsFan}
+                  navigateToPostsByTag={handleFilterPostsByTag}
+                  navigateToPostDetail={() => {
+                    navigateToPostDetail("");
+                  }}
+                  interactionMedia={
+                    interactionPost?.media as IInteractionMedia[]
+                  }
+                  {...interactionPost}
+                  user={interactionPost?.user as any}
+                />
+                <If condition={interactionPost.isAccessRight}>
+                  <Then>
+                    <SocialInteraction
+                      postId={interactionPost.id}
+                      isAdmin={isAdmin}
+                      handleComment={(focus) => {
+                        navigateToPostDetail(interactionPost?.id, focus);
+                      }}
+                      reactionCount={interactionPost?.reactionCount ?? 0}
+                      liked={interactionPost?.liked ?? false}
+                    />
+                  </Then>
+                </If>
+              </Box>
+            </Fragment>
+          ))}
         </Then>
         <Else>
           <Box
@@ -200,7 +223,7 @@ const Interactions: FC<IInteractionsProps> = ({
         </Else>
       </If>
 
-      {interactionData?.meta?.hasNextPage && (
+      {/*       {interactionData?.hasNextPage && (
         <Waypoint onEnter={onLoadMore}>
           <Box
             className="post-load-more"
@@ -212,7 +235,7 @@ const Interactions: FC<IInteractionsProps> = ({
             <PostSkeleton hasImage={false} w="full" />
           </Box>
         </Waypoint>
-      )}
+      )} */}
       {isLoading && (
         <Box mt={validateIsFan ? 0 : 12}>
           <PostSkeleton pb={12} />

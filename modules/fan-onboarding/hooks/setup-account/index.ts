@@ -74,7 +74,7 @@ export const useFanOnboarding = () => {
         firstName: fullNameState.firstName,
         lastName: fullNameState.lastName,
         isFinishOnboarding: true,
-        dateOfBirth: dateOfBirth,
+        dateOfBirth: dateOfBirth as unknown as Date,
         isFirstLogin: true,
         gender: +gender
       }

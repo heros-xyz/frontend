@@ -2,21 +2,23 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { collection, doc, getDocs, getDoc, onSnapshot, query, QueryDocumentSnapshot, where, addDoc, updateDoc, getCountFromServer } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 import { useUploadFile } from "react-firebase-hooks/storage";
+import { object } from "firebase-functions/v1/storage";
 import { useAuthContext } from "@/context/AuthContext";
 import { db, storage } from "@/libs/firebase";
 import { IMediaExisted } from "@/types/athlete/types";
 import { MutationState } from "./careerJourney";
 
 export interface PostMedia {
+  id: string
   type: string
   url: string
   extension?: string
   sortOrder?: number
 }
 export interface Post {
-  id?: string
+  id: string
   content: string
-  publicDate: Date | string
+  publicDate: Date | string | null
   schedule?: boolean
   publicType: string
   tags: string[]
@@ -28,6 +30,7 @@ export interface Post {
   liked?: boolean
   uid?: string
   createdAt: Date
+  updatedAt: Date,
 }
 
 const converter = {
@@ -66,6 +69,7 @@ async function uploadBulkMedia({
     // media/{uid}/{post-id}
     const storageRef = ref(storage, `media/${userId}/${postId}/${media.file.name}`)
     const result: PostMedia = {
+      id: String(Date.now),
       type: media.type,
       sortOrder: index ?? 0,
       extension: media.file.name.split(".").pop() || "",

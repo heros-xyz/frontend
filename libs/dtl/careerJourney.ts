@@ -9,7 +9,7 @@ export interface CareerJourney {
     startDate: string;
     endDate?: string;
     title: string;
-    icon?: string | undefined;
+    icon?: string | null;
     description: string;
     isPeriodDate?: boolean
     uid: string;

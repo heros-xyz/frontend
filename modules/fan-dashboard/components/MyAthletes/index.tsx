@@ -53,7 +53,10 @@ const MyAthletes: FC = () => {
   const listAthleteRecommended: unknown = []; // TODO:  get list recommended
   const getListAthleteRecommendedLoading = false; // TODO: get loading recommended
 
-  const athleteList = listAthleteSubscribed;
+  const athleteList = listAthleteSubscribed?.map((ath) => ({
+    ...ath,
+    recommended: false, /// MOCK
+  }));
   /*
   const athleteList = useMemo(() => {
     let listAthleteRecommendedFormat = [];
@@ -125,15 +128,11 @@ const MyAthletes: FC = () => {
           >
             {athleteList?.map((athlete, index) => (
               <GridItem key={athlete.id + `${index}`}>
-                <NextLink
-                  href={`/fan/athlete-profile/${
-                    athlete.athleteId || athlete.id
-                  }`}
-                >
+                <NextLink href={`/fan/athlete-profile/${athlete.id}`}>
                   <AthleteAvatar
                     imageUrl={athlete.avatar}
                     name={athlete.nickName}
-                    isRecommend={athlete.recommended}
+                    isRecommend={athlete?.recommended ?? false}
                   />
                 </NextLink>
               </GridItem>

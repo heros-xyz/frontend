@@ -20,9 +20,7 @@ import { CommentIcon } from "@/components/svg/CommentIcon";
 import { Dots } from "@/components/svg/Dots";
 import { ReplyIcon } from "@/components/svg/Reply";
 import { getDateFromNow } from "@/utils/time";
-import { getImageLink } from "@/utils/link";
 import { useDevice } from "@/hooks/useDevice";
-import { ATHLETE_ROLE } from "@/utils/constants";
 import { useDeleteCommentMutation } from "@/api/admin";
 import DeleteCommentModal from "@/components/modal/DeleteCommentModal";
 import HerosImage from "@/components/common/HerosImage";
@@ -33,7 +31,7 @@ const spin = keyframes`
   to { opacity: 1; }
 `;
 interface CommentProps extends BoxProps {
-  item: Comment;
+  item: Partial<Comment>;
   commentId?: string;
   isReply: boolean;
   isAuthorComment?: boolean;
@@ -115,7 +113,9 @@ const CommentItem: React.FC<CommentProps> = ({
     }
   }, [data]);
 
-  const {data: parentComment, loading: parentCommentLoading} = useComment(item.parent)
+  const { data: parentComment, loading: parentCommentLoading } = useComment(
+    item.parent
+  );
 
   useOutsideClick({
     ref: itemRef,
@@ -171,7 +171,7 @@ const CommentItem: React.FC<CommentProps> = ({
       >
         <WrapItem pr="2" order={isReply ? 2 : 1}>
           <HerosImage
-            src={item?.author.avatar}
+            src={item?.author?.avatar ?? ""}
             width={{ base: "32px", lg: "48px" }}
             height={{ base: "32px", lg: "48px" }}
           />
@@ -216,7 +216,7 @@ const CommentItem: React.FC<CommentProps> = ({
             <Flex justifyContent="space-between" alignItems="end">
               <Box color="primary" fontSize={["xs", "md"]} pr="3">
                 <Text fontWeight="extrabold">
-                  {item.author.nickName}
+                  {item?.author?.nickName ?? ""}
                 </Text>
                 <Text wordBreak="break-word">{item.content}</Text>
               </Box>

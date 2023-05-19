@@ -75,7 +75,7 @@ const GuestViewAthleteProfile = () => {
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <ViewAthleteProfile
           showFindHeros={false}
-          athleteProfile={athleteProfile}
+          athleteProfile={athleteProfile as any}
         />
       </Container>
     </Box>

@@ -51,7 +51,8 @@ const ChangePayment: React.FC<IProp> = ({
           cardNumber: values.cardNumber,
           cardExpMonth: +values.expiredDate.split("/")[0],
           cardExpYear: +values.expiredDate.split("/")[1],
-          cardCvc: values.cvv
+          cardCvc: values.cvv,
+          expiredDate: values?.expiredDate,
         });
         if (idAthleteSubmit && idAthleteTier) {
           await router.push({

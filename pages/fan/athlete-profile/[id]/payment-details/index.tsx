@@ -90,11 +90,6 @@ const PaymentDetails = () => {
     if (dataSuccess) {
       console.log("submit");
       return;
-      submitSubscribe({
-        targetUserId: router.query.id as string,
-        membershipTierId: router.query.membershipTierId as string,
-        paymentInformationId: dataSuccess?.id ?? "",
-      });
     }
   }, [dataSuccess]);
 
@@ -208,16 +203,16 @@ const PaymentDetails = () => {
                     >
                       <Text>
                         <Text as="span" textTransform="capitalize">
-                          {paymentInfoList?.[0]?.stripePayment.card?.brand?.toLocaleLowerCase() ??
+                          {paymentInfoList?.[0]?.stripePayment?.card?.brand?.toLocaleLowerCase?.() ??
                             ""}
                         </Text>{" "}
                         ****
                         {paymentInfoList
-                          ? paymentInfoList[0]?.stripePayment?.card?.last4
+                          ? paymentInfoList?.[0]?.stripePayment?.card?.last4
                           : ""}
                         ,{" "}
                         {paymentInfoList
-                          ? `${paymentInfoList[0]?.stripePayment?.card?.exp_month}/${paymentInfoList[0]?.stripePayment?.card?.exp_year}`
+                          ? `${paymentInfoList?.[0]?.stripePayment?.card?.exp_month}/${paymentInfoList[0]?.stripePayment?.card?.exp_year}`
                           : ""}
                       </Text>
                       <Text

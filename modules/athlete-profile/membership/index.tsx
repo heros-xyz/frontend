@@ -99,11 +99,11 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
         <Then>
           <BronzeTier
             title="Bronze"
-            disabled={!!validateIsFan || user?.role === ADMIN_ROLE}
+            disabled={!!validateIsFan || user?.profileType === ADMIN_ROLE}
             // checked={!!validateIsFan}
             checked={true}
             hasRadioButton={!isAdmin}
-            data={listMembershipTiers?.[0] || []}
+            data={(listMembershipTiers?.[0] as any) || []}
             onChange={onSelectBronzeTier}
           />
 
@@ -114,7 +114,7 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
                   isDisabled={
                     !membershipTierId ||
                     validateIsFan ||
-                    user?.role === ADMIN_ROLE
+                    user?.profileType === ADMIN_ROLE
                   }
                   variant="secondary"
                   mt={6}

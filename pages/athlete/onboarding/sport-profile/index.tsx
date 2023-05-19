@@ -6,14 +6,9 @@ import SelectYourSport from "@/modules/athlete-onboarding/sport-profile/componen
 import InputCurrentTeam from "@/modules/athlete-onboarding/sport-profile/components/InputCurrentTeam";
 import InputYourGoal from "@/modules/athlete-onboarding/sport-profile/components/InputYourGoal";
 import Step from "@/components/ui/Step";
-import { useOnboardingSportProfileMutation } from "@/api/athlete";
 import { IOnboardingSportProfileParams } from "@/types/users/types";
 import AthleteUpdatedSuccessfully from "@/components/ui/AthleteUpdatedSuccessfully";
-import { wrapper } from "@/store";
-import { athleteOnboardingGuard } from "@/middleware/athleteOnboardingGuard";
-import { setContext } from "@/libs/axiosInstance";
-import { IGuards, IHerosError } from "@/types/globals/types";
-import { updateSession } from "@/utils/auth";
+import { IHerosError } from "@/types/globals/types";
 import useUpdateDoc from "@/hooks/useUpdateDoc";
 import { useAuthContext } from "@/context/AuthContext";
 

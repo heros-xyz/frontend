@@ -7,8 +7,6 @@ import {
 } from "firebase/firestore";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useAuthContext } from "@/context/AuthContext";
-import { PublicProfile } from "@/libs/dtl/publicProfile";
-
 import { db } from "../firebase";
 
 export interface Notification {
@@ -51,7 +49,7 @@ export function useNotifications(uid?: string) {
     });
   }, [dataRef]);
 
-  const update = useCallback(async (data: PublicProfile) => {
+  const update = useCallback(async (data: any) => {
     if (!dataRef) return
     console.log('useSuscriptionAsTaker.update', data)
   }, [dataRef])

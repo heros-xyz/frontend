@@ -89,7 +89,7 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
       <Flex flexDirection="column">
         <SocialInteraction
           liked={liked}
-          postId={postId}
+          postId={postId as string}
           isAdmin={isAdmin}
           isInDetailPage
           reactionCount={reactionCount}
@@ -146,16 +146,18 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
                     nickName,
                   })
                 }
-                item={{
-                  avatar,
-                  name: firstName + " " + lastName,
-                  likeCount: reactedCommentsCount,
-                  text: content,
-                  isLiked: liked,
-                  parentComment,
-                  createdAt,
-                  nickName,
-                }}
+                item={
+                  {
+                    avatar,
+                    name: firstName + " " + lastName,
+                    likeCount: reactedCommentsCount,
+                    text: content,
+                    isLiked: liked,
+                    parentComment,
+                    createdAt,
+                    nickName,
+                  } as any
+                }
                 refetchTotalComment={handleRefetchTotalComment}
                 isAdmin={isAdmin}
               />
@@ -163,13 +165,17 @@ const CommentSection: FC<IAthleteInteraction> = ({ reactionCount, liked }) => {
           )}
 
           <LoadMoreSkeleton
-            isShowLoadMore={isShowLoadMore && !isLoadAllComment && !isMobile}
+            isShowLoadMore={Boolean(
+              isShowLoadMore && !isLoadAllComment && !isMobile
+            )}
             setOffset={onLoadMore}
           />
         </Flex>
 
         <LoadMoreSkeleton
-          isShowLoadMore={isShowLoadMore && !isLoadAllComment && isMobile}
+          isShowLoadMore={Boolean(
+            isShowLoadMore && !isLoadAllComment && isMobile
+          )}
           setOffset={onLoadMore}
         />
       </Flex>

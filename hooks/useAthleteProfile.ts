@@ -24,6 +24,8 @@ export const useAthleteProfile = () => {
     middleName: athleteProfile?.middleName ?? "",
     nickName: athleteProfile?.nickName ?? "",
     story: athleteProfile?.story ?? "",
+    nationality: athleteProfile?.nationality,
+    dateOfBirth: athleteProfile?.dateOfBirth ?? ""
   }
 
   const sportProfile = {

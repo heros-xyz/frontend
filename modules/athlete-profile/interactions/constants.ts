@@ -1,3 +1,4 @@
+import { AthleteProfile } from "@/libs/dtl/athleteProfile";
 import { IUserComment } from "@/types/athlete/types";
 
 export interface IAthleteInteraction {
@@ -5,18 +6,18 @@ export interface IAthleteInteraction {
   createdAt: string | Date;
   updatedAt: string | Date;
   content: string;
-  user: IInteracionUser;
+  user: AthleteProfile;
   liked: boolean;
   publicType: string;
-  publicDate: null;
+  publicDate: string | null | Date;
   interactionMedia: IInteractionMedia[];
   reactionCount: number;
   commentCount: number;
   isAccessRight: boolean;
   tags: {
     id: string;
-    createdAt: string | Date;
-    updatedAt: string | Date;
+    createdAt?: string | Date;
+    updatedAt?: string | Date;
     name: string;
   }[];
 }

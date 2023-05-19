@@ -45,7 +45,7 @@ interface IAthletePostProps {
   athleteInfo: AthleteInfoProps;
   postLikes: number;
   postComments: number;
-  hashtag?: string[];
+  hashtag?: ITags[];
   postContent: string;
   socialOrder: boolean;
   slideData: IInteractionMedia[];
@@ -89,7 +89,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
   const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
   const [onReaction, { data: reactionData, isLoading: isReactionLoading }] =
     useReactionInteractionMutation();
-  const { create } = useReactions(false);
+  const { create } = useReactions();
   const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
 
   const handleClickMenu = (id: string) => {

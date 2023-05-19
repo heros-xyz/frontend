@@ -62,7 +62,7 @@ const EditBasicInfo = () => {
     validationSchema,
     onSubmit: async (values) => {
       const updateUserParams: Partial<User> = {
-        dateOfBirth: values?.dateOfBirth,
+        dateOfBirth: values?.dateOfBirth as unknown as Date, // TODO check this
         firstName: values?.firstName,
         middleName: values?.middleName,
         gender: Number(values.gender),
@@ -75,9 +75,9 @@ const EditBasicInfo = () => {
       const updateAthleteProfileParams: Partial<AthleteProfile> = {
         story: values?.story,
         nationality: updateUserParams.nationality,
-        gender: updateUserParams?.gender,
+        gender: String(updateUserParams?.gender),
         firstName: updateUserParams?.firstName,
-        dateOfBirth: updateUserParams.dateOfBirth,
+        dateOfBirth: updateUserParams.dateOfBirth as unknown as string,
       };
 
       try {

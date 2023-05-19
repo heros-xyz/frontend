@@ -1,4 +1,5 @@
 import { Box, Button, Center, Text } from "@chakra-ui/react";
+import React from "react";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
 import { usePaymentMethods } from "@/libs/dtl/payment";
 
@@ -29,19 +30,23 @@ const PaymentWallet: React.FC<IProp> = ({ onBack, onSubmit }) => {
       <Text mt="8" fontWeight="bold" w="full" fontSize={{ xl: "xl" }}>
         Payment Method
       </Text>
-      {data?.docs && data?.docs.map((paymentData) =>
-          <Text mt="5" w="full">
-            <Text as="span" textTransform="capitalize">
-              {paymentData?.data().stripePayment?.paymentMethod?.type.toLocaleLowerCase() ?? ""}
-            </Text>{" "}
-            ****
-            {paymentData?.data().stripePayment}
-            {paymentData?.expiredDate.slice(0, -2)}20
-            {paymentData?.expiredDate.slice(-2)}
-            <br /> Subscription payment will be automatically collected from
-            this card.
-          </Text>
-      )}
+      {!!data?.length &&
+        data?.map?.((paymentData) => (
+          <React.Fragment key={paymentData.id}>
+            <Text mt="5" w="full">
+              <Text as="span" textTransform="capitalize">
+                {paymentData?.stripePayment?.paymentMethod?.type.toLocaleLowerCase() ??
+                  ""}
+              </Text>{" "}
+              ****
+              {paymentData?.stripePayment}
+              {paymentData?.expiredDate.slice(0, -2)}20
+              {paymentData?.expiredDate.slice(-2)}
+              <br /> Subscription payment will be automatically collected from
+              this card.
+            </Text>
+          </React.Fragment>
+        ))}
       <Box w="full">
         <Button
           w={{ base: "full", xl: "auto" }}

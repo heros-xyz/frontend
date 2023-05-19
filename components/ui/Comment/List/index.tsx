@@ -8,7 +8,7 @@ import CommentItem from "../Item";
 import SkeletonComments from "../SkeletonComments";
 
 interface CommentsProps {
-  comments: Comment[];
+  comments: Partial<Comment>[];
   isLoading?: boolean;
   children?: ReactNode;
   ViewMoreComment?: ReactNode;
@@ -53,7 +53,7 @@ const Comments: React.FC<CommentsProps> = ({
                   lastName: item.lastName || "",
                   content: item.text || "",
                   id: item.id || "",
-                  nickName: item.nickName,
+                  nickName: item?.nickName ?? "",
                 })
               }
               item={item}

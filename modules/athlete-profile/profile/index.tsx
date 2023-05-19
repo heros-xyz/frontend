@@ -81,7 +81,7 @@ export const Profile: React.FC<IProfileProps> = ({
         <MyStory
           description={basicInfo?.story as string}
           dob={dayjs(basicInfo?.dateOfBirth).format("DD MMM YYYY")}
-          gender={getGender(basicInfo?.gender)}
+          gender={getGender(Number(basicInfo?.gender) ?? undefined)}
           isEdit={isEdit}
         />
       </Box>

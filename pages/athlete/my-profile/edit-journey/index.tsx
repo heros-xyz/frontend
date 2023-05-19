@@ -56,7 +56,7 @@ const EditJourney = () => {
           </Box>
 
           <TimeLineJourney
-            items={sortData || []}
+            items={(sortData as any) || []}
             isAddJourney
             bgColor="primary"
             canEdit

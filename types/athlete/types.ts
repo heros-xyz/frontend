@@ -294,11 +294,11 @@ export interface IAddInteractionInfo {
   schedule: boolean;
 }
 export interface IInteractionMedia {
-  id: string;
-  createdAt: Date | string;
-  updatedAt: Date | string;
+  id?: string;
+  createdAt?: Date | string;
+  updatedAt?: Date | string;
   deletedAt?: Date | string | null;
-  extension: string;
+  extension?: string;
   type: string;
   sortOrder: number;
   url: string;
@@ -370,6 +370,7 @@ export interface IResponseComment {
   updatedAt: Date;
   content: string;
   user: IUserComment;
+  name: string // TODO check
   reactedCommentsCount: number;
   isAuthorComment?: boolean;
   liked: boolean;

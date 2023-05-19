@@ -185,7 +185,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
             />
           </TabPanel>
           <TabPanel p="unset" px={{ base: 5, xl: "unset" }}>
-            <CareerJourney data={journeyData} isEdit={false} />
+            <CareerJourney data={journeyData as any} isEdit={false} />
             <If condition={!validateIsFan && !isAdmin}>
               <Then>
                 <Center w="full" justifyContent={{ xl: "right" }}>
@@ -205,7 +205,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
           </TabPanel>
           <TabPanel p={{ xl: "unset" }} px={{ base: 5, xl: "unset" }}>
             <MembershipSubscribe
-              listMembershipTiers={tierMembershipList || []}
+              listMembershipTiers={(tierMembershipList as any) || []}
               validateIsFan={validateIsFan ?? false}
               athleteNickname={basicInfo?.nickName ?? ""}
             />

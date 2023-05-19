@@ -34,10 +34,12 @@ const AthleteDashboard = () => {
     loadingRecentActivity: true,
   });
   const { data: totalSubData, isLoading: isGettingTotalSub } = {
-    data: null,
+    data: {
+      total: 0, /// MOCK
+    },
     isLoading: false,
   };
-  const { data: grossMoneyData } = { data: null };
+  const { data: grossMoneyData } = { data: { total: 0 } };
   const { data: membershipData, loading: isGettingMembership } =
     useMembershipTiersAsMaker();
   const { athleteProfile: sportProfile } = useGetAthleteProfile();
