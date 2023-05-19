@@ -13,6 +13,8 @@ export interface AthleteProfile {
     currentTeam: string;
     totalSubCount: number
     firstName: string;
+    lastName: string;
+    middleName: string;
     avatar: string;
     gender: string
     fullName: string
@@ -33,7 +35,7 @@ const converter = {
     fromFirestore: (snap: QueryDocumentSnapshot) =>
     ({
         id: snap?.id,
-            ...snap?.data() 
+            ...snap?.data()
         }) as AthleteProfile
 }
 

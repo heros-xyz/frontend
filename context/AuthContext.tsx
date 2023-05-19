@@ -21,7 +21,7 @@ export const AuthContext = React.createContext<AuthContextType>({
 
 export const useAuthContext = () => React.useContext(AuthContext);
 
-const useUser = (uid: string | undefined) => {
+const useUserProfile = (uid: string | undefined) => {
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export const AuthContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [user, loading, error] = useAuthState(auth);
-  const userProfile = useUser(user?.uid);
+  const userProfile = useUserProfile(user?.uid);
   const router = useRouter();
 
   useEffect(() => {

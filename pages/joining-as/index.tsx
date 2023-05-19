@@ -17,15 +17,3 @@ const JoiningAs = () => {
 };
 
 export default JoiningAs;
-
-export const getServerSideProps = wrapper.getServerSideProps(
-  () => (context) => {
-    return loggedInGuard(context, (session: Session | null) => {
-      return {
-        props: {
-          session,
-        },
-      };
-    });
-  }
-);

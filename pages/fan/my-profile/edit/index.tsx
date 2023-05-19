@@ -1,9 +1,3 @@
-import ErrorMessage from "@/components/common/ErrorMessage";
-import Select from "@/components/common/Select";
-import DateSelect from "@/components/ui/DateSelect";
-import SelectGender from "@/components/ui/SelectGender";
-import FanDashboardLayout from "@/layouts/FanDashboard";
-import { isValidDate } from "@/utils/time";
 import {
   Box,
   Button,
@@ -26,6 +20,12 @@ import {
 } from "react";
 import { If, Then } from "react-if";
 import * as Yup from "yup";
+import ErrorMessage from "@/components/common/ErrorMessage";
+import Select from "@/components/common/Select";
+import DateSelect from "@/components/ui/DateSelect";
+import SelectGender from "@/components/ui/SelectGender";
+import FanDashboardLayout from "@/layouts/FanDashboard";
+import { isValidDate } from "@/utils/time";
 import { IconEdit } from "@/components/svg/IconEdit";
 import {
   ALLOWED_TYPES,

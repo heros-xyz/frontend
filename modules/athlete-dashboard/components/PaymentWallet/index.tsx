@@ -29,7 +29,7 @@ const PaymentWallet: React.FC<IProp> = ({ onBack, onSubmit }) => {
       <Text mt="8" fontWeight="bold" w="full" fontSize={{ xl: "xl" }}>
         Payment Method
       </Text>
-      {data?.docs.map((paymentData) =>
+      {data?.docs && data?.docs.map((paymentData) =>
           <Text mt="5" w="full">
             <Text as="span" textTransform="capitalize">
               {paymentData?.data().stripePayment?.paymentMethod?.type.toLocaleLowerCase() ?? ""}

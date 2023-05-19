@@ -3,7 +3,7 @@ import { addDoc, collection, doc, getDocs, onSnapshot, query, QueryDocumentSnaps
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "@/libs/firebase";
 import { useAuthContext } from "@/context/AuthContext";
-import { MutationState } from "@/libs/dtl/common";
+import { MutationState, SuscriptionState } from "@/libs/dtl/common";
 
 const MembershipTierCollectionName = "membershipTiers"
 
@@ -153,37 +153,38 @@ export function useMembershipTiersAsTaker(uid: string) {
 }
 
 export function useMembershipsFromAthlete(athleteId: string) {
-  const [data, setData] = useState<QuerySnapshot<MembershipTier[]> | null>();
-  const [dataStatus, setDataStatus] = useState<any>({
+  const [data, setData] = useState<MembershipTier[] | null>(null);
+  const [status, setStatus] = useState<SuscriptionState>({
     initiated: false,
     loading: false
   })
   useEffect(() => {
     if (!athleteId) return
-    setDataStatus({
+    setStatus({
       initiated: true,
       loading: true
     })
     const q = query(collection(db, MembershipTierCollectionName), where("uid", "==", athleteId)).withConverter(converter);
     getDocs(q).then(
-      (docs) => setData(docs.docs.map(d => d.data()) as QuerySnapshot<any>)
-    ).catch((e: Error) => setDataStatus({
-      ...dataStatus,
+      (docs) => setData(docs.docs.map(d => d.data()))
+    ).catch((e: Error) => setStatus({
+      ...status,
       error: e.message
     }))
-      .finally(() => setDataStatus({
-        ...dataStatus,
+      .finally(() => setStatus({
+        ...status,
         loading: false,
         lastUpdate: new Date()
       }))
     return onSnapshot(q, (docs) => {
-      setData(docs.docs.map(d => d.data()) as QuerySnapshot<any[]>)
+      setData(docs.docs.map(d => d.data()))
     })
   }, [athleteId])
 
   console.log("data", data)
   return {
-    data, ...dataStatus
+    data,
+    status
   }
 }
 

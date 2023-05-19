@@ -238,7 +238,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                 {hashtag &&
                   hashtag.map((item) => (
                     <Tag
-                      key={item}
+                      key={item.id}
                       size={{ base: "sm", lg: "lg" }}
                       borderRadius="full"
                       variant="solid"
@@ -255,7 +255,9 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                           )
                         }
                       >
-                        #{item}
+                        <>
+                          #{item}
+                        </>
                       </TagLabel>
                     </Tag>
                   ))}

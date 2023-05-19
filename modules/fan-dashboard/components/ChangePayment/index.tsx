@@ -120,13 +120,7 @@ const ChangePayment: React.FC<IProp> = ({
             type="submit"
             fontSize={{ xl: "xl" }}
             isLoading={loading}
-            onClick={() => {
-              if (loading || error) {
-                return;
-              } else {
-                formik.handleSubmit();
-              }
-            }}
+            onClick={()=>formik.handleSubmit()}
           >
             update
           </Button>
