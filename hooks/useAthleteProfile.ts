@@ -4,7 +4,7 @@ import { withDefault, NumberParam, useQueryParam } from "use-query-params";
 import { useCareerJourneysFromAthlete } from "@/libs/dtl/careerJourney";
 import { useMembershipsFromAthlete } from "@/libs/dtl/membershipTiers";
 import { AthleteProfile, useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
-import { useValidateIsFan } from "@/libs/dtl/suscription";
+import { useValidateIsFan } from "@/libs/dtl/subscription";
 
 export const useAthleteProfile = () => {
   const { query } = useRouter();

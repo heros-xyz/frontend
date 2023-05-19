@@ -36,7 +36,7 @@ import { useMembershipsFromAthlete } from "@/libs/dtl/membershipTiers";
 import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 import { usePaymentMethods } from "@/libs/dtl/payment";
 import { functions } from "@/libs/firebase";
-import { useSubscribeToAthlete } from "@/libs/dtl/suscription";
+import { useSubscribeToAthlete } from "@/libs/dtl/subscription";
 
 const PaymentDetails = () => {
   const router = useRouter();

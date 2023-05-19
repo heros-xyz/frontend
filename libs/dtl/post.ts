@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { collection, doc, getDocs, getDoc, onSnapshot, query, QueryDocumentSnapshot, where, addDoc, updateDoc, getCountFromServer } from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 import { useUploadFile } from "react-firebase-hooks/storage";
-import { current } from "@reduxjs/toolkit";
 import { useAuthContext } from "@/context/AuthContext";
 import { db, storage } from "@/libs/firebase";
 import { IMediaExisted } from "@/types/athlete/types";
@@ -233,21 +232,21 @@ export const useEditPost = () => {
 
 export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<Post[]>([]);
   const dataRef = useMemo(() => {
     if (params.maker) {
       return query(
-        collection(db, `suscriptions`),
-        where("maker", "==", params.maker)
+        collection(db, `post`),
+        where("uid", "==", params.maker)
       ).withConverter(converter)
     }
     if (params.tag) {
       return query(
-        collection(db, `suscriptions`),
+        collection(db, `post`),
         where("tags", "array-contains", params.tag)
       ).withConverter(converter)
     }
-  }, [params])
-  const [data, setData] = useState<Post[]>([]);
+  }, [params.tag, params?.maker])
 
   useEffect(() => {
     if (!dataRef) return
@@ -261,6 +260,7 @@ export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
     });
   }, [dataRef]);
 
+  console.log("usePostsAsTaker", { data })
   return { loading, data }
 }
 
