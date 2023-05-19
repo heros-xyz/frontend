@@ -35,7 +35,7 @@ const YourAthleteCard: React.FC<YourAthleteCardProps> = ({
       <Flex alignItems="center">
         <WrapItem>
           <HerosImage
-            src={getImageLink(item?.avatar)}
+            src={item?.avatar ?? ""}
             width={{ base: "50px", lg: "80px" }}
             height={{ base: "50px", lg: "80px" }}
           />

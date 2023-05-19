@@ -17,25 +17,19 @@ import { useUpdateEffect } from "react-use";
 import Head from "next/head";
 import { Waypoint } from "react-waypoint";
 import FanDashboardLayout from "@/layouts/FanDashboard";
-import {
-  useDeleteSubscriptionsMutation,
-  useGetActiveSubscriptionsQuery,
-} from "@/api/fan";
+import { useDeleteSubscriptionsMutation } from "@/api/fan";
 import ClockMiniIcon from "@/components/svg/ClockMiniIcon";
 import { GetActiveSubscription } from "@/types/fan/types";
 import DeleteSubscription from "@/components/modal/DeleteSubscription";
-import { getImageLink } from "@/utils/link";
-import { wrapper } from "@/store";
-
-import { fanAuthGuard } from "@/middleware/fanGuard";
-import { IGuards } from "@/types/globals/types";
-import { setTokenToStore } from "@/utils/auth";
 import NotiSkeleton from "@/components/ui/Notification/Skeleton";
 import { useUser } from "@/hooks/useUser";
 import { AlertIcon } from "@/components/svg";
 import BackButton from "@/components/ui/BackButton";
 import HerosImage from "@/components/common/HerosImage";
-import { useGetMySubscriptions } from "@/libs/dtl/suscription";
+import {
+  useDeleteSubscription,
+  useGetMySubscriptions,
+} from "@/libs/dtl/subscription";
 
 const PaymentInfo = () => {
   const router = useRouter();
@@ -50,39 +44,50 @@ const PaymentInfo = () => {
     onOpen: onOpenSuccess,
     onClose: onCloseSuccess,
   } = useDisclosure();
-
   const [dataCancel, setDataCancel] = useState<GetActiveSubscription>();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentData, setCurrentData] = useState<GetActiveSubscription[]>([]);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
   const [isShowError, setIsShowError] = useState<boolean>(false);
   const { data: dataSub, loading: isLoading } = useGetMySubscriptions();
-  const [deleteSub, { isSuccess: successDeleted, isError }] =
-    useDeleteSubscriptionsMutation();
-  const handleConfirm = (id: string | undefined) => {
+  const {
+    deleteSub,
+    success: successDeleted,
+    error: isError,
+    loading: loadingDelete,
+  } = useDeleteSubscription();
+
+  const handleConfirm = async (id: string | undefined) => {
     if (id !== undefined) {
-      deleteSub(id);
+      try {
+        await deleteSub(id);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
+  const isFetching = false;
+  const currentData = dataSub?.map((e) => ({
+    id: e.id,
+    nickName: e?.makerData.nickName,
+    athleteId: e?.maker,
+    status: e?.status,
+    expiredDate: new Date(e?.expiredDate * 1000),
+    monthlyPrice: e?.monthlyPrice,
+    avatar: e.makerData.avatar,
+    fullName: e.makerData.fullName,
+    autoRenew: e?.autoRenew,
+    totalAccessibleInteraction: e?.totalAccessibleInteraction, // TODO,
+  })) as unknown as GetActiveSubscription[];
+
+  /*
   useEffect(() => {
     if (dataSub && !(isFetching || isLoading)) {
-      const nextSub = dataSub?.data?.reduce((acc, cur) => {
-        if (isAdmin) {
-          acc.push({
-            ...cur,
-            autoRenew: true,
-          });
-        } else if (cur?.status === "ACTIVE") {
-          acc.push(cur);
-        }
-
-        return acc;
-      }, [] as GetActiveSubscription[]);
-      setCurrentData((prev) => [...prev, ...nextSub]);
-      setHasNextPage(dataSub.meta.hasNextPage);
+      setCurrentData(c);
+      setHasNextPage(false); // TODO 
     }
   }, [dataSub, isAdmin]);
+  */
 
   useUpdateEffect(() => {
     onCloseConfirm();
@@ -92,7 +97,6 @@ const PaymentInfo = () => {
   useEffect(() => {
     onCloseConfirm();
     onCloseSuccess();
-    setCurrentData([]);
     setCurrentPage(1);
   }, []);
 
@@ -111,6 +115,10 @@ const PaymentInfo = () => {
       setIsShowError(false);
     }
   }, [isOpenConfirm]);
+
+  if (isLoading) {
+    return <></>;
+  }
 
   return (
     <Box bg="white" minH="100vh" position="relative">
@@ -186,7 +194,7 @@ const PaymentInfo = () => {
                   cursor="pointer"
                 >
                   <HerosImage
-                    src={getImageLink(el?.avatar)}
+                    src={el?.avatar}
                     width={{ base: "50px", lg: "80px" }}
                     height={{ base: "50px", lg: "80px" }}
                   />
@@ -301,7 +309,7 @@ const PaymentInfo = () => {
             cancel="back"
             onCancel={onCloseConfirm}
             onSubmit={() => handleConfirm(dataCancel?.id)}
-            isLoading={isLoading}
+            isLoading={loadingDelete}
           />
         </ModalContent>
       </Modal>

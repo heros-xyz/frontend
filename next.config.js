@@ -47,6 +47,7 @@ const nextConfig = {
       "cdn-uat.heros.xyz",
       "cdn-prod.heros.xyz",
       "localhost",
+      "100.77.4.16",
       process.env.HEROS_MEDIA_URL?.replace("https://", ""),
     ],
   },

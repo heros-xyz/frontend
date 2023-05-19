@@ -14,7 +14,6 @@ import dayjs from "dayjs";
 import Calendar from "@/components/svg/Calendar";
 import { MailIcon } from "@/components/svg/MailIcon";
 import { IFanInfo } from "@/types/athlete/types";
-import { getImageLink } from "@/utils/link";
 
 interface IFanOfAthleteProfileProps {
   isOpen: boolean;
@@ -46,7 +45,7 @@ const FanOfAthleteProfile: FC<IFanOfAthleteProfileProps> = ({
               h={{ base: "100px", lg: "160px" }}
               mb={{ base: 2, lg: 8 }}
               rounded="full"
-              src={getImageLink(fanInfo?.avatar)}
+              src={fanInfo?.avatar}
               alt={fanInfo?.fullName}
               objectFit="cover"
               fallbackSrc="/images/DefaultAvaCircle.png"

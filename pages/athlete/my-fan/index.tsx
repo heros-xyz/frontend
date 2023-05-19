@@ -1,5 +1,11 @@
-import { Box, Container, Text, useOutsideClick } from "@chakra-ui/react";
-import { ReactElement, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Box,
+  Container,
+  SkeletonCircle,
+  Text,
+  useOutsideClick,
+} from "@chakra-ui/react";
+import { ReactElement, useMemo, useRef, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useUpdateEffect } from "react-use";
@@ -11,8 +17,8 @@ import YourAthletesList from "@/components/ui/FanOfAthletes/List/index";
 import useDebounce from "@/hooks/useDebounce";
 import SearchFanSuggestionsList from "@/components/ui/SearchFanSuggestions/List";
 import FanOfAthleteProfile from "@/components/ui/FanOfAthletes/Profile";
-import { useGetListFansQuery } from "@/api/athlete";
 import { IFanInfo } from "@/types/athlete/types";
+import { useGetMyFans } from "@/libs/dtl/subscription";
 
 const MyFan = () => {
   const router = useRouter();
@@ -22,7 +28,6 @@ const MyFan = () => {
   const [focusSearch, setFocusSearch] = useState(false);
   const [selectedItem, setSelectedItem] = useState<IFanInfo>();
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentData, setCurrentData] = useState<IFanInfo[]>([]);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
   const [isOpenFanProfile, setIsOpenFanProfile] = useState(false);
   const searchValueDebounced = useDebounce(searchValue, 500);
@@ -40,20 +45,21 @@ const MyFan = () => {
     return Boolean(showAllValue);
   }, [showAllValue]);
 
-  const { data: athleteList, isSuccess } = useGetListFansQuery({
-    page: currentPage,
-    fanName: showAllValue?.toLocaleLowerCase(),
-    take: 10,
-  });
-
-  const { data: athleteSearchList } = useGetListFansQuery(
-    {
-      page: 1,
-      take: 5,
-      fanName: searchValueDebounced?.toLocaleLowerCase(),
-    },
-    { skip: searchValueDebounced.length <= 1, refetchOnMountOrArgChange: false }
-  );
+  const { loading, data } = useGetMyFans();
+  const athleteList = data?.map((subscription) => ({
+    avatar: subscription?.takerData?.avatar,
+    email: subscription?.takerData?.email,
+    fullName: subscription?.takerData?.name,
+    athleteId: subscription?.maker,
+    expiredDate: new Date(subscription?.expiredDate * 1000),
+    id: subscription?.id,
+    joinedDate: new Date(subscription?.stripeSubscription?.created * 1000),
+  })) as IFanInfo[];
+  const athleteSearchList = useMemo(() => {
+    return athleteList?.filter((fan) =>
+      fan?.fullName.toLowerCase().includes(searchValueDebounced.toLowerCase())
+    );
+  }, [searchValueDebounced, athleteList, searchValue]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value.trim());
@@ -62,7 +68,6 @@ const MyFan = () => {
   const onFocus = () => setFocusSearch(true);
 
   const onShowAllResult = () => {
-    setCurrentData([]);
     setCurrentPage(1);
     setHasNextPage(false);
     setShowAllValue(searchValue);
@@ -81,19 +86,13 @@ const MyFan = () => {
     }
   }, [router.query]);
 
-  useEffect(() => {
-    if (athleteList) {
-      setCurrentData((prev) => [...prev, ...athleteList.data]);
-      setHasNextPage(athleteList.meta.hasNextPage);
-    }
-    if (currentPage % 2 === 0 && isSuccess) {
-      setCurrentPage(currentPage + 1);
-    }
-  }, [athleteList]);
-
   const onLoadMore = () => {
     setCurrentPage(currentPage + 1);
   };
+
+  if (loading) {
+    return <SkeletonCircle />;
+  }
 
   return (
     <Box minH={{ base: "95vh", lg: "100vh" }}>
@@ -116,7 +115,7 @@ const MyFan = () => {
           >
             My Fans
           </Text>
-          <If condition={currentData.length !== 0}>
+          <If condition={athleteList?.length !== 0}>
             <Then>
               <Box
                 display="flex"
@@ -153,7 +152,7 @@ const MyFan = () => {
                           position="absolute"
                           buttonName={"See all results"}
                           searchKeyword={searchValue}
-                          items={athleteSearchList?.data || []}
+                          items={athleteSearchList || []}
                           onShowAllResult={onShowAllResult}
                           onSelectedItem={onShowFanProfile}
                         />
@@ -171,7 +170,7 @@ const MyFan = () => {
                     >
                       {searchValue.length > 1 &&
                         focusSearch &&
-                        !athleteSearchList?.data?.length && (
+                        !athleteSearchList?.length && (
                           <Box
                             w="full"
                             zIndex={15}
@@ -200,13 +199,13 @@ const MyFan = () => {
         </Box>
         <YourAthletesList
           w="100%"
-          athleteList={currentData || []}
+          athleteList={athleteList || []}
           role="ATHLETE"
           onSelectedItem={onShowFanProfile}
           isSearching={isSearching}
           onLoadMore={onLoadMore}
           hasNextPage={hasNextPage}
-          total={athleteList?.meta.itemCount ?? 0}
+          total={athleteList?.length ?? 0}
         />
         <FanOfAthleteProfile
           fanInfo={selectedItem}
@@ -226,4 +225,3 @@ export default MyFan;
 MyFan.getLayout = function getLayout(page: ReactElement) {
   return <AthleteDashboardLayout>{page}</AthleteDashboardLayout>;
 };
-
