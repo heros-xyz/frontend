@@ -53,7 +53,6 @@ export const useBasicInfo = () => {
       story: "",
     },
     onSubmit: async (values) => {
-      // TODO: add loading
       try {
         if (!!userProfile?.uid) {
           const paramsUser = {
@@ -62,18 +61,19 @@ export const useBasicInfo = () => {
             dateOfBirth: values.dateOfBirth,
           }
           const paramsAthleteProfile = {
-            story: values.story
+            nationality: values?.nationality,
+            gender: values?.gender,
+            dateOfBirth: values?.dateOfBirth,
+            story: values?.story
           }
           await updateDocument(`user/${userProfile?.uid}`, paramsUser)
           await updateDocument(`athleteProfile/${userProfile?.uid}`, paramsAthleteProfile)
           setStep((step) => step + 1);
         }
-
       } catch (error) {
         setError(error)
         console.log(error)
       }
-
     },
   });
 

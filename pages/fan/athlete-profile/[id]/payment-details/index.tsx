@@ -29,8 +29,7 @@ import DeleteSubscription from "@/components/modal/DeleteSubscription";
 import { IHerosError } from "@/types/globals/types";
 import { useMembershipsFromAthlete } from "@/libs/dtl/membershipTiers";
 import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
-import { usePaymentMethods } from "@/libs/dtl/payment";
-import { functions } from "@/libs/firebase";
+import {Payment, usePaymentMethods} from "@/libs/dtl/payment";
 import { useSubscribeToAthlete } from "@/libs/dtl/subscription";
 
 const PaymentDetails = () => {
@@ -66,23 +65,30 @@ const PaymentDetails = () => {
     dataStatus: { loading: loadingAdd, error: errorData },
   } = usePaymentMethods();
 
-  const { formik, isValid, submitCount, handleSubmit } = usePaymentForm();
+  const { formik, isValid, submitCount, handleSubmit, values } = usePaymentForm();
 
-  const onSubmit = () => {
+  const onSubmit = async() => {
     if (
       router.query.membershipTierId &&
       paymentInfoList?.length &&
       tierMembershipList?.length
     ) {
-      console.log("submit");
-      submitSubscribe({
+      await submitSubscribe({
         membershipTier: router.query.membershipTierId as string,
         paymentMethod: paymentInfoList?.[0]?.id ?? "",
       });
       return;
     }
     if (!paymentInfoList?.length) {
-      // addPayment(values);
+      console.log("new payment submit",values);
+      await addPayment({
+        cardName: values.nameOnCard,
+        cardNumber: values.cardNumber,
+        cardExpMonth: +values.expiredDate.split("/")[0],
+        cardExpYear: +values.expiredDate.split("/")[1],
+        cardCvc: values.cvv,
+        expiredDate: values?.expiredDate,
+      } as Payment);
     }
   };
 

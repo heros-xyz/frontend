@@ -1,5 +1,19 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { collection, doc, getDocs, getDoc, onSnapshot, query, QueryDocumentSnapshot, where, addDoc, updateDoc, getCountFromServer } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  onSnapshot,
+  query,
+  QueryDocumentSnapshot,
+  where,
+  addDoc,
+  updateDoc,
+  getCountFromServer,
+  orderBy,
+  Timestamp
+} from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 import { useUploadFile } from "react-firebase-hooks/storage";
 import { object } from "firebase-functions/v1/storage";
@@ -18,7 +32,7 @@ export interface PostMedia {
 export interface Post {
   id: string
   content: string
-  publicDate: Date | string | null
+  publicDate: Date | string | null | Timestamp
   schedule?: boolean
   publicType: string
   tags: string[]
@@ -38,6 +52,7 @@ const converter = {
   fromFirestore: (snap: QueryDocumentSnapshot) => {
     const data = snap.data() as Post
     data.id = snap.id;
+    data.publicDate = data?.publicDate?.toDate?.()
     return data
   }
 }
@@ -128,7 +143,7 @@ export const usePostsAsMaker = (loadData = true) => {
 
   useEffect(() => {
     if (!user || !user.uid || !loadData) return
-    const q = query(collection(db, "post"), where("uid", "==", user?.uid)).withConverter(converter)
+    const q = query(collection(db, "post"), where("uid", "==", user?.uid),orderBy("publicDate","desc")).withConverter(converter)
     getDocs(q)
       .then(async (snapshot) => {
         // contar likes y reactions para cada post
@@ -237,11 +252,14 @@ export const useEditPost = () => {
 export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<Post[]>([]);
+  const todayDate =  new Date(Date.now())
   const dataRef = useMemo(() => {
     if (params.maker) {
       return query(
         collection(db, `post`),
-        where("uid", "==", params.maker)
+          where("uid", "==", params.maker),
+          where('publicDate', '<', todayDate),
+          orderBy('publicDate',"desc")
       ).withConverter(converter)
     }
     if (params.tag) {

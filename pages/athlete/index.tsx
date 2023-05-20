@@ -24,6 +24,7 @@ import { RoutePath } from "@/utils/route";
 import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
 import { getHasRecentPosts } from "@/libs/dtl";
+import {useGetGrossMoney} from "@/libs/dtl/subscription";
 
 const AthleteDashboard = () => {
   const router = useRouter();
@@ -33,16 +34,10 @@ const AthleteDashboard = () => {
     hasCreateInteractionRecent: false,
     loadingRecentActivity: true,
   });
-  const { data: totalSubData, isLoading: isGettingTotalSub } = {
-    data: {
-      total: 0, /// MOCK
-    },
-    isLoading: false,
-  };
-  const { data: grossMoneyData } = { data: { total: 0 } };
+  const { data: grossMoneyData } = useGetGrossMoney()
   const { data: membershipData, loading: isGettingMembership } =
     useMembershipTiersAsMaker();
-  const { athleteProfile: sportProfile } = useGetAthleteProfile();
+  const { athleteProfile: sportProfile ,loading:loadingAthleteProfile} = useGetAthleteProfile();
 
   const onClickManage = () => {
     router.push("/athlete/membership/listing");
@@ -107,9 +102,9 @@ const AthleteDashboard = () => {
             </Link>
           </Flex>
           <AthleteOverview
-            fans={formatNumber(totalSubData?.total ?? 0)}
+            fans={formatNumber(sportProfile?.totalSubCount ?? 0)}
             money={formatMoney(grossMoneyData?.total ?? 0)}
-            isLoading={isGettingTotalSub}
+            isLoading={loadingAthleteProfile}
           />
           <Membership
             title={"Membership"}
@@ -122,7 +117,7 @@ const AthleteDashboard = () => {
           />
           <Wallet
             title={"Wallet"}
-            currentMoney={user?.netAmount ?? 0}
+            currentMoney={(Number(user?.netAmount)  / 100) ?? 0}
             feePrice={5}
             timeReceive={""}
             havePaymentMethod={true}

@@ -294,3 +294,20 @@ export function useDeleteSubscription() {
     deleteSub
   }
 }
+
+export function useGetGrossMoney  ()  {
+  const [total,setTotal] = useState(0)
+  const {data,loading} = useGetMyFans()
+
+  useEffect(()=>{
+    if(data?.length){
+      setTotal(data.reduce((acc,subs)=>acc+subs?.monthlyPrice ?? 0,0))
+    }
+  },[data])
+
+  return {
+    data:{
+      total
+    }
+  }
+}

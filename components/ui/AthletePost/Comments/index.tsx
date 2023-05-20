@@ -52,6 +52,8 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
     isAthlete: true,
   });
 
+  console.log("listMergedComments", listMergedComments);
+  debugger
   useEffect(() => {
     setIsFocusOnInput(focusComment);
   }, [focusComment]);
@@ -93,17 +95,17 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
           isAuthorComment,
         }) => ({
           id,
-          name: `${user.firstName} ${user.lastName}`,
-          firstName: user.firstName,
-          lastName: user.lastName,
+          name: `${user?.firstName} ${user?.lastName}`,
+          firstName: user?.firstName,
+          lastName: user?.lastName,
           text: content,
-          avatar: user.avatar,
+          avatar: user?.avatar,
           likeCount: reactedCommentsCount,
           isLiked: liked,
           parentComment,
           createdAt: createdAt,
           isAuthorComment,
-          nickName: user.nickName,
+          nickName: user?.nickName,
         })
       ) || []
     );
@@ -113,8 +115,8 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
     <Box className="comment-box">
       <If condition={isPreview}>
         <Then>
-          {listMergedComments.map((item) => (
-            <Box className="comment-box__preview" key={item.id} py={2}>
+          {listMergedComments.map((item,index) => (
+            <Box className="comment-box__preview" key={item?.id ?? String(index)} py={2}>
               <CommentItem
                 showActions={false}
                 commentId={item.id}
@@ -124,16 +126,16 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
                   {
                     id,
                     name: `${item?.user?.firstName} ${item?.user?.lastName}`,
-                    firstName: item.user.firstName,
-                    lastName: item.user.lastName,
-                    text: item.content,
-                    avatar: item.user.avatar,
-                    likeCount: item.reactedCommentsCount,
-                    isLiked: item.liked,
-                    parentComment: item.parentComment,
-                    createdAt: item.createdAt,
-                    isAuthorComment: item.isAuthorComment,
-                    nickName: item.user.nickName,
+                    firstName: item.user?.firstName,
+                    lastName: item?.user?.lastName,
+                    text: item?.content,
+                    avatar: item?.user?.avatar,
+                    likeCount: item?.reactedCommentsCount,
+                    isLiked: item?.liked,
+                    parentComment: item?.parentComment,
+                    createdAt: item?.createdAt,
+                    isAuthorComment: item?.isAuthorComment,
+                    nickName: item?.user?.nickName,
                   } as unknown as Comment
                 }
                 onClickComment={() => {
