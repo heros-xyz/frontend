@@ -297,11 +297,7 @@ const PaymentInfo = () => {
           <DeleteSubscription
             alert="Are you sure you want to continue?"
             name={dataCancel?.nickName ?? dataCancel?.fullName}
-            message={` will lose all your valuable support, and you will lose access to ${
-              dataCancel?.totalAccessibleInteraction ?? 0 !== 0
-                ? dataCancel?.totalAccessibleInteraction
-                : "all"
-            } exclusive interactions at the end of this billing period on ${dayjs(
+            message={` will lose all your valuable support, and you will lose access to all exclusive interactions at the end of this billing period on ${dayjs(
               dataCancel?.expiredDate
             ).format("DD MMMM YYYY")}`}
             confirm="cancel subscription"
