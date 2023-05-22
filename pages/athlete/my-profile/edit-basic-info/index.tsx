@@ -30,25 +30,20 @@ import { Nationality, useGetNationalities } from "@/libs/dtl/nationalities";
 import { useAuthContext } from "@/context/AuthContext";
 import {
   AthleteProfile,
-  useGetAthleteProfile,
+  useMyAthleteProfile,
 } from "@/libs/dtl/athleteProfile";
 import useUpdateDoc from "@/hooks/useUpdateDoc";
-import { User } from "@/libs/dtl";
+import { useMyUserProfile, User } from "@/libs/dtl";
 import { IHerosError } from "@/types/globals/types";
 
 const EditBasicInfo = () => {
   const toast = useToast();
   const { isDesktop } = useDevice();
-  const { userProfile } = useAuthContext();
-  const { athleteProfile } = useGetAthleteProfile();
-  const basicInfo = useMemo(
-    () => ({
-      ...userProfile,
-      story: athleteProfile?.story,
-      nationality: userProfile?.nationality,
-    }),
-    [athleteProfile?.story, userProfile?.nationality]
-  );
+  const myUserProfile = useMyUserProfile();
+  const myAthleteProfile = useMyAthleteProfile();
+  const loading = useMemo(() => {
+    return myUserProfile.loading || myAthleteProfile.loading
+  }, [myUserProfile, myAthleteProfile]);
   const { nationalitiesMapped: nationalityList } = useGetNationalities();
   const {
     updateDocument,
@@ -67,7 +62,7 @@ const EditBasicInfo = () => {
         middleName: values?.middleName,
         gender: Number(values.gender),
         nationality:
-          values?.nationality.label !== userProfile?.nationality?.name
+          values?.nationality.label !== myUserProfile.data?.nationality?.name
             ? (values?.nationality as unknown as Nationality)
             : undefined,
       };
@@ -77,15 +72,12 @@ const EditBasicInfo = () => {
         nationality: updateUserParams.nationality,
         gender: String(updateUserParams?.gender),
         firstName: updateUserParams?.firstName,
-        dateOfBirth: updateUserParams.dateOfBirth as unknown as string,
+        dateOfBirth: updateUserParams.dateOfBirth,
       };
 
       try {
-        await updateDocument(`user/${userProfile?.uid}`, updateUserParams);
-        await updateDocument(
-          `athleteProfile/${userProfile?.uid}`,
-          updateAthleteProfileParams
-        );
+        await myUserProfile.update(updateUserParams)
+        await myAthleteProfile.update(updateAthleteProfileParams);
       } catch (error) {
         console.warn(error);
       }
@@ -93,26 +85,20 @@ const EditBasicInfo = () => {
   });
 
   useEffect(() => {
-    if (basicInfo) {
-      formik.setFieldValue("firstName", basicInfo?.firstName);
-      formik.setFieldValue("lastName", basicInfo?.lastName);
-      formik.setFieldValue("middleName", basicInfo?.middleName || "");
-      formik.setFieldValue("dateOfBirth", basicInfo?.dateOfBirth);
-      formik.setFieldValue("gender", basicInfo?.gender?.toString?.());
+    if (!loading && myAthleteProfile.data) {
+      formik.setFieldValue("firstName", myAthleteProfile.data?.firstName);
+      formik.setFieldValue("lastName", myAthleteProfile.data?.lastName);
+      formik.setFieldValue("middleName", myAthleteProfile.data?.middleName || "");
+      formik.setFieldValue("dateOfBirth", myAthleteProfile.data?.dateOfBirth);
+      formik.setFieldValue("gender", myAthleteProfile.data?.gender?.toString?.());
       formik.setFieldValue("nationality", {
-        value: basicInfo?.nationality?.twoLetterCode,
-        label: basicInfo?.nationality?.name,
+        value: myAthleteProfile.data?.nationality?.twoLetterCode,
+        label: myAthleteProfile.data?.nationality?.name,
       });
-      formik.setFieldValue("story", basicInfo?.story);
+      formik.setFieldValue("story", myAthleteProfile.data?.story);
     }
   }, [
-    basicInfo.firstName,
-    basicInfo.lastName,
-    basicInfo.middleName,
-    basicInfo.dateOfBirth,
-    basicInfo.gender,
-    basicInfo.nationality,
-    basicInfo.story,
+    myAthleteProfile.data,
   ]);
 
   useEffect(() => {
@@ -125,7 +111,7 @@ const EditBasicInfo = () => {
     }
   }, [error]);
 
-  if (!athleteProfile && !userProfile) {
+  if (loading) {
     return <></>;
   }
 
