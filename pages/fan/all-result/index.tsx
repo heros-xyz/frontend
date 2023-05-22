@@ -5,10 +5,7 @@ import { useRouter } from "next/router";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import SearchResult from "@/components/ui/SearchResult";
 import FindHeros from "@/components/ui/FindHeros";
-import { wrapper } from "@/store";
-import { IGuards } from "@/types/globals/types";
 import { IAthleteSearchProfile } from "@/types/athlete/types";
-import { setTokenToStore } from "@/utils/auth";
 import { useUser } from "@/hooks/useUser";
 import { filterAthletesSearch } from "@/utils/functions";
 import { useAllAthletes } from "@/libs/dtl/athleteProfile";
@@ -17,7 +14,6 @@ import { useGetMySubscriptions } from "@/libs/dtl/subscription";
 const AllResult = () => {
   const router = useRouter();
   const { isFan } = useUser();
-  const TAKE = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<IAthleteSearchProfile[]>([]);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
@@ -53,7 +49,7 @@ const AllResult = () => {
             name: currentSubscription?.membershipName,
           },
           totalFan: result?.totalSubCount,
-          totalInteraction: result?.totalInteractionCount ?? 0,
+          totalInteractions: result?.totalInteractionCount,
           isCurrentUserSubscribed: Boolean(currentSubscription),
         };
       });
@@ -76,7 +72,7 @@ const AllResult = () => {
 
   useEffect(() => {
     if (searchData) {
-      setCurrentData(searchData);
+      setCurrentData(searchData as unknown as IAthleteSearchProfile[]);
     }
   }, [searchData]);
 

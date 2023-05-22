@@ -204,9 +204,9 @@ export interface IAthleteSubscribed {
   nickName: string;
   fullName: string;
   expiredDate: string | Date;
-  monthlyPrice: number;
+  monthlyPrice?: number;
   status: string;
-  totalAccessibleInteraction: number;
+  totalAccessibleInteraction?: number;
   autoRenew: boolean;
   recommended?: boolean;
   createdAt: string | Date;

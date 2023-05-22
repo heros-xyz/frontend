@@ -31,6 +31,7 @@ export interface AthleteProfile {
     tags: string[];
     uid: string;
     nationality: Nationality
+    totalInteractionCount: number
 }
 
 

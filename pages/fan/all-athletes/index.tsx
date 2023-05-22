@@ -1,6 +1,6 @@
 import { Box, Container, Text } from "@chakra-ui/react";
 import Head from "next/head";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import YourAthletesList from "@/components/ui/FanOfAthletes/List";
 import FindHeros from "@/components/ui/FindHeros";
 import FanDashboardLayout from "@/layouts/FanDashboard";
@@ -8,6 +8,10 @@ import FanDashboardLayout from "@/layouts/FanDashboard";
 import { FAN_ROLE } from "@/utils/constants";
 import { IAthleteSubscribed } from "@/types/athlete/types";
 import { useUser } from "@/hooks/useUser";
+import {
+  useAthleteSubscribed,
+  useGetListAthleteRecommended,
+} from "@/libs/dtl/athleteProfile";
 
 const AllAthletes = () => {
   const { isFan, isAdmin } = useUser();
@@ -21,35 +25,24 @@ const AllAthletes = () => {
   >([]);
   const [hasNextRecommendPage, setHasNextRecommendPage] =
     useState<boolean>(false);
-  const { data: listSubscribed, isSuccess } = {
-    data: { data: [], meta: { hasNextPage: true, itemCount: 0 } },
-    isSuccess: false,
-  };
+  const { data: listSubscribed, loading: loadingSubscribed } =
+    useAthleteSubscribed({ limitAmount: undefined });
 
-  const { data: listAthleteRecommended } = {
-    data: { data: [], meta: { hasNextPage: true } },
-  };
+  const { data: listRecommended } = useGetListAthleteRecommended({
+    limitAmount: undefined,
+  });
 
   useEffect(() => {
     setCurrentData([]);
   }, []);
 
-  useEffect(() => {
-    if (listAthleteRecommended) {
-      setCurrentRecommendData((prev) => [
-        ...prev,
-        ...listAthleteRecommended.data,
-      ]);
-      setHasNextRecommendPage(listAthleteRecommended.meta.hasNextPage);
-    }
-  }, [listAthleteRecommended]);
+  const listAthleteRecommended = useMemo(() => {
+    const combined = listSubscribed?.concat(listRecommended ?? []);
 
-  useEffect(() => {
-    if (listSubscribed) {
-      setCurrentData((prev) => [...prev, ...listSubscribed?.data]);
-      setHasNextPage(listSubscribed.meta.hasNextPage);
-    }
-  }, [listSubscribed]);
+    return combined.filter((profile, index) => {
+      return index === combined.findIndex((item) => item.id === profile.id);
+    });
+  }, [listRecommended]);
 
   const onLoadMore = () => {
     setCurrentPage(currentPage + 1);
@@ -58,6 +51,7 @@ const AllAthletes = () => {
   const onLoadMoreRecommend = () => {
     setCurrentRecommendPage(currentRecommendPage + 1);
   };
+
   return (
     <Box bg="white" minH="100vh">
       <Head>
@@ -78,15 +72,21 @@ const AllAthletes = () => {
           My Athletes
         </Text>
         <YourAthletesList
-          athleteList={currentData}
-          athleteRecommendList={currentRecommendData}
+          athleteList={listSubscribed.map((item) => ({
+            ...item,
+            athleteId: item.id,
+          }))}
+          athleteRecommendList={listAthleteRecommended.map((item) => ({
+            ...item,
+            athleteId: item.id,
+          }))}
           hasFanText={false}
           role={FAN_ROLE}
           isAdmin={isAdmin}
           dateFormat="DD/MM/YYYY"
           onLoadMore={onLoadMore}
           hasNextPage={hasNextPage}
-          total={listSubscribed?.meta.itemCount ?? 0}
+          total={listSubscribed?.length ?? 0}
           onLoadMoreRecommend={onLoadMoreRecommend}
           hasNextRecommendPage={hasNextRecommendPage}
         />

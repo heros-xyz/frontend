@@ -95,8 +95,8 @@ const SearchResult: React.FC<SearchResultProps> = ({
                     borderRight="1px"
                     border={el.fan ? "1px" : "none"}
                   >
-                    {el.totalInteractions
-                      ? formatNumber(el.totalInteractions)
+                    {el?.totalInteractions
+                      ? formatNumber(el?.totalInteractions)
                       : 0}{" "}
                     interactions
                   </Text>
