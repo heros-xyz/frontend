@@ -12,19 +12,18 @@ import {
   useAthleteSubscribed,
   useGetListAthleteRecommended,
 } from "@/libs/dtl/athleteProfile";
+import { useGetMySubscriptions } from "@/libs/dtl/subscription";
 
 const AllAthletes = () => {
   const { isFan, isAdmin } = useUser();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<IAthleteSubscribed[]>([]);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
-
   const [currentRecommendPage, setCurrentRecommendPage] = useState<number>(1);
-  const [currentRecommendData, setCurrentRecommendData] = useState<
-    IAthleteSubscribed[]
-  >([]);
   const [hasNextRecommendPage, setHasNextRecommendPage] =
     useState<boolean>(false);
+  const { data: mySubscriptions, loading: loadingMySubscriptions } =
+    useGetMySubscriptions();
   const { data: listSubscribed, loading: loadingSubscribed } =
     useAthleteSubscribed({ limitAmount: undefined });
 
@@ -37,12 +36,26 @@ const AllAthletes = () => {
   }, []);
 
   const listAthleteRecommended = useMemo(() => {
-    const combined = listSubscribed?.concat(listRecommended ?? []);
+    const combined =
+      listRecommended?.filter(
+        (ath) => listSubscribed.find((sub) => sub.id === ath.id) === undefined
+      ) ?? [];
 
-    return combined.filter((profile, index) => {
-      return index === combined.findIndex((item) => item.id === profile.id);
+    return combined.map((result) => {
+      const currentSubscription = mySubscriptions?.find(
+        (sub) => sub.maker === result?.id
+      );
+
+      return {
+        ...result,
+        createdAt: result?.createdAt?.toDate?.() ?? "",
+        status: currentSubscription?.status as unknown as string,
+        autoRenew: currentSubscription?.autoRenew ?? false,
+        expiredDate: new Date(currentSubscription?.expiredDate ?? "") ?? "",
+        sportName: result?.sport?.label ?? "",
+      };
     });
-  }, [listRecommended]);
+  }, [listRecommended, listSubscribed, mySubscriptions]);
 
   const onLoadMore = () => {
     setCurrentPage(currentPage + 1);
@@ -51,6 +64,10 @@ const AllAthletes = () => {
   const onLoadMoreRecommend = () => {
     setCurrentRecommendPage(currentRecommendPage + 1);
   };
+
+  if (loadingMySubscriptions || loadingSubscribed) {
+    return <></>;
+  }
 
   return (
     <Box bg="white" minH="100vh">
@@ -74,6 +91,7 @@ const AllAthletes = () => {
         <YourAthletesList
           athleteList={listSubscribed.map((item) => ({
             ...item,
+            createdAt: item?.createdAt?.toDate() ?? "",
             athleteId: item.id,
           }))}
           athleteRecommendList={listAthleteRecommended.map((item) => ({

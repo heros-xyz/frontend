@@ -12,13 +12,13 @@ import {
 import React, { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { AnimatePresence, motion } from "framer-motion";
-import { set } from "immer/dist/internal";
 import { LogoMiniIcon } from "@/components/svg/LogoMini";
 import { FindIcon } from "@/components/svg/Find";
 import useDebounce from "@/hooks/useDebounce";
 import { IconInfo } from "@/components/svg/IconInfo";
 import { useAllAthletes } from "@/libs/dtl/athleteProfile";
 import { filterAthletesSearch } from "@/utils/functions";
+import { useGetMySubscriptions } from "@/libs/dtl/subscription";
 import SearchSuggestionsList from "../SearchSuggestions/List";
 
 interface IFindHeros extends BoxProps {
@@ -32,6 +32,8 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
   const [searchValue, setSearchValue] = useState("");
   const [isSearchBarFocused, setFocus] = useState(false);
   const [showSuggestList, setShowSuggestList] = useState(false);
+  const { data: mySubscriptions, loading: loadingMySubscriptions } =
+    useGetMySubscriptions();
   const router = useRouter();
   const onChange = useCallback((el: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(el.target.value.trim());
@@ -43,13 +45,24 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
   });
 
   const searchData = useMemo(() => {
-    return allAthletes?.filter((athlete) => {
-      if (searchValueDebounced === "") return false;
-      return filterAthletesSearch(athlete, searchValueDebounced);
-    });
-  }, [allAthletes, searchValueDebounced]);
+    return allAthletes
+      ?.filter((athlete) => {
+        if (searchValueDebounced === "") return false;
+        return filterAthletesSearch(athlete, searchValueDebounced);
+      })
+      .map((ath) => {
+        const currentSubscription = mySubscriptions?.find(
+          (sub) => sub.maker === ath?.id
+        );
 
-  console.log({ searchData, searchValueDebounced, searchValue });
+        return {
+          ...ath,
+          totalFan: ath?.totalSubCount,
+          totalInteractions: ath?.totalInteractionCount,
+          isCurrentUserSubscribed: Boolean(currentSubscription),
+        };
+      });
+  }, [allAthletes, searchValueDebounced]);
 
   const onShowAllResult = () => {
     setShowSuggestList(false);
@@ -67,6 +80,10 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
     setFocus(false);
     setShowSuggestList(false);
   };
+
+  if (loadingAllAthletes || loadingMySubscriptions) {
+    return <></>;
+  }
 
   return (
     <Box {...props} position="relative">

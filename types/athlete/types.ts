@@ -41,7 +41,10 @@ export interface ISearchAthleteParams {
 
 export interface IAthleteSearchProfile {
   id: string;
-  sport: string;
+  sport: {
+    label: string
+    key: string
+  };
   sourceSubscriptionsTotal?: number;
   fullName: string;
   fan?: number;

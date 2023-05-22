@@ -32,6 +32,7 @@ export interface AthleteProfile {
     uid: string;
     nationality: Nationality
     totalInteractionCount: number
+    recommended?: boolean
 }
 
 
@@ -87,7 +88,10 @@ export function useGetAthleteProfileByUid(uid: string) {
     }
 }
 
-export function useGetListAthleteRecommended({ limitAmount } = { limitAmount: 3 }) {
+type GetListAthleteRecommended = {
+    limitAmount?: number
+}
+export function useGetListAthleteRecommended({ limitAmount = 3 }: GetListAthleteRecommended) {
     const q = query(
         collection(db, "athleteProfile"),
         where("isFinishOnboarding", "==", true),
@@ -129,7 +133,7 @@ export function useAthleteSubscribed({ limitAmount = 3 }) {
                 });
                 return { id, unsubscribe };
             });
-            const profilesData = await Promise.all(profilesPromises);
+            const profilesData = await Promise.all(profilesPromises as any);
             setStatus({ loading: false })
             // Unsubscribe from snapshots when component unmounts
             return () => {

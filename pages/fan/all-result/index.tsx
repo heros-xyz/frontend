@@ -26,13 +26,11 @@ const AllResult = () => {
   const onChange = (el: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(el.target.value.trim());
   };
-
   const { data: allAthletes, loading: loadingAllAthletes } = useAllAthletes({
     limitAmount: 100,
   });
 
   const searchData = useMemo(() => {
-    console.log({ defaultValue });
     return allAthletes
       ?.filter((athlete) => {
         if (defaultValue === "") return false;

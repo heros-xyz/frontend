@@ -34,7 +34,7 @@ export interface PostMedia {
 export interface Post {
   id: string
   content: string
-  publicDate: Date | string | null | Timestamp
+  publicDate: Date | string | null 
   schedule?: boolean
   publicType: string
   tags: string[]
@@ -54,8 +54,8 @@ const converter = {
   toFirestore: (data: any) => data,
   fromFirestore: (snap: QueryDocumentSnapshot) => {
     const data = snap.data() as Post
-    data.id = snap.id;
-    data.publicDate = data?.publicDate?.toDate?.()
+    const date = data?.publicDate as unknown as Timestamp
+    data.publicDate = date.toDate?.() 
     return data
   }
 }

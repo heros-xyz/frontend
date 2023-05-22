@@ -1,12 +1,11 @@
 import { Box, Flex, Text, Image, Highlight } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { getImageLink } from "@/utils/link";
 
 interface IProps {
   item: {
     avatar: string;
     fullName: string;
-    sport: string;
+    sport: { label: string; key: string };
     id: string;
     nickName: string;
   };

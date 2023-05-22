@@ -8,11 +8,11 @@ import { db } from "@/libs/firebase";
 import { AthleteProfile } from "@/libs/dtl/athleteProfile";
 
 interface Props {
-  athlete: AthleteProfile;
+  athleteNickname: string;
 }
 
 const MembershipConfirmed = (props: Props) => {
-  const { athlete } = props;
+  const { athleteNickname } = props;
   const router = useRouter();
 
   return (
@@ -48,7 +48,7 @@ const MembershipConfirmed = (props: Props) => {
           fontFamily="heading"
           color="grey.300"
         >
-          You are now a fan of <b>{athlete?.nickName ?? ""}</b>! Get started by
+          You are now a fan of <b>{athleteNickname ?? ""}</b>! Get started by
           exploring the benefits that come with your membership.
         </Text>
       </Box>
@@ -60,7 +60,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context?.params?.id;
   const athlete = (
     await getDoc(doc(db, "athleteProfile", id as string))
-  ).data();
+  ).data() as AthleteProfile;
 
   if (!athlete)
     return {
@@ -69,7 +69,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      athlete,
+      athleteNickname: athlete?.nickName ?? "",
     }, // will be passed to the page component as props
   };
 }
