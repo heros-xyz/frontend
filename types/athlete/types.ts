@@ -41,7 +41,10 @@ export interface ISearchAthleteParams {
 
 export interface IAthleteSearchProfile {
   id: string;
-  sport: string;
+  sport: {
+    label: string
+    key: string
+  };
   sourceSubscriptionsTotal?: number;
   fullName: string;
   fan?: number;
@@ -204,9 +207,9 @@ export interface IAthleteSubscribed {
   nickName: string;
   fullName: string;
   expiredDate: string | Date;
-  monthlyPrice: number;
+  monthlyPrice?: number;
   status: string;
-  totalAccessibleInteraction: number;
+  totalAccessibleInteraction?: number;
   autoRenew: boolean;
   recommended?: boolean;
   createdAt: string | Date;

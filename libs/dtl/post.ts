@@ -1,12 +1,28 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { collection, doc, getDocs, getDoc, onSnapshot, query, QueryDocumentSnapshot, where, addDoc, updateDoc, getCountFromServer } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  getDoc,
+  onSnapshot,
+  query,
+  QueryDocumentSnapshot,
+  where,
+  addDoc,
+  updateDoc,
+  getCountFromServer,
+  orderBy,
+  Timestamp,
+  limit
+} from "firebase/firestore";
 import { getDownloadURL, ref } from "firebase/storage";
 import { useUploadFile } from "react-firebase-hooks/storage";
-import { object } from "firebase-functions/v1/storage";
 import { useAuthContext } from "@/context/AuthContext";
 import { db, storage } from "@/libs/firebase";
 import { IMediaExisted } from "@/types/athlete/types";
 import { MutationState } from "./careerJourney";
+import { useGetMySubscriptions } from "./subscription";
+import { AthleteProfile } from "./athleteProfile";
 
 export interface PostMedia {
   id: string
@@ -18,7 +34,7 @@ export interface PostMedia {
 export interface Post {
   id: string
   content: string
-  publicDate: Date | string | null
+  publicDate: Date | string | null 
   schedule?: boolean
   publicType: string
   tags: string[]
@@ -31,13 +47,15 @@ export interface Post {
   uid?: string
   createdAt: Date
   updatedAt: Date,
+  author: AthleteProfile
 }
 
 const converter = {
   toFirestore: (data: any) => data,
   fromFirestore: (snap: QueryDocumentSnapshot) => {
     const data = snap.data() as Post
-    data.id = snap.id;
+    const date = data?.publicDate as unknown as Timestamp
+    data.publicDate = date.toDate?.() 
     return data
   }
 }
@@ -128,7 +146,7 @@ export const usePostsAsMaker = (loadData = true) => {
 
   useEffect(() => {
     if (!user || !user.uid || !loadData) return
-    const q = query(collection(db, "post"), where("uid", "==", user?.uid)).withConverter(converter)
+    const q = query(collection(db, "post"), where("uid", "==", user?.uid),orderBy("publicDate","desc")).withConverter(converter)
     getDocs(q)
       .then(async (snapshot) => {
         // contar likes y reactions para cada post
@@ -237,11 +255,14 @@ export const useEditPost = () => {
 export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<Post[]>([]);
+  const todayDate =  new Date(Date.now())
   const dataRef = useMemo(() => {
     if (params.maker) {
       return query(
         collection(db, `post`),
-        where("uid", "==", params.maker)
+          where("uid", "==", params.maker),
+          where('publicDate', '<', todayDate),
+          orderBy('publicDate',"desc")
       ).withConverter(converter)
     }
     if (params.tag) {
@@ -292,4 +313,87 @@ export const usePostAsTaker = (post?: string) => {
   }, [dataRef]);
 
   return { loading, data }
+}
+
+
+// Fan dashboard interactions
+type LastInteractions = {
+  limitAt: number
+}
+
+export function useLatestInteractions({ limitAt }: LastInteractions = { limitAt: 3 }) {
+  const [data, setData] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { data: dataMySubscriptions, loading: loadingMySubscriptions } = useGetMySubscriptions()
+  const todayDate = new Date(Date.now())
+
+  useEffect(() => {
+    if (!dataMySubscriptions?.length || loadingMySubscriptions) return;
+
+    const dataRef = query(
+      collection(db, `post`),
+      where("uid", "in", dataMySubscriptions.map(d => d.maker)),
+      where('publicDate', '<', todayDate),
+      orderBy('publicDate', "desc"),
+      limit(limitAt)
+    ).withConverter(converter);
+
+    getDocs(dataRef)
+      .then((snapshot) => {
+        const postData = snapshot.docs.map(d => d.data());
+
+        const athleteProfilePromises = postData.map(post => {
+          const athleteProfileRef = doc(db, 'athleteProfile', post?.uid ?? "");
+          return getDoc(athleteProfileRef)
+            .then((athleteProfileSnapshot) => {
+              if (athleteProfileSnapshot.exists()) {
+                const athleteProfileData = athleteProfileSnapshot.data();
+                return { ...post, author: athleteProfileData };
+              } else {
+                return post;
+              }
+            });
+        });
+
+        Promise.all(athleteProfilePromises)
+          .then(postsWithProfiles => {
+            setData(postsWithProfiles as Post[]);
+          })
+          .finally(() => setLoading(false));
+      })
+      .catch(error => {
+        console.error("Error retrieving posts:", error);
+        setLoading(false);
+      });
+
+    return onSnapshot(dataRef, (snapshot) => {
+      const postData = snapshot.docs.map(d => d.data());
+
+      const athleteProfilePromises = postData.map(post => {
+        const athleteProfileRef = doc(db, 'athleteProfile', post?.uid ?? "");
+        return getDoc(athleteProfileRef)
+          .then((athleteProfileSnapshot) => {
+            if (athleteProfileSnapshot.exists()) {
+              const athleteProfileData = athleteProfileSnapshot.data();
+              return { ...post, author: athleteProfileData };
+            } else {
+              return post;
+            }
+          });
+      });
+
+      Promise.all(athleteProfilePromises)
+        .then(postsWithProfiles => {
+          setData(postsWithProfiles as Post[]);
+        })
+        .catch(error => {
+          console.error("Error retrieving posts:", error);
+        });
+    });
+  }, [dataMySubscriptions, limitAt]);
+
+  return {
+    loading: loading && loadingMySubscriptions,
+    data
+  }
 }

@@ -7,21 +7,18 @@ import { useUser } from "@/hooks/useUser";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import MyAthletes from "@/modules/fan-dashboard/components/MyAthletes";
 import { useAuthContext } from "@/context/AuthContext";
+import { useLatestInteractions } from "@/libs/dtl/post";
 
 const FanDashboard = () => {
   const [searchValue, setSearchValue] = useState("");
   const { userProfile } = useAuthContext();
   const { isFan } = useUser();
   const { isFirstLogin } = userProfile ?? {};
-
   const onChange = useCallback((el: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(el.target.value);
   }, []);
-
-  const { data: latestInteraction, isLoading } = {
-    data: { data: [] },
-    isLoading: false,
-  };
+  const { data: latestInteraction, loading: isLoading } =
+    useLatestInteractions();
 
   return (
     <Box bg="white" minH="100vh">
@@ -59,7 +56,16 @@ const FanDashboard = () => {
         <FanInteractions
           isLoading={isLoading}
           titleHeading="Latest Interactions"
-          items={latestInteraction?.data ?? []}
+          items={
+            latestInteraction.map((post) => ({
+              ...post,
+              user: post?.author,
+              interactionMedia: post?.media?.map?.((media, idx) => ({
+                ...media,
+                sortOrder: media?.sortOrder ?? idx,
+              })),
+            })) ?? []
+          }
           actionText="View All"
         />
       </Container>

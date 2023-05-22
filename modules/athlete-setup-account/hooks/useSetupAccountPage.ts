@@ -6,6 +6,7 @@ import { useUploadFile } from 'react-firebase-hooks/storage';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { set } from "immer/dist/internal";
 import { useRouter } from "next/router";
+import { serverTimestamp } from "firebase/firestore";
 import { getFullName, isValidString } from "@/utils/functions";
 import { IHerosError } from "@/types/globals/types";
 import { storage } from "@/libs/firebase";
@@ -118,6 +119,8 @@ const useSetupAccountPage = () => {
           firstName: params?.firstName,
           nickName,
           avatar: avatarUrl,
+          isFinishSetupAccount: true,
+          createdAt: serverTimestamp(),
           fullName: getFullName(params?.firstName, params?.lastName, params?.middleName),
         }
         )

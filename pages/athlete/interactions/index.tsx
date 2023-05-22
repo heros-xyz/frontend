@@ -167,7 +167,9 @@ const Interactions = () => {
                       })}
                     >
                       <Box mt={{ base: 1, lg: 3 }}>
+{/*
                         <AthleteInteractionComments id={item?.id} isPreview />
+*/}
                       </Box>
                     </AthletePost>
                     <Divider display={{ lg: "none" }} my={{ base: 6, lg: 8 }} />

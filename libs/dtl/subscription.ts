@@ -36,6 +36,7 @@ export interface Subscription {
     name: string
     fullName: string,
   }
+  membershipName: string
 }
 
 export enum SubscriptionStatus {
@@ -292,5 +293,23 @@ export function useDeleteSubscription() {
   return {
     ...status,
     deleteSub
+  }
+}
+
+export function useGetGrossMoney  ()  {
+  const [total,setTotal] = useState(0)
+  const {data,loading} = useGetMyFans()
+
+  useEffect(()=>{
+    if(data?.length){
+      setTotal(data.reduce((acc,subs)=>acc+subs?.monthlyPrice ?? 0,0))
+    }
+  },[data])
+
+  return {
+    loading,
+    data:{
+      total
+    }
   }
 }

@@ -1,3 +1,4 @@
+import { AthleteProfile } from "@/libs/dtl/athleteProfile";
 import { INotificationInfo } from "@/types/notifications/types";
 import { NotificationEventType } from "./enums";
 
@@ -206,3 +207,46 @@ export const getFullName = (firstName: string, lastName: string, middleName?: st
 
   return fullName.trim();
 };
+
+export function filterAthletesSearch(athlete: AthleteProfile, query: string) {
+  const searchLower = query.toLowerCase();
+
+  // Filtro por nombres (firstName, lastName, fullName) y apodos (nickName)
+  if (
+    athlete?.firstName?.toLowerCase().includes(searchLower) ||
+    athlete?.lastName?.toLowerCase().includes(searchLower) ||
+    athlete?.fullName?.toLowerCase().includes(searchLower) ||
+    athlete?.nickName?.toLowerCase().includes(searchLower)
+  ) {
+    return true;
+  }
+
+  // Filtro por club (currentTeam) y deporte (sport.label)
+  if (
+    athlete?.currentTeam?.toLowerCase().includes(searchLower) ||
+    athlete?.sport?.label?.toLowerCase().includes(searchLower)
+  ) {
+    return true;
+  }
+
+  // Filtro por etiquetas (tags) y país (nationality)
+  if (
+    athlete?.tags?.some?.((tag) =>
+      tag?.toLowerCase().includes(searchLower)
+    ) ||
+    athlete?.nationality?.name?.toLowerCase().includes(searchLower)
+  ) {
+    return true;
+  }
+
+  // Filtro por tags del perfil (tagline) y goal
+  if (
+    athlete?.tagline?.toLowerCase().includes(searchLower) ||
+    athlete?.goal?.toLowerCase().includes(searchLower)
+  ) {
+    return true;
+  }
+
+  // Si no se cumple ningún filtro, retorna false
+  return false;
+}

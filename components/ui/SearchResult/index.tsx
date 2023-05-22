@@ -57,7 +57,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
               alignItems="center"
             >
               <HerosImage
-                src={getImageLink(el?.avatar)}
+                src={el?.avatar}
                 width={{ base: "50px", lg: "80px" }}
                 height={{ base: "50px", lg: "80px" }}
               />
@@ -82,7 +82,7 @@ const SearchResult: React.FC<SearchResultProps> = ({
                 >
                   {el?.isCurrentUserSubscribed
                     ? el?.membershipTier?.name
-                    : el.sport}
+                    : el.sport?.label}
                 </Text>
                 <Flex
                   flexDirection={"row"}
@@ -95,8 +95,8 @@ const SearchResult: React.FC<SearchResultProps> = ({
                     borderRight="1px"
                     border={el.fan ? "1px" : "none"}
                   >
-                    {el.totalInteractions
-                      ? formatNumber(el.totalInteractions)
+                    {el?.totalInteractions
+                      ? formatNumber(el?.totalInteractions)
                       : 0}{" "}
                     interactions
                   </Text>

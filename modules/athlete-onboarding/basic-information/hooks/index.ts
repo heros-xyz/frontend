@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import { isValidDate } from "@/utils/time";
 import { IHerosError } from "@/types/globals/types";
-import { useAuthContext } from "@/context/AuthContext";
-import useUpdateDoc from "@/hooks/useUpdateDoc";
 import { useMyUserProfile } from "@/libs/dtl";
 import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 export interface IValuesTypes {
@@ -55,7 +53,6 @@ export const useBasicInfo = () => {
       story: "",
     },
     onSubmit: async (values) => {
-      // TODO: add loading
       try {
         if (!myUserProfile.data?.uid) {
           const params = {
@@ -63,28 +60,24 @@ export const useBasicInfo = () => {
               code: values.nationality.value,
               name: values.nationality.label
             },
+            gender: values?.gender,
+            story: values?.story,
             dateOfBirth: new Date(values.dateOfBirth as unknown as string),
           }
-          const paramsAthleteProfile = {
-            story: values.story,
-            ...params
-          }
           await myUserProfile.update({
+            ...params,
             gender: values.gender as unknown as number,
-            ...params
           })
           await myAthleteProfile.update({
+            ...params,
             story: values.story,
-            ...params
           })
           setStep((step) => step + 1);
         }
-
       } catch (error) {
         setError(error)
         console.log(error)
       }
-
     },
   });
 

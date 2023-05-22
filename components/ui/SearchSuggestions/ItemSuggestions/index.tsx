@@ -1,12 +1,11 @@
 import { Box, Flex, Text, Image, Highlight } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { getImageLink } from "@/utils/link";
 
 interface IProps {
   item: {
     avatar: string;
     fullName: string;
-    sport: string;
+    sport: { label: string; key: string };
     id: string;
     nickName: string;
   };
@@ -47,7 +46,7 @@ const ItemSuggestions: React.FC<IProps> = ({
           overflow="hidden"
         >
           <Image
-            src={getImageLink(item.avatar)}
+            src={item?.avatar}
             alt="heros item"
             width={{ base: "40px", xl: "50px" }}
             height={{ base: "40px", xl: "50px" }}
@@ -77,7 +76,7 @@ const ItemSuggestions: React.FC<IProps> = ({
             fontWeight="500"
             lineHeight="120%"
           >
-            {item?.sport}
+            {item?.sport?.label}
           </Text>
         </Box>
       </Flex>

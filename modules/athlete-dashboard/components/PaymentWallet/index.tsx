@@ -8,7 +8,7 @@ interface IProp {
   onBack: () => void;
 }
 const PaymentWallet: React.FC<IProp> = ({ onBack, onSubmit }) => {
-  const {data} = usePaymentMethods()
+  const { data } = usePaymentMethods();
   const handleSubmit = () => {
     onSubmit();
   };
@@ -31,22 +31,25 @@ const PaymentWallet: React.FC<IProp> = ({ onBack, onSubmit }) => {
         Payment Method
       </Text>
       {!!data?.length &&
-        data?.map?.((paymentData) => (
-          <React.Fragment key={paymentData.id}>
-            <Text mt="5" w="full">
-              <Text as="span" textTransform="capitalize">
-                {paymentData?.stripePayment?.paymentMethod?.type.toLocaleLowerCase() ??
-                  ""}
-              </Text>{" "}
-              ****
-              {paymentData?.stripePayment}
-              {paymentData?.expiredDate.slice(0, -2)}20
-              {paymentData?.expiredDate.slice(-2)}
-              <br /> Subscription payment will be automatically collected from
-              this card.
-            </Text>
-          </React.Fragment>
-        ))}
+        data
+          ?.filter((paymentData) => !paymentData?.error)
+          .map?.((paymentData) => (
+            <React.Fragment key={paymentData.stripePayment?.id}>
+              <Text mt="5" w="full">
+                <Text as="span" textTransform="capitalize">
+                  {paymentData?.stripePayment?.card.brand.toLocaleLowerCase() ??
+                    ""}
+                </Text>{" "}
+                ****
+                {paymentData?.stripePayment?.card.last4}
+                {", "}
+                {paymentData?.stripePayment?.card?.exp_month}/
+                {paymentData?.stripePayment?.card?.exp_year}
+                <br /> Subscription payment will be automatically collected from
+                this card.
+              </Text>
+            </React.Fragment>
+          ))}
       <Box w="full">
         <Button
           w={{ base: "full", xl: "auto" }}

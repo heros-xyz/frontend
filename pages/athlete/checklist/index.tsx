@@ -5,13 +5,11 @@ import {
   Flex,
   Grid,
   Image,
-  Link,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { FC, useCallback, useEffect, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import Head from "next/head";
-import NextLink from "next/link";
 import { router } from "next/client";
 import Progress from "@/components/common/Progress";
 import { ArrowRight } from "@/components/svg/ArrowRight";
@@ -65,17 +63,12 @@ function useOnboardingInformation() {
   // If has User(nationality,gender,birthday | dateOfBirth) user/${uid}
   // AthleteProfile (story) => athleteProfile/{uid}
   const hasBasicInformation = Boolean(
-    !!user?.nationality &&
-      user?.gender &&
-      user?.dateOfBirth &&
-      data?.story
+    !!user?.nationality && user?.gender && user?.dateOfBirth && data?.story
   );
 
   // Page Information
   // AthleteProfile (tagline, tags) => athleteProfile/{uid}
-  const hasPageInformation = Boolean(
-    data?.tagline && data?.tags
-  );
+  const hasPageInformation = Boolean(data?.tagline && data?.tags);
 
   // Sport Profile
   // AthleteProfile (sport, currentTeam, goal) => athleteProfile/{uid}
@@ -93,14 +86,12 @@ function useOnboardingInformation() {
       hasCareerJourney,
       hasPageInformation,
       hasSportProfile,
-    }
+    },
   };
 }
 
 const AthleteChecklist: FC = () => {
-  const {
-    data: onboardingInformation,
-  } = useOnboardingInformation();
+  const { data: onboardingInformation } = useOnboardingInformation();
   const myUserProfile = useMyUserProfile();
   const myAthleteProfile = useMyAthleteProfile();
 
@@ -133,11 +124,11 @@ const AthleteChecklist: FC = () => {
         isFinishOnboarding: true,
       }),
       myUserProfile.update({
-        isFinishOnboarding: true
-      })
-    ])?.then(()=>{
-      router.push("/athlete")
-    })
+        isFinishOnboarding: true,
+      }),
+    ])?.then(() => {
+      router.push("/athlete");
+    });
   }, []);
 
   return (
