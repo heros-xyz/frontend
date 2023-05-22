@@ -24,7 +24,7 @@ import { RoutePath } from "@/utils/route";
 import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
 import { getHasRecentPosts } from "@/libs/dtl";
-import {useGetGrossMoney} from "@/libs/dtl/subscription";
+import { useGetGrossMoney } from "@/libs/dtl/subscription";
 
 const AthleteDashboard = () => {
   const router = useRouter();
@@ -34,10 +34,11 @@ const AthleteDashboard = () => {
     hasCreateInteractionRecent: false,
     loadingRecentActivity: true,
   });
-  const { data: grossMoneyData } = useGetGrossMoney()
+  const { data: grossMoneyData } = useGetGrossMoney();
   const { data: membershipData, loading: isGettingMembership } =
     useMembershipTiersAsMaker();
-  const { athleteProfile: sportProfile ,loading:loadingAthleteProfile} = useGetAthleteProfile();
+  const { athleteProfile: sportProfile, loading: loadingAthleteProfile } =
+    useGetAthleteProfile();
 
   const onClickManage = () => {
     router.push("/athlete/membership/listing");
@@ -67,6 +68,8 @@ const AthleteDashboard = () => {
       }
     })();
   }, [user, setRecentActivity]);
+
+  console.log("grossMoneyData", grossMoneyData);
 
   return (
     <Box bg="white" pt={6} minH="100vh">
@@ -117,7 +120,9 @@ const AthleteDashboard = () => {
           />
           <Wallet
             title={"Wallet"}
-            currentMoney={(Number(user?.netAmount)  / 100) ?? 0}
+            currentMoney={
+              !user?.netAmount ? 0 : Number(user?.netAmount) / 100 ?? 0
+            }
             feePrice={5}
             timeReceive={""}
             havePaymentMethod={true}

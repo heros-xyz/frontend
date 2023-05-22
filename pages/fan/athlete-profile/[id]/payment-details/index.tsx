@@ -29,7 +29,7 @@ import DeleteSubscription from "@/components/modal/DeleteSubscription";
 import { IHerosError } from "@/types/globals/types";
 import { useMembershipsFromAthlete } from "@/libs/dtl/membershipTiers";
 import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
-import {Payment, usePaymentMethods} from "@/libs/dtl/payment";
+import { Payment, usePaymentMethods } from "@/libs/dtl/payment";
 import { useSubscribeToAthlete } from "@/libs/dtl/subscription";
 
 const PaymentDetails = () => {
@@ -41,11 +41,15 @@ const PaymentDetails = () => {
   const { data: athleteProfile, loading: loadingAthleteProfile } =
     useGetAthleteProfileByUid(router?.query?.id as string);
   const {
-    data: paymentInfoList,
+    data: paymentInfoListTotal,
     dataStatus: { loading: loadingPaymentMethods },
   } = usePaymentMethods();
   const { data: tierMembershipList } = useMembershipsFromAthlete(
     router.query.id as string
+  );
+
+  const paymentInfoList = paymentInfoListTotal?.filter(
+    (paymentData) => !paymentData?.error
   );
 
   const {
@@ -65,9 +69,10 @@ const PaymentDetails = () => {
     dataStatus: { loading: loadingAdd, error: errorData },
   } = usePaymentMethods();
 
-  const { formik, isValid, submitCount, handleSubmit, values } = usePaymentForm();
+  const { formik, isValid, submitCount, handleSubmit, values } =
+    usePaymentForm();
 
-  const onSubmit = async() => {
+  const onSubmit = async () => {
     if (
       router.query.membershipTierId &&
       paymentInfoList?.length &&
@@ -80,7 +85,7 @@ const PaymentDetails = () => {
       return;
     }
     if (!paymentInfoList?.length) {
-      console.log("new payment submit",values);
+      console.log("new payment submit", values);
       await addPayment({
         cardName: values.nameOnCard,
         cardNumber: values.cardNumber,
