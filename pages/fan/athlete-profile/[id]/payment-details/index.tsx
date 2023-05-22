@@ -69,6 +69,7 @@ const PaymentDetails = () => {
   const { formik, isValid, submitCount, handleSubmit } = usePaymentForm();
 
   const onSubmit = () => {
+    debugger
     if (
       router.query.membershipTierId &&
       paymentInfoList?.length &&

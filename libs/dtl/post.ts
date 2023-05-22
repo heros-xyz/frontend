@@ -6,6 +6,7 @@ import { object } from "firebase-functions/v1/storage";
 import { useAuthContext } from "@/context/AuthContext";
 import { db, storage } from "@/libs/firebase";
 import { IMediaExisted } from "@/types/athlete/types";
+import { Suscription } from "@/libs/dtl/common";
 import { MutationState } from "./careerJourney";
 
 export interface PostMedia {
@@ -25,8 +26,8 @@ export interface Post {
   media: PostMedia[]
   reactionCount?: number
   commentCount?: number
-  totalCommentCount: number
-  totalReactionsCount: number
+  commentsCount: number
+  reactionsCount: number
   liked?: boolean
   uid?: string
   createdAt: Date
@@ -51,7 +52,7 @@ export interface PostParams {
 }
 
 export interface ListMedia {
-  type: string 
+  type: string
   file: File;
 }
 
@@ -292,4 +293,33 @@ export const usePostAsTaker = (post?: string) => {
   }, [dataRef]);
 
   return { loading, data }
+}
+
+export const usePost = (post?: string) => {
+  const [status, setStatus] = useState<Suscription<Post>>({
+    loading: true,
+    initiated: false
+  });
+  const ref = useMemo(() => {
+    if (post) {
+      return doc(db, `post/${post}`).withConverter(converter)
+    }
+  }, [post])
+
+  useEffect(() => {
+    if (!ref) return
+    getDoc(ref)
+      .then((snapshot) => {
+        if (!snapshot.exists()) return
+        setStatus((prev) => ({ ...prev, data: snapshot.data() }))
+      })
+      .catch((error: Error) => setStatus((prev) => ({ ...prev, error: error.message })))
+      .finally(() => setStatus((prev) => ({ ...prev, loading: false })))
+    return onSnapshot(ref, (snapshot) => {
+      if (!snapshot.exists()) return
+      setStatus((prev) => ({ ...prev, data: snapshot.data() }))
+    });
+  }, [ref]);
+
+  return status
 }

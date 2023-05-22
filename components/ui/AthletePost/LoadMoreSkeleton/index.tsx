@@ -4,7 +4,7 @@ import { If, Then } from "react-if";
 import { Waypoint } from "react-waypoint";
 interface ILoadMoreSkeletonProps extends BoxProps {
   isShowLoadMore: boolean;
-  setOffset: () => void;
+  setOffset?: () => void;
 }
 const LoadMoreSkeleton: React.FC<ILoadMoreSkeletonProps> = ({
   isShowLoadMore,

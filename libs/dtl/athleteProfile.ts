@@ -49,31 +49,21 @@ const converter = {
     fromFirestore: (snap: QueryDocumentSnapshot) =>
     ({
         id: snap?.id,
-        dateOfBirth: snap.data().dateOfBirth.toDate(),
+        dateOfBirth: snap.data().dateOfBirth && snap.data().dateOfBirth.toDate(),
         ...snap?.data()
     }) as AthleteProfile
 }
 
-
-interface MyAthleteProfileHook extends Suscription<AthleteProfile>{
-    update: (data: Partial<AthleteProfile>) => Promise<void> | undefined
-}
-export const useMyAthleteProfile = ():MyAthleteProfileHook  => {
-    const { user: user } = useAuthContext();
+export const useAthleteProfile = (athleteId?: string):Suscription<AthleteProfile>  => {
     const [status, setStatus] = useState<Suscription<AthleteProfile>>({
         initiated: false,
         loading: true,
     })
 
     const docRef = useMemo(()=>{
-        if(!user || !user.uid) return
-        return doc(db, "athleteProfile", user.uid).withConverter(converter)
-    }, [user?.uid])
-
-    const update = useCallback((data: Partial<AthleteProfile>)=>{
-        if (!docRef) return
-        return updateDoc(docRef, data)
-    }, [docRef])
+        if(!athleteId) return
+        return doc(db, "athleteProfile", athleteId).withConverter(converter)
+    }, [athleteId])
 
     useEffect(() => {
         if (!docRef) return
@@ -113,6 +103,27 @@ export const useMyAthleteProfile = ():MyAthleteProfileHook  => {
             }))
         });
     }, [docRef])
+
+
+    return status
+}
+
+interface MyAthleteProfileHook extends Suscription<AthleteProfile>{
+    update: (data: Partial<AthleteProfile>) => Promise<void> | undefined
+}
+export const useMyAthleteProfile = ():MyAthleteProfileHook  => {
+    const { user } = useAuthContext();
+    const status = useAthleteProfile(user?.uid)
+
+    const docRef = useMemo(()=>{
+        if(!user || !user.uid) return
+        return doc(db, "athleteProfile", user.uid).withConverter(converter)
+    }, [user?.uid])
+
+    const update = useCallback((data: Partial<AthleteProfile>)=>{
+        if (!user?.uid) return
+        return updateDoc(doc(db, "athleteProfile", user.uid).withConverter(converter), data)
+    }, [user?.uid])
 
 
     return {

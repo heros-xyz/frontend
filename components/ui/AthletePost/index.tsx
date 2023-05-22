@@ -30,6 +30,7 @@ import InteractionsPost from "@/modules/athlete-interaction/components/post";
 import { useUpdateInteractionInfo } from "@/modules/athlete-interaction/hooks";
 import SocialSharing from "@/modules/athlete-profile/interactions/components/SocialSharing";
 import { useReactions } from "@/libs/dtl/reaction";
+import { usePost, usePostAsTaker, usePostsAsTaker } from "@/libs/dtl/post";
 import AthleteInfo, { AthleteInfoProps } from "../AthleteInfo";
 import type { MenuItem } from "../AthleteMenu";
 import AthleteMenu from "../AthleteMenu";
@@ -79,7 +80,6 @@ const AthletePost: React.FC<IAthletePostProps> = ({
   const router = useRouter();
   const iconActions = useRef<HTMLDivElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [reaction, setReaction] = useState<boolean>(liked);
   /*
   const [totalReaction, setTotalReaction] = useState<number>(postLikes);
   */
@@ -90,8 +90,9 @@ const AthletePost: React.FC<IAthletePostProps> = ({
     () => {},
     { data: null, isLoading: false },
   ];
-  const { create } = useReactions();
   const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
+  const reactions = useReactions(id);
+  const post = usePost(id)
 
   const handleClickMenu = (id: string) => {
     if (id === "delete") setIsOpenDelete(true);
@@ -121,18 +122,16 @@ const AthletePost: React.FC<IAthletePostProps> = ({
     }, 250);
   }, []);
 
-  useUpdateEffect(() => {
-    setReaction(liked);
-  }, [liked, postLikes]);
-
   const handleReaction = async () => {
-    if (isReactionLoading) return;
-    console.log("reaction", reaction);
-    await create({
-      to: id,
-      toType: "POST",
-      type_: "LIKE",
-    });
+    if (reactions.iLikeIt){
+      await reactions.remove(id);
+    }else{
+      await reactions.create({
+        to: id,
+        toType: "POST",
+        type_: "LIKE",
+      });
+    }
     /*
     setReaction(!reaction);
     //onReaction({
@@ -281,8 +280,8 @@ const AthletePost: React.FC<IAthletePostProps> = ({
               cursor="pointer"
               width={{ base: "24px", lg: "32px" }}
               height={{ base: "24px", lg: "32px" }}
-              fill={reaction ? "currentcolor" : "none"}
-              color={reaction ? "accent.5" : "primary"}
+              fill={reactions.iLikeIt ? "currentcolor" : "none"}
+              color={reactions.iLikeIt ? "accent.5" : "primary"}
               onClick={handleReaction}
             />
 
@@ -323,7 +322,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
             fontSize={{ base: "xs", lg: "lg" }}
             color="secondary"
           >
-            {totalReaction} like(s), {postComments} comment(s)
+            {post.data?.reactionsCount} like(s), {post.data?.commentsCount || 0} comment(s)
           </Text>
           {children}
         </GridItem>
