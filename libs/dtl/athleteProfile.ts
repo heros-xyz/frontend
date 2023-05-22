@@ -6,6 +6,9 @@ import { db } from "../firebase";
 import { Nationality } from "./nationalities";
 import { useGetMySubscriptions } from "./subscription";
 
+const AthleteProfileCollectionName = "athleteProfile"
+
+
 export interface AthleteProfile {
     id: string,
     createdAt?: Timestamp
@@ -39,8 +42,8 @@ export interface AthleteProfile {
 const converter = {
     toFirestore: (data: any) => data,
     fromFirestore: (snap: QueryDocumentSnapshot) =>
-    ({
-        id: snap?.id,
+        ({
+            id: snap?.id,
             ...snap?.data()
         }) as AthleteProfile
 }
@@ -53,7 +56,7 @@ export function useGetAthleteProfile(): {
     const { userProfile: user } = useAuthContext();
     const [value, loading, error] = useDocument(
         !!user?.uid ?
-            doc(db, "athleteProfile", user.uid).withConverter(converter) : null
+            doc(db, AthleteProfileCollectionName, user.uid).withConverter(converter) : null
     );
 
     return {
@@ -64,11 +67,13 @@ export function useGetAthleteProfile(): {
 }
 
 export function useAllAthletes({ limitAmount = 3 } = { limitAmount: 3 }) {
+    // TODO: change query to get all athletes, set limit to all 
     const q = query(
-        collection(db, "athleteProfile"),
+        collection(db, AthleteProfileCollectionName),
         where("isFinishOnboarding", "==", true),
         limit(limitAmount)
     ).withConverter(converter)
+
     const [data, loading, error] = useCollectionData(q)
 
     return {
@@ -79,7 +84,7 @@ export function useAllAthletes({ limitAmount = 3 } = { limitAmount: 3 }) {
 }
 
 export function useGetAthleteProfileByUid(uid: string) {
-    const [data, loading, error] = useDocumentData(uid ? doc(db, "athleteProfile", uid).withConverter(converter) : null)
+    const [data, loading, error] = useDocumentData(uid ? doc(db, AthleteProfileCollectionName, uid).withConverter(converter) : null)
 
     return {
         data,
@@ -97,6 +102,7 @@ export function useGetListAthleteRecommended({ limitAmount = 3 }: GetListAthlete
         where("isFinishOnboarding", "==", true),
         limit(limitAmount)
     ).withConverter(converter)
+
     const [data, loading, error] = useCollectionData(q)
 
     return { data, loading, error }
@@ -111,7 +117,7 @@ export function useAthleteSubscribed({ limitAmount = 3 }) {
     useEffect(() => {
         const fetchProfiles = async () => {
             const profilesPromises = mySubscriptions?.map?.(async ({ maker: id }) => {
-                const profileRef = doc(db, `athleteProfile/${id}`).withConverter(converter);
+                const profileRef = doc(db, `${AthleteProfileCollectionName}/${id}`).withConverter(converter);
                 const unsubscribe = onSnapshot(profileRef, profileSnapshot => {
                     if (profileSnapshot.exists()) {
                         setProfiles(prevProfiles => {

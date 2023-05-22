@@ -28,7 +28,7 @@ const AllAthletes = () => {
     useAthleteSubscribed({ limitAmount: undefined });
 
   const { data: listRecommended } = useGetListAthleteRecommended({
-    limitAmount: undefined,
+    limitAmount: 100,
   });
 
   useEffect(() => {
