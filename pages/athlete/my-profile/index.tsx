@@ -3,14 +3,14 @@ import { Box, Container } from "@chakra-ui/react";
 import Head from "next/head";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import AthleteProfile from "@/modules/athlete-profile";
-import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 
 const MyProfile = () => {
-  const { athleteProfile } = useGetAthleteProfile();
+  const { data } = useMyAthleteProfile();
   return (
     <Box bg="white">
       <Head>
-        <title>{`${athleteProfile?.nickName ?? ""} | Profile | Heros`}</title>
+        <title>{`${data?.nickName ?? ""} | Profile | Heros`}</title>
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <AthleteProfile />

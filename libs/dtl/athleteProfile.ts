@@ -1,7 +1,19 @@
-import { useCollectionData, useDocument, useDocumentData } from "react-firebase-hooks/firestore";
-import { FirestoreError, Timestamp, doc, QueryDocumentSnapshot, collection, limit, query, where, getDocs, onSnapshot, orderBy } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
+import {
+    Timestamp,
+    doc,
+    QueryDocumentSnapshot,
+    collection,
+    limit,
+    query,
+    where,
+    getDoc,
+    onSnapshot,
+    setDoc, updateDoc
+} from "firebase/firestore";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuthContext } from "@/context/AuthContext";
+import { Suscription } from "@/libs/dtl/common";
 import { db } from "../firebase";
 import { Nationality } from "./nationalities";
 import { useGetMySubscriptions } from "./subscription";
@@ -22,7 +34,7 @@ export interface AthleteProfile {
     fullName: string
     nickName: string;
     story: string;
-    dateOfBirth: string
+    dateOfBirth: Date
     sport: {
         label: string
         key: string
@@ -33,33 +45,83 @@ export interface AthleteProfile {
     nationality: Nationality
     totalInteractionCount: number
     recommended?: boolean
+    isFinishOnboarding?: boolean
 }
 
 
 const converter = {
     toFirestore: (data: any) => data,
     fromFirestore: (snap: QueryDocumentSnapshot) =>
-    ({
-        id: snap?.id,
+        ({
+            id: snap?.id,
             ...snap?.data()
         }) as AthleteProfile
 }
 
-export function useGetAthleteProfile(): {
-    athleteProfile?: AthleteProfile,
-    loading: boolean,
-    error: FirestoreError | undefined
-} {
-    const { userProfile: user } = useAuthContext();
-    const [value, loading, error] = useDocument(
-        !!user?.uid ?
-            doc(db, "athleteProfile", user.uid).withConverter(converter) : null
-    );
+
+interface MyAthleteProfileHook extends Suscription<AthleteProfile> {
+    update: (data: Partial<AthleteProfile>) => Promise<void> | undefined
+}
+export const useMyAthleteProfile = (): MyAthleteProfileHook => {
+    const { user: user } = useAuthContext();
+    const [status, setStatus] = useState<Suscription<AthleteProfile>>({
+        initiated: false,
+        loading: true,
+    })
+
+    const docRef = useMemo(() => {
+        if (!user || !user.uid) return
+        return doc(db, "athleteProfile", user.uid).withConverter(converter)
+    }, [user?.uid])
+
+    const update = useCallback((data: Partial<AthleteProfile>) => {
+        if (!docRef) return
+        return updateDoc(docRef, data)
+    }, [docRef])
+
+    useEffect(() => {
+        if (!docRef) return
+        setStatus((prev) => ({
+            ...prev,
+            loading: true,
+            error: undefined,
+        }))
+        getDoc(docRef)
+            .then((snapshot) => {
+                if (!snapshot.exists()) {
+                    setDoc(docRef, {} as AthleteProfile)
+                }
+                setStatus((prev) => ({
+                    ...prev,
+                    data: snapshot.data()
+                }))
+            })
+            .catch((e: Error) => {
+                setStatus((prev) => ({
+                    ...prev,
+                    error: e.message
+                }))
+            })
+            .finally(() => {
+                setStatus((prev) => ({
+                    ...prev,
+                    loading: false,
+                    lastUpdate: new Date()
+                }))
+            })
+        return onSnapshot(docRef, (snapshot) => {
+            setStatus((prev) => ({
+                ...prev,
+                data: snapshot.data(),
+                lastUpdate: new Date()
+            }))
+        });
+    }, [docRef])
+
 
     return {
-        loading,
-        error,
-        athleteProfile: value?.data() as AthleteProfile
+        update,
+        ...status,
     }
 }
 
@@ -70,7 +132,6 @@ export function useAllAthletes({ limitAmount = 3 } = { limitAmount: 3 }) {
         limit(limitAmount)
     ).withConverter(converter)
     const [data, loading, error] = useCollectionData(q)
-
     return {
         data,
         loading,
@@ -92,11 +153,15 @@ type GetListAthleteRecommended = {
     limitAmount?: number
 }
 export function useGetListAthleteRecommended({ limitAmount = 3 }: GetListAthleteRecommended) {
-    const q = query(
+    const q = limitAmount ? query(
         collection(db, "athleteProfile"),
-        where("isFinishOnboarding", "==", true),
-        limit(limitAmount)
-    ).withConverter(converter)
+        where("isFinishOnboarding", "==", true)).withConverter(converter)
+        : query(
+            collection(db, "athleteProfile"),
+            where("isFinishOnboarding", "==", true),
+            limit(limitAmount)
+        ).withConverter(converter)
+
     const [data, loading, error] = useCollectionData(q)
 
     return { data, loading, error }

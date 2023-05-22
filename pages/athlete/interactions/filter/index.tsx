@@ -21,12 +21,12 @@ import { IInteractionItem } from "@/types/athlete/types";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { Close } from "@/components/svg/Close";
-import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 
 const InteractionsByTag = () => {
-  const { athleteProfile, loading } = useGetAthleteProfile();
+  const { data, loading } = useMyAthleteProfile();
   const status = loading ? "loading" : "";
-  const session = { user: athleteProfile };
+  const session = { user: data };
   const router = useRouter();
   const { tag } = router.query;
   const [take] = useState(10);

@@ -6,7 +6,8 @@ export interface MutationState {
   loading: boolean
 }
 
-export interface SuscriptionState {
+export interface Suscription<DataType> {
+  data?: DataType
   initiated: boolean
   loading: boolean
   lastUpdate?: Date

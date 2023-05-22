@@ -62,8 +62,8 @@ const SelectDateOfBirth: React.FC<IProp> = ({ onSubmit }) => {
         </Flex>
         <ErrorMessage
           mt={0.5}
-          condition={submitted && errors?.dateOfBirth}
-          errorMessage={errors?.dateOfBirth}
+          condition={submitted && (errors?.dateOfBirth as unknown as boolean)}
+          errorMessage={errors?.dateOfBirth as unknown as string}
         />
       </Box>
     </HerosOnboardingWrapperNew>

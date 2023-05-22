@@ -14,12 +14,12 @@ import { IInteractionItem } from "@/types/athlete/types";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { useAuthContext } from "@/context/AuthContext";
-import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { usePostsAsMaker } from "@/libs/dtl/post";
 
 const Interactions = () => {
   const { userProfile } = useAuthContext();
-  const { athleteProfile, loading } = useGetAthleteProfile();
+  const { data, loading } = useMyAthleteProfile();
   const router = useRouter();
   /*
   const { hasNextPage, interactionsList, isLoading, onLoadMore } =
@@ -45,7 +45,7 @@ const Interactions = () => {
       ],
       athleteInfo: {
         imagePath: userProfile?.avatar || "",
-        athleteName: athleteProfile?.nickName ?? "",
+        athleteName: data?.nickName ?? "",
         publishDate: postInfo.publicDate,
         id: userProfile?.uid ?? "",
       },
@@ -59,7 +59,7 @@ const Interactions = () => {
     };
   };
 
-  if (loading || !userProfile || !athleteProfile || isLoading) {
+  if (loading || !userProfile || !data || isLoading) {
     return <></>;
   }
 
