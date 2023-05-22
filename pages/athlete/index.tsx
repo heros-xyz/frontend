@@ -21,13 +21,13 @@ import { formatMoney, formatNumber } from "@/utils/functions";
 
 import { useAuthContext } from "@/context/AuthContext";
 import { RoutePath } from "@/utils/route";
-import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
-import { getHasRecentPosts } from "@/libs/dtl";
+import { getHasRecentPosts, useMyUserProfile } from "@/libs/dtl";
 
 const AthleteDashboard = () => {
   const router = useRouter();
-  const { userProfile: user, loading } = useAuthContext();
+  const myUserProfile = useMyUserProfile();
   const [recentActivity, setRecentActivity] = useState({
     hasFirstInteraction: false,
     hasCreateInteractionRecent: false,
@@ -42,7 +42,7 @@ const AthleteDashboard = () => {
   const { data: grossMoneyData } = { data: { total: 0 } };
   const { data: membershipData, loading: isGettingMembership } =
     useMembershipTiersAsMaker();
-  const { athleteProfile: sportProfile } = useGetAthleteProfile();
+  const { data: sportProfile } = useMyAthleteProfile();
 
   const onClickManage = () => {
     router.push("/athlete/membership/listing");
@@ -56,22 +56,22 @@ const AthleteDashboard = () => {
   };
 
   useEffect(() => {
-    if (!!user && !user?.isFinishOnboarding) {
+    if (!myUserProfile.loading && !myUserProfile.data?.isFinishOnboarding) {
       router.push(RoutePath.ATHLETE_CHECKLIST);
     }
-  }, [user]);
+  }, [myUserProfile]);
 
   useEffect(() => {
     (async () => {
-      if (user?.profileType === "ATHLETE" && !!user?.uid) {
-        const recentPosts = await getHasRecentPosts(user?.uid);
+      if (myUserProfile.data?.profileType === "ATHLETE" && !!myUserProfile.data?.uid) {
+        const recentPosts = await getHasRecentPosts(myUserProfile.data?.uid);
         setRecentActivity({
           ...recentPosts,
           loadingRecentActivity: false,
         });
       }
     })();
-  }, [user, setRecentActivity]);
+  }, [myUserProfile, setRecentActivity]);
 
   return (
     <Box bg="white" pt={6} minH="100vh">
@@ -90,7 +90,7 @@ const AthleteDashboard = () => {
               w="64px"
               h="64px"
               rounded="full"
-              src={user?.avatar}
+              src={myUserProfile.data?.avatar}
               alt="user-avatar"
               objectFit="cover"
             />
@@ -122,13 +122,13 @@ const AthleteDashboard = () => {
           />
           <Wallet
             title={"Wallet"}
-            currentMoney={user?.netAmount ?? 0}
+            currentMoney={myUserProfile.data?.netAmount ?? 0}
             feePrice={5}
             timeReceive={""}
             havePaymentMethod={true}
             buttonContent={"withdraw money"}
             onWithDrawMoney={onWithDrawMoney}
-            isLoading={loading ?? false}
+            isLoading={myUserProfile.loading ?? false}
           />
         </Grid>
         {!recentActivity?.loadingRecentActivity && (

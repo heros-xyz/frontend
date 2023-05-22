@@ -9,11 +9,11 @@ import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { useLoading } from "@/hooks/useLoading";
 import { useAuthContext } from "@/context/AuthContext";
 import { auth } from "@/libs/firebase";
-import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 
 const Settings = () => {
   const { user } = useAuthContext();
-  const { athleteProfile } = useGetAthleteProfile();
+  const { data } = useMyAthleteProfile();
   const [signOut] = useSignOut(auth);
   const { start, finish } = useLoading();
   const router = useRouter();
@@ -48,7 +48,7 @@ const Settings = () => {
           email={user?.email ?? ""}
           isLoginWithFacebook={user?.providerId === "facebook.com"}
           isLoginWithGoogle={user?.providerId === "google.com"}
-          name={athleteProfile?.nickName ?? ""}
+          name={data?.nickName ?? ""}
           type="ATHLETE"
           onSignOut={onSignOut}
         />

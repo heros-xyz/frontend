@@ -20,7 +20,7 @@ import { colors } from "@/styles/themes/colors";
 import { useDevice } from "@/hooks/useDevice";
 import BackButton from "@/components/ui/BackButton";
 import { useSports } from "@/libs/dtl";
-import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 import useUpdateDoc from "@/hooks/useUpdateDoc";
 
 const EditSportProfile = () => {
@@ -34,7 +34,7 @@ const EditSportProfile = () => {
     error,
   } = useUpdateDoc();
 
-  const { athleteProfile: sportProfile } = useGetAthleteProfile();
+  const { data: sportProfile } = useMyAthleteProfile();
   useEffect(() => {
     if (sportProfile) {
       formik.setFieldValue("sports", {

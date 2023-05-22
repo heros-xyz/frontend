@@ -8,18 +8,19 @@ import TagLine from "@/modules/athlete-onboarding/page-information/components/Ta
 import { IOnboardingPageInfoParams } from "@/types/users/types";
 import AthleteUpdatedSuccessfully from "@/components/ui/AthleteUpdatedSuccessfully";
 import { useAuthContext } from "@/context/AuthContext";
-import useUpdateDoc from "@/hooks/useUpdateDoc";
+import { useMyUserProfile } from "@/libs/dtl";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 
 const PageInformation = () => {
   const TOTAL_STEP = 2;
   const toast = useToast();
-  const { userProfile } = useAuthContext();
-  const { updateDocument, isUpdating: isLoading } = useUpdateDoc();
+  const myUserProfile = useMyUserProfile();
+  const myAthleteProfile = useMyAthleteProfile();
   const [step, setStep] = useState(1);
   const [isError, setIsError] = useState(false);
   const [value, setValue] = useState<number>(0);
   const [formValues, setFormValues] = useState<IOnboardingPageInfoParams>({
-    id: userProfile?.uid || "",
+    id: myUserProfile?.data?.uid || "",
     tagLine: "",
     tags: [],
   });
@@ -44,7 +45,7 @@ const PageInformation = () => {
         tagline: formValues.tagLine,
         tags,
       };
-      await updateDocument(`athleteProfile/${userProfile?.uid}`, params);
+      await myAthleteProfile.update(params);
       setStep((prev) => prev + 1);
     } catch (error) {
       setIsError(true);
@@ -69,7 +70,7 @@ const PageInformation = () => {
               />
             </Case>
             <Case condition={step === 2}>
-              <AddTag isLoading={isLoading} onSubmit={handleSubmit} setValue={setValue} />
+              <AddTag isLoading={myAthleteProfile.loading} onSubmit={handleSubmit} setValue={setValue} />
             </Case>
           </Switch>
           <Box

@@ -9,8 +9,8 @@ import Step from "@/components/ui/Step";
 import { IOnboardingSportProfileParams } from "@/types/users/types";
 import AthleteUpdatedSuccessfully from "@/components/ui/AthleteUpdatedSuccessfully";
 import { IHerosError } from "@/types/globals/types";
-import useUpdateDoc from "@/hooks/useUpdateDoc";
 import { useAuthContext } from "@/context/AuthContext";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 
 const SportProfile = () => {
   const totalStep = 3;
@@ -23,7 +23,7 @@ const SportProfile = () => {
     currentTeam: "",
     goal: "",
   });
-  const { updateDocument, isUpdating: submitLoading } = useUpdateDoc();
+  const myAthleteProfile = useMyAthleteProfile();
   const [error, setError] = useState(null);
 
   const handleChangeStep = (step: number) => {
@@ -42,7 +42,10 @@ const SportProfile = () => {
         goal,
         sport: { label: sports?.label, key: sports?.value },
       };
-      await updateDocument(`athleteProfile/${user.uid}`, params);
+      await myAthleteProfile.update({
+        ...params,
+        sport: { label: sports?.label as string, key: sports?.value as string}
+      });
       return;
     } catch (error) {
       setError(error);
@@ -105,7 +108,7 @@ const SportProfile = () => {
                 goal={finalValue.goal}
                 setStepValue={setStepValue}
                 onSubmit={setValueByStep}
-                submitLoading={submitLoading}
+                submitLoading={myAthleteProfile.loading}
               />
             </Case>
           </Switch>

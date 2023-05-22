@@ -6,8 +6,10 @@ import { isValidDate } from "@/utils/time";
 import { IHerosError } from "@/types/globals/types";
 import { useAuthContext } from "@/context/AuthContext";
 import useUpdateDoc from "@/hooks/useUpdateDoc";
+import { useMyUserProfile } from "@/libs/dtl";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 export interface IValuesTypes {
-  dateOfBirth: string;
+  dateOfBirth: Date;
   gender: string;
   nationality: {
     label: string;
@@ -38,8 +40,8 @@ export const useBasicInfo = () => {
   const toast = useToast();
   const [step, setStep] = useState(1);
   const [error, setError] = useState(null)
-  const { userProfile } = useAuthContext()
-  const { updateDocument, isUpdating } = useUpdateDoc()
+  const myUserProfile = useMyUserProfile()
+  const myAthleteProfile = useMyAthleteProfile()
 
   const formik = useFormik({
     validationSchema,
@@ -55,17 +57,26 @@ export const useBasicInfo = () => {
     onSubmit: async (values) => {
       // TODO: add loading
       try {
-        if (!!userProfile?.uid) {
-          const paramsUser = {
-            nationality: values.nationality,
-            gender: values.gender,
-            dateOfBirth: values.dateOfBirth,
+        if (!myUserProfile.data?.uid) {
+          const params = {
+            nationality: {
+              code: values.nationality.value,
+              name: values.nationality.label
+            },
+            dateOfBirth: new Date(values.dateOfBirth as unknown as string),
           }
           const paramsAthleteProfile = {
-            story: values.story
+            story: values.story,
+            ...params
           }
-          await updateDocument(`user/${userProfile?.uid}`, paramsUser)
-          await updateDocument(`athleteProfile/${userProfile?.uid}`, paramsAthleteProfile)
+          await myUserProfile.update({
+            gender: values.gender as unknown as number,
+            ...params
+          })
+          await myAthleteProfile.update({
+            story: values.story,
+            ...params
+          })
           setStep((step) => step + 1);
         }
 
@@ -92,6 +103,6 @@ export const useBasicInfo = () => {
     totalStep,
     error,
     setStep,
-    submitLoading: isUpdating
+    submitLoading: myAthleteProfile.loading || myUserProfile.loading
   };
 };
