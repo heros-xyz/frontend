@@ -13,71 +13,55 @@ import { Else, If, Then } from "react-if";
 import { IconArrowRight } from "@/components/svg/IconArrowRight";
 import AthleteAvatar from "@/components/ui/AthleteAvatar";
 import { useUser } from "@/hooks/useUser";
-import { useAllAthletes } from "@/libs/dtl/athleteProfile";
+import {
+  useAthleteSubscribed,
+  useGetListAthleteRecommended,
+} from "@/libs/dtl/athleteProfile";
 
 const MyAthletes: FC = () => {
   const { isAdmin, isFan } = useUser();
-  /*
-  const {
-    data: listAthleteSubscribed,
-    isSuccess,
-    isLoading: getListAthleteSubscribedLoading,
-  } = useGetListAthleteSubscribedQuery({
-    take: isFan ? 3 : 6,
-    page: 1,
-  });
-  */
+
   const {
     data: listAthleteSubscribed,
     loading: getListAthleteSubscribedLoading,
-  } = useAllAthletes();
+  } = useAthleteSubscribed({ limitAmount: isFan ? 3 : 6 });
 
-  console.log({ listAthleteSubscribed });
-  /*
   const {
     data: listAthleteRecommended,
-    isLoading: getListAthleteRecommendedLoading,
-  } = useGetListAthleteRecommendedQuery(
-    {
-      take:
-        listAthleteSubscribed?.data && listAthleteSubscribed?.data?.length <= 3
-          ? 6 - listAthleteSubscribed?.data?.length
-          : 3,
-    },
-    {
-      skip: !isSuccess || isAdmin,
-    }
-  );
-  */
+    loading: getListAthleteRecommendedLoading,
+  } = useGetListAthleteRecommended({
+    limitAmount:
+      listAthleteSubscribed && listAthleteSubscribed?.length <= 3
+        ? 6 - listAthleteSubscribed?.length
+        : 3,
+  });
 
-  const listAthleteRecommended: unknown = []; // TODO:  get list recommended
-  const getListAthleteRecommendedLoading = false; // TODO: get loading recommended
+  console.log({ listAthleteRecommended, listAthleteSubscribed });
 
-  const athleteList = listAthleteSubscribed?.map((ath) => ({
-    ...ath,
-    recommended: false, /// MOCK
-  }));
-  /*
   const athleteList = useMemo(() => {
     let listAthleteRecommendedFormat = [];
 
     if (isAdmin) {
-      return listAthleteSubscribed?.data;
+      return listAthleteSubscribed;
     }
 
     if (listAthleteSubscribed && listAthleteRecommended) {
-      listAthleteRecommendedFormat = listAthleteRecommended?.data?.map(
-        (item) => ({
-          ...item,
-          recommended: true,
-        })
+      listAthleteRecommendedFormat = listAthleteRecommended?.map((item) => ({
+        ...item,
+        recommended: true,
+      }));
+
+      const combined = listAthleteSubscribed?.concat(
+        listAthleteRecommendedFormat
       );
-      return listAthleteSubscribed?.data?.concat(listAthleteRecommendedFormat);
+
+      return combined.filter((profile, index) => {
+        return index === combined.findIndex((item) => item.id === profile.id);
+      });
     }
 
     return [];
   }, [listAthleteSubscribed, listAthleteRecommended]);
-  */
 
   return (
     <Box bg="white">
@@ -95,7 +79,6 @@ const MyAthletes: FC = () => {
         >
           My Athletes
         </Heading>
-
         <Box borderBottom="1px" borderColor="grey.300">
           <Link
             as={NextLink}

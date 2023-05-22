@@ -36,6 +36,7 @@ export interface Subscription {
     name: string
     fullName: string,
   }
+  membershipName: string
 }
 
 export enum SubscriptionStatus {
@@ -306,6 +307,7 @@ export function useGetGrossMoney  ()  {
   },[data])
 
   return {
+    loading,
     data:{
       total
     }

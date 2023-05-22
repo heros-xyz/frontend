@@ -118,6 +118,7 @@ const useSetupAccountPage = () => {
           firstName: params?.firstName,
           nickName,
           avatar: avatarUrl,
+          isFinishSetupAccount: true,
           fullName: getFullName(params?.firstName, params?.lastName, params?.middleName),
         }
         )

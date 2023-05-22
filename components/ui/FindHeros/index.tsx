@@ -9,13 +9,16 @@ import {
   InputLeftElement,
   Text,
 } from "@chakra-ui/react";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { AnimatePresence, motion } from "framer-motion";
+import { set } from "immer/dist/internal";
 import { LogoMiniIcon } from "@/components/svg/LogoMini";
 import { FindIcon } from "@/components/svg/Find";
 import useDebounce from "@/hooks/useDebounce";
 import { IconInfo } from "@/components/svg/IconInfo";
+import { useAllAthletes } from "@/libs/dtl/athleteProfile";
+import { filterAthletesSearch } from "@/utils/functions";
 import SearchSuggestionsList from "../SearchSuggestions/List";
 
 interface IFindHeros extends BoxProps {
@@ -30,26 +33,23 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
   const [isSearchBarFocused, setFocus] = useState(false);
   const [showSuggestList, setShowSuggestList] = useState(false);
   const router = useRouter();
-
   const onChange = useCallback((el: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(el.target.value);
+    setSearchValue(el.target.value.trim());
     setShowSuggestList(true);
   }, []);
-
   const searchValueDebounced = useDebounce(searchValue, 500);
+  const { data: allAthletes, loading: loadingAllAthletes } = useAllAthletes({
+    limitAmount: 100,
+  });
 
-  const TAKE = 5;
+  const searchData = useMemo(() => {
+    return allAthletes?.filter((athlete) => {
+      if (searchValueDebounced === "") return false;
+      return filterAthletesSearch(athlete, searchValueDebounced);
+    });
+  }, [allAthletes, searchValueDebounced]);
 
-  /*
-  const { data: searchData } = useSearchAthleteProfileQuery(
-    {
-      searching: searchValueDebounced?.toLocaleLowerCase(),
-      take: TAKE,
-    },
-    { skip: searchValueDebounced.length <= 1 }
-  );
-  */
-  const searchData = { data: [] };
+  console.log({ searchData, searchValueDebounced, searchValue });
 
   const onShowAllResult = () => {
     setShowSuggestList(false);
@@ -62,7 +62,12 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
   };
 
   const onFocus = () => setFocus(true);
-  const onBlur = () => setFocus(false);
+  const onBlur = () => {
+    console.log("blur");
+    setFocus(false);
+    setShowSuggestList(false);
+  };
+
   return (
     <Box {...props} position="relative">
       <Flex h={14} pt={1}>
@@ -96,7 +101,7 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
             onBlur={onBlur}
             fontSize={{ base: "md", xl: "lg" }}
             onKeyUp={(e) => {
-              if (e.key === "Enter" && searchValue.length > 1) {
+              if (e.key === "Enter" && searchValue?.length > 1) {
                 onShowAllResult();
                 setShowSuggestList(false);
               }
@@ -105,7 +110,7 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
         </InputGroup>
       </Flex>
       <AnimatePresence>
-        {searchData?.data && showSuggestList && (
+        {!!searchData && showSuggestList && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -120,9 +125,9 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
               position="absolute"
               searchKeyword={searchValue}
               buttonName={
-                searchData.data.length ? "See All Results" : "No Result Found"
+                searchData?.length ? "See All Results" : "No Result Found"
               }
-              items={searchData.data}
+              items={searchData}
               onShowAllResult={onShowAllResult}
               onClick={() => {
                 setShowSuggestList(false);
@@ -133,7 +138,7 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
       </AnimatePresence>
 
       <AnimatePresence>
-        {searchValue.length === 0 && isSearchBarFocused && (
+        {searchValue?.length === 0 && isSearchBarFocused && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

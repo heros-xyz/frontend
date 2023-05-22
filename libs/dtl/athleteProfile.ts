@@ -1,8 +1,10 @@
 import { useCollectionData, useDocument, useDocumentData } from "react-firebase-hooks/firestore";
-import { FirestoreError, Timestamp, doc, QueryDocumentSnapshot, collection, limit, query } from "firebase/firestore";
+import { FirestoreError, Timestamp, doc, QueryDocumentSnapshot, collection, limit, query, where, getDocs, onSnapshot, orderBy } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { db } from "../firebase";
 import { Nationality } from "./nationalities";
+import { useGetMySubscriptions } from "./subscription";
 
 export interface AthleteProfile {
     id: string,
@@ -60,7 +62,11 @@ export function useGetAthleteProfile(): {
 }
 
 export function useAllAthletes({ limitAmount = 3 } = { limitAmount: 3 }) {
-    const q = query(collection(db, "athleteProfile").withConverter(converter), limit(limitAmount))
+    const q = query(
+        collection(db, "athleteProfile"),
+        where("isFinishOnboarding", "==", true),
+        limit(limitAmount)
+    ).withConverter(converter)
     const [data, loading, error] = useCollectionData(q)
 
     return {
@@ -78,4 +84,69 @@ export function useGetAthleteProfileByUid(uid: string) {
         loading,
         error
     }
+}
+
+export function useGetListAthleteRecommended({ limitAmount } = { limitAmount: 3 }) {
+    const q = query(
+        collection(db, "athleteProfile"),
+        where("isFinishOnboarding", "==", true),
+        limit(limitAmount)
+    ).withConverter(converter)
+    const [data, loading, error] = useCollectionData(q)
+
+    return { data, loading, error }
+}
+
+
+export function useAthleteSubscribed({ limitAmount = 3 }) {
+    const [profiles, setProfiles] = useState<AthleteProfile[]>([])
+    const [status, setStatus] = useState({ loading: true })
+    const { data: mySubscriptions, loading: loadingMySubscriptions } = useGetMySubscriptions()
+
+    useEffect(() => {
+        const fetchProfiles = async () => {
+            const profilesPromises = mySubscriptions?.map?.(async ({ maker: id }) => {
+                const profileRef = doc(db, `athleteProfile/${id}`).withConverter(converter);
+                const unsubscribe = onSnapshot(profileRef, profileSnapshot => {
+                    if (profileSnapshot.exists()) {
+                        setProfiles(prevProfiles => {
+                            const updatedProfiles = [...prevProfiles];
+                            const profileIndex = updatedProfiles.findIndex(profile => profile.id === profileSnapshot.id);
+                            if (profileIndex !== -1) {
+                                updatedProfiles[profileIndex] = profileSnapshot.data() as AthleteProfile;
+                            } else {
+                                updatedProfiles.push({ ...profileSnapshot.data() } as AthleteProfile);
+                            }
+                            return updatedProfiles;
+                        });
+                    } else {
+                        setProfiles(prevProfiles => {
+                            const updatedProfiles = prevProfiles.filter(profile => profile.id !== profileSnapshot.id);
+                            return updatedProfiles;
+                        });
+                    }
+                });
+                return { id, unsubscribe };
+            });
+            const profilesData = await Promise.all(profilesPromises);
+            setStatus({ loading: false })
+            // Unsubscribe from snapshots when component unmounts
+            return () => {
+                profilesData?.forEach?.(({ unsubscribe }) => unsubscribe?.());
+            };
+        };
+
+        if (!!mySubscriptions && mySubscriptions?.length > 0) {
+            fetchProfiles();
+        } else {
+            setProfiles([]);
+            setStatus({ loading: false })
+        }
+    }, [mySubscriptions]);
+
+
+    return ({
+        ...status,
+        data: profiles,
+    })
 }

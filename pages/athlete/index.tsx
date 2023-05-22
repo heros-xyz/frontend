@@ -117,7 +117,9 @@ const AthleteDashboard = () => {
           />
           <Wallet
             title={"Wallet"}
-            currentMoney={(Number(user?.netAmount)  / 100) ?? 0}
+            currentMoney={
+              !user?.netAmount ? 0 : Number(user?.netAmount) / 100 ?? 0
+            }
             feePrice={5}
             timeReceive={""}
             havePaymentMethod={true}
