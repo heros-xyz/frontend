@@ -133,6 +133,9 @@ const AthleteChecklist: FC = () => {
     (async () => {
       try {
         if (Object.values(onboardingInformation).every(Boolean)) {
+          await updateDocument(`athleteProfile/${userProfile?.uid}`, {
+            isFinishOnboarding: true,
+          });
           await updateDocument(`user/${userProfile?.uid}`, {
             isFinishOnboarding: true,
           });
