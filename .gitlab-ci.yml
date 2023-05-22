@@ -18,7 +18,7 @@ build:
     - npm run build
   artifacts:
     paths:
-      - d
+      - dist
     reports:
       dotenv: .env
   only:
