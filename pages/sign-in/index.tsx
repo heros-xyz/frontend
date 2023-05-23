@@ -1,4 +1,3 @@
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { Box } from "@chakra-ui/react";
@@ -9,17 +8,12 @@ import {
   useSignInWithFacebook,
   useSignInWithGoogle,
 } from "react-firebase-hooks/auth";
-import {
-  signInWithRedirect,
-  GoogleAuthProvider,
-  getRedirectResult,
-} from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
 import { httpsCallable } from "@firebase/functions";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
-import { auth, db, functions } from "@/libs/firebase";
+import { auth, functions } from "@/libs/firebase";
 import { RoutePath } from "@/utils/route";
 import { useAuthContext } from "@/context/AuthContext";
 import { convertTimeUnit } from "@/utils/time";
@@ -41,7 +35,7 @@ const SignIn = () => {
     if (userProfile.uid) {
       if (userProfile.profileType === "FAN") {
         router.push(RoutePath.FAN);
-      }else if (userProfile.profileType === "ATHLETE") {
+      } else if (userProfile.profileType === "ATHLETE") {
         router.push(RoutePath.ATHLETE);
       } else {
         router.push(RoutePath.JOINING_AS);

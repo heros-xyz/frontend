@@ -53,7 +53,7 @@ const AthleteProfile = () => {
     withDefault(NumberParam, 0)
   );
 
-  if (loadingMemberships) {
+  if (loadingMemberships || myAthleteProfile.loading) {
     return <></>;
   }
 

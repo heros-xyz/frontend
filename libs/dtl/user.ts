@@ -20,10 +20,11 @@ import { db, storage } from "../firebase"
 import { Nationality } from "./nationalities"
 
 export interface User {
+  id: string
   avatar?: string
   dateOfBirth?: Date
   gender?: number
-  fullname: string
+  fullName: string
   firstName: string
   email: string
   lastName: string
@@ -110,7 +111,8 @@ const converter = {
   fromFirestore: (snap: QueryDocumentSnapshot) =>
     ({
       ...snap?.data(),
-      dateOfBirth: snap.data().dateOfBirth && snap.data().dateOfBirth.toDate(),
+      id: snap?.id,
+      dateOfBirth: snap.data().dateOfBirth?.toDate?.(),
     }) as User
 }
 

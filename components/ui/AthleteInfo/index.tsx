@@ -19,7 +19,6 @@ const AthleteInfo: React.FC<AthleteInfoProps> = ({
     return publishDate && dayjs(new Date().toJSON()).isBefore(publishDate);
   }, [publishDate, new Date()]);
 
-  console.log({publishDate})
   return (
     <Flex alignItems="center" className="athlete-info">
       <Image

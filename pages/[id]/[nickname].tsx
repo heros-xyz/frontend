@@ -1,25 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Container } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { useAuthState } from "react-firebase-hooks/auth";
 import ViewAthleteProfile from "@/modules/fan-dashboard/components/ViewAthleteProfile";
-import { getImageLink } from "@/utils/link";
 import { getEnvVariables } from "@/utils/env";
 import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
+import { auth } from "@/libs/firebase";
+import { RoutePath } from "@/utils/route";
 
 const GuestViewAthleteProfile = () => {
+  const [user, loading] = useAuthState(auth);
   const { query, push } = useRouter();
-  const { data: athleteProfile, error } = useGetAthleteProfileByUid(
+  const { data: athleteProfile } = useGetAthleteProfileByUid(
     query.id as string
   );
-
   const { NEXTAUTH_URL } = getEnvVariables();
   const { asPath } = useRouter();
   const cleanPath = asPath.split("#")[0].split("?")[0];
   const canonicalUrl = `${NEXTAUTH_URL}` + (asPath === "/" ? "" : cleanPath);
 
-  if (error) {
-    push("/sign-in");
+  useEffect(() => {
+    if (!user?.uid) return;
+    const isAthlete = user?.uid === query.id;
+    if (isAthlete) {
+      push(RoutePath.ATHLETE_PROFILE);
+    } else {
+      push(RoutePath.FAN_VIEW_ATHLETE_PROFILE(query.id as string));
+    }
+  }, [user?.uid, query?.id]);
+
+  if (loading) {
+    return <></>;
   }
 
   return (
@@ -42,7 +54,7 @@ const GuestViewAthleteProfile = () => {
         <meta
           property="image"
           content={
-            getImageLink(athleteProfile?.avatar) ??
+            athleteProfile?.avatar ??
             "https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
           }
           key="image"
@@ -50,7 +62,7 @@ const GuestViewAthleteProfile = () => {
         <meta
           property="og:image"
           content={
-            getImageLink(athleteProfile?.avatar) ??
+            athleteProfile?.avatar ??
             "https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
           }
           key="image"

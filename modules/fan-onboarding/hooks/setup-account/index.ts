@@ -14,12 +14,10 @@ interface IFullName {
 
 export const useFanOnboarding = () => {
   const { user } = useAuthContext()
-  const [uploadFile, uploading, snapshot, errorUploadImage] = useUploadFile();
+  const [uploadFile] = useUploadFile();
   const [isLoading, setIsLoading] = useState(false);
   const TOTAL_STEP = 6;
   const [step, setStep] = useState(1);
-  // const [submit, { data: fanSetupAccountData, error }] =
-  //   useSetUpAccountMutation();
   const [fullNameState, setFullName] = useState({
     firstName: "",
     lastName: "",
@@ -70,7 +68,7 @@ export const useFanOnboarding = () => {
     if (step === TOTAL_STEP) {
 
       const userData: Partial<User> = {
-        fullname: `${fullNameState.firstName} ${fullNameState.lastName}`,
+        fullName: `${fullNameState?.firstName ?? ""} ${fullNameState?.lastName ?? ""}`,
         firstName: fullNameState.firstName,
         lastName: fullNameState.lastName,
         isFinishOnboarding: true,
@@ -79,6 +77,7 @@ export const useFanOnboarding = () => {
         gender: +gender
       }
       const fanProfileData: Partial<FanProfile> = {
+        ...userData,
         sports: sportIds
       };
 
@@ -97,7 +96,7 @@ export const useFanOnboarding = () => {
           }
 
           await setDoc(doc(db, `user/${user.uid}`), { ...userData, avatar: downloadURL }, { merge: true })
-          await setDoc(doc(db, `fanProfile/${user.uid}`), fanProfileData, { merge: true })
+          await setDoc(doc(db, `fanProfile/${user.uid}`), { ...fanProfileData, avatar: downloadURL }, { merge: true })
           setStep(currentStep => currentStep + 1)
         } catch (err) {
           throw new Error(err.message);

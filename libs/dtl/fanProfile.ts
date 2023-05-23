@@ -11,6 +11,9 @@ export interface FanProfile {
     label: string
   }[]
   nickName?: string
+  fullName: string
+  firstName: string
+  lastName: string
 }
 
 const converter = {

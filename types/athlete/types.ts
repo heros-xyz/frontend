@@ -309,7 +309,7 @@ export interface IInteractionMedia {
 
 export interface ITags {
   id: string;
-  createdAt: string;
+  createdAt?: string;
   updatedAt?: string;
   deletedAt?: string;
   name: string;
@@ -326,7 +326,7 @@ export interface IInteractionItem {
   interactionMedia: IInteractionMedia[];
   commentCount: number;
   reactionCount: number;
-  isCurrentUserReacted: boolean;
+  isCurrentUserReacted?: boolean; // now use iLikeIt
   user?: IUserPostInfo;
   liked: boolean;
   isAccessRight: boolean;
