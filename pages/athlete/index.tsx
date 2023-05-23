@@ -18,11 +18,10 @@ import AthleteOverview from "@/components/ui/AthleteOverview";
 import { Setting } from "@/components/svg/Setting";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { formatMoney, formatNumber } from "@/utils/functions";
-
-import { useAuthContext } from "@/context/AuthContext";
 import { RoutePath } from "@/utils/route";
 import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
+import { useGetGrossMoney } from "@/libs/dtl/subscription";
 import { getHasRecentPosts, useMyUserProfile } from "@/libs/dtl";
 
 const AthleteDashboard = () => {
@@ -33,13 +32,7 @@ const AthleteDashboard = () => {
     hasCreateInteractionRecent: false,
     loadingRecentActivity: true,
   });
-  const { data: totalSubData, isLoading: isGettingTotalSub } = {
-    data: {
-      total: 0, /// MOCK
-    },
-    isLoading: false,
-  };
-  const { data: grossMoneyData } = { data: { total: 0 } };
+  const { data: grossMoneyData } = useGetGrossMoney();
   const { data: membershipData, loading: isGettingMembership } =
     useMembershipTiersAsMaker();
   const { data: sportProfile } = useMyAthleteProfile();
@@ -63,7 +56,10 @@ const AthleteDashboard = () => {
 
   useEffect(() => {
     (async () => {
-      if (myUserProfile.data?.profileType === "ATHLETE" && !!myUserProfile.data?.uid) {
+      if (
+        myUserProfile.data?.profileType === "ATHLETE" &&
+        !!myUserProfile.data?.uid
+      ) {
         const recentPosts = await getHasRecentPosts(myUserProfile.data?.uid);
         setRecentActivity({
           ...recentPosts,
@@ -107,9 +103,9 @@ const AthleteDashboard = () => {
             </Link>
           </Flex>
           <AthleteOverview
-            fans={formatNumber(totalSubData?.total ?? 0)}
+            fans={formatNumber(sportProfile?.totalSubCount ?? 0)}
             money={formatMoney(grossMoneyData?.total ?? 0)}
-            isLoading={isGettingTotalSub}
+            isLoading={myUserProfile?.loading}
           />
           <Membership
             title={"Membership"}
@@ -122,7 +118,11 @@ const AthleteDashboard = () => {
           />
           <Wallet
             title={"Wallet"}
-            currentMoney={myUserProfile.data?.netAmount ?? 0}
+            currentMoney={
+              !myUserProfile.data?.netAmount
+                ? 0
+                : Number(myUserProfile.data?.netAmount) / 100 ?? 0
+            }
             feePrice={5}
             timeReceive={""}
             havePaymentMethod={true}

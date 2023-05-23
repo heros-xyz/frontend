@@ -28,22 +28,22 @@ import { Profile } from "./profile";
 const TABS = ["Profile", "Interactions", "Career Journey", "Subscribe"];
 
 const AthleteProfile = () => {
-  const { data: userProfile } = useMyUserProfile();
-  const { data } = useMyAthleteProfile();
+  const myUserProfile = useMyUserProfile();
+  const myAthleteProfile = useMyAthleteProfile();
   const basicInfo = {
-    nickName: data?.nickName,
-    dateOfBirth: userProfile?.dateOfBirth,
-    firstName: userProfile?.firstName,
-    gender: userProfile?.gender,
-    lastName: userProfile?.lastName,
-    middleName: userProfile?.middleName,
-    nationality: userProfile?.nationality,
-    story: data?.story,
+    nickName: myAthleteProfile.data?.nickName,
+    dateOfBirth: myUserProfile.data?.dateOfBirth,
+    firstName: myUserProfile.data?.firstName,
+    gender: myUserProfile.data?.gender,
+    lastName: myUserProfile.data?.lastName,
+    middleName: myUserProfile.data?.middleName,
+    nationality: myUserProfile.data?.nationality,
+    story: myAthleteProfile.data?.story,
   };
   const sportProfile = {
-    currentTeam: data?.currentTeam,
-    goal: data?.goal,
-    sport: data?.sport,
+    currentTeam: myAthleteProfile.data?.currentTeam,
+    goal: myAthleteProfile.data?.goal,
+    sport: myAthleteProfile.data?.sport,
   };
   const { journeys: journeyData } = useCareerJourneys();
   const { data: tierMembershipList, loading: loadingMemberships } =
@@ -61,7 +61,7 @@ const AthleteProfile = () => {
     <Box as="section" bg="white" minH="100vh">
       <Flex as="header" alignItems="center" gap="5" position="relative" p={5}>
         <Image
-          src={userProfile?.avatar}
+          src={myUserProfile.data?.avatar}
           w="60px"
           h="60px"
           alt="user-avatar"
@@ -84,7 +84,7 @@ const AthleteProfile = () => {
                 lineHeight="3xl"
                 mr={2}
               >
-                {data?.nickName}
+                {myAthleteProfile.data?.nickName}
               </Text>
               {currentTab === 0 && (
                 <Link href={"/athlete/my-profile/edit-page-info"}>
@@ -97,7 +97,7 @@ const AthleteProfile = () => {
             </Link>
           </Flex>
           <Text color="primary" wordBreak="break-word">
-            {data?.tagline}
+            {myAthleteProfile.data?.tagline}
           </Text>
         </Box>
       </Flex>
@@ -146,8 +146,8 @@ const AthleteProfile = () => {
               isEdit
               basicInfo={basicInfo}
               sportProfile={sportProfile}
-              athleteId={userProfile?.uid ?? ""}
-              athleteNickname={data?.nickName ?? ""}
+              athleteId={myAthleteProfile.data?.id ?? ""}
+              athleteNickname={myAthleteProfile.data?.nickName ?? ""}
             />
           </TabPanel>
           <TabPanel p={{ base: "4px", xl: "0" }}>

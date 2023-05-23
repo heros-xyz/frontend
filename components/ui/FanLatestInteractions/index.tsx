@@ -18,6 +18,7 @@ import { IconMessage } from "@/components/svg/IconMessage";
 import { ILatestInteraction } from "@/types/athlete/types";
 import { getImageLink } from "@/utils/link";
 import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
+import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 import HerosVideo from "../HerosVideo";
 
 interface FanInteractionsProps {
@@ -117,9 +118,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
                         >
                           <Then>
                             <Image
-                              src={getImageLink(
-                                item.interactionMedia?.[0]?.url
-                              )}
+                              src={item.interactionMedia?.[0]?.url}
                               alt="heros item"
                               w="full"
                               h="full"
@@ -217,7 +216,7 @@ const FanLatestInteractions: React.FC<FanInteractionsProps> = ({
                   >
                     <Image
                       alt="avatar"
-                      src={getImageLink(item.user?.avatar)}
+                      src={item.user?.avatar}
                       w="full"
                       h="full"
                       objectFit="cover"

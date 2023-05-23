@@ -5,18 +5,15 @@ import {
   Flex,
   Grid,
   Image,
-  Link,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { FC, useCallback, useEffect, useMemo } from "react";
+import {useRouter} from "next/router";
+import { FC, useCallback, useMemo } from "react";
 import Head from "next/head";
-import NextLink from "next/link";
-import { router } from "next/client";
 import Progress from "@/components/common/Progress";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import Checklist, { ChecklistProps } from "@/components/ui/Checklist";
-import { useAuthContext } from "@/context/AuthContext";
 import { useGetCareerJourneyCount } from "@/libs/dtl/careerJourney";
 import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { useMyUserProfile } from "@/libs/dtl";
@@ -58,51 +55,41 @@ const CHECK_LIST: ChecklistProps[] = [
   },
 ];
 
-function useOnboardingInformation() {
-  const { userProfile: user } = useAuthContext();
-  const { data, loading } = useMyAthleteProfile();
-  // Basic Information
-  // If has User(nationality,gender,birthday | dateOfBirth) user/${uid}
-  // AthleteProfile (story) => athleteProfile/{uid}
-  const hasBasicInformation = Boolean(
-    !!user?.nationality &&
-      user?.gender &&
-      user?.dateOfBirth &&
-      data?.story
-  );
+const AthleteChecklist: FC = () => {
+  const router = useRouter();
+  const myUserProfile = useMyUserProfile();
+  const myAthleteProfile = useMyAthleteProfile();
+  const career = useGetCareerJourneyCount();
+  const onboardingInformation = useMemo(()=>{
+    // Basic Information
+    // If has User(nationality,gender,birthday | dateOfBirth) user/${uid}
+    // AthleteProfile (story) => athleteProfile/{uid}
+    const hasBasicInformation = Boolean(
+      myUserProfile.data && myAthleteProfile.data && myUserProfile.data?.nationality && myUserProfile.data?.gender && myUserProfile.data?.dateOfBirth && myAthleteProfile.data?.story
+    );
 
-  // Page Information
-  // AthleteProfile (tagline, tags) => athleteProfile/{uid}
-  const hasPageInformation = Boolean(
-    data?.tagline && data?.tags
-  );
+    // Page Information
+    // AthleteProfile (tagline, tags) => athleteProfile/{uid}
+    const hasPageInformation = Boolean(
+      myUserProfile.data && myAthleteProfile.data?.tagline && myAthleteProfile.data?.tags);
 
-  // Sport Profile
-  // AthleteProfile (sport, currentTeam, goal) => athleteProfile/{uid}
-  const hasSportProfile = Boolean(
-    data?.sport && data?.goal && data?.currentTeam
-  );
+    // Sport Profile
+    // AthleteProfile (sport, currentTeam, goal) => athleteProfile/{uid}
+    const hasSportProfile = Boolean(
+      myAthleteProfile.data && myAthleteProfile.data?.sport && myAthleteProfile.data?.goal && myAthleteProfile.data?.currentTeam
+    );
 
-  // Career Journey
-  // at least one career journey careerJourneys/{_id} where careerJourney.uid == user.uid
-  const hasCareerJourney = Boolean(useGetCareerJourneyCount());
+    // Career Journey
+    // at least one career journey careerJourneys/{_id} where careerJourney.uid == user.uid
+    const hasCareerJourney = Boolean(career);
 
-  return {
-    data: {
+    return {
       hasBasicInformation,
       hasCareerJourney,
       hasPageInformation,
       hasSportProfile,
-    }
-  };
-}
-
-const AthleteChecklist: FC = () => {
-  const {
-    data: onboardingInformation,
-  } = useOnboardingInformation();
-  const myUserProfile = useMyUserProfile();
-  const myAthleteProfile = useMyAthleteProfile();
+    };
+  },[myAthleteProfile, myUserProfile, career])
 
   const PROGRESS_POINT = useMemo(() => {
     if (!onboardingInformation) return 0;
@@ -133,12 +120,15 @@ const AthleteChecklist: FC = () => {
         isFinishOnboarding: true,
       }),
       myUserProfile.update({
-        isFinishOnboarding: true
-      })
-    ])?.then(()=>{
-      router.push("/athlete")
-    })
+        isFinishOnboarding: true,
+      }),
+    ])?.then(() => {
+      router.push("/athlete");
+    });
   }, []);
+
+  if (myUserProfile.loading || myUserProfile.loading)
+    return <></>
 
   return (
     <Box as="section" bg="white" minH="100vh">

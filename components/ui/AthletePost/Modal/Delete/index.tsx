@@ -8,10 +8,11 @@ import {
 } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { useRouter } from "next/router";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { DeletePostIcon } from "@/components/svg/DeletePost";
 import { DeletePostMobileIcon } from "@/components/svg/DeletePostMobile";
 import { db } from "@/libs/firebase";
+import { Post } from "@/libs/dtl/post";
 interface IDeletePostModalProps {
   postId: string;
   isOpen: boolean;
@@ -29,11 +30,21 @@ const DeletePostModal: FC<IDeletePostModalProps> = ({
 
   const handleDeletePost = async () => {
     try {
-      await deleteDoc(doc(db, "post", postId));
+      const postDocRef = doc(db, "post", postId);
+      const postDocData = (await getDoc(postDocRef)).data() as Post;
+
+      const makerRef = doc(db, `athleteProfile/${postDocData?.uid}`);
+      const makerData = (await getDoc(makerRef)).data();
+      const count = makerData?.totalInteractionCount - 1;
+      await updateDoc(makerRef, { totalInteractionCount: count });
+
+      await deleteDoc(postDocRef);
       onDeleted();
       onClose();
       router.push("/athlete/interactions");
-    } catch (error) {}
+    } catch (error) {
+      console.log({ error });
+    }
   };
 
   return (

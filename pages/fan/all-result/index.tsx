@@ -1,34 +1,59 @@
 import { Box, Container } from "@chakra-ui/react";
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import SearchResult from "@/components/ui/SearchResult";
 import FindHeros from "@/components/ui/FindHeros";
-import { wrapper } from "@/store";
-import { IGuards } from "@/types/globals/types";
 import { IAthleteSearchProfile } from "@/types/athlete/types";
-import { setTokenToStore } from "@/utils/auth";
 import { useUser } from "@/hooks/useUser";
+import { filterAthletesSearch } from "@/utils/functions";
+import { useAllAthletes } from "@/libs/dtl/athleteProfile";
+import { useGetMySubscriptions } from "@/libs/dtl/subscription";
 
 const AllResult = () => {
   const router = useRouter();
   const { isFan } = useUser();
-  const TAKE = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentData, setCurrentData] = useState<IAthleteSearchProfile[]>([]);
   const [hasNextPage, setHasNextPage] = useState<boolean>(false);
   const [defaultValue, setDefaultValue] = useState<string>(
     (router?.query["searchValue"] as string) || ""
   );
+  const { data: mySubscriptions, loading: loadingMySubscriptions } =
+    useGetMySubscriptions();
   const [searchValue, setSearchValue] = useState<string>("");
   const onChange = (el: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(el.target.value);
+    setSearchValue(el.target.value.trim());
   };
+  const { data: allAthletes, loading: loadingAllAthletes } = useAllAthletes({
+    limitAmount: 100,
+  });
 
-  const { data: searchData } = {
-    data: { data: [], meta: { hasNextPage: false } },
-  };
+  const searchData = useMemo(() => {
+    return allAthletes
+      ?.filter((athlete) => {
+        if (defaultValue === "") return false;
+        return filterAthletesSearch(athlete, defaultValue);
+      })
+      .map((result) => {
+        const currentSubscription = mySubscriptions?.find(
+          (sub) => sub.maker === result?.id
+        );
+
+        return {
+          ...result,
+          membershipTier: {
+            name: currentSubscription?.membershipName,
+          },
+          totalFan: result?.totalSubCount,
+          totalInteractions: result?.totalInteractionCount,
+          isCurrentUserSubscribed: Boolean(currentSubscription),
+        };
+      });
+  }, [allAthletes, defaultValue, router?.query["searchValue"]]);
+
+  console.log({ searchData, defaultValue });
 
   const onLoadMore = () => {
     if (hasNextPage) {
@@ -45,14 +70,17 @@ const AllResult = () => {
 
   useEffect(() => {
     if (searchData) {
-      setCurrentData((prev) => [...prev, ...searchData?.data]);
-      setHasNextPage(searchData.meta.hasNextPage);
+      setCurrentData(searchData as unknown as IAthleteSearchProfile[]);
     }
   }, [searchData]);
 
   useEffect(() => {
     setCurrentData([]);
   }, [defaultValue]);
+
+  if (loadingAllAthletes || loadingMySubscriptions) {
+    return <></>;
+  }
 
   return (
     <Container>

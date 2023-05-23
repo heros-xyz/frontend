@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { useToast } from "@chakra-ui/react";
-import { serverTimestamp } from "firebase/firestore";
+import {serverTimestamp, Timestamp} from "firebase/firestore";
 import { isBeforeEndDate, isValidDate } from "@/utils/time";
 import {
   MAX_SIZE_MEDIA_POST_IMAGE,
@@ -160,13 +160,13 @@ export const useInteractionInfo = () => {
       publicTime,
       schedule,
     }) => {
-      const formatDate = new Date(`${publicDate} ${publicTime}`).toUTCString();
+      const formatDate = new Date(`${publicDate} ${publicTime}`)
       const mapPayload = {
         content,
         tags,
         listMedia,
         schedule,
-        publicDate: dayjs(formatDate).format(),
+        publicDate: Timestamp.fromDate(formatDate),
         createdAt: serverTimestamp()
       };
 

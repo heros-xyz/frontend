@@ -56,7 +56,6 @@ export const usePaymentForm = (props?: IPaymentFormProps) => {
     initialValues: props?.initialValues ?? defaultValue,
     validationSchema,
     onSubmit: async () => {
-      console.log("submit");
     },
     validateOnMount: true,
   });

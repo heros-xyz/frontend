@@ -154,7 +154,7 @@ export function useMembershipTiersAsTaker(uid: string) {
 
 export function useMembershipsFromAthlete(athleteId: string) {
   const [data, setData] = useState<MembershipTier[] | null>(null);
-  const [status, setStatus] = useState<Suscription>({
+  const [status, setStatus] = useState<Suscription<any>>({
     initiated: false,
     loading: false
   })
