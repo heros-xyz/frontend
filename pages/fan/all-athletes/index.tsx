@@ -48,7 +48,7 @@ const AllAthletes = () => {
 
       return {
         ...result,
-        createdAt: result?.createdAt?.toDate?.() ?? "",
+        createdAt: result?.createdAt ?? "",
         status: currentSubscription?.status as unknown as string,
         autoRenew: currentSubscription?.autoRenew ?? false,
         expiredDate: new Date(currentSubscription?.expiredDate ?? "") ?? "",
@@ -91,7 +91,7 @@ const AllAthletes = () => {
         <YourAthletesList
           athleteList={listSubscribed.map((item) => ({
             ...item,
-            createdAt: item?.createdAt?.toDate() ?? "",
+            createdAt: item?.createdAt ?? "",
             athleteId: item.id,
           }))}
           athleteRecommendList={listAthleteRecommended.map((item) => ({
