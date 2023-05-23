@@ -9,7 +9,7 @@ import {
     where,
     getDoc,
     onSnapshot,
-    setDoc, updateDoc
+    setDoc, updateDoc, orderBy
 } from "firebase/firestore";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuthContext } from "@/context/AuthContext";
@@ -57,7 +57,8 @@ export const converter = {
     fromFirestore: (snap: QueryDocumentSnapshot) =>
     ({
             id: snap?.id,
-        ...snap?.data()
+            ...snap?.data(),
+            createdAt: snap?.data()?.createdAt?.toDate(),
     }) as AthleteProfile
 }
 
@@ -170,6 +171,7 @@ export function useGetListAthleteRecommended({ limitAmount = 3 }: GetListAthlete
     const q = query(
         collection(db, AthleteProfileCollectionName),
         where("isFinishOnboarding", "==", true),
+        orderBy("totalSubCount", "desc"),
         limit(limitAmount)
     ).withConverter(converter)
 

@@ -10,7 +10,7 @@ import {
 import Head from "next/head";
 
 import { useFormik } from "formik";
-import { ReactElement, useEffect, useMemo } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import { If, Then } from "react-if";
 import TextareaAutoSize from "react-textarea-autosize";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
@@ -27,12 +27,7 @@ import { colors } from "@/styles/themes/colors";
 import { useDevice } from "@/hooks/useDevice";
 import BackButton from "@/components/ui/BackButton";
 import { Nationality, useGetNationalities } from "@/libs/dtl/nationalities";
-import { useAuthContext } from "@/context/AuthContext";
-import {
-  AthleteProfile,
-  useMyAthleteProfile,
-} from "@/libs/dtl/athleteProfile";
-import useUpdateDoc from "@/hooks/useUpdateDoc";
+import { AthleteProfile, useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { useMyUserProfile, User } from "@/libs/dtl";
 import { IHerosError } from "@/types/globals/types";
 
@@ -41,16 +36,13 @@ const EditBasicInfo = () => {
   const { isDesktop } = useDevice();
   const myUserProfile = useMyUserProfile();
   const myAthleteProfile = useMyAthleteProfile();
+  const [error, setError] = useState(null);
+  const [loadingEdit, setLoadingEdit] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const loading = useMemo(() => {
-    return myUserProfile.loading || myAthleteProfile.loading
+    return myUserProfile.loading || myAthleteProfile.loading;
   }, [myUserProfile, myAthleteProfile]);
   const { nationalitiesMapped: nationalityList } = useGetNationalities();
-  const {
-    updateDocument,
-    success: isSuccess,
-    isUpdating: isLoading,
-    error,
-  } = useUpdateDoc();
 
   const formik = useFormik({
     initialValues: initialBasicValues,
@@ -76,10 +68,15 @@ const EditBasicInfo = () => {
       };
 
       try {
-        await myUserProfile.update(updateUserParams)
+        setLoadingEdit(true);
+        await myUserProfile.update(updateUserParams);
         await myAthleteProfile.update(updateAthleteProfileParams);
+        setIsSuccess(true);
       } catch (error) {
+        setError(error?.message ?? "");
         console.warn(error);
+      } finally {
+        setLoadingEdit(false);
       }
     },
   });
@@ -88,18 +85,22 @@ const EditBasicInfo = () => {
     if (!loading && myAthleteProfile.data) {
       formik.setFieldValue("firstName", myAthleteProfile.data?.firstName);
       formik.setFieldValue("lastName", myAthleteProfile.data?.lastName);
-      formik.setFieldValue("middleName", myAthleteProfile.data?.middleName || "");
+      formik.setFieldValue(
+        "middleName",
+        myAthleteProfile.data?.middleName || ""
+      );
       formik.setFieldValue("dateOfBirth", myAthleteProfile.data?.dateOfBirth);
-      formik.setFieldValue("gender", myAthleteProfile.data?.gender?.toString?.());
+      formik.setFieldValue(
+        "gender",
+        myAthleteProfile.data?.gender?.toString?.()
+      );
       formik.setFieldValue("nationality", {
         value: myAthleteProfile.data?.nationality?.twoLetterCode,
         label: myAthleteProfile.data?.nationality?.name,
       });
       formik.setFieldValue("story", myAthleteProfile.data?.story);
     }
-  }, [
-    myAthleteProfile.data,
-  ]);
+  }, [myAthleteProfile.data]);
 
   useEffect(() => {
     if (error) {
@@ -410,7 +411,7 @@ const EditBasicInfo = () => {
                   mt={2}
                   mb={2}
                   type="submit"
-                  isLoading={isLoading}
+                  isLoading={loadingEdit}
                 >
                   SAVE
                 </Button>

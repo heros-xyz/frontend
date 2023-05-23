@@ -58,7 +58,8 @@ export const useBasicInfo = () => {
           const params = {
             nationality: {
               code: values.nationality.value,
-              name: values.nationality.label
+              name: values.nationality.label,
+              twoLetterCode: values?.nationality?.twoLetterCode
             },
             gender: values?.gender,
             story: values?.story,
