@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { FC, useCallback, useMemo } from "react";
 import Head from "next/head";
-import { router } from "next/client";
+import { useRouter } from "next/router";
 import Progress from "@/components/common/Progress";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import Checklist, { ChecklistProps } from "@/components/ui/Checklist";
@@ -92,6 +92,7 @@ function useOnboardingInformation() {
 
 const AthleteChecklist: FC = () => {
   const { data: onboardingInformation } = useOnboardingInformation();
+  const router = useRouter();
   const myUserProfile = useMyUserProfile();
   const myAthleteProfile = useMyAthleteProfile();
 

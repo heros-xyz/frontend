@@ -31,7 +31,10 @@ export interface Notification {
   readAt: Date
   type: "comment" | "like" | "suscription" | "post" 
   message: string
-  params: { }
+  params: {
+    interaction?: any
+    comment?: any
+  }
   sourceId: string
   source: ISource
   uid: string

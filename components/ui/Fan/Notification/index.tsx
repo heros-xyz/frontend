@@ -12,7 +12,6 @@ const NotificationFan = () => {
     notificationOnWeek,
     notificationOnMonth,
     notificationEarlier,
-    hasMore,
     listNotification,
     isLoading,
     onLoadMore,
@@ -103,14 +102,6 @@ const NotificationFan = () => {
               </Flex>
             </Else>
           </If>
-
-          {hasMore && (
-            <Waypoint onEnter={onLoadMore}>
-              <Box>
-                <NotiSkeleton />
-              </Box>
-            </Waypoint>
-          )}
         </Else>
       </If>
     </Box>

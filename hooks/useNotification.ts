@@ -3,6 +3,7 @@ import { useMemo, } from "react";
 import updateLocale from "dayjs/plugin/updateLocale";
 import isToday from "dayjs/plugin/isToday";
 import { useRouter } from "next/router";
+import { params } from "firebase-functions/v1";
 import { INotificationInfo } from "@/types/notifications/types";
 import { useNotifications } from "@/libs/dtl/notification";
 import { useLoading } from "./useLoading";
@@ -49,9 +50,11 @@ export const useNotification = () => {
           ...noti,
           type: noti?.eventType,
           interaction: {
-            content: noti?.content ?? "",
-            id: noti?.id,
+            ...noti?.params?.interaction,
           },
+          comment: {
+            ...noti?.params?.comment,
+          }
         } as INotificationInfo
 
         if (dayjs(notification.createdAt).isToday()) {
@@ -78,7 +81,6 @@ export const useNotification = () => {
   return {
     ...notificationGroup,
     listNotification: notificationData,
-    hasMore: notificationData?.hasNextPage,
     isLoading,
     onMaskAllNotification,
     onLoadMore: () => { },

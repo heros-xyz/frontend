@@ -14,7 +14,6 @@ const AthleteNotification = () => {
     notificationOnWeek,
     notificationOnMonth,
     notificationEarlier,
-    hasMore,
     listNotification,
     isLoading,
     onLoadMore,
@@ -97,14 +96,6 @@ const AthleteNotification = () => {
                       </Then>
                     </If>
                   </Flex>
-
-                  {hasMore && (
-                    <Waypoint onEnter={onLoadMore}>
-                      <Box>
-                        <NotiSkeleton />
-                      </Box>
-                    </Waypoint>
-                  )}
                 </Then>
                 <Else>
                   <Text
