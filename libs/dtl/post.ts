@@ -23,6 +23,7 @@ import { IMediaExisted } from "@/types/athlete/types";
 import { MutationState } from "./careerJourney";
 import { useGetMySubscriptions } from "./subscription";
 import { AthleteProfile } from "./athleteProfile";
+import { collectionPath } from "./constant";
 
 export interface PostMedia {
   id: string
@@ -56,6 +57,7 @@ const converter = {
     const data = snap.data() as Post
     const date = data?.publicDate as unknown as Timestamp
     data.publicDate = date.toDate?.() 
+    data.id = snap.id
     return data
   }
 }
@@ -145,8 +147,11 @@ export const usePostsAsMaker = (loadData = true) => {
   }, [user?.uid])
 
   useEffect(() => {
-    if (!user || !user.uid || !loadData) return
-    const q = query(collection(db, "post"), where("uid", "==", user?.uid),orderBy("publicDate","desc")).withConverter(converter)
+    if (!user || !user?.uid || !loadData) return
+    const q = query(collection(db, collectionPath.POSTS),
+      where("uid", "==", user?.uid ?? ""),
+      orderBy("publicDate", "desc")
+    ).withConverter(converter)
     getDocs(q)
       .then(async (snapshot) => {
         // contar likes y reactions para cada post

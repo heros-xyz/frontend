@@ -17,9 +17,7 @@ import { useLocation, useLockBodyScroll } from "react-use";
 import { useState } from "react";
 import { Provider as BusProvider } from "react-bus";
 import Chat from "@/components/svg/Chat";
-import { getImageLink } from "@/utils/link";
 import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
-import { useAthleteInteraction } from "@/hooks/useAthleteInteraction";
 import InteractionInModal from "@/modules/athlete-interaction/components/detail/InteractionInModal";
 import HerosVideo from "@/components/ui/HerosVideo";
 import { usePostsAsMaker } from "@/libs/dtl/post";
@@ -36,12 +34,6 @@ export const Interaction = ({}) => {
 
   useLockBodyScroll(isOpenViewOnList);
 
-  /*
-  const { hasNextPage, interactionsList, onLoadMore } = useAthleteInteraction({
-    isGetPublic: true,
-    take: 15,
-  });
-  */
   // TODO: has next and onLoadMore
   const { hasNextPage, onLoadMore } = {
     hasNextPage: false,
@@ -72,7 +64,7 @@ export const Interaction = ({}) => {
         paddingX={{ base: "16px", xl: "110px" }}
         marginBottom={{ base: "20px", xl: "50px" }}
       >
-        {!interactionsList.length && (
+        {!interactionsList?.length && (
           <Text
             mb={{ base: "15px", xl: "50px" }}
             fontSize={{ base: "xs", xl: "md" }}
@@ -203,7 +195,6 @@ export const Interaction = ({}) => {
           </Box>
         </Waypoint>
       )}
-
       <BusProvider>
         <InteractionInModal
           onClose={closeOpenViewOnList}
