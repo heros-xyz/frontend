@@ -1,27 +1,38 @@
 import React, { useMemo } from "react";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
+import { doc, updateDoc } from "firebase/firestore";
 import { INotificationInfo } from "@/types/notifications/types";
 import {
   getLinkByNotificationType,
   notificationContent,
 } from "@/utils/functions";
-import { getImageLink } from "@/utils/link";
 import HerosImage from "@/components/common/HerosImage";
 import { convertDateFromNow } from "@/utils/time";
+import { db } from "@/libs/firebase";
+import { collectionPath } from "@/libs/dtl/constant";
+import { NotificationStatusType } from "@/libs/dtl/notification";
+import { useLoading } from "@/hooks/useLoading";
 interface IProps {
   item?: INotificationInfo;
 }
 
 const NotificationCard: React.FC<IProps> = ({ item }) => {
-  /*
-  const [onMaskNotification] = useMaskNotificationMutation();
-  */
+  const { start, finish } = useLoading();
 
-  const onMaskNotification = (id: string) => {}; // MOCK
-  const onClickNotification = () => {
+  const onClickNotification = async () => {
     if (item?.id) {
-      onMaskNotification(item?.id);
+      try {
+        start();
+        await updateDoc(
+          doc(db, `${collectionPath.NOTIFICATIONS}/${item?.id}`),
+          { readAt: new Date(), status: NotificationStatusType.READ }
+        );
+      } catch (error) {
+        console.log(error);
+      } finally {
+        finish();
+      }
     }
   };
 
@@ -46,7 +57,7 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
           borderRadius={["0", "10px"]}
         >
           <HerosImage
-            src={getImageLink(item?.source?.avatar)}
+            src={item?.source?.avatar}
             width={{ base: "50px", lg: "60px" }}
             height={{ base: "50px", lg: "60px" }}
           />

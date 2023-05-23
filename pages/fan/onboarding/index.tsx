@@ -10,9 +10,6 @@ import EnterInterestedSport from "@/modules/fan-onboarding/components/SelectInte
 import FinishOnboarding from "@/modules/fan-onboarding/components/FinishOnboarding";
 import { useFanOnboarding } from "@/modules/fan-onboarding/hooks/setup-account";
 
-import { wrapper } from "@/store";
-import { IGuards } from "@/types/globals/types";
-
 const FanOnboarding = () => {
   const {
     avatar,

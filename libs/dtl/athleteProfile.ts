@@ -49,7 +49,7 @@ export interface AthleteProfile {
 }
 
 
-const converter = {
+export const converter = {
     toFirestore: (data: any) => data,
     fromFirestore: (snap: QueryDocumentSnapshot) =>
         ({

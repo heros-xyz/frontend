@@ -23,7 +23,7 @@ export interface User {
   avatar?: string
   dateOfBirth?: Date
   gender?: number
-  fullname: string
+  fullName: string
   firstName: string
   email: string
   lastName: string
@@ -110,7 +110,7 @@ const converter = {
   fromFirestore: (snap: QueryDocumentSnapshot) =>
     ({
       ...snap?.data(),
-      dateOfBirth: snap.data().dateOfBirth.toDate(),
+      dateOfBirth: snap.data().dateOfBirth?.toDate?.(),
     }) as User
 }
 

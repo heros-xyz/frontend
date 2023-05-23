@@ -1,10 +1,10 @@
-import { useRouter } from "next/router";
 import dayjs from "dayjs";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, } from "react";
 import updateLocale from "dayjs/plugin/updateLocale";
 import isToday from "dayjs/plugin/isToday";
-import { useUnmount } from "react-use";
+import { useRouter } from "next/router";
 import { INotificationInfo } from "@/types/notifications/types";
+import { useNotifications } from "@/libs/dtl/notification";
 import { useLoading } from "./useLoading";
 
 dayjs.extend(updateLocale);
@@ -15,66 +15,22 @@ dayjs.updateLocale("en", {
 export const useNotification = () => {
   const { start, finish } = useLoading();
   const router = useRouter()
-  const [beforeDate, setBeforeDate] = useState<string | Date | undefined>(
-    undefined
-  );
-  const [listNotification, setListNotification] = useState<INotificationInfo[]>(
-    []
-  );
-  /*
   const {
     data: notificationData,
-    isFetching,
-    isLoading,
-    isSuccess,
-  } = useGetListNotificationQuery({
-    beforeDate,
-    take: 10,
-  });
-  */
-
-  const {
-    data: notificationData,
-    isFetching,
-    isLoading,
-    isSuccess,
-  } = { data: { data: [] as any, meta: { hasNextPage: true } }, isFetching: false, isLoading: false, isSuccess: false }
-
-  /*
-  const [onMaskAll, { data: maskAllNotificationData }] =
-    useMaskAllNotificationMutation();
-    */
-
-  const [onMaskAll, { data: maskAllNotificationData }] = [(param: string) => { unwrap: () => { } }, { data: { meta: { hasNextPage: true } } }]
+    loading: isLoading,
+    markAllAsRead
+  } = useNotifications()
 
   const onMaskAllNotification = async () => {
     start();
     try {
-      //await onMaskAll("").unwrap?.() as unknown as any;
+      await markAllAsRead()
       finish();
     } catch (error) {
+      router.reload()
       finish();
     }
   };
-
-  const onLoadMore = () => {
-    if (!isFetching && notificationData?.meta?.hasNextPage) {
-      const lastItem = notificationData?.data?.slice(-1)?.pop();
-      setBeforeDate(lastItem?.createdAt);
-    }
-  };
-
-  useEffect(() => {
-    if (maskAllNotificationData) {
-      router.reload()
-    }
-  }, [maskAllNotificationData]);
-
-  useEffect(() => {
-    if (notificationData?.data) {
-      setListNotification((prev) => [...prev, ...notificationData?.data]);
-    }
-  }, [notificationData?.data]);
 
   const notificationGroup = useMemo(() => {
     const notificationOnToday: INotificationInfo[] = [];
@@ -82,20 +38,29 @@ export const useNotification = () => {
     const notificationOnMonth: INotificationInfo[] = [];
     const notificationEarlier: INotificationInfo[] = [];
 
-    if (listNotification) {
+    if (notificationData) {
       dayjs.extend(isToday);
       const startWeek = dayjs().add(-7, "day");
       const startMonth = dayjs().add(-1, "month");
       const startThreeMonthAgo = dayjs().add(-3, "month");
 
-      listNotification?.forEach((notification) => {
+      notificationData?.forEach((noti) => {
+        const notification = {
+          ...noti,
+          type: noti?.eventType,
+          interaction: {
+            content: noti?.content ?? "",
+            id: noti?.id,
+          },
+        } as INotificationInfo
+
         if (dayjs(notification.createdAt).isToday()) {
           notificationOnToday.push(notification);
-        } else if (dayjs(notification.createdAt).isAfter(startWeek)) {
+        } else if (dayjs(notification?.createdAt).isAfter(startWeek)) {
           notificationOnWeek.push(notification);
-        } else if (dayjs(notification.createdAt).isAfter(startMonth)) {
+        } else if (dayjs(notification?.createdAt).isAfter(startMonth)) {
           notificationOnMonth.push(notification);
-        } else if (dayjs(notification.createdAt).isAfter(startThreeMonthAgo)) {
+        } else if (dayjs(notification?.createdAt).isAfter(startThreeMonthAgo)) {
           notificationEarlier.push(notification);
         }
       });
@@ -107,20 +72,15 @@ export const useNotification = () => {
       notificationOnMonth,
       notificationEarlier,
     };
-  }, [listNotification]);
+  }, [notificationData]);
 
-  useUnmount(() => {
-    setListNotification([]);
-  });
-
+  console.log({ notificationData, notificationGroup })
   return {
     ...notificationGroup,
-    listNotification,
-    isFetching,
-    hasMore: notificationData?.meta?.hasNextPage,
+    listNotification: notificationData,
+    hasMore: notificationData?.hasNextPage,
     isLoading,
-    isSuccess,
     onMaskAllNotification,
-    onLoadMore,
+    onLoadMore: () => { },
   };
 };
