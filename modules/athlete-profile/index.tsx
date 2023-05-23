@@ -16,10 +16,10 @@ import { useQueryParam, withDefault, NumberParam } from "use-query-params";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 import { Setting } from "@/components/svg/Setting";
 import BronzeTier from "@/components/ui/Bronze";
-import { useAuthContext } from "@/context/AuthContext";
-import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { useCareerJourneys } from "@/libs/dtl/careerJourney";
 import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
+import { useMyUserProfile } from "@/libs/dtl";
 import CareerJourney from "./career-journey";
 
 import { Interaction } from "./interactions/Interaction";
@@ -28,22 +28,22 @@ import { Profile } from "./profile";
 const TABS = ["Profile", "Interactions", "Career Journey", "Subscribe"];
 
 const AthleteProfile = () => {
-  const { userProfile } = useAuthContext();
-  const { athleteProfile } = useGetAthleteProfile();
+  const { data: userProfile } = useMyUserProfile();
+  const { data } = useMyAthleteProfile();
   const basicInfo = {
-    nickName: athleteProfile?.nickName,
+    nickName: data?.nickName,
     dateOfBirth: userProfile?.dateOfBirth,
     firstName: userProfile?.firstName,
     gender: userProfile?.gender,
     lastName: userProfile?.lastName,
     middleName: userProfile?.middleName,
     nationality: userProfile?.nationality,
-    story: athleteProfile?.story,
+    story: data?.story,
   };
   const sportProfile = {
-    currentTeam: athleteProfile?.currentTeam,
-    goal: athleteProfile?.goal,
-    sport: athleteProfile?.sport,
+    currentTeam: data?.currentTeam,
+    goal: data?.goal,
+    sport: data?.sport,
   };
   const { journeys: journeyData } = useCareerJourneys();
   const { data: tierMembershipList, loading: loadingMemberships } =
@@ -84,7 +84,7 @@ const AthleteProfile = () => {
                 lineHeight="3xl"
                 mr={2}
               >
-                {athleteProfile?.nickName}
+                {data?.nickName}
               </Text>
               {currentTab === 0 && (
                 <Link href={"/athlete/my-profile/edit-page-info"}>
@@ -97,7 +97,7 @@ const AthleteProfile = () => {
             </Link>
           </Flex>
           <Text color="primary" wordBreak="break-word">
-            {athleteProfile?.tagline}
+            {data?.tagline}
           </Text>
         </Box>
       </Flex>
@@ -147,7 +147,7 @@ const AthleteProfile = () => {
               basicInfo={basicInfo}
               sportProfile={sportProfile}
               athleteId={userProfile?.uid ?? ""}
-              athleteNickname={athleteProfile?.nickName ?? ""}
+              athleteNickname={data?.nickName ?? ""}
             />
           </TabPanel>
           <TabPanel p={{ base: "4px", xl: "0" }}>

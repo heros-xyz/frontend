@@ -8,7 +8,7 @@ import { EditIcon } from "@/components/svg/menu/EditIcon";
 import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/detail/SkeletonInteractionDetail";
 import BackButton from "@/components/ui/BackButton";
-import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { PostMedia, usePostAsMaker } from "@/libs/dtl/post";
 import { useAuthContext } from "@/context/AuthContext";
 import { IInteractionItem } from "@/types/athlete/types";
@@ -29,8 +29,8 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
   const router = useRouter();
   const { focus } = router.query;
   const { userProfile } = useAuthContext();
-  const { athleteProfile, loading: loadingAthleteProfile } =
-    useGetAthleteProfile();
+  const { data: athleteProfile, loading: loadingAthleteProfile } =
+    useMyAthleteProfile();
   const [totalComments, setTotalComments] = useState(0);
   const [isFocusComment, setIsFocusComment] = useState(false);
   /*

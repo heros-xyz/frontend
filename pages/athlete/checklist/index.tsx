@@ -5,20 +5,19 @@ import {
   Flex,
   Grid,
   Image,
-  Link,
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { FC,useEffect, useMemo } from "react";
+import { FC, useCallback, useMemo } from "react";
 import Head from "next/head";
-import NextLink from "next/link";
+import { router } from "next/client";
 import Progress from "@/components/common/Progress";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import Checklist, { ChecklistProps } from "@/components/ui/Checklist";
 import { useAuthContext } from "@/context/AuthContext";
 import { useGetCareerJourneyCount } from "@/libs/dtl/careerJourney";
-import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
-import useUpdateDoc from "@/hooks/useUpdateDoc";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useMyUserProfile } from "@/libs/dtl";
 
 const CHECK_LIST: ChecklistProps[] = [
   {
@@ -59,27 +58,22 @@ const CHECK_LIST: ChecklistProps[] = [
 
 function useOnboardingInformation() {
   const { userProfile: user } = useAuthContext();
-  const { athleteProfile, loading } = useGetAthleteProfile();
+  const { data, loading } = useMyAthleteProfile();
   // Basic Information
   // If has User(nationality,gender,birthday | dateOfBirth) user/${uid}
   // AthleteProfile (story) => athleteProfile/{uid}
   const hasBasicInformation = Boolean(
-    !!user?.nationality &&
-      user?.gender &&
-      user?.dateOfBirth &&
-      athleteProfile?.story
+    !!user?.nationality && user?.gender && user?.dateOfBirth && data?.story
   );
 
   // Page Information
   // AthleteProfile (tagline, tags) => athleteProfile/{uid}
-  const hasPageInformation = Boolean(
-    athleteProfile?.tagline && athleteProfile?.tags
-  );
+  const hasPageInformation = Boolean(data?.tagline && data?.tags);
 
   // Sport Profile
   // AthleteProfile (sport, currentTeam, goal) => athleteProfile/{uid}
   const hasSportProfile = Boolean(
-    athleteProfile?.sport && athleteProfile?.goal && athleteProfile?.currentTeam
+    data?.sport && data?.goal && data?.currentTeam
   );
 
   // Career Journey
@@ -93,18 +87,13 @@ function useOnboardingInformation() {
       hasPageInformation,
       hasSportProfile,
     },
-    isLoading: loading,
   };
 }
 
 const AthleteChecklist: FC = () => {
-  const {
-    data: onboardingInformation,
-    isLoading: isGettingOnboardingInformation,
-  } = useOnboardingInformation();
-  const { userProfile } = useAuthContext();
-  const { athleteProfile } = useGetAthleteProfile();
-  const { updateDocument } = useUpdateDoc();
+  const { data: onboardingInformation } = useOnboardingInformation();
+  const myUserProfile = useMyUserProfile();
+  const myAthleteProfile = useMyAthleteProfile();
 
   const PROGRESS_POINT = useMemo(() => {
     if (!onboardingInformation) return 0;
@@ -129,20 +118,18 @@ const AthleteChecklist: FC = () => {
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (Object.values(onboardingInformation).every(Boolean)) {
-          await updateDocument(`athleteProfile/${userProfile?.uid}`, {
-            isFinishOnboarding: true,
-          });
-          await updateDocument(`user/${userProfile?.uid}`, {
-            isFinishOnboarding: true,
-          });
-        }
-      } catch (error) {}
-    })();
-  }, [onboardingInformation]);
+  const finishOnboarding = useCallback(async () => {
+    Promise.all([
+      myAthleteProfile.update({
+        isFinishOnboarding: true,
+      }),
+      myUserProfile.update({
+        isFinishOnboarding: true,
+      }),
+    ])?.then(() => {
+      router.push("/athlete");
+    });
+  }, []);
 
   return (
     <Box as="section" bg="white" minH="100vh">
@@ -163,7 +150,7 @@ const AthleteChecklist: FC = () => {
               flexDirection={{ xl: "row-reverse" }}
             >
               <Image
-                src={userProfile?.avatar ?? ""}
+                src={myUserProfile.data?.avatar ?? ""}
                 w="60px"
                 h="60px"
                 alt="avatar"
@@ -178,7 +165,7 @@ const AthleteChecklist: FC = () => {
                 fontSize="1.25rem"
                 lineHeight="1.75rem"
               >
-                {athleteProfile?.nickName ?? ""}
+                {myAthleteProfile.data?.nickName ?? ""}
               </Text>
             </Flex>
             <Text
@@ -209,7 +196,7 @@ const AthleteChecklist: FC = () => {
             ))}
           </Grid>
           <Progress
-            isIndeterminate={isGettingOnboardingInformation}
+            isIndeterminate={myAthleteProfile.loading}
             mt={{ base: "50px", xl: "60px" }}
             mb={{ base: "15px", xl: "20px" }}
             value={PROGRESS_POINT}
@@ -222,25 +209,20 @@ const AthleteChecklist: FC = () => {
             textAlign="center"
             as="p"
             color="primary"
-            display={isGettingOnboardingInformation ? "none" : "block"}
+            display={myAthleteProfile.loading ? "none" : "block"}
           >
             {`${PROGRESS_POINT}% completion. ${renderProgressMessage()}`}
           </Text>
           {PROGRESS_POINT === 100 && (
-            <Link
-              href="/athlete"
-              w="100%"
-              as={NextLink}
+            <Button
+              variant="primary"
+              w={{ base: "100%", xl: "240px" }}
+              placeSelf={{ xl: "center" }}
               textAlign={{ xl: "center" }}
+              onClick={finishOnboarding}
             >
-              <Button
-                variant="primary"
-                w={{ base: "100%", xl: "240px" }}
-                placeSelf={{ xl: "center" }}
-              >
-                Go to homepage <ArrowRight w={8} />
-              </Button>
-            </Link>
+              Go to homepage <ArrowRight w={8} />
+            </Button>
           )}
         </Flex>
       </Container>

@@ -35,14 +35,14 @@ import {
 } from "@/utils/inputRules";
 import { IHerosError } from "@/types/globals/types";
 import BackButton from "@/components/ui/BackButton";
-import { useGetAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { useAuthContext } from "@/context/AuthContext";
 import { useUploadAvatarToUser } from "@/libs/dtl";
 import useUpdateDoc from "@/hooks/useUpdateDoc";
 
 const EditPageInfo = () => {
   const toast = useToast();
-  const { athleteProfile } = useGetAthleteProfile();
+  const { data } = useMyAthleteProfile();
   const { userProfile } = useAuthContext();
   const [error, setError] = useState<IHerosError | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -64,19 +64,19 @@ const EditPageInfo = () => {
     tagLine: Yup.string().max(100, "Tagline cannot exceed 100 characters"),
   });
   const initialPageValues = {
-    nickName: athleteProfile?.nickName ?? "",
-    tagLine: athleteProfile?.tagline ?? "",
-    tags: athleteProfile?.tags ?? [],
+    nickName: data?.nickName ?? "",
+    tagLine: data?.tagline ?? "",
+    tags: data?.tags ?? [],
     avatar: "",
   };
 
   useEffect(() => {
-    formik.setFieldValue("nickName", athleteProfile?.nickName);
+    formik.setFieldValue("nickName", data?.nickName);
     formik.setFieldValue("avatar", userProfile?.avatar);
-    formik.setFieldValue("tagLine", athleteProfile?.tagline);
-    formik.setFieldValue("tags", athleteProfile?.tags);
-    setTags(athleteProfile?.tags ?? []);
-  }, [userProfile?.avatar, athleteProfile?.nickName]);
+    formik.setFieldValue("tagLine", data?.tagline);
+    formik.setFieldValue("tags", data?.tags);
+    setTags(data?.tags ?? []);
+  }, [userProfile?.avatar, data?.nickName]);
 
   const formik = useFormik({
     initialValues: initialPageValues,

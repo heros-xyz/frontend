@@ -3,7 +3,7 @@ import { addDoc, collection, doc, getDocs, onSnapshot, query, QueryDocumentSnaps
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { db } from "@/libs/firebase";
 import { useAuthContext } from "@/context/AuthContext";
-import { MutationState, SuscriptionState } from "@/libs/dtl/common";
+import { MutationState, Suscription } from "@/libs/dtl/common";
 
 const MembershipTierCollectionName = "membershipTiers"
 
@@ -154,7 +154,7 @@ export function useMembershipTiersAsTaker(uid: string) {
 
 export function useMembershipsFromAthlete(athleteId: string) {
   const [data, setData] = useState<MembershipTier[] | null>(null);
-  const [status, setStatus] = useState<SuscriptionState>({
+  const [status, setStatus] = useState<Suscription<any>>({
     initiated: false,
     loading: false
   })

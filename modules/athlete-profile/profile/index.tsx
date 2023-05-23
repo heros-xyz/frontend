@@ -19,7 +19,7 @@ interface IProfileProps {
   basicInfo:
     | {
         nickName: string | undefined;
-        dateOfBirth: string | Date | number | undefined;
+        dateOfBirth: Date | undefined;
         firstName: string | undefined;
         gender: string | number | undefined;
         middleName: string | undefined;

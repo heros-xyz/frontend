@@ -6,9 +6,9 @@ import { db } from "../firebase";
 export interface Nationality {
     name: string;
     code: string;
-    phoneCode: string;
-    twoLetterCode: string;
-    threeLetterCode: string;
+    phoneCode?: string;
+    twoLetterCode?: string;
+    threeLetterCode?: string;
 }
 
 export function useGetNationalities() {
