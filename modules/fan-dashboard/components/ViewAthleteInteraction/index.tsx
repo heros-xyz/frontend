@@ -47,26 +47,27 @@ const FanAthleteInteraction = () => {
   const handleSeeAthlete = (id: string) => {
     router.push(`/fan/athlete-profile/${id}`);
   };
-  useUpdateEffect(() => {
-    if (successUpToDate && idUpToDate) {
-      router.push(`/fan/athlete-profile/${idUpToDate}?current=1`);
-    }
-  }, [successUpToDate]);
+  // useUpdateEffect(() => {
+  //   if (successUpToDate && idUpToDate) {
+  //     router.push(`/fan/athlete-profile/${idUpToDate}?current=1`);
+  //   }
+  // }, [successUpToDate]);
 
-  useEffect(() => {
-    if (dataUpToDate) {
-      setCurrentData((prev) => [...prev, ...dataUpToDate.data]);
-      setHasNextPage(dataUpToDate.meta.hasNextPage);
-    }
-  }, [dataUpToDate]);
+  // useEffect(() => {
+  //   if (dataUpToDate) {
+  //     setCurrentData((prev) => [...prev, ...dataUpToDate.data]);
+  //     setHasNextPage(dataUpToDate.meta.hasNextPage);
+  //   }
+  // }, [dataUpToDate]);
+
   const onLoadMore = () => {
-    setCurrentPage(currentPage + 1);
+    console.log("load more");
   };
 
-  useEffect(() => {
-    setCurrentData([]);
-    setCurrentPage(1);
-  }, []);
+  // useEffect(() => {
+  //   setCurrentData([]);
+  //   setCurrentPage(1);
+  // }, []);
 
   return (
     <Box as="section" bg="white" minH="100vh" w="100%">
