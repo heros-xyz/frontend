@@ -8,10 +8,10 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import { FC, useCallback, useMemo } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { m } from "framer-motion";
 import Progress from "@/components/common/Progress";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import Checklist, { ChecklistProps } from "@/components/ui/Checklist";
@@ -61,23 +61,34 @@ const AthleteChecklist: FC = () => {
   const myUserProfile = useMyUserProfile();
   const myAthleteProfile = useMyAthleteProfile();
   const career = useGetCareerJourneyCount();
-  const onboardingInformation = useMemo(()=>{
+  const onboardingInformation = useMemo(() => {
     // Basic Information
     // If has User(nationality,gender,birthday | dateOfBirth) user/${uid}
     // AthleteProfile (story) => athleteProfile/{uid}
     const hasBasicInformation = Boolean(
-      myUserProfile.data && myAthleteProfile.data && myUserProfile.data?.nationality && myUserProfile.data?.gender && myUserProfile.data?.dateOfBirth && myAthleteProfile.data?.story
+      myUserProfile.data &&
+        myAthleteProfile.data &&
+        myUserProfile.data?.nationality &&
+        myUserProfile.data?.gender &&
+        myUserProfile.data?.dateOfBirth &&
+        myAthleteProfile.data?.story
     );
 
     // Page Information
     // AthleteProfile (tagline, tags) => athleteProfile/{uid}
     const hasPageInformation = Boolean(
-      myUserProfile.data && myAthleteProfile.data?.tagline && myAthleteProfile.data?.tags);
+      myUserProfile.data &&
+        myAthleteProfile.data?.tagline &&
+        myAthleteProfile.data?.tags
+    );
 
     // Sport Profile
     // AthleteProfile (sport, currentTeam, goal) => athleteProfile/{uid}
     const hasSportProfile = Boolean(
-      myAthleteProfile.data && myAthleteProfile.data?.sport && myAthleteProfile.data?.goal && myAthleteProfile.data?.currentTeam
+      myAthleteProfile.data &&
+        myAthleteProfile.data?.sport &&
+        myAthleteProfile.data?.goal &&
+        myAthleteProfile.data?.currentTeam
     );
 
     // Career Journey
@@ -89,15 +100,8 @@ const AthleteChecklist: FC = () => {
       hasCareerJourney,
       hasPageInformation,
       hasSportProfile,
-    },
-  };
-}
-
-const AthleteChecklist: FC = () => {
-  const { data: onboardingInformation } = useOnboardingInformation();
-  const router = useRouter();
-  const myUserProfile = useMyUserProfile();
-  const myAthleteProfile = useMyAthleteProfile();
+    };
+  }, [myUserProfile.data, myAthleteProfile.data, career]);
 
   const PROGRESS_POINT = useMemo(() => {
     if (!onboardingInformation) return 0;
@@ -135,8 +139,7 @@ const AthleteChecklist: FC = () => {
     });
   }, []);
 
-  if (myUserProfile.loading || myUserProfile.loading)
-    return <></>
+  if (myUserProfile.loading || myUserProfile.loading) return <></>;
 
   return (
     <Box as="section" bg="white" minH="100vh">

@@ -20,7 +20,7 @@ import { IInteractionItem } from "@/types/athlete/types";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { Close } from "@/components/svg/Close";
 import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
-import { usePostsAsMaker } from "@/libs/dtl/post";
+import { Post, usePostsAsMaker } from "@/libs/dtl/post";
 
 const InteractionsByTag = () => {
   const { data, loading } = useMyAthleteProfile();
@@ -36,7 +36,7 @@ const InteractionsByTag = () => {
 
   const onLoadMore = () => {};
 
-  const formatPropAthletePost = (postInfo: IInteractionItem) => {
+  const formatPropAthletePost = (postInfo: Post) => {
     return {
       id: postInfo.id,
       menuList: [
@@ -49,13 +49,16 @@ const InteractionsByTag = () => {
         publishDate: postInfo?.publicDate,
         id: session?.user?.id ?? "",
       },
-      slideData: postInfo.interactionMedia ?? [],
+      slideData: postInfo.media ?? [],
       hashtag: postInfo.tags,
       socialOrder: true,
       postLikes: postInfo.reactionCount,
       postComments: postInfo.commentCount,
       postContent: postInfo.content,
       liked: postInfo.liked,
+      isAccessRight: true, // ATHLETE CAN SEE OWN POSTS
+      interactionMedia: postInfo?.media,
+      isSchedulePost: postInfo?.schedule,
     };
   };
 
@@ -118,7 +121,16 @@ const InteractionsByTag = () => {
                     <AthletePost
                       isNavigate
                       isDetailPage={false}
-                      interactionInfo={item}
+                      interactionInfo={{
+                        ...item,
+                        isSchedulePost: Boolean(item?.schedule),
+                        isAccessRight: true, // ATHLETE CAN SEE OWN POSTS
+                        interactionMedia: item?.media.map((media, idx) => ({
+                          ...media,
+                          sortOrder: media?.sortOrder ?? idx,
+                        })),
+                        tags: item?.tags.map((tag) => ({ id: tag, name: tag })),
+                      }}
                       onDeleted={router.reload}
                       onUpdated={router.reload}
                       {...formatPropAthletePost(item)}
@@ -131,20 +143,6 @@ const InteractionsByTag = () => {
                   </Box>
                 </Box>
               ))}
-
-              {interactionsList?.hasNextPage && (
-                <Waypoint onEnter={onLoadMore}>
-                  <Box
-                    className="post-load-more"
-                    display="flex"
-                    justifyContent="center"
-                    mt={5}
-                    w="full"
-                  >
-                    <PostSkeleton hasImage={false} w="full" />
-                  </Box>
-                </Waypoint>
-              )}
             </Flex>
             <If condition={!interactionsList?.length}>
               <Then>

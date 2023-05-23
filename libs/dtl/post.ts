@@ -105,7 +105,7 @@ async function uploadBulkMedia({
   }))
 }
 
-export const usePostsAsMaker = (loadData = true, tag: string) => {
+export const usePostsAsMaker = (loadData = true, tag?: string) => {
   const { user } = useAuthContext()
   const [loading, setLoading] = useState(true);
   const [data, serData] = useState<Post[]>([]);
