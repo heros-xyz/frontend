@@ -30,7 +30,8 @@ import InteractionsPost from "@/modules/athlete-interaction/components/post";
 import { useUpdateInteractionInfo } from "@/modules/athlete-interaction/hooks";
 import SocialSharing from "@/modules/athlete-profile/interactions/components/SocialSharing";
 import { useReactions } from "@/libs/dtl/reaction";
-import { usePost, usePostAsTaker, usePostsAsTaker } from "@/libs/dtl/post";
+import { usePost, usePostAsTaker, usePostsAsTaker, Post } from "@/libs/dtl/post";
+import { useAthleteProfile } from "@/libs/dtl/athleteProfile";
 import AthleteInfo, { AthleteInfoProps } from "../AthleteInfo";
 import type { MenuItem } from "../AthleteMenu";
 import AthleteMenu from "../AthleteMenu";
@@ -39,19 +40,11 @@ import DeletePostModal from "./Modal/Delete";
 
 interface IAthletePostProps {
   children?: React.ReactNode;
-  interactionInfo?: IInteractionItem;
   id: string;
   menuList?: MenuItem[];
-  athleteInfo: AthleteInfoProps;
-  postLikes: number;
-  postComments: number;
-  hashtag?: ITags[];
-  postContent: string;
-  socialOrder: boolean;
-  slideData: IInteractionMedia[];
-  liked: boolean;
+  socialOrder?: boolean;
   isNavigate?: boolean;
-  isDetailPage: boolean;
+  isDetailPage?: boolean;
   onDeleted?: () => void;
   onUpdated?: () => void;
   focusInputComment?: (value: boolean) => void;
@@ -61,43 +54,27 @@ const MAX_CONTENT_LENGTH = 200;
 
 const AthletePost: React.FC<IAthletePostProps> = ({
   children,
-  interactionInfo,
   id,
   menuList,
-  athleteInfo,
-  postLikes,
-  postComments,
-  hashtag,
-  postContent,
-  slideData,
-  liked,
   isNavigate,
   isDetailPage,
-  onDeleted,
-  onUpdated,
   focusInputComment,
+                                                    onDeleted,onUpdated
 }) => {
   const router = useRouter();
   const iconActions = useRef<HTMLDivElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  /*
-  const [totalReaction, setTotalReaction] = useState<number>(postLikes);
-  */
-  const totalReaction = postLikes;
   const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
   const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
-  const [onReaction, { data: reactionData, isLoading: isReactionLoading }] = [
-    () => {},
-    { data: null, isLoading: false },
-  ];
   const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
   const reactions = useReactions(id);
   const post = usePost(id)
+  const athlete = useAthleteProfile(post.data?.uid)
 
   const handleClickMenu = (id: string) => {
     if (id === "delete") setIsOpenDelete(true);
     if (id === "edit") {
-      router.push(`/athlete/interactions/post/${interactionInfo?.id}`);
+      router.push(`/athlete/interactions/post/${post?.data?.id}`);
     }
   };
   const handleSubmitUpdate = () => {
@@ -141,12 +118,12 @@ const AthletePost: React.FC<IAthletePostProps> = ({
     */
   };
 
-  const ReadMore: React.FC<{ text: string }> = ({ text }) => {
+  const ReadMore: React.FC<{ text?: string }> = ({ text = '' }) => {
     const [isReadMore, setIsReadMore] = useState<boolean>(true);
 
     const toggleReadMore = (): void => {
       if (isNavigate) {
-        router.push(`/athlete/interactions/${interactionInfo?.id}`);
+        router.push(`/athlete/interactions/${post?.data?.id}`);
       } else {
         setIsReadMore(!isReadMore);
       }
@@ -192,16 +169,18 @@ const AthletePost: React.FC<IAthletePostProps> = ({
         <GridItem colSpan={4}>
           <Flex justifyContent="space-between" mb={{ base: 3, lg: 5 }}>
             <AthleteInfo
-              {...athleteInfo}
-              isSchedule={interactionInfo?.isSchedulePost}
+              athleteName={athlete.data?.nickName as string}
+              imagePath={athlete.data?.avatar as string}
+              publishDate={post.data?.publicDate}
+              isSchedule={post?.data?.schedule}
             />
             <AthleteMenu onClickItem={handleClickMenu} menuList={menuList} />
           </Flex>
 
-          <If condition={slideData && slideData?.length}>
+          <If condition={post.data?.media && post.data?.media?.length}>
             <Then>
               <Box maxW="calc(100vw - 40px)">
-                <HerosSwiper slideData={slideData} />
+                <HerosSwiper slideData={post.data?.media} />
               </Box>
             </Then>
           </If>
@@ -209,7 +188,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
           <Box mb={{ base: 2.5, lg: 4 }}>
             <If condition={!isDetailPage}>
               <Then>
-                <ReadMore text={postContent} />
+                <ReadMore text={post.data?.content} />
               </Then>
               <Else>
                 <Box
@@ -220,23 +199,23 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                   mt={4}
                 >
                   <Text as="span" whiteSpace="break-spaces">
-                    {postContent}
+                    {post.data?.content}
                   </Text>
                 </Box>
               </Else>
             </If>
           </Box>
-          <If condition={hashtag && hashtag?.length}>
+          <If condition={post.data?.tags && post.data?.tags?.length}>
             <Then>
               <Flex
                 flexWrap="wrap"
                 gap={{ base: 3, lg: 4 }}
                 mb={{ base: 2.5, lg: 4 }}
               >
-                {hashtag &&
-                  hashtag.map((item) => (
+                {post.data?.tags &&
+                  post.data?.tags.map((tag) => (
                     <Tag
-                      key={String(item)}
+                      key={String(tag)}
                       size={{ base: "sm", lg: "lg" }}
                       borderRadius="full"
                       variant="solid"
@@ -249,11 +228,11 @@ const AthletePost: React.FC<IAthletePostProps> = ({
                         cursor="pointer"
                         onClick={() =>
                           router.push(
-                            `/athlete/interactions/filter?tag=${item}`
+                            `/athlete/interactions/filter?tag=${tag}`
                           )
                         }
                       >
-                        <>#{item}</>
+                        <>#{tag}</>
                       </TagLabel>
                     </Tag>
                   ))}
@@ -297,7 +276,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
               </Then>
               <Else>
                 <Link
-                  href={`/athlete/interactions/${interactionInfo?.id}?focus=true`}
+                  href={`/athlete/interactions/${post?.data?.id}?focus=true`}
                 >
                   <CommentIcon
                     width={{ base: "24px", lg: "32px" }}
@@ -358,7 +337,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
       />
       <SocialSharing
         postId={id as string}
-        athleteId={athleteInfo.id ?? ""}
+        athleteId={post.data?.uid ?? ""}
         isOpen={isOpen}
         onClose={onClose}
       />

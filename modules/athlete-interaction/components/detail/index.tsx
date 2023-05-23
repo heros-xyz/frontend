@@ -132,11 +132,10 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
         <If condition={!isLoading && !!postInfo}>
           <Then>
             <AthletePost
-              interactionInfo={postInfo}
+              id={postInfo.id}
               onUpdated={() => {}}
               isDetailPage
               focusInputComment={setIsFocusComment}
-              {...formatPropAthletePost}
             >
               <AthleteInteractionComments
                 id={id as string}

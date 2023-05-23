@@ -132,39 +132,9 @@ const Interactions = () => {
                     <AthletePost
                       isNavigate
                       isDetailPage={false}
-                      interactionInfo={{
-                        ...item,
-                        isAccessRight: true, // TODO: check this
-                        isSchedulePost: !!item?.schedule,
-                        tags: item.tags as any,
-                        commentCount: item?.commentCount ?? 0,
-                        reactionCount: item?.reactionCount ?? 0,
-                        liked: item?.liked ?? false,
-                        isCurrentUserReacted: userProfile?.uid === item?.uid,
-                        interactionMedia: item?.media.map((media, index) => ({
-                          id: media.url,
-                          url: media.url,
-                          type: media.type,
-                          sortOrder: index,
-                        })),
-                      }}
                       onDeleted={router.reload}
                       onUpdated={router.reload}
-                      {...formatPropAthletePost({
-                        ...item,
-                        isCurrentUserReacted: false,
-                        isAccessRight: true,
-                        isSchedulePost: !!item?.schedule,
-                        tags: item.tags as any,
-                        commentCount: item?.commentCount ?? 0,
-                        reactionCount: item?.reactionCount ?? 0,
-                        liked: item?.liked ?? false,
-                        interactionMedia: item?.media.map((media, index) => ({
-                          type: media.type,
-                          url: media.url,
-                          sortOrder: index,
-                        })),
-                      })}
+                      id={item.id}
                     >
                       <Box mt={{ base: 1, lg: 3 }}>
 {/*
