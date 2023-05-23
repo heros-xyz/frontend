@@ -104,7 +104,7 @@ async function uploadBulkMedia({
   }))
 }
 
-export const usePostsAsMaker = (loadData = true) => {
+export const usePostsAsMaker = (loadData = true, tag: string) => {
   const { user } = useAuthContext()
   const [loading, setLoading] = useState(true);
   const [data, serData] = useState<Post[]>([]);
@@ -148,10 +148,15 @@ export const usePostsAsMaker = (loadData = true) => {
 
   useEffect(() => {
     if (!user || !user?.uid || !loadData) return
-    const q = query(collection(db, collectionPath.POSTS),
+    const q = !!tag ? query(collection(db, collectionPath.POSTS),
       where("uid", "==", user?.uid ?? ""),
-      orderBy("publicDate", "desc")
+      where("tags", "array-contains-any", [tag]),
+      orderBy("createdAt", "desc")
+    ).withConverter(converter) : query(collection(db, collectionPath.POSTS),
+      where("uid", "==", user?.uid ?? ""),
+      orderBy("createdAt", "desc")
     ).withConverter(converter)
+
     getDocs(q)
       .then(async (snapshot) => {
         // contar likes y reactions para cada post
@@ -174,7 +179,7 @@ export const usePostsAsMaker = (loadData = true) => {
     return onSnapshot(q, (snapshot) => {
       serData(snapshot.docs.map(d => d.data()))
     });
-  }, [user?.uid, loadData]);
+  }, [user?.uid, loadData, tag]);
 
   return {
     create: {
@@ -273,7 +278,10 @@ export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
     if (params.tag) {
       return query(
         collection(db, `post`),
-        where("tags", "array-contains", params.tag)
+        where("tags", "array-contains", params.tag),
+        where("uid", "==", params.maker),
+        where('publicDate', '<', todayDate),
+        orderBy('publicDate', "desc")
       ).withConverter(converter)
     }
   }, [params.tag, params?.maker])
@@ -290,7 +298,6 @@ export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
     });
   }, [dataRef]);
 
-  console.log("usePostsAsTaker", { data })
   return { loading, data }
 }
 

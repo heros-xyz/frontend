@@ -43,6 +43,7 @@ const useUserProfile = (uid: string | undefined) => {
   return user;
 };
 
+const PublicRoutes = ["/[id]/[nickname]"];
 // TODO: type this
 export const AuthContextProvider = ({
   children,
@@ -57,13 +58,17 @@ export const AuthContextProvider = ({
     if (loading) {
       return;
     }
+
     if (!user) {
-      console.log("User NOT authenticated");
-      router.push(RoutePath.SIGN_IN);
+      if (PublicRoutes.includes(router.pathname)) {
+        console.log("Public page");
+      } else {
+        router.push(RoutePath.SIGN_IN);
+      }
     } else {
       console.log("user authenticated");
     }
-  }, [user, loading, userProfile]);
+  }, [user, loading, userProfile, router.pathname]);
 
   return (
     <AuthContext.Provider value={{ user, userProfile, loading }}>

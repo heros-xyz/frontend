@@ -10,16 +10,14 @@ import {
   useState,
 } from "react";
 import { Else, If, Then } from "react-if";
-import { Waypoint } from "react-waypoint";
-import { useUnmount } from "react-use";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { useUser } from "@/hooks/useUser";
-import { usePostsAsTaker } from "@/libs/dtl/post";
+import { Post, usePostsAsTaker } from "@/libs/dtl/post";
 import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 import InteractionSection from "./components/InteractionSection";
 import { SocialInteraction } from "./components/SocialInteraction/SocialInteraction";
 import SubscribeContent from "./components/SubscribeContent";
-import { IAthleteInteraction, IInteractionMedia } from "./constants";
+import { IInteractionMedia } from "./constants";
 
 interface IInteractionsProps {
   onSubscribe: () => void;
@@ -40,12 +38,18 @@ const Interactions: FC<IInteractionsProps> = ({
   const [page, setPage] = useState(1);
   const [tag, setTag] = useState("");
   const tagSectionRef = useRef<HTMLDivElement>(null);
-
+  const [interactionData, setInteractionData] = useState<Post[]>([]);
   const { data: athleteProfile, loading: loadingAthleteProfile } =
     useGetAthleteProfileByUid(id as string);
-  const { data: interactionData, loading: isLoading } = usePostsAsTaker({
+  const { data, loading: isLoading } = usePostsAsTaker({
     maker: id as string,
   });
+
+  useEffect(() => {
+    if (data && !isLoading) {
+      setInteractionData(data);
+    }
+  }, [data]);
 
   const interactionsList = interactionData.map((post) => ({
     ...post,
@@ -76,9 +80,18 @@ const Interactions: FC<IInteractionsProps> = ({
   }));
 
   const handleFilterPostsByTag = (tagName: string) => {
-    if (tag !== tagName) {
+    if (tagName === "") {
+      setInteractionData(data ?? []);
+      setTag("");
+      return;
+    }
+    console.log({ tagName });
+    if (tag !== tagName && tagName !== "") {
       setPage(1);
-      //setInteractionList([]);
+      setInteractionData(
+        (current) =>
+          current?.filter((post) => post?.tags?.includes(tagName)) ?? current
+      );
       setTag(tagName);
       setTimeout(onGoToTag, 100);
     } else {
@@ -100,19 +113,6 @@ const Interactions: FC<IInteractionsProps> = ({
     }
   };
    */
-
-  const handleRemoveQuery = () => {
-    router.replace(
-      {
-        pathname: `/fan/athlete-profile/${id}`,
-        query: { filter: "", current: 1 },
-      },
-      undefined,
-      {
-        shallow: true,
-      }
-    );
-  };
 
   useEffect(() => {
     filteredTag && setTag(filteredTag as string);
@@ -139,6 +139,8 @@ const Interactions: FC<IInteractionsProps> = ({
     return <PostSkeleton />;
   }
 
+  console.log({ interactionsList });
+
   return (
     <Box ref={tagSectionRef} className="view-athlete-interactions">
       <If condition={!!tag}>
@@ -153,7 +155,6 @@ const Interactions: FC<IInteractionsProps> = ({
             </Text>
             <TagButton
               onClose={() => {
-                filteredTag && handleRemoveQuery();
                 handleFilterPostsByTag("");
               }}
             >

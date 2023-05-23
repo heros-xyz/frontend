@@ -28,7 +28,7 @@ import { Profile } from "./profile";
 const TABS = ["Profile", "Interactions", "Career Journey", "Subscribe"];
 
 const AthleteProfile = () => {
-  const { data: userProfile } = useMyUserProfile();
+  const { data: userProfile, loading: loadingProfile } = useMyUserProfile();
   const { data } = useMyAthleteProfile();
   const basicInfo = {
     nickName: data?.nickName,
@@ -53,9 +53,11 @@ const AthleteProfile = () => {
     withDefault(NumberParam, 0)
   );
 
-  if (loadingMemberships) {
+  if (loadingMemberships || loadingProfile) {
     return <></>;
   }
+
+  console.log({ userProfile });
 
   return (
     <Box as="section" bg="white" minH="100vh">
@@ -146,7 +148,7 @@ const AthleteProfile = () => {
               isEdit
               basicInfo={basicInfo}
               sportProfile={sportProfile}
-              athleteId={userProfile?.uid ?? ""}
+              athleteId={userProfile?.id ?? ""}
               athleteNickname={data?.nickName ?? ""}
             />
           </TabPanel>

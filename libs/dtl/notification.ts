@@ -7,9 +7,12 @@ import {
   FieldPath,
   documentId,
   writeBatch,
-  doc
+  doc,
+  Unsubscribe,
+  orderBy
 } from "firebase/firestore";
 import { useState, useEffect, useMemo, useCallback } from "react";
+import { set } from "immer/dist/internal";
 import { useAuthContext } from "@/context/AuthContext";
 import { NotificationEventType } from "@/utils/enums";
 import { ISource } from "@/types/notifications/types";
@@ -52,11 +55,15 @@ const converter = {
 
 export function useNotifications() {
   const {user} = useAuthContext()
+  console.log({ id: user?.uid })
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<Notification[]>([]);
   const dataRef = useMemo(() =>
       user?.uid ?
-      query(collection(db, collectionPath.NOTIFICATIONS), where("uid", "==", user.uid)).withConverter(converter)
+      query(collection(db, collectionPath.NOTIFICATIONS),
+        where("uid", "==", user.uid),
+        orderBy("createdAt", "desc")
+      ).withConverter(converter)
         : undefined
     , [user?.uid])
 
@@ -72,51 +79,9 @@ export function useNotifications() {
     });
   }, [dataRef]);
 
-  useEffect(() => {
-    if (!data.length) return
-    const ref = collection(db, collectionPath.FAN_PROFILE)
-    const usersRef = query(ref, where(documentId(), "in", data?.map?.(d => d?.sourceId) ?? [])).withConverter(athleteConverter)
-
-    getDocs(usersRef)
-      .then((snapshot) => {
-        const profiles = snapshot.docs.map((doc) => doc.data())
-        setData(current => current.map(notification => {
-          const sourceProfile = profiles.find(p => p.id === notification.sourceId) as unknown as AthleteProfile
-          console.log('sourceProfile', sourceProfile)
-          return {
-            ...notification, source: {
-              avatar: sourceProfile?.avatar,
-              fullName: sourceProfile?.fullName,
-              nickName: sourceProfile?.nickName,
-              id: sourceProfile?.id
-            }
-          }
-        }))
-      })
-      .finally(() => setLoading(false))
-    return onSnapshot(usersRef, (snapshot) => {
-      const profiles = snapshot.docs.map((doc) => doc.data())
-      setData(current => current.map(notification => {
-        const sourceProfile = profiles.find(p => p.id === notification?.sourceId) as unknown as AthleteProfile
-        return {
-          ...notification,
-          source: {
-            avatar: sourceProfile?.avatar,
-            fullName: sourceProfile?.fullName,
-            nickName: sourceProfile?.nickName,
-            id: sourceProfile?.id
-          }
-        }
-      }))
-    });
-
-  }, [data?.length]);
-
-
   const update = useCallback(async (data: any) => {
-    if (!dataRef) return
     console.log('useSuscriptionAsTaker.update', data)
-  }, [dataRef])
+  }, [])
 
   const markAllAsRead = useCallback(async () => {
     try {
@@ -140,9 +105,9 @@ export function useNotifications() {
     } catch (error) {
       console.error("Error marking notifications as read:", error);
     }
-  }, [data, dataRef]);
+  }, [data]);
 
 
-
+  console.log({ data })
   return { loading, data, update, markAllAsRead }
 }

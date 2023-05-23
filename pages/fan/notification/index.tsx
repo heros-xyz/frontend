@@ -4,12 +4,6 @@ import Head from "next/head";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import NotificationFan from "@/components/ui/Fan/Notification";
 import FindHeros from "@/components/ui/FindHeros";
-import { wrapper } from "@/store";
-
-import { IGuards } from "@/types/globals/types";
-import { ADMIN_ROLE } from "@/utils/constants";
-import { RoutePath } from "@/utils/route";
-import { setTokenToStore } from "@/utils/auth";
 import { useUser } from "@/hooks/useUser";
 
 const FanNotification = () => {

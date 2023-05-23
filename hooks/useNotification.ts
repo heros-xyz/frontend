@@ -33,6 +33,7 @@ export const useNotification = () => {
     }
   };
 
+
   const notificationGroup = useMemo(() => {
     const notificationOnToday: INotificationInfo[] = [];
     const notificationOnWeek: INotificationInfo[] = [];
@@ -77,7 +78,6 @@ export const useNotification = () => {
     };
   }, [notificationData]);
 
-  console.log({ notificationData, notificationGroup })
   return {
     ...notificationGroup,
     listNotification: notificationData,

@@ -14,7 +14,6 @@ const NotificationFan = () => {
     notificationEarlier,
     listNotification,
     isLoading,
-    onLoadMore,
     onMaskAllNotification,
   } = useNotification();
 
