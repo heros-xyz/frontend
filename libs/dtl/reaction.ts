@@ -1,5 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
-import { addDoc, collection, doc, getDocs, onSnapshot, query, QueryDocumentSnapshot, setDoc, where } from "firebase/firestore";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc, getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  QueryDocumentSnapshot,
+  setDoc,
+  where
+} from "firebase/firestore";
 import { db } from "@/libs/firebase";
 import { useAuthContext } from "@/context/AuthContext";
 export type ReactionType = "LIKE"
@@ -40,11 +51,11 @@ interface AddReactionParams {
   type_: ReactionType
 }
 
-export function useReactions(to?: string, params: { initialize: boolean } = {initialize: true}) {
+export function useReactions(to?: string) {
   const { user } = useAuthContext()
-  const [loading, setLoading] = useState(params.initialize);
-  const [count, setCount] = useState(0);
-  const [data, setData] = useState<Reaction[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const [iLikeIt, setILikeIt] = useState(false)
 
   const create = useCallback(async ({ to, toType, type_ }: AddReactionParams) => {
     if (!toType || !to || !type_ || !user?.uid) return
@@ -64,19 +75,28 @@ export function useReactions(to?: string, params: { initialize: boolean } = {ini
   }, [to, user?.uid])
 
   useEffect(() => {
-    if (!to || !params.initialize) return
-    const q = query(collection(db, "reactions"), where("to", "==", to)).withConverter(converter)
-    getDocs(q)
-      .then((snapshot) => {
-        setCount(snapshot.size)
-        setData(snapshot.docs.map(d => d.data()))
-      })
-      .finally(() => setLoading(false))
-    return onSnapshot(q, (snapshot) => {
-      setCount(snapshot.size)
-      setData(snapshot.docs.map(d => d.data()))
+    setLoading(true)
+    const ref = doc(db, "reactions", `${user?.uid}_${to}`)
+    getDoc(ref).then((doc) => {
+      setILikeIt(doc.exists())
+      setLoading(false)
+    })
+    return onSnapshot(ref, (snapshot) => {
+      setILikeIt(snapshot.exists())
     });
-  }, [to, params.initialize]);
+  }, [to, user?.uid]);
 
-  return { create, loading, count, data }
+  const remove = useCallback(async (to: string) => {
+    if (!to || !user?.uid) return
+    try {
+      await deleteDoc(doc(db, "reactions", `${user?.uid}_${to}`))
+    } catch (error) {
+      console.log(error)
+    } finally {
+
+    }
+  }, [user?.uid])
+
+
+  return { create, remove, loading, iLikeIt }
 }

@@ -110,7 +110,7 @@ const converter = {
   fromFirestore: (snap: QueryDocumentSnapshot) =>
     ({
       ...snap?.data(),
-      dateOfBirth: snap.data().dateOfBirth.toDate(),
+      dateOfBirth: snap.data().dateOfBirth && snap.data().dateOfBirth.toDate(),
     }) as User
 }
 

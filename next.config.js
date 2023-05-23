@@ -51,6 +51,7 @@ const nextConfig = {
       "localhost",
       "100.77.4.16",
       "renzo",
+      "firebasestorage.googleapis.com",
       process.env.HEROS_MEDIA_URL?.replace("https://", ""),
     ],
   },

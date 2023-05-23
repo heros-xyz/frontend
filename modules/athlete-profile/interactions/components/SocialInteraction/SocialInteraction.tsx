@@ -6,7 +6,7 @@ import { CommentIcon } from "@/components/svg/social/CommentIcon";
 import { LoveIcon } from "@/components/svg/social/LoveIcon";
 import { ShareIcon } from "@/components/svg/social/ShareIcon";
 import { useReactions } from "@/libs/dtl/reaction";
-import { usePostsAsTaker } from "@/libs/dtl/post";
+import { usePost, usePostsAsTaker } from "@/libs/dtl/post";
 import { useComments } from "@/libs/dtl/comment";
 import SocialSharingModal from "../SocialSharing";
 import { PreviewComment } from "../PreviewComment";
@@ -35,8 +35,7 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
   const iconActions = useRef<HTMLDivElement>(null);
   const [isLiked, setIsLiked] = useState(liked);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {data: post, loading: postLoading} = useComments(postId)
-  const {data, loading, count} = useReactions(postId);
+  const post = usePost(postId)
 
   useEffect(() => {
     setTimeout(() => {
@@ -131,7 +130,7 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
         fontSize={{ base: "xs", lg: "lg" }}
         color="secondary"
       >
-        {count}
+        {post.data?.commentCount || 0}
         comment(s)
       </Text>
       {/*!view && (

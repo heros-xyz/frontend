@@ -109,10 +109,10 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
       </If>
       <BasicInfoAthlete
         image={athleteProfile?.avatar ?? ""}
-        nickname={basicInfo?.nickName ?? ""}
+        nickname={athleteProfile?.nickName ?? ""}
         fans={totalSubCount ?? 0}
         tagline={athleteProfile?.tagline ?? ""}
-        countryCode={basicInfo?.nationality?.twoLetterCode ?? ""}
+        countryCode={athleteProfile?.nationality?.twoLetterCode ?? ""}
         sport={athleteProfile?.sport.label ?? ""}
         onClickDownButton={onClickDownButton}
         onSubscribe={!validateIsFan ? onSubscribe : undefined}
@@ -172,7 +172,7 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
               isEdit={false}
               basicInfo={basicInfo}
               sportProfile={sportProfile ?? null}
-              athleteId={athleteId ?? ""}
+              athleteId={athleteProfile?.id || athleteId || ""}
               athleteNickname={basicInfo?.nickName ?? ""}
             />
           </TabPanel>

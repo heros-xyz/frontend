@@ -23,9 +23,9 @@ const AthleteProfileCollectionName = "athleteProfile"
 
 export interface AthleteProfile {
     id: string,
-    createdAt?: Timestamp
-    updatedAt?: Timestamp
-    deletedAt?: Timestamp
+    createdAt?: Date
+    updatedAt?: Date
+    deletedAt?: Date
     goal: string;
     currentTeam: string;
     totalSubCount: number
@@ -51,34 +51,27 @@ export interface AthleteProfile {
     isFinishOnboarding?: boolean
 }
 
+
 const converter = {
     toFirestore: (data: any) => data,
     fromFirestore: (snap: QueryDocumentSnapshot) =>
-        ({
-            id: snap?.id,
-            ...snap?.data()
-        }) as AthleteProfile
+    ({
+        id: snap?.id,
+        dateOfBirth: snap.data().dateOfBirth && snap.data().dateOfBirth.toDate(),
+        ...snap?.data()
+    }) as AthleteProfile
 }
 
-interface MyAthleteProfileHook extends Suscription<AthleteProfile> {
-    update: (data: Partial<AthleteProfile>) => Promise<void> | undefined
-}
-export const useMyAthleteProfile = (): MyAthleteProfileHook => {
-    const { user: user } = useAuthContext();
+export const useAthleteProfile = (athleteId?: string):Suscription<AthleteProfile>  => {
     const [status, setStatus] = useState<Suscription<AthleteProfile>>({
         initiated: false,
         loading: true,
     })
 
-    const docRef = useMemo(() => {
-        if (!user || !user.uid) return
-        return doc(db, AthleteProfileCollectionName, user.uid).withConverter(converter)
-    }, [user?.uid])
-
-    const update = useCallback((data: Partial<AthleteProfile>) => {
-        if (!docRef) return
-        return updateDoc(docRef, data)
-    }, [docRef])
+    const docRef = useMemo(()=>{
+        if(!athleteId) return
+        return doc(db, "athleteProfile", athleteId).withConverter(converter)
+    }, [athleteId])
 
     useEffect(() => {
         if (!docRef) return
@@ -88,28 +81,28 @@ export const useMyAthleteProfile = (): MyAthleteProfileHook => {
             error: undefined,
         }))
         getDoc(docRef)
-            .then((snapshot) => {
-                if (!snapshot.exists()) {
-                    setDoc(docRef, {} as AthleteProfile)
-                }
-                setStatus((prev) => ({
-                    ...prev,
-                    data: snapshot.data()
-                }))
-            })
-            .catch((e: Error) => {
-                setStatus((prev) => ({
-                    ...prev,
-                    error: e.message
-                }))
-            })
-            .finally(() => {
-                setStatus((prev) => ({
-                    ...prev,
-                    loading: false,
-                    lastUpdate: new Date()
-                }))
-            })
+          .then((snapshot) => {
+              if (!snapshot.exists()){
+                  setDoc(docRef, {} as AthleteProfile)
+              }
+              setStatus((prev) => ({
+                  ...prev,
+                  data: snapshot.data()
+              }))
+          })
+          .catch((e: Error) => {
+              setStatus((prev) => ({
+                  ...prev,
+                  error: e.message
+              }))
+          })
+          .finally(() => {
+              setStatus((prev) => ({
+                  ...prev,
+                  loading: false,
+                  lastUpdate: new Date()
+              }))
+          })
         return onSnapshot(docRef, (snapshot) => {
             setStatus((prev) => ({
                 ...prev,
@@ -120,6 +113,27 @@ export const useMyAthleteProfile = (): MyAthleteProfileHook => {
     }, [docRef])
 
 
+    return status
+}
+
+interface MyAthleteProfileHook extends Suscription<AthleteProfile>{
+    update: (data: Partial<AthleteProfile>) => Promise<void> | undefined
+}
+export const useMyAthleteProfile = ():MyAthleteProfileHook  => {
+    const { user } = useAuthContext();
+    const status = useAthleteProfile(user?.uid)
+
+    const docRef = useMemo(()=>{
+        if(!user || !user.uid) return
+        return doc(db, AthleteProfileCollectionName, user.uid).withConverter(converter)
+    }, [user?.uid])
+
+    const update = useCallback((data: Partial<AthleteProfile>)=>{
+        if (!user?.uid) return
+        return updateDoc(doc(db, AthleteProfileCollectionName, user.uid).withConverter(converter), data)
+    }, [user?.uid])
+
+
     return {
         update,
         ...status,
@@ -127,13 +141,11 @@ export const useMyAthleteProfile = (): MyAthleteProfileHook => {
 }
 
 export function useAllAthletes({ limitAmount = 3 } = { limitAmount: 3 }) {
-    // TODO: change query to get all athletes, set limit to all 
     const q = query(
         collection(db, AthleteProfileCollectionName),
         where("isFinishOnboarding", "==", true),
         limit(limitAmount)
     ).withConverter(converter)
-
     const [data, loading, error] = useCollectionData(q)
     return {
         data,
@@ -155,7 +167,6 @@ export function useGetAthleteProfileByUid(uid: string) {
 type GetListAthleteRecommended = {
     limitAmount?: number
 }
-
 export function useGetListAthleteRecommended({ limitAmount = 3 }: GetListAthleteRecommended) {
     const q = query(
         collection(db, AthleteProfileCollectionName),
