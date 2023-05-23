@@ -3,7 +3,6 @@ import { AspectRatio, Box, Image, Spinner } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Case, Else, If, Switch, Then } from "react-if";
 import { useState } from "react";
-import { getImageLink, getVideoLink } from "@/utils/link";
 import { IInteractionMedia } from "@/types/athlete/types";
 import { cssStyles } from "./styles";
 
