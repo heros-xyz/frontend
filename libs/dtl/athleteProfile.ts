@@ -56,8 +56,7 @@ export const converter = {
     toFirestore: (data: any) => data,
     fromFirestore: (snap: QueryDocumentSnapshot) =>
     ({
-        id: snap?.id,
-        dateOfBirth: snap.data().dateOfBirth && snap.data().dateOfBirth.toDate(),
+            id: snap?.id,
         ...snap?.data()
     }) as AthleteProfile
 }
