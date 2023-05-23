@@ -36,7 +36,6 @@ const MyAthletes: FC = () => {
         : 3,
   });
 
-  console.log({ listAthleteRecommended, listAthleteSubscribed });
 
   const athleteList = useMemo(() => {
     let listAthleteRecommendedFormat = [];

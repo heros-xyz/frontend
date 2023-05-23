@@ -53,7 +53,6 @@ const AllResult = () => {
       });
   }, [allAthletes, defaultValue, router?.query["searchValue"]]);
 
-  console.log({ searchData, defaultValue });
 
   const onLoadMore = () => {
     if (hasNextPage) {

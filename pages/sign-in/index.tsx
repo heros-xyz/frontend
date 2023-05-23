@@ -84,9 +84,7 @@ const SignIn = () => {
       start();
     }
     try {
-      console.log("signInWithGoogle()");
       await signInWithRedirect(auth, new GoogleAuthProvider());
-      console.log({ signInWithEmailError });
     } catch (error) {
       console.log("ERROR", error);
       finish();
@@ -95,10 +93,8 @@ const SignIn = () => {
 
   useEffect(() => {
     if (authContextLoading === true) {
-      console.log("empezar loading");
       start();
     } else {
-      console.log("cortar loading");
       finish();
     }
   }, [authContextLoading]);

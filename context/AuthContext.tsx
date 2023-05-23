@@ -43,14 +43,22 @@ const useUserProfile = (uid: string | undefined) => {
   return user;
 };
 
-const PublicRoutes = ["/[id]/[nickname]"];
+const PublicRoutes = [
+  "/[id]/[nickname]",
+  "/joining-as",
+  "/sign-in",
+  RoutePath.FAN_SIGN_UP,
+  RoutePath.ATHLETE_SIGN_UP,
+  RoutePath.VERIFY_OTP,
+];
+
 // TODO: type this
 export const AuthContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const userProfile = useUserProfile(user?.uid);
   const router = useRouter();
 
@@ -58,7 +66,6 @@ export const AuthContextProvider = ({
     if (loading) {
       return;
     }
-
     if (!user) {
       if (PublicRoutes.includes(router.pathname)) {
         console.log("Public page");

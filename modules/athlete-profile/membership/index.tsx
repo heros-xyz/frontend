@@ -31,14 +31,12 @@ const MembershipSubscribe: FC<IMembershipSubscribeProps> = ({
   const [membershipTierId, setMembershipTierId] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  console.log({ user });
   const onSubscribe = () => {
     if (!user) {
       onOpen();
       return;
     }
 
-    console.log({ membershipTierId });
     if (membershipTierId) {
       router.push({
         pathname: `/fan/athlete-profile/${router.query.id}/payment-details`,

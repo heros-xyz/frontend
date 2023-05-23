@@ -16,4 +16,5 @@ export const RoutePath = {
   ATHLETE_PROFILE: "/athlete/my-profile",
   FAN_VIEW_ATHLETE_PROFILE: (athleteId: string) =>
     `/fan/athlete-profile/${athleteId}`,
+  VERIFY_OTP: "/verify-otp",
 };

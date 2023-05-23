@@ -8,7 +8,6 @@ const InteractionDetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  console.log("IteractionDertailPage", id);
   return (
     <Box bg="white" minHeight="100vh" pb={8}>
       <Head>

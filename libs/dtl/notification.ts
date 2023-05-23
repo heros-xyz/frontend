@@ -54,8 +54,7 @@ const converter = {
 }
 
 export function useNotifications() {
-  const {user} = useAuthContext()
-  console.log({ id: user?.uid })
+  const { user } = useAuthContext()
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<Notification[]>([]);
   const dataRef = useMemo(() =>
@@ -108,6 +107,5 @@ export function useNotifications() {
   }, [data]);
 
 
-  console.log({ data })
   return { loading, data, update, markAllAsRead }
 }

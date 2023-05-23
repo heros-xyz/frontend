@@ -170,7 +170,6 @@ export const useInteractionInfo = () => {
         createdAt: serverTimestamp()
       };
 
-      console.log("onsubmit create")
       await create(mapPayload as any)
     },
   });
@@ -231,7 +230,6 @@ export const useUpdateInteractionInfo = () => {
         publicDate: dayjs(formatDate).format() as string,
       };
 
-      console.log("onsubmit")
       await edit(interactionId, mapPayload as any)
     },
   });

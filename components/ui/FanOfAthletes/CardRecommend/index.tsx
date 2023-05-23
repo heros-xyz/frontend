@@ -11,7 +11,6 @@ import React from "react";
 import Link from "next/link";
 import dayjs from "dayjs";
 import { IAthleteSubscribed } from "@/types/athlete/types";
-import { getImageLink } from "@/utils/link";
 import { Clock } from "@/components/svg/Clock";
 import HerosImage from "@/components/common/HerosImage";
 interface YourAthleteCardProps extends BoxProps {
