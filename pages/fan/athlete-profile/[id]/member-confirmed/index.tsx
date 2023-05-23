@@ -55,23 +55,4 @@ const MembershipConfirmed = (props: Props) => {
     </HerosOnboardingWrapperNew>
   );
 };
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const id = context?.params?.id;
-  const athlete = (
-    await getDoc(doc(db, "athleteProfile", id as string))
-  ).data() as AthleteProfile;
-
-  if (!athlete)
-    return {
-      notFound: true,
-    };
-
-  return {
-    props: {
-      athleteNickname: athlete?.nickName ?? "",
-    }, // will be passed to the page component as props
-  };
-}
-
 export default MembershipConfirmed;

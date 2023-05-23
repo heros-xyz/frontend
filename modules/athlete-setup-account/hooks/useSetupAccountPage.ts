@@ -14,6 +14,8 @@ import { useAuthContext } from "@/context/AuthContext";
 import useUpdateDoc from "@/hooks/useUpdateDoc";
 import { useLoading } from "@/hooks/useLoading";
 import { RoutePath } from "@/utils/route";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useMyUserProfile } from "@/libs/dtl";
 import { getCharacterMessage, REQUIRED_MESSAGE } from "../constants";
 
 export type IValuesTypes = {
@@ -92,7 +94,8 @@ const useSetupAccountPage = () => {
   const [error, setError] = useState(null)
   const { userProfile } = useAuthContext()
   const [uploadFile] = useUploadFile();
-  const { updateDocument } = useUpdateDoc()
+  const myAthleteProfile = useMyAthleteProfile()
+  const myUserProfile = useMyUserProfile()
 
   const formik = useFormik({
     validationSchema,
@@ -115,17 +118,17 @@ const useSetupAccountPage = () => {
           }
         }
         // update athleteProfile/{uid}
-        await updateDocument(`athleteProfile/${userProfile?.uid}`, {
+        await myAthleteProfile.update({
           firstName: params?.firstName,
+          middleName: params?.middleName,
+          lastName: params?.lastName,
           nickName,
           avatar: avatarUrl,
-          isFinishSetupAccount: true,
-          createdAt: serverTimestamp(),
+          createdAt: new Date(),
           fullName: getFullName(params?.firstName, params?.lastName, params?.middleName),
-        }
-        )
+        })
         // update user/{uid}
-        await updateDocument(`user/${userProfile?.uid}`, {
+        await myUserProfile.update({
           ...params,
           avatar: avatarUrl,
           isFinishSetupAccount: true
