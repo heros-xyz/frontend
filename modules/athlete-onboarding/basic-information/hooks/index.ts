@@ -49,6 +49,7 @@ export const useBasicInfo = () => {
       nationality: {
         label: "",
         value: "",
+        twoLetterCode: ""
       },
       story: "",
     },
