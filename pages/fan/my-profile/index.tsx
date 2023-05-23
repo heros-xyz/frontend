@@ -18,10 +18,11 @@ const MyProfile = () => {
   const onSignOut = useCallback(async () => {
     try {
       start();
-      await auth.signOut()
-      router.reload()
-      finish();
+      await auth.signOut();
+      router.reload();
     } catch (error) {
+      console.error(error.message);
+    } finally {
       finish();
     }
   }, [user]);

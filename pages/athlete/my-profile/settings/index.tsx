@@ -1,9 +1,7 @@
 import { Box, Container, Text } from "@chakra-ui/react";
-import { useSession, signOut } from "next-auth/react";
-import { ReactElement } from "react";
+import { ReactElement, useCallback } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useSignOut } from "react-firebase-hooks/auth";
 import AthleteFanSettings from "@/components/ui/Settings";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { useLoading } from "@/hooks/useLoading";
@@ -14,20 +12,20 @@ import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 const Settings = () => {
   const { user } = useAuthContext();
   const { data } = useMyAthleteProfile();
-  const [signOut] = useSignOut(auth);
   const { start, finish } = useLoading();
   const router = useRouter();
 
-  const onSignOut = async () => {
+  const onSignOut = useCallback(async () => {
     try {
       start();
-      await signOut();
-      router.push("/");
-      finish();
+      await auth.signOut();
+      router.reload();
     } catch (error) {
+      console.error(error.message);
+    } finally {
       finish();
     }
-  };
+  }, [user]);
 
   return (
     <Box bg="white" pt={5} minH="100vh">
