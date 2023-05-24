@@ -1,17 +1,12 @@
 import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { FormikContext, useFormik } from "formik";
-import { useRouter } from "next/router";
 import { useUpdateEffect } from "react-use";
+import { useRouter } from "next/router";
 import PaymentForm from "@/components/payment/PaymentForm";
-import {
-  defaultValue,
-  usePaymentForm,
-  validationSchema,
-} from "@/hooks/usePaymentForm";
-
+import { defaultValue, validationSchema } from "@/hooks/usePaymentForm";
 import { usePaymentMethods } from "@/libs/dtl/payment";
-import { useAuthContext } from "@/context/AuthContext";
+import { useLoading } from "@/hooks/useLoading";
 import { initialChangepayment } from "../../constants";
 
 interface IProp {
@@ -32,21 +27,23 @@ const ChangePayment: React.FC<IProp> = ({
   setIsError,
   setErrorCode,
 }) => {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
+  const { start, finish } = useLoading();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const router = useRouter();
-  const { userProfile } = useAuthContext();
-  const {
-    create: addPayment
-  } = usePaymentMethods();
+  const [newPaymentId, setNewPaymentId] = useState<string | null>(null);
+  const { create: addPayment, data: dataPayment } = usePaymentMethods();
+  const newPayment = dataPayment?.find?.((payment) =>
+    payment.id === newPaymentId ? payment : null
+  );
 
   const formik = useFormik({
     initialValues: defaultValue,
     validationSchema,
     onSubmit: async (values) => {
-      setLoading(true)
-      try{
-        await addPayment({
+      setLoading(true);
+      try {
+        const docRef = await addPayment({
           cardName: values.nameOnCard,
           cardNumber: values.cardNumber,
           cardExpMonth: +values.expiredDate.split("/")[0],
@@ -54,33 +51,62 @@ const ChangePayment: React.FC<IProp> = ({
           cardCvc: values.cvv,
           expiredDate: values?.expiredDate,
         });
-        if (idAthleteSubmit && idAthleteTier) {
-          await router.push({
-            pathname: "/fan/athlete-profile/[id]/payment-details",
-            query: {
-              id: idAthleteSubmit,
-              membershipTierId: idAthleteTier,
-            },
-          });
-        } else {
-          await router.push("/fan/payment");
+        if (docRef?.id) {
+          setNewPaymentId(docRef?.id);
         }
       } catch (e) {
-        setError(e)
+        setError(e);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false)
     },
     validateOnMount: true,
   });
 
   const [errorCard, setErrorCard] = useState<boolean>(false);
-  const [errorData, setErrorData] = useState<
-    | {
-        data: { message: string; statusCode: number };
-        status: number;
+  const [errorData, setErrorData] = useState<{
+    data: { message: string | undefined; statusCode: number };
+    status: number;
+  }>();
+
+  const loadingPaymentAfterSubmit =
+    newPayment?.id !== null &&
+    newPaymentId !== null &&
+    !newPayment?.stripePayment &&
+    !newPayment?.error;
+  const newPaymentHasError =
+    !!newPayment?.id && !newPayment?.stripePayment && !!newPayment?.error;
+
+  useEffect(() => {
+    if (newPaymentHasError) {
+      // check payment status and if successful redirect
+      setErrorData({
+        data: { message: newPayment?.error, statusCode: 3002 },
+        status: 3002,
+      });
+    }
+    if (!loadingPaymentAfterSubmit && !!newPayment?.stripePayment) {
+      if (idAthleteSubmit && idAthleteTier) {
+        router.push({
+          pathname: "/fan/athlete-profile/[id]/payment-details",
+          query: {
+            id: idAthleteSubmit,
+            membershipTierId: idAthleteTier,
+          },
+        });
+      } else {
+        router.push("/fan/payment");
       }
-    | {}
-  >();
+    }
+  }, [loadingPaymentAfterSubmit, newPaymentHasError]);
+
+  useEffect(() => {
+    if (loadingPaymentAfterSubmit) {
+      start();
+    } else {
+      finish();
+    }
+  }, [loadingPaymentAfterSubmit]);
 
   useUpdateEffect(() => {
     if (errorData && "data" in errorData) {
@@ -121,7 +147,7 @@ const ChangePayment: React.FC<IProp> = ({
             type="submit"
             fontSize={{ xl: "xl" }}
             isLoading={loading}
-            onClick={()=>formik.handleSubmit()}
+            onClick={() => formik.handleSubmit()}
           >
             update
           </Button>
@@ -135,7 +161,9 @@ const ChangePayment: React.FC<IProp> = ({
             alignItems={{ base: "center", xl: "normal" }}
             fontSize="xs"
           >
-            <Text>Your credit card was declined.</Text>
+            <Text>
+              {errorData?.data?.message ?? "Your credit card was declined."}
+            </Text>
             <Text ml={{ xl: 1 }}>Try paying with another credit card.</Text>
           </Flex>
         )}
