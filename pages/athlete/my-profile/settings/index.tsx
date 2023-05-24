@@ -8,6 +8,7 @@ import { useLoading } from "@/hooks/useLoading";
 import { useAuthContext } from "@/context/AuthContext";
 import { auth } from "@/libs/firebase";
 import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { RoutePath } from "@/utils/route";
 
 const Settings = () => {
   const { user } = useAuthContext();
@@ -19,7 +20,7 @@ const Settings = () => {
     try {
       start();
       await auth.signOut();
-      router.reload();
+      await router.replace(RoutePath.SIGN_IN); // Reemplaza con la ruta a la página a la que deseas redirigir al usuario
     } catch (error) {
       console.error(error.message);
     } finally {

@@ -1,6 +1,5 @@
 import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import {
-    Timestamp,
     doc,
     QueryDocumentSnapshot,
     collection,
