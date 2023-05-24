@@ -2,20 +2,26 @@ import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { httpsCallable } from "@firebase/functions";
+import {
+  FacebookAuthProvider,
+  getRedirectResult,
+  GoogleAuthProvider,
+  signInWithRedirect,
+} from "firebase/auth";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import AuthTemplate from "@/components/ui/AuthTemplate";
-import { functions } from "@/libs/firebase";
-import { IHerosError } from "@/types/globals/types";
-import { useLoading } from "@/hooks/useLoading";
-import { FAN_ROLE } from "@/utils/constants";
+import { auth, db, functions } from "@/libs/firebase";
 import { convertTimeUnit } from "@/utils/time";
+import { RoutePath } from "@/utils/route";
+import { User } from "@/libs/dtl";
+import { FAN_ROLE } from "@/utils/constants";
 
 const FanSignUp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
   const router = useRouter();
-  const { start, finish } = useLoading();
 
   const handleSignUpWithEmail = async (email: string) => {
     setLoading(true);
@@ -45,10 +51,7 @@ const FanSignUp = () => {
   const handleSignUpFacebook = async () => {
     setLoading(true);
     try {
-      await fetch("/api/set-role?role=FAN");
-      await signIn("facebook", {
-        callbackUrl: "/",
-      });
+      await signInWithRedirect(auth, new FacebookAuthProvider());
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -59,16 +62,37 @@ const FanSignUp = () => {
   const handleSignUpGoogle = async () => {
     setLoading(true);
     try {
-      await fetch("/api/set-role?role=FAN");
-      await signIn("google", {
-        callbackUrl: "/",
-      });
+      await signInWithRedirect(auth, new GoogleAuthProvider());
       setLoading(false);
     } catch (error) {
       setLoading(false);
       console.log("next auth google error", error);
     }
   };
+
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(async (credential) => {
+        if (credential?.user.uid) {
+          const ref = doc(db, `user/${credential?.user?.uid}`);
+          const user = (await getDoc(ref)).data() as User;
+          if (!user?.profileType) {
+            // first time
+            await updateDoc(ref, {
+              profileType: FAN_ROLE,
+            });
+            await router.push(RoutePath.FAN_ONBOARDING);
+            return;
+          }
+          if (!user?.isFinishOnboarding) {
+            await router.push(RoutePath.FAN_ONBOARDING);
+          } else {
+            await router.push(RoutePath.FAN);
+          }
+        }
+      })
+      .catch(console.error);
+  }, [auth]);
 
   return (
     <Box>
