@@ -73,8 +73,8 @@ const Interactions: FC<IInteractionsProps> = ({
     },
     liked: post?.liked ?? false,
     publicDate: post?.publicDate ?? null,
-    reactionCount: post?.reactionCount ?? 0,
-    commentCount: post?.commentCount ?? 0,
+    reactionCount: post?.reactionsCount ?? 0,
+    commentCount: post?.commentsCount ?? 0,
     tags: post?.tags.map((tag) => ({ id: tag, name: tag })),
     isAccessRight: validateIsFan, // TODO: check this
   }));
@@ -85,7 +85,6 @@ const Interactions: FC<IInteractionsProps> = ({
       setTag("");
       return;
     }
-    console.log({ tagName });
     if (tag !== tagName && tagName !== "") {
       setPage(1);
       setInteractionData(
@@ -106,14 +105,6 @@ const Interactions: FC<IInteractionsProps> = ({
     });
   }, []);
 
-  /*
-  const onLoadMore = () => {
-    if (interactionData?.hasNextPage && !isFetching) {
-      setPage((p) => p + 1);
-    }
-  };
-   */
-
   useEffect(() => {
     filteredTag && setTag(filteredTag as string);
   }, []);
@@ -124,22 +115,9 @@ const Interactions: FC<IInteractionsProps> = ({
     }
   }, [tag]);
 
-  /*
-  useEffect(() => {
-    if (interactionData) {
-      setInteractionList((prevArray) => [
-        ...prevArray,
-        ...interactionData
-      ]);
-    }
-  }, [interactionData]);
-   */
-
   if (isLoading || loadingAthleteProfile) {
     return <PostSkeleton />;
   }
-
-  console.log({ interactionsList });
 
   return (
     <Box ref={tagSectionRef} className="view-athlete-interactions">
@@ -223,20 +201,6 @@ const Interactions: FC<IInteractionsProps> = ({
           </Box>
         </Else>
       </If>
-
-      {/*       {interactionData?.hasNextPage && (
-        <Waypoint onEnter={onLoadMore}>
-          <Box
-            className="post-load-more"
-            display="flex"
-            justifyContent="center"
-            mt={5}
-            w="full"
-          >
-            <PostSkeleton hasImage={false} w="full" />
-          </Box>
-        </Waypoint>
-      )} */}
       {isLoading && (
         <Box mt={validateIsFan ? 0 : 12}>
           <PostSkeleton pb={12} />

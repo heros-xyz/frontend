@@ -77,14 +77,13 @@ const InteractionSection: FC<InteractionSectionProps> = ({
           imagePath={avatar}
         />
       </Flex>
-      <If condition={interactionMedia && interactionMedia.length}>
+      <If condition={interactionMedia && interactionMedia?.length}>
         <Then>
           <Box mt={{ base: 4, lg: 5 }}>
             <HerosSwiper slideData={interactionMedia} />
           </Box>
         </Then>
       </If>
-
       <Box>
         {content ? (
           <Text

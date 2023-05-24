@@ -41,10 +41,8 @@ export interface Post {
   publicType: string
   tags: string[]
   media: PostMedia[]
-  reactionCount?: number
-  commentCount?: number
-  commentsCount: number
-  reactionsCount: number
+  commentsCount?: number
+  reactionsCount?: number
   liked?: boolean
   uid?: string
   createdAt: Date

@@ -132,13 +132,6 @@ const AthletePost: React.FC<IAthletePostProps> = ({
         type_: "LIKE",
       });
     }
-    /*
-    setReaction(!reaction);
-    //onReaction({
-      reactionType: 1,
-      interactionId: id,
-    });
-    */
   };
 
   const ReadMore: React.FC<{ text: string }> = ({ text }) => {
