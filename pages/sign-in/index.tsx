@@ -1,31 +1,28 @@
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 import { useUnmount } from "react-use";
-
 import {
-  useSignInWithFacebook,
-  useSignInWithGoogle,
-} from "react-firebase-hooks/auth";
-import { signInWithRedirect, GoogleAuthProvider } from "firebase/auth";
+  signInWithRedirect,
+  GoogleAuthProvider,
+  getRedirectResult,
+  FacebookAuthProvider,
+} from "firebase/auth";
 import { httpsCallable } from "@firebase/functions";
+import { doc, getDoc } from "firebase/firestore";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { IHerosError } from "@/types/globals/types";
 import { useLoading } from "@/hooks/useLoading";
-import { auth, functions } from "@/libs/firebase";
+import { auth, db, functions } from "@/libs/firebase";
 import { RoutePath } from "@/utils/route";
 import { useAuthContext } from "@/context/AuthContext";
 import { convertTimeUnit } from "@/utils/time";
 
 const SignIn = () => {
   const router = useRouter();
-  const { start, finish, finishLoading, startLoading } = useLoading();
-  const { user, userProfile, loading: authContextLoading } = useAuthContext();
-  const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] =
-    useSignInWithGoogle(auth);
-  const [signInWithFacebook, userFacebook, loadingFacebook, errorFacebook] =
-    useSignInWithFacebook(auth);
+  const { start, finish } = useLoading();
+  const { userProfile, loading: authContextLoading } = useAuthContext();
   const [signInWithEmailError, setSignInWithEmailError] =
     useState<IHerosError>();
   const [loading, setLoading] = useState(false);
@@ -42,10 +39,6 @@ const SignIn = () => {
       }
     }
   }, [userProfile]);
-
-  const callbackUrl = useMemo(() => {
-    return router.query.callbackUrl ?? "/";
-  }, [router.query]);
 
   const handleSignInWithEmail = async (email: string) => {
     setLoading(true);
@@ -73,16 +66,14 @@ const SignIn = () => {
 
   const handleSignInFacebook = async () => {
     try {
-      await signInWithFacebook();
+      await signInWithRedirect(auth, new FacebookAuthProvider());
     } catch (error) {
       console.log("next auth google error", error);
     }
   };
 
   const handleSignInGoogle = async () => {
-    if (loadingGoogle) {
-      start();
-    }
+    start();
     try {
       await signInWithRedirect(auth, new GoogleAuthProvider());
     } catch (error) {
@@ -98,6 +89,21 @@ const SignIn = () => {
       finish();
     }
   }, [authContextLoading]);
+
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(async (credential) => {
+        if (credential?.user.uid) {
+          const user = (
+            await getDoc(doc(db, `user/${credential?.user?.uid}`))
+          ).data();
+          if (!user || !user?.profileType) {
+            router.push(RoutePath.JOINING_AS);
+          }
+        }
+      })
+      .catch(console.error);
+  }, [auth]);
 
   useUnmount(() => {
     finish();

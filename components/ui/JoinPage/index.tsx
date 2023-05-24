@@ -1,13 +1,18 @@
 import { Box, Button, Center, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { useState } from "react";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { useRouter } from "next/router";
 import { Logo } from "@/components/svg/Logo";
-import useUpdateDoc from "@/hooks/useUpdateDoc";
 import { useAuthContext } from "@/context/AuthContext";
+import { RoutePath } from "@/utils/route";
+import { db } from "@/libs/firebase";
+import { User } from "@/libs/dtl";
+import { ATHLETE_ROLE, FAN_ROLE } from "@/utils/constants";
 
 const JoinPage = () => {
   const { user } = useAuthContext();
-  const { isUpdating, updateDocument } = useUpdateDoc();
+  const router = useRouter();
   const [whoLoading, setWhoLoading] = useState({
     FAN: false,
     ATHLETE: false,
@@ -16,9 +21,28 @@ const JoinPage = () => {
   const handleUpdateDocument = async (profileType: "FAN" | "ATHLETE") => {
     try {
       setWhoLoading((c) => ({ ...c, [profileType]: true }));
-      await updateDocument(`user/${user?.uid}`, {
+
+      const docRef = doc(db, `user/${user?.uid}`);
+      await updateDoc(docRef, {
         profileType,
       });
+      const userData = (await getDoc(docRef)).data() as User;
+
+      if (profileType === FAN_ROLE) {
+        await router.push(
+          userData?.isFinishOnboarding
+            ? RoutePath.FAN
+            : RoutePath.FAN_ONBOARDING
+        );
+      }
+
+      if (profileType === ATHLETE_ROLE) {
+        await router.push(
+          userData?.isFinishOnboarding
+            ? RoutePath.ATHLETE
+            : RoutePath.ATHLETE_SETUP_ACCOUNT
+        );
+      }
     } catch (error) {
       console.log(error);
     }
@@ -50,8 +74,8 @@ const JoinPage = () => {
                   px="5"
                   py={{ base: "2", xl: "5" }}
                   fontSize={{ base: "sm", xl: "32px" }}
-                  onClick={() => handleUpdateDocument("FAN")}
-                  isLoading={isUpdating && whoLoading.FAN}
+                  onClick={async () => await handleUpdateDocument("FAN")}
+                  isLoading={whoLoading.FAN}
                 >
                   Fan
                 </Button>
@@ -87,8 +111,8 @@ const JoinPage = () => {
                   px="5"
                   py={{ base: "2", xl: "5" }}
                   fontSize={{ base: "sm", xl: "32px" }}
-                  isLoading={isUpdating && whoLoading.ATHLETE}
-                  onClick={() => handleUpdateDocument("ATHLETE")}
+                  isLoading={whoLoading.ATHLETE}
+                  onClick={async () => await handleUpdateDocument("ATHLETE")}
                 >
                   Athlete
                 </Button>

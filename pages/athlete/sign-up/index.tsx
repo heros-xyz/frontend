@@ -3,12 +3,21 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { httpsCallable } from "@firebase/functions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  FacebookAuthProvider,
+  getRedirectResult,
+  GoogleAuthProvider,
+  signInWithRedirect,
+} from "firebase/auth";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import AuthTemplate from "@/components/ui/AuthTemplate";
-import { functions } from "@/libs/firebase";
-import { IHerosError } from "@/types/globals/types";
+import { auth, db, functions } from "@/libs/firebase";
 import { useLoading } from "@/hooks/useLoading";
 import { convertTimeUnit } from "@/utils/time";
+import { ATHLETE_ROLE } from "@/utils/constants";
+import { RoutePath } from "@/utils/route";
+import { User } from "@/libs/dtl";
 
 const AthleteSignUp = () => {
   const [loading, setLoading] = useState(false);
@@ -45,10 +54,7 @@ const AthleteSignUp = () => {
   const handleSignUpFacebook = async () => {
     start();
     try {
-      await fetch("/api/set-role?role=ATHLETE");
-      await signIn("facebook", {
-        callbackUrl: "/",
-      });
+      await signInWithRedirect(auth, new FacebookAuthProvider());
       finish();
     } catch (error) {
       finish();
@@ -59,16 +65,44 @@ const AthleteSignUp = () => {
   const handleSignUpGoogle = async () => {
     start();
     try {
-      await fetch("/api/set-role?role=ATHLETE");
-      await signIn("google", {
-        callbackUrl: "/",
-      });
+      await signInWithRedirect(auth, new GoogleAuthProvider());
       finish();
     } catch (error) {
       finish();
       console.log("next auth google error", error);
     }
   };
+
+  useEffect(() => {
+    getRedirectResult(auth)
+      .then(async (credential) => {
+        if (credential?.user.uid) {
+          const ref = doc(db, `user/${credential?.user?.uid}`);
+          const user = (await getDoc(ref)).data() as User;
+          if (!user?.profileType) {
+            // first time
+            await updateDoc(ref, {
+              profileType: ATHLETE_ROLE,
+            });
+            await router.push(RoutePath.ATHLETE_SETUP_ACCOUNT);
+            return;
+          }
+
+          if (!user?.isFinishOnboarding) {
+            await router.push(RoutePath.ATHLETE_CHECKLIST);
+            return;
+          }
+
+          if (!!user?.isFinishOnboarding && !user?.isFinishSetupAccount) {
+            await router.push(RoutePath.ATHLETE_SETUP_ACCOUNT);
+            return;
+          }
+
+          await router.push(RoutePath.ATHLETE);
+        }
+      })
+      .catch(console.error);
+  }, [auth]);
 
   return (
     <Box>
