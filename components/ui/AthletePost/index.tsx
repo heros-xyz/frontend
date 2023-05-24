@@ -18,11 +18,7 @@ import { useUpdateEffect } from "react-use";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { FormikContext } from "formik";
-import {
-  IInteractionItem,
-  IInteractionMedia,
-  ITags,
-} from "@/types/athlete/types";
+import { IInteractionItem, IInteractionMedia } from "@/types/athlete/types";
 import { LoveIcon } from "@/components/svg/social/LoveIcon";
 import { CommentIcon } from "@/components/svg/social/CommentIcon";
 import { ShareIcon } from "@/components/svg/social/ShareIcon";
@@ -30,7 +26,7 @@ import InteractionsPost from "@/modules/athlete-interaction/components/post";
 import { useUpdateInteractionInfo } from "@/modules/athlete-interaction/hooks";
 import SocialSharing from "@/modules/athlete-profile/interactions/components/SocialSharing";
 import { useReactions } from "@/libs/dtl/reaction";
-import { usePost, usePostAsTaker, usePostsAsTaker } from "@/libs/dtl/post";
+import { usePost } from "@/libs/dtl/post";
 import AthleteInfo, { AthleteInfoProps } from "../AthleteInfo";
 import type { MenuItem } from "../AthleteMenu";
 import AthleteMenu from "../AthleteMenu";
@@ -45,7 +41,7 @@ interface IAthletePostProps {
   athleteInfo: AthleteInfoProps;
   postLikes: number;
   postComments: number;
-  hashtag?: ITags[];
+  hashtag?: string[];
   postContent: string;
   socialOrder: boolean;
   slideData: IInteractionMedia[];
@@ -92,7 +88,7 @@ const AthletePost: React.FC<IAthletePostProps> = ({
   ];
   const { formik, handleSubmit, isLoading } = useUpdateInteractionInfo();
   const reactions = useReactions(id);
-  const post = usePost(id)
+  const post = usePost(id);
 
   const handleClickMenu = (id: string) => {
     if (id === "delete") setIsOpenDelete(true);
@@ -123,9 +119,9 @@ const AthletePost: React.FC<IAthletePostProps> = ({
   }, []);
 
   const handleReaction = async () => {
-    if (reactions.iLikeIt){
+    if (reactions.iLikeIt) {
       await reactions.remove(id);
-    }else{
+    } else {
       await reactions.create({
         to: id,
         toType: "POST",
@@ -315,7 +311,8 @@ const AthletePost: React.FC<IAthletePostProps> = ({
             fontSize={{ base: "xs", lg: "lg" }}
             color="secondary"
           >
-            {post.data?.reactionsCount} like(s), {post.data?.commentsCount || 0} comment(s)
+            {post.data?.reactionsCount ?? 0} like(s),{" "}
+            {post.data?.commentsCount || 0} comment(s)
           </Text>
           {children}
         </GridItem>

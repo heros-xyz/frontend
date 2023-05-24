@@ -137,8 +137,8 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
         fontSize={{ base: "xs", lg: "lg" }}
         color="secondary"
       >
-        {post.data?.reactionsCount} like(s), {post.data?.commentsCount || 0}{" "}
-        comment(s)
+        {post.data?.reactionsCount ?? 0} like(s),{" "}
+        {post.data?.commentsCount || 0} comment(s)
       </Text>
       comment(s)
       {/*!view && (
