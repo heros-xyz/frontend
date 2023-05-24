@@ -1,6 +1,5 @@
 import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import {
-    Timestamp,
     doc,
     QueryDocumentSnapshot,
     collection,
@@ -17,8 +16,7 @@ import { Suscription } from "@/libs/dtl/common";
 import { db } from "../firebase";
 import { Nationality } from "./nationalities";
 import { useGetMySubscriptions } from "./subscription";
-
-const AthleteProfileCollectionName = "athleteProfile"
+import { collectionPath } from "./constant";
 
 
 export interface AthleteProfile {
@@ -55,22 +53,23 @@ export interface AthleteProfile {
 export const converter = {
     toFirestore: (data: any) => data,
     fromFirestore: (snap: QueryDocumentSnapshot) =>
-    ({
+        ({
             id: snap?.id,
             ...snap?.data(),
             createdAt: snap?.data()?.createdAt?.toDate(),
-    }) as AthleteProfile
+            dateOfBirth: snap?.data()?.dateOfBirth?.toDate(),
+        }) as AthleteProfile
 }
 
-export const useAthleteProfile = (athleteId?: string):Suscription<AthleteProfile>  => {
+export const useAthleteProfile = (athleteId?: string): Suscription<AthleteProfile> => {
     const [status, setStatus] = useState<Suscription<AthleteProfile>>({
         initiated: false,
         loading: true,
     })
 
-    const docRef = useMemo(()=>{
-        if(!athleteId) return
-        return doc(db, "athleteProfile", athleteId).withConverter(converter)
+    const docRef = useMemo(() => {
+        if (!athleteId) return
+        return doc(db, collectionPath.ATHLETE_PROFILE, athleteId).withConverter(converter)
     }, [athleteId])
 
     useEffect(() => {
@@ -81,28 +80,28 @@ export const useAthleteProfile = (athleteId?: string):Suscription<AthleteProfile
             error: undefined,
         }))
         getDoc(docRef)
-          .then((snapshot) => {
-              if (!snapshot.exists()){
-                  setDoc(docRef, {} as AthleteProfile)
-              }
-              setStatus((prev) => ({
-                  ...prev,
-                  data: snapshot.data()
-              }))
-          })
-          .catch((e: Error) => {
-              setStatus((prev) => ({
-                  ...prev,
-                  error: e.message
-              }))
-          })
-          .finally(() => {
-              setStatus((prev) => ({
-                  ...prev,
-                  loading: false,
-                  lastUpdate: new Date()
-              }))
-          })
+            .then((snapshot) => {
+                if (!snapshot.exists()) {
+                    setDoc(docRef, {} as AthleteProfile)
+                }
+                setStatus((prev) => ({
+                    ...prev,
+                    data: snapshot.data()
+                }))
+            })
+            .catch((e: Error) => {
+                setStatus((prev) => ({
+                    ...prev,
+                    error: e.message
+                }))
+            })
+            .finally(() => {
+                setStatus((prev) => ({
+                    ...prev,
+                    loading: false,
+                    lastUpdate: new Date()
+                }))
+            })
         return onSnapshot(docRef, (snapshot) => {
             setStatus((prev) => ({
                 ...prev,
@@ -116,21 +115,21 @@ export const useAthleteProfile = (athleteId?: string):Suscription<AthleteProfile
     return status
 }
 
-interface MyAthleteProfileHook extends Suscription<AthleteProfile>{
+interface MyAthleteProfileHook extends Suscription<AthleteProfile> {
     update: (data: Partial<AthleteProfile>) => Promise<void> | undefined
 }
-export const useMyAthleteProfile = ():MyAthleteProfileHook  => {
+export const useMyAthleteProfile = (): MyAthleteProfileHook => {
     const { user } = useAuthContext();
     const status = useAthleteProfile(user?.uid)
 
-    const docRef = useMemo(()=>{
-        if(!user || !user.uid) return
-        return doc(db, AthleteProfileCollectionName, user.uid).withConverter(converter)
+    const docRef = useMemo(() => {
+        if (!user || !user.uid) return
+        return doc(db, collectionPath.ATHLETE_PROFILE, user.uid).withConverter(converter)
     }, [user?.uid])
 
-    const update = useCallback((data: Partial<AthleteProfile>)=>{
+    const update = useCallback((data: Partial<AthleteProfile>) => {
         if (!user?.uid) return
-        return updateDoc(doc(db, AthleteProfileCollectionName, user.uid).withConverter(converter), data)
+        return updateDoc(doc(db, collectionPath.ATHLETE_PROFILE, user.uid).withConverter(converter), data)
     }, [user?.uid])
 
 
@@ -142,7 +141,7 @@ export const useMyAthleteProfile = ():MyAthleteProfileHook  => {
 
 export function useAllAthletes({ limitAmount = 3 } = { limitAmount: 3 }) {
     const q = query(
-        collection(db, AthleteProfileCollectionName),
+        collection(db, collectionPath.ATHLETE_PROFILE),
         where("isFinishOnboarding", "==", true),
         limit(limitAmount)
     ).withConverter(converter)
@@ -155,7 +154,7 @@ export function useAllAthletes({ limitAmount = 3 } = { limitAmount: 3 }) {
 }
 
 export function useGetAthleteProfileByUid(uid: string) {
-    const [data, loading, error] = useDocumentData(uid ? doc(db, AthleteProfileCollectionName, uid).withConverter(converter) : null)
+    const [data, loading, error] = useDocumentData(uid ? doc(db, collectionPath.ATHLETE_PROFILE, uid).withConverter(converter) : null)
 
     return {
         data,
@@ -169,7 +168,7 @@ type GetListAthleteRecommended = {
 }
 export function useGetListAthleteRecommended({ limitAmount = 3 }: GetListAthleteRecommended) {
     const q = query(
-        collection(db, AthleteProfileCollectionName),
+        collection(db, collectionPath.ATHLETE_PROFILE),
         where("isFinishOnboarding", "==", true),
         orderBy("totalSubCount", "desc"),
         limit(limitAmount)
@@ -188,7 +187,7 @@ export function useAthleteSubscribed({ limitAmount = 3 }) {
     useEffect(() => {
         const fetchProfiles = async () => {
             const profilesPromises = mySubscriptions?.map?.(async ({ maker: id }) => {
-                const profileRef = doc(db, `${AthleteProfileCollectionName}/${id}`).withConverter(converter);
+                const profileRef = doc(db, `${collectionPath.ATHLETE_PROFILE}/${id}`).withConverter(converter);
                 const unsubscribe = onSnapshot(profileRef, profileSnapshot => {
                     if (profileSnapshot.exists()) {
                         setProfiles(prevProfiles => {

@@ -18,27 +18,28 @@ import { auth, db, functions } from "@/libs/firebase";
 import { RoutePath } from "@/utils/route";
 import { useAuthContext } from "@/context/AuthContext";
 import { convertTimeUnit } from "@/utils/time";
+import { ATHLETE_ROLE, FAN_ROLE } from "@/utils/constants";
 
 const SignIn = () => {
   const router = useRouter();
   const { start, finish } = useLoading();
-  const { userProfile, loading: authContextLoading } = useAuthContext();
+  const { user, userProfile, loading: authContextLoading } = useAuthContext();
   const [signInWithEmailError, setSignInWithEmailError] =
     useState<IHerosError>();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!userProfile) return;
-    if (userProfile.uid) {
-      if (userProfile.profileType === "FAN") {
+    if (!userProfile && !user?.uid) return;
+    if (userProfile?.uid && user?.uid) {
+      if (userProfile.profileType === FAN_ROLE) {
         router.push(RoutePath.FAN);
-      } else if (userProfile.profileType === "ATHLETE") {
+      } else if (userProfile.profileType === ATHLETE_ROLE) {
         router.push(RoutePath.ATHLETE);
       } else {
         router.push(RoutePath.JOINING_AS);
       }
     }
-  }, [userProfile]);
+  }, [userProfile, user?.uid]);
 
   const handleSignInWithEmail = async (email: string) => {
     setLoading(true);

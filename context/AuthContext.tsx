@@ -44,6 +44,7 @@ const useUserProfile = (uid: string | undefined) => {
 };
 
 const PublicRoutes = [
+  "/",
   "/[id]/[nickname]",
   "/joining-as",
   "/sign-in",
@@ -68,14 +69,14 @@ export const AuthContextProvider = ({
     }
     if (!user) {
       if (PublicRoutes.includes(router.pathname)) {
-        console.log("Public page");
+        console.info("Public page");
       } else {
-        router.push(RoutePath.SIGN_IN);
+        router.replace(RoutePath.SIGN_IN);
       }
     } else {
       console.log("user authenticated");
     }
-  }, [user, loading, userProfile, router.pathname]);
+  }, [user, loading, router.pathname]);
 
   return (
     <AuthContext.Provider value={{ user, userProfile, loading }}>
