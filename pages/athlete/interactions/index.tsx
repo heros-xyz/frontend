@@ -11,7 +11,6 @@ import AthletePost from "@/components/ui/AthletePost";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import { IInteractionItem } from "@/types/athlete/types";
-import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { useAuthContext } from "@/context/AuthContext";
 import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
@@ -21,13 +20,6 @@ const Interactions = () => {
   const { userProfile } = useAuthContext();
   const { data, loading } = useMyAthleteProfile();
   const router = useRouter();
-  /*
-  const { hasNextPage, interactionsList, isLoading, onLoadMore } =
-    useAthleteInteraction({
-      isGetPublic: false,
-      take: 10,
-    });
-    */
   const hasNextPage = false;
   const onLoadMore = () => {};
   const { data: interactionsList, loading: isLoading } = usePostsAsMaker();
@@ -137,8 +129,8 @@ const Interactions = () => {
                         isAccessRight: true, // TODO: check this
                         isSchedulePost: !!item?.schedule,
                         tags: item.tags as any,
-                        commentCount: item?.commentCount ?? 0,
-                        reactionCount: item?.reactionCount ?? 0,
+                        commentCount: item?.commentsCount ?? 0,
+                        reactionCount: item?.reactionsCount ?? 0,
                         liked: item?.liked ?? false,
                         isCurrentUserReacted: userProfile?.uid === item?.uid,
                         interactionMedia: item?.media.map((media, index) => ({
@@ -156,8 +148,8 @@ const Interactions = () => {
                         isAccessRight: true,
                         isSchedulePost: !!item?.schedule,
                         tags: item.tags as any,
-                        commentCount: item?.commentCount ?? 0,
-                        reactionCount: item?.reactionCount ?? 0,
+                        commentCount: item?.commentsCount ?? 0,
+                        reactionCount: item?.reactionsCount ?? 0,
                         liked: item?.liked ?? false,
                         interactionMedia: item?.media.map((media, index) => ({
                           type: media.type,
@@ -167,7 +159,7 @@ const Interactions = () => {
                       })}
                     >
                       <Box mt={{ base: 1, lg: 3 }}>
-{/*
+                        {/*
                         <AthleteInteractionComments id={item?.id} isPreview />
 */}
                       </Box>

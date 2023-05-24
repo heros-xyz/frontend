@@ -41,10 +41,8 @@ export interface Post {
   publicType: string
   tags: string[]
   media: PostMedia[]
-  reactionCount?: number
-  commentCount?: number
-  commentsCount: number
-  reactionsCount: number
+  commentsCount?: number
+  reactionsCount?: number
   liked?: boolean
   uid?: string
   createdAt: Date
@@ -160,21 +158,7 @@ export const usePostsAsMaker = (loadData = true, tag?: string) => {
 
     getDocs(q)
       .then(async (snapshot) => {
-        // contar likes y reactions para cada post
-        const posts = snapshot.docs.map(d => d.data())
-
-        for (const post of posts) {
-          const queryComments = query(collection(db, "comments"), where("post", "==", post.id)).withConverter(converter)
-          const queryReactions = query(collection(db, "reactions"), where("to", "==", post.id)).withConverter(converter)
-
-          const totalCommentsCount = (await getCountFromServer(queryComments)).data().count
-          const totalReactionsCount = (await getCountFromServer(queryReactions)).data().count
-
-          post.reactionCount = totalReactionsCount
-          post.commentCount = totalCommentsCount
-        }
-
-        serData(posts)
+        serData(snapshot.docs.map(d => d.data()))
       })
       .finally(() => setLoading(false))
     return onSnapshot(q, (snapshot) => {

@@ -33,16 +33,6 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
     useMyAthleteProfile();
   const [totalComments, setTotalComments] = useState(0);
   const [isFocusComment, setIsFocusComment] = useState(false);
-  /*
-  const {
-    data: postInfo,
-    isLoading,
-    refetch,
-  } = useGetInteractionDetailQuery(id as string, {
-    skip: typeof id !== "string" || !Boolean(id),
-  });
-  */
-  console.log({ id });
   const { data, loading: isLoading } = usePostAsMaker(id);
   const postInfo = {
     ...data,
@@ -50,10 +40,9 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
     isCurrentUserReacted: false, // TODO CHECK THIS
     interactionMedia: data?.media,
     isAccessRight: true, // TODO check this
-    tags: data?.tags.map((tag) => ({ id: tag, name: tag })),
+    tags: data?.tags,
   } as IInteractionItem & { media: PostMedia[] };
 
-  console.log({ postInfo });
   const formatPropAthletePost = useMemo(
     () => ({
       id: postInfo?.id,

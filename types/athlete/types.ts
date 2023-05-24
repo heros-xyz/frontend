@@ -320,7 +320,7 @@ export interface IInteractionItem {
   createdAt: Date;
   updatedAt: Date;
   content: string;
-  tags: ITags[];
+  tags: string[];
   publicType: string;
   publicDate?: Date | string | null;
   interactionMedia: IInteractionMedia[];

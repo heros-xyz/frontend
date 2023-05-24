@@ -55,14 +55,14 @@ const InteractionsByTag = () => {
           sortOrder: item?.sortOrder ?? idx,
         })) ?? [],
       socialOrder: true,
-      postLikes: postInfo?.reactionCount ?? 0,
-      postComments: postInfo?.commentCount ?? 0,
+      postLikes: postInfo?.reactionsCount ?? 0,
+      postComments: postInfo?.commentsCount ?? 0,
       postContent: postInfo.content,
       liked: postInfo?.liked ?? false,
       isAccessRight: true, // ATHLETE CAN SEE OWN POSTS
       interactionMedia: postInfo?.media,
       isSchedulePost: postInfo?.schedule,
-      hashtag: postInfo?.tags.map((tag) => ({ id: tag, name: tag })),
+      hashtag: postInfo?.tags,
     };
   };
 
@@ -134,10 +134,8 @@ const InteractionsByTag = () => {
                             ...media,
                             sortOrder: media?.sortOrder ?? idx,
                           })),
-                          tags: item?.tags.map((tag) => ({
-                            id: tag,
-                            name: tag,
-                          })),
+                          commentCount: item?.commentsCount,
+                          reactionCount: item?.reactionsCount,
                         } as IInteractionItem
                       }
                       onDeleted={router.reload}
