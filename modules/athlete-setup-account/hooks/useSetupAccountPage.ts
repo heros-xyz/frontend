@@ -88,7 +88,6 @@ const useSetupAccountPage = () => {
   const totalStep = 3;
   const toast = useToast();
   const { start, finish } = useLoading()
-  const router = useRouter()
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -126,6 +125,8 @@ const useSetupAccountPage = () => {
           avatar: avatarUrl,
           createdAt: new Date(),
           fullName: getFullName(params?.firstName, params?.lastName, params?.middleName),
+          totalSubCount: 0,
+          totalInteractionCount: 0
         })
         // update user/{uid}
         await myUserProfile.update({
@@ -146,14 +147,16 @@ const useSetupAccountPage = () => {
     },
   });
 
-  useEffect(() => {
+/*   useEffect(() => {
+    debugger
+    console.log({ userProfile, showSuccess })
     if (userProfile?.isFinishSetupAccount && userProfile?.isFinishOnboarding) {
       router.push(RoutePath.ATHLETE)
     }
     if (userProfile?.isFinishSetupAccount) {
       router.push(RoutePath.ATHLETE_CHECKLIST)
     }
-  }, [userProfile]);
+  }, [userProfile, showSuccess]); */
 
   useEffect(() => {
     if (error) {

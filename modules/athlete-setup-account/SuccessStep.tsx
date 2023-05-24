@@ -1,9 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import OnboardingWrapper, {
-  NextButton,
-  OnboardingProps,
-} from "@/components/ui/OnboardingWrapper";
+import { OnboardingProps } from "@/components/ui/OnboardingWrapper";
 import { NextIcon } from "@/components/svg/NextIcon";
 import { FanOnboardingSuccess } from "@/components/svg/FanOnboardingSuccess";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
