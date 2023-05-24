@@ -49,16 +49,20 @@ const InteractionsByTag = () => {
         publishDate: postInfo?.publicDate,
         id: session?.user?.id ?? "",
       },
-      slideData: postInfo.media ?? [],
-      hashtag: postInfo.tags,
+      slideData:
+        postInfo.media.map((item, idx) => ({
+          ...item,
+          sortOrder: item?.sortOrder ?? idx,
+        })) ?? [],
       socialOrder: true,
-      postLikes: postInfo.reactionCount,
-      postComments: postInfo.commentCount,
+      postLikes: postInfo?.reactionCount ?? 0,
+      postComments: postInfo?.commentCount ?? 0,
       postContent: postInfo.content,
-      liked: postInfo.liked,
+      liked: postInfo?.liked ?? false,
       isAccessRight: true, // ATHLETE CAN SEE OWN POSTS
       interactionMedia: postInfo?.media,
       isSchedulePost: postInfo?.schedule,
+      hashtag: postInfo?.tags.map((tag) => ({ id: tag, name: tag })),
     };
   };
 
@@ -121,16 +125,21 @@ const InteractionsByTag = () => {
                     <AthletePost
                       isNavigate
                       isDetailPage={false}
-                      interactionInfo={{
-                        ...item,
-                        isSchedulePost: Boolean(item?.schedule),
-                        isAccessRight: true, // ATHLETE CAN SEE OWN POSTS
-                        interactionMedia: item?.media.map((media, idx) => ({
-                          ...media,
-                          sortOrder: media?.sortOrder ?? idx,
-                        })),
-                        tags: item?.tags.map((tag) => ({ id: tag, name: tag })),
-                      }}
+                      interactionInfo={
+                        {
+                          ...item,
+                          isSchedulePost: Boolean(item?.schedule),
+                          isAccessRight: true, // ATHLETE CAN SEE OWN POSTS
+                          interactionMedia: item?.media.map((media, idx) => ({
+                            ...media,
+                            sortOrder: media?.sortOrder ?? idx,
+                          })),
+                          tags: item?.tags.map((tag) => ({
+                            id: tag,
+                            name: tag,
+                          })),
+                        } as IInteractionItem
+                      }
                       onDeleted={router.reload}
                       onUpdated={router.reload}
                       {...formatPropAthletePost(item)}
