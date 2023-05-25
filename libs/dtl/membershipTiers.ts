@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { addDoc, collection, doc, getDocs, onSnapshot, query, QueryDocumentSnapshot, QuerySnapshot, updateDoc, where } from "firebase/firestore";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import { addDoc, collection, doc, getDocs, onSnapshot, query, QueryDocumentSnapshot, updateDoc, where } from "firebase/firestore";
 import { db } from "@/libs/firebase";
 import { useAuthContext } from "@/context/AuthContext";
 import { MutationState, Suscription } from "@/libs/dtl/common";
@@ -181,7 +180,6 @@ export function useMembershipsFromAthlete(athleteId: string) {
     })
   }, [athleteId])
 
-  console.log("data", data)
   return {
     data,
     status
