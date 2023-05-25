@@ -4,21 +4,22 @@ const envs = getEnvVariables()
 const isDev = envs.NODE_ENV === 'development';
 
 export const Logger = {
-    info(message: any): void {
+    // pass args to console.log
+    info(...args: any): void {
         if (isDev) {
-            console.log(message);
+            console.log(...args);
         }
     },
 
-    warn(message: any): void {
+    warn(...args: any): void {
         if (isDev) {
-            console.warn(message);
+            console.warn(...args);
         }
     },
 
-    error(message: any): void {
+    error(...args: any): void {
         if (isDev) {
-            console.error(message);
+            console.error(...args);
         }
     },
 };
