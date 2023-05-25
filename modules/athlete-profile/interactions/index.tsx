@@ -1,4 +1,11 @@
-import { Box, Button, CloseButton, Divider, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  CloseButton,
+  Divider,
+  Flex,
+  Text,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import {
   FC,
@@ -14,6 +21,8 @@ import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { useUser } from "@/hooks/useUser";
 import { Post, usePostsAsTaker } from "@/libs/dtl/post";
 import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
+import AthleteInfo from "@/components/ui/AthleteInfo";
+import { LockIcon } from "@/components/svg/LockIcon";
 import InteractionSection from "./components/InteractionSection";
 import { SocialInteraction } from "./components/SocialInteraction/SocialInteraction";
 import SubscribeContent from "./components/SubscribeContent";
@@ -41,7 +50,11 @@ const Interactions: FC<IInteractionsProps> = ({
   const [interactionData, setInteractionData] = useState<Post[]>([]);
   const { data: athleteProfile, loading: loadingAthleteProfile } =
     useGetAthleteProfileByUid(id as string);
-  const { data, loading: isLoading } = usePostsAsTaker({
+  const {
+    data,
+    loading: isLoading,
+    postsDates,
+  } = usePostsAsTaker({
     maker: id as string,
   });
 
@@ -152,7 +165,7 @@ const Interactions: FC<IInteractionsProps> = ({
         </Then>
       </If>
 
-      <If condition={interactionsList.length}>
+      <If condition={interactionsList?.length}>
         <Then>
           {interactionsList?.map((interactionPost, idx: number) => (
             <Fragment key={interactionPost?.id}>
@@ -187,7 +200,7 @@ const Interactions: FC<IInteractionsProps> = ({
             </Fragment>
           ))}
         </Then>
-        <Else>
+        {!!postsDates?.length && (
           <Box
             my={6}
             fontSize={{ base: "xs", lg: "md" }}
@@ -199,8 +212,54 @@ const Interactions: FC<IInteractionsProps> = ({
             </Text>{" "}
             {` hasn't created any interactions yet!`}
           </Box>
-        </Else>
+        )}
       </If>
+      <If condition={!!postsDates?.length && !interactionsList.length}>
+        <Then>
+          <Box py={{ base: 6, lg: 8 }}>
+            {postsDates?.map?.((item) => (
+              <Box key={item?.id} py="5" h="100%">
+                <Flex justifyContent="space-between" mb="20px">
+                  <AthleteInfo
+                    athleteName={athleteProfile?.nickName ?? ""}
+                    publishDate={item?.date}
+                    imagePath={athleteProfile?.avatar ?? ""}
+                  />
+                </Flex>
+                <Button
+                  size="lg"
+                  onClick={() => {
+                    router.push(`/fan/athlete-profile/${id}?current=3`);
+                  }}
+                  bg="accent.1"
+                  gap="10px"
+                  color="accent.2"
+                  w="full"
+                >
+                  <Flex>
+                    <Text pr={3}>Subscribe</Text>
+                    <LockIcon />
+                  </Flex>
+                </Button>
+              </Box>
+            ))}
+          </Box>
+        </Then>
+        {!postsDates?.length && (
+          <Box
+            my={6}
+            fontSize={{ base: "xs", lg: "md" }}
+            fontWeight={400}
+            color="primary"
+          >
+            <Text as="span" fontWeight={"bold"}>
+              {athleteNickname}
+            </Text>{" "}
+            {` hasn't created any interactions yet!`}
+          </Box>
+        )}
+      </If>
+
       {isLoading && (
         <Box mt={validateIsFan ? 0 : 12}>
           <PostSkeleton pb={12} />

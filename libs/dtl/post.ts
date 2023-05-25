@@ -10,7 +10,6 @@ import {
   where,
   addDoc,
   updateDoc,
-  getCountFromServer,
   orderBy,
   Timestamp,
   limit
@@ -21,6 +20,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import { db, storage } from "@/libs/firebase";
 import { IMediaExisted } from "@/types/athlete/types";
 import { Suscription } from "@/libs/dtl/common";
+import { Logger } from "@/utils/logger";
 import { MutationState } from "./careerJourney";
 import { useGetMySubscriptions } from "./subscription";
 import { AthleteProfile } from "./athleteProfile";
@@ -48,6 +48,11 @@ export interface Post {
   createdAt: Date
   updatedAt: Date,
   author: AthleteProfile
+}
+
+export interface PostDate {
+  id: string
+  date: Date
 }
 
 const converter = {
@@ -248,10 +253,13 @@ export const useEditPost = () => {
 
 
 export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const { user } = useAuthContext()
   const [data, setData] = useState<Post[]>([]);
+  const [postsDates, setPostsDates] = useState<PostDate[]>([])
   const todayDate =  new Date(Date.now())
   const dataRef = useMemo(() => {
+    if (!user) return
     if (params.maker) {
       return query(
         collection(db, `post`),
@@ -273,6 +281,7 @@ export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
 
   useEffect(() => {
     if (!dataRef) return
+    setLoading(true)
     getDocs(dataRef)
       .then((snapshot) => {
         setData(snapshot.docs.map(d => d.data()))
@@ -283,7 +292,24 @@ export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
     });
   }, [dataRef]);
 
-  return { loading, data }
+  useEffect(() => {
+    if (!params?.maker) return
+    let unsubscribeListener: null | any = null;
+
+    unsubscribeListener = onSnapshot(doc(db, `athleteProfile/${params?.maker}`), (snapshot) => {
+      const profile = snapshot.data();
+      Logger.info('usePostsAsTaker', { profile })
+      setPostsDates(profile?.postsDates.map((item: { id: string, date: Timestamp }) =>
+        ({ ...item, date: item?.date?.toDate?.() })) ?? [])
+    });
+
+    return () => {
+      unsubscribeListener?.();
+    };
+
+  }, [user?.uid, params?.maker])
+
+  return { loading, data, postsDates }
 }
 
 export const usePostAsTaker = (post?: string) => {
