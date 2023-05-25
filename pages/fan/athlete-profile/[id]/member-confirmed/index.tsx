@@ -6,6 +6,7 @@ import { FanOnboardingSuccess } from "@/components/svg/FanOnboardingSuccess";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 import { db } from "@/libs/firebase";
 import { AthleteProfile } from "@/libs/dtl/athleteProfile";
+import { collectionPath } from "@/libs/dtl/constant";
 
 interface Props {
   athleteNickname: string;
@@ -56,3 +57,22 @@ const MembershipConfirmed = (props: Props) => {
   );
 };
 export default MembershipConfirmed;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { id } = context.query;
+  const athleteProfileRef = doc(
+    db,
+    collectionPath.ATHLETE_PROFILE,
+    id as string
+  );
+  const athleteProfileData = (
+    await getDoc(athleteProfileRef)
+  ).data() as AthleteProfile;
+
+  return {
+    props: {
+      athleteNickname:
+        athleteProfileData?.nickName ?? athleteProfileData.firstName,
+    },
+  };
+}

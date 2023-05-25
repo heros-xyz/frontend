@@ -57,7 +57,7 @@ const NotificationCard: React.FC<IProps> = ({ item }) => {
           borderRadius={["0", "10px"]}
         >
           <HerosImage
-            src={item?.source?.avatar}
+            src={item?.source?.avatar ?? ""}
             width={{ base: "50px", lg: "60px" }}
             height={{ base: "50px", lg: "60px" }}
           />

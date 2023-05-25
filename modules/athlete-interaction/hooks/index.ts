@@ -227,7 +227,7 @@ export const useUpdateInteractionInfo = () => {
         newMedia: listMedia,
         listMediaExisted, // old data
         schedule,
-        publicDate: dayjs(formatDate).format() as string,
+       // publicDate: dayjs(formatDate).format() as string,
       };
 
       await edit(interactionId, mapPayload as any)

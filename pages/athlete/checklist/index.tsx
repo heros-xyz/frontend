@@ -11,7 +11,6 @@ import {
 import { useRouter } from "next/router";
 import { FC, useCallback, useMemo } from "react";
 import Head from "next/head";
-import { m } from "framer-motion";
 import Progress from "@/components/common/Progress";
 import { ArrowRight } from "@/components/svg/ArrowRight";
 import Checklist, { ChecklistProps } from "@/components/ui/Checklist";
@@ -139,7 +138,9 @@ const AthleteChecklist: FC = () => {
     });
   }, []);
 
-  if (myUserProfile.loading || myUserProfile.loading) return <></>;
+  if (myUserProfile?.loading) {
+    return <></>;
+  }
 
   return (
     <Box as="section" bg="white" minH="100vh">

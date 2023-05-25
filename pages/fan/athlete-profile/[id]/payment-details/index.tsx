@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { FormikContext } from "formik";
 import { Else, If, Then } from "react-if";
 import dayjs from "dayjs";
-import { useEffect, useMemo, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import { useUpdateEffect } from "react-use";
 import Head from "next/head";
 import PaymentForm from "@/components/payment/PaymentForm";
@@ -38,6 +38,7 @@ const PaymentDetails = () => {
   const [isError, setIsError] = useState<boolean>(false);
   const [errorCode, setErrorCode] = useState<number>(0);
   const [errorCard, setErrorCard] = useState<boolean>(false);
+  const [errorData, setErrorData] = useState<unknown>(null);
   const { data: athleteProfile, loading: loadingAthleteProfile } =
     useGetAthleteProfileByUid(router?.query?.id as string);
   const {
@@ -59,15 +60,16 @@ const PaymentDetails = () => {
     error: errorSubscribe,
   } = useSubscribeToAthlete();
 
-  /*     create,
-    data: dataSuccess,
-    : loadingAdd,
-    error: errorData, */
   const {
     create: addPayment,
     data: dataSuccess,
-    dataStatus: { loading: loadingAdd, error: errorData },
+    dataStatus: { loading: loadingAdd, error: errorPayment },
   } = usePaymentMethods();
+
+  const [newPaymentId, setNewPaymentId] = useState<string | null>(null);
+  const newPayment = dataSuccess?.find?.((payment) =>
+    payment.id === newPaymentId ? payment : null
+  );
 
   const { formik, isValid, submitCount, handleSubmit, values } =
     usePaymentForm();
@@ -85,8 +87,7 @@ const PaymentDetails = () => {
       return;
     }
     if (!paymentInfoList?.length) {
-      console.log("new payment submit", values);
-      await addPayment({
+      const docRef = await addPayment({
         cardName: values.nameOnCard,
         cardNumber: values.cardNumber,
         cardExpMonth: +values.expiredDate.split("/")[0],
@@ -94,16 +95,26 @@ const PaymentDetails = () => {
         cardCvc: values.cvv,
         expiredDate: values?.expiredDate,
       } as Payment);
+
+      if (docRef?.id) {
+        setNewPaymentId(docRef?.id);
+      }
     }
   };
 
-  //Handle Add Card Success
-  useUpdateEffect(() => {
-    if (dataSuccess) {
-      console.log("submit");
-      return;
+  const loadingPaymentAfterSubmit =
+    newPayment?.id !== null &&
+    newPaymentId !== null &&
+    !newPayment?.stripePayment &&
+    !newPayment?.error;
+  const newPaymentHasError =
+    !!newPayment?.id && !newPayment?.stripePayment && !!newPayment?.error;
+
+  useEffect(() => {
+    if (newPaymentHasError) {
+      onOpen();
     }
-  }, [dataSuccess]);
+  }, [loadingPaymentAfterSubmit, newPaymentHasError]);
 
   const tierSelected = useMemo(() => {
     if (tierMembershipList?.length) {
@@ -159,6 +170,8 @@ const PaymentDetails = () => {
     }
   }, [errorSubscribe]);
 
+  console.log({ paymentInfoList, errorData });
+
   if (loadingAthleteProfile || loadingPaymentMethods) {
     return <></>;
   }
@@ -196,7 +209,13 @@ const PaymentDetails = () => {
               </Heading>
             </GridItem>
             <GridItem area={"detail"} color="black.primary">
-              <If condition={paymentInfoList && paymentInfoList?.length > 0}>
+              <If
+                condition={
+                  !loadingPaymentAfterSubmit &&
+                  paymentInfoList &&
+                  paymentInfoList?.length > 0
+                }
+              >
                 <Then>
                   <Box>
                     <Box
@@ -260,7 +279,9 @@ const PaymentDetails = () => {
                   onClick={() => {
                     handleSubmit();
                   }}
-                  isLoading={loadingSubscribe || loadingAdd}
+                  isLoading={
+                    loadingSubscribe || loadingAdd || loadingPaymentAfterSubmit
+                  }
                 >
                   Subscribe Now
                 </Button>
