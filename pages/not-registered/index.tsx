@@ -7,10 +7,8 @@ import {
   Link,
   Text,
 } from "@chakra-ui/react";
-import { Session } from "next-auth";
 import Head from "next/head";
 import NextLink from "next/link";
-import { wrapper } from "@/store";
 
 const RegisteredEmail = () => {
   return (

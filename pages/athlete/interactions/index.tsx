@@ -8,9 +8,6 @@ import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import { HashTagIcon } from "@/components/svg/HashTagIcon";
 import { PhotoIcon } from "@/components/svg/Photo";
 import AthletePost from "@/components/ui/AthletePost";
-import { EditIcon } from "@/components/svg/menu/EditIcon";
-import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
-import { IInteractionItem } from "@/types/athlete/types";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { useAuthContext } from "@/context/AuthContext";
 import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
@@ -23,33 +20,6 @@ const Interactions = () => {
   const hasNextPage = false;
   const onLoadMore = () => {};
   const { data: interactionsList, loading: isLoading } = usePostsAsMaker();
-
-  const formatPropAthletePost = (postInfo: IInteractionItem) => {
-    return {
-      id: postInfo.id,
-      menuList: [
-        { id: "edit", itemName: "Edit", Icon: <EditIcon color="primary" /> },
-        {
-          id: "delete",
-          itemName: "Delete",
-          Icon: <DeleteIcon color="primary" />,
-        },
-      ],
-      athleteInfo: {
-        imagePath: userProfile?.avatar || "",
-        athleteName: data?.nickName ?? "",
-        publishDate: postInfo.publicDate,
-        id: userProfile?.uid ?? "",
-      },
-      slideData: postInfo.interactionMedia ?? [],
-      hashtag: postInfo.tags,
-      socialOrder: true,
-      postLikes: postInfo.reactionCount,
-      postComments: postInfo.commentCount,
-      postContent: postInfo.content,
-      liked: postInfo.liked,
-    };
-  };
 
   if (loading || !userProfile || !data || isLoading) {
     return <></>;
@@ -106,7 +76,7 @@ const Interactions = () => {
             </Flex>
           </Box>
         </Box>
-        <If condition={status === "loading" || isLoading}>
+        <If condition={isLoading}>
           <Then>
             <PostSkeleton pb={12} />
             <PostSkeleton pb={12} />
@@ -129,7 +99,7 @@ const Interactions = () => {
                       id={item.id}
                     >
                       <Box mt={{ base: 1, lg: 3 }}>
-{/*
+                        {/*
                         <AthleteInteractionComments id={item?.id} isPreview />
 */}
                       </Box>

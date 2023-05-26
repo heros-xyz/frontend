@@ -3,7 +3,7 @@ import { Flex, Text, Heading, BoxProps, Box } from "@chakra-ui/react";
 import Link from "next/link";
 import { Else, If, Then } from "react-if";
 import { Waypoint } from "react-waypoint";
-import { ADMIN_ROLE, ATHLETE_ROLE, FAN_ROLE } from "@/utils/constants";
+import { ATHLETE_ROLE, FAN_ROLE } from "@/utils/constants";
 import { IAthleteSubscribed, IFanInfo } from "@/types/athlete/types";
 import YourAthleteCard from "../Card";
 import SearchResultSkeleton from "../../SearchResult/Skeleton";

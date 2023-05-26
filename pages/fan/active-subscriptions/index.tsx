@@ -65,7 +65,6 @@ const PaymentInfo = () => {
     }
   };
 
-  const isFetching = false;
   const currentData = dataSub?.map((e: any) => ({
     id: e.id,
     nickName: e?.makerData.nickName,
@@ -78,15 +77,6 @@ const PaymentInfo = () => {
     autoRenew: e?.autoRenew,
     totalAccessibleInteraction: e?.totalAccessibleInteraction as unknown as any, // TODO,
   })) as unknown as GetActiveSubscription[];
-
-  /*
-  useEffect(() => {
-    if (dataSub && !(isFetching || isLoading)) {
-      setCurrentData(c);
-      setHasNextPage(false); // TODO 
-    }
-  }, [dataSub, isAdmin]);
-  */
 
   useUpdateEffect(() => {
     onCloseConfirm();

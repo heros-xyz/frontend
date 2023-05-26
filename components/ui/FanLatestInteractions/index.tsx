@@ -16,9 +16,7 @@ import { Else, If, Then } from "react-if";
 import { IconArrowRight } from "@/components/svg/IconArrowRight";
 import { IconMessage } from "@/components/svg/IconMessage";
 import { ILatestInteraction } from "@/types/athlete/types";
-import { getImageLink } from "@/utils/link";
 import { PlayVideoIcon } from "@/components/svg/PlayVideoIcon";
-import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 import HerosVideo from "../HerosVideo";
 
 interface FanInteractionsProps {

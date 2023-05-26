@@ -17,7 +17,7 @@ import { useRouter } from "next/router";
 import { FormikContext } from "formik";
 import { Else, If, Then } from "react-if";
 import dayjs from "dayjs";
-import { use, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useUpdateEffect } from "react-use";
 import Head from "next/head";
 import PaymentForm from "@/components/payment/PaymentForm";

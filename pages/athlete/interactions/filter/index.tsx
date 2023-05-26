@@ -11,22 +11,13 @@ import {
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
 import Head from "next/head";
-import { Waypoint } from "react-waypoint";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import AthletePost from "@/components/ui/AthletePost";
-import { EditIcon } from "@/components/svg/menu/EditIcon";
-import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
-import { IInteractionItem } from "@/types/athlete/types";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { Close } from "@/components/svg/Close";
-import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
-import { Post, usePostsAsMaker } from "@/libs/dtl/post";
-import { useReactions } from "@/libs/dtl/reaction";
+import { usePostsAsMaker } from "@/libs/dtl/post";
 
 const InteractionsByTag = () => {
-  const { data, loading } = useMyAthleteProfile();
-  const status = loading ? "loading" : "";
-  const session = { user: data };
   const router = useRouter();
   const { tag } = router.query;
 
@@ -35,35 +26,7 @@ const InteractionsByTag = () => {
     tag as string
   );
 
-  const onLoadMore = () => {};
-
-  const formatPropAthletePost = (postInfo: Post) => {
-    return {
-      id: postInfo.id,
-      menuList: [
-        { id: "edit", itemName: "Edit", Icon: <EditIcon /> },
-        { id: "delete", itemName: "Delete", Icon: <DeleteIcon /> },
-      ],
-      athleteInfo: {
-        imagePath: session?.user?.avatar || "",
-        athleteName: session?.user?.nickName ?? "",
-        publishDate: postInfo?.publicDate,
-        id: session?.user?.id ?? "",
-      },
-      slideData: postInfo.media ?? [],
-      hashtag: postInfo.tags,
-      socialOrder: true,
-      postLikes: postInfo?.reactionsCount ?? 0,
-      postComments: postInfo?.commentsCount ?? 0,
-      postContent: postInfo.content,
-      liked: postInfo.liked,
-      isAccessRight: true, // ATHLETE CAN SEE OWN POSTS
-      interactionMedia: postInfo?.media,
-      isSchedulePost: postInfo?.schedule,
-    };
-  };
-
-  if (loading) {
+  if (isLoading) {
     return <></>;
   }
 
@@ -109,7 +72,7 @@ const InteractionsByTag = () => {
           </TagLabel>
         </Tag>
         <Divider display={{ lg: "none" }} my={{ base: 7, lg: 12 }} />
-        <If condition={status !== "loading" && !isLoading}>
+        <If condition={!isLoading}>
           <Then>
             <Flex
               flexDirection="column"
@@ -119,10 +82,7 @@ const InteractionsByTag = () => {
               {interactionsList?.map?.((item) => (
                 <Box key={item.id}>
                   <Box>
-                    <AthletePost
-                      isNavigate
-                      id={item.id}
-                    >
+                    <AthletePost isNavigate id={item.id}>
                       <Box mt={{ base: 1, lg: 3 }}>
                         {/* <AthleteInteractionComments id={item.id} isPreview /> */}
                       </Box>

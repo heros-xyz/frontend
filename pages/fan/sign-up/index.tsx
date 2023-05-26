@@ -1,7 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { signIn } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { httpsCallable } from "@firebase/functions";
 import {

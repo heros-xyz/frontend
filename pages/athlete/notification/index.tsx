@@ -2,7 +2,6 @@ import { Box, Container, Flex, Heading, Text } from "@chakra-ui/react";
 import { ReactElement } from "react";
 import Head from "next/head";
 import { Else, If, Then } from "react-if";
-import { Waypoint } from "react-waypoint";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import NotificationList from "@/components/ui/Notification/List";
 import { useNotification } from "@/hooks/useNotification";
@@ -16,7 +15,6 @@ const AthleteNotification = () => {
     notificationEarlier,
     listNotification,
     isLoading,
-    onLoadMore,
     onMaskAllNotification,
   } = useNotification();
 

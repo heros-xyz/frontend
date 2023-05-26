@@ -1,6 +1,5 @@
 import { Box, Flex, Text, Image, Highlight } from "@chakra-ui/react";
 import { IFanInfo } from "@/types/athlete/types";
-import { getImageLink } from "@/utils/link";
 
 interface IProps {
   item: IFanInfo;

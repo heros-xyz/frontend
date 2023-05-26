@@ -6,7 +6,6 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { NumberParam, useQueryParam, withDefault } from "use-query-params";
 import ExclamationIcon from "@/components/svg/Exclamation";

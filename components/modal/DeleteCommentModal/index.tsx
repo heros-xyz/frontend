@@ -15,11 +15,9 @@ interface IDeletePostModalProps {
   comment: Comment
 }
 
-const DeleteCommentModal: FC<IDeletePostModalProps> = ({
-  comment
-}) => {
-  const isOpen = false
-  const onClose = ()=>{}
+const DeleteCommentModal: FC<IDeletePostModalProps> = () => {
+  const isOpen = false;
+  const onClose = () => {};
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -52,7 +50,7 @@ const DeleteCommentModal: FC<IDeletePostModalProps> = ({
             variant="primary"
             mb={{ base: 4, lg: 7 }}
             fontSize={{ lg: "xl" }}
-            onClick={()=>console.log("WIP")}
+            onClick={() => console.log("WIP")}
             bg="secondary"
             color="primary"
             size="lg"

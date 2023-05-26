@@ -1,4 +1,4 @@
-import { Box, CloseButton, Flex, keyframes, Text, WrapItem } from "@chakra-ui/react";
+import { Box, CloseButton, Flex, Text, WrapItem } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useMemo, useState } from "react";
 import { Else, If, Then } from "react-if";
@@ -13,29 +13,25 @@ import { usePost } from "@/libs/dtl/post";
 import { CollectionPath, Comment } from "@/libs/dtl/types";
 import { useReactions } from "@/libs/dtl/reaction";
 
-const spin = keyframes`
-  from { opacity: 0.5; }
-  to { opacity: 1; }
-`;
 interface CommentProps {
-  comment: Comment
-  actions?: boolean
-  handleReply?: () => void
+  comment: Comment;
+  actions?: boolean;
+  handleReply?: () => void;
 }
 
-const CommentItem: React.FC<CommentProps> = ({
-  comment,
-  actions = true,
-  handleReply
-}) => {
-  const commentReply = useCommentReply()
-  const post = usePost(comment.post)
-  const isReply = useMemo(()=>comment.parent!==undefined, [comment.parent])
-  const parentComment = useComment(comment.parent)
-  const isAuthorComment = useMemo(()=>post.data && post.data.author && post.data.author.uid === comment.author, [post,comment])
-  const reaction = useReactions(comment.id, CollectionPath.COMMENTS)
-  const isAdmin = useMemo(()=>false, [])
-  const [showActions, setShowActions] = useState(false)
+const CommentItem: React.FC<CommentProps> = ({ comment, actions = true }) => {
+  const commentReply = useCommentReply();
+  const post = usePost(comment.post);
+  const isReply = useMemo(() => comment.parent !== undefined, [comment.parent]);
+  const parentComment = useComment(comment.parent);
+  const isAuthorComment = useMemo(
+    () =>
+      post.data && post.data.author && post.data.author.uid === comment.author,
+    [post, comment]
+  );
+  const reaction = useReactions(comment.id, CollectionPath.COMMENTS);
+  const isAdmin = useMemo(() => false, []);
+  const [showActions, setShowActions] = useState(false);
   return (
     <Box className="comment-item">
       <Flex
@@ -159,7 +155,10 @@ const CommentItem: React.FC<CommentProps> = ({
                         role="button"
                         mr="1.5"
                         color="white"
-                        onClick={() => {setShowActions(a=>!a);commentReply.set(comment)}}
+                        onClick={() => {
+                          setShowActions((a) => !a);
+                          commentReply.set(comment);
+                        }}
                       />
                       <Text
                         as={"span"}
@@ -169,7 +168,11 @@ const CommentItem: React.FC<CommentProps> = ({
                       <Heart
                         role="button"
                         mx="1.5"
-                        onClick={ev=>{ev.preventDefault();setShowActions(a=>!a);reaction.toggle()}}
+                        onClick={(ev) => {
+                          ev.preventDefault();
+                          setShowActions((a) => !a);
+                          reaction.toggle();
+                        }}
                         color="white"
                         fill={reaction.iLikeIt ? "white" : "none"}
                       />
@@ -188,7 +191,7 @@ const CommentItem: React.FC<CommentProps> = ({
                 ml="1.5"
                 mr={isReply ? 1.5 : 0}
                 color="grey.100"
-                onClick={()=>setShowActions(a=>!a)}
+                onClick={() => setShowActions((a) => !a)}
               />
             </Then>
           </If>

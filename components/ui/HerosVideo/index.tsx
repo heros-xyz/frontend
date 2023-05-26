@@ -2,7 +2,6 @@ import { LegacyRef, useState } from "react";
 import { Box, BoxProps, Spinner } from "@chakra-ui/react";
 import { Else, If, Then } from "react-if";
 import { isIOS } from "react-device-detect";
-import { getVideoLink } from "@/utils/link";
 import { useDevice } from "@/hooks/useDevice";
 interface HerosVideoProps extends BoxProps {
   url: string;
