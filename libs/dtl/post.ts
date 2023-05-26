@@ -21,10 +21,10 @@ import { useAuthContext } from "@/context/AuthContext";
 import { db, storage } from "@/libs/firebase";
 import { IMediaExisted } from "@/types/athlete/types";
 import { Suscription } from "@/libs/dtl/common";
+import { AthleteProfile } from "@/libs/dtl/types";
 import { MutationState } from "./careerJourney";
 import { useGetMySubscriptions } from "./subscription";
 import { collectionPath } from "./constant";
-import { AthleteProfile } from "@/libs/dtl/types";
 
 export interface PostMedia {
   id: string

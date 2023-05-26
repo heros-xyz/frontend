@@ -1,8 +1,8 @@
 import { doc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useMemo } from "react";
-import { db } from "../firebase";
 import { Nationality } from "@/libs/dtl/types";
+import { db } from "../firebase";
 
 export function useGetNationalities() {
     const [nationalities, loading, error] =

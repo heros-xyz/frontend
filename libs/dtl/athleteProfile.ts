@@ -15,10 +15,10 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { Suscription } from "@/libs/dtl/common";
+import { AthleteProfile } from "@/libs/dtl/types";
 import { db } from "../firebase";
 import { useGetMySubscriptions } from "./subscription";
 import { collectionPath } from "./constant";
-import { AthleteProfile } from "@/libs/dtl/types";
 
 
 export const converter = {

@@ -1,8 +1,8 @@
 
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react"
-import { db } from "../firebase";
 import { AthleteProfile } from "@/libs/dtl/types";
+import { db } from "../firebase";
 
 export default function useGetRecommendedAthlete() {
     const [recommendedAthletes, setRecommendedAthletes] = useState<AthleteProfile[]>([]);

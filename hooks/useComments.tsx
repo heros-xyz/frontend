@@ -3,8 +3,8 @@ import { useMemo, useEffect, useRef, useState } from "react";
 import { useBus } from "react-bus";
 import { IResponseComment } from "@/types/athlete/types";
 import { IReplyingTo } from "@/modules/athlete-profile/interactions/post-detail/CommentSection";
-import { useDevice } from "./useDevice";
 import { Comment } from "@/libs/dtl/types";
+import { useDevice } from "./useDevice";
 
 interface IAthleteCommentProps {
   isPreview?: boolean;

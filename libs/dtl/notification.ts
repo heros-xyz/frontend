@@ -12,14 +12,11 @@ import {
   orderBy
 } from "firebase/firestore";
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { set } from "immer/dist/internal";
 import { useAuthContext } from "@/context/AuthContext";
 import { NotificationEventType } from "@/utils/enums";
 import { ISource } from "@/types/notifications/types";
 import { db } from "../firebase";
 import { collectionPath } from "./constant";
-import { converter as athleteConverter } from "./athleteProfile";
-import { AthleteProfile } from "@/libs/dtl/types";
 
 export enum NotificationStatusType {
   ALL = "ALL",
