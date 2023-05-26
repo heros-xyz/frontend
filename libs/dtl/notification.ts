@@ -18,7 +18,8 @@ import { NotificationEventType } from "@/utils/enums";
 import { ISource } from "@/types/notifications/types";
 import { db } from "../firebase";
 import { collectionPath } from "./constant";
-import { AthleteProfile, converter as athleteConverter } from "./athleteProfile";
+import { converter as athleteConverter } from "./athleteProfile";
+import { AthleteProfile } from "@/libs/dtl/types";
 
 export enum NotificationStatusType {
   ALL = "ALL",
@@ -32,7 +33,7 @@ export interface Notification {
   deletedAt: Date
   eventType: NotificationEventType
   readAt: Date
-  type: "comment" | "like" | "suscription" | "post" 
+  type: "comment" | "like" | "suscription" | "post"
   message: string
   params: {
     interaction?: any

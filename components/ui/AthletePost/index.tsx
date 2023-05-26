@@ -10,7 +10,7 @@ import {
   Tag,
   TagLabel,
   Text,
-  useDisclosure,
+  useDisclosure
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { Else, If, Then } from "react-if";
@@ -18,11 +18,6 @@ import { useUpdateEffect } from "react-use";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { FormikContext } from "formik";
-import {
-  IInteractionItem,
-  IInteractionMedia,
-  ITags,
-} from "@/types/athlete/types";
 import { LoveIcon } from "@/components/svg/social/LoveIcon";
 import { CommentIcon } from "@/components/svg/social/CommentIcon";
 import { ShareIcon } from "@/components/svg/social/ShareIcon";
@@ -30,13 +25,14 @@ import InteractionsPost from "@/modules/athlete-interaction/components/post";
 import { useUpdateInteractionInfo } from "@/modules/athlete-interaction/hooks";
 import SocialSharing from "@/modules/athlete-profile/interactions/components/SocialSharing";
 import { useReactions } from "@/libs/dtl/reaction";
-import { usePost, usePostAsTaker, usePostsAsTaker, Post } from "@/libs/dtl/post";
+import { usePost } from "@/libs/dtl/post";
 import { useAthleteProfile } from "@/libs/dtl/athleteProfile";
-import AthleteInfo, { AthleteInfoProps } from "../AthleteInfo";
+import AthleteInfo from "../AthleteInfo";
 import type { MenuItem } from "../AthleteMenu";
 import AthleteMenu from "../AthleteMenu";
 import HerosSwiper from "../Swiper";
 import DeletePostModal from "./Modal/Delete";
+import { CollectionPath } from "@/libs/dtl/types";
 
 interface IAthletePostProps {
   children?: React.ReactNode;
@@ -105,17 +101,10 @@ const AthletePost: React.FC<IAthletePostProps> = ({
     }else{
       await reactions.create({
         to: id,
-        toType: "POST",
+        toType: CollectionPath.POSTS,
         type_: "LIKE",
       });
     }
-    /*
-    setReaction(!reaction);
-    //onReaction({
-      reactionType: 1,
-      interactionId: id,
-    });
-    */
   };
 
   const ReadMore: React.FC<{ text?: string }> = ({ text = '' }) => {

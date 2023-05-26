@@ -23,8 +23,8 @@ import { IMediaExisted } from "@/types/athlete/types";
 import { Suscription } from "@/libs/dtl/common";
 import { MutationState } from "./careerJourney";
 import { useGetMySubscriptions } from "./subscription";
-import { AthleteProfile } from "./athleteProfile";
 import { collectionPath } from "./constant";
+import { AthleteProfile } from "@/libs/dtl/types";
 
 export interface PostMedia {
   id: string
@@ -41,8 +41,6 @@ export interface Post {
   publicType: string
   tags: string[]
   media: PostMedia[]
-  reactionCount?: number
-  commentCount?: number
   commentsCount: number
   reactionsCount: number
   liked?: boolean
@@ -57,8 +55,10 @@ const converter = {
   fromFirestore: (snap: QueryDocumentSnapshot) => {
     const data = snap.data() as Post
     const date = data?.publicDate as unknown as Timestamp
-    data.publicDate = date.toDate?.() 
+    data.publicDate = date.toDate?.()
     data.id = snap.id
+    data.commentsCount = data.commentsCount || 0
+    data.reactionsCount = data.reactionsCount || 0
     return data
   }
 }
@@ -162,17 +162,6 @@ export const usePostsAsMaker = (loadData = true, tag?: string) => {
       .then(async (snapshot) => {
         // contar likes y reactions para cada post
         const posts = snapshot.docs.map(d => d.data())
-
-        for (const post of posts) {
-          const queryComments = query(collection(db, "comments"), where("post", "==", post.id)).withConverter(converter)
-          const queryReactions = query(collection(db, "reactions"), where("to", "==", post.id)).withConverter(converter)
-
-          const totalCommentsCount = (await getCountFromServer(queryComments)).data().count
-          const totalReactionsCount = (await getCountFromServer(queryReactions)).data().count
-
-          post.reactionCount = totalReactionsCount
-          post.commentCount = totalCommentsCount
-        }
 
         serData(posts)
       })

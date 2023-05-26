@@ -5,7 +5,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { FanOnboardingSuccess } from "@/components/svg/FanOnboardingSuccess";
 import HerosOnboardingWrapperNew from "@/components/ui/HerosOnboardingWrapperNew";
 import { db } from "@/libs/firebase";
-import { AthleteProfile } from "@/libs/dtl/athleteProfile";
+
+import { AthleteProfile } from "@/libs/dtl/types";
 
 interface Props {
   athleteNickname: string;

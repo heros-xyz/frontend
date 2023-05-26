@@ -13,7 +13,8 @@ import { EditIcon } from "@/components/svg/menu/EditIcon";
 import MyStory from "@/components/ui/Athlete/Profile/MyStory";
 import { getGender } from "@/utils/functions";
 import { getEnvVariables } from "@/utils/env";
-import { Nationality } from "@/libs/dtl/nationalities";
+
+import { Nationality } from "@/libs/dtl/types";
 
 interface IProfileProps {
   basicInfo:

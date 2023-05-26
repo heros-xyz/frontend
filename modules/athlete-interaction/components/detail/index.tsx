@@ -8,16 +8,16 @@ import { EditIcon } from "@/components/svg/menu/EditIcon";
 import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/detail/SkeletonInteractionDetail";
 import BackButton from "@/components/ui/BackButton";
-import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
-import { PostMedia, usePostAsMaker } from "@/libs/dtl/post";
+import { useAthleteProfile, useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { PostMedia, usePost, usePostAsMaker } from "@/libs/dtl/post";
 import { useAuthContext } from "@/context/AuthContext";
 import { IInteractionItem } from "@/types/athlete/types";
 
 interface InteractionDetailProps {
   id: string;
-  href: string;
+  href?: string;
   isDetailPage?: boolean;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 const InteractionDetail: React.FC<InteractionDetailProps> = ({
@@ -27,90 +27,27 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
   onClose,
 }) => {
   const router = useRouter();
-  const { focus } = router.query;
-  const { userProfile } = useAuthContext();
-  const { data: athleteProfile, loading: loadingAthleteProfile } =
-    useMyAthleteProfile();
-  const [totalComments, setTotalComments] = useState(0);
+  const post = usePost(id);
+  const athleteProfile = useAthleteProfile(post.data?.uid);
   const [isFocusComment, setIsFocusComment] = useState(false);
-  /*
-  const {
-    data: postInfo,
-    isLoading,
-    refetch,
-  } = useGetInteractionDetailQuery(id as string, {
-    skip: typeof id !== "string" || !Boolean(id),
-  });
-  */
-  console.log({ id });
-  const { data, loading: isLoading } = usePostAsMaker(id);
-  const postInfo = {
-    ...data,
-    isSchedulePost: Boolean(data?.schedule),
-    isCurrentUserReacted: false, // TODO CHECK THIS
-    interactionMedia: data?.media,
-    isAccessRight: true, // TODO check this
-    tags: data?.tags.map((tag) => ({ id: tag, name: tag })),
-  } as IInteractionItem & { media: PostMedia[] };
 
-  console.log({ postInfo });
-  const formatPropAthletePost = useMemo(
-    () => ({
-      id: postInfo?.id,
-      menuList: [
-        { id: "edit", itemName: "Edit", Icon: <EditIcon color="primary" /> },
-        {
-          id: "delete",
-          itemName: "Delete",
-          Icon: <DeleteIcon color="primary" />,
-        },
-      ],
-      athleteInfo: {
-        imagePath: userProfile?.avatar || "",
-        athleteName: athleteProfile?.nickName ?? "",
-        publishDate: postInfo?.publicDate || postInfo?.createdAt,
-        id: userProfile?.uid,
-      },
-      slideData: postInfo?.media?.map?.((item, index) => ({
-        url: item?.url,
-        type: item?.type,
-        sortOrder: index,
-      })),
-      socialOrder: true,
-      hashtag: postInfo?.tags || [],
-      postLikes: postInfo?.reactionCount || 0,
-      postComments: totalComments || 0,
-      postContent: postInfo?.content || "",
-      liked: postInfo?.liked || false,
-    }),
-    [postInfo, totalComments, id]
-  );
-
-  useEffect(() => {
-    if (focus) {
-      setIsFocusComment(true);
-    }
-  }, [focus]);
-
-  useEffect(() => {
-    if (postInfo) {
-      setTotalComments(postInfo?.commentCount ?? 0);
-    }
-  }, [postInfo]);
+  const loading = useMemo(()=>athleteProfile.loading || post.loading,[athleteProfile.loading, post.loading])
 
   const onClickBack = () => {
-    onClose();
-    if (isDetailPage) {
+    onClose && onClose();
+    if (isDetailPage && href) {
       router.push(href);
-      return;
+    }else if (href){
+      router.push(router.pathname, href, {
+        shallow: true,
+      });
+    } else {
+      router.back()
     }
 
-    router.push(router.pathname, href, {
-      shallow: true,
-    });
   };
 
-  if (!loadingAthleteProfile || isLoading) {
+  if (athleteProfile.loading || post.loading) {
     return <></>;
   }
 
@@ -129,10 +66,10 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
         <BackButton href={href} title="Interaction" onBack={onClickBack} />
       </Box>
       <Box>
-        <If condition={!isLoading && !!postInfo}>
+        <If condition={!loading && post.data !== undefined}>
           <Then>
-            <AthletePost
-              id={postInfo.id}
+            {post.data && <AthletePost
+              id={post.data.id}
               onUpdated={() => {}}
               isDetailPage
               focusInputComment={setIsFocusComment}
@@ -142,9 +79,8 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
                 scrollToWhenCommented
                 focusComment={isFocusComment}
                 onUnFocusComment={setIsFocusComment}
-                setTotalComments={setTotalComments}
               />
-            </AthletePost>
+            </AthletePost>}
           </Then>
           <Else>
             <Box mt={2}>

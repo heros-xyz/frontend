@@ -2,14 +2,7 @@ import { doc } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useMemo } from "react";
 import { db } from "../firebase";
-
-export interface Nationality {
-    name: string;
-    code: string;
-    phoneCode?: string;
-    twoLetterCode?: string;
-    threeLetterCode?: string;
-}
+import { Nationality } from "@/libs/dtl/types";
 
 export function useGetNationalities() {
     const [nationalities, loading, error] =

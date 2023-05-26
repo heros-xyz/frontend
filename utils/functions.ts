@@ -1,6 +1,6 @@
-import { AthleteProfile } from "@/libs/dtl/athleteProfile";
 import { INotificationInfo } from "@/types/notifications/types";
 import { NotificationEventType } from "./enums";
+import { AthleteProfile } from "@/libs/dtl/types";
 
 export const isValidString = (string: string) => {
   if (string) {

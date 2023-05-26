@@ -26,10 +26,11 @@ import {
 import { colors } from "@/styles/themes/colors";
 import { useDevice } from "@/hooks/useDevice";
 import BackButton from "@/components/ui/BackButton";
-import { Nationality, useGetNationalities } from "@/libs/dtl/nationalities";
-import { AthleteProfile, useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { useGetNationalities } from "@/libs/dtl/nationalities";
+import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { useMyUserProfile, User } from "@/libs/dtl";
 import { IHerosError } from "@/types/globals/types";
+import { AthleteProfile, Nationality } from "@/libs/dtl/types";
 
 const EditBasicInfo = () => {
   const toast = useToast();

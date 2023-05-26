@@ -1,24 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
-import { collection, getDocs, onSnapshot, query, QueryDocumentSnapshot, where, getDoc, doc } from "firebase/firestore";
+import * as zustand from 'zustand'
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  orderBy,
+  query,
+  QueryDocumentSnapshot,
+  where
+} from "firebase/firestore";
+import { httpsCallable } from "firebase/functions";
 import { useAuthContext } from "@/context/AuthContext";
-import { db } from "@/libs/firebase";
-import { FanProfile } from "@/libs/dtl/fanProfile";
-export interface Comment {
-  id?: string
-  createdAt: Date | string
-  deletedAt: Date
-  content: string
-  post: string
-  uid: string
-  parent?: string
-  //calcular
-  isLiked?: boolean
-  likeCount?: number
-  commentsCount?: number
-  isAuthorComment?: boolean
-  author: FanProfile
-  name: string
-}
+import { db, functions } from "@/libs/firebase";
+import { Comment } from "@/libs/dtl/types";
 
 const converter = {
   toFirestore: (data: any) => data,
@@ -29,18 +25,34 @@ const converter = {
   }
 }
 
+interface CommentReplyState {
+  comment: Comment | null
+  set: (comment: Comment) => void
+  clear: () => void
+}
+export const useCommentReply = zustand.create<CommentReplyState>()((set) => ({
+  comment: null,
+  set: (comment: Comment) => set((state) => ({ comment })),
+  clear: () => set({ comment: null }),
+}))
+
+
 export const useComments = (to?: string) => {
   const { user } = useAuthContext()
   const create = useCallback(async (comment: Partial<Comment>) => {
     if (!user || !user.uid) return
-    //Llama a la fucnion de withdrawal
+    const addSubscription = httpsCallable(
+      functions,
+      "comments-create"
+    )
+    await addSubscription(comment)
   }, [user?.uid, to])
   const [loading, setLoading] = useState(true);
   const [data, serData] = useState<Comment[]>([]);
 
   useEffect(() => {
     if (!user || !user.uid || !to) return
-    const q = query(collection(db, "comments"), where("content", "==", to)).withConverter(converter)
+    const q = query(collection(db, "comments"), where("post", "==", to), orderBy("createdAt", "asc")).withConverter(converter)
     getDocs(q)
       .then((snapshot) => {
         serData(snapshot.docs.map(d => d.data()))

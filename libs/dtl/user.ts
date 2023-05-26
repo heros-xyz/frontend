@@ -17,7 +17,8 @@ import {
 import { useAuthContext } from "@/context/AuthContext"
 import { Suscription } from "@/libs/dtl/common";
 import { db, storage } from "../firebase"
-import { Nationality } from "./nationalities"
+
+import { Nationality } from "@/libs/dtl/types";
 
 export interface User {
   id: string

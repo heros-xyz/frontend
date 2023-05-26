@@ -13,12 +13,7 @@ const InteractionDetailPage = () => {
       <Head>
         <title>Athlete | Interaction Details</title>
       </Head>
-      <InteractionDetail
-        id={id as string}
-        href="/athlete/interactions"
-        isDetailPage
-        onClose={() => {}}
-      />
+      <InteractionDetail id={id as string} isDetailPage />
     </Box>
   );
 };
