@@ -1,73 +1,34 @@
 import { Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { If, Then } from "react-if";
-import { useEffect, useState } from "react";
-import { useUpdateEffect } from "react-use";
 import FindHeros from "@components/ui/FindHeros";
 import AthletesLike from "@components/ui/AthletesLike";
 import FanStayUpToDate from "@components/ui/FanStayupToDate";
-import { IAthleteUpToDate } from "@/types/athlete/types";
 import { useUser } from "@/hooks/useUser";
+import {
+  useGetListAthleteRecommended,
+  useGetNotificationsFromAthletes,
+} from "@/libs/dtl/athleteProfile";
 
 const FanAthleteInteraction = () => {
   const router = useRouter();
   const { isFan } = useUser();
-  const [idUpToDate, setIdUpToDate] = useState<string>("");
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentData, setCurrentData] = useState<IAthleteUpToDate[]>([]);
-  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
-
-  /*
-  const { data: dataRecommended } = useGetListAthleteMightLikeQuery("", {
-    skip: !isFan,
+  const { data: currentData, loading } = useGetNotificationsFromAthletes();
+  const { data } = useGetListAthleteRecommended({
+    limitAmount: 6,
   });
-  */
 
-  const { data: dataRecommended } = { data: null };
+  const dataRecommended = data?.filter(
+    (item) => !currentData.map((i) => i.id)?.includes(item.id)
+  );
 
-  const { data: dataUpToDate } = {
-    data: { data: [], meta: { hasNextPage: true } },
-  };
-  /*   const { data: dataUpToDate } = useGetListAthleteUpToDateQuery({
-    page: currentPage,
-    take: 10,
-  }); */
-
-  const [updateUpToDate, { isSuccess: successUpToDate }] = [
-    (id: string) => {},
-    { isSuccess: false },
-  ];
-  /*   const [updateUpToDate, { isSuccess: successUpToDate }] =
-    useUpdateAthleteUpToDateMutation(); */
-
-  const handleSeeAthleteUptoDate = (id: string) => {
-    updateUpToDate(id);
-    setIdUpToDate(id);
-  };
   const handleSeeAthlete = (id: string) => {
     router.push(`/fan/athlete-profile/${id}`);
   };
-  // useUpdateEffect(() => {
-  //   if (successUpToDate && idUpToDate) {
-  //     router.push(`/fan/athlete-profile/${idUpToDate}?current=1`);
-  //   }
-  // }, [successUpToDate]);
 
-  // useEffect(() => {
-  //   if (dataUpToDate) {
-  //     setCurrentData((prev) => [...prev, ...dataUpToDate.data]);
-  //     setHasNextPage(dataUpToDate.meta.hasNextPage);
-  //   }
-  // }, [dataUpToDate]);
-
-  const onLoadMore = () => {
-    console.log("load more");
-  };
-
-  // useEffect(() => {
-  //   setCurrentData([]);
-  //   setCurrentPage(1);
-  // }, []);
+  if (loading) {
+    return <></>;
+  }
 
   return (
     <Box as="section" bg="white" minH="100vh" w="100%">
@@ -80,20 +41,19 @@ const FanAthleteInteraction = () => {
       </Box>
       <If condition={currentData?.length}>
         <Then>
-          <FanStayUpToDate
-            data={currentData || []}
-            onClick={handleSeeAthleteUptoDate}
-            hasNextPage={hasNextPage}
-            onLoadMore={onLoadMore}
-          />
+          <FanStayUpToDate data={currentData} onClick={handleSeeAthlete} />
         </Then>
       </If>
-
       <If condition={isFan}>
         <Then>
           <Box mt={{ lg: "20px" }} pb={{ base: 2, lg: 5 }}>
             <AthletesLike
-              data={dataRecommended || []}
+              data={
+                dataRecommended?.map((item) => ({
+                  ...item,
+                  sportName: item.sport.label,
+                })) || []
+              }
               title="Athletes You Might Also Like:"
               onClick={handleSeeAthlete}
             />

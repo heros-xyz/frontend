@@ -1,6 +1,5 @@
 import { AspectRatio, Box, Grid, Text } from "@chakra-ui/react";
 import { IAthleteInfo } from "@/types/athlete/types";
-import { getImageLink } from "@/utils/link";
 import HerosImage from "@/components/common/HerosImage";
 
 interface AthletesLikeProp {
@@ -43,7 +42,7 @@ const AthletesLike: React.FC<AthletesLikeProp> = ({ data, title, onClick }) => {
           >
             <AspectRatio maxW="400px" ratio={210 / 265}>
               <HerosImage
-                src={getImageLink(el?.avatar)}
+                src={el?.avatar}
                 widthSize={500}
                 heightSize={500}
                 width={"100%"}
@@ -51,7 +50,6 @@ const AthletesLike: React.FC<AthletesLikeProp> = ({ data, title, onClick }) => {
                 borderRadius="10px"
               />
             </AspectRatio>
-
             <Box
               position="absolute"
               bottom="0"

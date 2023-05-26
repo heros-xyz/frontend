@@ -2,6 +2,7 @@ import { useCollectionData, useDocumentData } from "react-firebase-hooks/firesto
 import {
     collection,
     doc,
+    getCountFromServer,
     getDoc,
     limit,
     onSnapshot,
@@ -15,10 +16,13 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { Suscription } from "@/libs/dtl/common";
-import { AthleteProfile } from "@/libs/dtl/types";
+import { AthleteProfile, CollectionPath } from "@/libs/dtl/types";
+import { NotificationEventType } from "@/utils/enums";
+import { IAthleteUpToDate } from "@/types/athlete/types";
 import { db } from "../firebase";
 import { useGetMySubscriptions } from "./subscription";
 import { collectionPath } from "./constant";
+import { NotificationStatusType } from "./notification";
 
 
 export const converter = {
@@ -201,4 +205,51 @@ export function useAthleteSubscribed({ limitAmount = 3 }) {
         ...status,
         data: profiles,
     })
+}
+
+export const useGetNotificationsFromAthletes = () => {
+    const { user } = useAuthContext()
+    const { data: athletes, loading: loadingAthletes } = useAthleteSubscribed({ limitAmount: 50 })
+    const [data, setData] = useState<any[]>([])
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        if (loadingAthletes || !user?.uid) return
+
+        (async () => {
+            setLoading(true)
+            const data = athletes.map(async (athlete) => {
+
+                const q = query(
+                    collection(db, CollectionPath.NOTIFICATIONS),
+                    where("uid", "==", user?.uid),
+                    where("eventType", "==", NotificationEventType.ATHLETE_NEW_INTERACTION),
+                    where("source.id", "==", athlete.id),
+                    where("status", "==", NotificationStatusType.NOT_READ),
+                )
+
+                const count = (await getCountFromServer(q)).data().count
+
+                return {
+                    id: athlete.id,
+                    targetUser: {
+                        avatar: athlete?.avatar,
+                        firstName: athlete?.firstName,
+                        id: athlete.id,
+                        lastName: athlete?.lastName,
+                        nickName: athlete?.nickName,
+                    },
+                    totalNewestInteraction: count
+                } as IAthleteUpToDate
+            })
+            setLoading(false)
+            setData(await Promise.all(data))
+        })()
+    }, [athletes, user?.uid, loadingAthletes])
+
+
+    return {
+        data,
+        loading: loadingAthletes || loading
+    }
 }
