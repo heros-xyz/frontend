@@ -19,7 +19,6 @@ const spin = keyframes`
 `;
 interface CommentProps {
   comment: Comment
-  parentComment?: Comment
   actions?: boolean
   handleReply?: () => void
 }

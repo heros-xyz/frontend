@@ -6,10 +6,9 @@ import { CommentIcon } from "@/components/svg/social/CommentIcon";
 import { LoveIcon } from "@/components/svg/social/LoveIcon";
 import { ShareIcon } from "@/components/svg/social/ShareIcon";
 import { useReactions } from "@/libs/dtl/reaction";
-import { usePost, usePostsAsTaker } from "@/libs/dtl/post";
-import { useComments } from "@/libs/dtl/comment";
+import { usePost } from "@/libs/dtl/post";
 import SocialSharingModal from "../SocialSharing";
-import { PreviewComment } from "../PreviewComment";
+import { CollectionPath } from "@/libs/dtl";
 
 interface ISocialInteractionProps {
   reactionCount: number;
@@ -55,7 +54,7 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
     } else {
       await reactions.create({
         to: postId as string,
-        toType: "POST",
+        toType: CollectionPath.POSTS,
         type_: "LIKE",
       });
     }

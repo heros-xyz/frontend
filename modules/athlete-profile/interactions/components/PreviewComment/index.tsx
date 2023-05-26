@@ -4,6 +4,7 @@ import { IMeta, IResponseComment } from "@/types/athlete/types";
 import CommentItem from "@/components/ui/Comment/Item";
 
 import { Comment } from "@/libs/dtl/types";
+import { useAuthContext } from "@/context/AuthContext";
 
 interface IPreviewCommentProps {
   navigateToPostDetail?: () => void;
@@ -21,11 +22,7 @@ export const PreviewComment: FC<IPreviewCommentProps> = ({
           <CommentItem
             actions={false}
             key={item.id}
-            isAuthorComment={item.isAuthorComment}
-            isReply={!!item.parent}
-            commentId={item.id}
-            item={item}
-            onClickComment={navigateToPostDetail}
+            comment={item}
           />
         </Box>
       ))}
