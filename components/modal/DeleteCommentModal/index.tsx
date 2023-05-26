@@ -9,18 +9,17 @@ import {
 import React, { FC } from "react";
 import { DeletePostIcon } from "@/components/svg/DeletePost";
 import { DeletePostMobileIcon } from "@/components/svg/DeletePostMobile";
+import { Comment } from "@/libs/dtl/types";
 
 interface IDeletePostModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  handleDeleteComment: () => void;
+  comment: Comment
 }
 
 const DeleteCommentModal: FC<IDeletePostModalProps> = ({
-  isOpen,
-  onClose,
-  handleDeleteComment,
+  comment
 }) => {
+  const isOpen = false
+  const onClose = ()=>{}
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -53,7 +52,7 @@ const DeleteCommentModal: FC<IDeletePostModalProps> = ({
             variant="primary"
             mb={{ base: 4, lg: 7 }}
             fontSize={{ lg: "xl" }}
-            onClick={handleDeleteComment}
+            onClick={()=>console.log("WIP")}
             bg="secondary"
             color="primary"
             size="lg"

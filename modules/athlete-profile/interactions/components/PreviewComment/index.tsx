@@ -2,7 +2,9 @@ import { Box } from "@chakra-ui/react";
 import { FC } from "react";
 import { IMeta, IResponseComment } from "@/types/athlete/types";
 import CommentItem from "@/components/ui/Comment/Item";
-import { Comment } from "@/libs/dtl/comment";
+
+import { Comment } from "@/libs/dtl/types";
+import { useAuthContext } from "@/context/AuthContext";
 
 interface IPreviewCommentProps {
   navigateToPostDetail?: () => void;
@@ -18,13 +20,9 @@ export const PreviewComment: FC<IPreviewCommentProps> = ({
       {items && items.map((item) => (
         <Box key={item.id} className="preview-comment__item" py={2}>
           <CommentItem
-            showActions={false}
+            actions={false}
             key={item.id}
-            isAuthorComment={item.isAuthorComment}
-            isReply={!!item.parent}
-            commentId={item.id}
-            item={item}
-            onClickComment={navigateToPostDetail}
+            comment={item}
           />
         </Box>
       ))}

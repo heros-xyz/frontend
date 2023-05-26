@@ -1,18 +1,9 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc, getDoc,
-  getDocs,
-  onSnapshot,
-  query,
-  QueryDocumentSnapshot,
-  setDoc,
-  where
-} from "firebase/firestore";
+import { useCallback, useEffect, useState } from "react";
+import { deleteDoc, doc, getDoc, onSnapshot, QueryDocumentSnapshot, setDoc } from "firebase/firestore";
 import { db } from "@/libs/firebase";
 import { useAuthContext } from "@/context/AuthContext";
+import { CollectionPath } from "@/libs/dtl/types";
+
 export type ReactionType = "LIKE"
 export type ToType = "POST" | "COMMENT"
 
@@ -31,7 +22,7 @@ uid: uid
 export interface Reaction {
   id?: string
   type_: ReactionType
-  toType: ToType
+  toType: CollectionPath
   to: string
   uid: string
 }
@@ -47,11 +38,11 @@ const converter = {
 
 interface AddReactionParams {
   to: string,
-  toType: ToType,
+  toType: CollectionPath,
   type_: ReactionType
 }
 
-export function useReactions(to?: string) {
+export function useReactions(to?: string, toType: CollectionPath = CollectionPath.POSTS) {
   const { user } = useAuthContext()
   const [loading, setLoading] = useState(true);
 
@@ -97,6 +88,19 @@ export function useReactions(to?: string) {
     }
   }, [user?.uid])
 
+  const toggle = useCallback(async ()=> {
+    if (!to) return
+    if (iLikeIt){
+      await remove(to);
+    }else{
+      await create({
+        to,
+        toType,
+        type_: "LIKE",
+      });
+    }
+  }, [iLikeIt, to, toType])
 
-  return { create, remove, loading, iLikeIt }
+
+  return { create, remove, toggle, loading, iLikeIt }
 }

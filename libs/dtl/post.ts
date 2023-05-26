@@ -20,10 +20,9 @@ import { useAuthContext } from "@/context/AuthContext";
 import { db, storage } from "@/libs/firebase";
 import { IMediaExisted } from "@/types/athlete/types";
 import { Suscription } from "@/libs/dtl/common";
-import { Logger } from "@/utils/logger";
+import { AthleteProfile } from "@/libs/dtl/types";
 import { MutationState } from "./careerJourney";
 import { useGetMySubscriptions } from "./subscription";
-import { AthleteProfile } from "./athleteProfile";
 import { collectionPath } from "./constant";
 
 export interface PostMedia {
@@ -41,8 +40,8 @@ export interface Post {
   publicType: string
   tags: string[]
   media: PostMedia[]
-  commentsCount?: number
-  reactionsCount?: number
+  commentsCount: number
+  reactionsCount: number
   liked?: boolean
   uid?: string
   createdAt: Date
@@ -50,18 +49,15 @@ export interface Post {
   author: AthleteProfile
 }
 
-export interface PostDate {
-  id: string
-  date: Date
-}
-
 const converter = {
   toFirestore: (data: any) => data,
   fromFirestore: (snap: QueryDocumentSnapshot) => {
     const data = snap.data() as Post
     const date = data?.publicDate as unknown as Timestamp
-    data.publicDate = date.toDate?.() 
+    data.publicDate = date.toDate?.()
     data.id = snap.id
+    data.commentsCount = data.commentsCount || 0
+    data.reactionsCount = data.reactionsCount || 0
     return data
   }
 }
@@ -256,10 +252,8 @@ export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuthContext()
   const [data, setData] = useState<Post[]>([]);
-  const [postsDates, setPostsDates] = useState<PostDate[]>([])
   const todayDate =  new Date(Date.now())
   const dataRef = useMemo(() => {
-    if (!user) return
     if (params.maker) {
       return query(
         collection(db, `post`),
@@ -292,24 +286,7 @@ export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
     });
   }, [dataRef]);
 
-  useEffect(() => {
-    if (!params?.maker) return
-    let unsubscribeListener: null | any = null;
-
-    unsubscribeListener = onSnapshot(doc(db, `athleteProfile/${params?.maker}`), (snapshot) => {
-      const profile = snapshot.data();
-      Logger.info('usePostsAsTaker', { profile })
-      setPostsDates(profile?.postsDates.map((item: { id: string, date: Timestamp }) =>
-        ({ ...item, date: item?.date?.toDate?.() })) ?? [])
-    });
-
-    return () => {
-      unsubscribeListener?.();
-    };
-
-  }, [user?.uid, params?.maker])
-
-  return { loading, data, postsDates }
+  return { loading, data }
 }
 
 export const usePostAsTaker = (post?: string) => {

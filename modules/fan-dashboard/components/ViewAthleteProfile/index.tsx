@@ -21,7 +21,8 @@ import CareerJourney from "@/modules/athlete-profile/career-journey";
 import { useAthleteProfile } from "@/hooks/useAthleteProfile";
 import FanOnlyModal from "@/components/modal/FanOnlyModal";
 import { useUser } from "@/hooks/useUser";
-import { AthleteProfile } from "@/libs/dtl/athleteProfile";
+
+import { AthleteProfile } from "@/libs/dtl/types";
 
 interface IFanAthleteProfileProps {
   showFindHeros?: boolean;

@@ -57,7 +57,8 @@
     "slate-react": "^0.90.0",
     "swiper": "^8.4.4",
     "use-query-params": "^2.1.2",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "zustand": "^4.3.8"
   },
   "devDependencies": {
     "@chakra-ui/storybook-addon": "^4.0.16",

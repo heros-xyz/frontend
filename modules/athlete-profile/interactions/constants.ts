@@ -1,5 +1,5 @@
-import { AthleteProfile } from "@/libs/dtl/athleteProfile";
 import { IUserComment } from "@/types/athlete/types";
+import { AthleteProfile } from "@/libs/dtl/types";
 
 export interface IAthleteInteraction {
   id: string;

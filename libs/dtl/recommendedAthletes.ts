@@ -1,7 +1,7 @@
 
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react"
-import { AthleteProfile } from "./athleteProfile"
+import { AthleteProfile } from "@/libs/dtl/types";
 import { db } from "../firebase";
 
 export default function useGetRecommendedAthlete() {

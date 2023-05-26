@@ -21,6 +21,7 @@ import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { Close } from "@/components/svg/Close";
 import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { Post, usePostsAsMaker } from "@/libs/dtl/post";
+import { useReactions } from "@/libs/dtl/reaction";
 
 const InteractionsByTag = () => {
   const { data, loading } = useMyAthleteProfile();
@@ -49,20 +50,16 @@ const InteractionsByTag = () => {
         publishDate: postInfo?.publicDate,
         id: session?.user?.id ?? "",
       },
-      slideData:
-        postInfo.media.map((item, idx) => ({
-          ...item,
-          sortOrder: item?.sortOrder ?? idx,
-        })) ?? [],
+      slideData: postInfo.media ?? [],
+      hashtag: postInfo.tags,
       socialOrder: true,
       postLikes: postInfo?.reactionsCount ?? 0,
       postComments: postInfo?.commentsCount ?? 0,
       postContent: postInfo.content,
-      liked: postInfo?.liked ?? false,
+      liked: postInfo.liked,
       isAccessRight: true, // ATHLETE CAN SEE OWN POSTS
       interactionMedia: postInfo?.media,
       isSchedulePost: postInfo?.schedule,
-      hashtag: postInfo?.tags,
     };
   };
 
@@ -124,23 +121,7 @@ const InteractionsByTag = () => {
                   <Box>
                     <AthletePost
                       isNavigate
-                      isDetailPage={false}
-                      interactionInfo={
-                        {
-                          ...item,
-                          isSchedulePost: Boolean(item?.schedule),
-                          isAccessRight: true, // ATHLETE CAN SEE OWN POSTS
-                          interactionMedia: item?.media.map((media, idx) => ({
-                            ...media,
-                            sortOrder: media?.sortOrder ?? idx,
-                          })),
-                          commentCount: item?.commentsCount,
-                          reactionCount: item?.reactionsCount,
-                        } as IInteractionItem
-                      }
-                      onDeleted={router.reload}
-                      onUpdated={router.reload}
-                      {...formatPropAthletePost(item)}
+                      id={item.id}
                     >
                       <Box mt={{ base: 1, lg: 3 }}>
                         {/* <AthleteInteractionComments id={item.id} isPreview /> */}

@@ -11,14 +11,13 @@ import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ReplyIconLg } from "@/components/svg/ReplyIconLg";
 import { useDevice } from "@/hooks/useDevice";
-import { useAuthContext } from "@/context/AuthContext";
-import { IReplyingTo } from "../../post-detail/CommentSection";
+import { useCommentReply } from "@/libs/dtl/comment";
+import { useMyUserProfile } from "@/libs/dtl";
 
 interface IReplyingCommentProps {
   isFocused?: boolean;
   isLoading?: boolean;
   disabled?: boolean;
-  isReplying?: IReplyingTo;
   onCancelReply?: () => void;
   isUnfocused?: () => void;
   onSubmitComment?: (value: string) => void;
@@ -29,13 +28,12 @@ const MAX_COMMENT_LENGTH = 2000;
 const CommentField: FC<IReplyingCommentProps> = ({
   isFocused,
   isLoading,
-  isReplying,
   disabled,
   isUnfocused,
-  onCancelReply,
   onSubmitComment,
 }) => {
-  const { userProfile } = useAuthContext();
+  const myUserProfile = useMyUserProfile()
+  const commentReply = useCommentReply();
 
   const { isMobile } = useDevice();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -45,8 +43,10 @@ const CommentField: FC<IReplyingCommentProps> = ({
     setInputValue(e.target.value);
   };
 
-  const handleSubmitComment = () => {
-    onSubmitComment && onSubmitComment(inputValue);
+  const handleSubmitComment = async () => {
+    if (onSubmitComment)
+      await onSubmitComment(inputValue);
+    commentReply.clear();
     setInputValue("");
   };
 
@@ -55,6 +55,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
       inputRef.current?.focus();
     }
   }, [isFocused]);
+
 
   return (
     <Box
@@ -68,7 +69,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
     >
       <Box position="relative">
         <AnimatePresence>
-          {isReplying && (
+          {commentReply.comment && (
             <motion.div
               initial={{ opacity: 0.8, top: isMobile ? -32 : -56 }}
               animate={{ opacity: 1, top: isMobile ? -52 : -68 }}
@@ -90,7 +91,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
                 alignItems="center"
                 shadow="md"
               >
-                <Flex alignItems="center">
+                {myUserProfile.data && <Flex alignItems="center">
                   <ReplyIconLg role="button" />
                   <Box ml={{ base: "7px", lg: "17px" }}>
                     <Text
@@ -98,8 +99,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
                       fontWeight="extrabold"
                       fontSize={{ base: "10px", lg: "16px" }}
                     >
-                      {isReplying.nickName ??
-                        isReplying.firstName + " " + isReplying.lastName}
+                      {myUserProfile.data.firstName + " " + myUserProfile.data.lastName}
                     </Text>
                     <Text
                       fontWeight="bold"
@@ -110,11 +110,11 @@ const CommentField: FC<IReplyingCommentProps> = ({
                       overflow="hidden"
                       color="primary"
                     >
-                      {isReplying.content}
+                      {commentReply.comment.content}
                     </Text>
                   </Box>
-                </Flex>
-                <CloseButton color="primary" onClick={onCancelReply} />
+                </Flex>}
+                <CloseButton color="primary" onClick={commentReply.clear} />
               </Flex>
             </motion.div>
           )}
@@ -130,7 +130,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
           <Image
             w={{ base: "30px", lg: "50px" }}
             h={{ base: "30px", lg: "50px" }}
-            src={userProfile?.avatar}
+            src={myUserProfile.data?.avatar}
             alt="avatar"
             rounded="full"
             objectFit="cover"

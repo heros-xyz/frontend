@@ -5,7 +5,7 @@ import { Else, If, Then } from "react-if";
 import { useRouter } from "next/router";
 import CommentField from "@/modules/athlete-profile/interactions/components/CommentField";
 import { useDevice } from "@/hooks/useDevice";
-import { useComments } from "@/libs/dtl/comment";
+import { useCommentReply, useComments } from "@/libs/dtl/comment";
 import Comments from "../../Comment/List";
 import LoadMoreSkeleton from "../LoadMoreSkeleton";
 import CommentItem from "../../Comment/Item";
@@ -27,37 +27,26 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
   const { isMobile } = useDevice();
   const router = useRouter();
   const comments = useComments(id)
+  const commentReply = useCommentReply()
 
-  const createComment = useCallback((content: string, replyingTo?: string) => {
-    if (replyingTo) {
-      return comments.create({
-        post: id,
-        content,
-        parent: replyingTo,
-      });
-    }else {
-      return comments.create({
-        post: id as string,
-        content,
-      });
-    }
-  }, [id]);
+  const createComment = useCallback((content: string) => {
+    return comments.create({
+      post: id,
+      content,
+      parent: commentReply.comment?.id,
+    });
+  }, [id, commentReply.comment]);
 
   return (
     <Box className="comment-box">
       <If condition={isPreview}>
         <Then>
-          {comments.data.map((comment) => (
+          {false && comments.data.map((comment) => (
             <Box className="comment-box__preview" key={comment.id} py={2}>
-              <CommentItem
-                showActions={false}
-                commentId={comment.id}
-                isReply={!!comment.parent}
-                isAuthorComment={comment.isAuthorComment}
-                item={comment}
-                onClickComment={() => {
-                  router.push(`/athlete/interactions/${id}?focus=true`);
-                }}
+               <CommentItem
+                 comment={comment}
+                 actions
+                 key={`comment_${comment.id}`}
               />
             </Box>
           ))}

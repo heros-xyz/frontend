@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Case, Else, If, Switch, Then } from "react-if";
 import { useState } from "react";
 import { IInteractionMedia } from "@/types/athlete/types";
+import { PostMedia } from "@/libs/dtl/post";
 import { cssStyles } from "./styles";
 
 import "swiper/css";
@@ -14,13 +15,13 @@ import { VideoPlayer } from "../VideoPlayer";
 interface IHerosSwiper {
   width?: string;
   height?: string;
-  slideData: IInteractionMedia[];
+  slideData?: PostMedia[];
 }
 
 const HerosSwiper: React.FC<IHerosSwiper> = ({
   width = "100%",
   height = "calc(100% + 40px)",
-  slideData,
+  slideData = [],
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const pagination = {

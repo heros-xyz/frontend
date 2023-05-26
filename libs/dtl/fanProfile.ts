@@ -1,20 +1,8 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
-import { getDoc, onSnapshot, doc, updateDoc } from "firebase/firestore";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "@/libs/firebase";
 import { useAuthContext } from "@/context/AuthContext";
-
-export interface FanProfile {
-  avatar?: string
-  uid?: string
-  sports?: {
-    key: string
-    label: string
-  }[]
-  nickName?: string
-  fullName: string
-  firstName: string
-  lastName: string
-}
+import { FanProfile } from "@/libs/dtl/types";
 
 const converter = {
   toFirestore: (data: any) => data,

@@ -12,13 +12,11 @@ import {
   orderBy
 } from "firebase/firestore";
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { set } from "immer/dist/internal";
 import { useAuthContext } from "@/context/AuthContext";
 import { NotificationEventType } from "@/utils/enums";
 import { ISource } from "@/types/notifications/types";
 import { db } from "../firebase";
 import { collectionPath } from "./constant";
-import { AthleteProfile, converter as athleteConverter } from "./athleteProfile";
 
 export enum NotificationStatusType {
   ALL = "ALL",
@@ -32,7 +30,7 @@ export interface Notification {
   deletedAt: Date
   eventType: NotificationEventType
   readAt: Date
-  type: "comment" | "like" | "suscription" | "post" 
+  type: "comment" | "like" | "suscription" | "post"
   message: string
   params: {
     interaction?: any

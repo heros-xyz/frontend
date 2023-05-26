@@ -8,7 +8,6 @@ const withPWA = require("next-pwa")({
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  output: "export", //TODO: Re-eneable ssr
   env: {
     HEROS_BASE_URL: process.env.HEROS_BASE_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,

@@ -20,7 +20,7 @@ import { Else, If, Then } from "react-if";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { useUser } from "@/hooks/useUser";
 import { Post, usePostsAsTaker } from "@/libs/dtl/post";
-import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
+import { useAthleteProfile, useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 import AthleteInfo from "@/components/ui/AthleteInfo";
 import { LockIcon } from "@/components/svg/LockIcon";
 import InteractionSection from "./components/InteractionSection";
@@ -49,11 +49,10 @@ const Interactions: FC<IInteractionsProps> = ({
   const tagSectionRef = useRef<HTMLDivElement>(null);
   const [interactionData, setInteractionData] = useState<Post[]>([]);
   const { data: athleteProfile, loading: loadingAthleteProfile } =
-    useGetAthleteProfileByUid(id as string);
+    useAthleteProfile(id as string);
   const {
     data,
     loading: isLoading,
-    postsDates,
   } = usePostsAsTaker({
     maker: id as string,
   });
@@ -200,7 +199,7 @@ const Interactions: FC<IInteractionsProps> = ({
             </Fragment>
           ))}
         </Then>
-        {!!postsDates?.length && (
+        {!!athleteProfile?.postsDates?.length && (
           <Box
             my={6}
             fontSize={{ base: "xs", lg: "md" }}
@@ -214,10 +213,10 @@ const Interactions: FC<IInteractionsProps> = ({
           </Box>
         )}
       </If>
-      <If condition={!!postsDates?.length && !interactionsList.length}>
+      <If condition={!!athleteProfile?.postsDates?.length && !interactionsList.length}>
         <Then>
           <Box py={{ base: 6, lg: 8 }}>
-            {postsDates?.map?.((item) => (
+            {athleteProfile?.postsDates?.map?.((item) => (
               <Box key={item?.id} py="5" h="100%">
                 <Flex justifyContent="space-between" mb="20px">
                   <AthleteInfo
@@ -245,7 +244,7 @@ const Interactions: FC<IInteractionsProps> = ({
             ))}
           </Box>
         </Then>
-        {!postsDates?.length && (
+        {!athleteProfile?.postsDates?.length && (
           <Box
             my={6}
             fontSize={{ base: "xs", lg: "md" }}

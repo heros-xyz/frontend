@@ -1,53 +1,24 @@
 import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import {
-    doc,
-    QueryDocumentSnapshot,
     collection,
-    limit,
-    query,
-    where,
+    doc,
     getDoc,
+    limit,
     onSnapshot,
-    setDoc, updateDoc, orderBy
+    orderBy,
+    query,
+    QueryDocumentSnapshot,
+    setDoc,
+    updateDoc,
+    where
 } from "firebase/firestore";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { Suscription } from "@/libs/dtl/common";
+import { AthleteProfile } from "@/libs/dtl/types";
 import { db } from "../firebase";
-import { Nationality } from "./nationalities";
 import { useGetMySubscriptions } from "./subscription";
 import { collectionPath } from "./constant";
-
-
-export interface AthleteProfile {
-    id: string,
-    createdAt?: Date
-    updatedAt?: Date
-    deletedAt?: Date
-    goal: string;
-    currentTeam: string;
-    totalSubCount: number
-    firstName: string;
-    lastName: string;
-    middleName: string;
-    avatar: string;
-    gender: string
-    fullName: string
-    nickName: string;
-    story: string;
-    dateOfBirth: Date
-    sport: {
-        label: string
-        key: string
-    };
-    tagline: string;
-    tags: string[];
-    uid: string;
-    nationality: Nationality
-    totalInteractionCount: number
-    recommended?: boolean
-    isFinishOnboarding?: boolean
-}
 
 
 export const converter = {
