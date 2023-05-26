@@ -28,7 +28,7 @@ import { useReactions } from "@/libs/dtl/reaction";
 import { usePost } from "@/libs/dtl/post";
 import { useAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { CollectionPath } from "@/libs/dtl/types";
-import AthleteInfo, { AthleteInfoProps } from "../AthleteInfo";
+import AthleteInfo from "../AthleteInfo";
 import type { MenuItem } from "../AthleteMenu";
 import AthleteMenu from "../AthleteMenu";
 import HerosSwiper from "../Swiper";

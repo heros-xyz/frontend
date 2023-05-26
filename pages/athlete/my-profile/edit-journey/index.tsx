@@ -56,7 +56,13 @@ const EditJourney = () => {
           </Box>
 
           <TimeLineJourney
-            items={(sortData as any) || []}
+            items={
+              sortData.map((i) => ({
+                ...i,
+                isPeriodDate: i?.isPeriodDate ?? false,
+                icon: i?.icon ?? "",
+              })) || []
+            }
             isAddJourney
             bgColor="primary"
             canEdit

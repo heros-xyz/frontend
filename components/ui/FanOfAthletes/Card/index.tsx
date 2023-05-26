@@ -3,7 +3,6 @@ import React from "react";
 import dayjs from "dayjs";
 import { Clock } from "@/components/svg/Clock";
 import { IFanInfo } from "@/types/athlete/types";
-import { getImageLink } from "@/utils/link";
 import HerosImage from "@/components/common/HerosImage";
 interface YourAthleteCardProps extends BoxProps {
   item?: IFanInfo;

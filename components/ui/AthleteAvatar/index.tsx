@@ -1,6 +1,5 @@
 import { Box, Text, Center, AspectRatio } from "@chakra-ui/react";
 import { FC } from "react";
-import { getImageLink } from "@/utils/link";
 import HerosImage from "@/components/common/HerosImage";
 
 interface AthleteAvatarProps {

@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
-import { getImageLink } from "@/utils/link";
 export interface AthleteInfoProps {
   imagePath: string;
   athleteName: string;

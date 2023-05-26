@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import Link from "next/link";
-import { getImageLink, getWebsiteLink } from "@/utils/link";
+import { getWebsiteLink } from "@/utils/link";
 import { CorporateWebsiteLink } from "@/utils/enums";
 interface OrderSummaryProps extends BoxProps {
   avatar: string;

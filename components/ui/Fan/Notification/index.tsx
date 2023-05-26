@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { Else, If, Then } from "react-if";
-import { Waypoint } from "react-waypoint";
 import { useNotification } from "@/hooks/useNotification";
 import NotificationList from "../../Notification/List";
 import NotiSkeleton from "../../Notification/Skeleton";

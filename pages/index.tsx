@@ -1,9 +1,7 @@
 import { ReactElement } from "react";
 import { Box } from "@chakra-ui/react";
 import Head from "next/head";
-import { Session } from "next-auth";
 import DefaultLayout from "@/layouts/default";
-import { wrapper } from "@/store";
 
 import HomePageBanner from "@/components/ui/HomePage/HomePageBanner";
 export default function Home() {

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Waypoint } from "react-waypoint";
 import { FlagIcon } from "@/components/svg/Flag";
 import { IAthleteSearchProfile } from "@/types/athlete/types";
-import { getImageLink } from "@/utils/link";
 import { formatNumber } from "@/utils/functions";
 import HerosImage from "@/components/common/HerosImage";
 import SearchResultSkeleton from "./Skeleton";

@@ -15,8 +15,7 @@ import Link from "next/link";
 import { FaceBookIcon } from "@/components/svg/FaceBook";
 import { GoogleIcon } from "@/components/svg/Google";
 import ErrorMessage from "@/components/common/ErrorMessage";
-import { getAuthErrorCode } from "@/utils/constants";
-import { CorporateWebsiteLink, HttpErrorCode } from "@/utils/enums";
+import { CorporateWebsiteLink } from "@/utils/enums";
 import { getWebsiteLink } from "@/utils/link";
 
 interface IAuthProps {
