@@ -26,7 +26,6 @@ const GuestViewAthleteProfile = () => {
     if (isAthlete) {
       push(RoutePath.ATHLETE_PROFILE);
     } else {
-      console.log("DDDDDD", query.id);
       if (!query.id) return;
       push(RoutePath.FAN_VIEW_ATHLETE_PROFILE(query.id as string));
     }

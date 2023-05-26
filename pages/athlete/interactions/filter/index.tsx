@@ -53,8 +53,8 @@ const InteractionsByTag = () => {
       slideData: postInfo.media ?? [],
       hashtag: postInfo.tags,
       socialOrder: true,
-      postLikes: postInfo.reactionCount,
-      postComments: postInfo.commentCount,
+      postLikes: postInfo?.reactionsCount ?? 0,
+      postComments: postInfo?.commentsCount ?? 0,
       postContent: postInfo.content,
       liked: postInfo.liked,
       isAccessRight: true, // ATHLETE CAN SEE OWN POSTS

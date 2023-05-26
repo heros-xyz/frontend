@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import { useMemo, useEffect, useRef, useState } from "react";
 import { useBus } from "react-bus";
 import { IResponseComment } from "@/types/athlete/types";
-import { IReplyingTo } from "@/modules/athlete-profile/interactions/post-detail/CommentSection";
 import { Comment } from "@/libs/dtl/types";
 import { useDevice } from "./useDevice";
 
@@ -32,9 +31,6 @@ export const useComments = ({
   const [isLoadAllComment, setIsLoadAllComment] = useState(false);
   const [isLoadFirstComment, setIsLoadFirstComment] = useState(false);
   const [commentedIdList, setCommentedIdList] = useState<string[]>([]);
-  const [replyingTo, setReplyingTo] = useState<IReplyingTo | undefined>(
-    undefined
-  );
   const [listMergedComments, setListComments] = useState<IResponseComment[]>(
     []
   );
@@ -162,18 +158,6 @@ export const useComments = ({
   }, [listComment]);
 
   useEffect(() => {
-    if (sendMessageResponse || replyCommentResponse) {
-      setReplyingTo(undefined);
-      setIsFocusOnInput(false);
-      const comment = sendMessageResponse || replyCommentResponse;
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      setCommentedIdList((prev) => [...prev, comment?.id ?? ""]);
-      onScrollAfterComment();
-      bus && bus.emit("onSubmittedComment");
-    }
-  }, [sendMessageResponse, replyCommentResponse]);
-
-  useEffect(() => {
     if (sendMessageResponse) {
       setListComments((prevComments) => [...prevComments, sendMessageResponse]);
       refetchTotalComment();
@@ -194,7 +178,6 @@ export const useComments = ({
     listMergedComments,
     isLoading,
     isFocusOnInput,
-    replyingTo,
     listComment,
     isShowLoadMore,
     totalComments,
@@ -211,7 +194,6 @@ export const useComments = ({
     handleSendMessage,
     replyComment,
     setIsFocusOnInput,
-    setReplyingTo,
     onLoadMore,
     onLoadPrevious,
   };

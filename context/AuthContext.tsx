@@ -6,6 +6,7 @@ import { User } from "firebase/auth";
 import { auth, db } from "@/libs/firebase";
 import { User as UserProfile } from "@/libs/dtl/user";
 import { RoutePath } from "@/utils/route";
+import { Logger } from "@/utils/logger";
 
 interface AuthContextType {
   user: User | undefined | null;
@@ -69,12 +70,12 @@ export const AuthContextProvider = ({
     }
     if (!user) {
       if (PublicRoutes.includes(router.pathname)) {
-        console.info("Public page");
+        Logger.info("[AuthContextProvider] PUBLIC PAGE");
       } else {
         router.replace(RoutePath.SIGN_IN);
       }
     } else {
-      console.log("user authenticated");
+      Logger.info("[AuthContextProvider] USER AUTHENTICATED");
     }
   }, [user, loading, router.pathname]);
 

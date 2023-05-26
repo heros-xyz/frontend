@@ -44,6 +44,11 @@ export interface Nationality {
   threeLetterCode?: string;
 }
 
+export interface PostDate {
+  id: string
+  date: Date
+}
+
 export interface AthleteProfile {
   id: string,
   createdAt?: Date
@@ -70,6 +75,7 @@ export interface AthleteProfile {
   uid: string;
   nationality: Nationality
   totalInteractionCount: number
+  postsDates: PostDate[]
   recommended?: boolean
   isFinishOnboarding?: boolean
 }

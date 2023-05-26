@@ -18,6 +18,8 @@ interface IDeletePostModalProps {
 const DeleteCommentModal: FC<IDeletePostModalProps> = ({
   comment
 }) => {
+  const isOpen = false
+  const onClose = ()=>{}
   return (
     <Modal isCentered isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />

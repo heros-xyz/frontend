@@ -11,16 +11,13 @@ import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ReplyIconLg } from "@/components/svg/ReplyIconLg";
 import { useDevice } from "@/hooks/useDevice";
-import { useAuthContext } from "@/context/AuthContext";
 import { useCommentReply } from "@/libs/dtl/comment";
 import { useMyUserProfile } from "@/libs/dtl";
-import { IReplyingTo } from "../../post-detail/CommentSection";
 
 interface IReplyingCommentProps {
   isFocused?: boolean;
   isLoading?: boolean;
   disabled?: boolean;
-  isReplying?: IReplyingTo;
   onCancelReply?: () => void;
   isUnfocused?: () => void;
   onSubmitComment?: (value: string) => void;
@@ -102,8 +99,7 @@ const CommentField: FC<IReplyingCommentProps> = ({
                       fontWeight="extrabold"
                       fontSize={{ base: "10px", lg: "16px" }}
                     >
-                      {myUserProfile.data.nickName ??
-                        myUserProfile.data.firstName + " " + myUserProfile.data.lastName}
+                      {myUserProfile.data.firstName + " " + myUserProfile.data.lastName}
                     </Text>
                     <Text
                       fontWeight="bold"

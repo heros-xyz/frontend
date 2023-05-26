@@ -11,7 +11,6 @@ import AthletePost from "@/components/ui/AthletePost";
 import { EditIcon } from "@/components/svg/menu/EditIcon";
 import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import { IInteractionItem } from "@/types/athlete/types";
-import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { useAuthContext } from "@/context/AuthContext";
 import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
@@ -21,13 +20,6 @@ const Interactions = () => {
   const { userProfile } = useAuthContext();
   const { data, loading } = useMyAthleteProfile();
   const router = useRouter();
-  /*
-  const { hasNextPage, interactionsList, isLoading, onLoadMore } =
-    useAthleteInteraction({
-      isGetPublic: false,
-      take: 10,
-    });
-    */
   const hasNextPage = false;
   const onLoadMore = () => {};
   const { data: interactionsList, loading: isLoading } = usePostsAsMaker();

@@ -7,7 +7,6 @@ import AddTag from "@/modules/athlete-onboarding/page-information/components/Add
 import TagLine from "@/modules/athlete-onboarding/page-information/components/TagLine";
 import { IOnboardingPageInfoParams } from "@/types/users/types";
 import AthleteUpdatedSuccessfully from "@/components/ui/AthleteUpdatedSuccessfully";
-import { useAuthContext } from "@/context/AuthContext";
 import { useMyUserProfile } from "@/libs/dtl";
 import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 
@@ -55,7 +54,7 @@ const PageInformation = () => {
   return (
     <Box minHeight="100vh" overflowY="auto" bg="white">
       <Head>
-        <title>Athele | Page Information</title>
+        <title>Athlete | Page Information</title>
       </Head>
       <If condition={step <= TOTAL_STEP}>
         <Then>
@@ -70,7 +69,11 @@ const PageInformation = () => {
               />
             </Case>
             <Case condition={step === 2}>
-              <AddTag isLoading={myAthleteProfile.loading} onSubmit={handleSubmit} setValue={setValue} />
+              <AddTag
+                isLoading={myAthleteProfile.loading}
+                onSubmit={handleSubmit}
+                setValue={setValue}
+              />
             </Case>
           </Switch>
           <Box

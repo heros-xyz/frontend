@@ -6,10 +6,9 @@ import { CommentIcon } from "@/components/svg/social/CommentIcon";
 import { LoveIcon } from "@/components/svg/social/LoveIcon";
 import { ShareIcon } from "@/components/svg/social/ShareIcon";
 import { useReactions } from "@/libs/dtl/reaction";
-import { usePost, usePostsAsTaker } from "@/libs/dtl/post";
-import { useComments } from "@/libs/dtl/comment";
+import { usePost } from "@/libs/dtl/post";
 import SocialSharingModal from "../SocialSharing";
-import { PreviewComment } from "../PreviewComment";
+import { CollectionPath } from "@/libs/dtl";
 
 interface ISocialInteractionProps {
   reactionCount: number;
@@ -36,6 +35,7 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
   const [isLiked, setIsLiked] = useState(liked);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const post = usePost(postId)
+  const reactions = useReactions(postId as string);
 
   useEffect(() => {
     setTimeout(() => {
@@ -48,8 +48,16 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
     }, 250);
   }, []);
 
-  const handleLike = () => {
-
+  const handleLike = async () => {
+    if (reactions.iLikeIt) {
+      await reactions.remove(postId as string);
+    } else {
+      await reactions.create({
+        to: postId as string,
+        toType: CollectionPath.POSTS,
+        type_: "LIKE",
+      });
+    }
   };
 
   return (
@@ -60,7 +68,6 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
         isOpen={isOpen}
         onClose={onClose}
       />
-
       <Flex
         columnGap={{ base: 3, lg: 5 }}
         mt={{ base: "15px", lg: "20px" }}
@@ -80,8 +87,8 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
               <LoveIcon
                 width={{ base: "24px", lg: "32px" }}
                 height={{ base: "24px", lg: "32px" }}
-                fill={isLiked ? "currentcolor" : "none"}
-                color={isLiked ? "accent.5" : "primary"}
+                fill={reactions.iLikeIt ? "currentcolor" : "none"}
+                color={reactions.iLikeIt ? "accent.5" : "primary"}
               />
             </Button>
           </Then>
@@ -123,16 +130,16 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
           </Then>
         </If>
       </Flex>
-
       <Text
         fontWeight="medium"
         mb={{ base: "5px", lg: "20px" }}
         fontSize={{ base: "xs", lg: "lg" }}
         color="secondary"
       >
-        {post.data?.commentCount || 0}
-        comment(s)
+        {post.data?.reactionsCount ?? 0} like(s),{" "}
+        {post.data?.commentsCount || 0} comment(s)
       </Text>
+      comment(s)
       {/*!view && (
         <PreviewComment
           item={data}
