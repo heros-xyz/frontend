@@ -3,10 +3,8 @@ import { ReactElement } from "react";
 import Head from "next/head";
 import FanDashboardLayout from "@/layouts/FanDashboard";
 import FanAthleteInteraction from "@/modules/fan-dashboard/components/ViewAthleteInteraction";
-import { wrapper } from "@/store";
-import { IGuards } from "@/types/globals/types";
-import { setTokenToStore } from "@/utils/auth";
 import { useUser } from "@/hooks/useUser";
+
 const Interactions = () => {
   const { isFan } = useUser();
   return (

@@ -1,24 +1,14 @@
 import { Box, Heading, Text, Grid, AspectRatio } from "@chakra-ui/react";
 import React from "react";
-import { Waypoint } from "react-waypoint";
 import { IAthleteUpToDate } from "@/types/athlete/types";
-import { getImageLink } from "@/utils/link";
 import HerosImage from "@/components/common/HerosImage";
-import UpToDateSkeleton from "./Skeleton";
 
 interface FanStayUpToDate {
   data: IAthleteUpToDate[];
   onClick: (id: string) => void;
-  hasNextPage: boolean;
-  onLoadMore: () => void;
 }
 
-const FanStayUpToDate: React.FC<FanStayUpToDate> = ({
-  data,
-  onClick,
-  hasNextPage,
-  onLoadMore,
-}) => {
+const FanStayUpToDate: React.FC<FanStayUpToDate> = ({ data, onClick }) => {
   return (
     <Box bg="accent.1" borderRadius={{ lg: "12px" }}>
       <Box p={{ base: "20px", lg: "30px" }}>
@@ -43,11 +33,11 @@ const FanStayUpToDate: React.FC<FanStayUpToDate> = ({
               key={item?.id}
               position="relative"
               cursor="pointer"
-              onClick={() => onClick(item?.targetUser?.id)}
+              onClick={() => onClick(item?.id)}
             >
               <AspectRatio maxW="400px" ratio={210 / 265}>
                 <HerosImage
-                  src={getImageLink(item?.targetUser?.avatar)}
+                  src={item?.targetUser?.avatar}
                   widthSize={250}
                   heightSize={250}
                   width={"100%"}
@@ -55,7 +45,6 @@ const FanStayUpToDate: React.FC<FanStayUpToDate> = ({
                   borderRadius="10px"
                 />
               </AspectRatio>
-
               <Box
                 position="absolute"
                 bottom="0"
@@ -75,7 +64,7 @@ const FanStayUpToDate: React.FC<FanStayUpToDate> = ({
                     lineHeight={{ base: "20px", lg: "25px" }}
                     textTransform="capitalize"
                   >
-                    {item?.targetUser?.nickName}
+                    {item?.targetUser?.nickName ?? ""}
                   </Text>
                   <Text
                     bg={
@@ -98,13 +87,6 @@ const FanStayUpToDate: React.FC<FanStayUpToDate> = ({
               </Box>
             </Box>
           ))}
-          {hasNextPage && (
-            <Waypoint onEnter={onLoadMore}>
-              <Box>
-                <UpToDateSkeleton />
-              </Box>
-            </Waypoint>
-          )}
         </Grid>
       </Box>
     </Box>

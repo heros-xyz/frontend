@@ -192,7 +192,6 @@ export interface IAthleteInfo {
   id: string;
   fullName: string;
   avatar: string;
-  createdAt: string;
   recommended?: boolean;
   description?: string;
   totalSubscribed?: string;
