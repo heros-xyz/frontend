@@ -10,7 +10,6 @@ import {
   where,
   addDoc,
   updateDoc,
-  getCountFromServer,
   orderBy,
   Timestamp,
   limit
@@ -160,10 +159,7 @@ export const usePostsAsMaker = (loadData = true, tag?: string) => {
 
     getDocs(q)
       .then(async (snapshot) => {
-        // contar likes y reactions para cada post
-        const posts = snapshot.docs.map(d => d.data())
-
-        serData(posts)
+        serData(snapshot.docs.map(d => d.data()))
       })
       .finally(() => setLoading(false))
     return onSnapshot(q, (snapshot) => {
@@ -253,7 +249,8 @@ export const useEditPost = () => {
 
 
 export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const { user } = useAuthContext()
   const [data, setData] = useState<Post[]>([]);
   const todayDate =  new Date(Date.now())
   const dataRef = useMemo(() => {
@@ -278,6 +275,7 @@ export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
 
   useEffect(() => {
     if (!dataRef) return
+    setLoading(true)
     getDocs(dataRef)
       .then((snapshot) => {
         setData(snapshot.docs.map(d => d.data()))

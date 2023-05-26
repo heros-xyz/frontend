@@ -10,7 +10,7 @@ import {
   Tag,
   TagLabel,
   Text,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
 import { Else, If, Then } from "react-if";
@@ -28,7 +28,7 @@ import { useReactions } from "@/libs/dtl/reaction";
 import { usePost } from "@/libs/dtl/post";
 import { useAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { CollectionPath } from "@/libs/dtl/types";
-import AthleteInfo from "../AthleteInfo";
+import AthleteInfo, { AthleteInfoProps } from "../AthleteInfo";
 import type { MenuItem } from "../AthleteMenu";
 import AthleteMenu from "../AthleteMenu";
 import HerosSwiper from "../Swiper";
