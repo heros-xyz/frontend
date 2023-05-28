@@ -4,4 +4,5 @@ export const collectionPath = {
     USER: "user",
     POSTS: "post",
     FAN_PROFILE: "fanProfile",
+    COMMENTS: "comments",
 }

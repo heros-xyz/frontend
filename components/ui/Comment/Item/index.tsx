@@ -2,6 +2,7 @@ import { Box, CloseButton, Flex, Text, WrapItem } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useMemo, useState } from "react";
 import { Else, If, Then } from "react-if";
+import { useRouter } from "next/router";
 import { Heart } from "@/components/svg/CommentHeart";
 import { CommentIcon } from "@/components/svg/CommentIcon";
 import { Dots } from "@/components/svg/Dots";
@@ -20,18 +21,18 @@ interface CommentProps {
 }
 
 const CommentItem: React.FC<CommentProps> = ({ comment, actions = true }) => {
-  const commentReply = useCommentReply();
+  const router = useRouter();
   const post = usePost(comment.post);
   const isReply = useMemo(() => comment.parent !== undefined, [comment.parent]);
   const parentComment = useComment(comment.parent);
   const isAuthorComment = useMemo(
-    () =>
-      post.data && post.data.author && post.data.author.uid === comment.author,
+    () => post.data && post.data.uid && post.data.uid === comment.author,
     [post, comment]
   );
   const reaction = useReactions(comment.id, CollectionPath.COMMENTS);
   const isAdmin = useMemo(() => false, []);
   const [showActions, setShowActions] = useState(false);
+
   return (
     <Box className="comment-item">
       <Flex
@@ -63,6 +64,9 @@ const CommentItem: React.FC<CommentProps> = ({ comment, actions = true }) => {
             order={isReply ? 2 : 1}
             mr={isReply ? 3 : 0}
             cursor={!actions ? "pointer" : ""}
+            onClick={() =>
+              router.push(`/athlete/interactions/${post?.data?.id}?focus=true`)
+            }
             color="primary"
           >
             {parentComment.data && (
