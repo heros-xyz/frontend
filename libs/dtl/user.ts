@@ -113,7 +113,7 @@ const converter = {
     ({
       ...snap?.data(),
       id: snap?.id,
-      dateOfBirth: snap.data().dateOfBirth?.toDate?.(),
+      dateOfBirth: snap.data().dateOfBirth?.toDate()
     }) as User
 }
 

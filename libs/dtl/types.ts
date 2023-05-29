@@ -34,6 +34,7 @@ export interface FanProfile {
   fullName: string
   firstName: string
   lastName: string
+  dateOfBirth?: Date
 }
 
 export interface Nationality {

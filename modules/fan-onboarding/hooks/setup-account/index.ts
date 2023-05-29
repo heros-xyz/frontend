@@ -3,6 +3,7 @@ import { useUpdateEffect } from "react-use";
 import { doc, setDoc } from "firebase/firestore";
 import { getDownloadURL, ref } from 'firebase/storage';
 import { useUploadFile } from 'react-firebase-hooks/storage';
+import dayjs from "dayjs";
 import { FanProfile, User } from "@/libs/dtl";
 import { useAuthContext } from "@/context/AuthContext";
 import { db, storage } from "@/libs/firebase";
@@ -72,7 +73,7 @@ export const useFanOnboarding = () => {
         firstName: fullNameState.firstName,
         lastName: fullNameState.lastName,
         isFinishOnboarding: true,
-        dateOfBirth: dateOfBirth as unknown as Date,
+        dateOfBirth: dayjs(dateOfBirth).toDate(), // TODO check this
         isFirstLogin: true,
         gender: +gender
       }
