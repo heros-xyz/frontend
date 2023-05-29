@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import Head from "next/head";
+import dayjs from "dayjs";
 import { If, Then } from "react-if";
 import * as Yup from "yup";
 import {
@@ -37,7 +38,7 @@ import BackButton from "@/components/ui/BackButton";
 import { useAuthContext } from "@/context/AuthContext";
 import useUpdateDoc from "@/hooks/useUpdateDoc";
 import { useUser } from "@/hooks/useUser";
-import { useSports, useUploadAvatarToUser } from "@/libs/dtl";
+import { useMyUserProfile, useSports, useUploadAvatarToUser } from "@/libs/dtl";
 import { useFanProfile } from "@/libs/dtl/fanProfile";
 import { filterSelectOptions, isValidString } from "@/utils/functions";
 
@@ -94,7 +95,7 @@ const validationSchema = Yup.object().shape({
 const EditAccountInfo = () => {
   const { sportsMapped: sportsList } = useSports();
   const { isAdmin, isFan } = useUser();
-  const { userProfile } = useAuthContext();
+  const { data: userProfile } = useMyUserProfile();
   const { data: fanData } = useFanProfile();
   const { updateDocument, isUpdating, success } = useUpdateDoc();
   const upload = useRef() as MutableRefObject<HTMLInputElement>;
@@ -105,11 +106,11 @@ const EditAccountInfo = () => {
 
   const handleSubmit = async (values: any) => {
     try {
-      if (!!userProfile?.uid) {
+      if (!!userProfile?.id) {
         const paramsUser = {
           firstName: values.firstName,
           lastName: values.lastName,
-          dateOfBirth: values.dateOfBirth,
+          dateOfBirth: dayjs(values?.dateOfBirth).toDate(), // TODO check this
           gender: +values.gender,
         };
 
@@ -119,22 +120,19 @@ const EditAccountInfo = () => {
         }));
 
         const paramsFanProfile = {
+          dateOfBirth: paramsUser.dateOfBirth,
           sports: sports,
         };
 
         if (!!fileSubmit) {
           const avatarUrl = await uploadAvatar(fileSubmit);
-          console.log(avatarUrl, "avatarUrl");
-          await updateDocument(`user/${userProfile?.uid}`, {
+          await updateDocument(`user/${userProfile?.id}`, {
             avatar: avatarUrl,
           });
         }
 
-        await updateDocument(`user/${userProfile?.uid}`, paramsUser);
-        await updateDocument(
-          `fanProfile/${userProfile?.uid}`,
-          paramsFanProfile
-        );
+        await updateDocument(`user/${userProfile?.id}`, paramsUser);
+        await updateDocument(`fanProfile/${userProfile?.id}`, paramsFanProfile);
       }
     } catch (error) {
       console.log(error);
@@ -149,9 +147,11 @@ const EditAccountInfo = () => {
 
   useEffect(() => {
     if (userProfile) {
+      const dateOfBirth = dayjs(userProfile.dateOfBirth).format("YYYY-MM-DD");
+
       formik.setFieldValue("firstName", userProfile.firstName);
       formik.setFieldValue("lastName", userProfile.lastName);
-      formik.setFieldValue("dateOfBirth", userProfile.dateOfBirth);
+      formik.setFieldValue("dateOfBirth", dateOfBirth);
       formik.setFieldValue("gender", userProfile.gender);
       formik.setFieldValue("avatar", userProfile.avatar);
       formik.setFieldValue("isAdmin", isAdmin);

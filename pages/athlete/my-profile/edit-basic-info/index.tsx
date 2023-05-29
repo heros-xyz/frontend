@@ -13,6 +13,7 @@ import { useFormik } from "formik";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import { If, Then } from "react-if";
 import TextareaAutoSize from "react-textarea-autosize";
+import dayjs from "dayjs";
 import AthleteDashboardLayout from "@/layouts/AthleteDashboard";
 import DateSelect from "@/components/ui/DateSelect";
 import Select from "@/components/common/Select";
@@ -50,14 +51,14 @@ const EditBasicInfo = () => {
     validationSchema,
     onSubmit: async (values) => {
       const updateUserParams: Partial<User> = {
-        dateOfBirth: values?.dateOfBirth as unknown as Date, // TODO check this
+        dateOfBirth: dayjs(values?.dateOfBirth).toDate(), // TODO check this
         firstName: values?.firstName,
         middleName: values?.middleName,
         gender: Number(values.gender),
         nationality:
           values?.nationality.label !== myUserProfile.data?.nationality?.name
             ? (values?.nationality as unknown as Nationality)
-            : undefined,
+            : myUserProfile?.data?.nationality,
       };
 
       const updateAthleteProfileParams: Partial<AthleteProfile> = {
@@ -65,7 +66,7 @@ const EditBasicInfo = () => {
         nationality: updateUserParams.nationality,
         gender: String(updateUserParams?.gender),
         firstName: updateUserParams?.firstName,
-        dateOfBirth: updateUserParams.dateOfBirth,
+        dateOfBirth: updateUserParams?.dateOfBirth as unknown as Date,
       };
 
       try {
@@ -84,13 +85,17 @@ const EditBasicInfo = () => {
 
   useEffect(() => {
     if (!loading && myAthleteProfile.data) {
+      const dateOfBirth = dayjs(myAthleteProfile.data?.dateOfBirth).format(
+        "YYYY-MM-DD"
+      );
+      console.log({ dateOfBirth, myAthleteProfile });
       formik.setFieldValue("firstName", myAthleteProfile.data?.firstName);
       formik.setFieldValue("lastName", myAthleteProfile.data?.lastName);
       formik.setFieldValue(
         "middleName",
         myAthleteProfile.data?.middleName || ""
       );
-      formik.setFieldValue("dateOfBirth", myAthleteProfile.data?.dateOfBirth);
+      formik.setFieldValue("dateOfBirth", dateOfBirth);
       formik.setFieldValue(
         "gender",
         myAthleteProfile.data?.gender?.toString?.()
