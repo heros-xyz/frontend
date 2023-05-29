@@ -40,6 +40,7 @@ export const useBasicInfo = () => {
   const [error, setError] = useState(null)
   const myUserProfile = useMyUserProfile()
   const myAthleteProfile = useMyAthleteProfile()
+  const [submitLoading, setSubmitLoading] = useState(false)
 
   const formik = useFormik({
     validationSchema,
@@ -55,6 +56,7 @@ export const useBasicInfo = () => {
     },
     onSubmit: async (values) => {
       try {
+        setSubmitLoading(true)
         if (!myUserProfile.data?.uid) {
           const params = {
             nationality: {
@@ -79,6 +81,8 @@ export const useBasicInfo = () => {
       } catch (error) {
         setError(error)
         console.log(error)
+      } finally {
+        setSubmitLoading(false)
       }
     },
   });
@@ -98,6 +102,6 @@ export const useBasicInfo = () => {
     totalStep,
     error,
     setStep,
-    submitLoading: myAthleteProfile.loading || myUserProfile.loading
+    submitLoading
   };
 };

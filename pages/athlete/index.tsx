@@ -49,7 +49,11 @@ const AthleteDashboard = () => {
   };
 
   useEffect(() => {
-    if (!myUserProfile.loading && !myUserProfile.data?.isFinishOnboarding) {
+    if (
+      !myUserProfile.loading &&
+      !myUserProfile.data?.isFinishOnboarding &&
+      !!myUserProfile.data?.isFinishSetupAccount
+    ) {
       router.push(RoutePath.ATHLETE_CHECKLIST);
     }
   }, [myUserProfile]);

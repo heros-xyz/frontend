@@ -147,7 +147,7 @@ const useSetupAccountPage = () => {
     },
   });
 
-/*   useEffect(() => {
+/*useEffect(() => {
     debugger
     console.log({ userProfile, showSuccess })
     if (userProfile?.isFinishSetupAccount && userProfile?.isFinishOnboarding) {

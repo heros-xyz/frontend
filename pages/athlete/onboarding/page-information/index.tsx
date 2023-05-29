@@ -15,6 +15,7 @@ const PageInformation = () => {
   const toast = useToast();
   const myUserProfile = useMyUserProfile();
   const myAthleteProfile = useMyAthleteProfile();
+  const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [isError, setIsError] = useState(false);
   const [value, setValue] = useState<number>(0);
@@ -44,10 +45,13 @@ const PageInformation = () => {
         tagline: formValues.tagLine,
         tags,
       };
+      setLoading(true);
       await myAthleteProfile.update(params);
       setStep((prev) => prev + 1);
     } catch (error) {
       setIsError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -70,7 +74,7 @@ const PageInformation = () => {
             </Case>
             <Case condition={step === 2}>
               <AddTag
-                isLoading={myAthleteProfile.loading}
+                isLoading={loading}
                 onSubmit={handleSubmit}
                 setValue={setValue}
               />
