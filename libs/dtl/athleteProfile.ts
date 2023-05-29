@@ -31,8 +31,9 @@ export const converter = {
         ({
             id: snap?.id,
             ...snap?.data(),
-            createdAt: snap?.data()?.createdAt,
+            createdAt: snap?.data()?.createdAt?.toDate?.(),
             dateOfBirth: snap?.data()?.dateOfBirth?.toDate?.(),
+            postsDates: snap?.data()?.postsDates?.map?.((date: any) => date?.toDate?.()) ?? [],
         }) as AthleteProfile
 }
 
