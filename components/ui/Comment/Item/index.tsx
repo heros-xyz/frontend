@@ -21,6 +21,7 @@ interface CommentProps {
 }
 
 const CommentItem: React.FC<CommentProps> = ({ comment, actions = true }) => {
+  const commentReply = useCommentReply();
   const router = useRouter();
   const post = usePost(comment.post);
   const isReply = useMemo(() => comment.parent !== undefined, [comment.parent]);
