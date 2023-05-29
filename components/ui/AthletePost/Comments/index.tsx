@@ -32,16 +32,19 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
     [id, commentReply.comment]
   );
 
+  const previewComments =
+    comments.data.filter((comment) => !comment?.parent).slice(0, 3) ?? [];
+
   return (
     <Box className="comment-box">
       <If condition={isPreview}>
         <Then>
-          {false &&
-            comments.data.map((comment) => (
+          {!!previewComments.length &&
+            previewComments?.map?.((comment) => (
               <Box className="comment-box__preview" key={comment.id} py={2}>
                 <CommentItem
+                  actions={false}
                   comment={comment}
-                  actions
                   key={`comment_${comment.id}`}
                 />
               </Box>

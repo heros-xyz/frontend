@@ -23,6 +23,7 @@ import { Post, usePostsAsTaker } from "@/libs/dtl/post";
 import { useAthleteProfile, useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
 import AthleteInfo from "@/components/ui/AthleteInfo";
 import { LockIcon } from "@/components/svg/LockIcon";
+import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
 import InteractionSection from "./components/InteractionSection";
 import { SocialInteraction } from "./components/SocialInteraction/SocialInteraction";
 import SubscribeContent from "./components/SubscribeContent";
@@ -50,10 +51,7 @@ const Interactions: FC<IInteractionsProps> = ({
   const [interactionData, setInteractionData] = useState<Post[]>([]);
   const { data: athleteProfile, loading: loadingAthleteProfile } =
     useAthleteProfile(id as string);
-  const {
-    data,
-    loading: isLoading,
-  } = usePostsAsTaker({
+  const { data, loading: isLoading } = usePostsAsTaker({
     maker: id as string,
   });
 
@@ -182,6 +180,7 @@ const Interactions: FC<IInteractionsProps> = ({
                   {...interactionPost}
                   user={interactionPost?.user as any}
                 />
+
                 <If condition={interactionPost.isAccessRight}>
                   <Then>
                     <SocialInteraction
@@ -193,6 +192,12 @@ const Interactions: FC<IInteractionsProps> = ({
                       reactionCount={interactionPost?.reactionCount ?? 0}
                       liked={interactionPost?.liked ?? false}
                     />
+                    <Box mt={{ base: 1, lg: 3 }}>
+                      <AthleteInteractionComments
+                        id={interactionPost?.id}
+                        isPreview
+                      />
+                    </Box>
                   </Then>
                 </If>
               </Box>
@@ -213,7 +218,11 @@ const Interactions: FC<IInteractionsProps> = ({
           </Box>
         )}
       </If>
-      <If condition={!!athleteProfile?.postsDates?.length && !interactionsList.length}>
+      <If
+        condition={
+          !!athleteProfile?.postsDates?.length && !interactionsList.length
+        }
+      >
         <Then>
           <Box py={{ base: 6, lg: 8 }}>
             {athleteProfile?.postsDates?.map?.((item) => (

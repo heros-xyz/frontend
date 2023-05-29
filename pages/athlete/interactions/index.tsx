@@ -12,6 +12,9 @@ import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
 import { useAuthContext } from "@/context/AuthContext";
 import { useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { usePostsAsMaker } from "@/libs/dtl/post";
+import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
+import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
+import { EditIcon } from "@/components/svg/menu/EditIcon";
 
 const Interactions = () => {
   const { userProfile } = useAuthContext();
@@ -97,11 +100,21 @@ const Interactions = () => {
                       onDeleted={router.reload}
                       onUpdated={router.reload}
                       id={item.id}
+                      menuList={[
+                        {
+                          id: "edit",
+                          itemName: "Edit",
+                          Icon: <EditIcon color="primary" />,
+                        },
+                        {
+                          id: "delete",
+                          itemName: "Delete",
+                          Icon: <DeleteIcon color="primary" />,
+                        },
+                      ]}
                     >
                       <Box mt={{ base: 1, lg: 3 }}>
-                        {/*
                         <AthleteInteractionComments id={item?.id} isPreview />
-*/}
                       </Box>
                     </AthletePost>
                     <Divider display={{ lg: "none" }} my={{ base: 6, lg: 8 }} />
