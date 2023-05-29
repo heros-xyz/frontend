@@ -17,6 +17,7 @@ const SportProfile = () => {
   const toast = useToast();
   const [step, setStep] = useState(1);
   const [value, setValue] = useState<number>(0);
+  const [loading, setLoading] = useState(false);
   const { user } = useAuthContext();
   const [finalValue, setFinalValue] = useState<IOnboardingSportProfileParams>({
     sportId: "",
@@ -33,6 +34,7 @@ const SportProfile = () => {
   const submitSportProfile = async (value: object) => {
     if (!user?.uid) return;
     try {
+      setLoading(true);
       const { currentTeam, goal, sports } = {
         ...finalValue,
         ...value,
@@ -44,11 +46,13 @@ const SportProfile = () => {
       };
       await myAthleteProfile.update({
         ...params,
-        sport: { label: sports?.label as string, key: sports?.value as string}
+        sport: { label: sports?.label as string, key: sports?.value as string },
       });
       return;
     } catch (error) {
       setError(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -108,7 +112,7 @@ const SportProfile = () => {
                 goal={finalValue.goal}
                 setStepValue={setStepValue}
                 onSubmit={setValueByStep}
-                submitLoading={myAthleteProfile.loading}
+                submitLoading={loading}
               />
             </Case>
           </Switch>
