@@ -21,6 +21,7 @@ import { db, storage } from "@/libs/firebase";
 import { IMediaExisted } from "@/types/athlete/types";
 import { Suscription } from "@/libs/dtl/common";
 import { AthleteProfile } from "@/libs/dtl/types";
+import { Logger } from "@/utils/logger";
 import { MutationState } from "./careerJourney";
 import { useGetMySubscriptions } from "./subscription";
 import { collectionPath } from "./constant";
@@ -253,6 +254,7 @@ export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
   const { user } = useAuthContext()
   const [data, setData] = useState<Post[]>([]);
   const todayDate =  new Date(Date.now())
+  const { data: mySubscriptions } = useGetMySubscriptions()
   const dataRef = useMemo(() => {
     if (params.maker) {
       return query(
@@ -274,17 +276,20 @@ export const usePostsAsTaker = (params: { maker?: string, tag?: string }) => {
   }, [params.tag, params?.maker])
 
   useEffect(() => {
-    if (!dataRef) return
+    if (!dataRef || !mySubscriptions?.find(subscription => subscription.maker === params.maker)) return
+
     setLoading(true)
     getDocs(dataRef)
       .then((snapshot) => {
         setData(snapshot.docs.map(d => d.data()))
+      }).catch((error) => {
+        Logger.error("Error retrieving posts:", error);
       })
       .finally(() => setLoading(false))
     return onSnapshot(dataRef, (snapshot) => {
       setData(snapshot.docs.map(d => d.data()))
     });
-  }, [dataRef]);
+  }, [dataRef, mySubscriptions]);
 
   return { loading, data }
 }
