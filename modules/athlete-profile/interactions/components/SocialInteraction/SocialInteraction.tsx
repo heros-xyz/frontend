@@ -11,9 +11,6 @@ import SocialSharingModal from "../SocialSharing";
 import { CollectionPath } from "@/libs/dtl";
 
 interface ISocialInteractionProps {
-  reactionCount: number;
-  commentsCount?: number;
-  liked: boolean;
   isAdmin?: boolean;
   postId?: string;
   isInDetailPage?: boolean;
@@ -22,17 +19,13 @@ interface ISocialInteractionProps {
 
 export const SocialInteraction: FC<ISocialInteractionProps> = ({
   handleComment,
-  commentsCount,
-  reactionCount = 0,
   isInDetailPage,
-  liked,
   postId,
   isAdmin,
 }) => {
   const router = useRouter();
   const { view, id, isFocus } = router.query;
   const iconActions = useRef<HTMLDivElement>(null);
-  const [isLiked, setIsLiked] = useState(liked);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const post = usePost(postId)
   const reactions = useReactions(postId as string);

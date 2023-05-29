@@ -1,13 +1,13 @@
 import { Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { FC, useEffect } from "react";
+import { FC, useCallback, useEffect } from "react";
 import { If, Then } from "react-if";
 import CommentItem from "@/components/ui/Comment/Item";
 import LoadMoreSkeleton from "@/components/ui/AthletePost/LoadMoreSkeleton";
 import { useDevice } from "@/hooks/useDevice";
 import { useUser } from "@/hooks/useUser";
 import { Comment } from "@/libs/dtl";
-import { useComments } from "@/libs/dtl/comment";
+import { useCommentReply, useComments } from "@/libs/dtl/comment";
 import { useReactions } from "@/libs/dtl/reaction";
 import { Post } from "@/libs/dtl/post";
 import { SocialInteraction } from "../../components/SocialInteraction/SocialInteraction";
@@ -20,20 +20,27 @@ const CommentSection: FC<Props> = ({ post }) => {
   const router = useRouter();
   const { isMobile } = useDevice();
   const { isAdmin } = useUser();
+  const commentReply = useCommentReply();
 
   const comments = useComments(post.id);
-  const reactions = useReactions(post.id)
+
+  const createComment = useCallback(
+    (content: string) => {
+      return comments.create({
+        post: post.id,
+        content,
+        parent: commentReply.comment?.id,
+      });
+    },
+    [post.id, commentReply.comment]
+  );
 
   return (
     <Flex flexDirection="column" position="relative">
       <Flex flexDirection="column">
         <SocialInteraction
-          liked={reactions.iLikeIt}
           postId={post.id}
-          isAdmin={isAdmin}
           isInDetailPage
-          reactionCount={post.reactionsCount}
-          commentsCount={comments.data.length ?? 0}
         />
         <Flex
           py={4}
@@ -44,7 +51,7 @@ const CommentSection: FC<Props> = ({ post }) => {
           gap={{ base: 4, lg: 8 }}
           className="postComment"
         >
-          {([] as Comment[]).map(
+          {comments.data.map(
             (comment) => (
               <CommentItem
                 key={comment.id}
@@ -63,14 +70,12 @@ const CommentSection: FC<Props> = ({ post }) => {
         />
       </Flex>
 
-      <If condition={!isAdmin}>
-        <Then>
-          <CommentField
-            isLoading={comments.loading}
-            disabled={isAdmin}
-          />
-        </Then>
-      </If>
+
+      <CommentField
+        isLoading={comments.loading}
+        onSubmitComment={createComment}
+        disabled={isAdmin}
+      />
     </Flex>
   );
 };

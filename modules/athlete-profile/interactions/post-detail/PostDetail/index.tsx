@@ -1,9 +1,8 @@
 import { Box, Container, Divider, Flex, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { ArrowLeft } from "@/components/svg/ArrowLeft";
-import { useAthleteProfile } from "@/hooks/useAthleteProfile";
 import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/detail/SkeletonInteractionDetail";
-import { IHerosError } from "@/types/globals/types";
+import { usePost } from "@/libs/dtl/post";
 import InteractionSection from "../../components/InteractionSection";
 import CommentSection from "../CommentSection";
 import NotFoundPage from "../../components/NotFound";
@@ -12,25 +11,10 @@ const PostDetail = () => {
   const router = useRouter();
 
   const { view: postId, id: athleteId } = router.query;
-  const { validateIsFan } = useAthleteProfile();
-  const {
-    data: interactionDetail,
-    error,
-    isSuccess,
-    isLoading,
-  } = { data: {} as any, error: null, isSuccess: false, isLoading: false }; // mock
+  const post = usePost(postId as string|undefined);
 
-  const handleNavigateToFilterTag = (value: string) => {
-    router.push({
-      pathname: `/fan/athlete-profile/${athleteId}`,
-      query: {
-        current: "1",
-        filter: value,
-      },
-    });
-  };
 
-  if (isLoading) {
+  if (post.loading) {
     return (
       <Container
         size={["base", "sm", "md", "lg", "xl"]}
@@ -43,15 +27,9 @@ const PostDetail = () => {
     );
   }
 
-  if (error) {
-    if (
-      (error as IHerosError).status === 404 ||
-      (error as IHerosError).status === 500
-    ) {
-      return <NotFoundPage />;
-    }
-
-    if ((error as IHerosError).status === 400) {
+  if (post.error) {
+    //TODO
+    if (post.error === "NO TIENE SUSCRIPCIÓN") {
       router.push({
         pathname: `/fan/athlete-profile/[id]`,
         query: {
@@ -61,6 +39,11 @@ const PostDetail = () => {
         },
       });
     }
+    return <></>
+  }
+
+  if (post.data === undefined) {
+    return <NotFoundPage />;
   }
 
   return (
@@ -107,31 +90,21 @@ const PostDetail = () => {
               </Text>
             </Flex>
 
-            {isSuccess ? (
-              <Box mb={{ lg: "30px" }}>
-                <InteractionSection
-                  navigateToPostsByTag={handleNavigateToFilterTag}
-                  validateIsFan={validateIsFan}
-                  isDetailView
-                  {...interactionDetail}
-                />
-              </Box>
-            ) : (
-              <></>
-            )}
+            <Box mb={{ lg: "30px" }}>
+              <InteractionSection
+                post={post.data}
+                isDetailView
+              />
+            </Box>
           </Box>
           <Divider
             display={{ base: "none", lg: "block" }}
             mx="80px"
             orientation="vertical"
           />
-          {isSuccess ? (
-            <Box flex={{ lg: "1" }}>
-              <CommentSection {...interactionDetail} />
-            </Box>
-          ) : (
-            <></>
-          )}
+          <Box flex={{ lg: "1" }}>
+            <CommentSection post={post.data} />
+          </Box>
         </Flex>
       </Container>
     </Box>
