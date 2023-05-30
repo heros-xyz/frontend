@@ -112,10 +112,7 @@ const useSetupAccountPage = () => {
             cacheControl: 'public, max-age=31536000',  // Un año
           });
           if (!!result?.ref) {
-            const downloadURL = await getDownloadURL(result?.ref);
-            //remove token attribute of the downloadURL
-            const downloadURLWithoutToken = downloadURL.split('?')[0]
-            avatarUrl = downloadURLWithoutToken+"?alt=media"
+            avatarUrl = await getDownloadURL(result?.ref);
           }
         }
         // update athleteProfile/{uid}
