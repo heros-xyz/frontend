@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run:  npm install
       - name: Set up Firebase CLI
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
