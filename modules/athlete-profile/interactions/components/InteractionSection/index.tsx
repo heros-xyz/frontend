@@ -11,7 +11,7 @@ import { useAthleteProfile } from "@/libs/dtl/athleteProfile";
 interface Props {
   isDetailView?: boolean;
   post?: Post;
-  navigateToPostsByTag: (value: string) => void;
+  navigateToPostsByTag?: (value: string) => void;
 }
 
 const MAX_CONTENT_LENGTH = 200;
@@ -31,7 +31,7 @@ const InteractionSection: FC<Props> = ({
     : (post?.content.length || 0) > MAX_CONTENT_LENGTH;
 
   const handleNavigateToPostsByTag = (value: string) => {
-    navigateToPostsByTag(value);
+    navigateToPostsByTag?.(value);
   };
   const navigateToPostDetail = useCallback(() => {}, [post]);
   if (!athlete.data || !post) return <></>;
