@@ -45,8 +45,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
               content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0"
             />
             <link rel="manifest" href="/manifest.json" />
-            <title>Heros</title>
-            <meta name="og:title" content="Heros" />
+            <title key="title">Heros</title>
+            <meta  key="title" name="og:title" content="Heros" />
           </Head>
           <HerosLoading />
           <NextNProgress options={{ showSpinner: false }} />
