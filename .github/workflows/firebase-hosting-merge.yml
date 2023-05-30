@@ -17,3 +17,5 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_HEROS_DEV_386505 }}'
           channelId: live
           projectId: heros-dev-386505
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
