@@ -27,14 +27,16 @@ import { NotificationStatusType } from "./notification";
 
 export const converter = {
     toFirestore: (data: any) => data,
-    fromFirestore: (snap: QueryDocumentSnapshot) =>
-        ({
+    fromFirestore: (snap: QueryDocumentSnapshot) => {
+        const data = snap.data()
+        return {
             id: snap?.id,
-            ...snap?.data(),
-            createdAt: snap?.data()?.createdAt?.toDate?.(),
-            dateOfBirth: snap?.data()?.dateOfBirth?.toDate?.(),
-            postsDates: snap?.data()?.postsDates?.map?.((date: any) => date?.toDate?.()) ?? [],
-        }) as AthleteProfile
+            ...data,
+            createdAt: data.createdAt?.toDate?.(),
+            dateOfBirth: data.dateOfBirth?.toDate?.(),
+            postsDates: data.postsDates?.map?.((date: any) => date?.toDate?.()) ?? [],
+        } as AthleteProfile
+    }
 }
 
 export const useAthleteProfile = (athleteId?: string): AthleteProfilesuscription => {
