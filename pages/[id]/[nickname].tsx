@@ -91,8 +91,10 @@ export async function getServerSideProps(context: any) {
   const athleteProfileDoc = await getDoc(doc(db, collectionPath.ATHLETE_PROFILE, context.params.id))
   const athleteProfile = athleteProfileDoc.data()
 
-  delete athleteProfile.dateOfBirth
-  delete athleteProfile.createdAt
+  if (athleteProfile !== undefined){
+    delete athleteProfile.dateOfBirth
+    delete athleteProfile.createdAt
+  }
 
   // Retorna los datos como props
   return {
