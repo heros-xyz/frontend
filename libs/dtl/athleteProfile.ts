@@ -34,7 +34,7 @@ export const converter = {
             ...data,
             createdAt: data.createdAt?.toDate?.(),
             dateOfBirth: data.dateOfBirth?.toDate?.(),
-            postsDates: data.postsDates?.map?.((date: any) => date?.toDate?.()) ?? [],
+            postsDates: data.postsDates?.map?.((postDate: any) => ({ ...postDate, date: postDate?.date?.toDate() })) ?? [],
         } as AthleteProfile
     }
 }
@@ -49,17 +49,17 @@ export const useAthleteProfile = (athleteId?: string): AthleteProfilesuscription
     useEffect(() => {
         if (!athleteId || !user) return
         const q = query(collection(db, CollectionPath.SUBSCRIPTIONS),
-          where("maker", "==", athleteId),
-          where("taker", "==", user.uid),
-          where("status", "==", SubscriptionStatus.ACTIVE)
+            where("maker", "==", athleteId),
+            where("taker", "==", user.uid),
+            where("status", "==", SubscriptionStatus.ACTIVE)
         );
 
         getCountFromServer(q)
-          .then((snapshot) => setIsMyAthlete(snapshot?.data().count!==0))
-          .catch(console.error);
+            .then((snapshot) => setIsMyAthlete(snapshot?.data().count !== 0))
+            .catch(console.error);
 
         return onSnapshot(q, (snapshot) => {
-            setIsMyAthlete(snapshot.docs.length!==0)
+            setIsMyAthlete(snapshot.docs.length !== 0)
         })
     }, [athleteId, user]);
 

@@ -15,12 +15,7 @@ import Head from "next/head";
 import dayjs from "dayjs";
 import { If, Then } from "react-if";
 import * as Yup from "yup";
-import {
-  useRef,
-  MutableRefObject,
-  useState,
-  ReactElement,
-} from "react";
+import { useRef, MutableRefObject, useState, ReactElement } from "react";
 import ErrorMessage from "@/components/common/ErrorMessage";
 import Select from "@/components/common/Select";
 import DateSelect from "@/components/ui/DateSelect";
@@ -89,7 +84,7 @@ const EditAccountInfo = () => {
   const { updateDocument, isUpdating, success } = useUpdateDoc();
   const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [fileSubmit, setFileSubmit] = useState<File>();
-  const { uploadAvatar } = useUploadAvatarToUser();
+  const { uploadAvatar, isLoading } = useUploadAvatarToUser();
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -436,7 +431,7 @@ const EditAccountInfo = () => {
                   mb={2}
                   type="submit"
                   isDisabled={!!errorMessage || !formik.dirty}
-                  isLoading={isUpdating}
+                  isLoading={isUpdating || isLoading}
                   fontSize={{ base: "md", xl: "xl" }}
                 >
                   SAVE
