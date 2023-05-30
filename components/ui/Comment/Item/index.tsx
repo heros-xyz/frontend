@@ -1,6 +1,15 @@
-import { Box, CloseButton, Flex, Text, WrapItem } from "@chakra-ui/react";
+import {
+  Box,
+  CloseButton,
+  Flex,
+  keyframes,
+  Text,
+  useOutsideClick,
+  usePrefersReducedMotion,
+  WrapItem,
+} from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Else, If, Then } from "react-if";
 import { useRouter } from "next/router";
 import { Heart } from "@/components/svg/CommentHeart";
@@ -13,6 +22,7 @@ import { useComment, useCommentReply } from "@/libs/dtl/comment";
 import { usePost } from "@/libs/dtl/post";
 import { CollectionPath, Comment } from "@/libs/dtl/types";
 import { useReactions } from "@/libs/dtl/reaction";
+import { useDevice } from "@/hooks/useDevice";
 
 interface CommentProps {
   comment: Comment;
@@ -20,8 +30,14 @@ interface CommentProps {
   handleReply?: () => void;
 }
 
+const spin = keyframes`
+  from { opacity: 0.5; }
+  to { opacity: 1; }
+`;
+
 const CommentItem: React.FC<CommentProps> = ({ comment, actions = true }) => {
   const commentReply = useCommentReply();
+  const { isMobile } = useDevice();
   const router = useRouter();
   const post = usePost(comment.post);
   const isReply = useMemo(() => comment.parent !== undefined, [comment.parent]);
@@ -34,8 +50,64 @@ const CommentItem: React.FC<CommentProps> = ({ comment, actions = true }) => {
   const isAdmin = useMemo(() => false, []);
   const [showActions, setShowActions] = useState(false);
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const [showComment] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const commentRef = useRef<HTMLDivElement>(null);
+  const [showAnimation, setAnimation] = useState(false);
+
+  const itemRef = useRef<HTMLDivElement>(null);
+
+  const animation = prefersReducedMotion ? undefined : `${spin} 3s ease-in-out`;
+
+  useEffect(() => {
+    if (
+      router.query?.commentId &&
+      comment?.id &&
+      router?.query?.commentId === comment.id
+    ) {
+      setTimeout(() => {
+        if (isMobile) {
+          const commentInputBoxHeight = 75;
+          const offsetParent = commentRef.current?.offsetParent as HTMLElement;
+          const offsetTop =
+            (commentRef.current?.offsetTop ?? 0) +
+            (offsetParent?.offsetTop ?? 0);
+          const commentBoxHeight =
+            commentRef.current?.getBoundingClientRect()?.height ?? 0;
+
+          const top =
+            offsetTop -
+            window.innerHeight +
+            commentInputBoxHeight +
+            commentBoxHeight;
+
+          window.scrollTo({
+            top,
+            behavior: "smooth",
+          });
+        } else {
+          console.log("scroll");
+          commentRef.current?.scrollIntoView({
+            behavior: "smooth",
+          });
+        }
+        setAnimation(true);
+      }, 200);
+    }
+  }, [comment?.id, router.query, isMobile]);
+
+  useOutsideClick({
+    ref: itemRef,
+    handler: () => setIsVisible(false),
+  });
+
   return (
-    <Box className="comment-item">
+    <Box
+      ref={commentRef}
+      animation={showAnimation ? animation : undefined}
+      className="comment-item"
+    >
       <Flex
         alignItems="end"
         justifyContent={isReply ? "flex-end" : "flex-start"}
@@ -156,6 +228,7 @@ const CommentItem: React.FC<CommentProps> = ({ comment, actions = true }) => {
                     left={isReply ? "-8" : "initial"}
                     top="-2.5"
                     className="comment-reactions"
+                    ref={itemRef}
                   >
                     <Flex px="3.5" py="2.5" justifyContent="center">
                       <ReplyIcon

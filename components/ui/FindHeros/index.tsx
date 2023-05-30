@@ -76,7 +76,6 @@ const FindHeros: React.FC<IFindHeros> = ({ value, onSeeAll, ...props }) => {
 
   const onFocus = () => setFocus(true);
   const onBlur = () => {
-    console.log("blur");
     setFocus(false);
     setShowSuggestList(false);
   };

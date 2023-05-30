@@ -17,6 +17,7 @@ import { httpsCallable } from "firebase/functions";
 import { useAuthContext } from "@/context/AuthContext";
 import { db, functions } from "@/libs/firebase";
 import { Comment } from "@/libs/dtl/types";
+import { Logger } from "@/utils/logger";
 import { collectionPath } from "./constant";
 
 const converter = {
@@ -42,13 +43,22 @@ export const useCommentReply = zustand.create<CommentReplyState>()((set) => ({
 
 export const useComments = (to?: string) => {
   const { user } = useAuthContext()
+  const [loadingCreate, setLoadingCreate] = useState(false)
   const create = useCallback(async (comment: Partial<Comment>) => {
     if (!user || !user.uid) return
+    try {
+      setLoadingCreate(true)
     const addSubscription = httpsCallable(
       functions,
       "comments-create"
     )
     await addSubscription(comment)
+    } catch (error) {
+      Logger.info(error)
+    } finally {
+      setLoadingCreate(false)
+    }
+
   }, [user?.uid, to])
   const [loading, setLoading] = useState(true);
   const [data, serData] = useState<Comment[]>([]);
@@ -66,7 +76,7 @@ export const useComments = (to?: string) => {
     });
   }, [user?.uid, to]);
 
-  return { create, loading, data }
+  return { create, loading, data, loadingCreate }
 }
 
 export const useComment = (id?: string) => {

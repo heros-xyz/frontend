@@ -7,8 +7,8 @@ import { LoveIcon } from "@/components/svg/social/LoveIcon";
 import { ShareIcon } from "@/components/svg/social/ShareIcon";
 import { useReactions } from "@/libs/dtl/reaction";
 import { usePost } from "@/libs/dtl/post";
-import SocialSharingModal from "../SocialSharing";
 import { CollectionPath } from "@/libs/dtl";
+import SocialSharingModal from "../SocialSharing";
 
 interface ISocialInteractionProps {
   isAdmin?: boolean;
@@ -27,7 +27,7 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
   const { view, id, isFocus } = router.query;
   const iconActions = useRef<HTMLDivElement>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const post = usePost(postId)
+  const post = usePost(postId);
   const reactions = useReactions(postId as string);
 
   useEffect(() => {
@@ -132,7 +132,6 @@ export const SocialInteraction: FC<ISocialInteractionProps> = ({
         {post.data?.reactionsCount ?? 0} like(s),{" "}
         {post.data?.commentsCount || 0} comment(s)
       </Text>
-      comment(s)
       {/*!view && (
         <PreviewComment
           item={data}

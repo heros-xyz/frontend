@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import React, { FC, useCallback } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { Else, If, Then } from "react-if";
 import CommentField from "@/modules/athlete-profile/interactions/components/CommentField";
 import { useCommentReply, useComments } from "@/libs/dtl/comment";
@@ -61,7 +61,7 @@ const AthleteInteractionComments: FC<IAthleteInteractionCommentsProps> = ({
             </Box>
             <Box bottom={0} py={{ base: 2, lg: 0 }}>
               <CommentField
-                isLoading={comments.loading}
+                isLoading={comments.loadingCreate}
                 onSubmitComment={createComment}
               />
             </Box>

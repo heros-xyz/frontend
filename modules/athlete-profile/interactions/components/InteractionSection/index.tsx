@@ -41,9 +41,9 @@ const InteractionSection: FC<Props> = ({
       <Box h="100%">
         <Flex justifyContent="space-between" mb="20px">
           <AthleteInfo
-            athleteName={athlete.data.nickName}
-            publishDate={post.publicDate}
-            imagePath={athlete.data.avatar}
+            athleteName={athlete.data?.nickName ?? ""}
+            publishDate={post?.publicDate}
+            imagePath={athlete?.data?.avatar}
           />
         </Flex>
         <Button
@@ -67,9 +67,9 @@ const InteractionSection: FC<Props> = ({
     <Box>
       <Flex justifyContent="space-between">
         <AthleteInfo
-          athleteName={athlete.data.nickName}
+          athleteName={athlete.data?.nickName}
           publishDate={post.publicDate}
-          imagePath={athlete.data.avatar}
+          imagePath={athlete.data?.avatar}
         />
       </Flex>
       <If condition={post?.media?.length > 0}>

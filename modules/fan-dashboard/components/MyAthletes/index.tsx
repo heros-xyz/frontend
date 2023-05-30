@@ -26,15 +26,17 @@ const MyAthletes: FC = () => {
     loading: getListAthleteSubscribedLoading,
   } = useAthleteSubscribed({ limitAmount: isFan ? 3 : 6 });
 
-  const {
-    data: listAthleteRecommended,
-    loading: getListAthleteRecommendedLoading,
-  } = useGetListAthleteRecommended({
-    limitAmount:
-      listAthleteSubscribed && listAthleteSubscribed?.length <= 3
-        ? 6 - listAthleteSubscribed?.length
-        : 3,
-  });
+   const athleteRecommendedCount = Math.max(
+     6 + listAthleteSubscribed?.length - listAthleteSubscribed?.length,
+     0
+   );
+
+   const {
+     data: listAthleteRecommended,
+     loading: getListAthleteRecommendedLoading,
+   } = useGetListAthleteRecommended({
+     limitAmount: athleteRecommendedCount,
+   });
 
 
   const athleteList = useMemo(() => {

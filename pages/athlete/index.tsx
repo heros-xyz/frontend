@@ -123,7 +123,8 @@ const AthleteDashboard = () => {
           <Wallet
             title={"Wallet"}
             currentMoney={
-              !myUserProfile.data?.netAmount
+              !myUserProfile.data?.netAmount ||
+              isNaN(myUserProfile.data?.netAmount)
                 ? 0
                 : Number(myUserProfile.data?.netAmount) / 100 ?? 0
             }
