@@ -24,7 +24,7 @@ const SubscribeContent: FC<ISubscribeContentProps> = ({
         <Text fontWeight="normal" fontSize={{ base: "xs", lg: "md" }}>
           You can view fan-only posts and interact with all{" "}
           <b>{athleteName}’s </b>
-          content once you are a sucbriber.
+          content once you are a subscriber.
         </Text>
       </Box>
       <Flex alignItems="center" borderLeft="1px white solid">

@@ -89,7 +89,9 @@ const CommentItem: React.FC<CommentProps> = ({ comment, actions = true }) => {
             <Flex justifyContent="space-between" alignItems="end">
               <Box color="primary" fontSize={["xs", "md"]} pr="3">
                 <Text fontWeight="extrabold">
-                  {comment.authorProfile?.nickName ?? ""}
+                  {comment.authorProfile?.nickName ??
+                    comment.authorProfile?.fullName ??
+                    ""}
                 </Text>
                 <Text wordBreak="break-word">{comment.content}</Text>
               </Box>

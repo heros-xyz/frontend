@@ -10,17 +10,19 @@ import { useAthleteProfile } from "@/libs/dtl/athleteProfile";
 
 interface Props {
   isDetailView?: boolean;
-  post?: Post
+  post?: Post;
+  navigateToPostsByTag: (value: string) => void;
 }
 
 const MAX_CONTENT_LENGTH = 200;
 
 const InteractionSection: FC<Props> = ({
+  navigateToPostsByTag,
   isDetailView,
-  post
+  post,
 }) => {
   const router = useRouter();
-  const athlete = useAthleteProfile(post?.uid)
+  const athlete = useAthleteProfile(post?.uid);
   const onClick = () => {
     router.push(`/fan/athlete-profile/${post?.uid}?current=3`);
   };
@@ -29,13 +31,10 @@ const InteractionSection: FC<Props> = ({
     : (post?.content.length || 0) > MAX_CONTENT_LENGTH;
 
   const handleNavigateToPostsByTag = (value: string) => {
-    //navigateToPostsByTag(value);
+    navigateToPostsByTag(value);
   };
-  const navigateToPostDetail = useCallback(()=>{
-
-  },[post])
-  if(!athlete.data || !post)
-    return <></>
+  const navigateToPostDetail = useCallback(() => {}, [post]);
+  if (!athlete.data || !post) return <></>;
 
   if (!athlete.isMyAthlete) {
     return (
@@ -73,10 +72,10 @@ const InteractionSection: FC<Props> = ({
           imagePath={athlete.data.avatar}
         />
       </Flex>
-      <If condition={post.media.length > 0}>
+      <If condition={post?.media?.length > 0}>
         <Then>
           <Box mt={{ base: 4, lg: 5 }}>
-            <HerosSwiper slideData={post.media} />
+            <HerosSwiper slideData={post?.media ?? []} />
           </Box>
         </Then>
       </If>
