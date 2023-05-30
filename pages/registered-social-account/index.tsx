@@ -14,7 +14,7 @@ const RegisteredSocialAccount = () => {
   return (
     <Box bg="primary" minH="100vh" color="white">
       <Head>
-        <title>Facebook/Gmail account has been registered to heros</title>
+        <title key="title">Facebook/Gmail account has been registered to heros</title>
       </Head>
 
       <Container size={["base", "sm", "md", "lg", "500px"]}>
