@@ -13,7 +13,7 @@ import { collectionPath } from "@/libs/dtl/constant";
 import { AthleteProfile } from "@/libs/dtl";
 
 interface Props {
-  athleteBasicData: Partial<AthleteProfile>
+  athleteProfile: Partial<AthleteProfile>
 }
 const GuestViewAthleteProfile = ({athleteProfile}: Props) => {
   const [user, loading] = useAuthState(auth);
@@ -86,7 +86,6 @@ const GuestViewAthleteProfile = ({athleteProfile}: Props) => {
   );
 };
 
-// Implementa la función getServerSideProps
 export async function getServerSideProps(context: any) {
   const athleteProfileDoc = await getDoc(doc(db, collectionPath.ATHLETE_PROFILE, context.params.id))
   const athleteProfile = athleteProfileDoc.data()
@@ -96,7 +95,6 @@ export async function getServerSideProps(context: any) {
     delete athleteProfile.createdAt
   }
 
-  // Retorna los datos como props
   return {
     props: {
       athleteProfile
