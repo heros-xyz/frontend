@@ -18,18 +18,16 @@ import {
 } from "react";
 import { Else, If, Then } from "react-if";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
-import { useUser } from "@/hooks/useUser";
-import { Post, usePost, usePostsAsTaker } from "@/libs/dtl/post";
-import { useAthleteProfile, useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
+import { usePostsAsTaker } from "@/libs/dtl/post";
 import AthleteInfo from "@/components/ui/AthleteInfo";
 import { LockIcon } from "@/components/svg/LockIcon";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
-import { AthleteProfile, AthleteProfilesuscription } from "@/libs/dtl";
-import { Suscription } from "@/libs/dtl/common";
+import { AthleteProfilesuscription } from "@/libs/dtl";
+import { useUser } from "@/hooks/useUser";
 import InteractionSection from "./components/InteractionSection";
 import { SocialInteraction } from "./components/SocialInteraction/SocialInteraction";
 import SubscribeContent from "./components/SubscribeContent";
-import { IInteractionMedia } from "./constants";
+
 
 interface IInteractionsProps {
   onSubscribe: () => void;
