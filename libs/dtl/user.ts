@@ -74,6 +74,7 @@ export function useUploadAvatarToUser() {
         const downloadURL = await getDownloadURL(snapshot.ref);
         //remove token attribute of the downloadURL
         const downloadURLWithoutToken = downloadURL.split('?')[0]
+        debugger
         resolve(downloadURLWithoutToken+"?alt=media")
       }).catch(()=>reject()).finally(()=>setIsLoading(false))
     })
