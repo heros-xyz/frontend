@@ -20,8 +20,6 @@ const GuestViewAthleteProfile = ({athleteProfile}: Props) => {
   const { query, push } = useRouter();
   const { NEXTAUTH_URL } = getEnvVariables();
   const { asPath } = useRouter();
-  const cleanPath = asPath.split("#")[0].split("?")[0];
-  const canonicalUrl = `${NEXTAUTH_URL}` + (asPath === "/" ? "" : cleanPath);
   const athleteProfileSuscription = useAthleteProfile(athleteProfile.id);
 
   useEffect(() => {
@@ -35,39 +33,22 @@ const GuestViewAthleteProfile = ({athleteProfile}: Props) => {
     }
   }, [user?.uid, query?.id]);
 
+  const title = `${athleteProfile.nickName} | Profile | Heros`
+  const description =
+    athleteProfile.story ||
+    "We are a membership club of athletes and fans committed to inspiring and investing in each other"
+  const avatar = athleteProfile.avatar ||
+    "https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
+  const canonicalUrl = `https://heroz.xyz/${athleteProfile.id}/${athleteProfile.nickName}`
+
   return (
     <Box bg="white" pb={6}>
       <Head>
-        <title>{`${athleteProfile.nickName} | Profile | Heros`}</title>
-        <meta
-          property="og:title"
-          content={`${athleteProfile.nickName} | Profile | Heros`}
-          key="title"
-        />
-        <meta
-          property="description"
-          content={
-            athleteProfile.story ??
-            "We are a membership club of athletes and fans committed to inspiring and investing in each other"
-          }
-          key="description"
-        />
-        <meta
-          property="image"
-          content={
-            athleteProfile.avatar ??
-            "https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
-          }
-          key="image"
-        />
-        <meta
-          property="og:image"
-          content={
-            athleteProfile.avatar ??
-            "https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
-          }
-          key="image"
-        />
+        <title>{title}</title>
+        <meta property="og:title" content={title} key="title" />
+        <meta property="og:description" content={description} key="description" />
+        <meta property="og:image" content={avatar} key="image" />
+        <meta property="og:image" content={avatar} key="image" />
         <meta property="og:url" content={canonicalUrl} key="og:url" />
         <meta property="og:type" content="website" key="type" />
         <link rel="canonical" href={canonicalUrl} key="canonical" />
