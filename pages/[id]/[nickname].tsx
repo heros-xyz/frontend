@@ -3,22 +3,26 @@ import { Box, Container } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { doc, getDoc } from "firebase/firestore";
 import ViewAthleteProfile from "@/modules/fan-dashboard/components/ViewAthleteProfile";
 import { getEnvVariables } from "@/utils/env";
-import { useAthleteProfile } from "@/libs/dtl/athleteProfile";
-import { auth } from "@/libs/firebase";
+import { converter, useAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { auth, db } from "@/libs/firebase";
 import { RoutePath } from "@/utils/route";
+import { collectionPath } from "@/libs/dtl/constant";
+import { AthleteProfile } from "@/libs/dtl";
 
-const GuestViewAthleteProfile = () => {
+interface Props {
+  athleteBasicData: Partial<AthleteProfile>
+}
+const GuestViewAthleteProfile = ({athleteProfile}: Props) => {
   const [user, loading] = useAuthState(auth);
   const { query, push } = useRouter();
-  const athleteProfile = useAthleteProfile(
-    query.id as string
-  );
   const { NEXTAUTH_URL } = getEnvVariables();
   const { asPath } = useRouter();
   const cleanPath = asPath.split("#")[0].split("?")[0];
   const canonicalUrl = `${NEXTAUTH_URL}` + (asPath === "/" ? "" : cleanPath);
+  const athleteProfileSuscription = useAthleteProfile(athleteProfile.id);
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -38,16 +42,16 @@ const GuestViewAthleteProfile = () => {
   return (
     <Box bg="white" pb={6}>
       <Head>
-        <title>{`${athleteProfile.data?.nickName} | Profile | Heros`}</title>
+        <title>{`${athleteProfile.nickName} | Profile | Heros`}</title>
         <meta
           property="og:title"
-          content={`${athleteProfile.data?.nickName} | Profile | Heros`}
+          content={`${athleteProfile.nickName} | Profile | Heros`}
           key="title"
         />
         <meta
           property="description"
           content={
-            athleteProfile.data?.story ??
+            athleteProfile.story ??
             "We are a membership club of athletes and fans committed to inspiring and investing in each other"
           }
           key="description"
@@ -55,7 +59,7 @@ const GuestViewAthleteProfile = () => {
         <meta
           property="image"
           content={
-            athleteProfile.data?.avatar ??
+            athleteProfile.avatar ??
             "https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
           }
           key="image"
@@ -63,7 +67,7 @@ const GuestViewAthleteProfile = () => {
         <meta
           property="og:image"
           content={
-            athleteProfile.data?.avatar ??
+            athleteProfile.avatar ??
             "https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
           }
           key="image"
@@ -75,11 +79,27 @@ const GuestViewAthleteProfile = () => {
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <ViewAthleteProfile
           showFindHeros={false}
-          athleteProfile={athleteProfile}
+          athleteProfile={athleteProfileSuscription}
         />
       </Container>
     </Box>
   );
 };
+
+// Implementa la función getServerSideProps
+export async function getServerSideProps(context: any) {
+  const athleteProfileDoc = await getDoc(doc(db, collectionPath.ATHLETE_PROFILE, context.params.id))
+  const athleteProfile = athleteProfileDoc.data()
+
+  delete athleteProfile.dateOfBirth
+  delete athleteProfile.createdAt
+
+  // Retorna los datos como props
+  return {
+    props: {
+      athleteProfile
+    },
+  };
+}
 
 export default GuestViewAthleteProfile;
