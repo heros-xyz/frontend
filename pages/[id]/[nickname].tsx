@@ -45,13 +45,18 @@ const GuestViewAthleteProfile = ({athleteProfile}: Props) => {
     <Box bg="white" pb={6}>
       <Head>
         <title>{title}</title>
-        <meta property="og:title" content={title} key="title" />
-        <meta property="og:description" content={description} key="description" />
-        <meta property="og:image" content={avatar} key="image" />
-        <meta property="og:image" content={avatar} key="image" />
-        <meta property="og:url" content={canonicalUrl} key="og:url" />
-        <meta property="og:type" content="website" key="type" />
-        <link rel="canonical" href={canonicalUrl} key="canonical" />
+        <meta name="description" content={description} />
+        <meta property="og:url" content={canonicalUrl}/>
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={avatar} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="heros.xyz" />
+        <meta property="twitter:url" content={canonicalUrl} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={avatar} />
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <ViewAthleteProfile

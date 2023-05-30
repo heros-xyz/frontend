@@ -109,11 +109,13 @@ const useSetupAccountPage = () => {
           setIsLoading(true)
           const refStorage = ref(storage, `profile/${userProfile?.uid}/${avatar.name}`);
           const result = await uploadFile(refStorage, avatar, {
-            contentType: avatar.type
+            cacheControl: 'public, max-age=31536000',  // Un año
           });
           if (!!result?.ref) {
             const downloadURL = await getDownloadURL(result?.ref);
-            avatarUrl = downloadURL
+            //remove token attribute of the downloadURL
+            const downloadURLWithoutToken = downloadURL.split('?')[0]
+            avatarUrl = downloadURLWithoutToken+"?alt=media"
           }
         }
         // update athleteProfile/{uid}
