@@ -5,14 +5,14 @@ import Head from "next/head";
 import { useAuthState } from "react-firebase-hooks/auth";
 import ViewAthleteProfile from "@/modules/fan-dashboard/components/ViewAthleteProfile";
 import { getEnvVariables } from "@/utils/env";
-import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
+import { useAthleteProfile } from "@/libs/dtl/athleteProfile";
 import { auth } from "@/libs/firebase";
 import { RoutePath } from "@/utils/route";
 
 const GuestViewAthleteProfile = () => {
   const [user, loading] = useAuthState(auth);
   const { query, push } = useRouter();
-  const { data: athleteProfile } = useGetAthleteProfileByUid(
+  const athleteProfile = useAthleteProfile(
     query.id as string
   );
   const { NEXTAUTH_URL } = getEnvVariables();
@@ -38,16 +38,16 @@ const GuestViewAthleteProfile = () => {
   return (
     <Box bg="white" pb={6}>
       <Head>
-        <title>{`${athleteProfile?.nickName} | Profile | Heros`}</title>
+        <title>{`${athleteProfile.data?.nickName} | Profile | Heros`}</title>
         <meta
           property="og:title"
-          content={`${athleteProfile?.nickName} | Profile | Heros`}
+          content={`${athleteProfile.data?.nickName} | Profile | Heros`}
           key="title"
         />
         <meta
           property="description"
           content={
-            athleteProfile?.story ??
+            athleteProfile.data?.story ??
             "We are a membership club of athletes and fans committed to inspiring and investing in each other"
           }
           key="description"
@@ -55,7 +55,7 @@ const GuestViewAthleteProfile = () => {
         <meta
           property="image"
           content={
-            athleteProfile?.avatar ??
+            athleteProfile.data?.avatar ??
             "https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
           }
           key="image"
@@ -63,7 +63,7 @@ const GuestViewAthleteProfile = () => {
         <meta
           property="og:image"
           content={
-            athleteProfile?.avatar ??
+            athleteProfile.data?.avatar ??
             "https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
           }
           key="image"

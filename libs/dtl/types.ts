@@ -1,4 +1,5 @@
 import { Timestamp } from "firebase/firestore";
+import { Suscription } from "@/libs/dtl/common";
 
 export enum CollectionPath {
   NOTIFICATIONS = "notification",
@@ -6,7 +7,8 @@ export enum CollectionPath {
   COMMENTS = "comments",
   USER = "user",
   POSTS = "post",
-  FAN_PROFILE = "fanProfile"
+  FAN_PROFILE = "fanProfile",
+  SUBSCRIPTIONS = "subscriptions"
 }
 
 export interface Comment {
@@ -79,4 +81,8 @@ export interface AthleteProfile {
   postsDates: PostDate[]
   recommended?: boolean
   isFinishOnboarding?: boolean
+}
+
+export interface AthleteProfilesuscription extends Suscription<AthleteProfile> {
+  isMyAthlete: boolean;
 }

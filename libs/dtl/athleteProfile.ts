@@ -16,11 +16,11 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { Suscription } from "@/libs/dtl/common";
-import { AthleteProfile, CollectionPath } from "@/libs/dtl/types";
+import { AthleteProfile, AthleteProfilesuscription, CollectionPath } from "@/libs/dtl/types";
 import { NotificationEventType } from "@/utils/enums";
 import { IAthleteUpToDate } from "@/types/athlete/types";
 import { db } from "../firebase";
-import { useGetMySubscriptions } from "./subscription";
+import { SubscriptionStatus, useGetMySubscriptions } from "./subscription";
 import { collectionPath } from "./constant";
 import { NotificationStatusType } from "./notification";
 
@@ -37,11 +37,29 @@ export const converter = {
         }) as AthleteProfile
 }
 
-export const useAthleteProfile = (athleteId?: string): Suscription<AthleteProfile> => {
+export const useAthleteProfile = (athleteId?: string): AthleteProfilesuscription => {
     const [status, setStatus] = useState<Suscription<AthleteProfile>>({
         initiated: false,
         loading: true,
     })
+    const [isMyAthlete, setIsMyAthlete] = useState(false)
+    const { user } = useAuthContext()
+    useEffect(() => {
+        if (!athleteId || !user) return
+        const q = query(collection(db, CollectionPath.SUBSCRIPTIONS),
+          where("maker", "==", athleteId),
+          where("taker", "==", user.uid),
+          where("status", "==", SubscriptionStatus.ACTIVE)
+        );
+
+        getCountFromServer(q)
+          .then((snapshot) => setIsMyAthlete(snapshot?.data().count!==0))
+          .catch(console.error);
+
+        return onSnapshot(q, (snapshot) => {
+            setIsMyAthlete(snapshot.docs.length!==0)
+        })
+    }, [athleteId, user]);
 
     const docRef = useMemo(() => {
         if (!athleteId) return
@@ -88,7 +106,10 @@ export const useAthleteProfile = (athleteId?: string): Suscription<AthleteProfil
     }, [docRef])
 
 
-    return status
+    return {
+        isMyAthlete,
+        ...status,
+    }
 }
 
 interface MyAthleteProfileHook extends Suscription<AthleteProfile> {
