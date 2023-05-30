@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Image } from "@chakra-ui/react";
+import Image from 'next/image';
 import { useDevice } from "@/hooks/useDevice";
 
 interface ImageResponsive {
