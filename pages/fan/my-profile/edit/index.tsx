@@ -100,7 +100,7 @@ const EditAccountInfo = () => {
   const { updateDocument, isUpdating, success } = useUpdateDoc();
   const upload = useRef() as MutableRefObject<HTMLInputElement>;
   const [fileSubmit, setFileSubmit] = useState<File>();
-  const { uploadAvatar } = useUploadAvatarToUser();
+  const { uploadAvatar, isLoading } = useUploadAvatarToUser();
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -440,7 +440,7 @@ const EditAccountInfo = () => {
                   mb={2}
                   type="submit"
                   isDisabled={!!errorMessage}
-                  isLoading={isUpdating}
+                  isLoading={isUpdating || isLoading}
                   fontSize={{ base: "md", xl: "xl" }}
                 >
                   SAVE
