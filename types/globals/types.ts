@@ -1,13 +1,9 @@
-import { Session } from "next-auth";
-
 export interface IAthlete {
   avatar: string;
   name: string;
   isRecommend: boolean;
 }
-export interface IGuards {
-  session: Session | null;
-}
+
 export interface IOption {
   label: string;
   value: string;

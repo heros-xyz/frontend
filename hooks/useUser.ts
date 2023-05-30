@@ -1,6 +1,4 @@
-import { useSession } from "next-auth/react"
 import { ADMIN_ROLE, ATHLETE_ROLE, FAN_ROLE } from "@/utils/constants"
-import { IUser } from "@/types/next-auth"
 import { useAuthContext } from "@/context/AuthContext"
 import { User } from "@/libs/dtl"
 
