@@ -16,9 +16,9 @@ import {
   useRef,
   useState,
 } from "react";
-import { Else, If, Then } from "react-if";
+import { If, Then } from "react-if";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
-import { usePostsAsTaker } from "@/libs/dtl/post";
+import { Post, usePostsAsTaker } from "@/libs/dtl/post";
 import AthleteInfo from "@/components/ui/AthleteInfo";
 import { LockIcon } from "@/components/svg/LockIcon";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
@@ -27,7 +27,6 @@ import { useUser } from "@/hooks/useUser";
 import InteractionSection from "./components/InteractionSection";
 import { SocialInteraction } from "./components/SocialInteraction/SocialInteraction";
 import SubscribeContent from "./components/SubscribeContent";
-
 
 interface IInteractionsProps {
   onSubscribe: () => void;
@@ -38,19 +37,40 @@ interface IInteractionsProps {
 const Interactions: FC<IInteractionsProps> = ({
   onSubscribe,
   onGoToTag,
-  athleteProfileSuscription
+  athleteProfileSuscription,
 }) => {
   const router = useRouter();
   const { isAdmin } = useUser();
   const { id, filter: filteredTag } = router.query;
   const [tag, setTag] = useState("");
   const tagSectionRef = useRef<HTMLDivElement>(null);
+  const [interactionData, setInteractionData] = useState<Post[]>([]);
   const posts = usePostsAsTaker({
-    maker: athleteProfileSuscription.data?.id
-  })
+    maker: athleteProfileSuscription.data?.id,
+  });
+
+  useEffect(() => {
+    if (posts?.data && !posts.loading && tag === "") {
+      setInteractionData(posts.data);
+    }
+  }, [posts, tag]);
 
   const handleFilterPostsByTag = (tagName: string) => {
-    //TODO
+    if (tagName === "") {
+      setInteractionData(posts?.data ?? []);
+      setTag("");
+      return;
+    }
+    if (tag !== tagName && tagName !== "") {
+      setInteractionData(
+        (current) =>
+          current?.filter((post) => post?.tags?.includes(tagName)) ?? current
+      );
+      setTag(tagName);
+      setTimeout(onGoToTag, 100);
+    } else {
+      onGoToTag();
+    }
   };
 
   const navigateToPostDetail = useCallback((view: string, focus?: boolean) => {
@@ -94,7 +114,9 @@ const Interactions: FC<IInteractionsProps> = ({
               {tag}
             </TagButton>
           </Box>
-          <Divider mb={!athleteProfileSuscription.isMyAthlete ? "30px" : "unset"} />
+          <Divider
+            mb={!athleteProfileSuscription.isMyAthlete ? "30px" : "unset"}
+          />
         </Then>
       </If>
 
@@ -107,13 +129,14 @@ const Interactions: FC<IInteractionsProps> = ({
         </Then>
       </If>
 
-      <If condition={posts.data?.length}>
+      <If condition={interactionData?.length}>
         <Then>
-          {posts.data?.map((post, idx: number) => (
+          {interactionData?.map((post, idx: number) => (
             <Fragment key={post?.id}>
               {idx !== 0 && <Divider borderColor="#ADADAD" />}
               <Box py={{ base: 6, lg: 8 }}>
                 <InteractionSection
+                  navigateToPostsByTag={handleFilterPostsByTag}
                   post={post}
                 />
 
@@ -127,10 +150,7 @@ const Interactions: FC<IInteractionsProps> = ({
                       }}
                     />
                     <Box mt={{ base: 1, lg: 3 }}>
-                      <AthleteInteractionComments
-                        id={post?.id}
-                        isPreview
-                      />
+                      <AthleteInteractionComments id={post?.id} isPreview />
                     </Box>
                   </Then>
                 </If>
@@ -154,7 +174,8 @@ const Interactions: FC<IInteractionsProps> = ({
       </If>
       <If
         condition={
-          !!athleteProfileSuscription.data?.postsDates?.length && !posts.data.length
+          !!athleteProfileSuscription.data?.postsDates?.length &&
+          !posts.data.length
         }
       >
         <Then>

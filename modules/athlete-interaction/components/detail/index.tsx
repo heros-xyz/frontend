@@ -1,17 +1,13 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Box, Container } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { Else, If, Then } from "react-if";
 import AthletePost from "@/components/ui/AthletePost";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
-import { EditIcon } from "@/components/svg/menu/EditIcon";
-import { DeleteIcon } from "@/components/svg/menu/DeleteIcon";
 import SkeletonInteractionDetail from "@/modules/athlete-interaction/components/detail/SkeletonInteractionDetail";
 import BackButton from "@/components/ui/BackButton";
-import { useAthleteProfile, useMyAthleteProfile } from "@/libs/dtl/athleteProfile";
-import { PostMedia, usePost, usePostAsMaker } from "@/libs/dtl/post";
-import { useAuthContext } from "@/context/AuthContext";
-import { IInteractionItem } from "@/types/athlete/types";
+import { useAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { usePost } from "@/libs/dtl/post";
 
 interface InteractionDetailProps {
   id: string;
@@ -31,20 +27,22 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
   const athleteProfile = useAthleteProfile(post.data?.uid);
   const [isFocusComment, setIsFocusComment] = useState(false);
 
-  const loading = useMemo(()=>athleteProfile.loading || post.loading,[athleteProfile.loading, post.loading])
+  const loading = useMemo(
+    () => athleteProfile.loading || post.loading,
+    [athleteProfile.loading, post.loading]
+  );
 
   const onClickBack = () => {
     onClose && onClose();
     if (isDetailPage && href) {
       router.push(href);
-    }else if (href){
+    } else if (href) {
       router.push(router.pathname, href, {
         shallow: true,
       });
     } else {
-      router.back()
+      router.back();
     }
-
   };
 
   if (athleteProfile.loading || post.loading) {
@@ -68,19 +66,21 @@ const InteractionDetail: React.FC<InteractionDetailProps> = ({
       <Box>
         <If condition={!loading && post.data !== undefined}>
           <Then>
-            {post.data && <AthletePost
-              id={post.data.id}
-              onUpdated={() => {}}
-              isDetailPage
-              focusInputComment={setIsFocusComment}
-            >
-              <AthleteInteractionComments
-                id={id as string}
-                scrollToWhenCommented
-                focusComment={isFocusComment}
-                onUnFocusComment={setIsFocusComment}
-              />
-            </AthletePost>}
+            {post.data && (
+              <AthletePost
+                id={post.data.id}
+                onUpdated={() => {}}
+                isDetailPage
+                focusInputComment={setIsFocusComment}
+              >
+                <AthleteInteractionComments
+                  id={id as string}
+                  scrollToWhenCommented
+                  focusComment={isFocusComment}
+                  onUnFocusComment={setIsFocusComment}
+                />
+              </AthletePost>
+            )}
           </Then>
           <Else>
             <Box mt={2}>
