@@ -35,10 +35,6 @@ const GuestViewAthleteProfile = ({athleteProfile}: Props) => {
     }
   }, [user?.uid, query?.id]);
 
-  if (loading || !query.id) {
-    return <></>;
-  }
-
   return (
     <Box bg="white" pb={6}>
       <Head>
@@ -88,7 +84,7 @@ const GuestViewAthleteProfile = ({athleteProfile}: Props) => {
 
 export async function getServerSideProps(context: any) {
   const athleteProfileDoc = await getDoc(doc(db, collectionPath.ATHLETE_PROFILE, context.params.id))
-  const athleteProfile = athleteProfileDoc.data()
+  const athleteProfile = athleteProfileDoc.data() as Partial<AthleteProfile>
 
   if (athleteProfile !== undefined){
     delete athleteProfile.dateOfBirth
