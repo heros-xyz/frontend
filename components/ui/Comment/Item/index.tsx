@@ -42,7 +42,7 @@ const CommentItem: React.FC<CommentProps> = ({ comment, actions = true }) => {
       >
         <WrapItem pr="2" order={isReply ? 2 : 1}>
           <HerosImage
-            src={comment?.authorProfile.avatar ?? ""}
+            src={comment?.authorProfile.avatar}
             width={{ base: "32px", lg: "48px" }}
             height={{ base: "32px", lg: "48px" }}
           />

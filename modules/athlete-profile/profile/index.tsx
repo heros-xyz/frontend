@@ -59,7 +59,7 @@ export const Profile: React.FC<IProfileProps> = ({
 
   const profileLink = useMemo(() => {
     const nickNameFormat = athleteNickname.replace(/\s+/g, "");
-    return `${NEXTAUTH_URL}/${athleteId}/${nickNameFormat}`;
+    return `${window.location.protocol}//${window.location.host}/${athleteId}/${nickNameFormat}`;
   }, [athleteId, athleteNickname]);
 
   const onClickCopy = () => {

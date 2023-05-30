@@ -75,7 +75,7 @@ export const useComment = (id?: string) => {
   const [data, setData] = useState<Comment|undefined>();
 
   useEffect(() => {
-    if (!user || !user.uid) return
+    if (!user || !user.uid || !id) return
     const q = doc(db,`comments/${id}`).withConverter(converter)
     getDoc(q)
       .then((snapshot) => {
@@ -85,7 +85,7 @@ export const useComment = (id?: string) => {
     return onSnapshot(q, (snapshot) => {
       setData(snapshot.data())
     });
-  }, [user?.uid]);
+  }, [user?.uid, id]);
 
   if (!id)
     return {

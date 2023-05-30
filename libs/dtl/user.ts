@@ -1,4 +1,4 @@
-import { getDownloadURL, ref } from "firebase/storage"
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, updateMetadata } from "firebase/storage"
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useUploadFile } from "react-firebase-hooks/storage"
 import {
@@ -45,25 +45,39 @@ export interface User {
 
 export function useUploadAvatarToUser() {
   const { user } = useAuthContext()
-  const [uploadFile] = useUploadFile();
   const [isLoading, setIsLoading] = useState(false)
 
   const uploadAvatar = async (avatar: File) => {
-    try {
+    return new Promise(async (resolve, reject) => {
       setIsLoading(true)
-      console.log({ user })
       const refStorage = ref(storage, `profile/${user?.uid}/avatar.${avatar?.type.split('/')[1]}`);
-      const result = await uploadFile(refStorage, avatar, {
-        contentType: avatar.type
-      });
-      if (!!result?.ref) {
-        return await getDownloadURL(result?.ref);
-      }
-    } catch (error) {
-      console.log({ error })
-    } finally {
-      setIsLoading(false)
-    }
+      const customMetadata = {
+        cacheControl: 'public, max-age=31536000',  // Un año
+      };
+      const uploadTask = uploadBytesResumable(refStorage, avatar, { customMetadata });
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          // Observa los estados de subida y
+          // Calcula el progreso de la subida
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+        },
+        (error) => {
+          // Maneja cualquier error que ocurra
+          console.error("Error subiendo archivo: ", error);
+        },
+        () => {
+          // Subida completada exitosamente!
+          // Ahora obtenemos la URL pública del archivo.
+        })
+      uploadTask.then(async (snapshot) => {
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        //remove token attribute of the downloadURL
+        const downloadURLWithoutToken = downloadURL.split('?')[0]
+        debugger
+        resolve(downloadURLWithoutToken+"?alt=media")
+      }).catch(()=>reject()).finally(()=>setIsLoading(false))
+    })
   }
 
   return {
@@ -113,7 +127,7 @@ const converter = {
     ({
       ...snap?.data(),
       id: snap?.id,
-      dateOfBirth: snap.data().dateOfBirth?.toDate?.(),
+      dateOfBirth: snap.data().dateOfBirth?.toDate()
     }) as User
 }
 

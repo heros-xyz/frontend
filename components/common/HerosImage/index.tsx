@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import Image from 'next/image';
 import { useDevice } from "@/hooks/useDevice";
 
 interface ImageResponsive {
@@ -49,7 +49,11 @@ const HerosImage: React.FC<HerosImageProps> = ({
   }, [height, isDesktop]);
 
   useEffect(() => {
-    setImgSrc(src);
+    const src_ = src.trim()
+    if (src_ === "")
+      setImgSrc(fallbackSrc)
+    else
+    setImgSrc(src_);
   }, [src]);
 
   return (

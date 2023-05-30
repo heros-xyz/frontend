@@ -22,11 +22,11 @@ import { useAthleteProfile } from "@/hooks/useAthleteProfile";
 import FanOnlyModal from "@/components/modal/FanOnlyModal";
 import { useUser } from "@/hooks/useUser";
 
-import { AthleteProfile } from "@/libs/dtl/types";
+import { AthleteProfile, AthleteProfilesuscription } from "@/libs/dtl/types";
 
 interface IFanAthleteProfileProps {
   showFindHeros?: boolean;
-  athleteProfile: AthleteProfile | undefined;
+  athleteProfile: AthleteProfilesuscription;
 }
 
 const TABS = ["Profile", "Interactions", "Career Journey", "Subscribe"];
@@ -109,12 +109,12 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
         </Then>
       </If>
       <BasicInfoAthlete
-        image={athleteProfile?.avatar ?? ""}
-        nickname={athleteProfile?.nickName ?? ""}
+        image={athleteProfile.data?.avatar ?? ""}
+        nickname={athleteProfile.data?.nickName ?? ""}
         fans={totalSubCount ?? 0}
-        tagline={athleteProfile?.tagline ?? ""}
-        countryCode={athleteProfile?.nationality?.twoLetterCode ?? ""}
-        sport={athleteProfile?.sport.label ?? ""}
+        tagline={athleteProfile.data?.tagline ?? ""}
+        countryCode={athleteProfile.data?.nationality?.twoLetterCode ?? ""}
+        sport={athleteProfile.data?.sport.label ?? ""}
         onClickDownButton={onClickDownButton}
         onSubscribe={!validateIsFan ? onSubscribe : undefined}
         role={user?.profileType}
@@ -173,15 +173,14 @@ const FanAthleteProfile: React.FC<IFanAthleteProfileProps> = ({
               isEdit={false}
               basicInfo={basicInfo}
               sportProfile={sportProfile ?? null}
-              athleteId={athleteProfile?.id || athleteId || ""}
+              athleteId={athleteProfile.data?.id || athleteId || ""}
               athleteNickname={basicInfo?.nickName ?? ""}
             />
           </TabPanel>
           <TabPanel p={{ xl: "unset" }} px={{ base: 5, xl: "unset" }}>
             <Interactions
+              athleteProfileSuscription={athleteProfile}
               onSubscribe={handleSubscribe}
-              validateIsFan={validateIsFan}
-              athleteNickname={basicInfo?.nickName ?? ""}
               onGoToTag={onClickDownButton}
             />
           </TabPanel>

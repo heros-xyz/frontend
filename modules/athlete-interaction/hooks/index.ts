@@ -16,11 +16,9 @@ import {
   FILE_FORMAT_MEDIA_POST_IMAGE,
   FILE_FORMAT_MEDIA_POST_VIDEO
 } from "@/utils/inputRules";
-import { updateSession } from "@/utils/auth";
 import { IMediaExisted } from "@/types/athlete/types";
 import { IHerosError } from "@/types/globals/types";
-import { useMembershipTiersAsMaker } from "@/libs/dtl/membershipTiers";
-import { ListMedia, useEditPost, usePostAsMaker, usePostsAsMaker } from "@/libs/dtl/post";
+import { useEditPost, usePostsAsMaker } from "@/libs/dtl/post";
 export interface IUploadFile {
   type: string;
   file: File | string;

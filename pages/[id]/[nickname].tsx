@@ -3,22 +3,24 @@ import { Box, Container } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { doc, getDoc } from "firebase/firestore";
 import ViewAthleteProfile from "@/modules/fan-dashboard/components/ViewAthleteProfile";
 import { getEnvVariables } from "@/utils/env";
-import { useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
-import { auth } from "@/libs/firebase";
+import { converter, useAthleteProfile } from "@/libs/dtl/athleteProfile";
+import { auth, db } from "@/libs/firebase";
 import { RoutePath } from "@/utils/route";
+import { collectionPath } from "@/libs/dtl/constant";
+import { AthleteProfile } from "@/libs/dtl";
 
-const GuestViewAthleteProfile = () => {
+interface Props {
+  athleteProfile: Partial<AthleteProfile>
+}
+const GuestViewAthleteProfile = ({athleteProfile}: Props) => {
   const [user, loading] = useAuthState(auth);
   const { query, push } = useRouter();
-  const { data: athleteProfile } = useGetAthleteProfileByUid(
-    query.id as string
-  );
   const { NEXTAUTH_URL } = getEnvVariables();
   const { asPath } = useRouter();
-  const cleanPath = asPath.split("#")[0].split("?")[0];
-  const canonicalUrl = `${NEXTAUTH_URL}` + (asPath === "/" ? "" : cleanPath);
+  const athleteProfileSuscription = useAthleteProfile(athleteProfile.id);
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -31,55 +33,55 @@ const GuestViewAthleteProfile = () => {
     }
   }, [user?.uid, query?.id]);
 
-  if (loading || !query.id) {
-    return <></>;
-  }
+  const title = `${athleteProfile.nickName} | Profile | Heros`
+  const description =
+    athleteProfile.story ||
+    "We are a membership club of athletes and fans committed to inspiring and investing in each other"
+  const avatar = athleteProfile.avatar ||
+    "https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
+  const canonicalUrl = `https://heroz.xyz/${athleteProfile.id}/${athleteProfile.nickName}`
 
   return (
     <Box bg="white" pb={6}>
       <Head>
-        <title>{`${athleteProfile?.nickName} | Profile | Heros`}</title>
-        <meta
-          property="og:title"
-          content={`${athleteProfile?.nickName} | Profile | Heros`}
-          key="title"
-        />
-        <meta
-          property="description"
-          content={
-            athleteProfile?.story ??
-            "We are a membership club of athletes and fans committed to inspiring and investing in each other"
-          }
-          key="description"
-        />
-        <meta
-          property="image"
-          content={
-            athleteProfile?.avatar ??
-            "https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
-          }
-          key="image"
-        />
-        <meta
-          property="og:image"
-          content={
-            athleteProfile?.avatar ??
-            "https://heros-media-dev.s3.ap-southeast-1.amazonaws.com/Inspiring_Humans_2d6e5c3419.png"
-          }
-          key="image"
-        />
-        <meta property="og:url" content={canonicalUrl} key="og:url" />
-        <meta property="og:type" content="website" key="type" />
-        <link rel="canonical" href={canonicalUrl} key="canonical" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:url" content={canonicalUrl}/>
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={avatar} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content="heros.xyz" />
+        <meta property="twitter:url" content={canonicalUrl} />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={avatar} />
       </Head>
       <Container size={["full", "sm", "md", "lg", "500px"]}>
         <ViewAthleteProfile
           showFindHeros={false}
-          athleteProfile={athleteProfile}
+          athleteProfile={athleteProfileSuscription}
         />
       </Container>
     </Box>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  const athleteProfileDoc = await getDoc(doc(db, collectionPath.ATHLETE_PROFILE, context.params.id))
+  const athleteProfile = athleteProfileDoc.data() as Partial<AthleteProfile>
+
+  if (athleteProfile !== undefined){
+    delete athleteProfile.dateOfBirth
+    delete athleteProfile.createdAt
+  }
+
+  return {
+    props: {
+      athleteProfile
+    },
+  };
+}
 
 export default GuestViewAthleteProfile;

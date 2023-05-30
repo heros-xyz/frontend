@@ -18,94 +18,39 @@ import {
 } from "react";
 import { Else, If, Then } from "react-if";
 import PostSkeleton from "@/components/ui/AthletePost/PostSkeleton";
-import { useUser } from "@/hooks/useUser";
-import { Post, usePostsAsTaker } from "@/libs/dtl/post";
-import { useAthleteProfile, useGetAthleteProfileByUid } from "@/libs/dtl/athleteProfile";
+import { usePostsAsTaker } from "@/libs/dtl/post";
 import AthleteInfo from "@/components/ui/AthleteInfo";
 import { LockIcon } from "@/components/svg/LockIcon";
 import AthleteInteractionComments from "@/components/ui/AthletePost/Comments";
+import { AthleteProfilesuscription } from "@/libs/dtl";
+import { useUser } from "@/hooks/useUser";
 import InteractionSection from "./components/InteractionSection";
 import { SocialInteraction } from "./components/SocialInteraction/SocialInteraction";
 import SubscribeContent from "./components/SubscribeContent";
-import { IInteractionMedia } from "./constants";
+
 
 interface IInteractionsProps {
   onSubscribe: () => void;
   onGoToTag: () => void;
-  validateIsFan: boolean;
-  athleteNickname: string;
+  athleteProfileSuscription: AthleteProfilesuscription;
 }
 
 const Interactions: FC<IInteractionsProps> = ({
   onSubscribe,
   onGoToTag,
-  validateIsFan,
-  athleteNickname,
+  athleteProfileSuscription
 }) => {
   const router = useRouter();
   const { isAdmin } = useUser();
   const { id, filter: filteredTag } = router.query;
-  const [page, setPage] = useState(1);
   const [tag, setTag] = useState("");
   const tagSectionRef = useRef<HTMLDivElement>(null);
-  const [interactionData, setInteractionData] = useState<Post[]>([]);
-  const { data: athleteProfile, loading: loadingAthleteProfile } =
-    useAthleteProfile(id as string);
-  const { data, loading: isLoading } = usePostsAsTaker({
-    maker: id as string,
-  });
-
-  useEffect(() => {
-    if (data && !isLoading) {
-      setInteractionData(data);
-    }
-  }, [data]);
-
-  const interactionsList = interactionData.map((post) => ({
-    ...post,
-    user: {
-      ...athleteProfile,
-      id: athleteProfile?.id ?? "",
-      goal: athleteProfile?.goal ?? "",
-      currentTeam: athleteProfile?.currentTeam ?? "",
-      totalSubCount: athleteProfile?.totalSubCount ?? 0,
-      firstName: athleteProfile?.firstName ?? "",
-      lastName: athleteProfile?.lastName ?? "",
-      middleName: athleteProfile?.middleName ?? "",
-      fullName: athleteProfile?.fullName ?? "",
-      nickName: athleteProfile?.nickName ?? "",
-      avatar: athleteProfile?.avatar ?? "",
-      story: athleteProfile?.story ?? "",
-      gender: athleteProfile?.gender ?? "0",
-      sport: athleteProfile?.sport ?? { label: "", key: "" },
-      tagline: athleteProfile?.tagline ?? "",
-      tags: athleteProfile?.tags ?? [],
-    },
-    liked: post?.liked ?? false,
-    publicDate: post?.publicDate ?? null,
-    reactionCount: post?.reactionsCount ?? 0,
-    commentCount: post?.commentsCount ?? 0,
-    tags: post?.tags.map((tag) => ({ id: tag, name: tag })),
-    isAccessRight: validateIsFan, // TODO: check this
-  }));
+  const posts = usePostsAsTaker({
+    maker: athleteProfileSuscription.data?.id
+  })
 
   const handleFilterPostsByTag = (tagName: string) => {
-    if (tagName === "") {
-      setInteractionData(data ?? []);
-      setTag("");
-      return;
-    }
-    if (tag !== tagName && tagName !== "") {
-      setPage(1);
-      setInteractionData(
-        (current) =>
-          current?.filter((post) => post?.tags?.includes(tagName)) ?? current
-      );
-      setTag(tagName);
-      setTimeout(onGoToTag, 100);
-    } else {
-      onGoToTag();
-    }
+    //TODO
   };
 
   const navigateToPostDetail = useCallback((view: string, focus?: boolean) => {
@@ -125,7 +70,7 @@ const Interactions: FC<IInteractionsProps> = ({
     }
   }, [tag]);
 
-  if (isLoading || loadingAthleteProfile) {
+  if (athleteProfileSuscription.loading) {
     return <PostSkeleton />;
   }
 
@@ -149,52 +94,41 @@ const Interactions: FC<IInteractionsProps> = ({
               {tag}
             </TagButton>
           </Box>
-          <Divider mb={!validateIsFan ? "30px" : "unset"} />
+          <Divider mb={!athleteProfileSuscription.isMyAthlete ? "30px" : "unset"} />
         </Then>
       </If>
 
-      <If condition={!validateIsFan && !isAdmin}>
+      <If condition={!athleteProfileSuscription.isMyAthlete && !isAdmin}>
         <Then>
           <SubscribeContent
-            athleteName={athleteNickname}
+            athleteName={athleteProfileSuscription.data?.nickName as string}
             onClick={onSubscribe}
           />
         </Then>
       </If>
 
-      <If condition={interactionsList?.length}>
+      <If condition={posts.data?.length}>
         <Then>
-          {interactionsList?.map((interactionPost, idx: number) => (
-            <Fragment key={interactionPost?.id}>
+          {posts.data?.map((post, idx: number) => (
+            <Fragment key={post?.id}>
               {idx !== 0 && <Divider borderColor="#ADADAD" />}
               <Box py={{ base: 6, lg: 8 }}>
                 <InteractionSection
-                  validateIsFan={validateIsFan}
-                  navigateToPostsByTag={handleFilterPostsByTag}
-                  navigateToPostDetail={() => {
-                    navigateToPostDetail("");
-                  }}
-                  interactionMedia={
-                    interactionPost?.media as IInteractionMedia[]
-                  }
-                  {...interactionPost}
-                  user={interactionPost?.user as any}
+                  post={post}
                 />
 
-                <If condition={interactionPost.isAccessRight}>
+                <If condition={athleteProfileSuscription.isMyAthlete}>
                   <Then>
                     <SocialInteraction
-                      postId={interactionPost.id}
+                      postId={post.id}
                       isAdmin={isAdmin}
                       handleComment={(focus) => {
-                        navigateToPostDetail(interactionPost?.id, focus);
+                        navigateToPostDetail(post?.id, focus);
                       }}
-                      reactionCount={interactionPost?.reactionCount ?? 0}
-                      liked={interactionPost?.liked ?? false}
                     />
                     <Box mt={{ base: 1, lg: 3 }}>
                       <AthleteInteractionComments
-                        id={interactionPost?.id}
+                        id={post?.id}
                         isPreview
                       />
                     </Box>
@@ -204,7 +138,7 @@ const Interactions: FC<IInteractionsProps> = ({
             </Fragment>
           ))}
         </Then>
-        {!!athleteProfile?.postsDates?.length && (
+        {!!athleteProfileSuscription.data?.postsDates?.length && (
           <Box
             my={6}
             fontSize={{ base: "xs", lg: "md" }}
@@ -212,7 +146,7 @@ const Interactions: FC<IInteractionsProps> = ({
             color="primary"
           >
             <Text as="span" fontWeight={"bold"}>
-              {athleteNickname}
+              {athleteProfileSuscription.data?.nickName}
             </Text>{" "}
             {` hasn't created any interactions yet!`}
           </Box>
@@ -220,18 +154,18 @@ const Interactions: FC<IInteractionsProps> = ({
       </If>
       <If
         condition={
-          !!athleteProfile?.postsDates?.length && !interactionsList.length
+          !!athleteProfileSuscription.data?.postsDates?.length && !posts.data.length
         }
       >
         <Then>
           <Box py={{ base: 6, lg: 8 }}>
-            {athleteProfile?.postsDates?.map?.((item) => (
+            {athleteProfileSuscription.data?.postsDates?.map?.((item) => (
               <Box key={item?.id} py="5" h="100%">
                 <Flex justifyContent="space-between" mb="20px">
                   <AthleteInfo
-                    athleteName={athleteProfile?.nickName ?? ""}
+                    athleteName={athleteProfileSuscription.data?.nickName ?? ""}
                     publishDate={item?.date}
-                    imagePath={athleteProfile?.avatar ?? ""}
+                    imagePath={athleteProfileSuscription.data?.avatar ?? ""}
                   />
                 </Flex>
                 <Button
@@ -253,7 +187,7 @@ const Interactions: FC<IInteractionsProps> = ({
             ))}
           </Box>
         </Then>
-        {!athleteProfile?.postsDates?.length && (
+        {!athleteProfileSuscription.data?.postsDates?.length && (
           <Box
             my={6}
             fontSize={{ base: "xs", lg: "md" }}
@@ -261,15 +195,15 @@ const Interactions: FC<IInteractionsProps> = ({
             color="primary"
           >
             <Text as="span" fontWeight={"bold"}>
-              {athleteNickname}
+              {athleteProfileSuscription.data?.nickName}
             </Text>{" "}
             {` hasn't created any interactions yet!`}
           </Box>
         )}
       </If>
 
-      {isLoading && (
-        <Box mt={validateIsFan ? 0 : 12}>
+      {(athleteProfileSuscription.loading || posts.loading) && (
+        <Box mt={athleteProfileSuscription.isMyAthlete ? 0 : 12}>
           <PostSkeleton pb={12} />
           <PostSkeleton pb={12} />
           <PostSkeleton pb={12} />
