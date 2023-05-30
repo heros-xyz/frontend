@@ -87,7 +87,7 @@ const AthleteSignUp = () => {
             return;
           }
 
-          if (!user?.isFinishOnboarding) {
+          if (!user?.isFinishOnboarding && !!user?.isFinishSetupAccount) {
             await router.push(RoutePath.ATHLETE_CHECKLIST);
             return;
           }

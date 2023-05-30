@@ -9,6 +9,7 @@ import OtpFill from "@/components/ui/OtpFill";
 import { auth, functions } from "@/libs/firebase";
 import { useAuthContext } from "@/context/AuthContext";
 import { RoutePath } from "@/utils/route";
+import { ATHLETE_ROLE, FAN_ROLE } from "@/utils/constants";
 
 const VerifyOtp = () => {
   const { query, push } = useRouter();
@@ -46,7 +47,7 @@ const VerifyOtp = () => {
 
   useEffect(() => {
     if (userProfile && !!user?.uid) {
-      if (userProfile?.profileType === "FAN") {
+      if (userProfile?.profileType === FAN_ROLE) {
         push(
           userProfile?.isFinishOnboarding
             ? RoutePath.FAN
@@ -54,12 +55,23 @@ const VerifyOtp = () => {
         );
       }
 
-      if (userProfile?.profileType === "ATHLETE") {
-        push(
-          userProfile?.isFinishOnboarding
-            ? RoutePath.ATHLETE
-            : RoutePath.ATHLETE_SETUP_ACCOUNT
-        );
+      if (userProfile?.profileType === ATHLETE_ROLE) {
+        if (!userProfile?.isFinishSetupAccount) {
+          push(RoutePath.ATHLETE_SETUP_ACCOUNT);
+          return;
+        }
+
+        if (!userProfile?.isFinishOnboarding) {
+          push(RoutePath.ATHLETE_CHECKLIST);
+          return;
+        }
+
+        if (
+          !!userProfile?.isFinishOnboarding &&
+          !!userProfile?.isFinishSetupAccount
+        ) {
+          push(RoutePath.ATHLETE);
+        }
       }
     }
   }, [userProfile, user]);
