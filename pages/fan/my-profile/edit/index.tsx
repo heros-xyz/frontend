@@ -6,6 +6,7 @@ import {
   Flex,
   Image,
   Input,
+  Skeleton,
   Text,
   VisuallyHiddenInput,
 } from "@chakra-ui/react";
@@ -18,7 +19,6 @@ import {
   useRef,
   MutableRefObject,
   useState,
-  useEffect,
   ReactElement,
 } from "react";
 import ErrorMessage from "@/components/common/ErrorMessage";
@@ -35,22 +35,11 @@ import {
   MAX_SIZE,
 } from "@/utils/inputRules";
 import BackButton from "@/components/ui/BackButton";
-import { useAuthContext } from "@/context/AuthContext";
 import useUpdateDoc from "@/hooks/useUpdateDoc";
 import { useUser } from "@/hooks/useUser";
 import { useMyUserProfile, useSports, useUploadAvatarToUser } from "@/libs/dtl";
 import { useFanProfile } from "@/libs/dtl/fanProfile";
 import { filterSelectOptions, isValidString } from "@/utils/functions";
-
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  dateOfBirth: "",
-  gender: "",
-  sports: [],
-  avatar: "",
-  isAdmin: false,
-};
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -95,7 +84,7 @@ const validationSchema = Yup.object().shape({
 const EditAccountInfo = () => {
   const { sportsMapped: sportsList } = useSports();
   const { isAdmin, isFan } = useUser();
-  const { data: userProfile } = useMyUserProfile();
+  const { data: userProfile, loading: loadingUserProfile } = useMyUserProfile();
   const { data: fanData } = useFanProfile();
   const { updateDocument, isUpdating, success } = useUpdateDoc();
   const upload = useRef() as MutableRefObject<HTMLInputElement>;
@@ -110,6 +99,7 @@ const EditAccountInfo = () => {
         const paramsUser = {
           firstName: values.firstName,
           lastName: values.lastName,
+          fullName: `${values?.firstName} ${values?.lastName}`,
           dateOfBirth: dayjs(values?.dateOfBirth).toDate(), // TODO check this
           gender: +values.gender,
         };
@@ -140,32 +130,23 @@ const EditAccountInfo = () => {
   };
 
   const formik = useFormik({
-    initialValues,
+    enableReinitialize: true,
+    initialValues: {
+      firstName: userProfile?.firstName ?? "",
+      lastName: userProfile?.lastName ?? "",
+      dateOfBirth: dayjs(userProfile?.dateOfBirth).format("YYYY-MM-DD") ?? "",
+      gender: userProfile?.gender ?? "",
+      avatar: userProfile?.avatar ?? "",
+      isAdmin: isAdmin ?? false,
+      sports:
+        fanData?.sports?.map?.((sport) => ({
+          value: sport.key,
+          label: sport.label,
+        })) ?? [],
+    },
     validationSchema,
     onSubmit: handleSubmit,
   });
-
-  useEffect(() => {
-    if (userProfile) {
-      const dateOfBirth = dayjs(userProfile.dateOfBirth).format("YYYY-MM-DD");
-
-      formik.setFieldValue("firstName", userProfile.firstName);
-      formik.setFieldValue("lastName", userProfile.lastName);
-      formik.setFieldValue("dateOfBirth", dateOfBirth);
-      formik.setFieldValue("gender", userProfile.gender);
-      formik.setFieldValue("avatar", userProfile.avatar);
-      formik.setFieldValue("isAdmin", isAdmin);
-
-      // Hay que convertir el array de deportes en un array que entienda el componente Select
-      if (fanData && fanData.sports) {
-        const userSport = fanData?.sports.map((sport) => ({
-          value: sport.key,
-          label: sport.label,
-        }));
-        formik.setFieldValue("sports", userSport);
-      }
-    }
-  }, [userProfile, fanData, isAdmin]);
 
   const onClickUploadImage = () => {
     upload?.current?.click();
@@ -223,209 +204,224 @@ const EditAccountInfo = () => {
           </Box>
           <Box fontSize={{ base: "sm", lg: "md" }} color="black">
             <form onSubmit={formik.handleSubmit}>
-              <Box my={{ base: 5, lg: 7 }}>
-                <Box fontWeight="medium">
-                  First Name
-                  <Text as="span" color="error.dark">
-                    *
-                  </Text>
+              <Skeleton isLoaded={!loadingUserProfile}>
+                <Box my={{ base: 5, lg: 7 }}>
+                  <Box fontWeight="medium">
+                    First Name
+                    <Text as="span" color="error.dark">
+                      *
+                    </Text>
+                  </Box>
+                  <Input
+                    color="primary"
+                    placeholder="First name"
+                    autoComplete="off"
+                    variant="flushed"
+                    w="full"
+                    id="firstName"
+                    name="firstName"
+                    fontWeight={500}
+                    onChange={formik.handleChange}
+                    value={formik.values.firstName}
+                    isInvalid={Boolean(
+                      formik.errors.firstName && formik.touched.firstName
+                    )}
+                    borderColor="grey.200"
+                    _focusVisible={{
+                      borderColor: "grey.200",
+                      boxShadow: "none",
+                    }}
+                  />
+                  <ErrorMessage
+                    mt={0.5}
+                    condition={
+                      formik.errors.firstName && formik.touched.firstName
+                    }
+                    errorMessage={formik.errors.firstName}
+                  />
                 </Box>
-                <Input
-                  color="primary"
-                  placeholder="First name"
-                  autoComplete="off"
-                  variant="flushed"
-                  w="full"
-                  id="firstName"
-                  name="firstName"
-                  fontWeight={500}
-                  onChange={formik.handleChange}
-                  value={formik.values.firstName}
-                  isInvalid={Boolean(
-                    formik.errors.firstName && formik.touched.firstName
-                  )}
-                  borderColor="grey.200"
-                  _focusVisible={{
-                    borderColor: "grey.200",
-                    boxShadow: "none",
-                  }}
-                />
-                <ErrorMessage
-                  mt={0.5}
-                  condition={
-                    formik.errors.firstName && formik.touched.firstName
-                  }
-                  errorMessage={formik.errors.firstName}
-                />
-              </Box>
-              <Box mb={{ base: 5, lg: 7 }}>
-                <Box fontWeight="medium">
-                  Last name
-                  <Text as="span" color="error.dark">
-                    *
-                  </Text>
+              </Skeleton>
+              <Skeleton isLoaded={!loadingUserProfile}>
+                <Box mb={{ base: 5, lg: 7 }}>
+                  <Box fontWeight="medium">
+                    Last name
+                    <Text as="span" color="error.dark">
+                      *
+                    </Text>
+                  </Box>
+                  <Input
+                    color="primary"
+                    placeholder="Last name"
+                    autoComplete="off"
+                    variant="flushed"
+                    w="full"
+                    id="lastName"
+                    name="lastName"
+                    fontWeight={500}
+                    onChange={formik.handleChange}
+                    value={formik.values.lastName}
+                    isInvalid={Boolean(
+                      formik.errors.lastName && formik.touched.lastName
+                    )}
+                    borderColor="grey.200"
+                    _focusVisible={{
+                      borderColor: "grey.200",
+                      boxShadow: "none",
+                    }}
+                  />
+                  <ErrorMessage
+                    mt={0.5}
+                    condition={
+                      formik.errors.lastName && formik.touched.lastName
+                    }
+                    errorMessage={formik.errors.lastName}
+                  />
                 </Box>
-                <Input
-                  color="primary"
-                  placeholder="Last name"
-                  autoComplete="off"
-                  variant="flushed"
-                  w="full"
-                  id="lastName"
-                  name="lastName"
-                  fontWeight={500}
-                  onChange={formik.handleChange}
-                  value={formik.values.lastName}
-                  isInvalid={Boolean(
-                    formik.errors.lastName && formik.touched.lastName
-                  )}
-                  borderColor="grey.200"
-                  _focusVisible={{
-                    borderColor: "grey.200",
-                    boxShadow: "none",
-                  }}
-                />
-                <ErrorMessage
-                  mt={0.5}
-                  condition={formik.errors.lastName && formik.touched.lastName}
-                  errorMessage={formik.errors.lastName}
-                />
-              </Box>
+              </Skeleton>
               <If condition={formik.values?.dateOfBirth}>
                 <Then>
-                  <Box mb={{ base: 5, lg: 7 }}>
-                    <Box fontWeight="medium">
-                      Date of Birth
-                      <Text as="span" color="error.dark">
-                        *
-                      </Text>
-                    </Box>
-                    <Flex
-                      justifyContent="space-between"
-                      gap={{ base: 3, lg: 8 }}
-                      color="secondary"
-                    >
-                      <DateSelect
-                        date={formik.values?.dateOfBirth || ""}
-                        onChange={(value) =>
-                          formik.setFieldValue("dateOfBirth", value)
-                        }
-                        submitted={!!formik.submitCount}
-                        zIndex={20}
-                        isDarkTheme={true}
+                  <Skeleton isLoaded={!loadingUserProfile}>
+                    <Box mb={{ base: 5, lg: 7 }}>
+                      <Box fontWeight="medium">
+                        Date of Birth
+                        <Text as="span" color="error.dark">
+                          *
+                        </Text>
+                      </Box>
+                      <Flex
+                        justifyContent="space-between"
+                        gap={{ base: 3, lg: 8 }}
+                        color="secondary"
+                      >
+                        <DateSelect
+                          key={formik.values?.dateOfBirth || ""}
+                          date={formik.values?.dateOfBirth || ""}
+                          onChange={(value) =>
+                            formik.setFieldValue("dateOfBirth", value)
+                          }
+                          submitted={!!formik.submitCount}
+                          zIndex={20}
+                          isDarkTheme={true}
+                        />
+                      </Flex>
+                      <ErrorMessage
+                        mt={0.5}
+                        condition={Boolean(
+                          formik.submitCount && formik.errors?.dateOfBirth
+                        )}
+                        errorMessage={formik.errors?.dateOfBirth}
                       />
-                    </Flex>
-                    <ErrorMessage
-                      mt={0.5}
-                      condition={Boolean(
-                        formik.submitCount && formik.errors?.dateOfBirth
-                      )}
-                      errorMessage={formik.errors?.dateOfBirth}
-                    />
-                  </Box>
+                    </Box>
+                  </Skeleton>
                 </Then>
               </If>
 
-              <Box mb={{ base: 5, lg: 7 }}>
-                <Box fontWeight="medium" mb={2}>
-                  Gender
-                  <Text as="span" color="error.dark">
-                    *
-                  </Text>
-                </Box>
-                <SelectGender
-                  value={`${formik.values.gender}`}
-                  flexRow
-                  bgColor="primary"
-                  onChange={(value) => {
-                    formik.setFieldValue("gender", value);
-                  }}
-                  errorMessage={
-                    formik.errors.gender && formik.touched.gender
-                      ? "This is a required field"
-                      : ""
-                  }
-                />
-              </Box>
-
-              <Box mb={{ base: 5, lg: 7 }}>
-                <Box fontWeight="medium" mb={2}>
-                  Your profile pic
-                </Box>
-
-                <Center>
-                  <Box
-                    position="relative"
-                    cursor="pointer"
-                    onClick={onClickUploadImage}
-                  >
-                    <Image
-                      w={{ base: "120px", xl: "160px" }}
-                      h={{ base: "120px", xl: "160px" }}
-                      src={formik.values.avatar}
-                      alt="user-avatar"
-                      objectFit="cover"
-                      rounded="full"
-                      fallbackSrc="/images/DefaultAvaCircle.png"
-                    />
-                    <Center
-                      position="absolute"
-                      w={{ base: "120px", xl: "160px" }}
-                      h={{ base: "120px", xl: "160px" }}
-                      top="0"
-                      left="0"
-                      rounded="full"
-                      bg="linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))"
-                    >
-                      <IconEdit color="primary" />
-                    </Center>
+              <Skeleton isLoaded={!loadingUserProfile}>
+                <Box mb={{ base: 5, lg: 7 }}>
+                  <Box fontWeight="medium" mb={2}>
+                    Gender
+                    <Text as="span" color="error.dark">
+                      *
+                    </Text>
                   </Box>
-                </Center>
-                <Center>
-                  {errorMessage && (
+                  <SelectGender
+                    value={`${formik.values.gender}`}
+                    flexRow
+                    bgColor="primary"
+                    onChange={(value) => {
+                      formik.setFieldValue("gender", value);
+                    }}
+                    errorMessage={
+                      formik.errors.gender && formik.touched.gender
+                        ? "This is a required field"
+                        : ""
+                    }
+                  />
+                </Box>
+              </Skeleton>
+
+              <Skeleton isLoaded={!loadingUserProfile}>
+                <Box mb={{ base: 5, lg: 7 }}>
+                  <Box fontWeight="medium" mb={2}>
+                    Your profile pic
+                  </Box>
+
+                  <Center>
                     <Box
-                      mt={2}
-                      color="error.dark"
-                      data-testid="error-message"
-                      fontSize="xs"
+                      position="relative"
+                      cursor="pointer"
+                      onClick={onClickUploadImage}
                     >
-                      {errorMessage}
+                      <Image
+                        w={{ base: "120px", xl: "160px" }}
+                        h={{ base: "120px", xl: "160px" }}
+                        src={formik.values.avatar}
+                        alt="user-avatar"
+                        objectFit="cover"
+                        rounded="full"
+                        fallbackSrc="/images/DefaultAvaCircle.png"
+                      />
+                      <Center
+                        position="absolute"
+                        w={{ base: "120px", xl: "160px" }}
+                        h={{ base: "120px", xl: "160px" }}
+                        top="0"
+                        left="0"
+                        rounded="full"
+                        bg="linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4))"
+                      >
+                        <IconEdit color="primary" />
+                      </Center>
                     </Box>
-                  )}
-                </Center>
-                <VisuallyHiddenInput
-                  ref={upload}
-                  type="file"
-                  accept="image/jpeg,image/png"
-                  onChange={onChangeAvatar}
-                />
-              </Box>
+                  </Center>
+                  <Center>
+                    {errorMessage && (
+                      <Box
+                        mt={2}
+                        color="error.dark"
+                        data-testid="error-message"
+                        fontSize="xs"
+                      >
+                        {errorMessage}
+                      </Box>
+                    )}
+                  </Center>
+                  <VisuallyHiddenInput
+                    ref={upload}
+                    type="file"
+                    accept="image/jpeg,image/png"
+                    onChange={onChangeAvatar}
+                  />
+                </Box>
+              </Skeleton>
               <If condition={isFan}>
                 <Then>
-                  <Box mb={7}>
-                    <Box fontWeight="medium" mb={2}>
-                      Interested Sport{" "}
-                      <Text as="span" color="error.dark">
-                        *
-                      </Text>
+                  <Skeleton isLoaded={!loadingUserProfile}>
+                    <Box mb={7}>
+                      <Box fontWeight="medium" mb={2}>
+                        Interested Sport{" "}
+                        <Text as="span" color="error.dark">
+                          *
+                        </Text>
+                      </Box>
+                      <Box fontSize={{ base: "sm", xl: "lg" }}>
+                        <Select
+                          isDarkTheme
+                          isMulti
+                          options={sportsList}
+                          placeHolder="Sport(s)"
+                          optionCount={5}
+                          value={formik.values.sports}
+                          onChange={(value) =>
+                            formik.setFieldValue("sports", value)
+                          }
+                          errorMessage={formik.errors.sports}
+                          isInvalid={Boolean(formik.errors.sports)}
+                          filterSelectOptions={filterSelectOptions}
+                        />
+                      </Box>
                     </Box>
-                    <Box fontSize={{ base: "sm", xl: "lg" }}>
-                      <Select
-                        isDarkTheme
-                        isMulti
-                        options={sportsList}
-                        placeHolder="Sport(s)"
-                        optionCount={5}
-                        value={formik.values.sports}
-                        onChange={(value) =>
-                          formik.setFieldValue("sports", value)
-                        }
-                        errorMessage={formik.errors.sports}
-                        isInvalid={Boolean(formik.errors.sports)}
-                        filterSelectOptions={filterSelectOptions}
-                      />
-                    </Box>
-                  </Box>
+                  </Skeleton>
                 </Then>
               </If>
               <Box
@@ -439,7 +435,7 @@ const EditAccountInfo = () => {
                   mt={2}
                   mb={2}
                   type="submit"
-                  isDisabled={!!errorMessage}
+                  isDisabled={!!errorMessage || !formik.dirty}
                   isLoading={isUpdating}
                   fontSize={{ base: "md", xl: "xl" }}
                 >

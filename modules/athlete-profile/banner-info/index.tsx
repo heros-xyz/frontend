@@ -1,9 +1,17 @@
 import React from "react";
-import { Box, Text, Flex, Image, Button, Center } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Flex,
+  Image,
+  Button,
+  Center,
+  Skeleton,
+  useTheme,
+} from "@chakra-ui/react";
 import { findFlagUrlByIso2Code } from "country-flags-svg";
 import { If, Then } from "react-if";
 import { VectorIcon } from "@components/svg/VectorProfile";
-import { getImageLink } from "@/utils/link";
 import { ADMIN_ROLE, FAN_ROLE } from "@/utils/constants";
 interface BasicInfoProps {
   image: string;
@@ -28,6 +36,7 @@ const BasicInfoAthlete: React.FC<BasicInfoProps> = ({
   onClickDownButton,
   onSubscribe,
 }) => {
+  const theme = useTheme();
   return (
     <Box position="relative">
       <Image
@@ -38,16 +47,12 @@ const BasicInfoAthlete: React.FC<BasicInfoProps> = ({
         objectFit="cover"
         borderRadius={{ lg: "12px" }}
         fallback={
-          <Box>
-            <Image
-              src="/images/DefaultAvaCircle.png"
-              alt=""
-              borderRadius="xl"
-              objectFit="contain"
-              w="100%"
-              h={{ base: "667px", lg: "750px" }}
-            />
-          </Box>
+          <Skeleton
+            borderRadius={{ lg: "12px" }}
+            startColor="blue.700"
+            endColor={theme.colors.primary}
+            height="80vh"
+          />
         }
       />
       <If condition={!!onSubscribe && role === FAN_ROLE}>
