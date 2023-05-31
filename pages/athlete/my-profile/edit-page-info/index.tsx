@@ -105,6 +105,9 @@ const EditPageInfo = () => {
           `athleteProfile/${userProfile?.uid}`,
           athleteProfileParams
         );
+        await updateDocument(`user/${userProfile?.uid}`, {
+          nickName: nickName,
+        });
         setIsSuccess(true);
       } catch (error) {
         setError({ data: error } as IHerosError);

@@ -130,6 +130,7 @@ const useSetupAccountPage = () => {
         // update user/{uid}
         await myUserProfile.update({
           ...params,
+          nickName,
           avatar: avatarUrl,
           isFinishSetupAccount: true
         })

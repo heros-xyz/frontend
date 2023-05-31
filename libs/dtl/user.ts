@@ -41,6 +41,7 @@ export interface User {
   hasFirstInteraction?: boolean
   hasCreateInteractionRecent?: boolean
   netAmount: number
+  nickName?: string
 }
 
 export function useUploadAvatarToUser() {
