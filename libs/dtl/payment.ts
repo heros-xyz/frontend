@@ -8,7 +8,6 @@ import {
   where,
   addDoc
 } from "firebase/firestore";
-import Stripe from '@stripe/stripe-js';
 import { useAuthContext } from "@/context/AuthContext";
 import { db } from "@/libs/firebase";
 

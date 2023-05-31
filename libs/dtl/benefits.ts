@@ -1,11 +1,6 @@
-import { useDocumentData } from "react-firebase-hooks/firestore";
-import { collection, doc, getDoc, onSnapshot, query, QueryDocumentSnapshot, where } from "firebase/firestore";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { doc, getDoc, onSnapshot, query, QueryDocumentSnapshot, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import { db } from "@/libs/firebase";
-import { useAuthContext } from "@/context/AuthContext";
-import { CareerJourney } from "@/libs/dtl/careerJourney";
-import { Reaction } from "@/libs/dtl/reaction";
-
 export interface Benefit {
   key: string
   label: string

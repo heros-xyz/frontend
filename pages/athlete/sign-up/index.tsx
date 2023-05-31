@@ -9,7 +9,7 @@ import {
   GoogleAuthProvider,
   signInWithRedirect,
 } from "firebase/auth";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { auth, db, functions } from "@/libs/firebase";
 import { useLoading } from "@/hooks/useLoading";
@@ -80,9 +80,13 @@ const AthleteSignUp = () => {
           const user = (await getDoc(ref)).data() as User;
           if (!user?.profileType) {
             // first time
-            await updateDoc(ref, {
-              profileType: ATHLETE_ROLE,
-            });
+            await setDoc(
+              ref,
+              {
+                profileType: ATHLETE_ROLE,
+              },
+              { merge: true }
+            );
             await router.push(RoutePath.ATHLETE_SETUP_ACCOUNT);
             return;
           }

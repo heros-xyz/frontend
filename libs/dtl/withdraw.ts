@@ -1,7 +1,8 @@
 import { useCallback, useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
+import { httpsCallable } from "firebase/functions";
 import { useAuthContext } from "@/context/AuthContext";
-import { db } from "../firebase";
+import { db, functions } from "../firebase";
 
 export interface Withdraw {
   status: string
@@ -25,7 +26,11 @@ export function useWithdrawal() {
     if (!user?.uid) return
     try {
       setLoading(true)
-      await addDoc(collection(db, "withdrawalRequests"), { ...withdraw, uid: user?.uid })
+      const createRequest = httpsCallable(
+        functions,
+        "withdrawal-create"
+      )
+      await createRequest(withdraw)
       setIsSuccess(true)
     } catch (error) {
       console.log(error)

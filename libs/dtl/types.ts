@@ -8,7 +8,8 @@ export enum CollectionPath {
   USER = "user",
   POSTS = "post",
   FAN_PROFILE = "fanProfile",
-  SUBSCRIPTIONS = "subscriptions"
+  SUBSCRIPTIONS = "subscriptions",
+  WITHDRAWALS = "withdrawals",
 }
 
 export interface Comment {

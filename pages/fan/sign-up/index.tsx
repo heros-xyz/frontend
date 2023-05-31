@@ -9,7 +9,7 @@ import {
   GoogleAuthProvider,
   signInWithRedirect,
 } from "firebase/auth";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 import AuthTemplate from "@/components/ui/AuthTemplate";
 import { auth, db, functions } from "@/libs/firebase";
 import { convertTimeUnit } from "@/utils/time";
@@ -74,12 +74,17 @@ const FanSignUp = () => {
       .then(async (credential) => {
         if (credential?.user.uid) {
           const ref = doc(db, `user/${credential?.user?.uid}`);
-          const user = (await getDoc(ref)).data() as User;
+          const userDoc = await getDoc(ref);
+          const user = userDoc.data() as User;
           if (!user?.profileType) {
             // first time
-            await updateDoc(ref, {
-              profileType: FAN_ROLE,
-            });
+            await setDoc(
+              ref,
+              {
+                profileType: FAN_ROLE,
+              },
+              { merge: true }
+            );
             await router.push(RoutePath.FAN_ONBOARDING);
             return;
           }
